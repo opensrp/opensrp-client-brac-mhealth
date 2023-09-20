@@ -27,10 +27,10 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.activity.HouseHoldFormTypeActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -77,6 +77,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     boolean isValidatePregReg = false;
     public static MemberListPresenter memberHistoryPresenter;
     private String familyId = "";
+    HouseHoldVisitActivity activity;
 
     public HouseHoldFormTypeFragment() {
         // Required empty public constructor
@@ -87,8 +88,15 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_house_hold_form_type, container, false);
+        activity = ((HouseHoldVisitActivity) getActivity());
         initUi(view);
 
+        ((HouseHoldVisitActivity) getActivity()).listenMemberUpdateStatusFromFrag(new OnUpdateMemberList() {
+            @Override
+            public void update(boolean isNeedUpdate) {
+                updateUi();
+            }
+        });
 
         return view;
     }
@@ -132,7 +140,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     return;
                 }
 
-                if (HouseHoldVisitActivity.memberListJson.size() > 0) {
+                if (activity.memberListJson.size() > 0) {
                     //newBornLay.setChecked(true);
                     AddCustomMemberFragment addmemberFragment = AddCustomMemberFragment.newInstance();
                     addmemberFragment.setContext(getActivity());
@@ -158,12 +166,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         deathInfoLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
-                ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
-                MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
-                memberListDialogFragment.setContext(getActivity());
-                memberListDialogFragment.setData(memberArrayList,MemberTypeEnum.DEATH);
-                memberListDialogFragment.show(getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                showMemberListDialog(MemberTypeEnum.DEATH);
             }
         });
 
@@ -179,13 +182,8 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     return;
                 }
 
-                if (HouseHoldVisitActivity.removedMemberListJson.size() > 0) {
-                    memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
-                    ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
-                    MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
-                    memberListDialogFragment.setContext(getActivity());
-                    memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.DEATH);
-                    memberListDialogFragment.show(getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                if (activity.removedMemberListJson.size() > 0) {
+                    showMemberListDialog(MemberTypeEnum.DEATH);
                 } else {
 
                 }
@@ -195,12 +193,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         migrationInfoLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
-                ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
-                MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
-                memberListDialogFragment.setContext(getActivity());
-                memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.MIGRATION);
-                memberListDialogFragment.show(getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                showMemberListDialog(MemberTypeEnum.MIGRATION);
             }
         });
 
@@ -216,13 +209,8 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     return;
                 }
 
-                if (HouseHoldVisitActivity.migratedMemberListJson.size() > 0) {
-                    memberHistoryPresenter.fetchMemberList(MemberTypeEnum.DEATH);
-                    ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
-                    MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
-                    memberListDialogFragment.setContext(getActivity());
-                    memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.MIGRATION);
-                    memberListDialogFragment.show(getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                if (activity.migratedMemberListJson.size() > 0) {
+                    showMemberListDialog(MemberTypeEnum.MIGRATION);
                 }
             }
         });
@@ -240,13 +228,8 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     return;
                 }
 
-                if (HouseHoldVisitActivity.pregancyMemberListJson.size() > 0) {
-                    memberHistoryPresenter.fetchMemberList(MemberTypeEnum.ELCO);
-                    ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
-                    MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
-                    memberListDialogFragment.setContext(getActivity());
-                    memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.ELCO);
-                    memberListDialogFragment.show(getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                if (activity.pregancyMemberListJson.size() > 0) {
+                    showMemberListDialog(MemberTypeEnum.ELCO);
                 } else {
 
                 }
@@ -257,12 +240,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             @SuppressLint("NewApi")
             @Override
             public void onClick(View view) {
-                memberHistoryPresenter.fetchMemberList(MemberTypeEnum.ELCO);
-                ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
-                MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
-                memberListDialogFragment.setContext(getActivity());
-                memberListDialogFragment.setData(memberArrayList, MemberTypeEnum.ELCO);
-                memberListDialogFragment.show(getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+                showMemberListDialog(MemberTypeEnum.ELCO);
             }
         });
 
@@ -275,13 +253,29 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     }
 
+    private void showMemberListDialog(MemberTypeEnum memberTypeEnum) {
+        memberHistoryPresenter.fetchMemberList(memberTypeEnum);
+        ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
+        MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
+        memberListDialogFragment.setContext(getActivity());
+        memberListDialogFragment.setData(memberArrayList,memberTypeEnum);
+        memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+
+        //updateUi();
+
+    }
+
+
+    private void updateUi() {
         //newborn component handling
-        if (HouseHoldVisitActivity.memberListJson.size() > 0) {
+        if (activity.memberListJson.size() > 0) {
             newBornCountTv.setVisibility(View.VISIBLE);
-            newBornCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.memberListJson.size(), getActivity().getString(R.string.record_added)));
+            newBornCountTv.setText(String.format(new Locale("bn"), "%d%s", activity.memberListJson.size(), getActivity().getString(R.string.record_added)));
             noNewBornBt.setText(R.string.add_more_member);
             noNewBornBt.setTag(true);
             newBornCheckIm.setImageResource(R.drawable.success);
@@ -293,9 +287,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         }
 
         //death component handling
-        if (HouseHoldVisitActivity.removedMemberListJson.size() > 0) {
+        if (activity.removedMemberListJson.size() > 0) {
             deathCountTv.setVisibility(View.VISIBLE);
-            deathCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.removedMemberListJson.size(), getActivity().getString(R.string.record_added)));
+            deathCountTv.setText(String.format(new Locale("bn"), "%d%s", activity.removedMemberListJson.size(), getActivity().getString(R.string.record_added)));
             noDeathBt.setText(R.string.add_more_member);
             noDeathBt.setTag(true);
             deathCheckIm.setImageResource(R.drawable.success);
@@ -307,9 +301,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         }
 
         //migration component handling
-        if (HouseHoldVisitActivity.migratedMemberListJson.size() > 0) {
+        if (activity.migratedMemberListJson.size() > 0) {
             migrationCountTv.setVisibility(View.VISIBLE);
-            migrationCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.migratedMemberListJson.size(), getActivity().getString(R.string.record_added)));
+            migrationCountTv.setText(String.format(new Locale("bn"), "%d%s", activity.migratedMemberListJson.size(), getActivity().getString(R.string.record_added)));
             noMigrationBt.setText(R.string.add_more_member);
             noMigrationBt.setTag(true);
             migrationCheckIm.setImageResource(R.drawable.success);
@@ -321,9 +315,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         }
 
         //pregnancy reg component handling
-        if (HouseHoldVisitActivity.pregancyMemberListJson.size() > 0) {
+        if (activity.pregancyMemberListJson.size() > 0) {
             pregnancyCountTv.setVisibility(View.VISIBLE);
-            pregnancyCountTv.setText(String.format(new Locale("bn"), "%d%s", HouseHoldVisitActivity.pregancyMemberListJson.size(), getActivity().getString(R.string.record_added)));
+            pregnancyCountTv.setText(String.format(new Locale("bn"), "%d%s", activity.pregancyMemberListJson.size(), getActivity().getString(R.string.record_added)));
             noPregnancyBt.setText(R.string.add_more_member);
             noPregnancyBt.setTag(true);
             pregnancyCheckIm.setImageResource(R.drawable.success);
@@ -333,7 +327,6 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         } else {
             pregnancyCountTv.setVisibility(View.GONE);
         }
-
     }
 
 

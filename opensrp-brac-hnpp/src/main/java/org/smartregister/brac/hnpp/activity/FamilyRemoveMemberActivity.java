@@ -36,7 +36,7 @@ public class FamilyRemoveMemberActivity extends CoreFamilyRemoveMemberActivity {
 
         if(!from.isEmpty()){
             String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-            HouseHoldVisitActivity.removedMemberListJson.add(jsonString);
+            //HouseHoldVisitActivity.removedMemberListJson.add(jsonString);
         }else {
             super.onActivityResult(requestCode, resultCode, data);
         }

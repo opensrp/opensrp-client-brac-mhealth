@@ -1,49 +1,51 @@
 package org.smartregister.brac.hnpp.activity;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
+import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.rey.material.widget.Button;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+
+import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.Context;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.contract.MemberListContract;
-import org.smartregister.brac.hnpp.fragment.FamilyRemoveMemberFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldFormTypeFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldMemberDueFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldMemberFragment;
 import org.smartregister.brac.hnpp.fragment.MemberListDialogFragment;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
-import org.smartregister.brac.hnpp.presenter.MemberHistoryPresenter;
-import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -51,18 +53,28 @@ import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
+import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
-import org.smartregister.chw.core.fragment.FamilyRemoveMemberConfirmDialog;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
+import org.smartregister.clientandeventmodel.Address;
+import org.smartregister.clientandeventmodel.Client;
+import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.FetchStatus;
+import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
+import org.smartregister.immunization.ImmunizationLibrary;
+import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.repository.EventClientRepository;
+import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,13 +102,23 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
     private Handler handler;
     boolean isProcessing = false;
     Dialog dialog;
-    public static ArrayList<String> memberListJson = new ArrayList<>();
-    public static ArrayList<String> removedMemberListJson = new ArrayList<>();
-    public static ArrayList<String> migratedMemberListJson = new ArrayList<>();
-    public static ArrayList<String> pregancyMemberListJson = new ArrayList<>();
+    public ArrayList<String> memberListJson = new ArrayList<>();
+    public ArrayList<String> removedMemberListJson = new ArrayList<>();
+    public ArrayList<String> migratedMemberListJson = new ArrayList<>();
+
+    public ArrayList<String> pregancyMemberListJson = new ArrayList<>();
     public static ArrayList<String> deletedMembersBaseEntityId = new ArrayList<>();
 
+    OnUpdateMemberList onUpdateMemberList;
+    OnUpdateMemberList onUpdateMemberCount;
 
+    public void listenMemberUpdateStatus(OnUpdateMemberList onUpdateMemberList){
+        this.onUpdateMemberList = onUpdateMemberList;
+    }
+
+    public void listenMemberUpdateStatusFromFrag(OnUpdateMemberList onUpdateMemberList){
+        this.onUpdateMemberCount = onUpdateMemberList;
+    }
 
     @Override
     protected void onCreation() {
@@ -221,32 +243,34 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("dataaaaaaaa",resultCode+" "+requestCode+" "+data.getParcelableExtra(MemberListDialogFragment.MEMBER)+"  "+data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON));
         if(resultCode == Activity.RESULT_OK && requestCode == MemberListDialogFragment.REQUEST_CODE){
             MemberTypeEnum memberTypeEnum = (MemberTypeEnum) data.getSerializableExtra(MemberListDialogFragment.MEMBER_TYPE);
-            Member member = (Member) data.getParcelableExtra(MemberListDialogFragment.MEMBER);
             if(memberTypeEnum == MemberTypeEnum.DEATH){
+                Member member = (Member) data.getParcelableExtra(MemberListDialogFragment.MEMBER);
                 String form = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-                HouseHoldVisitActivity.removedMemberListJson.add(form);
                 try {
-                    confirmRemove(form,member);
+                    assert member != null;
+                    confirmRemove(form,member,memberTypeEnum);
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
             }else if(memberTypeEnum == MemberTypeEnum.MIGRATION){
+                Member member = (Member) data.getParcelableExtra(MemberListDialogFragment.MEMBER);
                 String form = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-                HouseHoldVisitActivity.migratedMemberListJson.add(form);
                 try {
-                    confirmRemove(form,member);
+                    assert member != null;
+                    confirmRemove(form,member,memberTypeEnum);
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
             }else if(memberTypeEnum == MemberTypeEnum.ELCO){
-                HouseHoldVisitActivity.pregancyMemberListJson.add(data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON));
+                pregancyMemberListJson.add(data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON));
+                onUpdateMemberCount.update(true);
+                onUpdateMemberList.update(true);
             }
 
         }
-        else if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
+        /*else if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
 
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
@@ -320,7 +344,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
                 Timber.e(e);
             }
             HnppConstants.isViewRefresh = true;
-        }
+        }*/
 
         else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
             if(isProcessing) return;
@@ -366,12 +390,210 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
                                 isProcessing = false;
                                 //showServiceDoneDialog(false);
                             }
+
+                            onUpdateMemberCount.update(true);
                         }
                     });
+
         }
     }
 
-    public void confirmRemove(final String formStr, Member currentMember) throws JSONException {
+
+    Observable<String> executeQuery( Intent data){
+        return  Observable.create(e->{
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+
+            String eventType = processVisitFormAndSave(jsonString);
+
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            //database.execSQL(sql1);
+            String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE ec_anc_register.base_entity_id IN " +
+                    "(select ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = 0) ";
+
+            database.execSQL(sql);
+            e.onNext(eventType);
+        });
+    }
+
+    public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
+        JSONObject jsonObject = org.smartregister.chw.anc.util.JsonFormUtils.getFormAsJson(formName);
+        org.smartregister.chw.anc.util.JsonFormUtils.getRegistrationForm(jsonObject, entityId, currentLocationId);
+
+        return jsonObject;
+    }
+    private void saveRegistration(final String jsonString, String table) throws Exception {
+        AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
+        Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processJsonForm(allSharedPreferences, jsonString, table);
+
+
+        String visitID ="";
+        if(!TextUtils.isEmpty(baseEvent.getEventId())){
+            visitID = baseEvent.getEventId();
+        }else{
+            visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+        }
+        Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+        visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+        try{
+            // visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), HnppConstants.EVENT_TYPE.SS_INFO, visit.getDate()));
+            AncLibrary.getInstance().visitRepository().addVisit(visit);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        FormParser.processVisitLog(visit);
+        NCUtils.addEvent(allSharedPreferences, baseEvent);
+        NCUtils.startClientProcessing();
+    }
+
+    private void processChild(JSONArray fields, AllSharedPreferences allSharedPreferences, String entityId, String familyBaseEntityId, String motherBaseId) {
+        try {
+            Client pncChild = org.smartregister.util.JsonFormUtils.createBaseClient(fields, org.smartregister.chw.anc.util.JsonFormUtils.formTag(allSharedPreferences), entityId);
+            if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                pncChild.setLastName(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION);
+            }
+            pncChild.addRelationship(org.smartregister.chw.anc.util.Constants.RELATIONSHIP.FAMILY, familyBaseEntityId);
+            pncChild.addRelationship(org.smartregister.chw.anc.util.Constants.RELATIONSHIP.MOTHER, motherBaseId);
+            JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(pncChild));
+            EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
+            pncChild.setAddresses(updateWithSSLocation(dsasd));
+            clientjson.put("addresses",dsasd.getJSONArray("addresses"));
+            AncLibrary.getInstance().getUniqueIdRepository().close(pncChild.getIdentifier(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.OPENSPR_ID));
+
+            NCUtils.getSyncHelper().addClient(pncChild.getBaseEntityId(), clientjson);
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+
+    private static List<Address> updateWithSSLocation(JSONObject clientjson){
+        try{
+            String addessJson = clientjson.getString("addresses");
+            JSONArray jsonArray = new JSONArray(addessJson);
+            List<Address> listAddress = new ArrayList<>();
+            for(int i = 0; i <jsonArray.length();i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Address address = new Gson().fromJson(jsonObject.toString(), Address.class);
+                listAddress.add(address);
+            }
+            return listAddress;
+        }catch (Exception e){
+
+        }
+        return new ArrayList<>();
+
+    }
+
+
+    private String processVisitFormAndSave(String jsonString){
+        String encounter_type = "";
+        long startTime = System.currentTimeMillis();
+        try {
+            JSONObject form = new JSONObject(jsonString);
+            HnppJsonFormUtils.setEncounterDateTime(form);
+
+            JSONObject step1 = form.getJSONObject(STEP1);
+            encounter_type = form.optString(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
+            if(encounter_type.equalsIgnoreCase(CoreConstants.EventType.PREGNANCY_OUTCOME)){
+                if(!familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                    JSONArray fields = step1.getJSONArray(FIELDS);
+                    updateUniqueId(fields);
+                }
+                try{
+
+                    String motherBaseId = form.optString(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.ENTITY_TYPE);
+                    JSONArray fields = org.smartregister.util.JsonFormUtils.fields(form);
+                    String gender = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"gender");
+
+                    JSONObject uniqueID = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID);
+                    if (StringUtils.isNotBlank(uniqueID.optString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE))) {
+                        String childBaseEntityId = org.smartregister.chw.anc.util.JsonFormUtils.generateRandomUUIDString();
+                        AllSharedPreferences allSharedPreferences = ImmunizationLibrary.getInstance().context().allSharedPreferences();
+                        JSONObject pncForm = getFormAsJson(org.smartregister.chw.anc.util.Constants.FORMS.PNC_CHILD_REGISTRATION, childBaseEntityId, getLocationID());
+
+                        JSONObject familyIdObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(fields, org.smartregister.chw.anc.util.DBConstants.KEY.RELATIONAL_ID);
+                        String familyBaseEntityId = familyIdObject.getString(org.smartregister.chw.anc.util.JsonFormUtils.VALUE);
+                        pncForm = org.smartregister.chw.anc.util.JsonFormUtils.populatePNCForm(pncForm, fields, familyBaseEntityId);
+                        HnppJsonFormUtils.processAttributesWithChoiceIDsForSave(fields);
+                        HnppJsonFormUtils.updateProviderIdAtClient(fields,familyBaseEntityId);
+                        if(!StringUtils.isEmpty(gender)){
+                            if (pncForm != null) {
+                                if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+                                    processChild(fields, allSharedPreferences, childBaseEntityId, motherBaseId, motherBaseId);
+                                    saveRegistration(pncForm.toString(), "ec_guest_member");
+                                }else{
+                                    processChild(fields, allSharedPreferences, childBaseEntityId, familyBaseEntityId, motherBaseId);
+                                    saveRegistration(pncForm.toString(), EC_CHILD);
+                                    NCUtils.saveVaccineEvents(fields, childBaseEntityId);
+                                }
+
+                            }
+                        }
+
+                    }
+                    saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_PREGNANCY_OUTCOME);
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+
+
+
+            }
+            else if (encounter_type.equalsIgnoreCase(org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_REGISTRATION)) {
+                try{
+                    saveRegistration(form.toString(), HnppConstants.TABLE_NAME.ANC_MEMBER);
+                }catch (Exception e){
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return encounter_type;
+    }
+
+    private String getLocationID() {
+       return Context.getInstance().allSharedPreferences().getPreference("CURRENT_LOCATION_ID");
+    }
+
+    public static void updateUniqueId(JSONArray fields){
+        boolean has_delivery_date = false;
+        for(int i=0;i<fields.length();i++){
+            try {
+                JSONObject object = fields.getJSONObject(i);
+                if("delivery_date".equalsIgnoreCase(object.getString("key"))){
+
+                    if(object.has("value")&&!StringUtils.isEmpty(object.getString("value"))){
+                        has_delivery_date = true;
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(!has_delivery_date){
+            for(int i=0;i<fields.length();i++){
+                try {
+                    JSONObject object = fields.getJSONObject(i);
+                    if("unique_id".equalsIgnoreCase(object.getString("key"))){
+
+                        object.put("value","");
+                        break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void confirmRemove(final String formStr, Member currentMember, MemberTypeEnum memberTypeEnum) throws JSONException {
         JSONObject form = new JSONObject(formStr);
         String memberName = currentMember.getName();
         if (StringUtils.isNotBlank(memberName) && getFragmentManager() != null) {
@@ -390,9 +612,64 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
             }catch (Exception e){
 
             }
-            FamilyRemoveMemberConfirmDialog dialog = FamilyRemoveMemberConfirmDialog.newInstance(title);
-            dialog.show(this.getSupportFragmentManager(), FamilyRemoveMemberFragment.DIALOG_TAG);
-            dialog.setOnRemove(() -> {
+           /* FamilyRemoveMemberConfirmDialog dialog = FamilyRemoveMemberConfirmDialog.newInstance(title);
+            dialog.show(this.getSupportFragmentManager(), FamilyRemoveMemberFragment.DIALOG_TAG);*/
+
+            android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+            View dialogView = LayoutInflater.from(this).inflate(R.layout.family_remove_member_confrim_dialog_fragment,null);
+            alertDialog.setView(dialogView);
+            CustomFontTextView remove = dialogView.findViewById(R.id.remove);
+            CustomFontTextView cancel = dialogView.findViewById(R.id.cancel);
+
+            ((TextView) dialogView.findViewById(R.id.message)).setText(title);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //onUpdateMemberList.update(false);
+                    alertDialog.dismiss();
+                }
+            });
+
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try{
+                        String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                        type = HnppJsonFormUtils.getEncounterType(type);
+                        Map<String, String> jsonStrings = new HashMap<>();
+                        jsonStrings.put("First",form.toString());
+                        String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                        String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                        Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", currentMember.getBaseEntityId(), type, jsonStrings, "",formSubmissionId,visitId);
+                        if(visit !=null){
+                            HnppHomeVisitIntentService.processVisits();
+                            VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                        }
+
+                        if(memberTypeEnum == MemberTypeEnum.DEATH){
+                            removedMemberListJson.add(formStr);
+                        }else if(memberTypeEnum.name().equals( MemberTypeEnum.MIGRATION.name())){
+                            migratedMemberListJson.add(formStr);
+                        }
+
+                        onUpdateMemberList.update(true);
+                        onUpdateMemberCount.update(true);
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    alertDialog.dismiss();
+
+                    /*Intent intent = new Intent(HouseHoldVisitActivity.this, FamilyRegisterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);*/
+                }
+            });
+
+            alertDialog.show();
+
+            /*dialog.setOnRemove(() -> {
                 //getPresenter().processRemoveForm(form);
                 try{
                     String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
@@ -415,12 +692,12 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity{
                 Intent intent = new Intent(this, FamilyRegisterActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            });
-            dialog.setOnRemoveActivity(() -> {
+            });*/
+           /* dialog.setOnRemoveActivity(() -> {
                 if (this != null) {
                     this.finish();
                 }
-            });
+            });*/
         }
     }
 

@@ -33,11 +33,15 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
+import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldFormTypeActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.activity.IndividualProfileRemoveJsonFormActivity;
 import org.smartregister.brac.hnpp.adapter.MemberListAdapter;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
@@ -45,6 +49,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.contract.FamilyRemoveMemberContract;
 import org.smartregister.chw.core.fragment.FamilyRemoveMemberConfirmDialog;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -66,16 +71,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MemberListDialogFragment extends android.support.v4.app.DialogFragment implements FamilyRemoveMemberContract.Model{
+public class MemberListDialogFragment extends DialogFragment implements FamilyRemoveMemberContract.Model{
     public static final String DIALOG_TAG = "member_list_dialog";
     public static  final String MEMBER = "member";
     public static final String MEMBER_TYPE = "member_type";
 
     public static int REQUEST_CODE = 601;
-    ArrayList<Member> memberArrayList;
+    public ArrayList<Member> memberArrayList;
 
     private Context context;
     MemberTypeEnum memberTypeEnum;
+    Member currentMember;
+    MemberListAdapter adapter;
 
     public static MemberListDialogFragment newInstance() {
         return new MemberListDialogFragment();
@@ -84,6 +91,8 @@ public class MemberListDialogFragment extends android.support.v4.app.DialogFragm
     public void setContext(Context context) {
         this.context = context;
     }
+
+
 
     public void setData(ArrayList<Member> memberArrayList, MemberTypeEnum memberTypeEnum) {
         this.memberArrayList = memberArrayList;
@@ -114,7 +123,13 @@ public class MemberListDialogFragment extends android.support.v4.app.DialogFragm
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("daaaaaaaaa1","called");
+       try {
+           data.putExtra(MEMBER, currentMember);
+           data.putExtra(MEMBER_TYPE, memberTypeEnum);
+
+           ((HouseHoldVisitActivity) context).onActivityResult(requestCode,resultCode,data);
+           currentMember = null;
+       }catch (Exception ignored){}
     }
 
     @Override
@@ -132,20 +147,33 @@ public class MemberListDialogFragment extends android.support.v4.app.DialogFragm
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MemberListAdapter adapter = new MemberListAdapter(getActivity(), new MemberListAdapter.OnClickAdapter() {
+        adapter = new MemberListAdapter(getActivity(), new MemberListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, Member content) {
+                currentMember = content;
                 if(memberTypeEnum == MemberTypeEnum.ELCO){
-                    startAnyFormActivity(HnppConstants.EventType.ANC_REGISTRATION,memberTypeEnum,content,REQUEST_CODE);
+                    startAncRegister(content);
                 }else {
                     startAnyFormActivity(HnppConstants.EventType.REMOVE_MEMBER,memberTypeEnum,content,REQUEST_CODE);
                 }
             }
         });
-        adapter.setData(memberArrayList);
-        RecyclerView recyclerView = view.findViewById(R.id.memberListRv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+        if(memberArrayList!=null){
+            adapter.setData(memberArrayList);
+            RecyclerView recyclerView = view.findViewById(R.id.memberListRv);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(adapter);
+        }
+
+        ((HouseHoldVisitActivity) getActivity()).listenMemberUpdateStatus(new OnUpdateMemberList() {
+            @Override
+            public void update(boolean isNeedUpdate) {
+                if(isNeedUpdate){
+                    //updateList();
+                    dismiss();
+                }
+            }
+        });
 
         view.findViewById(R.id.back_im).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +183,27 @@ public class MemberListDialogFragment extends android.support.v4.app.DialogFragm
         });
     }
 
+    public void startAncRegister(Member content) {
+        HnppConstants.getGPSLocation((CoreFamilyProfileActivity) getActivity(), new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                HnppAncRegisterActivity.startHnppAncRegisterActivityFromHAddition(getActivity(),
+                        content.getBaseEntityId(),
+                        content.getMobileNo(),
+                        HnppConstants.JSON_FORMS.ANC_FORM, null,
+                        content.getFamilyBaseEntityId(),
+                        content.getFamilyName(),
+                        latitude,longitude);
+            }
+        });
+    }
+
+    void updateList(){
+        HouseHoldFormTypeFragment.memberHistoryPresenter.fetchMemberList(memberTypeEnum);
+        ArrayList<Member> memberArrayList = HouseHoldFormTypeFragment.memberHistoryPresenter.getMemberList();
+        this.setData(memberArrayList,memberTypeEnum);
+        adapter.notifyDataSetChanged();
+    }
 
 
 
@@ -173,7 +222,7 @@ public class MemberListDialogFragment extends android.support.v4.app.DialogFragm
                     }
                     HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:"+member.getBaseEntityId()+":formName:"+formName);
 
-                    JSONObject jsonForm =prepareJsonForm(getClientDetailsByBaseEntityID(member.getBaseEntityId()),formName);
+                    JSONObject jsonForm = prepareJsonForm(getClientDetailsByBaseEntityID(member.getBaseEntityId()),formName);
                     try{
                         HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
                     }catch (Exception e){
@@ -216,8 +265,6 @@ public class MemberListDialogFragment extends android.support.v4.app.DialogFragm
 
                     }
                     intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
-                    intent.putExtra(MEMBER, member);
-                    intent.putExtra(MEMBER_TYPE, memberTypeEnum);
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
                     startActivityForResult(intent, requestCode);
 

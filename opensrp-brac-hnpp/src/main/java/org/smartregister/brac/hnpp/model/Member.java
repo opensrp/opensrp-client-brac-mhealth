@@ -9,10 +9,19 @@ public class Member implements Parcelable {
     String age;
     String baseEntityId;
     String familyBaseEntityId;
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
     String careGiver;
     String familyHead;
+    String mobileNo;
+    String familyName;
+    String motherName;
 
-    public Member(String name, String gender, String age, String baseEntityId,String familyBaseEntityId,String careGiver,String familyHead) {
+    public Member(String name, String gender, String age, String baseEntityId,String familyBaseEntityId,
+                  String careGiver,String familyHead,String mobileNo,String familyName,String motherName) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -20,6 +29,9 @@ public class Member implements Parcelable {
         this.familyBaseEntityId = familyBaseEntityId;
         this.careGiver = careGiver;
         this.familyHead = familyHead;
+        this.mobileNo = mobileNo;
+        this.familyName = familyName;
+        this.motherName = motherName;
     }
 
     Member(){}
@@ -72,6 +84,14 @@ public class Member implements Parcelable {
 
     public String getFamilyHead() {
         return familyHead;
+    }
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public String getMotherName() {
+        return motherName;
     }
 
     @Override
