@@ -490,13 +490,8 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
 
 
     private void saveOtherVaccineInfo(OtherVaccineContentData contentData){
-        HnppApplication.getOtherVaccineRepository().addOtherVaccine(contentData);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        HnppConstants.postOtherVaccineData()
+        showProgressDialog("saving....");
+        HnppConstants.saveOtherVaccineData(contentData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -506,17 +501,19 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                     @Override
                     public void onNext(String s) {
                         Log.v("OTHER_VACCINE","onNext>>s:"+s);
-
+                        hideProgressDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.v("OTHER_VACCINE",""+e);
+                        hideProgressDialog();
                     }
 
                     @Override
                     public void onComplete() {
                         Log.v("OTHER_VACCINE","completed");
+                        hideProgressDialog();
                     }
                 });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);

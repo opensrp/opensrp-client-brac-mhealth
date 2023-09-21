@@ -166,10 +166,29 @@ public class HnppConstants extends CoreConstants {
         );
 
     }
+    public static Observable<String> saveOtherVaccineData(OtherVaccineContentData contentData) {
+
+        return  Observable.create(e->{
+                    try {
+                        HnppApplication.getOtherVaccineRepository().addOtherVaccine(contentData);
+                        processOtherVaccineUnSyncData(0);
+                        e.onNext("done");//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        e.onNext("");//error
+                        e.onComplete();
+                    }
+
+                }
+        );
+
+    }
     public static Observable<String> postOtherVaccineData() {
 
         return  Observable.create(e->{
                     try {
+
                         processOtherVaccineUnSyncData(0);
                         e.onNext("done");//error
                         e.onComplete();
