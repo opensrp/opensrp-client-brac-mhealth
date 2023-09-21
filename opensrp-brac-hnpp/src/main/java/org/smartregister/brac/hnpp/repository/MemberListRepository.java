@@ -25,7 +25,7 @@ public class MemberListRepository extends BaseRepository {
         try {
             String query = "";
             if(memberTypeEnum == MemberTypeEnum.DEATH || memberTypeEnum == MemberTypeEnum.MIGRATION){
-                query = "SELECT * FROM ec_family_member where relational_id = '"+familyId+"' and date_removed is null";
+                query = "SELECT ec_family_member.*,ec_family.first_name as house_hold_name FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE where ec_family_member.relational_id = '"+familyId+"' and ec_family_member.date_removed is null";
             }else if(memberTypeEnum == MemberTypeEnum.ELCO){
                 query = "Select ec_family_member.id as _id , ec_family_member.first_name , ec_family_member.last_name ," +
                         " ec_family_member.middle_name , ec_family_member.phone_number , ec_family_member.base_entity_id , ec_family_member.estimated_age," +
@@ -67,7 +67,6 @@ public class MemberListRepository extends BaseRepository {
         String familyBaseEntityId = cursor.getString(cursor.getColumnIndex("relational_id"));
         String familyName = cursor.getString(cursor.getColumnIndex("house_hold_name"));
         String mobileNo = cursor.getString(cursor.getColumnIndex("phone_number"));
-        String motherName = cursor.getString(cursor.getColumnIndex("relational_id"));
 
 
         return new Member(
@@ -80,7 +79,7 @@ public class MemberListRepository extends BaseRepository {
                 "",
                 mobileNo,
                 familyName,
-                motherName
+                ""
         );
     }
 }

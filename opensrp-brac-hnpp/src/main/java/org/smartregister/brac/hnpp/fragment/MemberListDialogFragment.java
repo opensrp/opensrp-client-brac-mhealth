@@ -194,6 +194,7 @@ public class MemberListDialogFragment extends DialogFragment implements FamilyRe
                         content.getFamilyBaseEntityId(),
                         content.getFamilyName(),
                         latitude,longitude);
+                dismiss();
             }
         });
     }

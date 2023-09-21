@@ -3,27 +3,21 @@ package org.smartregister.brac.hnpp.interactor;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.contract.HnppMemberProfileContract;
-import org.smartregister.brac.hnpp.contract.OtherServiceContract;
+import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
+import org.smartregister.brac.hnpp.fragment.HouseHoldMemberDueFragment;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
-import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class HnppMemberProfileInteractor implements HnppMemberProfileContract.Interactor {
 
@@ -43,7 +37,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
 
     String eventType = "";
 
-    private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient, String baseEntityId) {
+    private ArrayList<MemberProfileDueData> getOtherService(CommonPersonObjectClient commonPersonObjectClient, Fragment context, String baseEntityId) {
         ArrayList<MemberProfileDueData> memberProfileDueDataArrayList = new ArrayList<>();
         try {
             String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
@@ -88,12 +82,14 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 }
             }
 
-            {
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.drawable.childrow_family);
-                memberProfileDueData.setTitle("পরিবারের অন্যান্য সদস্য সেবা (বাকি)");
-                memberProfileDueData.setType(TAG_OPEN_FAMILY);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
+            if(context instanceof HnppMemberProfileDueFragment){
+                {
+                    MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+                    memberProfileDueData.setImageSource(R.drawable.childrow_family);
+                    memberProfileDueData.setTitle("পরিবারের অন্যান্য সদস্য সেবা (বাকি)");
+                    memberProfileDueData.setType(TAG_OPEN_FAMILY);
+                    memberProfileDueDataArrayList.add(memberProfileDueData);
+                }
             }
 
             {
@@ -136,13 +132,13 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     }
 
     @Override
-    public void fetchData(CommonPersonObjectClient commonPersonObjectClient, Context context, String baseEntityId, HnppMemberProfileContract.InteractorCallBack callBack) {
+    public void fetchData(CommonPersonObjectClient commonPersonObjectClient, Fragment fragment, String baseEntityId, HnppMemberProfileContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
             ArrayList<MemberProfileDueData> memberProfileDueData;
            /* if(HnppConstants.isPALogin()){
                 otherServiceData =  getPAService(commonPersonObjectClient);
             }else{*/
-            memberProfileDueData = getOtherService(commonPersonObjectClient, baseEntityId);
+            memberProfileDueData = getOtherService(commonPersonObjectClient, fragment, baseEntityId);
             // }
             appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberProfileDueData));
         };

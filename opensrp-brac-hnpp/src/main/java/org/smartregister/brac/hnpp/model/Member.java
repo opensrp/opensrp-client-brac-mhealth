@@ -19,6 +19,7 @@ public class Member implements Parcelable {
     String mobileNo;
     String familyName;
     String motherName;
+    boolean status;
 
     public Member(String name, String gender, String age, String baseEntityId,String familyBaseEntityId,
                   String careGiver,String familyHead,String mobileNo,String familyName,String motherName) {
@@ -97,6 +98,14 @@ public class Member implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override

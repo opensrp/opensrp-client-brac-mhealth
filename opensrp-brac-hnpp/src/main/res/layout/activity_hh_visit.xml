@@ -7,15 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".activity.HouseHoldVisitActivity">
 
-    <com.rey.material.widget.Button
-        android:id="@+id/next_button"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/next"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/light_blue"
+        android:gravity="right"
+        >
+       <android.support.constraint.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <com.rey.material.widget.Button
+               android:id="@+id/next_button"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:background="@color/transparent"
+               android:text="@string/next"
+               android:textColor="@color/white"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="1.0"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" />
+       </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.Toolbar>
 
     <com.rey.material.widget.FrameLayout
         android:id="@+id/hh_visit_container"
@@ -25,5 +41,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/next_button" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </android.support.constraint.ConstraintLayout>

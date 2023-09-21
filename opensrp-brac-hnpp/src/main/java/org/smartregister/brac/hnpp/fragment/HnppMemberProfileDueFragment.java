@@ -58,6 +58,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 
 public class HnppMemberProfileDueFragment extends Fragment implements View.OnClickListener, HnppMemberProfileContract.View {
+    public static String TAG = "HnppMemberProfileDueFragment";
     private static final int TAG_OPEN_ANC1 = 101;
 
     private static final int TAG_OPEN_FAMILY = 111;

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/register_columns"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:paddingTop="@dimen/register_list_max_padding">
+
+    <ImageView
+        android:id="@+id/check_im"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="check"
+        android:src="@drawable/circle_background" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/status"
+            android:layout_width="@dimen/register_due_status_size"
+            android:layout_height="@dimen/register_due_status_size"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="@dimen/register_list_item_margin"
+            android:layout_marginTop="@dimen/register_due_status_top_margin"
+            android:layout_toStartOf="@+id/image_view"
+            android:src="@color/due_profile_blue"
+            app:civ_border_color="#FFFFFFFF"
+            app:civ_border_width="0dp" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_view"
+        android:layout_toRightOf="@+id/status"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@+id/check_im"
+        android:src="@drawable/rowavatar_child"
+        app:civ_border_color="#FFFFFFFF"
+        app:civ_border_width="0dp" />
+    <LinearLayout
+        android:id="@+id/patient_column"
+        android:layout_toStartOf="@+id/due_button_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/register_list_item_end_margin"
+        android:layout_marginLeft="@dimen/register_list_item_margin"
+        android:layout_marginRight="@dimen/register_list_item_end_margin"
+        android:layout_marginStart="@dimen/register_list_item_margin"
+        android:layout_toEndOf="@+id/image_view"
+        android:layout_toRightOf="@+id/image_view"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/patient_name_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="0dp"
+            android:paddingStart="0dp"
+            android:layout_marginTop="5dp"
+            android:text="Boby Smith , 3y \nHome Visit"
+            android:textColor="@color/text_black"
+            android:textSize="18sp" />
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/last_visit"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"
+            android:visibility="invisible"
+            android:text="Last visit 40 Days ago"
+            android:textColor="@color/light_grey_text"
+            android:textSize="@dimen/register_list_desc_size" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/due_button_wrapper"
+        android:layout_width="@dimen/register_list_item_width"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:background="@drawable/grey_left_border"
+        >
+
+        <Button
+            android:id="@+id/due_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@drawable/due_contact"
+            android:elevation="@dimen/register_list_elevation"
+            android:gravity="center"
+
+            android:stateListAnimator="@drawable/button"
+            android:text="Home Visit"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/vaccine_blue_bg_st"
+            android:textSize="@dimen/register_list_due_size"
+            android:typeface="normal" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/next_arrow_column"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:paddingEnd="@dimen/register_list_next_arrow_padding"
+        android:paddingRight="@dimen/register_list_next_arrow_padding">
+
+        <ImageView
+            android:id="@+id/next_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/register_list_top_bottom_padding"
+            android:paddingEnd="@dimen/register_list_max_padding"
+            android:paddingLeft="@dimen/register_list_member_item_padding"
+            android:paddingRight="@dimen/register_list_max_padding"
+            android:paddingStart="@dimen/register_list_member_item_padding"
+            android:paddingTop="@dimen/register_list_top_bottom_padding"
+            android:src="@mipmap/ic_arrow_forward" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/status_layout"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@+id/patient_column"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/light_grey"
+        android:visibility="visible" />
+</RelativeLayout>
