@@ -138,8 +138,8 @@ android {
 
         }
         normal{
-            versionCode 1
-            versionName "1.0.1_dev"
+            versionCode 12
+            versionName "1.1.2_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "boolean", 'IS_MIS', 'true'
