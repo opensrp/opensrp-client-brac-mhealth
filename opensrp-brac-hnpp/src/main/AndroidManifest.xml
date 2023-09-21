@@ -38,7 +38,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
         </activity>
         <activity
-            android:name=".activity.BkashStatusActivity"
+            android:name=".activity.UpdateLocationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>

@@ -31,6 +31,7 @@ import org.smartregister.unicef.dghs.nativation.view.NavigationMenu;
 import org.smartregister.unicef.dghs.presenter.FamilyRegisterPresenter;
 import org.smartregister.unicef.dghs.nativation.presenter.HnppNavigationPresenter;
 import org.smartregister.unicef.dghs.repository.HnppChwRepository;
+import org.smartregister.unicef.dghs.service.HALocationFetchIntentService;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -180,6 +181,7 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
         intentFilter.addAction(HnppConstants.ACTION_EDD);
         intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
         intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
+        intentFilter.addAction(HALocationFetchIntentService.LOCATION_UPDATE);
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
 
@@ -367,6 +369,10 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
                 @Override
                 public void run() {
                     try{
+                        Log.v("LOCATION_UPDATE","intent.getAction()>>"+intent.getAction());
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HALocationFetchIntentService.LOCATION_UPDATE)){
+                            startActivity(new Intent(FamilyRegisterActivity.this,UpdateLocationActivity.class));
+                        }
                         if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
                             String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
                             HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);

@@ -4,6 +4,8 @@ import static org.smartregister.growthmonitoring.domain.ZScore.getZScoreText;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +28,7 @@ import org.smartregister.unicef.dghs.utils.GrowthUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ReportFragment extends Fragment {
+public class ReportFragment extends BaseDashBoardFragment {
     private RecyclerView reportRv;
     private ArrayList<ChildData> childDataList;
     private ArrayList<ReportData> reportDataList;
@@ -57,6 +59,26 @@ public class ReportFragment extends Fragment {
     }
 
     @Override
+    void filterData() {
+
+    }
+
+    @Override
+    void updateTitle() {
+        super.updateTitle(getActivity().getString(R.string.report));
+    }
+
+    @Override
+    void fetchData() {
+
+    }
+
+    @Override
+    void initilizePresenter() {
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_report, container, false);
@@ -67,6 +89,12 @@ public class ReportFragment extends Fragment {
         reportRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
         populateReportList();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //super.onViewCreated(view, savedInstanceState);
+        updateTitle();
     }
 
     private void populateReportList() {
@@ -153,15 +181,15 @@ public class ReportFragment extends Fragment {
             }
         }
         DecimalFormat decimalFormat = new DecimalFormat("##.#");
-        reportDataList.add(new ReportData(decimalFormat.format((gmpChildren*100.0)/totalChild).replace("NaN","0"),"% of children reaching for GMP",R.color.black));
-        reportDataList.add(new ReportData(decimalFormat.format((normalChild*100.0)/gmpChildren).replace("NaN","0"),"% of children who have normal growth",R.color.green));
-        reportDataList.add(new ReportData(decimalFormat.format((samChild*100.0)/muacMeasureChild).replace("NaN","0"),"% of children who are SAM",R.color.red));
-        reportDataList.add(new ReportData(decimalFormat.format((mamChild*100.0)/muacMeasureChild).replace("NaN","0"),"% of children who are MAM",R.color.yellow));
-        reportDataList.add(new ReportData(decimalFormat.format((edemaChild*100.0)/muacMeasureChild).replace("NaN","0"),"% of children who have Edema",R.color.black));
+        reportDataList.add(new ReportData(decimalFormat.format((gmpChildren*100.0)/totalChild).replace("NaN","0"),getString(R.string.no_gmp),R.color.black));
+        reportDataList.add(new ReportData(decimalFormat.format((normalChild*100.0)/gmpChildren).replace("NaN","0"),getString(R.string.no_normal_growth),R.color.green));
+        reportDataList.add(new ReportData(decimalFormat.format((samChild*100.0)/muacMeasureChild).replace("NaN","0"),getString(R.string.no_sam),R.color.red));
+        reportDataList.add(new ReportData(decimalFormat.format((mamChild*100.0)/muacMeasureChild).replace("NaN","0"),getString(R.string.no_mam),R.color.yellow));
+        reportDataList.add(new ReportData(decimalFormat.format((edemaChild*100.0)/muacMeasureChild).replace("NaN","0"),getString(R.string.no_edema),R.color.black));
 
-        reportDataList.add(new ReportData(decimalFormat.format((overWeightChild*100.0)/weightMeasureChild).replace("NaN","0"),"% of children who are overweight",R.color.red));
-        reportDataList.add(new ReportData(decimalFormat.format((underWeightChild*100.0)/weightMeasureChild).replace("NaN","0"),"% of children who are Severly Underweight",R.color.black));
-        reportDataList.add(new ReportData(decimalFormat.format((severlyStunted*100.0)/heightMeasureChild).replace("NaN","0"),"% of children who are Severly Stunted",R.color.black));
+        reportDataList.add(new ReportData(decimalFormat.format((overWeightChild*100.0)/weightMeasureChild).replace("NaN","0"),getString(R.string.no_overweight),R.color.red));
+        reportDataList.add(new ReportData(decimalFormat.format((underWeightChild*100.0)/weightMeasureChild).replace("NaN","0"),getString(R.string.no_underweight),R.color.black));
+        reportDataList.add(new ReportData(decimalFormat.format((severlyStunted*100.0)/heightMeasureChild).replace("NaN","0"),getString(R.string.no_severly_stunted),R.color.black));
 
         reportRv.setAdapter(new ReportRecyclerViewAdapter(getActivity(),reportDataList));
     }

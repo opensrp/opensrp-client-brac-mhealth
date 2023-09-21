@@ -62,7 +62,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getMemberCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getHHVisitCount(ssName,fromMonth,toMonth));
             if(indicatorModel!=null)addToDashBoardList(indicatorModel.getNoOfMemberVisited(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getElcoCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getElcoCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getANCRegisterCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getFirstTrimsterRegisterCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getSecondTrimsterRegisterCount(ssName,fromMonth,toMonth));
@@ -75,21 +75,21 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
 
             addToDashBoardList(model.getEncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getChildFollowUpCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getNcdForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getNcdServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getWomenForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getWomenServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getAdoForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getAdoServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getChildForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getChildServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getAdultForumCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getNcdForumCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getNcdServiceCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getWomenForumCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getWomenServiceCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getAdoForumCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getAdoServiceCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getChildForumCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getChildServiceCount(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getAdultForumCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getPncCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getPncAfter48Count(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getPncBefore48Count(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getPncAfter48Count(ssName,fromMonth,toMonth));
+//            addToDashBoardList(model.getPncBefore48Count(ssName,fromMonth,toMonth));
 
             if(indicatorModel!=null){
-                addToDashBoardList(indicatorModel.getAnotherSource(ssName,fromMonth,toMonth));
+//                addToDashBoardList(indicatorModel.getAnotherSource(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.get4PlusAnc(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getCigerDelivery(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getNormalDelivery(ssName,fromMonth,toMonth));
@@ -98,7 +98,7 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 //addToDashBoardList(indicatorModel.getPncService48Hrs(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getPnc1to2(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getPnc3to4(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,fromMonth,toMonth));
+//                addToDashBoardList(indicatorModel.getReferrelByPregnency(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getVaccineChild(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getVitaminChild(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getBcgChild(ssName,fromMonth,toMonth));
@@ -110,9 +110,9 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
                 addToDashBoardList(indicatorModel.getMotherDeath(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getChildDeath(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getOtherDeath(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getEstimatedCoronaPatient(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getCoronaPatient(ssName,fromMonth,toMonth));
-                addToDashBoardList(indicatorModel.getIsolationPatient(ssName,fromMonth,toMonth));
+//                addToDashBoardList(indicatorModel.getEstimatedCoronaPatient(ssName,fromMonth,toMonth));
+//                addToDashBoardList(indicatorModel.getCoronaPatient(ssName,fromMonth,toMonth));
+//                addToDashBoardList(indicatorModel.getIsolationPatient(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getRemoveMemberCount(HnppApplication.appContext.getString(R.string.member_remove),ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getRemoveHHCount(HnppApplication.appContext.getString(R.string.house_remove),ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.getMigrateMemberCount(HnppApplication.appContext.getString(R.string.member_transfer),ssName,fromMonth,toMonth));

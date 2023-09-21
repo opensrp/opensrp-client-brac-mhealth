@@ -54,6 +54,12 @@
       "json_mapping": {
         "field": "locationId"
       }
+    },
+    {
+      "column_name": "child_location_id",
+      "json_mapping": {
+        "field": "childLocationId"
+      }
     }
   ]
 }

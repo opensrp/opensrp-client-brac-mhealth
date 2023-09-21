@@ -1,42 +1,46 @@
 package org.smartregister.unicef.dghs.fragment;
 
-import android.util.Log;
+import android.annotation.SuppressLint;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 
 import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.adapter.DashBoardAdapter;
-import org.smartregister.unicef.dghs.presenter.WorkSummeryDashBoardPresenter;
+import org.smartregister.unicef.dghs.presenter.CountSummeryDashBoardPresenter;
+import org.smartregister.unicef.dghs.presenter.ImmunizationSummeryDashBoardPresenter;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
 
-public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
+public class ImmunizationSummeryDashBoardFragment extends BaseDashBoardFragment {
 
-    private WorkSummeryDashBoardPresenter presenter;
+    private ImmunizationSummeryDashBoardPresenter presenter;
 
     @Override
     void initilizePresenter() {
-        presenter = new WorkSummeryDashBoardPresenter(this);
-        ssView.setVisibility(View.GONE);
+        presenter = new ImmunizationSummeryDashBoardPresenter(this);
         monthView.setVisibility(View.GONE);
         dateView.setVisibility(View.GONE);
         fromDateView.setVisibility(View.GONE);
         toDateView.setVisibility(View.GONE);
-
+        ssView.setVisibility(View.GONE);
         fromMonthView.setVisibility(View.VISIBLE);
         toMonthView.setVisibility(View.VISIBLE);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
     void fetchData() {
-        //presenter.filterData(ssName,month+"",year+"");
+       // presenter.filterData(ssName,month+"",year+"");
         filterByFromToMonth();
 
     }
 
     @Override
     void filterData() {
+       // presenter.filterData(ssName,month+"",year+"");
         filterByFromToMonth();
     }
-
     void filterByFromToMonth() {
         long fromMonthFormat = 0;
         long toMonthFormat = 0;
@@ -63,6 +67,7 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
         presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void updateAdapter() {
         super.updateAdapter();
@@ -80,6 +85,7 @@ public class WorkSummeryDashBoardFragment extends BaseDashBoardFragment {
 
     @Override
     void updateTitle() {
-        super.updateTitle(getString(R.string.activity_in_short));
+        super.updateTitle(getActivity().getString(R.string.immunization));
+
     }
 }

@@ -5,6 +5,8 @@ import static org.smartregister.growthmonitoring.domain.ZScore.getZScoreText;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -41,7 +43,7 @@ import segmented_control.widget.custom.android.com.segmentedcontrol.item_row_col
 import segmented_control.widget.custom.android.com.segmentedcontrol.listeners.OnSegmentClickListener;
 
 
-public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSeekBarChangeListener, OnChartValueSelectedListener {
+public class ReportGrowthFalterFragment extends BaseDashBoardFragment implements SeekBar.OnSeekBarChangeListener, OnChartValueSelectedListener {
     private CommonRepository commonRepository;
     private ArrayList<ChildData> childDataList;
     private int totalGmpChild=0;
@@ -52,6 +54,27 @@ public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSe
         commonRepository = HnppApplication.getInstance().getContext().commonrepository("ec_child");
     }
     private SegmentedControl segmentedControl;
+
+    @Override
+    void filterData() {
+
+    }
+
+    @Override
+    void updateTitle() {
+        super.updateTitle(getActivity().getString(R.string.grow_filter));
+    }
+
+    @Override
+    void fetchData() {
+
+    }
+
+    @Override
+    void initilizePresenter() {
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.report_growth_fragment, container, false);
@@ -61,6 +84,11 @@ public class ReportGrowthFalterFragment extends Fragment implements SeekBar.OnSe
         getChildData();
         setupGraph(0,view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //super.onViewCreated(view, savedInstanceState);
     }
 
     /**

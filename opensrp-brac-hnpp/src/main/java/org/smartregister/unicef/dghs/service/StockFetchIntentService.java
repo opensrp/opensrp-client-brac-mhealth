@@ -57,7 +57,7 @@ public class StockFetchIntentService extends IntentService {
                         HnppApplication.getStockRepository().addOrUpdate(stockData);
                         timestamp = stockData.getTimestamp();
                         try{
-                            nameCount.append(getString(R.string.stock_name)+HnppConstants.workSummeryTypeMapping.get(stockData.getProductName())+"\n");
+                            nameCount.append(getString(R.string.stock_name)+HnppConstants.getWorkSummeryTypeMapping().get(stockData.getProductName())+"\n");
                         }catch (Exception e){
                             nameCount.append(getString(R.string.stock_name)+stockData.getProductName()+"\n");
 

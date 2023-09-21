@@ -5,11 +5,16 @@ import static org.smartregister.unicef.dghs.utils.HnppConstants.showDialogWithAc
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -19,6 +24,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +57,6 @@ import org.smartregister.unicef.dghs.R;
 import org.smartregister.unicef.dghs.contract.SearchDetailsContract;
 import org.smartregister.unicef.dghs.interactor.SearchDetailsInteractor;
 import org.smartregister.unicef.dghs.job.GlobalLocationFetchJob;
-import org.smartregister.unicef.dghs.job.OtherVaccineJob;
 import org.smartregister.unicef.dghs.model.GlobalSearchResult;
 import org.smartregister.unicef.dghs.utils.GlobalSearchContentData;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -67,6 +72,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
@@ -258,60 +267,56 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             Toast.makeText(this,"No result found",Toast.LENGTH_LONG).show();
             return;
         }
-
-        showDialogWithAction(this, buttonName, builder.toString(), new Runnable() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_qrscan);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(buttonName);
+        TextView vaccineDateTxt = dialog.findViewById(R.id.vaccine_date_tv);
+        vaccineDateTxt.setText(content.date);
+        dialog.findViewById(R.id.date_picker).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                saveOtherVaccineInfo(content);
-                finish();
+            public void onClick(View v) {
+                showDatePicker(vaccineDateTxt);
             }
-        }, new Runnable() {
+        });
+        textViewTitle.setText(builder.toString());
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
+            public void onClick(View v) {
+                dialog.dismiss();
                 finish();
             }
         });
-
-//
-//        Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.migration_member_details_dialog);
-//        TextView textViewName = dialog.findViewById(R.id.name_TV);
-//        TextView textViewVillage = dialog.findViewById(R.id.village_TV);
-//        textViewVillage.setVisibility(View.GONE);
-//        TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
-//        textViewName.setText(this.getString(R.string.name,content.name));
-//        textViewName.append("\n");
-//        textViewName.append(this.getString(R.string.father_name,content.fatherName));
-//        textViewName.append("\n");
-//        textViewName.append(this.getString(R.string.mother_name,content.motherName));
-//
-//        StringBuilder builder = new StringBuilder();
-//        builder.append(this.getString(R.string.dob, content.dob)+"\n");
-//        builder.append(this.getString(R.string.bid,content.brn));
-//        textViewPhoneNo.setVisibility(View.VISIBLE);
-//        textViewPhoneNo.setText(builder.toString());
-//        String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
-//        ((TextView)dialog.findViewById(R.id.migration_btn)).setText(buttonName);
-//        dialog.findViewById(R.id.cross_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        dialog.findViewById(R.id.migration_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//                saveOtherVaccineInfo(content);
-//                finish();
-//
-//
-//            }
-//        });
-//        dialog.show();
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                content.date = vaccineDateTxt.getText().toString();
+                saveOtherVaccineInfo(content);
+                finish();
+            }
+        });
+        dialog.show();
 
     }
+
+    private void showDatePicker(TextView vaccineDateTxt) {
+        String[] yyMMdd = vaccineDateTxt.getText().toString().split("-");
+        DatePickerDialog fromDialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
+
+                String fromDate = yr + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+                vaccineDateTxt.setText(fromDate);
+            }
+        },Integer.parseInt(yyMMdd[0]),Integer.parseInt(yyMMdd[1]),Integer.parseInt(yyMMdd[2]));
+        fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        fromDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 259200000L);
+        fromDialog.show();
+    }
+
     @Override
     public void handleResult(Result result) {
         processResult(result.getText());
@@ -491,7 +496,29 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        HnppConstants.postOtherVaccineData();
+        HnppConstants.postOtherVaccineData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("OTHER_VACCINE","completed");
+                    }
+                });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
 
     }

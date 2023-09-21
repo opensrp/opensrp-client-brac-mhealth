@@ -47,9 +47,9 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
         dashBoardDataArrayList.clear();
         addToDashBoardList(model.getHHCount(ssName,fromMonth,toMonth));
         addToDashBoardList(model.getMemberCount(ssName,fromMonth,toMonth));
-        addToDashBoardList(model.getHHVisitCount(ssName,fromMonth,toMonth));
+//        addToDashBoardList(model.getHHVisitCount(ssName,fromMonth,toMonth));
         addToDashBoardList(model.getOOCCount(ssName,fromMonth,toMonth));
-        addToDashBoardList(model.getSimprintsCount(ssName,fromMonth,toMonth));
+//        addToDashBoardList(model.getSimprintsCount(ssName,fromMonth,toMonth));
         addToDashBoardList(model.getBoyChildUnder5(ssName,fromMonth,toMonth));
         addToDashBoardList(model.getGirlChildUnder5( ssName,fromMonth,toMonth));
         addToDashBoardList(model.getBoyChild5To9( ssName,fromMonth,toMonth));
@@ -65,21 +65,21 @@ public class CountSummeryDashBoardInteractor implements DashBoardContract.Intera
         addToDashBoardList(model.getAdoElco( ssName,fromMonth,toMonth));
         addToDashBoardList(model.getEddThisMonth( ssName,fromMonth,toMonth));
         addToDashBoardList(model.getRiskMother( ssName,fromMonth,toMonth));
-        if(indicatorModel !=null){
-            addToDashBoardList(indicatorModel.getFamilyMethodKnown( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getNoFamilyMethodUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getFillUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getFillFromSS( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getFillFromOther( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getCondomUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getIudUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getInjectionUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getNorplantUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getVasectomyUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getTubeUser( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getVerifiedBySimprints( ssName,fromMonth,toMonth));
-            addToDashBoardList(indicatorModel.getIdentifiedBySimprints( ssName,fromMonth,toMonth));
-        }
+//        if(indicatorModel !=null){
+//            addToDashBoardList(indicatorModel.getFamilyMethodKnown( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getNoFamilyMethodUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getFillUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getFillFromSS( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getFillFromOther( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getCondomUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getIudUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getInjectionUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getNorplantUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getVasectomyUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getTubeUser( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getVerifiedBySimprints( ssName,fromMonth,toMonth));
+//            addToDashBoardList(indicatorModel.getIdentifiedBySimprints( ssName,fromMonth,toMonth));
+//        }
 
     }
 

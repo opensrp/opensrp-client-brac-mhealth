@@ -988,6 +988,30 @@
     <string name="dob_hint">জন্ম তারিখ</string>
     <string name="denger_sign_pnc">প্রসবোত্তর জটিলতা সমূহ</string>
     <string name="risky_title">ঝুঁকিপূর্ণ ডাটা</string>
+    <string name="no_child_reg">No of Children Registered</string>
+    <string name="no_bcg">No of BCG vaccination</string>
+    <string name="no_opv0">No of OPV 0 vaccination</string>
+    <string name="no_opv1">No of OPV 1 vaccination</string>
+    <string name="no_opv2">No of OPV 2 vaccination</string>
+    <string name="no_opv3">No of OPV 3 vaccination</string>
+    <string name="no_penta1">No of Penta 1 vaccination</string>
+    <string name="no_penta2">No of Penta 2 vaccination</string>
+    <string name="no_penta3">No of Penta 3 vaccination</string>
+    <string name="no_pcv1">No of PCV 1 vaccination</string>
+    <string name="no_pcv2">No of PCV 2 vaccination</string>
+    <string name="no_pcv3">No of PCV 3 vaccination</string>
+    <string name="no_fipv1">No of FIPV 1 vaccination</string>
+    <string name="no_fipv2">No of FIPV 2 vaccination</string>
+    <string name="no_mr1">No of MR 1 vaccination</string>
+    <string name="no_mr2">No of MR 2 vaccination</string>
+    <string name="no_gmp">% of children reaching for GMP</string>
+    <string name="no_normal_growth">% of children who have normal growth</string>
+    <string name="no_sam">% of children who are SAM</string>
+    <string name="no_mam">% of children who are MAM</string>
+    <string name="no_edema">% of children who have Edema</string>
+    <string name="no_overweight">% of children who are overweight</string>
+    <string name="no_underweight">% of children who are Severly Underweight</string>
+    <string name="no_severly_stunted">% of children who are Severly Stunted</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

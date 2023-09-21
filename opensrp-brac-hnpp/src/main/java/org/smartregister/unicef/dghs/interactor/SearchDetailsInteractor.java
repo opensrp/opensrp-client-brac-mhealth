@@ -78,9 +78,9 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
            // Response response = httpAgent.fetchWithoutAuth(url);
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
 
-            Response<String> response = httpAgent.postWithBasicAuthInfo(url
+            Response<String> response = httpAgent.postWithHeaderAndJwtToken(url
                     ,
-                    jsonPayload,BuildConfig.AUTH_USER,BuildConfig.AUTH_PASS);
+                    jsonPayload,null,BuildConfig.JWT_TOKEN);
 
             HnppConstants.appendLog("GLOBAL_SEARCH_URL", "pushECToServer:response comes"+response.payload());
             if (response.isFailure()) {

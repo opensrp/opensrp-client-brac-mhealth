@@ -31,8 +31,8 @@ public class HnppFamilyBottomNavListener extends org.smartregister.family.listen
 
         }else if (item.getItemId() == org.smartregister.family.R.id.action_job_aids) {
             bottomNavigationView.setSelectedItemId(org.smartregister.family.R.id.action_family);
-//            Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
-            Intent intent = new Intent(baseRegisterActivity, GrowthReportActivity.class);
+            Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
+//            Intent intent = new Intent(baseRegisterActivity, GrowthReportActivity.class);
             baseRegisterActivity.startActivity(intent);
             return false;
         }

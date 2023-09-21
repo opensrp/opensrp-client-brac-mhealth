@@ -47,6 +47,7 @@ android {
         }
         buildConfigField "String", 'AUTH_USER', properties.getProperty("AUTH_USER", "")
         buildConfigField "String", 'AUTH_PASS', properties.getProperty("AUTH_PASS", "")
+        buildConfigField "String", 'JWT_TOKEN', properties.getProperty("JWT_TOKEN", "")
         buildConfigField "String", "SIMPRINT_PROJECT_ID_TRAINING",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String", "SIMPRINT_PROJECT_ID_RELEASE",'"pcmqBbcaB4xWvfRHRELG"'
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
@@ -141,7 +142,7 @@ android {
             versionName "1.0.1_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
-            buildConfigField "boolean", 'IS_MIS', 'false'
+            buildConfigField "boolean", 'IS_MIS', 'true'
             buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
 //            buildConfigField "String", 'opensrp_url_training', '"http://192.168.22.22:8080/opensrp/"'

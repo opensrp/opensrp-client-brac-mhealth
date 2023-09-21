@@ -27,7 +27,6 @@ import org.smartregister.unicef.dghs.job.DataDeleteJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.activity.COVIDJsonFormActivity;
 import org.smartregister.unicef.dghs.activity.ForceSyncActivity;
-import org.smartregister.unicef.dghs.job.OtherVaccineJob;
 import org.smartregister.unicef.dghs.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.dghs.nativation.interactor.NavigationInteractor;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
@@ -352,10 +351,32 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
         PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
         VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-        OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
 //        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
 //        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
+        HnppConstants.postOtherVaccineData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("OTHER_VACCINE","completed");
+                    }
+                });
     }
     @Override
     public NavigationContract.View getNavigationView() {

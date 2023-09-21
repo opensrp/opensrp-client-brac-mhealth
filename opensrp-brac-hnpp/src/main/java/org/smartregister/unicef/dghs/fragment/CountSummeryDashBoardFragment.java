@@ -18,7 +18,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
         dateView.setVisibility(View.GONE);
         fromDateView.setVisibility(View.GONE);
         toDateView.setVisibility(View.GONE);
-
+        ssView.setVisibility(View.GONE);
         fromMonthView.setVisibility(View.VISIBLE);
         toMonthView.setVisibility(View.VISIBLE);
     }
@@ -26,7 +26,7 @@ public class CountSummeryDashBoardFragment extends BaseDashBoardFragment {
     @Override
     void fetchData() {
        // presenter.filterData(ssName,month+"",year+"");
-        //filterByFromToMonth();
+        filterByFromToMonth();
 
     }
 

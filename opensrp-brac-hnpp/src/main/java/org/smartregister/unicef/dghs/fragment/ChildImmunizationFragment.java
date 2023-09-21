@@ -55,6 +55,7 @@ import org.smartregister.immunization.view.VaccineGroup;
 import org.smartregister.service.AlertService;
 import org.smartregister.unicef.dghs.utils.GrowthUtil;
 import org.smartregister.unicef.dghs.utils.HnppConstants;
+import org.smartregister.unicef.dghs.utils.HnppDBUtils;
 import org.smartregister.util.DateUtil;
 import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
@@ -512,10 +513,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
             vaccine.setCalculation(-1);
         }
         String anm = FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
-
+        String blockId =  HnppDBUtils.getBlocksIdFromMember(childDetails.entityId());
         vaccine.setTeam(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeam(anm));
         vaccine.setTeamId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeamId(anm));
-        vaccine.setChildLocationId("testChildLocationId");
+        vaccine.setChildLocationId(blockId);
         vaccineRepository.add(vaccine);
         tag.setDbKey(vaccine.getId());
         if(tag.getDbKey()!=null){

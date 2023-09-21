@@ -15,7 +15,7 @@ public class MonthlyTargetAchievementFragment extends TargetAchievementFragment{
         dateView.setVisibility(View.GONE);
         fromDateView.setVisibility(View.GONE);
         toDateView.setVisibility(View.GONE);
-
+        ssView.setVisibility(View.GONE);
         fromMonthView.setVisibility(View.VISIBLE);
         toMonthView.setVisibility(View.VISIBLE);
     }

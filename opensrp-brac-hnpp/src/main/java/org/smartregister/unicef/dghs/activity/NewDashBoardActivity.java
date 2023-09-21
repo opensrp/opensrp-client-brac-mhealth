@@ -1,5 +1,6 @@
 package org.smartregister.unicef.dghs.activity;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,8 +15,11 @@ import org.smartregister.unicef.dghs.fragment.CountSummeryDashBoardFragment;
 import org.smartregister.unicef.dghs.fragment.DailyServiceTargetAchievementFragment;
 import org.smartregister.unicef.dghs.fragment.DailyTargetAchievementFragment;
 import org.smartregister.unicef.dghs.fragment.ForumTargetAchievementFragment;
+import org.smartregister.unicef.dghs.fragment.ImmunizationSummeryDashBoardFragment;
 import org.smartregister.unicef.dghs.fragment.MonthlyServiceTargetAchievementFragment;
 import org.smartregister.unicef.dghs.fragment.MonthlyTargetAchievementFragment;
+import org.smartregister.unicef.dghs.fragment.ReportFragment;
+import org.smartregister.unicef.dghs.fragment.ReportGrowthFalterFragment;
 import org.smartregister.unicef.dghs.fragment.SSInfoDashBoardFragment;
 import org.smartregister.unicef.dghs.fragment.StockDashBoardFragment;
 import org.smartregister.unicef.dghs.fragment.WorkSummeryDashBoardFragment;
@@ -44,63 +48,85 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     }
 
     private void loadCountSummeryFragment(int position){
-        if(HnppConstants.isPALogin()){
-            switch (position){
-                case 0:
-                    dashBoardFragment = new DailyTargetAchievementFragment();
-                    break;
-                case 1:
-                    dashBoardFragment = new MonthlyTargetAchievementFragment();
-                    break;
-                case 2:
-                    dashBoardFragment = new ForumTargetAchievementFragment();
-                    break;
-                case 3:
-                    dashBoardFragment = new StockDashBoardFragment();
-                    break;
-                case 4:
+        switch (position){
+            case 0:
+                dashBoardFragment = new ImmunizationSummeryDashBoardFragment();
+                break;
+            case 1:
+                dashBoardFragment = new ReportFragment();
+                break;
+            case 2:
+                dashBoardFragment = new ReportGrowthFalterFragment();
+                break;
+            case 3:
+                dashBoardFragment = new WorkSummeryDashBoardFragment();
+                break;
+//            case 3:
+//                    dashBoardFragment = new MonthlyTargetAchievementFragment();
+//                    break;
+            case 4:
                     dashBoardFragment = new CountSummeryDashBoardFragment();
                     break;
-                case 5:
-                    dashBoardFragment = new WorkSummeryDashBoardFragment();
-                    break;
-                case 6:
-                    dashBoardFragment = new SSInfoDashBoardFragment();
-                    break;
-            }
-        }else {
-            switch (position){
 
-                case 0:
-                    dashBoardFragment = new DailyTargetAchievementFragment();
-                    break;
-                case 1:
-                    dashBoardFragment = new MonthlyTargetAchievementFragment();
-                    break;
-                case 2:
-                    dashBoardFragment = new DailyServiceTargetAchievementFragment();
-                    break;
-                case 3:
-                    dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
-                    break;
 
-                case 4:
-                    dashBoardFragment = new ForumTargetAchievementFragment();
-                    break;
-                case 5:
-                    dashBoardFragment = new StockDashBoardFragment();
-                    break;
-                case 6:
-                    dashBoardFragment = new CountSummeryDashBoardFragment();
-                    break;
-                case 7:
-                    dashBoardFragment = new WorkSummeryDashBoardFragment();
-                    break;
-                case 8:
-                    dashBoardFragment = new SSInfoDashBoardFragment();
-                    break;
-            }
         }
+//        if(HnppConstants.isPALogin()){
+//            switch (position){
+//                case 0:
+//                    dashBoardFragment = new DailyTargetAchievementFragment();
+//                    break;
+//                case 1:
+//                    dashBoardFragment = new MonthlyTargetAchievementFragment();
+//                    break;
+//                case 2:
+//                    dashBoardFragment = new ForumTargetAchievementFragment();
+//                    break;
+//                case 3:
+//                    dashBoardFragment = new StockDashBoardFragment();
+//                    break;
+//                case 4:
+//                    dashBoardFragment = new CountSummeryDashBoardFragment();
+//                    break;
+//                case 5:
+//                    dashBoardFragment = new WorkSummeryDashBoardFragment();
+//                    break;
+//                case 6:
+//                    dashBoardFragment = new SSInfoDashBoardFragment();
+//                    break;
+//            }
+//        }else {
+//            switch (position){
+//
+//                case 0:
+//                    dashBoardFragment = new DailyTargetAchievementFragment();
+//                    break;
+//                case 1:
+//                    dashBoardFragment = new MonthlyTargetAchievementFragment();
+//                    break;
+//                case 2:
+//                    dashBoardFragment = new DailyServiceTargetAchievementFragment();
+//                    break;
+//                case 3:
+//                    dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
+//                    break;
+//
+//                case 4:
+//                    dashBoardFragment = new ForumTargetAchievementFragment();
+//                    break;
+//                case 5:
+//                    dashBoardFragment = new StockDashBoardFragment();
+//                    break;
+//                case 6:
+//                    dashBoardFragment = new CountSummeryDashBoardFragment();
+//                    break;
+//                case 7:
+//                    dashBoardFragment = new WorkSummeryDashBoardFragment();
+//                    break;
+//                case 8:
+//                    dashBoardFragment = new SSInfoDashBoardFragment();
+//                    break;
+//            }
+//        }
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -139,18 +165,24 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 //        });
         tabs = findViewById(R.id.tabs);
 
-        tabs.addTab(tabs.newTab().setText(R.string.everyday_visit));
-        tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
-        if(!HnppConstants.isPALogin()){
-            tabs.addTab(tabs.newTab().setText(R.string.everyday_visit));
-            tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
-        }
-        tabs.addTab(tabs.newTab().setText(R.string.forum));
-        tabs.addTab(tabs.newTab().setText(R.string.stock));
-        tabs.addTab(tabs.newTab().setText(R.string.people_in_short));
+//        tabs.addTab(tabs.newTab().setText(R.string.everyday_visit));
+//        tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
+//        if(!HnppConstants.isPALogin()){
+//            tabs.addTab(tabs.newTab().setText(R.string.everyday_visit));
+//            tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
+//        }
+//        tabs.addTab(tabs.newTab().setText(R.string.forum));
+//        tabs.addTab(tabs.newTab().setText(R.string.stock));
+//        tabs.addTab(tabs.newTab().setText(R.string.people_in_short));
+//        tabs.addTab(tabs.newTab().setText(R.string.activity_in_short));
+//        tabs.addTab(tabs.newTab().setText(R.string.nurse));
+        tabs.addTab(tabs.newTab().setText(getString(R.string.immunization)));
+        tabs.addTab(tabs.newTab().setText(R.string.report));
+        tabs.addTab(tabs.newTab().setText(R.string.grow_filter));
+//        tabs.addTab(tabs.newTab().setText(R.string.monthly_visit));
         tabs.addTab(tabs.newTab().setText(R.string.activity_in_short));
-        tabs.addTab(tabs.newTab().setText(R.string.nurse));
-        //tabs.addTab(tabs.newTab().setText("স্টক"));
+        tabs.addTab(tabs.newTab().setText(R.string.people_in_short));
+
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -180,6 +212,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
        if(titleText!=null) titleText.setText(title);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){

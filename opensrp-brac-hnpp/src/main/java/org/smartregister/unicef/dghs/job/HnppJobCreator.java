@@ -93,8 +93,6 @@ public class HnppJobCreator implements JobCreator {
                 return new WeightIntentServiceJob();
             case CampFetchJob.TAG:
                 return new CampFetchJob();
-            case OtherVaccineJob.TAG:
-                return new OtherVaccineJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

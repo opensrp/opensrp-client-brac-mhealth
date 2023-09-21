@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/view_date_range" android:visibility="gone"/>
-    <include android:id="@+id/topbar"
+
+    <include
+        android:id="@+id/topbar"
+        layout="@layout/dashboard_view_filter"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        layout="@layout/dashboard_view_filter"/>
+        android:layout_height="60dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

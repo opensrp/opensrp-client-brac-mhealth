@@ -38,6 +38,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
+import org.smartregister.domain.Response;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.service.HTTPAgent;
 import org.smartregister.unicef.dghs.BuildConfig;
 import org.smartregister.unicef.dghs.HnppApplication;
 import org.smartregister.unicef.dghs.R;
@@ -46,7 +49,6 @@ import org.smartregister.unicef.dghs.listener.OnGpsDataGenerateListener;
 import org.smartregister.unicef.dghs.listener.OnPostDataWithGps;
 import org.smartregister.unicef.dghs.activity.TermAndConditionWebView;
 import org.smartregister.unicef.dghs.model.Notification;
-import org.smartregister.unicef.dghs.service.OtherVaccineDueIntentService;
 import org.smartregister.unicef.dghs.task.GenerateGPSTask;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -63,6 +65,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -167,17 +170,65 @@ public class HnppConstants extends CoreConstants {
 
         return  Observable.create(e->{
                     try {
-                        OtherVaccineDueIntentService.processUnSyncData(0);
+                        processOtherVaccineUnSyncData(0);
+                        e.onNext("done");//error
+                        e.onComplete();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                         e.onNext("");//error
                         e.onComplete();
                     }
-                    e.onNext("done");//error
-                    e.onComplete();
+
                 }
         );
 
+    }
+    private static void processOtherVaccineUnSyncData(int count){
+        String ADD_URL = "rest/api/vaccination/sync";
+        ArrayList<OtherVaccineContentData> vaccineContentData = HnppApplication.getOtherVaccineRepository().getUnSyncData();
+        Log.v("OTHER_VACCINE","processUnSyncData>>"+vaccineContentData.size());
+        ArrayList<String> list = new ArrayList<>();
+
+        for(OtherVaccineContentData otherVaccineContentData: vaccineContentData){
+            String json = JsonFormUtils.gson.toJson(otherVaccineContentData);
+            list.add(json);
+        }
+        Log.v("OTHER_VACCINE","processUnSyncData>>"+list);
+        if(list.size()==0) return;
+        try{
+            JSONObject request = new JSONObject();
+            request.put("vaccines",list);
+            String jsonPayload = request.toString();
+            //{"vaccines":[{"brn":"123456","dob":"2022-08-01","vaccineDate":"2023-01-01","vaccine_name":"HPV"},{"brn":"1234564","dob":"2022-08-01","vaccineDate":"2023-01-01","vaccine_name":"HPV"}]}
+            String add_url =  MessageFormat.format("{0}{1}",
+                    BuildConfig.citizen_url,
+                    ADD_URL);
+            Log.v("OTHER_VACCINE","jsonPayload>>>"+jsonPayload);
+            jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
+            HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+            Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
+            Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,null,BuildConfig.JWT_TOKEN);
+            if (response.isFailure()) {
+                HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
+                return;
+            }
+            HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
+            for (OtherVaccineContentData contentData: vaccineContentData){
+                HnppApplication.getOtherVaccineRepository().updateOtherVaccineStatus(contentData);
+            }
+            if (count < CoreLibrary.getInstance().getSyncConfiguration().getSyncMaxRetries()) {
+                int newCount = count + 1;
+                processOtherVaccineUnSyncData(newCount);
+            }else{
+                Log.v("SYNC_URL","done");
+            }
+
+//{"timestamp":"2023-09-04T14:40:53.495+00:00","status":500,"error":"Internal Server Error","trace":"org.springframework.security.web.firewall.RequestRejectedException: The request was rejected because the URL contained a potentially malicious String \"//\"\n\tat org.springframework.security.web.firewall.StrictHttpFirewall.rejectedBlocklistedUrls(StrictHttpFirewall.java:535)\n\tat org.springframework.security.web.firewall.StrictHttpFirewall.getFirewalledRequest(StrictHttpFirewall.java:505)\n\tat org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:196)\n\tat org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)\n\tat org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)\n\tat org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)\n\tat org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)\n\tat org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)\n\tat org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)\n\tat org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)\n\tat org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)\n\tat org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)\n\tat org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)\n\tat org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)\n\tat org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890)\n\tat org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)\n\tat org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)\n\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\n\tat java.lang.Thread.run(Thread.java:748)\n","message":"The request was rejected because the URL contained a potentially malicious String \"//\"","path":"//rest/api/vaccination/sync"}
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
     }
     public static Observable<Boolean> deleteLogFile() {
 
@@ -233,31 +284,31 @@ public class HnppConstants extends CoreConstants {
     public static void appendLog(String TAG,String text) {
         try{
             Log.v(TAG,text);
-            Context context= HnppApplication.getInstance().getApplicationContext();
-            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
-            Calendar calender = Calendar.getInstance();
-            int year = calender.get(Calendar.YEAR);
-            int month = calender.get(Calendar.MONTH)+1;
-            int day = calender.get(Calendar.DAY_OF_MONTH);
-            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
-
-            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
-            if (!f.exists()) {
-                f.mkdirs();
-            }
-            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
-            if (!logFile.exists()) {
-                try {
-                    logFile.createNewFile();
-                } catch (IOException ee) {
-                    Log.e(TAG, ee.getMessage());
-                }
-            }
-            //BufferedWriter for performance, true to set append to file flag
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(saveText);
-            buf.newLine();
-            buf.close();
+//            Context context= HnppApplication.getInstance().getApplicationContext();
+//            String saveText = TAG + new DateTime(System.currentTimeMillis())+" >>> "+ text;
+//            Calendar calender = Calendar.getInstance();
+//            int year = calender.get(Calendar.YEAR);
+//            int month = calender.get(Calendar.MONTH)+1;
+//            int day = calender.get(Calendar.DAY_OF_MONTH);
+//            String fileNameDayWise = year+""+addZeroForDay(month+"")+""+addZeroForDay(day+"");
+//
+//            File f = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise);
+//            if (!f.exists()) {
+//                f.mkdirs();
+//            }
+//            File logFile = new File(context.getExternalFilesDir(null) + "/hnpp_log/"+fileNameDayWise+"/"+"log.file");
+//            if (!logFile.exists()) {
+//                try {
+//                    logFile.createNewFile();
+//                } catch (IOException ee) {
+//                    Log.e(TAG, ee.getMessage());
+//                }
+//            }
+//            //BufferedWriter for performance, true to set append to file flag
+//            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+//            buf.append(saveText);
+//            buf.newLine();
+//            buf.close();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -1763,61 +1814,64 @@ public class HnppConstants extends CoreConstants {
 
 
     //for dashboard workSummery
-    public static final Map<String,String> workSummeryTypeMapping = ImmutableMap.<String,String> builder()
+    public static Map<String,String> getWorkSummeryTypeMapping(){
+        Map<String,String> workSummeryTypeMapping = ImmutableMap.<String,String> builder()
 
-            .put(EventType.FAMILY_REGISTRATION,HnppApplication.appContext.getString(R.string.household_reg))
-            .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
-            .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
-            .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
-            .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
-            .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
-            .put("ANC",HnppApplication.appContext.getString(R.string.anc_service_anc))
-            .put("pnc",HnppApplication.appContext.getString(R.string.old_pnc_service))
-            .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
-            .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg))
-            .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.preg_service_visit))
+                .put(EventType.FAMILY_REGISTRATION,HnppApplication.appContext.getString(R.string.household_reg))
+                .put(EventType.FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
+                .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
+                .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
+                .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
+                .put(EventType.UPDATE_FAMILY_MEMBER_REGISTRATION,HnppApplication.appContext.getString(R.string.member_reg))
+                .put("ANC",HnppApplication.appContext.getString(R.string.anc_service_anc))
+                .put("pnc",HnppApplication.appContext.getString(R.string.old_pnc_service))
+                .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
+                .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg))
+                .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
+                .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.preg_service_visit))
 
-            .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
-            .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
-            .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
-            .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
-            .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
-            .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
-            .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.appContext.getString(R.string.woman_forum))
-            .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.appContext.getString(R.string.girl_forum))
-            .put(EVENT_TYPE.FORUM_NCD,HnppApplication.appContext.getString(R.string.common_forum))
-            .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.appContext.getString(R.string.adult_forum))
-            .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.appContext.getString(R.string.woman_package))
-            .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.appContext.getString(R.string.girl_package))
-            .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.appContext.getString(R.string.ncd_package))
-            .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.appContext.getString(R.string.blood_group))
-            .put(EVENT_TYPE.EYE_TEST,HnppApplication.appContext.getString(R.string.eye_test))
-            .put(EVENT_TYPE.GLASS,HnppApplication.appContext.getString(R.string.total_glass))
-            .put(EVENT_TYPE.SUN_GLASS,HnppApplication.appContext.getString(R.string.sunglass))
-            .put(EVENT_TYPE.SV_1,HnppApplication.appContext.getString(R.string.sv_1))
-            .put(EVENT_TYPE.SV_1_5,HnppApplication.appContext.getString(R.string.sv_1_5))
-            .put(EVENT_TYPE.SV_2,HnppApplication.appContext.getString(R.string.sv_2))
-            .put(EVENT_TYPE.SV_2_5,HnppApplication.appContext.getString(R.string.sv_2_5))
-            .put(EVENT_TYPE.SV_3,HnppApplication.appContext.getString(R.string.sv_3))
-            .put(EVENT_TYPE.BF_1,HnppApplication.appContext.getString(R.string.bf_1))
-            .put(EVENT_TYPE.BF_1_5,HnppApplication.appContext.getString(R.string.bf_1_5))
-            .put(EVENT_TYPE.BF_2,HnppApplication.appContext.getString(R.string.bf_2))
-            .put(EVENT_TYPE.BF_2_5,HnppApplication.appContext.getString(R.string.bf_2_5))
-            .put(EVENT_TYPE.BF_3,HnppApplication.appContext.getString(R.string.bf_3))
-            
-              .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.appContext.getString(R.string.child_package_iyocf))
-            .put("familyplanning_method_known", HnppApplication.appContext.getString(R.string.family_planning_user))
-            .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.appContext.getString(R.string.anc_package))
-            .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_within_48))
-            .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_only))
+                .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
+                .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
+                .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
+                .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
+                .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
+                .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+                .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
+                .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+                .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+                .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
+                .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
+                .put(EVENT_TYPE.FORUM_WOMEN,HnppApplication.appContext.getString(R.string.woman_forum))
+                .put(EVENT_TYPE.FORUM_CHILD,HnppApplication.appContext.getString(R.string.girl_forum))
+                .put(EVENT_TYPE.FORUM_NCD,HnppApplication.appContext.getString(R.string.common_forum))
+                .put(EVENT_TYPE.FORUM_ADULT,HnppApplication.appContext.getString(R.string.adult_forum))
+                .put(EVENT_TYPE.WOMEN_PACKAGE,HnppApplication.appContext.getString(R.string.woman_package))
+                .put(EVENT_TYPE.GIRL_PACKAGE, HnppApplication.appContext.getString(R.string.girl_package))
+                .put(EVENT_TYPE.NCD_PACKAGE, HnppApplication.appContext.getString(R.string.ncd_package))
+                .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.appContext.getString(R.string.blood_group))
+                .put(EVENT_TYPE.EYE_TEST,HnppApplication.appContext.getString(R.string.eye_test))
+                .put(EVENT_TYPE.GLASS,HnppApplication.appContext.getString(R.string.total_glass))
+                .put(EVENT_TYPE.SUN_GLASS,HnppApplication.appContext.getString(R.string.sunglass))
+                .put(EVENT_TYPE.SV_1,HnppApplication.appContext.getString(R.string.sv_1))
+                .put(EVENT_TYPE.SV_1_5,HnppApplication.appContext.getString(R.string.sv_1_5))
+                .put(EVENT_TYPE.SV_2,HnppApplication.appContext.getString(R.string.sv_2))
+                .put(EVENT_TYPE.SV_2_5,HnppApplication.appContext.getString(R.string.sv_2_5))
+                .put(EVENT_TYPE.SV_3,HnppApplication.appContext.getString(R.string.sv_3))
+                .put(EVENT_TYPE.BF_1,HnppApplication.appContext.getString(R.string.bf_1))
+                .put(EVENT_TYPE.BF_1_5,HnppApplication.appContext.getString(R.string.bf_1_5))
+                .put(EVENT_TYPE.BF_2,HnppApplication.appContext.getString(R.string.bf_2))
+                .put(EVENT_TYPE.BF_2_5,HnppApplication.appContext.getString(R.string.bf_2_5))
+                .put(EVENT_TYPE.BF_3,HnppApplication.appContext.getString(R.string.bf_3))
 
-            .build();
+                .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.appContext.getString(R.string.child_package_iyocf))
+                .put("familyplanning_method_known", HnppApplication.appContext.getString(R.string.family_planning_user))
+                .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.appContext.getString(R.string.anc_package))
+                .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_within_48))
+                .put(EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_only))
+
+                .build();
+        return workSummeryTypeMapping;
+    }
     //for dashboard countSummery
     public static final Map<String,String> countSummeryTypeMapping = ImmutableMap.<String,String> builder()
 

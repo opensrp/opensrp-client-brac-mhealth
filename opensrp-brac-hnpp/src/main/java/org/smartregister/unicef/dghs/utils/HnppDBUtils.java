@@ -404,7 +404,7 @@ public class HnppDBUtils {
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()) {
                     try{
-                        nameCount.append(HnppApplication.appContext.getString(R.string.stock_name)+HnppConstants.workSummeryTypeMapping.get(cursor.getString(0))+"\n");
+                        nameCount.append(HnppApplication.appContext.getString(R.string.stock_name)+HnppConstants.getWorkSummeryTypeMapping().get(cursor.getString(0))+"\n");
                     }catch (Exception e){
                         nameCount.append(HnppApplication.appContext.getString(R.string.stock_name)+cursor.getString(0)+"\n");
 

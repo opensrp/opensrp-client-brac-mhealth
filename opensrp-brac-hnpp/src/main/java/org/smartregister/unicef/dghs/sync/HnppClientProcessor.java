@@ -346,6 +346,9 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 vaccineObj.setDate(date);
                 vaccineObj.setAnmId(contentValues.getAsString(VaccineRepository.ANMID));
                 vaccineObj.setLocationId(contentValues.getAsString(VaccineRepository.LOCATION_ID));
+                if(!TextUtils.isEmpty(contentValues.getAsString(VaccineRepository.CHILD_LOCATION_ID))){
+                    vaccineObj.setChildLocationId(contentValues.getAsString(VaccineRepository.CHILD_LOCATION_ID));
+                }
                 vaccineObj.setSyncStatus(VaccineRepository.TYPE_Synced);
                 vaccineObj.setFormSubmissionId(vaccine.getEvent().getFormSubmissionId());
                 vaccineObj.setEventId(vaccine.getEvent().getEventId());

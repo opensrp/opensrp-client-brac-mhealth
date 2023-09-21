@@ -167,31 +167,31 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
            ArrayList<ForceSyncModel> forceSyncModelArrayList = new ArrayList<>();
            ForceSyncModel forceSyncModel = new ForceSyncModel();
            forceSyncModel.eventType = HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-           forceSyncModel.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel.eventType);
+           forceSyncModel.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel.eventType);
            forceSyncModelArrayList.add(forceSyncModel);
            ForceSyncModel forceSyncModel1 = new ForceSyncModel();
            forceSyncModel1.eventType = HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
-           forceSyncModel1.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel1.eventType);
+           forceSyncModel1.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel1.eventType);
            forceSyncModelArrayList.add(forceSyncModel1);
 
            ForceSyncModel forceSyncModel2 = new ForceSyncModel();
            forceSyncModel2.eventType = HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-           forceSyncModel2.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel2.eventType);
+           forceSyncModel2.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel2.eventType);
            forceSyncModelArrayList.add(forceSyncModel2);
 
            ForceSyncModel forceSyncModel3 = new ForceSyncModel();
            forceSyncModel3.eventType = HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
-           forceSyncModel3.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel3.eventType);
+           forceSyncModel3.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel3.eventType);
            forceSyncModelArrayList.add(forceSyncModel3);
 
            ForceSyncModel forceSyncModel4 = new ForceSyncModel();
            forceSyncModel4.eventType = HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
-           forceSyncModel4.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel4.eventType);
+           forceSyncModel4.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel4.eventType);
            forceSyncModelArrayList.add(forceSyncModel4);
 
            ForceSyncModel forceSyncModel5 = new ForceSyncModel();
            forceSyncModel5.eventType = CoreConstants.EventType.ANC_HOME_VISIT;
-           forceSyncModel5.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel5.eventType);
+           forceSyncModel5.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel5.eventType);
            forceSyncModelArrayList.add(forceSyncModel5);
 
 //        String query = "select count(eventType) as count, eventType group by eventType";
@@ -203,7 +203,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 //                ForceSyncModel forceSyncModel = new ForceSyncModel();
 //                forceSyncModel.count = (cursor.getInt(0));
 //                forceSyncModel.eventType = cursor.getString(1);
-//                forceSyncModel.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel.eventType);
+//                forceSyncModel.title = HnppConstants.getWorkSummeryTypeMapping().get(forceSyncModel.eventType);
 //                forceSyncModelArrayList.add(forceSyncModel);
 //                cursor.moveToNext();
 //            }

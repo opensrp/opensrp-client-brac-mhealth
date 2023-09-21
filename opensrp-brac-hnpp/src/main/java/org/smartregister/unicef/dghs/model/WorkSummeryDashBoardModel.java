@@ -55,7 +55,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                 dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_REGISTRATION);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+                dashBoardData1.setTitle(HnppConstants.getWorkSummeryTypeMapping().get(dashBoardData1.getEventType()));
 
                 try{
                     dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
@@ -101,7 +101,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                 dashBoardData1 = new DashBoardData();
                 dashBoardData1.setCount(cursor.getInt(0));
                 dashBoardData1.setEventType(HnppConstants.EventType.FAMILY_MEMBER_REGISTRATION);
-                dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+                dashBoardData1.setTitle(HnppConstants.getWorkSummeryTypeMapping().get(dashBoardData1.getEventType()));
 
                 try{
                     dashBoardData1.setImageSource((int)HnppConstants.iconMapping.get(dashBoardData1.getEventType()));
@@ -124,7 +124,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                 CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.RELATIONAL_ID));
 
         if(!TextUtils.isEmpty(ssName)){
-            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.BLOCK_NAME,"'"+ssName+"'"));
+            build.append(MessageFormat.format(" where {0}.{1} is null and {2} = {3}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED, HnppConstants.KEY.BLOCK_ID,"'"+ssName+"'"));
             build.append(MessageFormat.format(" and {0}.{1} is null {2}", CoreConstants.TABLE_NAME.FAMILY_MEMBER, DBConstants.KEY.DATE_REMOVED,getBetweenMemberCondition(fromMonth,toMonth)));
 
         }
@@ -271,7 +271,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             String mainCon = "";
             String whereAnd = "where";
             if(!TextUtils.isEmpty(ssName)){
-                mainCon = "inner join ec_family on ec_family.base_entity_id = ec_anc_register.relational_id where ec_family.ss_name = '"+ssName+"' ";
+                mainCon = "inner join ec_family on ec_family.base_entity_id = ec_anc_register.relational_id where ec_family.block_id = '"+ssName+"' ";
                 whereAnd = "and";
             }
 
@@ -286,7 +286,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
             String mainCon = "";
             String whereAnd = "where";
             if(!TextUtils.isEmpty(ssName)){
-                mainCon = "inner join ec_family on ec_family.base_entity_id = ec_pregnancy_outcome.base_entity_id where ec_family.ss_name = '"+ssName+"' ";
+                mainCon = "inner join ec_family on ec_family.base_entity_id = ec_pregnancy_outcome.base_entity_id where ec_family.block_id = '"+ssName+"' ";
                 whereAnd = "and";
             }
 
@@ -352,7 +352,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
                 if(visitType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NCD_PACKAGE) && HnppConstants.isPALogin()){
                     dashBoardData1.setTitle("অ্যাডাল্ট প্যাকেজ");
                 }else{
-                    dashBoardData1.setTitle(HnppConstants.workSummeryTypeMapping.get(dashBoardData1.getEventType()));
+                    dashBoardData1.setTitle(HnppConstants.getWorkSummeryTypeMapping().get(dashBoardData1.getEventType()));
                 }
 
                 try{
@@ -374,9 +374,9 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     }
     public String getSSCondition(String ssName,String tableName){
         if(TextUtils.isEmpty(tableName)){
-            return " and "+HnppConstants.KEY.BLOCK_NAME +" = '"+ssName+"'";
+            return " and "+HnppConstants.KEY.BLOCK_ID +" = '"+ssName+"'";
         }else{
-           return  " and "+tableName+"."+HnppConstants.KEY.BLOCK_NAME +" = '"+ssName+"'";
+           return  " and "+tableName+"."+HnppConstants.KEY.BLOCK_ID +" = '"+ssName+"'";
         }
     }
     public String getBetweenCondition(long fromMonth, long toMonth, String compareDate){

@@ -186,7 +186,7 @@ public class StockDetailsModel implements StockDetailsContract.Model{
 
                 }
                 else{
-                    stockDetailsData.setTitle(HnppConstants.workSummeryTypeMapping.get(stockDetailsData.getEventType()));
+                    stockDetailsData.setTitle(HnppConstants.getWorkSummeryTypeMapping().get(stockDetailsData.getEventType()));
 
                 }
 

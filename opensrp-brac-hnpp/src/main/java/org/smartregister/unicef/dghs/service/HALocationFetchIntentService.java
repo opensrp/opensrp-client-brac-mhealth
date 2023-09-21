@@ -24,6 +24,7 @@ public class HALocationFetchIntentService extends IntentService {
     private static final String LOCATION_FETCH = "/provider/location-tree?";
     private static final String PA_LOCATION_FETCH = "/pa-provider/location-tree?";
     private static final String TAG = "SSLocation";
+    public static final String LOCATION_UPDATE = "LOCATION_UPDATE";
 
     public HALocationFetchIntentService() { super(TAG); }
     /**
@@ -38,6 +39,10 @@ public class HALocationFetchIntentService extends IntentService {
     @Override
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
+        Log.v("LOCATION_UPDATE","jsonobjectlocation??"+jsonObjectLocation.length());
+        if(jsonObjectLocation == null || jsonObjectLocation.length()==0){
+            broadcastStatus("Need to location update");
+        }
         if(jsonObjectLocation!=null){
             if(!HnppConstants.isPALogin())HnppApplication.getHALocationRepository().dropTable();
             for(int i=0;i<jsonObjectLocation.length();i++){
@@ -78,7 +83,7 @@ public class HALocationFetchIntentService extends IntentService {
             }
             //testing
             String url = baseUrl + LOCATION_FETCH + "username=" + userName;
-            Log.v("LOCATION_FETCH","getLocationList>>url:"+url);
+            Log.v("LOCATION_UPDATE","getLocationList>>url:"+url);
             Response resp = httpAgent.fetch(url);
             if (resp.isFailure()) {
                 throw new NoHttpResponseException(LOCATION_FETCH + " not returned data");
@@ -90,6 +95,18 @@ public class HALocationFetchIntentService extends IntentService {
 
         }
         return null;
+
+    }
+    private void broadcastStatus(String message){
+        try{
+            Intent broadcastIntent = new Intent(LOCATION_UPDATE);
+            broadcastIntent.putExtra("PUT_EXTRA", message);
+            Log.v("LOCATION_UPDATE","sendBroadcast");
+            sendBroadcast(broadcastIntent);
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
 
     }
 }
