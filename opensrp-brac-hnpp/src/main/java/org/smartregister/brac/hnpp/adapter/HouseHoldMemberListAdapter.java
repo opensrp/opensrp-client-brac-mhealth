@@ -48,7 +48,9 @@ public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMe
         viewHolder.textViewCount.setText(content.getCount()+"");*/
         if(content.getStatus()){
             viewHolder.checkIm.setImageResource(R.drawable.success);
-            viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, R.color.others));
+            viewHolder.itemView.setClickable(false);
+        }else {
+            viewHolder.checkIm.setImageResource(R.drawable.circle_background);
         }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }

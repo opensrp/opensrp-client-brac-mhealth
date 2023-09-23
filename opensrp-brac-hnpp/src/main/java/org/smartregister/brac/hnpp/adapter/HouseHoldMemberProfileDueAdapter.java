@@ -56,6 +56,10 @@ public class HouseHoldMemberProfileDueAdapter extends RecyclerView.Adapter<House
         if(content.getStatus()) {
             viewHolder.checkIm.setImageResource(R.drawable.success);
             viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, R.color.others));
+            viewHolder.itemView.setClickable(false);
+        }else {
+
+            viewHolder.checkIm.setImageResource(R.drawable.circle_background);
         }
         if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
             viewHolder.statusImage.setVisibility(View.INVISIBLE);

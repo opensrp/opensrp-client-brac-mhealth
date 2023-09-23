@@ -406,8 +406,8 @@
     <string name="no_migration">স্থানান্তর নেই</string>
     <string name="no_pregnancy">গর্ভবতী নেই</string>
     <string name="add_more_member">আরো যোগ করুন</string>
-   <string name="record_added"> টি নতুন জন্ম রেকর্ড করা হয়েছে</string>
-   <string name="death_added"> টি মৃত্যু তথ্য রেকর্ড করা হয়েছে</string>
-   <string name="migration_added"> টি স্থানান্তর তথ্য রেকর্ড করা হয়েছে</string>
-   <string name="pregnancy_added"> টি গর্ভবতী রেকর্ড করা হয়েছে</string>
+    <string name="record_added"> টি নতুন জন্ম রেকর্ড করা হয়েছে</string>
+    <string name="death_added"> টি মৃত্যু তথ্য রেকর্ড করা হয়েছে</string>
+    <string name="migration_added"> টি স্থানান্তর তথ্য রেকর্ড করা হয়েছে</string>
+    <string name="pregnancy_added"> টি গর্ভবতী রেকর্ড করা হয়েছে</string>
 </resources>

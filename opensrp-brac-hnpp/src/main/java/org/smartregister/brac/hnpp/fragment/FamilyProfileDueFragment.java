@@ -251,7 +251,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
                 case TAG_HOME_VISIT:
                     if (getActivity() != null && getActivity() instanceof FamilyProfileActivity) {
                         FamilyProfileActivity activity = (FamilyProfileActivity) getActivity();
-                        activity.openHomeVisitFamily();
+                        //activity.openHomeVisitFamily();
                         Intent intent = new Intent(getActivity(), HouseHoldVisitActivity.class);
                         String familyId = familyBaseEntityId;
                         HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);

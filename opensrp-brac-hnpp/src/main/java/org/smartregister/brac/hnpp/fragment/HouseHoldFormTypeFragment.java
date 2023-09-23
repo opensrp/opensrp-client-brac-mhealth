@@ -107,18 +107,17 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     boolean isValidateMigration = false;
     boolean isValidatePregReg = false;
     boolean isValidateHhVisit = false;
-    public static MemberListPresenter memberHistoryPresenter;
+    private MemberListPresenter memberHistoryPresenter;
     private String familyId = "";
-    HouseHoldVisitActivity activity;
 
-    public ArrayList<String> memberListJson = new ArrayList<>();
-    public ArrayList<String> removedMemberListJson = new ArrayList<>();
-    public ArrayList<String> migratedMemberListJson = new ArrayList<>();
+    private final ArrayList<String> memberListJson = new ArrayList<>();
+    private final ArrayList<String> removedMemberListJson = new ArrayList<>();
+    private final ArrayList<String> migratedMemberListJson = new ArrayList<>();
 
-    public ArrayList<String> pregancyMemberListJson = new ArrayList<>();
+    private final ArrayList<String> pregancyMemberListJson = new ArrayList<>();
 
     Dialog dialog;
-    boolean isProcessing = false;
+    private boolean isProcessing = false;
     private String houseHoldId;
     private String moduleId;
 
@@ -132,7 +131,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_house_hold_form_type, container, false);
-        activity = ((HouseHoldVisitActivity) getActivity());
+        HouseHoldVisitActivity activity = ((HouseHoldVisitActivity) getActivity());
         resetData();
         initUi(view);
 
@@ -226,7 +225,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
                                 HnppJsonFormUtils.addConsent(field,true);
                                 processForm(encounterType,formWithConsent.toString());
-                                memberListJson.add(jsonString);
+                                //memberListJson.add(jsonString);
                             }catch (JSONException je){
                                 je.printStackTrace();
                             }
@@ -240,6 +239,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
                                 HnppJsonFormUtils.addConsent(field,false);
                                 processForm(encounterType,formWithConsent.toString());
+                                //memberListJson.add(jsonString);
                             }catch (JSONException je){
                                 je.printStackTrace();
                             }
@@ -768,7 +768,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     @Override
     public Context getContext() {
-        return null;
+        return getActivity();
     }
 
     private void openHHVisit(String familyBaseEntityId){

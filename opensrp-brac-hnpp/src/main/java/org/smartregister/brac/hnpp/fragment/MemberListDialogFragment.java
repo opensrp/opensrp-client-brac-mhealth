@@ -199,12 +199,12 @@ public class MemberListDialogFragment extends DialogFragment implements FamilyRe
         });
     }
 
-    void updateList(){
+  /*  void updateList(){
         HouseHoldFormTypeFragment.memberHistoryPresenter.fetchMemberList(memberTypeEnum);
         ArrayList<Member> memberArrayList = HouseHoldFormTypeFragment.memberHistoryPresenter.getMemberList();
         this.setData(memberArrayList,memberTypeEnum);
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
 
 

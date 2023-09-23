@@ -8,7 +8,7 @@ public class MemberProfileDueData {
     private String subTitle;
     private int type;
     public String from;
-    boolean status;
+    boolean status = false;
 
     public String getFrom() {
         return from;

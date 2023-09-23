@@ -1,9 +1,12 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +29,12 @@ import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
 
-public class HouseHoldMemberFragment extends Fragment implements MemberListContract.View{
+public class HouseHoldMemberFragment extends Fragment implements MemberListContract.View {
     public static String TAG = "HouseHoldMemberFragment";
-    public static String MEMBER = "member";
-    public static String POSITION = "position";
 
     HouseHoldMemberListAdapter adapter;
-    public static MemberListPresenter memberHistoryPresenter;
+    private MemberListPresenter memberHistoryPresenter;
     private String familyId = "";
-
-    ArrayList<Member> memberArrayList = new ArrayList<>();
 
     HouseHoldMemberDueFragment profileMemberFragment;
 
@@ -51,22 +50,17 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         adapter = new HouseHoldMemberListAdapter(getActivity(), new HouseHoldMemberListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, Member content) {
-                /*currentMember = content;
-                if(memberTypeEnum == MemberTypeEnum.ELCO){
-                    startAncRegister(content);
-                }else {
-                    startAnyFormActivity(HnppConstants.EventType.REMOVE_MEMBER,memberTypeEnum,content,REQUEST_CODE);
-                }*/
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,content.getBaseEntityId());
-                bundle.putAll(getArguments());
-                bundle.putParcelable(MEMBER,content);
-                bundle.putInt(POSITION,position);
 
-                profileMemberFragment =(HouseHoldMemberDueFragment) HouseHoldMemberDueFragment.newInstance(bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID, content.getBaseEntityId());
+                bundle.putAll(getArguments());
+                bundle.putParcelable(HnppConstants.MEMBER, content);
+                bundle.putInt(HnppConstants.POSITION, position);
+
+                profileMemberFragment = (HouseHoldMemberDueFragment) HouseHoldMemberDueFragment.newInstance(bundle);
                 profileMemberFragment.setCommonPersonObjectClient(clientObject(content.getBaseEntityId()));
-                ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment,HouseHoldMemberDueFragment.TAG,bundle);
-                //adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
+                ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment, HouseHoldMemberDueFragment.TAG, bundle);
+                ((HouseHoldVisitActivity) getActivity()).currentFragmentIndex++;
             }
         });
 
@@ -75,15 +69,16 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        if(profileMemberFragment!=null){
-            profileMemberFragment.isValidateDueData(new OnEachMemberDueValidate() {
-                @Override
-                public void validate(boolean isValidate,int pos) {
-                    memberArrayList.get(pos).setStatus(isValidate);
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }
+        HouseHoldVisitActivity activity = ((HouseHoldVisitActivity) getActivity());
+        activity.isValidateDueData(new OnEachMemberDueValidate() {
+            @Override
+            public void validate(boolean isValidate, int pos) {
+                Log.d("ppppppp2", pos + "" + isValidate);
+
+                memberArrayList.get(pos).setStatus(isValidate);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         return view;
     }
@@ -110,7 +105,7 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
     @Override
     public void initializeMemberPresenter() {
         familyId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, "");
-        memberHistoryPresenter = new MemberListPresenter(this,familyId);
+        memberHistoryPresenter = new MemberListPresenter(this, familyId);
     }
 
     @Override

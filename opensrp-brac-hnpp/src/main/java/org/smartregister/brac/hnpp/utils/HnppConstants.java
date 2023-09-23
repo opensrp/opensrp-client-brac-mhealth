@@ -138,6 +138,10 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.US);
     public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
+    public static String MEMBER = "member";
+    public static String POSITION = "position";
+    public static String VALIDATION_STATUS = "status";
+
 
     public static  Observable<Boolean>  deleteLogFile() {
 

@@ -113,11 +113,12 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     private ArrayList<MemberProfileDueData> serviceList = new ArrayList<>();
     HouseHoldMemberProfileDueAdapter adapter;
 
-    public OnEachMemberDueValidate onEachMemberDueValidate;
-
-
-    void isValidateDueData(OnEachMemberDueValidate onEachMemberDueValidate){
-        this.onEachMemberDueValidate = onEachMemberDueValidate;
+    public void validate(){
+        if(listValidation()){
+            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(true,currentMemberPosition);
+        }else {
+            Toast.makeText(getActivity(),"Invalid",Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -186,7 +187,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         presenter = new HnppMemberProfilePresenter(this);
         baseEntityId = getArguments().getString(Constants.INTENT_KEY.BASE_ENTITY_ID);
         familyBaseEntityId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID);
-        currentMemberPosition = getArguments().getInt(HouseHoldMemberFragment.POSITION);
+        currentMemberPosition = getArguments().getInt(HnppConstants.POSITION);
         handler = new Handler();
         //addStaticView();
         fetchData();
@@ -338,7 +339,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         HnppConstants.getGPSLocation(((HouseHoldVisitActivity) getActivity()), new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
-                Member member = getArguments().getParcelable(HouseHoldMemberFragment.MEMBER);
+                Member member = getArguments().getParcelable(HnppConstants.MEMBER);
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(getActivity(),
                         baseEntityId,
                         member.getMobileNo(),
@@ -352,7 +353,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     }
 
     public void openRefereal() {
-        Member member = getArguments().getParcelable(HouseHoldMemberFragment.MEMBER);
+        Member member = getArguments().getParcelable(HnppConstants.MEMBER);
 
         if (member.getGender().equalsIgnoreCase("F")) {
             startAnyFormActivity(HnppConstants.JSON_FORMS.WOMEN_REFERRAL, REQUEST_HOME_VISIT, "");
@@ -366,14 +367,11 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY, REQUEST_HOME_VISIT, from);
     }
 
-    private boolean needToStartHomeVisit = false;
-
     public void openHomeVisitForm() {
         if (!HnppApplication.getStockRepository().isAvailableStock(CoreConstants.EventType.ANC_HOME_VISIT)) {
             HnppConstants.showOneButtonDialog(getActivity(), getString(R.string.dialog_stock_sell_end), "");
             return;
         }
-        needToStartHomeVisit = true;
         HnppConstants.getGPSLocation(((HouseHoldVisitActivity) getActivity()), new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
@@ -904,14 +902,22 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     }
 
     public boolean listValidation(){
-        for(MemberProfileDueData data : serviceList){
-            if(data.getType()!= HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                if(!data.getStatus()){
-                    return false;
+        boolean status = false;
+        if(serviceList.size()==1){
+            if(serviceList.get(0).getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
+                return false;
+            }
+        }else {
+            for(MemberProfileDueData data : serviceList){
+                if(data.getType() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
+                    if(!data.getStatus()){
+                        return false;
+                    }
                 }
+                status = true;
             }
         }
-        return true;
+        return status;
     }
 
 
