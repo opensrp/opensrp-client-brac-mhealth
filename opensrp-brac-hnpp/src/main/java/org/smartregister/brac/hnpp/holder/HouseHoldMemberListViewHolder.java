@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,10 +15,12 @@ import org.smartregister.brac.hnpp.R;
 public class HouseHoldMemberListViewHolder extends RecyclerView.ViewHolder {
     public TextView nameTv;
     public ImageView checkIm;
+    public AppCompatButton absentBt;
 
     public HouseHoldMemberListViewHolder(@NonNull View itemView) {
         super(itemView);
         nameTv = itemView.findViewById(R.id.memberNameTv);
         checkIm = itemView.findViewById(R.id.check_im);
+        absentBt = itemView.findViewById(R.id.absentBt);
     }
 }

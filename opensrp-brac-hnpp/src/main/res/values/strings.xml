@@ -410,4 +410,6 @@
     <string name="death_added"> টি মৃত্যু তথ্য রেকর্ড করা হয়েছে</string>
     <string name="migration_added"> টি স্থানান্তর তথ্য রেকর্ড করা হয়েছে</string>
     <string name="pregnancy_added"> টি গর্ভবতী রেকর্ড করা হয়েছে</string>
+   <string name="absent">উপস্থিত নেই</string>
+   <string name="update_hh_data">খানার তথ্য আপডেট করুন</string>
 </resources>

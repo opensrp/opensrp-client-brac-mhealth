@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.holder.HouseHoldMemberListViewHolder;
-import org.smartregister.brac.hnpp.holder.MemberListViewHolder;
 import org.smartregister.brac.hnpp.model.Member;
 
 import java.util.ArrayList;
@@ -44,15 +44,28 @@ public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMe
     public void onBindViewHolder(@NonNull final HouseHoldMemberListViewHolder viewHolder, int position) {
         final Member content = memberArrayList.get(position);
         viewHolder.nameTv.setText(content.getName());
-      /*  viewHolder.textViewTitle.setText(content.getTitle());
-        viewHolder.textViewCount.setText(content.getCount()+"");*/
-        if(content.getStatus()){
+        if(content.getStatus() == 1){//success
             viewHolder.checkIm.setImageResource(R.drawable.success);
+            viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, R.color.others));
             viewHolder.itemView.setClickable(false);
-        }else {
+            viewHolder.itemView.setEnabled(false);
+            viewHolder.absentBt.setEnabled(false);
+        }else if(content.getStatus() == 2){//failed
+            viewHolder.checkIm.setImageResource(R.drawable.success);
+            viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, android.R.color.holo_orange_dark));
+        }
+        else {//no data found
             viewHolder.checkIm.setImageResource(R.drawable.circle_background);
+            viewHolder.checkIm.clearColorFilter();
         }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
+        viewHolder.absentBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                content.setStatus(2);
+                notifyDataSetChanged();
+            }
+        });
     }
 
 

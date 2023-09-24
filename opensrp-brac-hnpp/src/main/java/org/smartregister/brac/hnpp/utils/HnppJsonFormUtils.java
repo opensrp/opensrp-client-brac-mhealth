@@ -28,6 +28,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
+import org.smartregister.brac.hnpp.model.HhForumDetails;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
@@ -413,6 +414,45 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
 
     }
+
+    public static Event processHHVisitEvent(String baseEntityId, String eventType, HhForumDetails forumDetails){
+        Event event = getEvent(baseEntityId, eventType, new Date(), "visits");
+        final String FORM_SUBMISSION_FIELD = "formsubmissionField";
+        final String DATA_TYPE = "text";
+
+        String formSubmissionField = "isMemberAdded";
+        List<Object> vall = new ArrayList<>();
+        vall.add(forumDetails.isMemberAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isDeadInfoAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isDeadInfoAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isMigrationInfoAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isMigrationAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isPregnantWomanAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isPregnancyAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isHhInfoAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isHhInfoAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        return event;
+
+    }
+
     private static Event getEvent(String entityId, String
             encounterType, Date encounterDate, String childType) {
         Event event = (Event) new Event().withBaseEntityId(entityId) //should be different for main and subform

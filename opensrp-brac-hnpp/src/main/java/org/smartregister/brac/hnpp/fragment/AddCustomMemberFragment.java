@@ -79,7 +79,6 @@ public class AddCustomMemberFragment extends DialogFragment implements View.OnCl
             if (i == R.id.close) {
                 dismiss();
             } else if (i == R.id.layout_add_child_under_five) {
-                Log.v("ppp",""+((HouseHoldVisitActivity) context).presenter());
                 ((HouseHoldVisitActivity) context).startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
                 dismiss();
             } else if (i == R.id.layout_add_other_family_member) {

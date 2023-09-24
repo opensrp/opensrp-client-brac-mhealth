@@ -19,6 +19,7 @@ import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.listener.OnEachMemberDueValidate;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.commonregistry.CommonPersonObject;
@@ -37,6 +38,8 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
     private String familyId = "";
 
     HouseHoldMemberDueFragment profileMemberFragment;
+    HouseHoldChildProfileDueFragment childProfileDueFragment;
+    ArrayList<Member> memberArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,20 +49,29 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         initializeMemberPresenter();
 
         memberHistoryPresenter.fetchMemberList(MemberTypeEnum.MIGRATION);
-        ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
+        memberArrayList = memberHistoryPresenter.getMemberList();
         adapter = new HouseHoldMemberListAdapter(getActivity(), new HouseHoldMemberListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, Member content) {
-
+                CommonPersonObjectClient commonPersonObjectClient = clientObject(content.getBaseEntityId());
+                Log.d("aggggggggggg",""+FormApplicability.getAge(commonPersonObjectClient));
+                int age = FormApplicability.getAge(commonPersonObjectClient);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID, content.getBaseEntityId());
                 bundle.putAll(getArguments());
                 bundle.putParcelable(HnppConstants.MEMBER, content);
                 bundle.putInt(HnppConstants.POSITION, position);
 
-                profileMemberFragment = (HouseHoldMemberDueFragment) HouseHoldMemberDueFragment.newInstance(bundle);
-                profileMemberFragment.setCommonPersonObjectClient(clientObject(content.getBaseEntityId()));
-                ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment, HouseHoldMemberDueFragment.TAG, bundle);
+                if(age <= 5){
+                    childProfileDueFragment = (HouseHoldChildProfileDueFragment) HouseHoldChildProfileDueFragment.newInstance(bundle);
+                    childProfileDueFragment.setCommonPersonObjectClient(commonPersonObjectClient);
+                    ((HouseHoldVisitActivity) getActivity()).setupFragment(childProfileDueFragment, HouseHoldChildProfileDueFragment.TAG, bundle);
+                }else {
+                    profileMemberFragment = HouseHoldMemberDueFragment.newInstance(bundle);
+                    profileMemberFragment.setCommonPersonObjectClient(commonPersonObjectClient);
+                    ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment, HouseHoldMemberDueFragment.TAG, bundle);
+                }
+
                 ((HouseHoldVisitActivity) getActivity()).currentFragmentIndex++;
             }
         });
@@ -72,15 +84,22 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         HouseHoldVisitActivity activity = ((HouseHoldVisitActivity) getActivity());
         activity.isValidateDueData(new OnEachMemberDueValidate() {
             @Override
-            public void validate(boolean isValidate, int pos) {
-                Log.d("ppppppp2", pos + "" + isValidate);
-
+            public void validate(int isValidate, int pos) {
                 memberArrayList.get(pos).setStatus(isValidate);
                 adapter.notifyDataSetChanged();
             }
         });
 
         return view;
+    }
+
+    public boolean isValidateHHMembers() {
+        for (Member member : memberArrayList){
+            if(member.getStatus() == 3){
+                return false;
+            }
+        }
+        return true;
     }
 
     private CommonPersonObjectClient clientObject(String baseEntityId) {

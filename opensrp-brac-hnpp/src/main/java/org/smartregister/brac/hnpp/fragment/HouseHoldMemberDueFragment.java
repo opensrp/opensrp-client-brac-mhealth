@@ -115,7 +115,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
 
     public void validate(){
         if(listValidation()){
-            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(true,currentMemberPosition);
+            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1,currentMemberPosition);
         }else {
             Toast.makeText(getActivity(),"Invalid",Toast.LENGTH_SHORT).show();
         }

@@ -42,9 +42,7 @@ import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
-import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
 import org.smartregister.brac.hnpp.model.Member;
-import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
@@ -106,15 +104,14 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     boolean isValidateDeath = false;
     boolean isValidateMigration = false;
     boolean isValidatePregReg = false;
-    boolean isValidateHhVisit = false;
+    public boolean isValidateHhVisit = false;
     private MemberListPresenter memberHistoryPresenter;
     private String familyId = "";
 
-    private final ArrayList<String> memberListJson = new ArrayList<>();
-    private final ArrayList<String> removedMemberListJson = new ArrayList<>();
-    private final ArrayList<String> migratedMemberListJson = new ArrayList<>();
-
-    private final ArrayList<String> pregancyMemberListJson = new ArrayList<>();
+    public final ArrayList<String> memberListJson = new ArrayList<>();
+    public final ArrayList<String> removedMemberListJson = new ArrayList<>();
+    public final ArrayList<String> migratedMemberListJson = new ArrayList<>();
+    public final ArrayList<String> pregancyMemberListJson = new ArrayList<>();
 
     Dialog dialog;
     private boolean isProcessing = false;
@@ -145,6 +142,14 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         removedMemberListJson.clear();
         migratedMemberListJson.clear();
         pregancyMemberListJson.clear();
+    }
+
+    public boolean isValidateHHType(){
+        return isValidateNewborn &&
+                isValidateDeath &&
+                isValidateMigration &&
+                isValidatePregReg/* &&
+                isValidateHhVisit*/;
     }
 
     @Override
@@ -738,7 +743,8 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
         if (isValidateHhVisit){
             hhUpdateLay.setClickable(false);
-            isValidateHhVisit = true;
+            hh_info_CheckIm.setImageResource(R.drawable.success);
+            hh_info_CheckIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
         } else {
             hhUpdateLay.setClickable(true);
         }

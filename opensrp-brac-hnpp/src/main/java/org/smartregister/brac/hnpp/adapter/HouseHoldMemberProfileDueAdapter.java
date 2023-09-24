@@ -49,6 +49,7 @@ public class HouseHoldMemberProfileDueAdapter extends RecyclerView.Adapter<House
             viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
             viewHolder.textViewLastVisit.setText(content.getSubTitle());
 
+
         }else{
             viewHolder.textViewLastVisit.setVisibility(View.INVISIBLE);
 
@@ -57,8 +58,9 @@ public class HouseHoldMemberProfileDueAdapter extends RecyclerView.Adapter<House
             viewHolder.checkIm.setImageResource(R.drawable.success);
             viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, R.color.others));
             viewHolder.itemView.setClickable(false);
+            viewHolder.itemView.setEnabled(false);
         }else {
-
+            viewHolder.checkIm.clearColorFilter();
             viewHolder.checkIm.setImageResource(R.drawable.circle_background);
         }
         if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){

@@ -19,7 +19,7 @@ public class Member implements Parcelable {
     String mobileNo;
     String familyName;
     String motherName;
-    boolean status;
+    int status = 3;//1-> success//2-> failed//3-> default
 
     public Member(String name, String gender, String age, String baseEntityId,String familyBaseEntityId,
                   String careGiver,String familyHead,String mobileNo,String familyName,String motherName) {
@@ -100,11 +100,11 @@ public class Member implements Parcelable {
         return 0;
     }
 
-    public boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

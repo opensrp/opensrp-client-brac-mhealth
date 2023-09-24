@@ -1231,6 +1231,8 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_PACKAGE = "PNC package";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
+
+        public static final String HOUSE_HOLD_VISIT = "House Hold Visit";
     }
 
     public static final class SURVEY_KEY {

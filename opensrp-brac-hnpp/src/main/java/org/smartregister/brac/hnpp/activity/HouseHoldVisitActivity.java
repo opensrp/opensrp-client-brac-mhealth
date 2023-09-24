@@ -1,27 +1,20 @@
 package org.smartregister.brac.hnpp.activity;
 
-import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
-import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
-import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
-import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
+import static org.smartregister.chw.anc.util.JsonFormUtils.formTag;
+import static org.smartregister.chw.anc.util.NCUtils.getSyncHelper;
+import static org.smartregister.util.JsonFormUtils.generateRandomUUIDString;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Handler;
-import android.support.annotation.RequiresApi;
+import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,73 +25,62 @@ import com.vijay.jsonwizard.domain.Form;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.Context;
+import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.fragment.HouseHoldChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldFormTypeFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldMemberDueFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldMemberFragment;
-import org.smartregister.brac.hnpp.fragment.MemberListDialogFragment;
-import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnEachMemberDueValidate;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSLocations;
+import org.smartregister.brac.hnpp.model.HhForumDetails;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
-import org.smartregister.brac.hnpp.model.Member;
-import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
-import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
-import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
-import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
-import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.repository.VisitRepository;
 import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.activity.CoreFamilyProfileMenuActivity;
 import org.smartregister.chw.core.activity.CoreFamilyRemoveMemberActivity;
-import org.smartregister.chw.core.application.CoreChwApplication;
-import org.smartregister.chw.core.utils.CoreConstants;
-import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.FetchStatus;
+import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
-import org.smartregister.immunization.ImmunizationLibrary;
-import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.EventClientRepository;
-import org.smartregister.util.FormUtils;
-import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     Button nextButton;
+    TextView titleTv;
     public int currentFragmentIndex = 0;
     List<Fragment> fragmentList = Arrays.asList(new HouseHoldFormTypeFragment(), new HouseHoldMemberFragment(), new HouseHoldMemberDueFragment());
     List<String> fragmentTagList = Arrays.asList(HouseHoldFormTypeFragment.TAG, HouseHoldMemberFragment.TAG, HouseHoldMemberDueFragment.TAG);
@@ -128,6 +110,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         initializePresenter();
 
         nextButton = findViewById(R.id.next_button);
+        titleTv = findViewById(R.id.title_tv);
 
 
         setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
@@ -136,19 +119,164 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentFragmentIndex < 3) {
-                    setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
-
-                    //change text is user on last fragment
-                    if (currentFragmentIndex == fragmentList.size() - 1) {
-                        nextButton.setText("Submit");
+                if(nextButton.getTag() instanceof Boolean){
+                    if(((boolean) nextButton.getTag())){
+                        try {
+                            submitTotalData(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return;
                     }
-
-                    currentFragmentIndex++;
+                }
+                Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+                if(fragment instanceof HouseHoldFormTypeFragment){
+                    if( ((HouseHoldFormTypeFragment) fragment).isValidateHHType()){
+                        gotoNextFrag(fragment);
+                    }else {
+                        Toast.makeText(HouseHoldVisitActivity.this,"Fill up all forms to continue",Toast.LENGTH_SHORT).show();
+                    }
+                }else if(fragment instanceof HouseHoldMemberFragment){
+                    if( ((HouseHoldMemberFragment) fragment).isValidateHHMembers()){
+                        fragmentManager.popBackStack();
+                        nextButton.setText(getString(R.string.submit));
+                        nextButton.setTag(true);
+                    }else {
+                        Toast.makeText(HouseHoldVisitActivity.this,"Fill up all forms to continue",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
+    }
+
+    private void submitTotalData(String eventType) throws JSONException {
+        Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+        if(fragment instanceof HouseHoldFormTypeFragment){
+           proccessAndSaveHHData(fragment,eventType)
+                   .subscribeOn(Schedulers.io())
+                   .observeOn(AndroidSchedulers.mainThread())
+                   .subscribe(new Observer<Boolean>() {
+                       @Override
+                       public void onSubscribe(Disposable d) {
+
+                       }
+
+                       @Override
+                       public void onNext(Boolean aBoolean) {
+
+                       }
+
+                       @Override
+                       public void onError(Throwable e) {
+
+                       }
+
+                       @Override
+                       public void onComplete() {
+
+                       }
+                   });
+           // Log.d("eeeeeeeeee",""+event);
+        }
+    }
+
+    private Observable<Boolean> proccessAndSaveHHData(Fragment fragment,String eventType) {
+        return Observable.create(e -> {
+            String baseEntityId = generateRandomUUIDString();
+
+            HhForumDetails hhForumDetails = new HhForumDetails();
+            hhForumDetails.isMemberAdded = ((HouseHoldFormTypeFragment) fragment).memberListJson.size()>0;
+            hhForumDetails.isDeadInfoAdded = ((HouseHoldFormTypeFragment) fragment).removedMemberListJson.size()>0;
+            hhForumDetails.isMigrationAdded = ((HouseHoldFormTypeFragment) fragment).migratedMemberListJson.size()>0;
+            hhForumDetails.isPregnancyAdded = ((HouseHoldFormTypeFragment) fragment).pregancyMemberListJson.size()>0;
+            hhForumDetails.isHhInfoAdded = ((HouseHoldFormTypeFragment) fragment).isValidateHhVisit;
+
+            FormTag formTag = formTag(Utils.getAllSharedPreferences());
+            formTag.appVersionName = BuildConfig.VERSION_NAME;
+            Log.v("FORUM_TEST","processAndSaveForum>>eventType:"+eventType+":baseEntityId:"+baseEntityId);
+            Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
+            baseClient.setClientType(eventType);
+            baseClient.addAttribute("houseHoldDate",new Date());
+            baseClient.addAttribute("houseHoldType",eventType);
+            baseClient.addIdentifier("opensrp_id",generateRandomUUIDString());
+
+            JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(baseClient));
+            EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
+            baseClient.setAddresses(updateWithSSLocation(dsasd));
+            clientjson.put("addresses",dsasd.getJSONArray("addresses"));
+            getSyncHelper().addClient(baseClient.getBaseEntityId(), clientjson);
+
+            Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(baseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT,hhForumDetails);
+            if (baseEvent != null) {
+                baseEvent.setFormSubmissionId(org.smartregister.util.JsonFormUtils.generateRandomUUIDString());
+                org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
+                String visitID ="";
+                if(!TextUtils.isEmpty(baseEvent.getEventId())){
+                    visitID = baseEvent.getEventId();
+                }else{
+                    visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                }
+
+                Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+                visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+//           try{
+//               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
+//           }catch (Exception e){
+//
+//           }
+
+                visitRepository().addVisit(visit);
+                visitRepository().completeProcessing(visit.getVisitId());
+                JSONObject eventJson = new JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseEvent));
+                Log.v("FORUM_TEST","addEvent>>eventType:"+baseClient.getBaseEntityId()+":eventJson:"+eventJson);
+
+                getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
+//            List<EventClient> eventClientList = new ArrayList();
+//            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
+//            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
+//            eventClientList.add(new EventClient(domainEvent, domainClient));
+
+                long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+                Date lastSyncDate = new Date(lastSyncTimeStamp);
+//            getClientProcessorForJava().processClient(eventClientList);
+                Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+                //return visit;
+                e.onNext(true);
+                e.onComplete();
+            }
+        });
+    }
+
+    private static List<Address> updateWithSSLocation(JSONObject clientjson){
+        try{
+            String addessJson = clientjson.getString("addresses");
+            JSONArray jsonArray = new JSONArray(addessJson);
+            List<Address> listAddress = new ArrayList<>();
+            for(int i = 0; i <jsonArray.length();i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Address address = new Gson().fromJson(jsonObject.toString(), Address.class);
+                listAddress.add(address);
+            }
+            return listAddress;
+        }catch (Exception e){
+
+        }
+        return new ArrayList<>();
+
+    }
+
+    private static VisitRepository visitRepository() {
+        return AncLibrary.getInstance().visitRepository();
+    }
+
+    private void gotoNextFrag(Fragment fragment) {
+            if (currentFragmentIndex < 3) {
+                setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
+                currentFragmentIndex++;
+            }
     }
 
     /**
@@ -166,6 +294,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         if (fragmentManager == null) {
             fragmentManager = this.getSupportFragmentManager();
         }
+
         fragmentManager.beginTransaction()
                 .add(R.id.hh_visit_container, fragment)
                 .addToBackStack(tag)
@@ -237,14 +366,17 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 finish();
                 return;
             }
-            if (currentFragmentIndex == fragmentList.size() - 1) {
-                nextButton.setText("Submit");
-            }
-            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            /*for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                 if (fragment instanceof HouseHoldMemberDueFragment) {
                     ((HouseHoldMemberDueFragment) fragment).validate();
                 }
-            }
+            }*/
+        Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+        if (fragment instanceof HouseHoldMemberDueFragment) {
+            ((HouseHoldMemberDueFragment) fragment).validate();
+        }else if(fragment instanceof HouseHoldChildProfileDueFragment){
+            ((HouseHoldChildProfileDueFragment) fragment).validate();
+        }
         super.onBackPressed();
 
     }
@@ -264,6 +396,8 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         if(currentFragment instanceof HouseHoldFormTypeFragment){
             currentFragment.onActivityResult(requestCode, resultCode, data);
         }else if(currentFragment instanceof  HouseHoldMemberDueFragment){
+            currentFragment.onActivityResult(requestCode, resultCode, data);
+        }else if(currentFragment instanceof  HouseHoldChildProfileDueFragment){
             currentFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
