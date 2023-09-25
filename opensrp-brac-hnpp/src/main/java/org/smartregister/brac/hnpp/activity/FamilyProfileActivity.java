@@ -447,7 +447,12 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                 Toast.makeText(this,"Fail to Survey",Toast.LENGTH_SHORT).show();
             }
 
-
+        }
+        else if(resultCode == HouseHoldVisitActivity.HOUSE_HOLD_FINISH_CODE){
+            familyHistoryFragment.onActivityResult(0,0,null);
+            mViewPager.setCurrentItem(3,true);
+            HnppConstants.isViewRefresh = true;
+            presenter().refreshProfileView();
         }
 
     }

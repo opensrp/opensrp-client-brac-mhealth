@@ -15,9 +15,13 @@ import org.smartregister.view.customcontrols.CustomFontTextView;
  */
 public class MemberListViewHolder extends RecyclerView.ViewHolder {
     public TextView nameTv;
+    public TextView ageGenderTv;
+    public ImageView imageView;
 
     public MemberListViewHolder(@NonNull View itemView) {
         super(itemView);
         nameTv = itemView.findViewById(R.id.memberNameTv);
+        ageGenderTv = itemView.findViewById(R.id.ageGenderTv);
+        imageView = itemView.findViewById(R.id.imageView);
     }
 }

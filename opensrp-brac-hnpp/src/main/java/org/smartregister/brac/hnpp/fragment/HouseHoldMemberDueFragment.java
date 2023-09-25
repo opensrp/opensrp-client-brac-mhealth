@@ -87,12 +87,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HouseHoldMemberDueFragment extends Fragment implements View.OnClickListener, HnppMemberProfileContract.View {
     public static String TAG = "HouseHoldMemberDueFragment";
-    private static final int TAG_OPEN_ANC1 = 101;
+    public static final int TAG_OPEN_ANC1 = 101;
 
     private static final int TAG_OPEN_FAMILY = 111;
     private static final int TAG_OPEN_REFEREAL = 222;
     private static final int TAG_OPEN_CORONA = 88888;
-    private static final int TAG_OPEN_ANC_REGISTRATION = 555;
+    public static final int TAG_OPEN_ANC_REGISTRATION = 555;
     private static final int TAG_PREGNANT_WOMAN_DIETARY_DIVERSITY = 556;
     public static final int REQUEST_HOME_VISIT = 5555;
 
@@ -113,11 +113,15 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     private ArrayList<MemberProfileDueData> serviceList = new ArrayList<>();
     HouseHoldMemberProfileDueAdapter adapter;
 
-    public void validate(){
-        if(listValidation()){
+    public int validate(){
+        if(listValidation() == 1){
             ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1,currentMemberPosition);
-        }else {
+            return 1;
+        }else if(listValidation() == 2){
             Toast.makeText(getActivity(),"Invalid",Toast.LENGTH_SHORT).show();
+            return 2;
+        }else {
+            return 3;
         }
     }
 
@@ -206,6 +210,14 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         public void onClick(int position, MemberProfileDueData content) {
             currentPosition = position;
             startFormActivity(content);
+        }
+    };
+
+    private HouseHoldMemberProfileDueAdapter.OnClickAdapter onNoNeedClick = new HouseHoldMemberProfileDueAdapter.OnClickAdapter() {
+        @Override
+        public void onClick(int position, MemberProfileDueData content) {
+            serviceList.get(position).setStatus(2);
+            adapter.notifyDataSetChanged();
         }
     };
 
@@ -560,7 +572,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 showServiceDoneDialog(1);
                                 if(currentPosition!=-1){
-                                    serviceList.get(currentPosition).setStatus(true);
+                                    serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
                             }else if(isSave.get() == 3){
@@ -604,7 +616,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 showServiceDoneDialog(1);
                                 if(currentPosition!=-1){
-                                    serviceList.get(currentPosition).setStatus(true);
+                                    serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
                             }else {
@@ -641,7 +653,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 HnppJsonFormUtils.addConsent(field,true);
                                 ((HouseHoldVisitActivity) getActivity()).getfamilyProfilePresenter().updateFamilyMember(formWithConsent.toString());
                                 if(currentPosition!=-1){
-                                    serviceList.get(currentPosition).setStatus(true);
+                                    serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
                             }catch (JSONException je){
@@ -658,7 +670,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 HnppJsonFormUtils.addConsent(field,false);
                                 ((HouseHoldVisitActivity) getActivity()).getfamilyProfilePresenter().updateFamilyMember(formWithConsent.toString());
                                 if(currentPosition!=-1){
-                                    serviceList.get(currentPosition).setStatus(true);
+                                    serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
                             }catch (JSONException je){
@@ -870,7 +882,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     public void updateView() {
         hideProgressBar();
         serviceList = presenter.getData();
-        adapter = new HouseHoldMemberProfileDueAdapter(getActivity(), onClickAdapter);
+        adapter = new HouseHoldMemberProfileDueAdapter(getActivity(), onClickAdapter,onNoNeedClick);
         adapter.setData(serviceList);
         this.dueRecyclerView.setAdapter(adapter);
         updateOptionMenu(presenter.getLastEventType());
@@ -901,22 +913,29 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         return presenter;
     }
 
-    public boolean listValidation(){
-        boolean status = false;
-        if(serviceList.size()==1){
+    public int listValidation(){
+        int status = 1;
+        int countSucc = 0;
+        if(serviceList.size() == 1){
             if(serviceList.get(0).getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                return false;
+               return serviceList.get(0).getStatus();
             }
         }else {
             for(MemberProfileDueData data : serviceList){
                 if(data.getType() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                    if(!data.getStatus()){
-                        return false;
+                    if(data.getStatus() == 2){
+                        return 2;
+                    }
+
+                    if(data.getStatus() < 3){
+                        countSucc++;
                     }
                 }
-                status = true;
             }
         }
+        if(countSucc<serviceList.size()-1 && countSucc>0) return 2;
+        else if(countSucc == 0) return 3;
+
         return status;
     }
 

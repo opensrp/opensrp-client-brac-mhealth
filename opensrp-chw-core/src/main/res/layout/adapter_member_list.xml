@@ -15,21 +15,36 @@
         >
 
         <com.rey.material.widget.ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:src="@drawable/rowavatar_member" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/memberNameTv"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="tanvir"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:layout_margin="10dp" />
+            android:orientation="vertical">
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/memberNameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="tanvir"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_margin="10dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/ageGenderTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Age: 30, Female"
+                android:textColor="@color/grey"
+                android:textSize="16dp"
+                />
+        </LinearLayout>
     </com.rey.material.widget.LinearLayout>
 
     <View

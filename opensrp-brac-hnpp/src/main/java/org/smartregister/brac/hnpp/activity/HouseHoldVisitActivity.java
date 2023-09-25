@@ -5,6 +5,7 @@ import static org.smartregister.chw.anc.util.NCUtils.getSyncHelper;
 import static org.smartregister.util.JsonFormUtils.generateRandomUUIDString;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.MainThread;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,8 +94,12 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     public OnUpdateMemberList onUpdateMemberList;
     public OnEachMemberDueValidate onEachMemberDueValidate;
 
+    boolean isSuccess = false;
+
 
     public FragmentManager fragmentManager;
+    private boolean isFinalSubmission = false;
+    public static int HOUSE_HOLD_FINISH_CODE = 301;
 
     public void listenMemberUpdateStatus(OnUpdateMemberList onUpdateMemberList) {
         this.onUpdateMemberList = onUpdateMemberList;
@@ -112,6 +118,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         nextButton = findViewById(R.id.next_button);
         titleTv = findViewById(R.id.title_tv);
 
+        nextButton.setVisibility(View.VISIBLE);
 
         setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
         currentFragmentIndex = 1;
@@ -119,30 +126,39 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(nextButton.getTag() instanceof Boolean){
-                    if(((boolean) nextButton.getTag())){
-                        try {
-                            submitTotalData(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
+                Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+
+                // if tag is boolean and true
+                //means all data added
+                //then submit data
+                if (nextButton.getTag() instanceof Boolean) {
+                    if (((boolean) nextButton.getTag())) {
+                        if (fragment instanceof HouseHoldFormTypeFragment) {
+                            if (((HouseHoldFormTypeFragment) fragment).finalValidation()) {
+                                submitTotalData(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
+                            } else {
+                                Toast.makeText(HouseHoldVisitActivity.this, "Fill up all forms to continue", Toast.LENGTH_SHORT).show();
+                            }
+                            return;
                         }
-                        return;
                     }
                 }
-                Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
-                if(fragment instanceof HouseHoldFormTypeFragment){
-                    if( ((HouseHoldFormTypeFragment) fragment).isValidateHHType()){
+
+                //need to add data from other fragment
+                if (fragment instanceof HouseHoldFormTypeFragment) {
+                    if (((HouseHoldFormTypeFragment) fragment).initalValidation()) {
                         gotoNextFrag(fragment);
-                    }else {
-                        Toast.makeText(HouseHoldVisitActivity.this,"Fill up all forms to continue",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
                     }
-                }else if(fragment instanceof HouseHoldMemberFragment){
-                    if( ((HouseHoldMemberFragment) fragment).isValidateHHMembers()){
-                        fragmentManager.popBackStack();
+                } else if (fragment instanceof HouseHoldMemberFragment) {
+                    if (((HouseHoldMemberFragment) fragment).isValidateHHMembers()) {
+                        isFinalSubmission = true;
+                        updateHHVisitLayoutVisibility();
                         nextButton.setText(getString(R.string.submit));
                         nextButton.setTag(true);
-                    }else {
-                        Toast.makeText(HouseHoldVisitActivity.this,"Fill up all forms to continue",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -150,118 +166,143 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
     }
 
-    private void submitTotalData(String eventType) throws JSONException {
+    private void submitTotalData(String eventType) {
+        showProgressDialog(R.string.please_wait_message);
         Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
-        if(fragment instanceof HouseHoldFormTypeFragment){
-           proccessAndSaveHHData(fragment,eventType)
-                   .subscribeOn(Schedulers.io())
-                   .observeOn(AndroidSchedulers.mainThread())
-                   .subscribe(new Observer<Boolean>() {
-                       @Override
-                       public void onSubscribe(Disposable d) {
+        if (fragment instanceof HouseHoldFormTypeFragment) {
+            proccessAndSaveHHData(fragment, eventType)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                       }
+                        }
 
-                       @Override
-                       public void onNext(Boolean aBoolean) {
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+                            isSuccess = aBoolean;
+                        }
 
-                       }
+                        @Override
+                        public void onError(Throwable e) {
 
-                       @Override
-                       public void onError(Throwable e) {
+                        }
 
-                       }
+                        @Override
+                        public void onComplete() {
+                            hideProgressDialog();
+                            if (isSuccess) {
+                                showServiceDoneDialog(1);
+                            } else {
+                                showServiceDoneDialog(2);
+                            }
 
-                       @Override
-                       public void onComplete() {
-
-                       }
-                   });
-           // Log.d("eeeeeeeeee",""+event);
+                        }
+                    });
+            // Log.d("eeeeeeeeee",""+event);
         }
     }
 
-    private Observable<Boolean> proccessAndSaveHHData(Fragment fragment,String eventType) {
+    Dialog dialog;
+
+    private void showServiceDoneDialog(Integer isSuccess) {
+        if (dialog != null) return;
+        dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess == 1 ? "খানার তথ্য দেওয়া সম্পূর্ণ হয়েছে" : isSuccess == 3 ? "সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে" : "খানার তথ্য দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        android.widget.Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                dialog = null;
+                hideProgressDialog();
+                setResult(HOUSE_HOLD_FINISH_CODE);
+                finish();
+            }
+        });
+        dialog.show();
+    }
+
+    private Observable<Boolean> proccessAndSaveHHData(Fragment fragment, String eventType) {
         return Observable.create(e -> {
-            String baseEntityId = generateRandomUUIDString();
+            try {
+                String baseEntityId = generateRandomUUIDString();
 
-            HhForumDetails hhForumDetails = new HhForumDetails();
-            hhForumDetails.isMemberAdded = ((HouseHoldFormTypeFragment) fragment).memberListJson.size()>0;
-            hhForumDetails.isDeadInfoAdded = ((HouseHoldFormTypeFragment) fragment).removedMemberListJson.size()>0;
-            hhForumDetails.isMigrationAdded = ((HouseHoldFormTypeFragment) fragment).migratedMemberListJson.size()>0;
-            hhForumDetails.isPregnancyAdded = ((HouseHoldFormTypeFragment) fragment).pregancyMemberListJson.size()>0;
-            hhForumDetails.isHhInfoAdded = ((HouseHoldFormTypeFragment) fragment).isValidateHhVisit;
+                HhForumDetails hhForumDetails = new HhForumDetails();
+                hhForumDetails.isMemberAdded = ((HouseHoldFormTypeFragment) fragment).memberListJson.size() > 0;
+                hhForumDetails.isDeadInfoAdded = ((HouseHoldFormTypeFragment) fragment).removedMemberListJson.size() > 0;
+                hhForumDetails.isMigrationAdded = ((HouseHoldFormTypeFragment) fragment).migratedMemberListJson.size() > 0;
+                hhForumDetails.isPregnancyAdded = ((HouseHoldFormTypeFragment) fragment).pregancyMemberListJson.size() > 0;
+                hhForumDetails.isHhInfoAdded = ((HouseHoldFormTypeFragment) fragment).isValidateHhVisit;
 
-            FormTag formTag = formTag(Utils.getAllSharedPreferences());
-            formTag.appVersionName = BuildConfig.VERSION_NAME;
-            Log.v("FORUM_TEST","processAndSaveForum>>eventType:"+eventType+":baseEntityId:"+baseEntityId);
-            Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
-            baseClient.setClientType(eventType);
-            baseClient.addAttribute("houseHoldDate",new Date());
-            baseClient.addAttribute("houseHoldType",eventType);
-            baseClient.addIdentifier("opensrp_id",generateRandomUUIDString());
+                FormTag formTag = formTag(Utils.getAllSharedPreferences());
+                formTag.appVersionName = BuildConfig.VERSION_NAME;
+                Log.v("FORUM_TEST", "processAndSaveForum>>eventType:" + eventType + ":baseEntityId:" + baseEntityId);
+                Client baseClient = org.smartregister.util.JsonFormUtils.createBaseClient(new JSONArray(), formTag, baseEntityId);
+                baseClient.setClientType(eventType);
+                baseClient.addAttribute("houseHoldDate", new Date());
+                baseClient.addAttribute("houseHoldType", eventType);
+                baseClient.addIdentifier("opensrp_id", generateRandomUUIDString());
 
-            JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(baseClient));
-            EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
-            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-            JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
-            baseClient.setAddresses(updateWithSSLocation(dsasd));
-            clientjson.put("addresses",dsasd.getJSONArray("addresses"));
-            getSyncHelper().addClient(baseClient.getBaseEntityId(), clientjson);
+                JSONObject clientjson = new JSONObject(org.smartregister.chw.anc.util.JsonFormUtils.gson.toJson(baseClient));
+                EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
+                SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                JSONObject dsasd = eventClientRepository.getClient(db, familyBaseEntityId);
+                baseClient.setAddresses(updateWithSSLocation(dsasd));
+                clientjson.put("addresses", dsasd.getJSONArray("addresses"));
+                getSyncHelper().addClient(baseClient.getBaseEntityId(), clientjson);
 
-            Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(baseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT,hhForumDetails);
-            if (baseEvent != null) {
-                baseEvent.setFormSubmissionId(org.smartregister.util.JsonFormUtils.generateRandomUUIDString());
-                org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
-                String visitID ="";
-                if(!TextUtils.isEmpty(baseEvent.getEventId())){
-                    visitID = baseEvent.getEventId();
-                }else{
-                    visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(baseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT, hhForumDetails);
+                if (baseEvent != null) {
+                    baseEvent.setFormSubmissionId(org.smartregister.util.JsonFormUtils.generateRandomUUIDString());
+                    org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
+                    String visitID = "";
+                    if (!TextUtils.isEmpty(baseEvent.getEventId())) {
+                        visitID = baseEvent.getEventId();
+                    } else {
+                        visitID = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+                    }
+
+                    Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+                    visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+
+                    visitRepository().addVisit(visit);
+                    visitRepository().completeProcessing(visit.getVisitId());
+                    JSONObject eventJson = new JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseEvent));
+                    Log.v("FORUM_TEST", "addEvent>>eventType:" + baseClient.getBaseEntityId() + ":eventJson:" + eventJson);
+
+                    getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
+                    long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
+                    Date lastSyncDate = new Date(lastSyncTimeStamp);
+                    Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+                    e.onNext(true);
+                    e.onComplete();
                 }
-
-                Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
-                visit.setPreProcessedJson(new Gson().toJson(baseEvent));
-//           try{
-//               visit.setParentVisitID(visitRepository().getParentVisitEventID(visit.getBaseEntityId(), eventType, visit.getDate()));
-//           }catch (Exception e){
-//
-//           }
-
-                visitRepository().addVisit(visit);
-                visitRepository().completeProcessing(visit.getVisitId());
-                JSONObject eventJson = new JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseEvent));
-                Log.v("FORUM_TEST","addEvent>>eventType:"+baseClient.getBaseEntityId()+":eventJson:"+eventJson);
-
-                getSyncHelper().addEvent(baseClient.getBaseEntityId(), eventJson);
-//            List<EventClient> eventClientList = new ArrayList();
-//            org.smartregister.domain.db.Event domainEvent = org.smartregister.family.util.JsonFormUtils.gson.fromJson(eventJson.toString(), org.smartregister.domain.db.Event.class);
-//            org.smartregister.domain.db.Client domainClient = org.smartregister.family.util.JsonFormUtils.gson.fromJson(clientJson.toString(), org.smartregister.domain.db.Client.class);
-//            eventClientList.add(new EventClient(domainEvent, domainClient));
-
-                long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
-                Date lastSyncDate = new Date(lastSyncTimeStamp);
-//            getClientProcessorForJava().processClient(eventClientList);
-                Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
-                //return visit;
-                e.onNext(true);
+            } catch (Exception ex) {
+                e.onNext(false);
                 e.onComplete();
             }
         });
     }
 
-    private static List<Address> updateWithSSLocation(JSONObject clientjson){
-        try{
+    private static List<Address> updateWithSSLocation(JSONObject clientjson) {
+        try {
             String addessJson = clientjson.getString("addresses");
             JSONArray jsonArray = new JSONArray(addessJson);
             List<Address> listAddress = new ArrayList<>();
-            for(int i = 0; i <jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Address address = new Gson().fromJson(jsonObject.toString(), Address.class);
                 listAddress.add(address);
             }
             return listAddress;
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return new ArrayList<>();
@@ -273,10 +314,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     }
 
     private void gotoNextFrag(Fragment fragment) {
-            if (currentFragmentIndex < 3) {
-                setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
-                currentFragmentIndex++;
-            }
+        if (currentFragmentIndex < 3) {
+            setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
+            currentFragmentIndex++;
+        }
     }
 
     /**
@@ -299,6 +340,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 .add(R.id.hh_visit_container, fragment)
                 .addToBackStack(tag)
                 .commit();
+
     }
 
     public void setupFragment(Fragment fragment, String tag, Bundle bdl) {
@@ -311,6 +353,13 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 .add(R.id.hh_visit_container, fragment)
                 .addToBackStack(tag)
                 .commit();
+
+        if (fragment instanceof HouseHoldMemberDueFragment ||
+                fragment instanceof HouseHoldChildProfileDueFragment) {
+            nextButton.setVisibility(View.GONE);
+        }else {
+            nextButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -361,11 +410,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
     @Override
     public void onBackPressed() {
-            currentFragmentIndex--;
-            if (currentFragmentIndex == 0) {
-                finish();
-                return;
-            }
+
+        if (currentFragmentIndex == 0) {
+            finish();
+            return;
+        }
             /*for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                 if (fragment instanceof HouseHoldMemberDueFragment) {
                     ((HouseHoldMemberDueFragment) fragment).validate();
@@ -373,12 +422,44 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
             }*/
         Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
         if (fragment instanceof HouseHoldMemberDueFragment) {
-            ((HouseHoldMemberDueFragment) fragment).validate();
-        }else if(fragment instanceof HouseHoldChildProfileDueFragment){
-            ((HouseHoldChildProfileDueFragment) fragment).validate();
+            int isValid = ((HouseHoldMemberDueFragment) fragment).validate();
+            if (isValid == 1 || isValid == 3) {
+                nextButton.setVisibility(View.VISIBLE);
+                nextButton.setText(getString(R.string.next));
+                super.onBackPressed();
+            }else {
+                return;
+            }
+        } else if (fragment instanceof HouseHoldChildProfileDueFragment) {
+            int isValid = ((HouseHoldChildProfileDueFragment) fragment).validate();
+            if (isValid == 1 || isValid == 3) {
+                nextButton.setVisibility(View.VISIBLE);
+                nextButton.setText(getString(R.string.next));
+                super.onBackPressed();
+            }else {
+                return;
+            }
+        } else if (fragment instanceof HouseHoldMemberFragment) {
+            if(((HouseHoldMemberFragment) fragment).isAnyDataAdded()) {
+                return;
+            }else {
+                super.onBackPressed();
+            }
         }
-        super.onBackPressed();
 
+        currentFragmentIndex--;
+    }
+
+    void updateHHVisitLayoutVisibility(){
+        super.onBackPressed();
+        Fragment curFragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+        if (curFragment instanceof HouseHoldFormTypeFragment) {
+            if (isFinalSubmission) {
+                ((HouseHoldFormTypeFragment) curFragment).hhUpdateLay.setVisibility(View.VISIBLE);
+            }
+        }
+
+        currentFragmentIndex--;
     }
 
     @Override
@@ -393,11 +474,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
-        if(currentFragment instanceof HouseHoldFormTypeFragment){
+        if (currentFragment instanceof HouseHoldFormTypeFragment) {
             currentFragment.onActivityResult(requestCode, resultCode, data);
-        }else if(currentFragment instanceof  HouseHoldMemberDueFragment){
+        } else if (currentFragment instanceof HouseHoldMemberDueFragment) {
             currentFragment.onActivityResult(requestCode, resultCode, data);
-        }else if(currentFragment instanceof  HouseHoldChildProfileDueFragment){
+        } else if (currentFragment instanceof HouseHoldChildProfileDueFragment) {
             currentFragment.onActivityResult(requestCode, resultCode, data);
         }
     }

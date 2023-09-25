@@ -19,9 +19,9 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:gravity="center|left"
             android:orientation="horizontal">
 
@@ -60,10 +60,11 @@
 
         <com.rey.material.widget.Button
             android:id="@+id/no_new_born_bt"
-            android:layout_width="wrap_content"
-            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="40dp"
-            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:textColor="@color/white"
+            android:background="@drawable/vaccine_card_background_blue"
             android:drawablePadding="5dp"
             android:text="@string/no_new_born"
             android:layout_marginRight="10dp" />
@@ -91,9 +92,9 @@
         app:layout_constraintTop_toBottomOf="@+id/newborn_lay">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:gravity="center|left"
             android:orientation="horizontal">
 
@@ -131,11 +132,12 @@
 
         <com.rey.material.widget.Button
             android:id="@+id/dead_info_bt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:layout_marginRight="10dp"
-            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:textColor="@color/white"
+            android:background="@drawable/vaccine_card_background_blue"
             android:drawablePadding="5dp"
             android:text="@string/no_death" />
 
@@ -161,9 +163,9 @@
         app:layout_constraintTop_toBottomOf="@+id/death_info_lay">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:gravity="center|left"
             android:orientation="horizontal">
 
@@ -203,11 +205,12 @@
 
         <com.rey.material.widget.Button
             android:id="@+id/migration_info_bt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="3"
-            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:layout_weight="4"
+            android:textColor="@color/white"
+            android:background="@drawable/vaccine_card_background_blue"
             android:drawablePadding="5dp"
             android:text="@string/no_migration" />
 
@@ -233,9 +236,9 @@
         app:layout_constraintTop_toBottomOf="@+id/migration_info_lay">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:gravity="center|left"
             android:orientation="horizontal">
 
@@ -275,11 +278,12 @@
 
         <com.rey.material.widget.Button
             android:id="@+id/pregnancy_bt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_weight="4"
             android:layout_marginRight="10dp"
-            android:layout_weight="3"
-            android:drawableLeft="@drawable/ic_baseline_circle_24"
+            android:textColor="@color/white"
+            android:background="@drawable/vaccine_card_background_blue"
             android:drawablePadding="5dp"
             android:text="@string/no_pregnancy" />
 
@@ -298,6 +302,7 @@
         android:layout_height="wrap_content"
         android:gravity="center|left"
         android:minHeight="70dp"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:weightSum="10"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,6 +7,7 @@ public class Member implements Parcelable {
     String name;
     String gender;
     String age;
+    String dob;
     String baseEntityId;
     String familyBaseEntityId;
 
@@ -21,11 +22,12 @@ public class Member implements Parcelable {
     String motherName;
     int status = 3;//1-> success//2-> failed//3-> default
 
-    public Member(String name, String gender, String age, String baseEntityId,String familyBaseEntityId,
+    public Member(String name, String gender, String age, String dob,String baseEntityId,String familyBaseEntityId,
                   String careGiver,String familyHead,String mobileNo,String familyName,String motherName) {
         this.name = name;
         this.gender = gender;
         this.age = age;
+        this.dob = dob;
         this.baseEntityId = baseEntityId;
         this.familyBaseEntityId = familyBaseEntityId;
         this.careGiver = careGiver;
@@ -106,6 +108,10 @@ public class Member implements Parcelable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getDob() {
+        return dob;
     }
 
     @Override

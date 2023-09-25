@@ -412,4 +412,6 @@
     <string name="pregnancy_added"> টি গর্ভবতী রেকর্ড করা হয়েছে</string>
    <string name="absent">উপস্থিত নেই</string>
    <string name="update_hh_data">খানার তথ্য আপডেট করুন</string>
+   <string name="no_need_service">সার্ভিসটি এখন দরকার নেই</string>
+   <string name="continue_to_submit_data_msg">পরের স্টেপ এ যেতে সব ডাটা সাবমিট করুন</string>
 </resources>

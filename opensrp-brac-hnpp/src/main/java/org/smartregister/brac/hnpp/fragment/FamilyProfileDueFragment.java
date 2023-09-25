@@ -145,7 +145,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         }
 
         otherServiceView.setVisibility(View.VISIBLE);
-       // if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
+        if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
             View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView image1 = homeVisitView.findViewById(R.id.image_view);
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
@@ -156,7 +156,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
             homeVisitView.setOnClickListener(this);
 
             otherServiceView.addView(homeVisitView);
-        //}
+        }
 
         updateDueView();
     }
@@ -267,7 +267,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
                         //intent.putExtra(Constants.INTENT_KEY.VILLAGE_TOWN, Utils.getValue(commonPersonObject, DBConstants.KEY.VILLAGE_TOWN, false));
 
                         intent.putExtra(CoreConstants.INTENT_KEY.SERVICE_DUE, true);
-                        startActivity(intent);
+                        startActivityForResult(intent,HouseHoldVisitActivity.HOUSE_HOLD_FINISH_CODE);
                     }
                     break;
             }

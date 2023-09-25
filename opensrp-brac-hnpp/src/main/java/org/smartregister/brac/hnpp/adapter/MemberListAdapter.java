@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,10 @@ import org.smartregister.brac.hnpp.holder.DashBoardViewHolder;
 import org.smartregister.brac.hnpp.holder.MemberListViewHolder;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.utils.DashBoardData;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MemberListAdapter extends RecyclerView.Adapter<MemberListViewHolder> {
     private ArrayList<Member> memberArrayList;
@@ -41,12 +44,19 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListViewHolder
         return R.layout.adapter_member_list;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final MemberListViewHolder viewHolder, int position) {
         final Member content = memberArrayList.get(position);
+        String gender = Objects.equals(content.getGender(), "F") ?"Female":"Male";
+        int age = FormApplicability.getAge(content.getDob());
+        if(age <= 5){
+            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.rowavatar_child));
+        }else {
+            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.rowavatar_member));
+        }
         viewHolder.nameTv.setText(content.getName());
-      /*  viewHolder.textViewTitle.setText(content.getTitle());
-        viewHolder.textViewCount.setText(content.getCount()+"");*/
+        viewHolder.ageGenderTv.setText(context.getString(R.string.age,String.valueOf(age))+", "+gender);
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }
 

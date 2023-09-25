@@ -62,6 +62,7 @@ public class MemberListRepository extends BaseRepository {
     protected Member readCursor(Cursor cursor) {
         String memberName = cursor.getString(cursor.getColumnIndex("first_name"));
         String gender = cursor.getString(cursor.getColumnIndex("gender"));
+        String dob = cursor.getString(cursor.getColumnIndex("dob"));
         String age = cursor.getString(cursor.getColumnIndex("estimated_age"));
         String baseEntityId = cursor.getString(cursor.getColumnIndex("base_entity_id"));
         String familyBaseEntityId = cursor.getString(cursor.getColumnIndex("relational_id"));
@@ -73,6 +74,7 @@ public class MemberListRepository extends BaseRepository {
                 memberName,
                 gender,
                 age,
+                dob,
                 baseEntityId,
                 familyBaseEntityId,
                 "",

@@ -4,7 +4,7 @@ import android.view.View;
 
 public class ChildService {
     int tag;
-    boolean status;
+    int status = 3;
 
     View view;
 
@@ -16,11 +16,11 @@ public class ChildService {
         this.tag = tag;
     }
 
-    public boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

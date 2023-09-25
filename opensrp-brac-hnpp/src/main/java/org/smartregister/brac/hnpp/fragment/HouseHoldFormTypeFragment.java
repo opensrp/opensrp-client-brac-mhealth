@@ -81,7 +81,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     LinearLayout deathInfoLay;
     LinearLayout migrationInfoLay;
     LinearLayout pregnancyRegLay;
-    LinearLayout hhUpdateLay;
+    public LinearLayout hhUpdateLay;
 
     Button noNewBornBt;
     Button noDeathBt;
@@ -144,12 +144,19 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         pregancyMemberListJson.clear();
     }
 
-    public boolean isValidateHHType(){
+    public boolean finalValidation(){
         return isValidateNewborn &&
                 isValidateDeath &&
                 isValidateMigration &&
-                isValidatePregReg/* &&
-                isValidateHhVisit*/;
+                isValidatePregReg &&
+                isValidateHhVisit;
+    }
+
+    public boolean initalValidation(){
+        return isValidateNewborn &&
+                isValidateDeath &&
+                isValidateMigration &&
+                isValidatePregReg;
     }
 
     @Override

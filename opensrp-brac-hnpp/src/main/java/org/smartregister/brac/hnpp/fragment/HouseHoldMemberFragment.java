@@ -102,6 +102,16 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         return true;
     }
 
+    public boolean isAnyDataAdded() {
+        int countDefault = 0;
+        for (Member member : memberArrayList){
+            if(member.getStatus() == 3 || member.getStatus() == 2){
+               countDefault++;
+            }
+        }
+        return countDefault != memberArrayList.size();
+    }
+
     private CommonPersonObjectClient clientObject(String baseEntityId) {
         CommonRepository commonRepository = Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);

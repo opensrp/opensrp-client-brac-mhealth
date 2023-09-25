@@ -16,11 +16,15 @@ public class HouseHoldMemberListViewHolder extends RecyclerView.ViewHolder {
     public TextView nameTv;
     public ImageView checkIm;
     public AppCompatButton absentBt;
+    public TextView ageGenderTv;
+    public ImageView imageView;
 
     public HouseHoldMemberListViewHolder(@NonNull View itemView) {
         super(itemView);
         nameTv = itemView.findViewById(R.id.memberNameTv);
         checkIm = itemView.findViewById(R.id.check_im);
         absentBt = itemView.findViewById(R.id.absentBt);
+        ageGenderTv = itemView.findViewById(R.id.ageGenderTv);
+        imageView = itemView.findViewById(R.id.imageView);
     }
 }

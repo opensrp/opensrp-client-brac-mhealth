@@ -81,15 +81,15 @@
     <LinearLayout
         android:id="@+id/due_button_wrapper"
         android:layout_width="@dimen/register_list_item_width"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:background="@drawable/grey_left_border"
+        android:layout_marginEnd="10dp"
+        android:visibility="visible"
         >
 
-        <Button
+        <!--<Button
             android:id="@+id/due_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -98,7 +98,6 @@
             android:background="@drawable/due_contact"
             android:elevation="@dimen/register_list_elevation"
             android:gravity="center"
-
             android:stateListAnimator="@drawable/button"
             android:text="Home Visit"
             android:textAllCaps="false"
@@ -106,6 +105,16 @@
             android:textColor="@color/vaccine_blue_bg_st"
             android:textSize="@dimen/register_list_due_size"
             android:typeface="normal" />
+-->
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/noNeedBt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:background="@drawable/vaccine_card_background_blue"
+            android:text="@string/no_need_service"
+            android:visibility="gone" />
 
     </LinearLayout>
     <LinearLayout

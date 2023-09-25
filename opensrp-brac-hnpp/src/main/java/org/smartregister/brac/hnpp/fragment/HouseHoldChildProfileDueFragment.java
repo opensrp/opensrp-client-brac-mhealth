@@ -53,6 +53,7 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -144,11 +145,15 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         this.childBaseEntityId = baseEntityId;
     }
 
-    public void validate(){
-        if(listValidation()){
+    public int validate(){
+        if(listValidation() == 1){
             ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1,currentChildPosition);
-        }else {
+            return 1;
+        }else if(listValidation() == 2){
             Toast.makeText(getActivity(),"Invalid",Toast.LENGTH_SHORT).show();
+            return 2;
+        }else {
+            return 3;
         }
     }
     @Override
@@ -1020,7 +1025,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     private void setStatusToList() {
         for (ChildService childService : serviceList){
             if(childService.getView().equals(currentView)){
-                childService.setStatus(true);
+                childService.setStatus(1);
             }
         }
     }
@@ -1101,22 +1106,29 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
     }
 
-    public boolean listValidation(){
-        boolean status = false;
-        if(serviceList.size()==1){
+    public int listValidation(){
+        int status = 1;
+        int countSucc = 0;
+        if(serviceList.size() == 1){
             if(serviceList.get(0).getTag() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                return false;
+                return serviceList.get(0).getStatus();
             }
         }else {
             for(ChildService data : serviceList){
                 if(data.getTag() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                    if(!data.getStatus()){
-                        return false;
+                    if(data.getStatus() == 2){
+                        return 2;
+                    }
+
+                    if(data.getStatus() < 3){
+                        countSucc++;
                     }
                 }
-                status = true;
             }
         }
+        if(countSucc<serviceList.size()-1 && countSucc>0) return 2;
+        else if(countSucc == 0) return 3;
+
         return status;
     }
 }

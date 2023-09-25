@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.holder.HouseHoldMemberListViewHolder;
 import org.smartregister.brac.hnpp.model.Member;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMemberListViewHolder> {
     private ArrayList<Member> memberArrayList;
@@ -44,6 +46,15 @@ public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMe
     public void onBindViewHolder(@NonNull final HouseHoldMemberListViewHolder viewHolder, int position) {
         final Member content = memberArrayList.get(position);
         viewHolder.nameTv.setText(content.getName());
+        String gender = Objects.equals(content.getGender(), "F") ?"Female":"Male";
+        int age = FormApplicability.getAge(content.getDob());
+        if(age <= 5){
+            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.rowavatar_child));
+        }else {
+            viewHolder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.rowavatar_member));
+        }
+        viewHolder.nameTv.setText(content.getName());
+        viewHolder.ageGenderTv.setText(context.getString(R.string.age,String.valueOf(age))+", "+gender);
         if(content.getStatus() == 1){//success
             viewHolder.checkIm.setImageResource(R.drawable.success);
             viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, R.color.others));
