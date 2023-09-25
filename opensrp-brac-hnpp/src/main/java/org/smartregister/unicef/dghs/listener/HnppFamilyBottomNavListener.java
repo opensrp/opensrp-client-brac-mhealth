@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import org.smartregister.unicef.dghs.activity.GrowthReportActivity;
 import org.smartregister.unicef.dghs.activity.NewDashBoardActivity;
+import org.smartregister.unicef.dghs.activity.QRScannerActivity;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 public class HnppFamilyBottomNavListener extends org.smartregister.family.listener.FamilyBottomNavigationListener {
@@ -35,6 +36,8 @@ public class HnppFamilyBottomNavListener extends org.smartregister.family.listen
 //            Intent intent = new Intent(baseRegisterActivity, GrowthReportActivity.class);
             baseRegisterActivity.startActivity(intent);
             return false;
+        }else if(item.getItemId() == org.smartregister.family.R.id.action_scan_qr){
+            baseRegisterActivity.startActivity(new Intent(baseRegisterActivity, QRScannerActivity.class));
         }
         else {
             super.onNavigationItemSelected(item);

@@ -23,6 +23,7 @@ import org.smartregister.unicef.dghs.activity.GrowthReportActivity;
 import org.smartregister.unicef.dghs.activity.MigrationActivity;
 import org.smartregister.unicef.dghs.activity.NotificationActivity;
 import org.smartregister.unicef.dghs.activity.QRScannerActivity;
+import org.smartregister.unicef.dghs.activity.SearchActivity;
 import org.smartregister.unicef.dghs.job.DataDeleteJob;
 import org.smartregister.unicef.dghs.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.dghs.activity.COVIDJsonFormActivity;
@@ -189,15 +190,16 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void browseSSInfo(Activity activity) {
-       String providerId =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
-        String url = "http://hnppdfs.brac.net/SkTabLogIn?id="+providerId+"&key=62fa0f87-0710-4932-8119-8d4fe4c083e3";
-        try{
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            activity.startActivity(browserIntent);
-
-        }catch (Exception e){
-            Toast.makeText(activity, R.string.active_your_browser,Toast.LENGTH_LONG).show();
-        }
+        activity.startActivity(new Intent(activity, SearchActivity.class));
+//       String providerId =  HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+//        String url = "http://hnppdfs.brac.net/SkTabLogIn?id="+providerId+"&key=62fa0f87-0710-4932-8119-8d4fe4c083e3";
+//        try{
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            activity.startActivity(browserIntent);
+//
+//        }catch (Exception e){
+//            Toast.makeText(activity, R.string.active_your_browser,Toast.LENGTH_LONG).show();
+//        }
     }
 
     @Override

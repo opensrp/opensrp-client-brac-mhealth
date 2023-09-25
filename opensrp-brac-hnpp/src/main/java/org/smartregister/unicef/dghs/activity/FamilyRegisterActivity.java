@@ -110,9 +110,9 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     protected void registerBottomNavigation() {
         super.registerBottomNavigation();
 
-        if (!BuildConfig.SUPPORT_QR) {
-            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
-        }
+//        if (!BuildConfig.SUPPORT_QR) {
+//            bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
+//        }
         if (HnppConstants.isPALogin()) {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_register);
         }

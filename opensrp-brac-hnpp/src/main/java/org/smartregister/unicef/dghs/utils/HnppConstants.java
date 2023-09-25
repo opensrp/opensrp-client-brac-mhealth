@@ -141,10 +141,10 @@ public class HnppConstants extends CoreConstants {
                         if (!StringUtils.isEmpty(baseUrl) && baseUrl.contains("opensrp")) {
                             base_url = baseUrl.replace("opensrp/", "");
                         }
-                        Log.v("VERSION_CODE","base_url:"+base_url);
+
 
                         URL url = new URL(base_url + "opt/multimedia/app-version.txt");
-
+                        Log.v("VERSION_CODE","base_url:"+url);
                         // Read all the text returned by the server
                         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
                         String str;
@@ -155,9 +155,11 @@ public class HnppConstants extends CoreConstants {
                             version_code += str;
                         }
                         in.close();
+                        Log.v("VERSION_CODE","version_code:"+version_code);
                         e.onNext(version_code);//error
                         e.onComplete();
-                    } catch (Exception ex) {
+                    } catch (Exception ex){
+                        ex.printStackTrace();
                         e.onNext("");//error
                         e.onComplete();
                     }

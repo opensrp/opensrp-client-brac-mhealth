@@ -414,7 +414,6 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/ss_info_browse"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"
@@ -440,7 +439,7 @@
                                 android:layout_toEndOf="@+id/ivssinfo"
                                 android:layout_toRightOf="@+id/ivssinfo"
                                 android:fontFamily="sans-serif"
-                                android:text="SS তথ্য"
+                                android:text="Search"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

@@ -20,7 +20,7 @@ public class UpdateLocationAdapter extends RecyclerView.Adapter<UpdateLocationAd
     private final OnClickAdapter onClickAdapter;
     int selectedPosition = -1;
     ArrayList<Integer> selectedList = new ArrayList<Integer>();
-
+    ArrayList<String> locationNameList = new ArrayList<String>();
     public UpdateLocationAdapter(OnClickAdapter onClickAdapter) {
         this.onClickAdapter = onClickAdapter;
         filterTypeList = new ArrayList<>();
@@ -52,9 +52,11 @@ public class UpdateLocationAdapter extends RecyclerView.Adapter<UpdateLocationAd
                 if(isChecked){
                     selectedPosition = viewHolder.getAdapterPosition();
                     selectedList.add(content.id);
+                    locationNameList.add(content.name);
                     onClickAdapter.onClick(viewHolder.getAdapterPosition(), content);
                 }else{
                     selectedList.remove(Integer.valueOf(content.id));
+                    locationNameList.remove(content.name);
 //                    Iterator itr = selectedList.iterator();
 //                    while (itr.hasNext()) {
 //                        int x = (Integer)itr.next();
@@ -70,6 +72,9 @@ public class UpdateLocationAdapter extends RecyclerView.Adapter<UpdateLocationAd
         return selectedList;
     }
 
+    public ArrayList<String> getLocationNameList() {
+        return locationNameList;
+    }
 
     @Override
     public int getItemCount() {

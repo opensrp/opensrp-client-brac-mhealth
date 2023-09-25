@@ -179,10 +179,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(BuildConfig.DEBUG){
-            userNameText.setText("pronotiranidebnath@gmail.com");//userNameText.setText("baby@ha.4");
-            passwordText.setText("Mis@api321");
+            userNameText.setText("md3539632@gmail.com");//userNameText.setText("baby@ha.4");
+            passwordText.setText("Bangladesh#123");
         }
-        if(!BuildConfig.DEBUG)updateAppVersion();
+        //if(!BuildConfig.DEBUG)updateAppVersion();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,13 +222,16 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 
                     @Override
                     public void onNext(String s) {
-                        Log.v("APP_UPDATE","onNext>>s:"+s);
+                        Log.v("VERSION_CODE","onNext>>s:"+s);
                         if(!TextUtils.isEmpty(s)){
                             PackageInfo pInfo = null;
                             try {
                                 pInfo = LoginActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
                                 String version = pInfo.versionName;
-                                Log.v("APP_UPDATE","onNext>>version:"+version);
+                                if(version.equalsIgnoreCase(s)){
+                                    return;
+                                }
+                                Log.v("VERSION_CODE","onNext>>version:"+version);
                                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                                 alertDialog.setTitle("New version available");
                                 alertDialog.setMessage("Your using version:"+version);
