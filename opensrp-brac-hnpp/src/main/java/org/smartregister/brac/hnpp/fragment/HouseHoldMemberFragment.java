@@ -39,7 +39,7 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
 
     HouseHoldMemberDueFragment profileMemberFragment;
     HouseHoldChildProfileDueFragment childProfileDueFragment;
-    ArrayList<Member> memberArrayList = new ArrayList<>();
+    public ArrayList<Member> memberArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +54,6 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
             @Override
             public void onClick(int position, Member content) {
                 CommonPersonObjectClient commonPersonObjectClient = clientObject(content.getBaseEntityId());
-                Log.d("aggggggggggg",""+FormApplicability.getAge(commonPersonObjectClient));
                 int age = FormApplicability.getAge(commonPersonObjectClient);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID, content.getBaseEntityId());
@@ -71,8 +70,6 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
                     profileMemberFragment.setCommonPersonObjectClient(commonPersonObjectClient);
                     ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment, HouseHoldMemberDueFragment.TAG, bundle);
                 }
-
-                ((HouseHoldVisitActivity) getActivity()).currentFragmentIndex++;
             }
         });
 

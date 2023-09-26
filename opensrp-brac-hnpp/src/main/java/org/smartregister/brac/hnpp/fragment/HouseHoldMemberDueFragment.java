@@ -39,6 +39,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppHomeVisitActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
@@ -97,7 +98,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     public static final int REQUEST_HOME_VISIT = 5555;
 
 
-    private String baseEntityId;
+    public String baseEntityId;
     private String familyBaseEntityId;
     private LinearLayout otherServiceView;
     private ProgressBar loadingProgressBar;
@@ -110,17 +111,17 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     boolean isComesFromIdentity;
     private boolean isProcessingHV = false;
     private boolean isProcessingANCVisit = false;
-    private ArrayList<MemberProfileDueData> serviceList = new ArrayList<>();
+    public ArrayList<MemberProfileDueData> serviceList = new ArrayList<>();
     HouseHoldMemberProfileDueAdapter adapter;
 
-    public int validate(){
-        if(listValidation() == 1){
-            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1,currentMemberPosition);
+    public int validate() {
+        if (listValidation() == 1) {
+            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1, currentMemberPosition);
             return 1;
-        }else if(listValidation() == 2){
-            Toast.makeText(getActivity(),"Invalid",Toast.LENGTH_SHORT).show();
+        } else if (listValidation() == 2) {
+            Toast.makeText(getActivity(), "Invalid", Toast.LENGTH_SHORT).show();
             return 2;
-        }else {
+        } else {
             return 3;
         }
     }
@@ -255,6 +256,25 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                     }
 
                     break;
+
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE:
+                    openServiceForms(HnppConstants.JSON_FORMS.GIRL_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD:
+                    openServiceForms(HnppConstants.JSON_FORMS.NCD_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
+                    openServiceForms(HnppConstants.JSON_FORMS.IYCF_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE:
+                    openServiceForms(HnppConstants.JSON_FORMS.WOMEN_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD:
+                    openServiceForms(HnppConstants.JSON_FORMS.BLOOD_TEST);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
+                    openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
+                    break;
             }
         }
     }
@@ -362,6 +382,15 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                         latitude, longitude);
             }
         });
+    }
+
+    public void openServiceForms(String formName) {
+
+        if (TextUtils.isEmpty(baseEntityId)) {
+            Toast.makeText(getActivity(), "BaseEntityId should not be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        startAnyFormActivity(formName, REQUEST_HOME_VISIT, "");
     }
 
     public void openRefereal() {
@@ -523,18 +552,18 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(TextUtils.isEmpty(baseEntityId)){
-            Toast.makeText(getActivity(),"BaseEntityId should not be empty",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(baseEntityId)) {
+            Toast.makeText(getActivity(), "BaseEntityId should not be empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             HnppConstants.isViewRefresh = true;
 
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
 
-            if(isProcessingHV) return;
-            Log.d("calledMultiVisit","true");
+            if (isProcessingHV) return;
+            Log.d("calledMultiVisit", "true");
 
             isProcessingHV = true;
             AtomicInteger isSave = new AtomicInteger(2); /// 1-> Success / 2-> Regular error  3-> Already submitted visit error
@@ -542,9 +571,9 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
             String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
             String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
             String visitId = JsonFormUtils.generateRandomUUIDString();
-            HnppConstants.appendLog("SAVE_VISIT","isProcessingHV>>>baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
+            HnppConstants.appendLog("SAVE_VISIT", "isProcessingHV>>>baseEntityId:" + baseEntityId + ":formSubmissionId:" + formSubmissionId);
 
-            processVisitFormAndSave(jsonString,formSubmissionId,visitId)
+            processVisitFormAndSave(jsonString, formSubmissionId, visitId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Integer>() {
@@ -556,7 +585,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                         @Override
                         public void onNext(Integer aInteger) {
                             isSave.set(aInteger);
-                            Log.d("visitCalledOnnext","true");
+                            Log.d("visitCalledOnnext", "true");
                         }
 
                         @Override
@@ -567,26 +596,25 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
 
                         @Override
                         public void onComplete() {
-                            Log.d("visitCalledCompleted","true");
-                            if(isSave.get() == 1){
+                            Log.d("visitCalledCompleted", "true");
+                            if (isSave.get() == 1) {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 showServiceDoneDialog(1);
-                                if(currentPosition!=-1){
+                                if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
-                            }else if(isSave.get() == 3){
+                            } else if (isSave.get() == 3) {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 showServiceDoneDialog(3);
-                            }else {
+                            } else {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 showServiceDoneDialog(2);
                             }
                         }
                     });
-        }
-        else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
-            if(isProcessingANCVisit) return;
+        } else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT) {
+            if (isProcessingANCVisit) return;
             AtomicBoolean isSave = new AtomicBoolean(false);
             ((HouseHoldVisitActivity) getActivity()).showProgressDialog(R.string.please_wait_message);
 
@@ -612,24 +640,23 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
 
                         @Override
                         public void onComplete() {
-                            if(isSave.get()){
+                            if (isSave.get()) {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 showServiceDoneDialog(1);
-                                if(currentPosition!=-1){
+                                if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
-                            }else {
+                            } else {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
                                 //showServiceDoneDialog(false);
                             }
                         }
                     });
 
-        }
-        else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON){
+        } else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.family.util.JsonFormUtils.REQUEST_CODE_GET_JSON) {
             String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
-            try{
+            try {
                 JSONObject form = new JSONObject(jsonString);
                 HnppJsonFormUtils.setEncounterDateTime(form);
 
@@ -640,56 +667,54 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
 
                     String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
                     generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                    title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                    title = String.format(getString(R.string.dialog_confirm_save), fullName, generatedString[0], generatedString[2], generatedString[1]);
 
                     HnppConstants.showSaveFormConfirmationDialog(getActivity(), title, new OnDialogOptionSelect() {
                         @Override
                         public void onClickYesButton() {
 
-                            try{
+                            try {
                                 JSONObject formWithConsent = new JSONObject(jsonString);
                                 JSONObject jobkect = formWithConsent.getJSONObject("step1");
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,true);
+                                HnppJsonFormUtils.addConsent(field, true);
                                 ((HouseHoldVisitActivity) getActivity()).getfamilyProfilePresenter().updateFamilyMember(formWithConsent.toString());
-                                if(currentPosition!=-1){
+                                if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
-                            }catch (JSONException je){
+                            } catch (JSONException je) {
                                 je.printStackTrace();
                             }
                         }
 
                         @Override
                         public void onClickNoButton() {
-                            try{
+                            try {
                                 JSONObject formWithConsent = new JSONObject(jsonString);
                                 JSONObject jobkect = formWithConsent.getJSONObject("step1");
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,false);
+                                HnppJsonFormUtils.addConsent(field, false);
                                 ((HouseHoldVisitActivity) getActivity()).getfamilyProfilePresenter().updateFamilyMember(formWithConsent.toString());
-                                if(currentPosition!=-1){
+                                if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
                                 }
-                            }catch (JSONException je){
+                            } catch (JSONException je) {
                                 je.printStackTrace();
                             }
                         }
                     });
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        else if(resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE){
-            if(processSurveyResponse(data)){
-                Toast.makeText(getActivity(),"Survey done",Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(getActivity(),"Fail to Survey",Toast.LENGTH_SHORT).show();
+        } else if (resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE) {
+            if (processSurveyResponse(data)) {
+                Toast.makeText(getActivity(), "Survey done", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Fail to Survey", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -697,15 +722,15 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
 
     }
 
-    private Observable<Boolean> processVisits(){
-        return Observable.create(e->{
-            try{
+    private Observable<Boolean> processVisits() {
+        return Observable.create(e -> {
+            try {
                 HnppHomeVisitIntentService.processVisits();
                 VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                 //return true;
                 e.onNext(true);
                 e.onComplete();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 //return false;
                 e.onNext(false);
                 e.onComplete();
@@ -714,44 +739,44 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
 
     }
 
-    private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionId, String visitId){
+    private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionId, String visitId) {
 
-        return  Observable.create(e->{
-                    if(TextUtils.isEmpty(baseEntityId)) e.onNext(2);
+        return Observable.create(e -> {
+                    if (TextUtils.isEmpty(baseEntityId)) e.onNext(2);
                     try {
                         JSONObject form = new JSONObject(jsonString);
                         HnppJsonFormUtils.setEncounterDateTime(form);
 
-                        Log.v("DATEEEE",""+form.getJSONObject("metadata").getJSONObject("today").getString("value"));
+                        Log.v("DATEEEE", "" + form.getJSONObject("metadata").getJSONObject("today").getString("value"));
 
-                        String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                        String type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                         type = HnppJsonFormUtils.getEncounterType(type);
                         Map<String, String> jsonStrings = new HashMap<>();
-                        jsonStrings.put("First",form.toString());
-                        HnppConstants.appendLog("SAVE_VISIT","baseEntityId:"+baseEntityId+":formSubmissionId:"+formSubmissionId);
+                        jsonStrings.put("First", form.toString());
+                        HnppConstants.appendLog("SAVE_VISIT", "baseEntityId:" + baseEntityId + ":formSubmissionId:" + formSubmissionId);
 
-                        Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity,false, true,"", baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+                        Visit visit = HnppJsonFormUtils.saveVisit(isComesFromIdentity, false, true, "", baseEntityId, type, jsonStrings, "", formSubmissionId, visitId);
 
-                        if(visit!=null && !visit.getVisitId().equals("0")){
+                        if (visit != null && !visit.getVisitId().equals("0")) {
                             HnppHomeVisitIntentService.processVisits();
                             FormParser.processVisitLog(visit);
-                            HnppConstants.appendLog("SAVE_VISIT","processVisitLog done formSubmissionId:"+formSubmissionId+":type:"+type);
+                            HnppConstants.appendLog("SAVE_VISIT", "processVisitLog done formSubmissionId:" + formSubmissionId + ":type:" + type);
 
                             // return true;
                             e.onNext(1);//success
                             e.onComplete();
 
-                        }else if(visit!=null && visit.getVisitId().equals("0")){
+                        } else if (visit != null && visit.getVisitId().equals("0")) {
                             e.onNext(3);//already exist
                             e.onComplete();
-                        }else{
+                        } else {
                             //return false;
                             e.onNext(2);//error
                             e.onComplete();
                         }
                     } catch (Exception ex) {
-                        HnppConstants.appendLog("SAVE_VISIT","processVisitLog exception occured :"+ex.getMessage());
-                        Log.d("SAVE_VISIT","processVisitLog exception occured :"+ex.getMessage());
+                        HnppConstants.appendLog("SAVE_VISIT", "processVisitLog exception occured :" + ex.getMessage());
+                        Log.d("SAVE_VISIT", "processVisitLog exception occured :" + ex.getMessage());
                         e.onNext(2);//error
                         e.onComplete();
                     }
@@ -765,14 +790,15 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     }
 
     Dialog dialog;
-    private void showServiceDoneDialog(Integer isSuccess){
-        if(dialog!=null) return;
+
+    private void showServiceDoneDialog(Integer isSuccess) {
+        if (dialog != null) return;
         dialog = new Dialog(getActivity());
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess == 1 ? "সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে" : isSuccess == 3 ? "সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে" : "সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
@@ -788,18 +814,18 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         dialog.show();
     }
 
-    private boolean processSurveyResponse(Intent data){
+    private boolean processSurveyResponse(Intent data) {
         String response = data.getStringExtra(HnppConstants.SURVEY_KEY.DATA);
-        Log.v("SURVEY_APP","response processSurveyResponse:"+response);
-        try{
+        Log.v("SURVEY_APP", "response processSurveyResponse:" + response);
+        try {
             JSONObject jsonObject = new JSONObject(response);
             String form_name = jsonObject.getString("form_name");
             String date_time = jsonObject.getString("date");
             String uuid = jsonObject.getString("uuid");
             Long time_stamp;
-            try{
+            try {
                 time_stamp = jsonObject.getLong("time_stamp");
-            }catch (Exception e){
+            } catch (Exception e) {
                 time_stamp = Long.parseLong(jsonObject.getString("time_stamp"));
             }
             String form_id = jsonObject.optString("form_id");
@@ -812,10 +838,10 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
             survey.baseEntityId = baseEntityId;
             survey.dateTime = date_time;
             survey.type = HnppConstants.SURVEY_KEY.MM_TYPE;
-            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey,HnppConstants.SURVEY_KEY.MM_TYPE);
+            HnppApplication.getSurveyHistoryRepository().addOrUpdate(survey, HnppConstants.SURVEY_KEY.MM_TYPE);
             return true;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -846,19 +872,39 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                     openRefereal();
                     break;
                 case TAG_OPEN_ANC1:
-                        String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if (!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
-                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
-                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
-                                && FormApplicability.isFirstTimeAnc(baseEntityId)) {
-                            openHomeVisitForm();
-                        } else {
-                            openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
-                        }
+                    String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
+                    if (!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
+                            && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
+                            && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
+                            && FormApplicability.isFirstTimeAnc(baseEntityId)) {
+                        openHomeVisitForm();
+                    } else {
+                        openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                    }
                     break;
-            }
+
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE:
+                    openServiceForms(HnppConstants.JSON_FORMS.GIRL_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD:
+                    openServiceForms(HnppConstants.JSON_FORMS.NCD_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
+                    openServiceForms(HnppConstants.JSON_FORMS.IYCF_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE:
+                    openServiceForms(HnppConstants.JSON_FORMS.WOMEN_PACKAGE);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD:
+                    openServiceForms(HnppConstants.JSON_FORMS.BLOOD_TEST);
+                    break;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
+                    openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
+                    break;
         }
     }
+
+}
 
     @Override
     public void onDestroyView() {
@@ -882,7 +928,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     public void updateView() {
         hideProgressBar();
         serviceList = presenter.getData();
-        adapter = new HouseHoldMemberProfileDueAdapter(getActivity(), onClickAdapter,onNoNeedClick);
+        adapter = new HouseHoldMemberProfileDueAdapter(getActivity(), onClickAdapter, onNoNeedClick);
         adapter.setData(serviceList);
         this.dueRecyclerView.setAdapter(adapter);
         updateOptionMenu(presenter.getLastEventType());
@@ -913,28 +959,32 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         return presenter;
     }
 
-    public int listValidation(){
+    public int listValidation() {
+        //1-> success
+        //2-> no need
+        //3-> no input given
         int status = 1;
         int countSucc = 0;
-        if(serviceList.size() == 1){
-            if(serviceList.get(0).getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-               return serviceList.get(0).getStatus();
+        int countIsCheck = 0;
+        if (serviceList.size() == 1) {
+            if (serviceList.get(0).getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL) {
+                return serviceList.get(0).getStatus();
             }
-        }else {
-            for(MemberProfileDueData data : serviceList){
-                if(data.getType() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                    if(data.getStatus() == 2){
-                        return 2;
-                    }
-
-                    if(data.getStatus() < 3){
+        } else {
+            for (MemberProfileDueData data : serviceList) {
+                if (data.getType() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL) {
+                    if (data.getStatus() < 3) {
                         countSucc++;
                     }
                 }
+                if (data.getStatus() == 3) {
+                    countIsCheck++;
+                }
             }
         }
-        if(countSucc<serviceList.size()-1 && countSucc>0) return 2;
-        else if(countSucc == 0) return 3;
+        if (countIsCheck == serviceList.size()) return 3; //no data added
+        else if (countSucc < serviceList.size() - 1 && countSucc > 0) return 2; //some data added
+        else if (countSucc == 0) return 3; //no data added
 
         return status;
     }

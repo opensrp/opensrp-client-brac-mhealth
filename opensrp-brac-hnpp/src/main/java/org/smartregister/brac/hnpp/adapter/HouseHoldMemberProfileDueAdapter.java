@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,11 @@ public class HouseHoldMemberProfileDueAdapter extends RecyclerView.Adapter<House
         viewHolder.textViewTitle.setText(content.getTitle());
         if(Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
                 Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
-                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC3_REGISTRATION) ||
+                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.WOMEN_PACKAGE) ||
+                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.GIRL_PACKAGE) ||
+                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.EYE_TEST) ||
+                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
             viewHolder.noNeedBt.setVisibility(View.VISIBLE);
         }else {
             viewHolder.noNeedBt.setVisibility(View.GONE);

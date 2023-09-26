@@ -14,6 +14,7 @@ import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
+import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
@@ -54,11 +55,12 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueDataArrayList.add(memberProfileDueData);
                 }
 
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)){
+                if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)) {
                     MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
                     memberProfileDueData2.setImageSource(R.drawable.childrow_family);
                     memberProfileDueData2.setType(TAG_OPEN_ANC_REGISTRATION);
                     memberProfileDueData2.setTitle("গর্ভবতী রেজিস্ট্রেশন");
+                    memberProfileDueData.setEventType(eventType);
                     memberProfileDueDataArrayList.add(memberProfileDueData2);
                 }
                 //eventype = anc1||anc2||anc3{
@@ -72,8 +74,9 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                             MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
                             memberProfileDueData2.setImageSource(R.mipmap.ic_anc_pink);
                             memberProfileDueData2.setType(TAG_PREGNANT_WOMAN_DIETARY_DIVERSITY);
+                            memberProfileDueData.setEventType(eventType);
                             memberProfileDueData2.setTitle("গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য");
-                            if(eventType.equals(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
+                            if (eventType.equals(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)) {
                                 memberProfileDueData2.setFrom(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION);
                             }
                             memberProfileDueDataArrayList.add(memberProfileDueData2);
@@ -82,7 +85,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 }
             }
 
-            if(context instanceof HnppMemberProfileDueFragment){
+            if (context instanceof HnppMemberProfileDueFragment) {
                 {
                     MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
                     memberProfileDueData.setImageSource(R.drawable.childrow_family);
@@ -97,6 +100,11 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setImageSource(R.mipmap.ic_refer);
                 memberProfileDueData.setTitle("রেফারেল");
                 memberProfileDueData.setType(TAG_OPEN_REFEREAL);
+                if (gender.equalsIgnoreCase("F")) {
+                    memberProfileDueData.setEventType(HnppConstants.JSON_FORMS.WOMEN_REFERRAL);
+                } else {
+                    memberProfileDueData.setEventType(HnppConstants.JSON_FORMS.MEMBER_REFERRAL);
+                }
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
 
@@ -109,6 +117,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setSubTitle(referralFollowUpModel.getReferralReason());
                 memberProfileDueData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_REFERRAL_FOLLOW_UP);
                 memberProfileDueData.setReferralFollowUpModel(referralFollowUpModel);
+                memberProfileDueData.setEventType(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
 
             }
@@ -119,8 +128,49 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueData.setType(TAG_OPEN_CORONA);
                 memberProfileDueDataArrayList.add(memberProfileDueData);
             }
-        } catch (Exception e) {
 
+            if (context instanceof HouseHoldMemberDueFragment) {
+
+                int age = FormApplicability.getAge(commonPersonObjectClient);
+                long day = FormApplicability.getDay(commonPersonObjectClient);
+                //String gender = FormApplicability.getGender(commonPersonObjectClient);
+
+                if (FormApplicability.isNcdApplicable(age) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.NCD_PACKAGE)) {
+                    MemberProfileDueData otherServiceData3 = new MemberProfileDueData();
+                    otherServiceData3.setImageSource(R.drawable.ic_sugar_blood_level);
+                    otherServiceData3.setTitle("অসংক্রামক রোগের সেবা");
+                    otherServiceData3.setEventType(HnppConstants.EVENT_TYPE.NCD_PACKAGE);
+                    otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
+                    memberProfileDueDataArrayList.add(otherServiceData3);
+                }
+
+                if (FormApplicability.isWomenPackageApplicable(commonPersonObjectClient.getCaseId(), age, gender.equalsIgnoreCase("F")) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)) {
+                    MemberProfileDueData otherServiceData = new MemberProfileDueData();
+                    otherServiceData.setImageSource(R.drawable.ic_women);
+                    otherServiceData.setTitle("নারী কাউন্সেলিং");
+                    otherServiceData.setEventType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE);
+                    otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
+                    memberProfileDueDataArrayList.add(otherServiceData);
+                }
+
+                if (FormApplicability.isAdolescentApplicable(age, gender.equalsIgnoreCase("F")) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.GIRL_PACKAGE)) {
+                    MemberProfileDueData otherServiceData2 = new MemberProfileDueData();
+                    otherServiceData2.setImageSource(R.drawable.ic_adolescent);
+                    otherServiceData2.setTitle("কিশোরী কাউন্সেলিং");
+                    otherServiceData2.setEventType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE);
+                    otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
+                    memberProfileDueDataArrayList.add(otherServiceData2);
+                }
+                if (FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.EYE_TEST)) {
+                    MemberProfileDueData otherServiceDataEye = new MemberProfileDueData();
+                    otherServiceDataEye.setImageSource(R.drawable.ic_eye);
+                    otherServiceDataEye.setTitle("চক্ষু পরীক্ষা");
+                    otherServiceDataEye.setEventType(HnppConstants.EVENT_TYPE.EYE_TEST);
+                    otherServiceDataEye.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+                    memberProfileDueDataArrayList.add(otherServiceDataEye);
+                }
+            }
+        } catch (Exception e) {
         }
 
         return memberProfileDueDataArrayList;

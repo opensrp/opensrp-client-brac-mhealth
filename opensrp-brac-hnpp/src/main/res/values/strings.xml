@@ -414,4 +414,8 @@
    <string name="update_hh_data">খানার তথ্য আপডেট করুন</string>
    <string name="no_need_service">সার্ভিসটি এখন দরকার নেই</string>
    <string name="continue_to_submit_data_msg">পরের স্টেপ এ যেতে সব ডাটা সাবমিট করুন</string>
+   <string name="anc_form_submit_alert">আপনি কি এ এন সি সেবা নিতে ইচ্ছুক ?</string>
+   <string name="eye_test_key">eye_test_key</string>
+   <string name="child_counseling_key">child_counseling_key</string>
+
 </resources>

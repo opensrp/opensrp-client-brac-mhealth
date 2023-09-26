@@ -42,11 +42,14 @@ import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
+import org.smartregister.brac.hnpp.model.ChildService;
 import org.smartregister.brac.hnpp.model.HhForumDetails;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
+import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -70,6 +73,7 @@ import org.smartregister.repository.EventClientRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -101,6 +105,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     private boolean isFinalSubmission = false;
     public static int HOUSE_HOLD_FINISH_CODE = 301;
 
+    public ArrayList<Member> memberArrayList = new ArrayList<>();
+    public HashMap<String,ArrayList<MemberProfileDueData>> memberServiceMap = new HashMap<>();
+    public HashMap<String,ArrayList<ChildService>> childServiceMap = new HashMap<>();
+
+
     public void listenMemberUpdateStatus(OnUpdateMemberList onUpdateMemberList) {
         this.onUpdateMemberList = onUpdateMemberList;
     }
@@ -121,7 +130,6 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         nextButton.setVisibility(View.VISIBLE);
 
         setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
-        currentFragmentIndex = 1;
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +145,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                             if (((HouseHoldFormTypeFragment) fragment).finalValidation()) {
                                 submitTotalData(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
                             } else {
-                                Toast.makeText(HouseHoldVisitActivity.this, "Fill up all forms to continue", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
                             }
                             return;
                         }
@@ -151,9 +159,25 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                     } else {
                         Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
                     }
-                } else if (fragment instanceof HouseHoldMemberFragment) {
+                }else if (fragment instanceof HouseHoldMemberDueFragment) {
+                    int isValid = ((HouseHoldMemberDueFragment) fragment).validate();
+                    if(isValid == 3){
+                        Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
+                    }else {
+                        onBackPressed();
+                    }
+                } else if (fragment instanceof HouseHoldChildProfileDueFragment) {
+                    int isValid = ((HouseHoldChildProfileDueFragment) fragment).validate();
+                    if(isValid == 3){
+                        Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
+                    }else {
+                        onBackPressed();
+                    }
+                }
+                else if (fragment instanceof HouseHoldMemberFragment) {
                     if (((HouseHoldMemberFragment) fragment).isValidateHHMembers()) {
                         isFinalSubmission = true;
+                        memberArrayList = ((HouseHoldMemberFragment) fragment).memberArrayList;
                         updateHHVisitLayoutVisibility();
                         nextButton.setText(getString(R.string.submit));
                         nextButton.setTag(true);
@@ -258,7 +282,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 clientjson.put("addresses", dsasd.getJSONArray("addresses"));
                 getSyncHelper().addClient(baseClient.getBaseEntityId(), clientjson);
 
-                Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(baseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT, hhForumDetails);
+                Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(baseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT, hhForumDetails,memberArrayList,memberServiceMap,childServiceMap);
                 if (baseEvent != null) {
                     baseEvent.setFormSubmissionId(org.smartregister.util.JsonFormUtils.generateRandomUUIDString());
                     org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
@@ -316,7 +340,6 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     private void gotoNextFrag(Fragment fragment) {
         if (currentFragmentIndex < 3) {
             setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
-            currentFragmentIndex++;
         }
     }
 
@@ -341,6 +364,8 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 .addToBackStack(tag)
                 .commit();
 
+        currentFragmentIndex++;
+
     }
 
     public void setupFragment(Fragment fragment, String tag, Bundle bdl) {
@@ -356,10 +381,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
         if (fragment instanceof HouseHoldMemberDueFragment ||
                 fragment instanceof HouseHoldChildProfileDueFragment) {
-            nextButton.setVisibility(View.GONE);
-        }else {
             nextButton.setVisibility(View.VISIBLE);
+            nextButton.setText(getString(R.string.submit));
         }
+
+        currentFragmentIndex++;
     }
 
     @Override
@@ -411,30 +437,35 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     @Override
     public void onBackPressed() {
 
-        if (currentFragmentIndex == 0) {
+       /* if (currentFragmentIndex == 0) {
+            finish();
+            return;
+        }*/
+        Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+        if(fragment instanceof HouseHoldFormTypeFragment){
             finish();
             return;
         }
-            /*for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-                if (fragment instanceof HouseHoldMemberDueFragment) {
-                    ((HouseHoldMemberDueFragment) fragment).validate();
-                }
-            }*/
-        Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
-        if (fragment instanceof HouseHoldMemberDueFragment) {
-            int isValid = ((HouseHoldMemberDueFragment) fragment).validate();
+        else if (fragment instanceof HouseHoldMemberDueFragment) {
+            HouseHoldMemberDueFragment fragment1 = ((HouseHoldMemberDueFragment) fragment);
+            int isValid = fragment1.validate();
             if (isValid == 1 || isValid == 3) {
                 nextButton.setVisibility(View.VISIBLE);
                 nextButton.setText(getString(R.string.next));
+                String baseEntityId = fragment1.baseEntityId;
+                memberServiceMap.put(baseEntityId,fragment1.serviceList);
                 super.onBackPressed();
             }else {
                 return;
             }
         } else if (fragment instanceof HouseHoldChildProfileDueFragment) {
-            int isValid = ((HouseHoldChildProfileDueFragment) fragment).validate();
+            HouseHoldChildProfileDueFragment fragment1 = ((HouseHoldChildProfileDueFragment) fragment);
+            int isValid = fragment1.validate();
             if (isValid == 1 || isValid == 3) {
                 nextButton.setVisibility(View.VISIBLE);
                 nextButton.setText(getString(R.string.next));
+                String baseEntityId = fragment1.childBaseEntityId;
+                childServiceMap.put(baseEntityId,fragment1.serviceList);
                 super.onBackPressed();
             }else {
                 return;
@@ -456,6 +487,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         if (curFragment instanceof HouseHoldFormTypeFragment) {
             if (isFinalSubmission) {
                 ((HouseHoldFormTypeFragment) curFragment).hhUpdateLay.setVisibility(View.VISIBLE);
+                ((HouseHoldFormTypeFragment) curFragment).newBornLay.setVisibility(View.GONE);
+                ((HouseHoldFormTypeFragment) curFragment).deathInfoLay.setVisibility(View.GONE);
+                ((HouseHoldFormTypeFragment) curFragment).migrationInfoLay.setVisibility(View.GONE);
+                ((HouseHoldFormTypeFragment) curFragment).pregnancyRegLay.setVisibility(View.GONE);
             }
         }
 

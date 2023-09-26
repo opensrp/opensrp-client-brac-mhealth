@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
+import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -105,16 +107,19 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     private static final int TAG_CHILD_INFO_EBF12 = 1212;
     private static final int TAG_CHILD_INFO_7_24_months = 1213;
     private static final int TAG_CHILD_INFO_25_months = 1214;
-    private static final int TAG_ENC= 333;
-    private static final int TAG_CHILD_DUE= 444;
+    private static final int TAG_ENC = 333;
+    private static final int TAG_CHILD_DUE = 444;
     private static final int TAG_OPEN_CORONA = 88888;
+    private static final int TAG_EYE_TEST_BT_CLICK = 4444;
+    private static final int TAG_CHILD_COUNSELING_BT_CLICK = 4445;
+
 
     private int dueCount = 0;
     private View emptyView;
     private String familyName;
     private long dateFamilyCreated;
     private String familyBaseEntityId;
-    private String childBaseEntityId;
+    public String childBaseEntityId;
     private LinearLayout otherServiceView;
     private CommonPersonObjectClient commonPersonObjectClient;
     private boolean isFirstAnc = false;
@@ -123,7 +128,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
     public int currentChildPosition = -1;
 
-    ArrayList<ChildService> serviceList = new ArrayList<>();
+    public ArrayList<ChildService> serviceList = new ArrayList<>();
     AppExecutors appExecutors = new AppExecutors();
     private View currentView;
     private boolean onClickView = false;
@@ -138,28 +143,31 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         fragment.setArguments(args);
         return fragment;
     }
-    public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient){
+
+    public void setCommonPersonObjectClient(CommonPersonObjectClient commonPersonObjectClient) {
         this.commonPersonObjectClient = commonPersonObjectClient;
     }
-    public void setBaseEntityId(String baseEntityId){
+
+    public void setBaseEntityId(String baseEntityId) {
         this.childBaseEntityId = baseEntityId;
     }
 
-    public int validate(){
-        if(listValidation() == 1){
-            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1,currentChildPosition);
+    public int validate() {
+        if (listValidation() == 1) {
+            ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1, currentChildPosition);
             return 1;
-        }else if(listValidation() == 2){
-            Toast.makeText(getActivity(),"Invalid",Toast.LENGTH_SHORT).show();
+        } else if (listValidation() == 2) {
+            Toast.makeText(getActivity(), "Invalid", Toast.LENGTH_SHORT).show();
             return 2;
-        }else {
+        } else {
             return 3;
         }
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && !isStart){
+        if (isVisibleToUser && !isStart) {
             updateStaticView();
 
         }
@@ -170,13 +178,13 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(getActivity() ==null || getActivity().isFinishing()) return;
+                if (getActivity() == null || getActivity().isFinishing()) return;
                 addStaticView();
                 String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);
                 boolean isImmunizationVisible = FormApplicability.isImmunizationVisible(dob);
-                if(isImmunizationVisible){
-                    if(getActivity() instanceof HnppChildProfileActivity){
+                if (isImmunizationVisible) {
+                    if (getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
                         b.updateImmunizationData();
                     }
@@ -184,8 +192,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
 
             }
-        },500);
-
+        }, 500);
 
 
     }
@@ -223,9 +230,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
     @Override
     public void setupViews(View view) {
-        try{
+        try {
             super.setupViews(view);
-        }catch (Exception e){
+        } catch (Exception e) {
             HnppApplication.getHNPPInstance().forceLogout();
             return;
         }
@@ -243,7 +250,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         this.clientAdapter.setCurrentlimit(0);
         this.clientsView.setAdapter(this.clientAdapter);
         this.clientsView.setVisibility(View.GONE);
-        if(!onClickView){
+        if (!onClickView) {
             updateStaticView();
         }
     }
@@ -278,46 +285,51 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         }
 
     }
+
     View encView;
-    public void  updateChildDueEntry(int type, String serviceName, String dueDate){
-        if(getActivity() == null || getActivity().isFinishing() || otherServiceView==null || TextUtils.isEmpty(serviceName))return;
+
+    public void updateChildDueEntry(int type, String serviceName, String dueDate) {
+        if (getActivity() == null || getActivity().isFinishing() || otherServiceView == null || TextUtils.isEmpty(serviceName))
+            return;
         serviceName = HnppConstants.immunizationMapping.get(serviceName.toUpperCase());
 //       if(handler !=null){
 //           handler.postDelayed(new Runnable() {
 //               @Override
 //               public void run() {
-                   otherServiceView.setVisibility(View.VISIBLE);
-                   if(encView !=null) otherServiceView.removeView(encView);
-                   encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-                   ImageView image1 = encView.findViewById(R.id.image_view);
-                   TextView name1 =  encView.findViewById(R.id.patient_name_age);
-                   encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                   image1.setImageResource(R.mipmap.ic_child);
-                   switch (type){
-                       case 1:
-                           name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_due, serviceName, dueDate)));
+        otherServiceView.setVisibility(View.VISIBLE);
+        if (encView != null) otherServiceView.removeView(encView);
+        encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
+        ImageView image1 = encView.findViewById(R.id.image_view);
+        TextView name1 = encView.findViewById(R.id.patient_name_age);
+        encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+        image1.setImageResource(R.mipmap.ic_child);
+        switch (type) {
+            case 1:
+                name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_due, serviceName, dueDate)));
 
-                           break;
-                       case 2:
-                           name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_overdue, serviceName, dueDate)));
-                           break;
-                       case 3:
-                           name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_upcoming, serviceName, dueDate)));
-                           break;
-                   }
-                   encView.setTag(TAG_CHILD_DUE);
-                   encView.setOnClickListener(HouseHoldChildProfileDueFragment.this);
-                   otherServiceView.addView(encView);
+                break;
+            case 2:
+                name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_overdue, serviceName, dueDate)));
+                break;
+            case 3:
+                name1.setText(CoreChildUtils.fromHtml(getString(org.smartregister.chw.core.R.string.vaccine_service_upcoming, serviceName, dueDate)));
+                break;
+        }
+        encView.setTag(TAG_CHILD_DUE);
+        encView.setOnClickListener(HouseHoldChildProfileDueFragment.this);
+        otherServiceView.addView(encView);
 //               }
 //           },500);
-       //}
+        //}
 
     }
+
     String eventType = "";
     View childInfo1View, childInfo2View, childInfo3View;
-    private void addStaticView(){
-        if(getActivity() ==null || getActivity().isFinishing()) return;
-        if(otherServiceView.getVisibility() == View.VISIBLE){
+
+    private void addStaticView() {
+        if (getActivity() == null || getActivity().isFinishing()) return;
+        if (otherServiceView.getVisibility() == View.VISIBLE) {
             otherServiceView.removeAllViews();
         }
         otherServiceView.setVisibility(View.VISIBLE);
@@ -325,12 +337,12 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
         boolean isEnc = FormApplicability.isEncVisible(dob);
-        if(isEnc){
+        if (isEnc) {
             ChildService childService = new ChildService();
-            if(FormApplicability.isDueAnyForm(childBaseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
-                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
+            if (FormApplicability.isDueAnyForm(childBaseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)) {
+                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
                 ImageView image1 = encView.findViewById(R.id.image_view);
-                TextView name1 =  encView.findViewById(R.id.patient_name_age);
+                TextView name1 = encView.findViewById(R.id.patient_name_age);
                 encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
                 image1.setImageResource(R.mipmap.ic_child);
                 name1.setText("নবজাতকের সেবা");
@@ -339,6 +351,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                 otherServiceView.addView(encView);
 
                 childService.setTag(TAG_ENC);
+                childService.setEventType(HnppConstants.EVENT_TYPE.ENC_REGISTRATION);
                 childService.setView(encView);
                 serviceList.add(childService);
             }
@@ -358,9 +371,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
         {
             ChildService childService = new ChildService();
-            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
+            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
             ImageView imageReferel = referelView.findViewById(R.id.image_view);
-            TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
+            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
             referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             imageReferel.setImageResource(R.mipmap.ic_refer);
             nameReferel.setText("রেফেরেল");
@@ -369,141 +382,148 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             otherServiceView.addView(referelView);
 
             childService.setTag(TAG_OPEN_REFEREAL);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_REFERRAL);
             childService.setView(referelView);
             serviceList.add(childService);
         }
         //if(!isEnc){
-            eventType = FormApplicability.isDueChildFollowUp(day);
+        eventType = FormApplicability.isDueChildFollowUp(day);
 
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_0_3_MONTHS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+        if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_0_3_MONTHS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_0_3_MONTHS);
-                childService.setView(followupView);
-                serviceList.add(childService);
+            childService.setTag(TAG_CHILD_FOLLOWUP_0_3_MONTHS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS);
+            childService.setView(followupView);
+            serviceList.add(childService);
 
-            }else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_3_6_MONTHS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_3_6_MONTHS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_3_6_MONTHS);
-                serviceList.add(childService);
+            childService.setTag(TAG_CHILD_FOLLOWUP_3_6_MONTHS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS);
+            serviceList.add(childService);
 
-            } else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_7_11_MONTHS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_7_11_MONTHS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_7_11_MONTHS);
-                childService.setView(followupView);
-                serviceList.add(childService);
+            childService.setTag(TAG_CHILD_FOLLOWUP_7_11_MONTHS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS);
+            childService.setView(followupView);
+            serviceList.add(childService);
 
-            }else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_12_18_MONTHS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_12_18_MONTHS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_12_18_MONTHS);
-                childService.setView(followupView);
-                serviceList.add(childService);
+            childService.setTag(TAG_CHILD_FOLLOWUP_12_18_MONTHS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS);
+            childService.setView(followupView);
+            serviceList.add(childService);
 
-                currentView = followupView;
+            currentView = followupView;
 
-            }else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_19_24_MONTHS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_19_24_MONTHS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_19_24_MONTHS);
-                childService.setView(followupView);
-                serviceList.add(childService);
-            }
-            else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_2_3_YEARS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+            childService.setTag(TAG_CHILD_FOLLOWUP_19_24_MONTHS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS);
+            childService.setView(followupView);
+            serviceList.add(childService);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_2_3_YEARS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_2_3_YEARS);
-                childService.setView(followupView);
-                serviceList.add(childService);
-            }
-            else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_3_4_YEARS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+            childService.setTag(TAG_CHILD_FOLLOWUP_2_3_YEARS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS);
+            childService.setView(followupView);
+            serviceList.add(childService);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_3_4_YEARS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_3_4_YEARS);
-                childService.setView(followupView);
-                serviceList.add(childService);
-            }
-            else  if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)){
-                ChildService childService = new ChildService();
+            childService.setTag(TAG_CHILD_FOLLOWUP_3_4_YEARS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS);
+            childService.setView(followupView);
+            serviceList.add(childService);
+        } else if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS) && FormApplicability.isDueAnyForm(childBaseEntityId, eventType)) {
+            ChildService childService = new ChildService();
 
-                View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
-                ImageView fImg = followupView.findViewById(R.id.image_view);
-                TextView fName =  followupView.findViewById(R.id.patient_name_age);
-                followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                fImg.setImageResource(iconMapping.get(eventType));
-                fName.setText(eventTypeMapping.get(eventType));
-                followupView.setTag(TAG_CHILD_FOLLOWUP_4_5_YEARS);
-                followupView.setOnClickListener(this);
-                otherServiceView.addView(followupView);
+            View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView fImg = followupView.findViewById(R.id.image_view);
+            TextView fName = followupView.findViewById(R.id.patient_name_age);
+            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(eventType));
+            fName.setText(eventTypeMapping.get(eventType));
+            followupView.setTag(TAG_CHILD_FOLLOWUP_4_5_YEARS);
+            followupView.setOnClickListener(this);
+            otherServiceView.addView(followupView);
 
-                childService.setTag(TAG_CHILD_FOLLOWUP_4_5_YEARS);
-                childService.setView(followupView);
-                serviceList.add(childService);}
+            childService.setTag(TAG_CHILD_FOLLOWUP_4_5_YEARS);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS);
+            childService.setView(followupView);
+            serviceList.add(childService);
+        }
            /* if(FormApplicability.isDueAnyForm(childBaseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
                 View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                 ImageView fImg = followupView.findViewById(R.id.image_view);
@@ -554,11 +574,11 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 */
         ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(childBaseEntityId);
 
-        for(ReferralFollowUpModel referralFollowUpModel : getList){
+        for (ReferralFollowUpModel referralFollowUpModel : getList) {
             ChildService childService = new ChildService();
-            View referrelFollowUp = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
+            View referrelFollowUp = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
             ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
-            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
+            TextView nReferel = referrelFollowUp.findViewById(R.id.patient_name_age);
             TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
             lastVisitRow.setVisibility(View.VISIBLE);
             referrelFollowUp.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -570,34 +590,81 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             otherServiceView.addView(referrelFollowUp);
 
             childService.setTag(122);
+            childService.setEventType(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP);
             childService.setView(referrelFollowUp);
             serviceList.add(childService);
         }
 
-            if (FormApplicability.isDueCoronaForm(childBaseEntityId)) {
-                ChildService childService = new ChildService();
-                View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
-                ImageView imageReferel = referelView.findViewById(R.id.image_view);
-                TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                imageReferel.setImageResource(R.drawable.ic_virus);
-                nameReferel.setText("করোনা তথ্য");
-                referelView.setTag(TAG_OPEN_CORONA);
-                referelView.setOnClickListener(this);
-                otherServiceView.addView(referelView);
+        if (FormApplicability.isDueCoronaForm(childBaseEntityId)) {
+            ChildService childService = new ChildService();
+            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView imageReferel = referelView.findViewById(R.id.image_view);
+            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
+            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            imageReferel.setImageResource(R.drawable.ic_virus);
+            nameReferel.setText("করোনা তথ্য");
+            referelView.setTag(TAG_OPEN_CORONA);
+            referelView.setOnClickListener(this);
+            otherServiceView.addView(referelView);
 
-                childService.setTag(TAG_OPEN_CORONA);
-                childService.setView(referelView);
-                serviceList.add(childService);
-            }
+            childService.setTag(TAG_OPEN_CORONA);
+            childService.setEventType(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL);
+            childService.setView(referelView);
+            serviceList.add(childService);
+        }
 
 
+        if (FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.EYE_TEST)) {
+            ChildService childService = new ChildService();
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView img = view.findViewById(R.id.image_view);
+            TextView textView = view.findViewById(R.id.patient_name_age);
+            view.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            AppCompatButton noNeedButton = view.findViewById(R.id.noNeedBt);
+            noNeedButton.setVisibility(View.VISIBLE);
+            noNeedButton.setTag(TAG_EYE_TEST_BT_CLICK);
+            noNeedButton.setTag(R.string.eye_test_key,view);
+            noNeedButton.setOnClickListener(this);
+
+            img.setImageResource(R.drawable.ic_eye);
+            textView.setText("চক্ষু পরীক্ষা");
+            view.setTag(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+            view.setOnClickListener(this);
+            otherServiceView.addView(view);
+
+            childService.setTag(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
+            childService.setEventType(HnppConstants.EVENT_TYPE.EYE_TEST);
+            childService.setView(view);
+            serviceList.add(childService);
+        }
+        if (FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.IYCF_PACKAGE)) {
+            ChildService childService = new ChildService();
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            ImageView img = view.findViewById(R.id.image_view);
+            TextView textView = view.findViewById(R.id.patient_name_age);
+            AppCompatButton noNeedButton = view.findViewById(R.id.noNeedBt);
+            noNeedButton.setVisibility(View.VISIBLE);
+            noNeedButton.setTag(R.string.child_counseling_key,view);
+            noNeedButton.setOnClickListener(this);
+
+            view.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            img.setImageResource(R.drawable.ic_child);
+            textView.setText("শিশু কাউন্সেলিং");
+            view.setTag(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
+            view.setOnClickListener(this);
+            otherServiceView.addView(view);
+
+            childService.setTag(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
+            childService.setEventType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE);
+            childService.setView(view);
+            serviceList.add(childService);
+        }
 
     }
 
     @Override
     public void countExecute() {
-       // super.countExecute();
+        // super.countExecute();
     }
 
     public void onEmptyRegisterCount(final boolean has_no_records) {
@@ -610,9 +677,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     @Override
     public void onClick(View v) {
         onClickView = true;
-        if(v.getTag() instanceof ReferralFollowUpModel){
+        if (v.getTag() instanceof ReferralFollowUpModel) {
             ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) v.getTag();
             openReferealFollowUp(referralFollowUpModel);
+            currentView = v;
             return;
         }
         Integer tag = (Integer) v.getTag();
@@ -630,7 +698,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                 case TAG_OPEN_FAMILY:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                       // activity.openFamilyDueTab();
+                        // activity.openFamilyDueTab();
                     }
                     break;
                 case TAG_OPEN_REFEREAL:
@@ -649,7 +717,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                     break;
 
                 case TAG_CHILD_FOLLOWUP_3_6_MONTHS:
-                        openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
+                    openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
                     break;
 
                 case TAG_CHILD_FOLLOWUP_7_11_MONTHS:
@@ -674,30 +742,35 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                     break;
 
                 case TAG_CHILD_FOLLOWUP_4_5_YEARS:
-                   openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS);
+                    openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS);
 
                     break;
                 case TAG_OPEN_CORONA:
                     openCoronaIndividualForm();
                     break;
-                /*case TAG_CHILD_INFO_EBF12:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12);
-                    }
+                case TAG_CHILD_COUNSELING_BT_CLICK:
+                    ImageView checkIm = ((View) v.getTag(R.string.child_counseling_key)).findViewById(R.id.check_im);
+                    checkIm.setImageResource(R.drawable.success);
+                    checkIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    currentView = ((View) v.getTag(R.string.eye_test_key));
+                    setNoNeedStatusToList();
+                    return;
+                case TAG_EYE_TEST_BT_CLICK:
+                    ImageView checkImEyeTest = ((View) v.getTag(R.string.eye_test_key)).findViewById(R.id.check_im);
+                    checkImEyeTest.setImageResource(R.drawable.success);
+                    checkImEyeTest.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    currentView = ((View) v.getTag(R.string.eye_test_key));
+                    setNoNeedStatusToList();
+                    return;
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF:
+                    openServiceForms(HnppConstants.JSON_FORMS.IYCF_PACKAGE);
                     break;
-                case TAG_CHILD_INFO_7_24_months:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS);
-                    }
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD:
+                    openServiceForms(HnppConstants.JSON_FORMS.BLOOD_TEST);
                     break;
-                case TAG_CHILD_INFO_25_months:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS);
-                    }
-                    break;*/
+                case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
+                    openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
+                    break;
             }
         }
         currentView = v;
@@ -706,18 +779,19 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(handler != null) handler.removeCallbacksAndMessages(null);
+        if (handler != null) handler.removeCallbacksAndMessages(null);
     }
 
-    public void openServiceForms(String formName){
-        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+    public void openServiceForms(String formName) {
+        startAnyFormActivity(formName, REQUEST_HOME_VISIT);
     }
 
     public void openEnc() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.ENC_REGISTRATION,REQUEST_HOME_VISIT);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.ENC_REGISTRATION, REQUEST_HOME_VISIT);
     }
+
     public void openRefereal() {
-        startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_HOME_VISIT);
+        startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL, REQUEST_HOME_VISIT);
     }
 
    /* public void openFollowUp() {
@@ -725,7 +799,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     }*/
 
     public void openFollowUpByType(String type) {
-        startAnyFormActivity(type,REQUEST_HOME_VISIT);
+        startAnyFormActivity(type, REQUEST_HOME_VISIT);
     }
 
     public void openReferealFollowUp(ReferralFollowUpModel referralFollowUpModel) {
@@ -734,34 +808,34 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             @Override
             public void onPost(double latitude, double longitude) {
                 try {
-                    if(TextUtils.isEmpty(childBaseEntityId)){
+                    if (TextUtils.isEmpty(childBaseEntityId)) {
                         Toast.makeText(getActivity(), "baseentityid null", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    HnppConstants.appendLog("SAVE_VISIT", "openReferealFollowUp>>childBaseEntityId:"+childBaseEntityId);
+                    HnppConstants.appendLog("SAVE_VISIT", "openReferealFollowUp>>childBaseEntityId:" + childBaseEntityId);
 
                     JSONObject jsonForm = FormUtils.getInstance(getActivity()).getFormJson(HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP);
                     jsonForm.put(JsonFormUtils.ENTITY_ID, childBaseEntityId);
-                    try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
-                    }catch (Exception e){
+                    try {
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm, latitude, longitude);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm,referralFollowUpModel.getReferralReason(),referralFollowUpModel.getReferralPlace());
+                    HnppJsonFormUtils.addReferrelReasonPlaceField(jsonForm, referralFollowUpModel.getReferralReason(), referralFollowUpModel.getReferralPlace());
                     Intent intent;
                     intent = new Intent(getActivity(), HnppAncJsonFormActivity.class);
                     intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
                     Form form = new Form();
                     form.setWizard(false);
-                    if(!HnppConstants.isReleaseBuild()){
+                    if (!HnppConstants.isReleaseBuild()) {
                         form.setActionBarBackground(R.color.test_app_color);
 
-                    }else{
+                    } else {
                         form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                     }
-                    if(HnppConstants.isPALogin()){
+                    if (HnppConstants.isPALogin()) {
                         form.setHideSaveLabel(true);
                         form.setSaveLabel("");
                     }
@@ -769,7 +843,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
                     getActivity().startActivityForResult(intent, REQUEST_HOME_VISIT);
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -777,44 +851,45 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
 
     }
+
     public void startAnyFormActivity(String formName, int requestCode) {
         Member member = getArguments().getParcelable(HnppConstants.MEMBER);
         MemberObject memberObject = new MemberObject(commonPersonObjectClient);
 
-        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
-            HnppConstants.showOneButtonDialog(getActivity(),getString(R.string.dialog_stock_sell_end),"");
+        if (!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))) {
+            HnppConstants.showOneButtonDialog(getActivity(), getString(R.string.dialog_stock_sell_end), "");
             return;
         }
         HnppConstants.getGPSLocation(((HouseHoldVisitActivity) getActivity()), new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
                 try {
-                    if(TextUtils.isEmpty(childBaseEntityId)){
+                    if (TextUtils.isEmpty(childBaseEntityId)) {
                         Toast.makeText(getActivity(), "baseentityid null", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:"+childBaseEntityId+":formName:"+formName);
+                    HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:" + childBaseEntityId + ":formName:" + formName);
 
                     JSONObject jsonForm = FormUtils.getInstance(getActivity()).getFormJson(formName);
-                    try{
-                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
-                    }catch (Exception e){
+                    try {
+                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm, latitude, longitude);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    try{
+                    try {
                         HnppJsonFormUtils.addAddToStockValue(jsonForm);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
+                    if (HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)) {
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                         Date date = Utils.dobStringToDate(DOB);
                         String dobFormate = HnppConstants.DDMMYY.format(date);
-                        updateFormField(jsonArray,"dob",dobFormate);
+                        updateFormField(jsonArray, "dob", dobFormate);
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
-                        updateFormField(jsonArray,"weight",birthWeight);
+                        updateFormField(jsonArray, "weight", birthWeight);
                     }
                     /*else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
@@ -839,10 +914,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
                         updateFormField(jsonArray,"dob",dobFormate);
                     }*/
-                    if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+                    if (formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)) {
                         assert member != null;
-                        if(member.getGender().equalsIgnoreCase("F")){
-                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
+                        if (member.getGender().equalsIgnoreCase("F")) {
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm, "is_women", "true");
                         }
                     }
                     jsonForm.put(JsonFormUtils.ENTITY_ID, memberObject.getFamilyHead());
@@ -851,10 +926,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
                     Form form = new Form();
                     form.setWizard(false);
-                    if(!HnppConstants.isReleaseBuild()){
+                    if (!HnppConstants.isReleaseBuild()) {
                         form.setActionBarBackground(R.color.test_app_color);
 
-                    }else{
+                    } else {
                         form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                     }
@@ -862,7 +937,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
                     getActivity().startActivityForResult(intent, requestCode);
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -871,45 +946,47 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
     }
 
-    public void openCoronaIndividualForm(){
+    public void openCoronaIndividualForm() {
         Intent intent = new Intent(getActivity(), HnppAncJsonFormActivity.class);
-        try{
+        try {
             JSONObject jsonForm = FormUtils.getInstance(getActivity()).getFormJson(HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
             form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
+            if (!HnppConstants.isReleaseBuild()) {
                 form.setActionBarBackground(R.color.test_app_color);
 
-            }else{
+            } else {
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if(HnppConstants.isPALogin()){
+            if (HnppConstants.isPALogin()) {
                 form.setHideSaveLabel(true);
                 form.setSaveLabel("");
             }
             getActivity().startActivityForResult(intent, REQUEST_HOME_VISIT);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
+
     boolean isProcessing = false;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        HouseHoldVisitActivity activity =  ((HouseHoldVisitActivity) getActivity());
+        HouseHoldVisitActivity activity = ((HouseHoldVisitActivity) getActivity());
 
-        if(TextUtils.isEmpty(childBaseEntityId)){
+        if (TextUtils.isEmpty(childBaseEntityId)) {
             Toast.makeText(getActivity(), "baseentityid null", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             HnppConstants.isViewRefresh = true;
-            if(data!=null && data.getBooleanExtra("VACCINE_TAKEN",false)){
+            if (data != null && data.getBooleanExtra("VACCINE_TAKEN", false)) {
 
                 appExecutors.diskIO().execute(new Runnable() {
                     @Override
@@ -928,8 +1005,8 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             }
 
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
-            if(isProcessing) return;
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
+            if (isProcessing) return;
             AtomicInteger isSave = new AtomicInteger(2);
             activity.showProgressDialog(R.string.please_wait_message);
 
@@ -937,9 +1014,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
             String visitId = JsonFormUtils.generateRandomUUIDString();
-            HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
+            HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:" + childBaseEntityId + ":formSubmissionId:" + formSubmissionId);
 
-            processVisitFormAndSave(jsonString,formSubmissionId,visitId)
+            processVisitFormAndSave(jsonString, formSubmissionId, visitId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Integer>() {
@@ -960,7 +1037,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
                         @Override
                         public void onComplete() {
-                            if(isSave.get() == 1){
+                            if (isSave.get() == 1) {
                                 //serviceList.get(currentPosition).setStatus(true);
                                 ImageView checkIm = currentView.findViewById(R.id.check_im);
                                 checkIm.setImageResource(R.drawable.success);
@@ -970,10 +1047,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                                 setStatusToList();
                                 activity.hideProgressDialog();
                                 showServiceDoneDialog(1);
-                            }else if(isSave.get() == 3){
+                            } else if (isSave.get() == 3) {
                                 activity.hideProgressDialog();
                                 showServiceDoneDialog(3);
-                            }else {
+                            } else {
                                 activity.hideProgressDialog();
                                 //showServiceDoneDialog(false);
                             }
@@ -1004,12 +1081,11 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             };
             appExecutors.diskIO().execute(runnable);*/
 
-        }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+        } else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT) {
             //if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
-        } else if(resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE){
+        } else if (resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE) {
             //profileMemberFragment.setUserVisibleHint(true);
-        }
-        else if(resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE){
+        } else if (resultCode == Activity.RESULT_OK && requestCode == HnppConstants.SURVEY_KEY.MM_SURVEY_REQUEST_CODE) {
           /*  if(processSurveyResponse(data)){
                 Toast.makeText(this,"Survey done",Toast.LENGTH_SHORT).show();
             }else {
@@ -1023,59 +1099,69 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     }
 
     private void setStatusToList() {
-        for (ChildService childService : serviceList){
-            if(childService.getView().equals(currentView)){
+        for (ChildService childService : serviceList) {
+            if (childService.getView().equals(currentView)) {
                 childService.setStatus(1);
             }
         }
     }
 
-    private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId){
-        return Observable.create(e-> {
-            if(TextUtils.isEmpty(childBaseEntityId)) e.onNext(2);
+    private void setNoNeedStatusToList() {
+        for (ChildService childService : serviceList) {
+            if (childService.getView().equals(currentView)) {
+                childService.setStatus(2);
+            }
+        }
+    }
+
+    private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId) {
+        return Observable.create(e -> {
+            if (TextUtils.isEmpty(childBaseEntityId)) e.onNext(2);
             try {
                 JSONObject form = new JSONObject(jsonString);
                 HnppJsonFormUtils.setEncounterDateTime(form);
 
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                String type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
                 Map<String, String> jsonStrings = new HashMap<>();
-                jsonStrings.put("First",form.toString());
-                HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":type:"+type);
+                jsonStrings.put("First", form.toString());
+                HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:" + childBaseEntityId + ":type:" + type);
 
-                Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", childBaseEntityId, type, jsonStrings, "",formSubmissionid,visitId);
-                if(visit!=null && !visit.getVisitId().equals("0")){
+                Visit visit = HnppJsonFormUtils.saveVisit(false, false, false, "", childBaseEntityId, type, jsonStrings, "", formSubmissionid, visitId);
+                if (visit != null && !visit.getVisitId().equals("0")) {
                     HnppHomeVisitIntentService.processVisits();
                     FormParser.processVisitLog(visit);
-                    HnppConstants.appendLog("SAVE_VISITSAVE_VISIT", "processVisitLog done:"+formSubmissionid+":type:"+type);
+                    HnppConstants.appendLog("SAVE_VISITSAVE_VISIT", "processVisitLog done:" + formSubmissionid + ":type:" + type);
 
                     //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                     e.onNext(1);
                     e.onComplete();
 
-                }else if(visit != null && visit.getVisitId().equals("0")){
+                } else if (visit != null && visit.getVisitId().equals("0")) {
                     e.onNext(3);
                     e.onComplete();
-                }else{
+                } else {
                     e.onNext(2);
                     e.onComplete();
                 }
             } catch (Exception ex) {
-                HnppConstants.appendLog("SAVE_VISIT","exception processVisitFormAndSave >>"+ex.getMessage());
+                HnppConstants.appendLog("SAVE_VISIT", "exception processVisitFormAndSave >>" + ex.getMessage());
                 e.onNext(1);
                 e.onComplete();
             }
         });
     }
+
     Dialog dialog;
-    private void showServiceDoneDialog(Integer isSuccess){
-        if(dialog != null) return;
+
+    private void showServiceDoneDialog(Integer isSuccess) {
+        if (dialog != null) return;
         dialog = new Dialog(getActivity());
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess == 1 ? "সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে" : isSuccess == 3 ? "সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে" : "সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
@@ -1106,28 +1192,32 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
     }
 
-    public int listValidation(){
+    public int listValidation() {
+        //1-> success
+        //2-> no need
+        //3-> no input given
         int status = 1;
         int countSucc = 0;
-        if(serviceList.size() == 1){
-            if(serviceList.get(0).getTag() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
+        int countIsCheck = 0;
+        if (serviceList.size() == 1) {
+            if (serviceList.get(0).getTag() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL) {
                 return serviceList.get(0).getStatus();
             }
-        }else {
-            for(ChildService data : serviceList){
-                if(data.getTag() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
-                    if(data.getStatus() == 2){
-                        return 2;
-                    }
-
-                    if(data.getStatus() < 3){
+        } else {
+            for (ChildService data : serviceList) {
+                if (data.getTag() != HnppMemberProfileInteractor.TAG_OPEN_REFEREAL) {
+                    if (data.getStatus() < 3) {
                         countSucc++;
                     }
                 }
+                if (data.getStatus() == 3) {
+                    countIsCheck++;
+                }
             }
         }
-        if(countSucc<serviceList.size()-1 && countSucc>0) return 2;
-        else if(countSucc == 0) return 3;
+        if (countIsCheck == serviceList.size()) return 3; //no data added
+        else if (countSucc < serviceList.size() - 1 && countSucc > 0) return 2; //some data added
+        else if (countSucc == 0) return 3; //no data added
 
         return status;
     }

@@ -77,10 +77,10 @@ import timber.log.Timber;
 public class HouseHoldFormTypeFragment extends Fragment implements MemberListContract.View {
     public static String TAG = "HouseHoldFormTypeFragment";
 
-    LinearLayout newBornLay;
-    LinearLayout deathInfoLay;
-    LinearLayout migrationInfoLay;
-    LinearLayout pregnancyRegLay;
+    public LinearLayout newBornLay;
+    public LinearLayout deathInfoLay;
+    public LinearLayout migrationInfoLay;
+    public LinearLayout pregnancyRegLay;
     public LinearLayout hhUpdateLay;
 
     Button noNewBornBt;
@@ -145,11 +145,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     }
 
     public boolean finalValidation(){
-        return isValidateNewborn &&
-                isValidateDeath &&
-                isValidateMigration &&
-                isValidatePregReg &&
-                isValidateHhVisit;
+        return isValidateHhVisit;
     }
 
     public boolean initalValidation(){
