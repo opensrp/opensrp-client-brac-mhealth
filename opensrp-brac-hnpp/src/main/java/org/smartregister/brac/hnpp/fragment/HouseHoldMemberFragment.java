@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
@@ -40,6 +41,7 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
     HouseHoldMemberDueFragment profileMemberFragment;
     HouseHoldChildProfileDueFragment childProfileDueFragment;
     public ArrayList<Member> memberArrayList = new ArrayList<>();
+    TextView noDataFoundTv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +52,14 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
 
         memberHistoryPresenter.fetchMemberList(MemberTypeEnum.MIGRATION);
         memberArrayList = memberHistoryPresenter.getMemberList();
+        noDataFoundTv = view.findViewById(R.id.no_data_found);
+
+        if(memberArrayList.isEmpty()){
+            noDataFoundTv.setVisibility(View.VISIBLE);
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
+
         adapter = new HouseHoldMemberListAdapter(getActivity(), new HouseHoldMemberListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, Member content) {

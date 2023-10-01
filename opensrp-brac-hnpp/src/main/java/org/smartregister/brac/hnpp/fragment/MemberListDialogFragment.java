@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -84,6 +85,8 @@ public class MemberListDialogFragment extends DialogFragment implements FamilyRe
     Member currentMember;
     MemberListAdapter adapter;
 
+    TextView noDataFoundTv;
+
     public static MemberListDialogFragment newInstance() {
         return new MemberListDialogFragment();
     }
@@ -147,6 +150,8 @@ public class MemberListDialogFragment extends DialogFragment implements FamilyRe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        noDataFoundTv = view.findViewById(R.id.no_data_found);
+
         adapter = new MemberListAdapter(getActivity(), new MemberListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, Member content) {
@@ -158,7 +163,15 @@ public class MemberListDialogFragment extends DialogFragment implements FamilyRe
                 }
             }
         });
+
+
         if(memberArrayList!=null){
+            if(memberArrayList.isEmpty()){
+                noDataFoundTv.setVisibility(View.VISIBLE);
+            }else {
+                noDataFoundTv.setVisibility(View.GONE);
+            }
+
             adapter.setData(memberArrayList);
             RecyclerView recyclerView = view.findViewById(R.id.memberListRv);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

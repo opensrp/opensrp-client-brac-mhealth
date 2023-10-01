@@ -500,5 +500,6 @@
    <string name="eye_test_key">eye_test_key</string>
    <string name="child_counseling_key">child_counseling_key</string>
    <string name="child_immunization">child_immunization_key</string>
+    <string name="no_member_found">সদস্য পাওয়া যায়নি</string>
 
 </resources>
