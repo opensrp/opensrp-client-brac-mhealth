@@ -9,7 +9,7 @@
     tools:context=".fragment.HouseHoldMemberFragment">
 
     <TextView
-        android:id="@+id/no_data_found"
+        android:id="@+id/no_data_found_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

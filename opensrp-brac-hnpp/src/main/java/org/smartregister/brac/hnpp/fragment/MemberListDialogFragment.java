@@ -150,7 +150,7 @@ public class MemberListDialogFragment extends DialogFragment implements FamilyRe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        noDataFoundTv = view.findViewById(R.id.no_data_found);
+        noDataFoundTv = view.findViewById(R.id.no_data_found_tv);
 
         adapter = new MemberListAdapter(getActivity(), new MemberListAdapter.OnClickAdapter() {
             @Override
