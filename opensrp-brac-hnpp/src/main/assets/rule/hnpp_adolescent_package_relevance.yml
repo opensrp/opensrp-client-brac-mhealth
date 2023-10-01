@@ -33,9 +33,16 @@ condition: "step1_hemoglobin < 40"
 actions:
   - "isRelevant = true"
 ---
-name: step1_family_planning
+name: step1_is_using_family_plan
 description: if married
 priority: 1
 condition: "step1_marital_status.equalsIgnoreCase('Married')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_family_planning
+description: if is_using_family_plan yes
+priority: 1
+condition: "step1_is_using_family_plan.equalsIgnoreCase('হ্যাঁ')"
 actions:
   - "isRelevant = true"

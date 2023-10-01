@@ -424,6 +424,7 @@ public class CoreConstants {
         public static final String VIEW_REGISTER_CLASS = "view_register_class";
         public static final String STARTING_ACTIVITY = "starting_activity";
         public static final String CLIENT = "client";
+        public static final String EVENT_TYPE = "event_type";
     }
 
     public static final class IMMUNIZATION_CONSTANT {

@@ -70,6 +70,7 @@ import org.smartregister.configurableviews.ConfigurableViewsLibrary;
 import org.smartregister.configurableviews.helper.JsonSpecHelper;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.domain.FamilyMetadata;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.domain.VaccineSchedule;
 import org.smartregister.immunization.domain.jsonmapping.Vaccine;
@@ -128,6 +129,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         ConfigurableViewsLibrary.init(context, getRepository());
         FamilyLibrary.init(context, getRepository(), getMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         ImmunizationLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
+        GrowthMonitoringLibrary.init(context, getRepository(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
         initOfflineSchedules();
         LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.ALLOWED_LOCATION_LEVELS)), BuildConfig.DEFAULT_LOCATION);
         //ReportingLibrary.init(context, getRepository(), null, BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);

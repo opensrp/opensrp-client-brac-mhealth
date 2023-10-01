@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.service.VisitLogIntentService;
@@ -100,6 +101,22 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
         ArrayList<VisitLog> visitLogs = visitLogRepository.getAllVisitLog(baseEntityId);
+
+        // for immunization history
+        MemberHistoryData immunizationData = new MemberHistoryData();
+        immunizationData.setTitle(HnppApplication.getHNPPInstance().getString(R.string.immunizations));
+        immunizationData.setEventType(HnppApplication.getHNPPInstance().getString(R.string.immunizations));
+        immunizationData.setImageSource(R.drawable.ic_muac);
+        historyDataArrayList.add(immunizationData);
+
+        //for gmp history
+        MemberHistoryData gmpData = new MemberHistoryData();
+        gmpData.setTitle(HnppApplication.getHNPPInstance().getString(R.string.gmp));
+        gmpData.setEventType(HnppApplication.getHNPPInstance().getString(R.string.gmp));
+        gmpData.setImageSource(R.drawable.ic_icon_growth_chart);
+        historyDataArrayList.add(gmpData);
+
+
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             String eventType = visitLog.getEventType();

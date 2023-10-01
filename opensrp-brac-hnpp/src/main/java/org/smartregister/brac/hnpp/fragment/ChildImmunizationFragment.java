@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildVaccinationActivity;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.domain.Alert;
@@ -81,6 +82,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         return fragment;
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -88,11 +90,13 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
     }
 
     Activity mActivity;
+    ChildVaccinationActivity activity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity) getActivity();
+        activity = (ChildVaccinationActivity) getActivity();
     }
 
     @Override
@@ -132,6 +136,10 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
         this.view = fragmentView;
+
+        if(activity.isReadOnly){
+            view.findViewById(R.id.read_only_lay).setVisibility(View.VISIBLE);
+        }
 //        cia = new ChildImmunizationFragment(fragmentView,mActivity);
         return fragmentView;
     }
@@ -271,6 +279,14 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             ServiceGroup curGroup = new ServiceGroup(mActivity);
             curGroup.setChildActive(isChildActive);
             curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
+            /*
+             * disable grideview and child active status on read mode view
+             */
+
+            if(activity.isReadOnly){
+                curGroup.getServicesGV().setEnabled(false);
+                curGroup.setChildActive(false);
+            }
             curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
                 @Override
                 public void onClick(ServiceGroup serviceGroup, ServiceWrapper
@@ -286,6 +302,7 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
             });
             serviceGroupCanvasLL.addView(curGroup);
             serviceGroups.add(curGroup);
+
         }
 
     }
@@ -312,6 +329,16 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
         VaccineGroup curGroup = new VaccineGroup(mActivity);
         curGroup.setChildActive(isChildActive);
         curGroup.setData(vaccineGroupData, childDetails, vaccineList, alerts, "child");
+
+        /*
+         * disable grideview and child active status on read mode view
+         */
+
+        if(activity.isReadOnly || activity.isOnlyService){
+            curGroup.getVaccinesGV().setEnabled(false);
+            curGroup.setChildActive(false);
+        }
+
         curGroup.setOnRecordAllClickListener(new VaccineGroup.OnRecordAllClickListener() {
             @Override
             public void onClick(VaccineGroup vaccineGroup, ArrayList<VaccineWrapper> dueVaccines) {
@@ -676,8 +703,18 @@ public class ChildImmunizationFragment extends BaseProfileFragment {
 
             }
 
+            /*
+             * if read only show vaccine and service both for over 24 month child
+             * else show only service
+             */
+
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
-            updateVaccinationViews(vaccineList, alertList);
+
+
+            //if(activity.isReadOnly){
+                updateVaccinationViews(vaccineList, alertList);
+            //}
+
         }
 
         @Override

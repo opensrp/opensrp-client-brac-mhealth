@@ -6,6 +6,7 @@ import android.view.View;
 
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.activity.CoreAncRegisterActivity;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.helper.BottomNavigationHelper;
@@ -46,7 +47,11 @@ public class AncRegisterActivity extends CoreAncRegisterActivity {
             }
 //            boolean paymentEnable = ssLocationForms.get(0).payment_enable;
 //            if(paymentEnable){
+            if(HnppConstants.isPALogin()){
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
+            }else{
                 findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+            }
 //            }else{
 //                findViewById(R.id.payment_view).setVisibility(View.GONE);
 //            }

@@ -1280,7 +1280,7 @@ public class HnppDBUtils extends CoreChildUtils {
         columnList.add(tableName + "." + HnppConstants.KEY.CHILD_MOTHER_NAME_REGISTERED);
         columnList.add(tableName + "." + HnppConstants.KEY.BLOOD_GROUP);
         columnList.add(tableName + "." + ChildDBConstants.KEY.MOTHER_ENTITY_ID);
-
+        columnList.add(tableName + "."+HnppConstants.KEY.BIRTH_ID);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT_TAKEN);
         columnList.add(tableName + "." + ChildDBConstants.KEY.BIRTH_WEIGHT);
         columnList.add(tableName + "." + ChildDBConstants.KEY.CHLOROHEXADIN);
