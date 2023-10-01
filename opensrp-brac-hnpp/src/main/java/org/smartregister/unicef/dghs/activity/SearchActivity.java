@@ -95,6 +95,12 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
                 finish();
             }
         });
+        findViewById(R.id.dob_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(dobTv);
+            }
+        });
         findViewById(R.id.date_picker).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
