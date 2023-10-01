@@ -165,7 +165,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1, currentChildPosition);
             return 1;
         } else if (listValidation() == 2) {
-            Toast.makeText(getActivity(), "Invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
             return 2;
         } else {
             return 3;
