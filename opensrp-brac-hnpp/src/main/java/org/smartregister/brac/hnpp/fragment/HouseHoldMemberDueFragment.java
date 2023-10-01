@@ -114,6 +114,10 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     public ArrayList<MemberProfileDueData> serviceList = new ArrayList<>();
     HouseHoldMemberProfileDueAdapter adapter;
 
+    /**
+     * validation for member due
+     * @return status 1-> success, 2-> failed, 3-> no need
+     */
     public int validate() {
         if (listValidation() == 1) {
             ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1, currentMemberPosition);
@@ -222,6 +226,10 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         }
     };
 
+    /**
+     * start form by tag
+     * @param content
+     */
     private void startFormActivity(MemberProfileDueData content) {
         if (content.getReferralFollowUpModel() instanceof ReferralFollowUpModel) {
             ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) content.getReferralFollowUpModel();
@@ -849,6 +857,10 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
     }
 
 
+    /**
+     * start form by tag
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         if (v.getTag() instanceof ReferralFollowUpModel) {

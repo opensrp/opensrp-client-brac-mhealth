@@ -152,6 +152,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         this.childBaseEntityId = baseEntityId;
     }
 
+    /**
+     * child due validation
+     * @return status 1-> success, 2-> failed, 3-> no need
+     */
     public int validate() {
         if (listValidation() == 1) {
             ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1, currentChildPosition);
@@ -327,6 +331,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     String eventType = "";
     View childInfo1View, childInfo2View, childInfo3View;
 
+    /**
+     * added all service and due
+     */
     private void addStaticView() {
         if (getActivity() == null || getActivity().isFinishing()) return;
         if (otherServiceView.getVisibility() == View.VISIBLE) {
@@ -674,6 +681,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     }
 
 
+    /**
+     * opening form by tag
+     * @param v view
+     */
     @Override
     public void onClick(View v) {
         onClickView = true;
@@ -1056,30 +1067,6 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                             }
                         }
                     });
-          /*  Runnable runnable = () -> {
-                if(!isProcessing){
-                    isProcessing = true;
-                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-                    String visitId = JsonFormUtils.generateRandomUUIDString();
-                    HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
-
-                    isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
-                }
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(isSave.get()){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
-                        }
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);*/
 
         } else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT) {
             //if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
@@ -1170,22 +1157,6 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                 dialog.dismiss();
                 dialog = null;
                 isProcessing = false;
-                //if(isSuccess){
-              /*  if(memberHistoryFragment !=null){
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgressDialog();
-                            mViewPager.setCurrentItem(2,true);
-                            if(memberOtherServiceFragment !=null){
-                                memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
-                                memberOtherServiceFragment.updateStaticView();
-                            }
-
-                        }
-                    },1000);
-                }*/
-                //}
             }
         });
         dialog.show();

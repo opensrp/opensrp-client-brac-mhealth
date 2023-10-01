@@ -61,11 +61,14 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
                 bundle.putParcelable(HnppConstants.MEMBER, content);
                 bundle.putInt(HnppConstants.POSITION, position);
 
+                // for child
                 if(age <= 5){
                     childProfileDueFragment = (HouseHoldChildProfileDueFragment) HouseHoldChildProfileDueFragment.newInstance(bundle);
                     childProfileDueFragment.setCommonPersonObjectClient(commonPersonObjectClient);
                     ((HouseHoldVisitActivity) getActivity()).setupFragment(childProfileDueFragment, HouseHoldChildProfileDueFragment.TAG, bundle);
-                }else {
+                }
+                // for member
+                else {
                     profileMemberFragment = HouseHoldMemberDueFragment.newInstance(bundle);
                     profileMemberFragment.setCommonPersonObjectClient(commonPersonObjectClient);
                     ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment, HouseHoldMemberDueFragment.TAG, bundle);
@@ -79,6 +82,11 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         recyclerView.setAdapter(adapter);
 
         HouseHoldVisitActivity activity = ((HouseHoldVisitActivity) getActivity());
+
+        //listening callback
+        //if members due data valid or not
+        //if valid then update status
+        //this callback called from HouseHoldChildProfileDueFragment/HouseHoldMemberDueFragment
         activity.isValidateDueData(new OnEachMemberDueValidate() {
             @Override
             public void validate(int isValidate, int pos) {
@@ -90,6 +98,10 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         return view;
     }
 
+    /**
+     * is validate all members
+     * @return status
+     */
     public boolean isValidateHHMembers() {
         for (Member member : memberArrayList){
             if(member.getStatus() == 3){
@@ -99,6 +111,11 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         return true;
     }
 
+
+    /**
+     * checking is any data added or not for member
+     * @return
+     */
     public boolean isAnyDataAdded() {
         int countDefault = 0;
         for (Member member : memberArrayList){
@@ -109,6 +126,11 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         return countDefault != memberArrayList.size();
     }
 
+    /**
+     * creating common person object
+     * @param baseEntityId
+     * @return
+     */
     private CommonPersonObjectClient clientObject(String baseEntityId) {
         CommonRepository commonRepository = Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
