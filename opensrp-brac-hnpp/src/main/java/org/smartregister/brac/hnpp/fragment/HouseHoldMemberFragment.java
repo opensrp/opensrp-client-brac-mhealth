@@ -52,7 +52,7 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
 
         memberHistoryPresenter.fetchMemberList(MemberTypeEnum.MIGRATION);
         memberArrayList = memberHistoryPresenter.getMemberList();
-        noDataFoundTv = view.findViewById(R.id.no_data_found);
+        noDataFoundTv = view.findViewById(R.id.no_data_found_tv);
 
         if(memberArrayList.isEmpty()){
             noDataFoundTv.setVisibility(View.VISIBLE);
