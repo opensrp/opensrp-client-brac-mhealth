@@ -36,6 +36,8 @@ public class HnppJobCreator implements JobCreator {
                 return new HnppSyncIntentServiceJob();
             case HHVisitDurationFetchJob.TAG:
                 return new HHVisitDurationFetchJob();
+            case EventFetchJob.TAG:
+                return new EventFetchJob();
 //            case HnppHomeVisitServiceJob.TAG:
 //                return new HnppHomeVisitServiceJob();
             case ExtendedSyncServiceJob.TAG:
@@ -82,6 +84,12 @@ public class HnppJobCreator implements JobCreator {
                 return new DataDeleteJob();
             case SurveyHistoryJob.TAG:
                 return new SurveyHistoryJob();
+            case ZScoreRefreshServiceJob.TAG:
+                return new ZScoreRefreshServiceJob();
+            case WeightIntentServiceJob.TAG:
+                return new WeightIntentServiceJob();
+            case HeightIntentServiceJob.TAG:
+                return new HeightIntentServiceJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

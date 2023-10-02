@@ -53,6 +53,7 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldFormTypeActivity;
@@ -108,6 +109,8 @@ public class HnppConstants extends CoreConstants {
     public static int GPS_ATTEMPT_COUNT = 0;
     public static final int DEFAULT_GPS_ATTEMPT = 3;
     public static final String ACTION_STOCK_COME = "ACTION_STOCK_COME";
+    public static final String ACTION_EVENT_FETCH = "ACTION_EVENT_FETCH";
+    public static final String EVENT_PROGRESS_STATUS = "EVENT_PROGRESS_STATUS";
     public static final String ACTION_STOCK_END = "ACTION_STOCK_END";
     public static final String ACTION_EDD = "ACTION_EDD";
     public static final String ACTION_LOCATION_UPDATE = "ACTION_LOCATION_UPDATE";
@@ -234,7 +237,8 @@ public class HnppConstants extends CoreConstants {
         Calendar calendar = Calendar.getInstance();
         String date = calendar.get(Calendar.DAY_OF_MONTH) + "";
         String yymm = YYYYMM.format(new Date(toMonth == -1 ? System.currentTimeMillis() : toMonth));
-        String returnDate = yymm + "-" + date;
+        String[] yearMonth = yymm.split("-");
+        String returnDate = yearMonth[0]+"-"+addZeroForMonth(yearMonth[1])+"-" +addZeroForDay(date);
         Log.v("ANC_TRIMESTER", "returnDate:" + returnDate);
         return returnDate;
     }
@@ -318,12 +322,12 @@ public class HnppConstants extends CoreConstants {
 
             }
         }, activity);
-        new Handler().postDelayed(new Runnable() {
+     /*   new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 task.updateUi();
             }
-        }, 5000);
+        }, 5000);*/
 
 
     }
@@ -432,12 +436,73 @@ public class HnppConstants extends CoreConstants {
 
             }
         }, activity);
-        new Handler().postDelayed(new Runnable() {
+    /*    new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (task != null) task.updateUi();
             }
-        }, 5000);
+        }, 5000);*/
+
+
+    }
+
+    public static void getGPSLocation(ChildFollowupActivity activity, OnPostDataWithGps onPostDataWithGps) {
+        IS_FORM_CLICK = true;
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                try {
+                    activity.showProgressDialog(message);
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void hideProgress() {
+                try {
+                    activity.hideProgressDialog();
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+
+                if(IS_FORM_CLICK){
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
+                        }
+                    });
+                }
+
+                IS_FORM_CLICK = false;
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude, longitude);
+
+            }
+        }, activity);
+    /*    new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (task != null) task.updateUi();
+            }
+        }, 5000);*/
 
 
     }
@@ -1011,6 +1076,8 @@ public class HnppConstants extends CoreConstants {
         public static final String BLOOD_GROUP = "blood_group";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
+
+        public static final String BIRTH_WEIGHT = "birth_weight";
     }
 
     public static class IDENTIFIER {
@@ -1131,6 +1198,7 @@ public class HnppConstants extends CoreConstants {
 
     public class EVENT_TYPE {
         public static final String ELCO = "ELCO Registration";
+        public static final String GMP = "GMP";
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";
@@ -1212,6 +1280,7 @@ public class HnppConstants extends CoreConstants {
         public static final String ESTIMATE_HBP = "Estimate HBP";
         public static final String CATARACT_SURGERY_REFER = "Cataract surgery refer";
         public static final String CATARACT_SURGERY = "Cataract surgery";
+        public static final String ANC_HOME_VISIT = "ANC Home Visit";
         //public static final String NCD_BY_PA = "NCD by PA";
 
         //PA stock
@@ -1228,6 +1297,9 @@ public class HnppConstants extends CoreConstants {
         public static final String BF_2 = "Bf 2";
         public static final String BF_2_5 = "Bf 2.5";
         public static final String BF_3 = "Bf 3";
+
+        public static final String GLUCOMETER_STRIP = "Glucometer Strip";
+        public static final String READING_GLASS = "reading glass";
 
         //service
         public static final String ANC_SERVICE = "ANC Service";
@@ -1560,6 +1632,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_REGISTRATION, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ELCO, R.drawable.ic_elco)
+            .put(EVENT_TYPE.GMP, R.drawable.ic_icon_growth_chart)
             .put(EventType.REMOVE_FAMILY, R.drawable.ic_remove)
             .put(EventType.REMOVE_MEMBER, R.drawable.ic_remove)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION, R.drawable.ic_home)
@@ -1798,6 +1871,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_2, "BF- 2.00")
             .put(EVENT_TYPE.BF_2_5, "BF- 2.50")
             .put(EVENT_TYPE.BF_3, "BF- 3.00")
+            .put(EVENT_TYPE.GLUCOMETER_STRIP, EVENT_TYPE.GLUCOMETER_STRIP)
+            .put(EVENT_TYPE.READING_GLASS, "Reading glass")
+
 
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
@@ -1913,6 +1989,14 @@ public class HnppConstants extends CoreConstants {
             .put("delivery_problems", "প্রসবে সমস্যা")
             .put("pnc_problem", "প্রসব পরবর্তী সমস্যা")
             .put("problems_eyes", "চোখে সমস্যা")
+            .put("severe_malnutrition",  "মারাত্মক অপুষ্টি")
+            .put("overweight", "বেশি ওজন")
+            .put("moderate_malnutrition", "মাঝারি অপুষ্টি")
+            .put("malnutrition",  "স্বল্প অপুষ্টি")
+            .put("severe_short",  "মারাত্মক খর্ব")
+            .put("moderate_short", "মাঝারি খর্ব")
+            .put("medium_short",  "স্বল্প খর্ব")
+            .put("over_short", "বেশি খর্ব")
             .put("diabetes", "ডায়াবেটিস")
             .put("high_blood_pressure", "উচ্চ রক্তচাপ")
             .put("problems_with_birth_control", "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা")

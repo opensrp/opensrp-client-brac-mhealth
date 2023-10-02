@@ -18,16 +18,21 @@ import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
 import org.smartregister.view.activity.SecuredActivity;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChildVaccinationActivity extends SecuredActivity implements VaccinationActionListener, ServiceActionListener {
 
     private static final String INTENT_BUNDLE =" intent_bundle";
     private static final String INTENT_COMMONOBJECT ="intent_common_object";
     public static final int VACCINE_REQUEST_CODE = 10000;
+    public static final int VACCINE_RESULT_CODE = 51211;
 
     private CommonPersonObjectClient childDetails;
     private Bundle bundle;
     private boolean isActionTaken;
+
+    public boolean isOnlyService = false;
+    public boolean isReadOnly = false;
 
     public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails){
 
@@ -35,15 +40,35 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
         intent.putExtra(INTENT_BUNDLE,bundle);
         intent.putExtra(INTENT_COMMONOBJECT,childDetails);
         activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
-
-
     }
+
+    public static void startChildVaccinationActivity(Activity activity, Bundle bundle , CommonPersonObjectClient childDetails,boolean isOnlyVacc){
+
+        Intent intent = new Intent(activity,ChildVaccinationActivity.class);
+        intent.putExtra(INTENT_BUNDLE,bundle);
+        intent.putExtra(INTENT_COMMONOBJECT,childDetails);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVacc);
+        activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
+    }
+
+    public static void startChildVaccinationActivity(Activity activity, Bundle bundle, CommonPersonObjectClient childDetails, boolean isOnlyVacc, boolean isReadOnly){
+
+        Intent intent = new Intent(activity,ChildVaccinationActivity.class);
+        intent.putExtra(INTENT_BUNDLE,bundle);
+        intent.putExtra(INTENT_COMMONOBJECT,childDetails);
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVacc);
+        intent.putExtra(ChildFollowupActivity.IS_READ_ONLY,isReadOnly);
+        activity.startActivityForResult(intent,VACCINE_REQUEST_CODE);
+    }
+
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_child_immunization);
         setUpToolbar();
         bundle = getIntent().getParcelableExtra(INTENT_BUNDLE);
         childDetails = (CommonPersonObjectClient) getIntent().getSerializableExtra(INTENT_COMMONOBJECT);
+        isOnlyService = getIntent().getBooleanExtra(ChildFollowupActivity.IS_ONLY_SERVICE,false);
+        isReadOnly = getIntent().getBooleanExtra(ChildFollowupActivity.IS_READ_ONLY,false);
         initializeFragment();
     }
     private void setUpToolbar(){
@@ -65,6 +90,9 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     ChildImmunizationFragment immunizationFragment;
     private void initializeFragment(){
         immunizationFragment = ChildImmunizationFragment.newInstance(bundle);
+        if(childDetails.getDetails() == null){
+            childDetails.setDetails(new HashMap<>());
+        }
         immunizationFragment.setChildDetails(childDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =
@@ -112,13 +140,9 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     @Override
     public void onBackPressed() {
 
-        if(isActionTaken){
-            Intent intent = getIntent();
-            intent.putExtra("VACCINE_TAKEN",true);
-            setResult(RESULT_OK, intent);
-            finish();
-        }else{
-            super.onBackPressed();
-        }
+        Intent intent = getIntent();
+        intent.putExtra("VACCINE_TAKEN", isActionTaken);
+        setResult(VACCINE_RESULT_CODE, intent);
+        finish();
     }
 }

@@ -165,6 +165,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
             });
         }else{
             try{
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
                 findViewById(R.id.simprints_identity).setVisibility(View.GONE);
                 findViewById(R.id.ss_info_browse).setVisibility(View.GONE);
                 findViewById(R.id.migration_view).setVisibility(View.GONE);
@@ -217,6 +218,7 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
         intentFilter.addAction(HnppConstants.ACTION_EDD);
         intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
         intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
+        intentFilter.addAction(HnppConstants.ACTION_EVENT_FETCH);
         registerReceiver(notificationBroadcastReceiver, intentFilter);
     }
 
@@ -386,6 +388,17 @@ public class FamilyRegisterActivity extends CoreFamilyRegisterActivity{
                         if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
                             String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
                             HnppConstants.showDialog(FamilyRegisterActivity.this,getString(R.string.menu_new_stock),value);
+
+                        }
+
+                        if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_EVENT_FETCH)){
+                            boolean value = intent.getBooleanExtra(HnppConstants.EVENT_PROGRESS_STATUS,false);
+                            if(value){
+                                showProgressDialog(R.string.event_syncing);
+                            }else {
+                                hideProgressDialog();
+                                showToast(getString(R.string.event_sync_success));
+                            }
 
                         }
                         if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_END)){

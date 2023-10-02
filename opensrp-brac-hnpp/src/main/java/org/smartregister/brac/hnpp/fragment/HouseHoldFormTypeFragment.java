@@ -144,6 +144,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         return view;
     }
 
+    /**
+     * reset all list
+     */
     private void resetData() {
         memberListJson.clear();
         removedMemberListJson.clear();
@@ -152,10 +155,18 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         memberListJson.clear();
     }
 
+    /**
+     * final validation, only hh visit
+     * @return type is boolean
+     */
     public boolean finalValidation(){
         return isValidateHhVisit;
     }
 
+    /**
+     * initial validation without hh visit
+     * @return type is boolean
+     */
     public boolean initalValidation(){
         return isValidateNewborn &&
                 isValidateDeath &&
@@ -163,6 +174,12 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                 isValidatePregReg;
     }
 
+    /**
+     * handling form submission result
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v("ON_ACTIVITY_RESULT","onActivityResult>>requestCode:"+requestCode+":resultCode:"+resultCode);
@@ -334,6 +351,13 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         }
     }
 
+    /**
+     * member remove confirmation
+     * @param formStr // from string
+     * @param currentMember // current member object
+     * @param memberTypeEnum // member type
+     * @throws JSONException
+     */
     public void confirmRemove(final String formStr, Member currentMember, MemberTypeEnum memberTypeEnum) throws JSONException {
         JSONObject form = new JSONObject(formStr);
         String memberName = currentMember.getName();
@@ -401,47 +425,21 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
                     }
                     alertDialog.dismiss();
-
-                    /*Intent intent = new Intent(HouseHoldVisitActivity.this, FamilyRegisterActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);*/
                 }
             });
 
             alertDialog.show();
 
-            /*dialog.setOnRemove(() -> {
-                //getPresenter().processRemoveForm(form);
-                try{
-                    String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
-                    type = HnppJsonFormUtils.getEncounterType(type);
-                    Map<String, String> jsonStrings = new HashMap<>();
-                    jsonStrings.put("First",form.toString());
-                    String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-                    String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-                    Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", currentMember.getBaseEntityId(), type, jsonStrings, "",formSubmissionId,visitId);
-                    if(visit !=null){
-                        HnppHomeVisitIntentService.processVisits();
-                        VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-
-                }
-
-
-                Intent intent = new Intent(this, FamilyRegisterActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            });*/
-           /* dialog.setOnRemoveActivity(() -> {
-                if (this != null) {
-                    this.finish();
-                }
-            });*/
         }
     }
 
+    /**
+     * proccess and save visit
+     * @param jsonString // json string
+     * @param formSubmissionId // form submision id
+     * @param visitId // visit id
+     * @return
+     */
     private Observable<Integer> processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
         return  Observable.create(e-> {
             if(TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())){
@@ -481,6 +479,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         });
     }
 
+
+    /**
+     * service done dialog
+     * @param isSuccess // status
+     */
     private void showServiceDoneDialog(Integer isSuccess){
         if(dialog!=null) return;
         dialog = new Dialog(getActivity());
@@ -515,6 +518,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     }
 
+    /**
+     * process form
+     * @param encounter_type
+     * @param jsonString
+     */
     private void processForm(String encounter_type, String jsonString){
         if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
 
@@ -537,6 +545,10 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         }
     }
 
+    /**
+     * all view initialization of this fragment
+     * @param view
+     */
     private void initUi(View view) {
         initializeMemberPresenter();
 
@@ -717,6 +729,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     }
 
+
+    /**
+     * member list dialog
+     * @param memberTypeEnum // member type
+     */
     private void showMemberListDialog(MemberTypeEnum memberTypeEnum) {
         memberHistoryPresenter.fetchMemberList(memberTypeEnum);
         ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
@@ -735,6 +752,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     }
 
 
+    /**
+     * update ui for specific layout
+     */
     private void updateUi() {
         //newborn component handling
         if (memberListJson.size() > 0) {
@@ -841,6 +861,10 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         return getActivity();
     }
 
+    /**
+     * open hh visit form
+     * @param familyBaseEntityId // family base entity id
+     */
     private void openHHVisit(String familyBaseEntityId){
         HnppConstants.getGPSLocation(((CoreFamilyProfileActivity) getActivity()), new OnPostDataWithGps() {
             @Override

@@ -84,6 +84,17 @@
       },
 
       {
+        "key": "nutrition_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "পুষ্টিঃ",
+        "text_size": "30sp"
+      },
+
+      {
         "key": "child_food_in_24_hours",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -198,6 +209,17 @@
         }
       },
 
+      {
+        "key": "difficulty_title",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "label",
+        "text_color": "#000000",
+        "text": "অসুস্থতা/ জটিলতা",
+        "text_size": "30sp"
+      },
+
 
       {
         "key": "difficulty",
@@ -286,90 +308,6 @@
             "openmrs_entity_id": "eye_problem"
           }
         ]
-      },
-
-      {
-        "key": "is_referred",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_referred",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "রেফার করা হয়েছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না": "no"
-        }
-      },
-
-      {
-        "key": "refer_place",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "refer_place",
-        "type": "check_box",
-        "label": "রেফারের স্থান",
-        "exclusive": [
-          "None"
-        ],
-        "options": [
-          {
-            "key": "medical_collage_hos",
-            "text": "মেডিকেল কলেজ হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "medical_collage_hos"
-          },
-          {
-            "key": "gov_hos",
-            "text": "সরকারী হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "gov_hos"
-          },
-          {
-            "key": "upazila_health_com",
-            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-            "value": false,
-            "openmrs_entity": "convulsions",
-            "openmrs_entity_id": "upazila_health_com"
-          },
-          {
-            "key": "non_gov_hos",
-            "text": "বেসরকারি হাসপাতাল/ক্লিনিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "non_gov_hos"
-          },
-          {
-            "key": "health_family_welfare_centre",
-            "text": "স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "health_family_welfare_centre"
-          },
-
-          {
-            "key": "community_clinic",
-            "text": "কমিউনিটি ক্লিনিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "community_clinic"
-          }
-
-        ],
-
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child_followup_rules.yml"
-            }
-          }
-        }
       }
     ]
   }

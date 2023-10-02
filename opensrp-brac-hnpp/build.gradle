@@ -35,7 +35,7 @@ android {
     defaultConfig {
         applicationId "org.smartregister.brac.hnpp"
         minSdkVersion 18
-        targetSdkVersion 31
+        targetSdkVersion 33
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -117,17 +117,17 @@ android {
     productFlavors {
 
         pa{
-            versionCode 2
-            versionName "1.0.2"
+            versionCode 7
+            versionName "1.0.7"
             dimension = 'baseDimension'
             applicationIdSuffix ".pa"
             buildConfigField "boolean", 'IS_TRAINING', 'false'
-            buildConfigField "String", 'opensrp_url_training', '"http://mhealth.brac.net:8080/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
         }
         pa_training{
-            versionCode 2
-            versionName "1.0.2"
+            versionCode 7
+            versionName "1.0.7_dev"
             dimension = 'baseDimension'
             applicationIdSuffix ".patraining"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -164,9 +164,18 @@ android {
 //            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
 
         }
+        qa{
+            versionCode 82
+            versionName "3.0.1_qa"
+            dimension = 'baseDimension'
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
+            //buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
+        }
         production{
-            versionCode 81
-            versionName "2.0.12"//2.0.6.4=2.0.7
+            versionCode 83
+            versionName "3.0.1"//2.0.6.4=2.0.7
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
@@ -187,6 +196,14 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    api ('org.smartregister:opensrp-client-growth-monitoring:1.1.9-gmp-SNAPSHOT@aar') {
+        transitive = true
+        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
+
 
     api('org.smartregister:opensrp-client-simprints:2.1.0-SNAPSHOT@aar') {
         transitive = true

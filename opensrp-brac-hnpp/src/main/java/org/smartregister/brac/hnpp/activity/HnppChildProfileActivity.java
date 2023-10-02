@@ -36,6 +36,7 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.adapter.ReferralCardViewAdapter;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.brac.hnpp.fragment.ChildHistoryFragment;
+import org.smartregister.brac.hnpp.fragment.GMPFragment;
 import org.smartregister.brac.hnpp.fragment.HnppChildProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
 import org.smartregister.brac.hnpp.job.SurveyHistoryJob;
@@ -45,10 +46,12 @@ import org.smartregister.brac.hnpp.model.Survey;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.ChildDBConstants;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
+import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -100,6 +103,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public CommonPersonObjectClient commonPersonObject;
     Handler handler;
     AppExecutors appExecutors = new AppExecutors();
+    GMPFragment growthFragment;
+
+    public boolean isOnlyVacc = false;
 
     @Override
     protected void onCreation() {
@@ -140,6 +146,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
         textViewGender.append(","+parentName);
     }
+
+    public CommonPersonObjectClient getCommonPersonObject(){
+        return commonPersonObject;
+    }
+
+
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
@@ -266,6 +278,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     @Override
     protected ViewPager setupViewPager(ViewPager viewPager) {
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
+        long day = FormApplicability.getDay(commonPersonObject);
+
+        //means greater than 24 month
+        isOnlyVacc = day >= 577;
+
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         if(!HnppConstants.isPALogin()){
@@ -279,6 +296,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             memberHistoryFragment = ChildHistoryFragment.getInstance(this.getIntent().getExtras());
             memberHistoryFragment.setBaseEntityId(childBaseEntityId);
             memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
+           /* growthFragment = GMPFragment.newInstance(this.getIntent().getExtras(),i);
+            growthFragment.setChildDetails(commonPersonObject);*/
+
             adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
             if(HnppConstants.isPALogin()){
@@ -291,6 +311,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         viewPager.setAdapter(adapter);
         return viewPager;
     }
+
+
     public void startChildHomeVisit(){
 
     }
@@ -404,6 +426,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
     public void openVisitHomeScreen(boolean isEditMode) {
         ChildVaccinationActivity.startChildVaccinationActivity(this,this.getIntent().getExtras(),commonPersonObject);
         //ChildHomeVisitActivity.startMe(this, memberObject, isEditMode, ChildHomeVisitActivity.class);
+    }
+
+    public void openGMPScreen() {
+        ChildGMPActivity.startGMPActivity(this,this.getIntent().getExtras(),commonPersonObject);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -536,6 +562,19 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
 
 
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getBirthDate() {
+        return ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+    }
+
+    public MemberObject getMemberObject() {
+        return  memberObject;
+    }
+
     public void startAnyFormActivity(String formName, int requestCode) {
         if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
             HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
@@ -722,7 +761,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             };
             appExecutors.diskIO().execute(runnable);*/
 
-        }else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
+        }
+        else if(resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT){
            if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
         } else if(resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE){
             profileMemberFragment.setUserVisibleHint(true);
@@ -733,8 +773,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
             }else {
                 Toast.makeText(this,"Fail to Survey",Toast.LENGTH_SHORT).show();
             }
-
-
+        }else if(resultCode == ChildFollowupActivity.RESULT_CHILD_FOLLOW_UP){
+            if(mViewPager!=null) mViewPager.setCurrentItem(2,true);
         }
         super.onActivityResult(requestCode, resultCode, data);
 

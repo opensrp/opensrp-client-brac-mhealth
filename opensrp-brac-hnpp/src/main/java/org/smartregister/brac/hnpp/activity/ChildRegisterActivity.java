@@ -47,7 +47,11 @@ public class ChildRegisterActivity extends CoreChildRegisterActivity {
             }
 //            boolean paymentEnable = ssLocationForms.get(0).payment_enable;
 //            if(paymentEnable){
+            if(HnppConstants.isPALogin()){
+                findViewById(R.id.payment_view).setVisibility(View.GONE);
+            }else{
                 findViewById(R.id.payment_view).setVisibility(View.VISIBLE);
+            }
 //            }else{
 //                findViewById(R.id.payment_view).setVisibility(View.GONE);
 //            }

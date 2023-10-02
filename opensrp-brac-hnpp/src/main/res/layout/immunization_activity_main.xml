@@ -21,7 +21,20 @@
 
     <!--</android.support.design.widget.AppBarLayout>-->
 
+
     <include layout="@layout/content_main"/>
+
+
+        <LinearLayout
+            android:id="@+id/read_only_lay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:saveEnabled="true"
+            android:visibility="gone"
+            android:background="#60D6D6D6"
+            android:focusable="true"
+            android:orientation="vertical">
+        </LinearLayout>
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:id="@+id/fab"-->

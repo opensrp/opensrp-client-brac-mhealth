@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
+import org.smartregister.brac.hnpp.activity.ChildGMPActivity;
+import org.smartregister.brac.hnpp.activity.ChildVaccinationActivity;
+import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFormViewActivity;
 import org.smartregister.brac.hnpp.adapter.MemberHistoryAdapter;
 import org.smartregister.brac.hnpp.contract.MemberHistoryContract;
@@ -159,8 +164,16 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
     }
 
     private void startFormActivity(MemberHistoryData content){
-        showProgressBar();
-        presenter.getVisitFormWithData(content);
+        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+        if(content.getTitle().equalsIgnoreCase(getActivity().getString(R.string.immunizations))){
+            ChildVaccinationActivity.startChildVaccinationActivity(activity,activity.getIntent().getExtras(),activity.commonPersonObject,activity.isOnlyVacc,true);
+        }else if(content.getTitle().equalsIgnoreCase(getActivity().getString(R.string.gmp))){
+            ChildGMPActivity.startGMPActivity(activity,activity.getIntent().getExtras(),activity.commonPersonObject,true);
+        }else {
+            showProgressBar();
+            presenter.getVisitFormWithData(content);
+        }
+
 
     }
     public void makeReadOnlyFields(JSONObject jsonObject){

@@ -35,6 +35,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
+import org.smartregister.brac.hnpp.activity.ChildGMPActivity;
 import org.smartregister.brac.hnpp.activity.ChildVaccinationActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
@@ -54,8 +56,6 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
-import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
-import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -76,6 +76,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -111,7 +112,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     private static final int TAG_CHILD_DUE = 444;
     private static final int TAG_OPEN_CORONA = 88888;
     private static final int TAG_EYE_TEST_BT_CLICK = 4444;
+    private static final int TAG_NO_IMMUNIZATION_CLICK = 4446;
     private static final int TAG_CHILD_COUNSELING_BT_CLICK = 4445;
+    private static final int TAG_IMMUNIZATION = 3339;
+    private static final int TAG_GMP = 3340;
 
 
     private int dueCount = 0;
@@ -152,12 +156,16 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         this.childBaseEntityId = baseEntityId;
     }
 
+    /**
+     * child due validation
+     * @return status 1-> success, 2-> failed, 3-> no need
+     */
     public int validate() {
         if (listValidation() == 1) {
             ((HouseHoldVisitActivity) getActivity()).onEachMemberDueValidate.validate(1, currentChildPosition);
             return 1;
         } else if (listValidation() == 2) {
-            Toast.makeText(getActivity(), "Invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
             return 2;
         } else {
             return 3;
@@ -327,6 +335,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     String eventType = "";
     View childInfo1View, childInfo2View, childInfo3View;
 
+    /**
+     * added all service and due
+     */
     private void addStaticView() {
         if (getActivity() == null || getActivity().isFinishing()) return;
         if (otherServiceView.getVisibility() == View.VISIBLE) {
@@ -368,6 +379,49 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         familyView.setTag(TAG_OPEN_FAMILY);
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);*/
+
+        {
+            ChildService childService = new ChildService();
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
+            ImageView fImg = view.findViewById(R.id.image_view);
+            TextView name =  view.findViewById(R.id.patient_name_age);
+
+            AppCompatButton noNeedButton = view.findViewById(R.id.noNeedBt);
+            noNeedButton.setText(getActivity().getString(R.string.no_immunization_info));
+            noNeedButton.setVisibility(View.VISIBLE);
+            noNeedButton.setTag(TAG_NO_IMMUNIZATION_CLICK);
+            noNeedButton.setTag(R.string.child_immunization,view);
+            noNeedButton.setOnClickListener(this);
+
+            view.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.VACCINATION));
+            name.setText(getActivity().getString(R.string.immunizations));
+            view.setTag(TAG_IMMUNIZATION);
+            view.setOnClickListener(this);
+            otherServiceView.addView(view);
+
+            childService.setTag(TAG_IMMUNIZATION);
+            childService.setEventType(HnppConstants.EVENT_TYPE.VACCINATION);
+            childService.setView(view);
+            serviceList.add(childService);
+        }
+        {
+            ChildService childService = new ChildService();
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
+            ImageView fImg = view.findViewById(R.id.image_view);
+            TextView name =  view.findViewById(R.id.patient_name_age);
+            view.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.GMP));
+            name.setText(getActivity().getString(R.string.gmp));
+            view.setTag(TAG_GMP);
+            view.setOnClickListener(this);
+            otherServiceView.addView(view);
+
+            childService.setTag(TAG_GMP);
+            childService.setEventType(HnppConstants.EVENT_TYPE.GMP);
+            childService.setView(view);
+            serviceList.add(childService);
+        }
 
         {
             ChildService childService = new ChildService();
@@ -674,6 +728,10 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
     }
 
 
+    /**
+     * opening form by tag
+     * @param v view
+     */
     @Override
     public void onClick(View v) {
         onClickView = true;
@@ -771,9 +829,39 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                 case HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE:
                     openServiceForms(HnppConstants.JSON_FORMS.EYE_TEST);
                     break;
+                case TAG_IMMUNIZATION:
+                    startGmpOrImm("im");
+                    break;
+                case TAG_GMP:
+                    startGmpOrImm("gmp");
+                    break;
+                case TAG_NO_IMMUNIZATION_CLICK:
+                    ImageView checkImImm = ((View) v.getTag(R.string.child_immunization)).findViewById(R.id.check_im);
+                    checkImImm.setImageResource(R.drawable.success);
+                    checkImImm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    currentView = ((View) v.getTag(R.string.child_immunization));
+                    setNoNeedStatusToList();
+                    return;
             }
         }
         currentView = v;
+    }
+
+    private void startGmpOrImm(String type) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ChildFollowupActivity.BASE_ENTITY_ID,childBaseEntityId);
+        bundle.putSerializable(ChildFollowupActivity.COMMON_PERSON,commonPersonObjectClient);
+
+        if(Objects.equals(type, "im")){
+            long day = FormApplicability.getDay(commonPersonObjectClient);
+
+            //means greater than 24 month
+            boolean isOnlyVacc = day >= 577;
+            bundle.putBoolean(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVacc);
+            ChildVaccinationActivity.startChildVaccinationActivity(getActivity(),bundle,commonPersonObjectClient,isOnlyVacc);
+        }else {
+            ChildGMPActivity.startGMPActivity(getActivity(),bundle,commonPersonObjectClient);
+        }
     }
 
     @Override
@@ -1039,12 +1127,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                         public void onComplete() {
                             if (isSave.get() == 1) {
                                 //serviceList.get(currentPosition).setStatus(true);
-                                ImageView checkIm = currentView.findViewById(R.id.check_im);
-                                checkIm.setImageResource(R.drawable.success);
-                                checkIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
-                                currentView.setClickable(false);
-                                currentView.setEnabled(false);
-                                setStatusToList();
+                                updateCurrentView(true);
                                 activity.hideProgressDialog();
                                 showServiceDoneDialog(1);
                             } else if (isSave.get() == 3) {
@@ -1056,32 +1139,24 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                             }
                         }
                     });
-          /*  Runnable runnable = () -> {
-                if(!isProcessing){
-                    isProcessing = true;
-                    String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-                    String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-                    String visitId = JsonFormUtils.generateRandomUUIDString();
-                    HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
 
-                    isSave.set(processVisitFormAndSave(jsonString,formSubmissionId,visitId));
-                }
-                appExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(isSave.get()){
-                            hideProgressDialog();
-                            showServiceDoneDialog(true);
-                        }else {
-                            hideProgressDialog();
-                            showServiceDoneDialog(false);
-                        }
-                    }
-                });
-            };
-            appExecutors.diskIO().execute(runnable);*/
+        }
 
-        } else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT) {
+        //handling gmp submission status
+        else  if(resultCode == ChildGMPActivity.GMP_RESULT_CODE){
+            if (data != null && data.getBooleanExtra("GMP_TAKEN", false)) {
+                updateCurrentView(true);
+            }
+        }
+        //handling vaccine submission status
+        else if(resultCode == ChildVaccinationActivity.VACCINE_RESULT_CODE){
+            if(data != null){
+               boolean isImmunizationTaken = data.getBooleanExtra("VACCINE_TAKEN", false);
+                updateCurrentView(isImmunizationTaken);
+            }
+        }
+
+        else if (resultCode == Activity.RESULT_OK && requestCode == org.smartregister.chw.anc.util.Constants.REQUEST_CODE_HOME_VISIT) {
             //if(mViewPager!=null) mViewPager.setCurrentItem(0,true);
         } else if (resultCode == Activity.RESULT_OK && requestCode == ChildVaccinationActivity.VACCINE_REQUEST_CODE) {
             //profileMemberFragment.setUserVisibleHint(true);
@@ -1095,6 +1170,32 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private void updateCurrentView(boolean status) {
+        ImageView checkIm = currentView.findViewById(R.id.check_im);
+        if(status){
+            setStatusToList();
+            checkIm.setImageResource(R.drawable.success);
+            checkIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
+            View buttonView = (View) currentView.findViewById(R.id.noNeedBt);
+            buttonView.setClickable(false);
+            buttonView.setEnabled(false);
+
+            currentView.setClickable(false);
+            currentView.setEnabled(false);
+        }else {
+            setNoNeedStatusToList();
+            checkIm.setImageResource(R.drawable.success);
+            checkIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+            View buttonView = (View) currentView.findViewById(R.id.noNeedBt);
+            buttonView.setClickable(false);
+            buttonView.setEnabled(true);
+
+            currentView.setClickable(false);
+            currentView.setEnabled(true);
+        }
 
     }
 
@@ -1170,22 +1271,6 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                 dialog.dismiss();
                 dialog = null;
                 isProcessing = false;
-                //if(isSuccess){
-              /*  if(memberHistoryFragment !=null){
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgressDialog();
-                            mViewPager.setCurrentItem(2,true);
-                            if(memberOtherServiceFragment !=null){
-                                memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
-                                memberOtherServiceFragment.updateStaticView();
-                            }
-
-                        }
-                    },1000);
-                }*/
-                //}
             }
         });
         dialog.show();

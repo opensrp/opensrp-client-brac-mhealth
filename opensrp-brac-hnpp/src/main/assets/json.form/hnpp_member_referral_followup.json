@@ -59,6 +59,27 @@
         "value": "hnpp_member_referral_followup"
       },
       {
+        "key": "referral_output",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referral_output",
+        "type": "spinner",
+        "hint": "রেফারের ফলাফল",
+        "values": [
+          "সুস্থ",
+          "মৃত"
+        ],
+        "openmrs_choice_ids": {
+          "সুস্থ": "normal",
+          "মৃত": "die"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+
+      {
         "key": "caused_referred",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -71,6 +92,14 @@
           "প্রসবে সমস্যা",
           "প্রসব পরবর্তী সমস্যা",
           "শিশু বিষয়ক সমস্যা",
+          "মারাত্মক অপুষ্টি",
+          "বেশি ওজন",
+          "মাঝারি অপুষ্টি",
+          "স্বল্প অপুষ্টি",
+          "মারাত্মক খর্ব",
+          "মাঝারি খর্ব",
+          "স্বল্প খর্ব",
+          "বেশি খর্ব",
           "চোখে সমস্যা",
           "ডায়াবেটিস",
           "উচ্চ রক্তচাপ",
@@ -84,6 +113,14 @@
           "প্রসব পরবর্তী সমস্যা": "pnc_problem",
           "শিশু বিষয়ক সমস্যা": "child_problems",
           "চোখে সমস্যা": "problems_eyes",
+          "মারাত্মক অপুষ্টি": "severe_malnutrition",
+          "বেশি ওজন": "overweight",
+          "মাঝারি অপুষ্টি": "moderate_malnutrition",
+          "স্বল্প অপুষ্টি": "malnutrition",
+          "মারাত্মক খর্ব": "severe_short",
+          "মাঝারি খর্ব": "moderate_short",
+          "স্বল্প খর্ব": "medium_short",
+          "বেশি খর্ব": "over_short",
           "ডায়াবেটিস": "diabetes",
           "উচ্চ রক্তচাপ": "high_blood_pressure",
           "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা": "problems_with_birth_control",

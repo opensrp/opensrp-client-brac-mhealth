@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -28,7 +27,6 @@ import com.vijay.jsonwizard.domain.Form;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -40,8 +38,6 @@ import org.smartregister.brac.hnpp.fragment.HouseHoldMemberFragment;
 import org.smartregister.brac.hnpp.listener.OnEachMemberDueValidate;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
-import org.smartregister.brac.hnpp.location.SSLocationHelper;
-import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.model.ChildService;
 import org.smartregister.brac.hnpp.model.HhForumDetails;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
@@ -50,7 +46,6 @@ import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
-import org.smartregister.brac.hnpp.utils.MigrationSearchContentData;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.repository.VisitRepository;
@@ -79,7 +74,6 @@ import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -93,14 +87,9 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     public String moduleId;
     public String houseHoldId;
     public HnppFamilyProfileModel model;
-    public MigrationSearchContentData migrationSearchContentData;
-
     public OnUpdateMemberList onUpdateMemberList;
     public OnEachMemberDueValidate onEachMemberDueValidate;
-
     boolean isSuccess = false;
-
-
     public FragmentManager fragmentManager;
     private boolean isFinalSubmission = false;
     public static int HOUSE_HOLD_FINISH_CODE = 301;
@@ -190,6 +179,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
     }
 
+    /**
+     * process and save hh visit data
+     * and total event client
+     * @param eventType //to create event client
+     */
     private void submitTotalData(String eventType) {
         showProgressDialog(R.string.please_wait_message);
         Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
@@ -230,6 +224,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
     Dialog dialog;
 
+    /**
+     * service done dialog
+     * @param isSuccess // as status
+     */
     private void showServiceDoneDialog(Integer isSuccess) {
         if (dialog != null) return;
         dialog = new Dialog(this);
@@ -253,6 +251,13 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         dialog.show();
     }
 
+
+    /**
+     * process and save hh visit data
+     * @param fragment //fragment to access data
+     * @param eventType //to create event and client
+     * @return observable
+     */
     private Observable<Boolean> proccessAndSaveHHData(Fragment fragment, String eventType) {
         return Observable.create(e -> {
             try {
@@ -315,6 +320,12 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         });
     }
 
+
+    /**
+     * update ss location to client
+     * @param clientjson //client json
+     * @return // list
+     */
     private static List<Address> updateWithSSLocation(JSONObject clientjson) {
         try {
             String addessJson = clientjson.getString("addresses");
@@ -337,6 +348,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         return AncLibrary.getInstance().visitRepository();
     }
 
+    /**
+     * got to next fragment
+     * @param fragment
+     */
     private void gotoNextFrag(Fragment fragment) {
         if (currentFragmentIndex < 3) {
             setupFragment(fragmentList.get(currentFragmentIndex), fragmentTagList.get(currentFragmentIndex));
@@ -368,6 +383,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
     }
 
+    /**
+     * fragment transaction for member due fragment only
+     * @param fragment for rendering
+     * @param tag      to add backstack
+     */
     public void setupFragment(Fragment fragment, String tag, Bundle bdl) {
         fragment.setArguments(bdl);
         if (fragmentManager == null) {
@@ -437,15 +457,13 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     @Override
     public void onBackPressed() {
 
-       /* if (currentFragmentIndex == 0) {
-            finish();
-            return;
-        }*/
         Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
+        //return if current fragment is last fragment
         if(fragment instanceof HouseHoldFormTypeFragment){
-            finish();
             return;
         }
+        //check validation for HouseHoldMemberDueFragment
+        //and trigger back press
         else if (fragment instanceof HouseHoldMemberDueFragment) {
             HouseHoldMemberDueFragment fragment1 = ((HouseHoldMemberDueFragment) fragment);
             int isValid = fragment1.validate();
@@ -458,7 +476,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
             }else {
                 return;
             }
-        } else if (fragment instanceof HouseHoldChildProfileDueFragment) {
+        }
+        //check validation for HouseHoldChildProfileDueFragment
+        //and trigger back press
+        else if (fragment instanceof HouseHoldChildProfileDueFragment) {
             HouseHoldChildProfileDueFragment fragment1 = ((HouseHoldChildProfileDueFragment) fragment);
             int isValid = fragment1.validate();
             if (isValid == 1 || isValid == 3) {
@@ -470,7 +491,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
             }else {
                 return;
             }
-        } else if (fragment instanceof HouseHoldMemberFragment) {
+        }
+        //check validation for HouseHoldMemberFragment
+        //and trigger back press
+        else if (fragment instanceof HouseHoldMemberFragment) {
             if(((HouseHoldMemberFragment) fragment).isAnyDataAdded()) {
                 return;
             }else {
@@ -481,6 +505,11 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         currentFragmentIndex--;
     }
 
+    /**
+     * update visibility for last step
+     * if all data added then visible only HH visit
+     * and gone all
+     */
     void updateHHVisitLayoutVisibility(){
         super.onBackPressed();
         Fragment curFragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
@@ -507,6 +536,12 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         return ((FamilyProfilePresenter) presenter);
     }
 
+    /**
+     * call onActivityResult for specific fragment
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
