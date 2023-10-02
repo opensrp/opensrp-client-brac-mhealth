@@ -264,7 +264,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 hhForumDetails.isMigrationAdded = ((HouseHoldFormTypeFragment) fragment).migratedMemberListJson.size() > 0;
                 hhForumDetails.isPregnancyAdded = ((HouseHoldFormTypeFragment) fragment).pregancyMemberListJson.size() > 0;
                 hhForumDetails.isHhInfoAdded = ((HouseHoldFormTypeFragment) fragment).isValidateHhVisit;
-
+                hhForumDetails.isMemberImported = ((HouseHoldFormTypeFragment) fragment).memberImportListJson.size() > 0;
                 FormTag formTag = formTag(Utils.getAllSharedPreferences());
                 formTag.appVersionName = BuildConfig.VERSION_NAME;
                 Log.v("FORUM_TEST", "processAndSaveForum>>eventType:" + eventType + ":baseEntityId:" + baseEntityId);
@@ -491,6 +491,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 ((HouseHoldFormTypeFragment) curFragment).deathInfoLay.setVisibility(View.GONE);
                 ((HouseHoldFormTypeFragment) curFragment).migrationInfoLay.setVisibility(View.GONE);
                 ((HouseHoldFormTypeFragment) curFragment).pregnancyRegLay.setVisibility(View.GONE);
+                ((HouseHoldFormTypeFragment) curFragment).memberImportLay.setVisibility(View.GONE);
             }
         }
 

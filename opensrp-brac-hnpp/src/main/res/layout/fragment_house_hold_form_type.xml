@@ -295,7 +295,77 @@
         android:background="@color/grey"
         app:layout_constraintTop_toBottomOf="@id/pregnancy_lay"
         />
+    <LinearLayout
+        android:id="@+id/member_migration_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pregnancy_lay">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/member_import_info_im"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:contentDescription="check"
+                android:src="@drawable/circle_background" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/member_import"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/member_import_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="1 record added"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/member_migration_info_bt"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="4"
+            android:textColor="@color/white"
+            android:background="@drawable/vaccine_card_background_blue"
+            android:drawablePadding="5dp"
+            android:text="@string/member_no_import" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/member_migration_lay"
+        />
     <LinearLayout
         android:id="@+id/hh_info_update_lay"
         android:layout_width="match_parent"
@@ -307,7 +377,7 @@
         android:weightSum="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pregnancy_lay">
+        app:layout_constraintTop_toBottomOf="@+id/member_migration_lay">
 
         <LinearLayout
             android:layout_width="wrap_content"

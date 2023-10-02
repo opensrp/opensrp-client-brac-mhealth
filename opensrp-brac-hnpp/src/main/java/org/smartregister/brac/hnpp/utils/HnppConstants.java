@@ -245,7 +245,7 @@ public class HnppConstants extends CoreConstants {
 
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD, NCD, ADULT}
 
-    public enum MIGRATION_TYPE {HH, Member}
+    public enum MIGRATION_TYPE {HH, Member,IMPORT_MM}
 
     public static boolean isConnectedToInternet(Context context) {
         ConnectivityManager conMgr = null;
@@ -634,8 +634,10 @@ public class HnppConstants extends CoreConstants {
         });
         dialog.show();
     }
-
-    public static void showDialogWithAction(Context context, String title, String text, Runnable runnable) {
+    public static void showDialogWithAction(Context context, String title, String text, Runnable okClick) {
+        showDialogWithAction(context,title,text,okClick,null);
+    }
+    public static void showDialogWithAction(Context context, String title, String text, Runnable okClick,Runnable cancelClick) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_two_button);
@@ -646,6 +648,9 @@ public class HnppConstants extends CoreConstants {
         dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(cancelClick!=null){
+                    cancelClick.run();
+                }
                 dialog.dismiss();
             }
         });
@@ -653,7 +658,7 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                runnable.run();
+                okClick.run();
             }
         });
         dialog.show();

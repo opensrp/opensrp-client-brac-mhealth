@@ -410,6 +410,7 @@
     <string name="death_added"> টি মৃত্যু তথ্য রেকর্ড করা হয়েছে</string>
     <string name="migration_added"> টি স্থানান্তর তথ্য রেকর্ড করা হয়েছে</string>
     <string name="pregnancy_added"> টি গর্ভবতী রেকর্ড করা হয়েছে</string>
+   <string name="member_added"> টি সদস্য ইম্পোর্ট করা হয়েছে</string>
    <string name="absent">উপস্থিত নেই</string>
    <string name="update_hh_data">খানার তথ্য আপডেট করুন</string>
    <string name="no_need_service">সার্ভিসটি এখন দরকার নেই</string>
@@ -417,5 +418,7 @@
    <string name="anc_form_submit_alert">আপনি কি এ এন সি সেবা নিতে ইচ্ছুক ?</string>
    <string name="eye_test_key">eye_test_key</string>
    <string name="child_counseling_key">child_counseling_key</string>
+    <string name="member_import">সদস্য ইম্পোর্ট</string>
+    <string name="member_no_import">সদস্য ইম্পোর্ট নেই</string>
 
 </resources>

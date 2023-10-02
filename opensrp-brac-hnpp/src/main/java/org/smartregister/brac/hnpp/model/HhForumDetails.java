@@ -11,5 +11,6 @@ public class HhForumDetails implements Serializable {
     public boolean isMigrationAdded;
     public boolean isPregnancyAdded;
     public boolean isHhInfoAdded;
+    public boolean isMemberImported;
 }
 

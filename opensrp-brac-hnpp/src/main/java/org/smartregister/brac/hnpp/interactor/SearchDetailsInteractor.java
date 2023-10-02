@@ -62,6 +62,9 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
 //        villageId = "9315";
 //        gender ="F";
 //        age ="50";
+        if(type.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.IMPORT_MM.name())){
+            type = HnppConstants.MIGRATION_TYPE.Member.name();
+        }
         if(type.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
             gender ="";
             startAge ="-1";

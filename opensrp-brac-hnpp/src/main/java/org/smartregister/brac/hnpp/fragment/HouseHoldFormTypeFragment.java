@@ -39,6 +39,8 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
+import org.smartregister.brac.hnpp.activity.MigrationActivity;
+import org.smartregister.brac.hnpp.activity.MigrationFilterSearchActivity;
 import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
@@ -49,6 +51,7 @@ import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
 import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
 import org.smartregister.chw.anc.domain.Visit;
@@ -76,34 +79,38 @@ import timber.log.Timber;
 
 public class HouseHoldFormTypeFragment extends Fragment implements MemberListContract.View {
     public static String TAG = "HouseHoldFormTypeFragment";
-
+    public static int REQUEST_CODE_IMPORT_MM = 6011;
+    public static String PUT_EXTRA_IMPORT_MM = "import_mm";
     public LinearLayout newBornLay;
     public LinearLayout deathInfoLay;
     public LinearLayout migrationInfoLay;
     public LinearLayout pregnancyRegLay;
     public LinearLayout hhUpdateLay;
-
+    public LinearLayout memberImportLay;
     Button noNewBornBt;
     Button noDeathBt;
     Button noMigrationBt;
     Button noPregnancyBt;
+    Button noMemberImportBtn;
 
     AppCompatImageView newBornCheckIm;
     AppCompatImageView deathCheckIm;
     AppCompatImageView migrationCheckIm;
     AppCompatImageView pregnancyCheckIm;
-
+    AppCompatImageView memberImportCheckIm;
     AppCompatImageView hh_info_CheckIm;
 
     AppCompatTextView newBornCountTv;
     AppCompatTextView deathCountTv;
     AppCompatTextView migrationCountTv;
     AppCompatTextView pregnancyCountTv;
+    AppCompatTextView memberImportCountTV;
 
     boolean isValidateNewborn = false;
     boolean isValidateDeath = false;
     boolean isValidateMigration = false;
     boolean isValidatePregReg = false;
+    boolean isValidateMemberImport = false;
     public boolean isValidateHhVisit = false;
     private MemberListPresenter memberHistoryPresenter;
     private String familyId = "";
@@ -112,7 +119,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     public final ArrayList<String> removedMemberListJson = new ArrayList<>();
     public final ArrayList<String> migratedMemberListJson = new ArrayList<>();
     public final ArrayList<String> pregancyMemberListJson = new ArrayList<>();
-
+    public final ArrayList<String> memberImportListJson = new ArrayList<>();
     Dialog dialog;
     private boolean isProcessing = false;
     private String houseHoldId;
@@ -142,6 +149,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         removedMemberListJson.clear();
         migratedMemberListJson.clear();
         pregancyMemberListJson.clear();
+        memberListJson.clear();
     }
 
     public boolean finalValidation(){
@@ -157,6 +165,18 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v("ON_ACTIVITY_RESULT","onActivityResult>>requestCode:"+requestCode+":resultCode:"+resultCode);
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMPORT_MM){
+            String status = data.getStringExtra(PUT_EXTRA_IMPORT_MM);
+            if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("done")){
+                memberImportListJson.add(status);
+                updateUi();
+            }else{
+                memberImportCheckIm.setImageResource(R.drawable.success);
+                memberImportCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+
+            }
+        }
         if (resultCode == Activity.RESULT_OK && requestCode == MemberListDialogFragment.REQUEST_CODE) {
             MemberTypeEnum memberTypeEnum = (MemberTypeEnum) data.getSerializableExtra(MemberListDialogFragment.MEMBER_TYPE);
             if (memberTypeEnum == MemberTypeEnum.DEATH) {
@@ -525,24 +545,25 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         migrationInfoLay = view.findViewById(R.id.migration_info_lay);
         pregnancyRegLay = view.findViewById(R.id.pregnancy_lay);
         hhUpdateLay = view.findViewById(R.id.hh_info_update_lay);
+        memberImportLay = view.findViewById(R.id.member_migration_lay);
 
         noNewBornBt = view.findViewById(R.id.no_new_born_bt);
         noDeathBt = view.findViewById(R.id.dead_info_bt);
         noMigrationBt = view.findViewById(R.id.migration_info_bt);
         noPregnancyBt = view.findViewById(R.id.pregnancy_bt);
-
+        noMemberImportBtn = view.findViewById(R.id.member_migration_info_bt);
         newBornCheckIm = view.findViewById(R.id.newborn_check_im);
         deathCheckIm = view.findViewById(R.id.death_info_im);
         migrationCheckIm = view.findViewById(R.id.migration_info_im);
         pregnancyCheckIm = view.findViewById(R.id.pregnancy_check_im);
         hh_info_CheckIm = view.findViewById(R.id.hh_info_check_im);
-
+        memberImportCheckIm = view.findViewById(R.id.member_import_info_im);
 
         newBornCountTv = view.findViewById(R.id.new_born_count_tv);
         deathCountTv = view.findViewById(R.id.death_count_tv);
         migrationCountTv = view.findViewById(R.id.migration_count_tv);
         pregnancyCountTv = view.findViewById(R.id.pregnancy_count_tv);
-
+        memberImportCountTV = view.findViewById(R.id.member_import_count_tv);
         ///new born button handle
         noNewBornBt.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -630,7 +651,34 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                 }
             }
         });
+        memberImportLay.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View view) {
+                HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);
+                MigrationFilterSearchActivity.startMigrationFilterActivity(getActivity(),HnppConstants.MIGRATION_TYPE.IMPORT_MM.name(),REQUEST_CODE_IMPORT_MM,familyId,houseHoldInfo.getHouseHoldHeadId());
 
+            }
+        });
+        noMemberImportBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View view) {
+                if ((view.getTag()) == null) {
+                    memberImportCheckIm.setImageResource(R.drawable.success);
+                    memberImportCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    memberImportLay.setClickable(true);
+                    isValidateMemberImport = true;
+                    return;
+                }
+
+                if (memberImportListJson.size() > 0) {
+                    HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);
+
+                    MigrationFilterSearchActivity.startMigrationFilterActivity(getActivity(),HnppConstants.MIGRATION_TYPE.IMPORT_MM.name(),REQUEST_CODE_IMPORT_MM,familyId,houseHoldInfo.getHouseHoldHeadId());
+                }
+            }
+        });
         ///pregnancy registration button handle
         noPregnancyBt.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -742,6 +790,19 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             isValidatePregReg = true;
         } else {
             pregnancyCountTv.setVisibility(View.GONE);
+        }
+        //member import
+        if (memberImportListJson.size() > 0) {
+            memberImportCountTV.setVisibility(View.VISIBLE);
+            memberImportCountTV.setText(String.format(new Locale("bn"), "%d%s", memberImportListJson.size(), getActivity().getString(R.string.member_added)));
+            noMemberImportBtn.setText(R.string.add_more_member);
+            noMemberImportBtn.setTag(true);
+            memberImportCheckIm.setImageResource(R.drawable.success);
+            memberImportCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
+            memberImportLay.setClickable(false);
+            isValidateMemberImport = true;
+        } else {
+            memberImportCountTV.setVisibility(View.GONE);
         }
 
         if (isValidateHhVisit){

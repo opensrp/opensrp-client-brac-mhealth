@@ -446,7 +446,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         vall.add(forumDetails.isHhInfoAdded);
         event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
                 formSubmissionField));
-
+        formSubmissionField = "isMemberImported";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isMemberImported);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
         for(Member member : memberArrayList){
             String field = member.getBaseEntityId();
             vall = new ArrayList<>();
