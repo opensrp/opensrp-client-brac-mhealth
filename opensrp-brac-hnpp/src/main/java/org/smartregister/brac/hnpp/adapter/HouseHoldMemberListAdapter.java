@@ -64,10 +64,16 @@ public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMe
         }else if(content.getStatus() == 2){//failed
             viewHolder.checkIm.setImageResource(R.drawable.success);
             viewHolder.checkIm.setColorFilter(ContextCompat.getColor(context, android.R.color.holo_orange_dark));
+            viewHolder.itemView.setClickable(true);
+            viewHolder.itemView.setEnabled(true);
+            viewHolder.absentBt.setEnabled(true);
         }
         else {//no data found
             viewHolder.checkIm.setImageResource(R.drawable.circle_background);
             viewHolder.checkIm.clearColorFilter();
+            viewHolder.itemView.setClickable(true);
+            viewHolder.itemView.setEnabled(true);
+            viewHolder.absentBt.setEnabled(true);
         }
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
         viewHolder.absentBt.setOnClickListener(new View.OnClickListener() {
