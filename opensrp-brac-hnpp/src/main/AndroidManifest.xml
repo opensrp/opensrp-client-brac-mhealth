@@ -23,7 +23,7 @@
     <application
         android:name=".HnppApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/app_icon"
+        android:icon="@drawable/ic_shb_logo_maa_shishu_gov"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"

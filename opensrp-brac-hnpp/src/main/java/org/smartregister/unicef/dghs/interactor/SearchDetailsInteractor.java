@@ -21,6 +21,7 @@ import org.smartregister.unicef.dghs.utils.OtherVaccineContentData;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class SearchDetailsInteractor implements SearchDetailsContract.Interactor {
@@ -75,12 +76,14 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             request.put("brn",contentData.brn);
             request.put("dob",contentData.dob);
             String jsonPayload = request.toString();
+            HashMap<String,String> headers = new HashMap<>();
+            headers.put("dd",BuildConfig.dd);
            // Response response = httpAgent.fetchWithoutAuth(url);
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
 
             Response<String> response = httpAgent.postWithHeaderAndJwtToken(url
                     ,
-                    jsonPayload,null,BuildConfig.JWT_TOKEN);
+                    jsonPayload,headers,BuildConfig.JWT_TOKEN);
 
             HnppConstants.appendLog("GLOBAL_SEARCH_URL", "pushECToServer:response comes"+response.payload());
             if (response.isFailure()) {

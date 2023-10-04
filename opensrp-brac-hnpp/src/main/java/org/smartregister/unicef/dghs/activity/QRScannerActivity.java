@@ -265,6 +265,7 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         builder.append(this.getString(R.string.bid,content.brn));
         if(TextUtils.isEmpty(content.brn)){
             Toast.makeText(this,"No result found",Toast.LENGTH_LONG).show();
+            finish();
             return;
         }
         Dialog dialog = new Dialog(this);

@@ -227,8 +227,10 @@ public class HnppConstants extends CoreConstants {
             Log.v("OTHER_VACCINE","jsonPayload>>>"+jsonPayload);
             jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+            HashMap<String,String> headers = new HashMap<>();
+            headers.put("dd",BuildConfig.dd);
             Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
-            Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,null,BuildConfig.JWT_TOKEN);
+            Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
             if (response.isFailure()) {
                 HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
                 return;
