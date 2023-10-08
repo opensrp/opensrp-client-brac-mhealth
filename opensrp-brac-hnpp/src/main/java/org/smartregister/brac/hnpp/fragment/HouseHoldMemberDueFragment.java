@@ -28,7 +28,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.simprints.libsimprints.Tier;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
@@ -39,17 +38,15 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity;
-import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.activity.HnppHomeVisitActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
-import org.smartregister.brac.hnpp.adapter.HnppMemberProfileDueAdapter;
 import org.smartregister.brac.hnpp.adapter.HouseHoldMemberProfileDueAdapter;
 import org.smartregister.brac.hnpp.contract.HnppMemberProfileContract;
 import org.smartregister.brac.hnpp.interactor.HnppMemberProfileInteractor;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
-import org.smartregister.brac.hnpp.listener.OnEachMemberDueValidate;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.model.Survey;
@@ -68,8 +65,6 @@ import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.Constants;
-import org.smartregister.simprint.SimPrintsConstantHelper;
-import org.smartregister.simprint.SimPrintsVerification;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 
@@ -202,6 +197,37 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         fetchData();
     }
 
+    /**
+     * checking data exist or not for particular hh
+     */
+    private void checkDataFromLocalDb() {
+        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getMemberDueInfo(familyBaseEntityId,baseEntityId, HnppConstants.EVENT_TYPE.HH_MEMBER_DUE);
+        for (HHVisitInfoModel data : datas) {
+            isExistData(data);
+        }
+    }
+
+    private void isExistData(HHVisitInfoModel model) {
+        for (MemberProfileDueData member : serviceList) {
+            if (member.getEventType().equals(model.eventType)) {
+                member.setStatus(model.isDone);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
+    public void addDataToDb(MemberProfileDueData member) {
+        HHVisitInfoModel hhVisitInfoModel = new HHVisitInfoModel();
+        hhVisitInfoModel.pageEventType = HnppConstants.EVENT_TYPE.HH_MEMBER_DUE;
+        hhVisitInfoModel.eventType = member.getEventType();
+        hhVisitInfoModel.hhBaseEntityId = familyBaseEntityId;
+        hhVisitInfoModel.memberBaseEntityId = baseEntityId;
+        hhVisitInfoModel.infoCount = 1;
+        hhVisitInfoModel.isDone = member.getStatus();
+        HnppApplication.getHHVisitInfoRepository().addOrUpdateHhMemmerData(hhVisitInfoModel);
+    }
+
     private void fetchData() {
         showProgressBar();
         presenter.fetchDataForHh(commonPersonObjectClient, baseEntityId);
@@ -223,6 +249,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         public void onClick(int position, MemberProfileDueData content) {
             serviceList.get(position).setStatus(2);
             adapter.notifyDataSetChanged();
+            addDataToDb(serviceList.get(position));
         }
     };
 
@@ -611,6 +638,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
+                                    addDataToDb(serviceList.get(currentPosition));
                                 }
                             } else if (isSave.get() == 3) {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
@@ -654,6 +682,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
+                                    addDataToDb(serviceList.get(currentPosition));
                                 }
                             } else {
                                 ((HouseHoldVisitActivity) getActivity()).hideProgressDialog();
@@ -690,6 +719,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
+                                    addDataToDb(serviceList.get(currentPosition));
                                 }
                             } catch (JSONException je) {
                                 je.printStackTrace();
@@ -707,6 +737,7 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
                                 if (currentPosition != -1) {
                                     serviceList.get(currentPosition).setStatus(1);
                                     adapter.notifyDataSetChanged();
+                                    addDataToDb(serviceList.get(currentPosition));
                                 }
                             } catch (JSONException je) {
                                 je.printStackTrace();
@@ -729,6 +760,8 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         }
 
     }
+
+
 
     private Observable<Boolean> processVisits() {
         return Observable.create(e -> {
@@ -944,6 +977,8 @@ public class HouseHoldMemberDueFragment extends Fragment implements View.OnClick
         adapter.setData(serviceList);
         this.dueRecyclerView.setAdapter(adapter);
         updateOptionMenu(presenter.getLastEventType());
+
+        checkDataFromLocalDb();
     }
 
     private void updateOptionMenu(String eventType) {

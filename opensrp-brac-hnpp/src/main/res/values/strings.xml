@@ -479,7 +479,7 @@
     <string name="referral_followup">রেফারাল ফলোআপ</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="new_born">নতুন জন্ম</string>
+    <string name="new_born">নতুন সদস্য তথ্য</string>
     <string name="death_info">মৃত্যু তথ্য</string>
     <string name="migration_info">স্থানান্তর তথ্য</string>
     <string name="pregnancy_reg">গর্ভবতী রেজিস্ট্রেশন</string>
@@ -489,7 +489,7 @@
     <string name="no_migration">স্থানান্তর নেই</string>
     <string name="no_pregnancy">গর্ভবতী নেই</string>
     <string name="add_more_member">আরো যোগ করুন</string>
-    <string name="record_added"> টি নতুন জন্ম রেকর্ড করা হয়েছে</string>
+    <string name="record_added"> টি নতুন সদস্য রেকর্ড করা হয়েছে</string>
     <string name="death_added"> টি মৃত্যু তথ্য রেকর্ড করা হয়েছে</string>
     <string name="migration_added"> টি স্থানান্তর তথ্য রেকর্ড করা হয়েছে</string>
     <string name="pregnancy_added"> টি গর্ভবতী রেকর্ড করা হয়েছে</string>

@@ -44,6 +44,7 @@ import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.interactor.HnppMemberProfileInteractor;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ChildService;
+import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
@@ -56,6 +57,7 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
@@ -75,6 +77,7 @@ import org.smartregister.util.JsonFormUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -177,7 +180,6 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !isStart) {
             updateStaticView();
-
         }
     }
 
@@ -188,7 +190,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             public void run() {
                 if (getActivity() == null || getActivity().isFinishing()) return;
                 addStaticView();
-                String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
+               /* String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);
                 boolean isImmunizationVisible = FormApplicability.isImmunizationVisible(dob);
                 if (isImmunizationVisible) {
@@ -196,9 +198,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
                         HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
                         b.updateImmunizationData();
                     }
-                }
+                }*/
 
-
+                checkDataFromLocalDb();
             }
         }, 500);
 
@@ -261,6 +263,58 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         if (!onClickView) {
             updateStaticView();
         }
+    }
+
+    /**
+     * checking data exist or not for particular hh
+     */
+    private void checkDataFromLocalDb() {
+        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getMemberDueInfo(familyBaseEntityId,childBaseEntityId, HnppConstants.EVENT_TYPE.HH_MEMBER_DUE);
+        for (HHVisitInfoModel data : datas) {
+            isExistData(data);
+        }
+    }
+
+    private void isExistData(HHVisitInfoModel model) {
+        for (ChildService member : serviceList) {
+            if (member.getEventType().equals(model.eventType)) {
+                member.setStatus(model.isDone);
+                ImageView checkIm = member.getView().findViewById(R.id.check_im);
+                if(model.isDone == 1){
+                    //setStatusToList();
+                    checkIm.setImageResource(R.drawable.success);
+                    checkIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
+                    View buttonView = (View)  member.getView().findViewById(R.id.noNeedBt);
+                    buttonView.setClickable(false);
+                    buttonView.setEnabled(false);
+
+                    member.getView().setClickable(false);
+                    member.getView().setEnabled(false);
+                }else if(model.isDone == 2){
+                    //setNoNeedStatusToList();
+                    checkIm.setImageResource(R.drawable.success);
+                    checkIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+                    View buttonView = (View)  member.getView().findViewById(R.id.noNeedBt);
+                    buttonView.setClickable(true);
+                    buttonView.setEnabled(false);
+
+                    member.getView().setClickable(true);
+                    member.getView().setEnabled(true);
+                }
+                return;
+            }
+        }
+    }
+
+    public void addDataToDb(ChildService member) {
+        HHVisitInfoModel hhVisitInfoModel = new HHVisitInfoModel();
+        hhVisitInfoModel.pageEventType = HnppConstants.EVENT_TYPE.HH_CHILD_DUE;
+        hhVisitInfoModel.eventType = member.getEventType();
+        hhVisitInfoModel.hhBaseEntityId = familyBaseEntityId;
+        hhVisitInfoModel.memberBaseEntityId = childBaseEntityId;
+        hhVisitInfoModel.infoCount = 1;
+        hhVisitInfoModel.isDone = member.getStatus();
+        HnppApplication.getHHVisitInfoRepository().addOrUpdateHhMemmerData(hhVisitInfoModel);
     }
 
     @Override
@@ -691,7 +745,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             childService.setView(view);
             serviceList.add(childService);
         }
-        if (FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.IYCF_PACKAGE)) {
+       /* if (FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.IYCF_PACKAGE)) {
             ChildService childService = new ChildService();
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
             ImageView img = view.findViewById(R.id.image_view);
@@ -712,7 +766,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             childService.setEventType(HnppConstants.EVENT_TYPE.IYCF_PACKAGE);
             childService.setView(view);
             serviceList.add(childService);
-        }
+        }*/
 
     }
 
@@ -1180,7 +1234,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             checkIm.setImageResource(R.drawable.success);
             checkIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
             View buttonView = (View) currentView.findViewById(R.id.noNeedBt);
-            buttonView.setClickable(false);
+            buttonView.setClickable(true);
             buttonView.setEnabled(false);
 
             currentView.setClickable(false);
@@ -1191,9 +1245,9 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             checkIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
             View buttonView = (View) currentView.findViewById(R.id.noNeedBt);
             buttonView.setClickable(false);
-            buttonView.setEnabled(true);
+            buttonView.setEnabled(false);
 
-            currentView.setClickable(false);
+            currentView.setClickable(true);
             currentView.setEnabled(true);
         }
 
@@ -1203,6 +1257,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         for (ChildService childService : serviceList) {
             if (childService.getView().equals(currentView)) {
                 childService.setStatus(1);
+                addDataToDb(childService);
             }
         }
     }
@@ -1211,6 +1266,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         for (ChildService childService : serviceList) {
             if (childService.getView().equals(currentView)) {
                 childService.setStatus(2);
+                addDataToDb(childService);
             }
         }
     }

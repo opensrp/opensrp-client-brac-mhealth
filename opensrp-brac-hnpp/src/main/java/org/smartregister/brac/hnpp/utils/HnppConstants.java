@@ -1199,6 +1199,19 @@ public class HnppConstants extends CoreConstants {
     public class EVENT_TYPE {
         public static final String ELCO = "ELCO Registration";
         public static final String GMP = "GMP";
+        public static final String INPORT_MEMBER = "Import Member";
+        public static final String PREGNANCY = "Pregnancy";
+        public static final String MEMBER_ADD = "Member Add";
+        public static final String HOME_VISIT = "Home Visit";
+        public static final String REMOVE_MEMBER = "Remove Member";
+        public static final String MIGRATE_MEMBER = "Migrate Member";
+        public static final String HH_FORM_TYPE = "HH Form Type";
+        public static final String HH_MEMBER = "HH Member";
+        public static final String HH_MEMBER_DUE = "HH Member Due";
+        public static final String HH_CHILD_DUE = "HH Child Due";
+        public static final String MEMBER_DUE_ADD = "Member Due Add";
+        public static final String MEMBER_EACH_DUE_ADD = "Member Each Due Add";
+
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";

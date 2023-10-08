@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.fragment;
 
 import static android.app.Activity.RESULT_OK;
+import static com.vijay.jsonwizard.constants.JsonFormConstants.EDIT_TYPE;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 
 import static com.vijay.jsonwizard.utils.Utils.hideProgressDialog;
@@ -44,6 +45,7 @@ import org.smartregister.brac.hnpp.activity.MigrationFilterSearchActivity;
 import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
@@ -66,6 +68,7 @@ import org.smartregister.view.customcontrols.CustomFontTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -111,19 +114,24 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     boolean isValidateMigration = false;
     boolean isValidatePregReg = false;
     boolean isValidateMemberImport = false;
-    public boolean isValidateHhVisit = false;
+    public static boolean isValidateHhVisit = false;
     private MemberListPresenter memberHistoryPresenter;
     private String familyId = "";
 
-    public final ArrayList<String> memberListJson = new ArrayList<>();
-    public final ArrayList<String> removedMemberListJson = new ArrayList<>();
-    public final ArrayList<String> migratedMemberListJson = new ArrayList<>();
-    public final ArrayList<String> pregancyMemberListJson = new ArrayList<>();
-    public final ArrayList<String> memberImportListJson = new ArrayList<>();
+    public static final ArrayList<String> memberListJson = new ArrayList<>();
+    public static final ArrayList<String> removedMemberListJson = new ArrayList<>();
+    public static final ArrayList<String> migratedMemberListJson = new ArrayList<>();
+    public static final ArrayList<String> pregancyMemberListJson = new ArrayList<>();
+    public static final ArrayList<String> memberImportListJson = new ArrayList<>();
     Dialog dialog;
     private boolean isProcessing = false;
     private String houseHoldId;
     private String moduleId;
+    public static int existingNewMemberCount = 0;
+    public static int existingRemovedMemberCount = 0;
+    public static int existingMigratedMemberCount = 0;
+    public static int existingPregnantMemberCount = 0;
+    public static int existingImportedMemberCount = 0;
 
 
     public HouseHoldFormTypeFragment() {
@@ -138,10 +146,44 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         HouseHoldVisitActivity activity = ((HouseHoldVisitActivity) getActivity());
         resetData();
         initUi(view);
-
-
+        checkDataFromLocalDb();
 
         return view;
+    }
+
+    /**
+     * checking data exist or not for particular hh
+     */
+    private void checkDataFromLocalDb() {
+        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getHhVisitInfoByHH(familyId, HnppConstants.EVENT_TYPE.HH_FORM_TYPE);
+        for (HHVisitInfoModel model : datas) {
+            switch (model.eventType) {
+                case HnppConstants.EVENT_TYPE.MEMBER_ADD:
+                    existingNewMemberCount = model.infoCount;
+                    isValidateNewborn = model.isDone == 1;
+                    break;
+                case HnppConstants.EVENT_TYPE.REMOVE_MEMBER:
+                    existingRemovedMemberCount = model.infoCount;
+                    isValidateDeath = model.isDone == 1;
+                    break;
+                case HnppConstants.EVENT_TYPE.MIGRATE_MEMBER:
+                    existingMigratedMemberCount = model.infoCount;
+                    isValidateMigration = model.isDone == 1;
+                    break;
+                case HnppConstants.EVENT_TYPE.PREGNANCY:
+                    existingPregnantMemberCount = model.infoCount;
+                    isValidatePregReg = model.isDone == 1;
+                    break;
+                case HnppConstants.EVENT_TYPE.INPORT_MEMBER:
+                    existingImportedMemberCount = model.infoCount;
+                    isValidateMemberImport = model.isDone == 1;
+                    break;
+                case HnppConstants.EVENT_TYPE.HOME_VISIT:
+                    isValidateHhVisit = model.isDone == 1;
+                    break;
+            }
+        }
+        updateUi();
     }
 
     /**
@@ -153,45 +195,59 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         migratedMemberListJson.clear();
         pregancyMemberListJson.clear();
         memberListJson.clear();
+        memberImportListJson.clear();
+
+        existingNewMemberCount = 0;
+        existingRemovedMemberCount = 0;
+        existingMigratedMemberCount = 0;
+        existingPregnantMemberCount = 0;
+        existingImportedMemberCount = 0;
+        isValidateHhVisit = false;
+
     }
 
-    /**
+    /*    *//**
      * final validation, only hh visit
      * @return type is boolean
-     */
+     *//*
     public boolean finalValidation(){
         return isValidateHhVisit;
-    }
+    }*/
 
     /**
      * initial validation without hh visit
+     *
      * @return type is boolean
      */
-    public boolean initalValidation(){
+    public boolean initalValidation() {
         return isValidateNewborn &&
                 isValidateDeath &&
                 isValidateMigration &&
-                isValidatePregReg;
+                isValidatePregReg &&
+                isValidateMemberImport &&
+                isValidateHhVisit;
     }
 
     /**
      * handling form submission result
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.v("ON_ACTIVITY_RESULT","onActivityResult>>requestCode:"+requestCode+":resultCode:"+resultCode);
-        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMPORT_MM){
+        Log.v("ON_ACTIVITY_RESULT", "onActivityResult>>requestCode:" + requestCode + ":resultCode:" + resultCode);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMPORT_MM) {
             String status = data.getStringExtra(PUT_EXTRA_IMPORT_MM);
-            if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("done")){
+            if (!TextUtils.isEmpty(status) && status.equalsIgnoreCase("done")) {
                 memberImportListJson.add(status);
                 updateUi();
-            }else{
+                addDataToDb(HnppConstants.EVENT_TYPE.INPORT_MEMBER, memberImportListJson, isValidateMemberImport, existingImportedMemberCount);
+            } else {
                 memberImportCheckIm.setImageResource(R.drawable.success);
                 memberImportCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
-
+                addDataToDb(HnppConstants.EVENT_TYPE.INPORT_MEMBER, memberImportListJson, isValidateMemberImport, existingImportedMemberCount);
             }
         }
         if (resultCode == Activity.RESULT_OK && requestCode == MemberListDialogFragment.REQUEST_CODE) {
@@ -215,12 +271,14 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     throw new RuntimeException(e);
                 }
             } else if (memberTypeEnum == MemberTypeEnum.ELCO) {
-                pregancyMemberListJson.add(data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON));
+                String json = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
+                pregancyMemberListJson.add(json);
                 updateUi();
+
+                addDataToDb(HnppConstants.EVENT_TYPE.PREGNANCY, pregancyMemberListJson, isValidatePregReg, existingPregnantMemberCount);
             }
 
-        }
-        else if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
+        } else if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
 
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
@@ -231,17 +289,16 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                 HnppJsonFormUtils.setEncounterDateTime(form);
 
                 if (form.getString(JsonFormUtils.ENCOUNTER_TYPE).equals(Utils.metadata().familyRegister.updateEventType)) {
-                    String[] sss =  HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
+                    String[] sss = HnppJsonFormUtils.getHouseholdIdModuleIdFromForm(form);
                     houseHoldId = sss[0];
                     moduleId = sss[1];
                     ((HouseHoldVisitActivity) getActivity()).getfamilyProfilePresenter().updateHouseIdAndModuleId(houseHoldId);
-                    ((HouseHoldVisitActivity) getActivity()).model.updateHouseIdAndModuleId(houseHoldId,moduleId );
+                    ((HouseHoldVisitActivity) getActivity()).model.updateHouseIdAndModuleId(houseHoldId, moduleId);
                     ((HouseHoldVisitActivity) getActivity()).presenter().updateFamilyRegister(jsonString);
                     ((HouseHoldVisitActivity) getActivity()).presenter().verifyHasPhone();
-                }
-                else {
-                    if(TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())){
-                        Toast.makeText(getActivity(),"familyBaseEntityId no found",Toast.LENGTH_SHORT).show();
+                } else {
+                    if (TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())) {
+                        Toast.makeText(getActivity(), "familyBaseEntityId no found", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     String[] generatedString;
@@ -252,11 +309,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
                     if (encounterType.equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
                         generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
-                        title = String.format(getActivity().getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                        title = String.format(getActivity().getString(R.string.dialog_confirm_save_child), fullName, generatedString[0], generatedString[2], generatedString[1]);
 
-                    }else {
+                    } else {
                         generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                        title = String.format(getActivity().getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                        title = String.format(getActivity().getString(R.string.dialog_confirm_save), fullName, generatedString[0], generatedString[2], generatedString[1]);
 
                     }
 
@@ -264,28 +321,28 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                         @Override
                         public void onClickYesButton() {
 
-                            try{
+                            try {
                                 JSONObject formWithConsent = new JSONObject(jsonString);
                                 JSONObject jobkect = formWithConsent.getJSONObject("step1");
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,true);
-                                processForm(encounterType,formWithConsent.toString());
+                                HnppJsonFormUtils.addConsent(field, true);
+                                processForm(encounterType, formWithConsent.toString());
                                 //memberListJson.add(jsonString);
-                            }catch (JSONException je){
+                            } catch (JSONException je) {
                                 je.printStackTrace();
                             }
                         }
 
                         @Override
                         public void onClickNoButton() {
-                            try{
+                            try {
                                 JSONObject formWithConsent = new JSONObject(jsonString);
                                 JSONObject jobkect = formWithConsent.getJSONObject("step1");
                                 JSONArray field = jobkect.getJSONArray(FIELDS);
-                                HnppJsonFormUtils.addConsent(field,false);
-                                processForm(encounterType,formWithConsent.toString());
+                                HnppJsonFormUtils.addConsent(field, false);
+                                processForm(encounterType, formWithConsent.toString());
                                 //memberListJson.add(jsonString);
-                            }catch (JSONException je){
+                            } catch (JSONException je) {
                                 je.printStackTrace();
                             }
                         }
@@ -293,16 +350,15 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                 }
                 memberListJson.add(jsonString);
                 updateUi();
+                addDataToDb(HnppConstants.EVENT_TYPE.MEMBER_ADD, memberListJson, isValidateNewborn, existingNewMemberCount);
             } catch (Exception e) {
                 Timber.e(e);
             }
             HnppConstants.isViewRefresh = true;
-        }
-
-        else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT) {
             if (isProcessing) return;
             AtomicInteger isSave = new AtomicInteger(2);
-            showProgressDialog(R.string.please_wait_message,R.string.please_wait,getActivity());
+            showProgressDialog(R.string.please_wait_message, R.string.please_wait, getActivity());
 
             isProcessing = true;
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
@@ -345,16 +401,28 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                                 showServiceDoneDialog(2);
                             }
                             updateUi();
+                            addDataToDb(HnppConstants.EVENT_TYPE.HOME_VISIT, new ArrayList<>(), isValidateHhVisit, 1);
                         }
                     });
 
         }
     }
 
+    private void addDataToDb(String eventType, ArrayList<String> data, boolean isValid, int existingCount) {
+        HHVisitInfoModel hhVisitInfoModel = new HHVisitInfoModel();
+        hhVisitInfoModel.pageEventType = HnppConstants.EVENT_TYPE.HH_FORM_TYPE;
+        hhVisitInfoModel.eventType = eventType;
+        hhVisitInfoModel.hhBaseEntityId = familyId;
+        hhVisitInfoModel.infoCount = data.size() + existingCount;
+        hhVisitInfoModel.isDone = isValid ? 1 : 0;
+        HnppApplication.getHHVisitInfoRepository().addOrUpdateHHDataType(hhVisitInfoModel);
+    }
+
     /**
      * member remove confirmation
-     * @param formStr // from string
-     * @param currentMember // current member object
+     *
+     * @param formStr        // from string
+     * @param currentMember  // current member object
      * @param memberTypeEnum // member type
      * @throws JSONException
      */
@@ -362,26 +430,26 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         JSONObject form = new JSONObject(formStr);
         String memberName = currentMember.getName();
         if (StringUtils.isNotBlank(memberName) && getFragmentManager() != null) {
-            String title ="";
+            String title = "";
             JSONArray field = org.smartregister.util.JsonFormUtils.fields(form);
             JSONObject removeReasonObj = org.smartregister.util.JsonFormUtils.getFieldJSONObject(field, "remove_reason");
-            try{
+            try {
                 String value = removeReasonObj.getString(CoreJsonFormUtils.VALUE);
-                if(value.equalsIgnoreCase("মৃত্যু নিবন্ধন")){
+                if (value.equalsIgnoreCase("মৃত্যু নিবন্ধন")) {
                     title = String.format(getString(R.string.confirm_remove_text), memberName);
-                }else if(value.equalsIgnoreCase("স্থানান্তর")){
+                } else if (value.equalsIgnoreCase("স্থানান্তর")) {
                     title = String.format(getString(R.string.confirm_migrate_text), memberName);
-                }else {
+                } else {
                     title = String.format(getString(R.string.confirm_other_text), memberName);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
            /* FamilyRemoveMemberConfirmDialog dialog = FamilyRemoveMemberConfirmDialog.newInstance(title);
             dialog.show(this.getSupportFragmentManager(), FamilyRemoveMemberFragment.DIALOG_TAG);*/
 
             android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
-            View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.family_remove_member_confrim_dialog_fragment,null);
+            View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.family_remove_member_confrim_dialog_fragment, null);
             alertDialog.setView(dialogView);
             CustomFontTextView remove = dialogView.findViewById(R.id.remove);
             CustomFontTextView cancel = dialogView.findViewById(R.id.cancel);
@@ -398,29 +466,31 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try{
-                        String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                    try {
+                        String type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                         type = HnppJsonFormUtils.getEncounterType(type);
                         Map<String, String> jsonStrings = new HashMap<>();
-                        jsonStrings.put("First",form.toString());
+                        jsonStrings.put("First", form.toString());
                         String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
                         String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-                        Visit visit =  HnppJsonFormUtils.saveVisit(false,false,false,"", currentMember.getBaseEntityId(), type, jsonStrings, "",formSubmissionId,visitId);
-                        if(visit !=null){
+                        Visit visit = HnppJsonFormUtils.saveVisit(false, false, false, "", currentMember.getBaseEntityId(), type, jsonStrings, "", formSubmissionId, visitId);
+                        if (visit != null) {
                             HnppHomeVisitIntentService.processVisits();
                             VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                         }
 
-                        if(memberTypeEnum == MemberTypeEnum.DEATH){
+                        if (memberTypeEnum == MemberTypeEnum.DEATH) {
                             removedMemberListJson.add(formStr);
-                        }else if(memberTypeEnum.name().equals( MemberTypeEnum.MIGRATION.name())){
+                            addDataToDb(HnppConstants.EVENT_TYPE.REMOVE_MEMBER, removedMemberListJson, isValidateDeath, existingRemovedMemberCount);
+                        } else if (memberTypeEnum.name().equals(MemberTypeEnum.MIGRATION.name())) {
                             migratedMemberListJson.add(formStr);
+                            addDataToDb(HnppConstants.EVENT_TYPE.MIGRATE_MEMBER, migratedMemberListJson, isValidateMigration, existingMigratedMemberCount);
                         }
 
                         ((HouseHoldVisitActivity) getActivity()).onUpdateMemberList.update(true);
                         updateUi();
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
 
                     }
@@ -435,14 +505,15 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     /**
      * proccess and save visit
-     * @param jsonString // json string
+     *
+     * @param jsonString       // json string
      * @param formSubmissionId // form submision id
-     * @param visitId // visit id
+     * @param visitId          // visit id
      * @return
      */
-    private Observable<Integer> processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
-        return  Observable.create(e-> {
-            if(TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())){
+    private Observable<Integer> processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId) {
+        return Observable.create(e -> {
+            if (TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())) {
                 e.onNext(2);
             }
             Map<String, String> jsonStrings = new HashMap<>();
@@ -451,22 +522,22 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                 JSONObject form = new JSONObject(jsonString);
                 HnppJsonFormUtils.setEncounterDateTime(form);
 
-                jsonStrings.put("First",form.toString());
+                jsonStrings.put("First", form.toString());
 
-                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                String type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
                 type = HnppJsonFormUtils.getEncounterType(type);
 
-                Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", ((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId(), type, jsonStrings, "",formSubmissionId,visitId);
-                if(visit!=null && !visit.getVisitId().equals("0")){
+                Visit visit = HnppJsonFormUtils.saveVisit(false, false, false, "", ((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId(), type, jsonStrings, "", formSubmissionId, visitId);
+                if (visit != null && !visit.getVisitId().equals("0")) {
                     HnppHomeVisitIntentService.processVisits();
                     FormParser.processVisitLog(visit);
                     //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
                     e.onNext(1);
                     e.onComplete();
-                }else if(visit!=null && visit.getVisitId().equals("0")){
+                } else if (visit != null && visit.getVisitId().equals("0")) {
                     e.onNext(3);
                     e.onComplete();
-                }else{
+                } else {
                     e.onNext(2);
                     e.onComplete();
                 }
@@ -482,16 +553,17 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     /**
      * service done dialog
+     *
      * @param isSuccess // status
      */
-    private void showServiceDoneDialog(Integer isSuccess){
-        if(dialog!=null) return;
+    private void showServiceDoneDialog(Integer isSuccess) {
+        if (dialog != null) return;
         dialog = new Dialog(getActivity());
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        titleTv.setText(isSuccess == 1 ? "সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে" : isSuccess == 3 ? "সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে" : "সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
         android.widget.Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
@@ -520,33 +592,35 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     /**
      * process form
+     *
      * @param encounter_type
      * @param jsonString
      */
-    private void processForm(String encounter_type, String jsonString){
+    private void processForm(String encounter_type, String jsonString) {
         if (encounter_type.equals(CoreConstants.EventType.CHILD_REGISTRATION)) {
 
-            ((HouseHoldVisitActivity)getActivity()).presenter().saveChildForm(jsonString, false);
+            ((HouseHoldVisitActivity) getActivity()).presenter().saveChildForm(jsonString, false);
 
         } else if (encounter_type.equals(Utils.metadata().familyMemberRegister.registerEventType)) {
 
-            String careGiver =   ((HouseHoldVisitActivity)getActivity()).presenter().saveChwFamilyMember(jsonString);
-            if(TextUtils.isEmpty(careGiver) || TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())){
-                Toast.makeText(getActivity(),getString(R.string.address_not_found),Toast.LENGTH_LONG).show();
+            String careGiver = ((HouseHoldVisitActivity) getActivity()).presenter().saveChwFamilyMember(jsonString);
+            if (TextUtils.isEmpty(careGiver) || TextUtils.isEmpty(((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId())) {
+                Toast.makeText(getActivity(), getString(R.string.address_not_found), Toast.LENGTH_LONG).show();
                 return;
             }
-            if (  ((HouseHoldVisitActivity)getActivity()).presenter().updatePrimaryCareGiver(getActivity().getApplicationContext(), jsonString, ((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId(), careGiver)) {
-                ((HouseHoldVisitActivity)getActivity()).setPrimaryCaregiver(careGiver);
-                ((HouseHoldVisitActivity)getActivity()).refreshPresenter();
-                ((HouseHoldVisitActivity)getActivity()).refreshMemberFragment(careGiver, null);
+            if (((HouseHoldVisitActivity) getActivity()).presenter().updatePrimaryCareGiver(getActivity().getApplicationContext(), jsonString, ((HouseHoldVisitActivity) getActivity()).getFamilyBaseEntityId(), careGiver)) {
+                ((HouseHoldVisitActivity) getActivity()).setPrimaryCaregiver(careGiver);
+                ((HouseHoldVisitActivity) getActivity()).refreshPresenter();
+                ((HouseHoldVisitActivity) getActivity()).refreshMemberFragment(careGiver, null);
             }
 
-            ((HouseHoldVisitActivity)getActivity()).presenter().verifyHasPhone();
+            ((HouseHoldVisitActivity) getActivity()).presenter().verifyHasPhone();
         }
     }
 
     /**
      * all view initialization of this fragment
+     *
      * @param view
      */
     private void initUi(View view) {
@@ -586,10 +660,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     newBornCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
                     newBornLay.setClickable(true);
                     isValidateNewborn = true;
+                    addDataToDb(HnppConstants.EVENT_TYPE.MEMBER_ADD, memberListJson, isValidateNewborn, existingNewMemberCount);
                     return;
                 }
 
-                if (memberListJson.size() > 0) {
+                if (memberListJson.size() > 0 || existingNewMemberCount > 0) {
                     //newBornLay.setChecked(true);
                     AddCustomMemberFragment addmemberFragment = AddCustomMemberFragment.newInstance();
                     addmemberFragment.setContext(getActivity());
@@ -628,10 +703,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     deathCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
                     deathInfoLay.setClickable(true);
                     isValidateDeath = true;
+                    addDataToDb(HnppConstants.EVENT_TYPE.REMOVE_MEMBER, removedMemberListJson, isValidateDeath, existingRemovedMemberCount);
                     return;
                 }
 
-                if (removedMemberListJson.size() > 0) {
+                if (removedMemberListJson.size() > 0 || existingRemovedMemberCount > 0) {
                     showMemberListDialog(MemberTypeEnum.DEATH);
                 } else {
 
@@ -655,10 +731,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     migrationCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
                     migrationInfoLay.setClickable(true);
                     isValidateMigration = true;
+                    addDataToDb(HnppConstants.EVENT_TYPE.MIGRATE_MEMBER, migratedMemberListJson, isValidateMigration, existingMigratedMemberCount);
                     return;
                 }
 
-                if (migratedMemberListJson.size() > 0) {
+                if (migratedMemberListJson.size() > 0 || existingMigratedMemberCount > 0) {
                     showMemberListDialog(MemberTypeEnum.MIGRATION);
                 }
             }
@@ -668,7 +745,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             @Override
             public void onClick(View view) {
                 HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);
-                MigrationFilterSearchActivity.startMigrationFilterActivity(getActivity(),HnppConstants.MIGRATION_TYPE.IMPORT_MM.name(),REQUEST_CODE_IMPORT_MM,familyId,houseHoldInfo.getHouseHoldHeadId());
+                MigrationFilterSearchActivity.startMigrationFilterActivity(getActivity(), HnppConstants.MIGRATION_TYPE.IMPORT_MM.name(), REQUEST_CODE_IMPORT_MM, familyId, houseHoldInfo.getHouseHoldHeadId());
 
             }
         });
@@ -681,13 +758,15 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     memberImportCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
                     memberImportLay.setClickable(true);
                     isValidateMemberImport = true;
+                    addDataToDb(HnppConstants.EVENT_TYPE.INPORT_MEMBER, memberImportListJson, isValidateMemberImport, existingImportedMemberCount);
+
                     return;
                 }
 
-                if (memberImportListJson.size() > 0) {
+                if (memberImportListJson.size() > 0 || existingImportedMemberCount > 0) {
                     HouseHoldInfo houseHoldInfo = HnppDBUtils.getHouseHoldInfo(familyId);
 
-                    MigrationFilterSearchActivity.startMigrationFilterActivity(getActivity(),HnppConstants.MIGRATION_TYPE.IMPORT_MM.name(),REQUEST_CODE_IMPORT_MM,familyId,houseHoldInfo.getHouseHoldHeadId());
+                    MigrationFilterSearchActivity.startMigrationFilterActivity(getActivity(), HnppConstants.MIGRATION_TYPE.IMPORT_MM.name(), REQUEST_CODE_IMPORT_MM, familyId, houseHoldInfo.getHouseHoldHeadId());
                 }
             }
         });
@@ -701,10 +780,11 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                     pregnancyCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
                     pregnancyRegLay.setClickable(true);
                     isValidatePregReg = true;
+                    addDataToDb(HnppConstants.EVENT_TYPE.PREGNANCY, pregancyMemberListJson, isValidatePregReg, existingPregnantMemberCount);
                     return;
                 }
 
-                if (pregancyMemberListJson.size() > 0) {
+                if (pregancyMemberListJson.size() > 0 || existingPregnantMemberCount > 0) {
                     showMemberListDialog(MemberTypeEnum.ELCO);
                 } else {
 
@@ -732,6 +812,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     /**
      * member list dialog
+     *
      * @param memberTypeEnum // member type
      */
     private void showMemberListDialog(MemberTypeEnum memberTypeEnum) {
@@ -739,7 +820,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
         ArrayList<Member> memberArrayList = memberHistoryPresenter.getMemberList();
         MemberListDialogFragment memberListDialogFragment = MemberListDialogFragment.newInstance();
         memberListDialogFragment.setContext(getActivity());
-        memberListDialogFragment.setData(memberArrayList,memberTypeEnum);
+        memberListDialogFragment.setData(memberArrayList, memberTypeEnum);
         memberListDialogFragment.show(getActivity().getFragmentManager(), MemberListDialogFragment.DIALOG_TAG);
     }
 
@@ -757,9 +838,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
      */
     private void updateUi() {
         //newborn component handling
-        if (memberListJson.size() > 0) {
+        if (memberListJson.size() > 0 || existingNewMemberCount > 0) {
             newBornCountTv.setVisibility(View.VISIBLE);
-            newBornCountTv.setText(String.format(new Locale("bn"), "%d%s", memberListJson.size(), getActivity().getString(R.string.record_added)));
+            newBornCountTv.setText(String.format(new Locale("bn"), "%d%s", memberListJson.size() + existingNewMemberCount, getActivity().getString(R.string.record_added)));
             noNewBornBt.setText(R.string.add_more_member);
             noNewBornBt.setTag(true);
             newBornCheckIm.setImageResource(R.drawable.success);
@@ -767,13 +848,17 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             newBornLay.setClickable(false);
             isValidateNewborn = true;
         } else {
+            if (isValidateNewborn) {
+                newBornCheckIm.setImageResource(R.drawable.success);
+                newBornCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+            }
             newBornCountTv.setVisibility(View.GONE);
         }
 
         //death component handling
-        if (removedMemberListJson.size() > 0) {
+        if (removedMemberListJson.size() > 0 || existingRemovedMemberCount > 0) {
             deathCountTv.setVisibility(View.VISIBLE);
-            deathCountTv.setText(String.format(new Locale("bn"), "%d%s", removedMemberListJson.size(), getActivity().getString(R.string.death_added)));
+            deathCountTv.setText(String.format(new Locale("bn"), "%d%s", removedMemberListJson.size() + existingRemovedMemberCount, getActivity().getString(R.string.death_added)));
             noDeathBt.setText(R.string.add_more_member);
             noDeathBt.setTag(true);
             deathCheckIm.setImageResource(R.drawable.success);
@@ -781,13 +866,17 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             deathInfoLay.setClickable(false);
             isValidateDeath = true;
         } else {
+            if (isValidateDeath) {
+                deathCheckIm.setImageResource(R.drawable.success);
+                deathCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+            }
             deathCountTv.setVisibility(View.GONE);
         }
 
         //migration component handling
-        if (migratedMemberListJson.size() > 0) {
+        if (migratedMemberListJson.size() > 0 || existingMigratedMemberCount > 0) {
             migrationCountTv.setVisibility(View.VISIBLE);
-            migrationCountTv.setText(String.format(new Locale("bn"), "%d%s", migratedMemberListJson.size(), getActivity().getString(R.string.migration_added)));
+            migrationCountTv.setText(String.format(new Locale("bn"), "%d%s", migratedMemberListJson.size() + existingMigratedMemberCount, getActivity().getString(R.string.migration_added)));
             noMigrationBt.setText(R.string.add_more_member);
             noMigrationBt.setTag(true);
             migrationCheckIm.setImageResource(R.drawable.success);
@@ -795,13 +884,17 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             migrationInfoLay.setClickable(false);
             isValidateMigration = true;
         } else {
+            if (isValidateMigration) {
+                migrationCheckIm.setImageResource(R.drawable.success);
+                migrationCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+            }
             migrationCountTv.setVisibility(View.GONE);
         }
 
         //pregnancy reg component handling
-        if (pregancyMemberListJson.size() > 0) {
+        if (pregancyMemberListJson.size() > 0 || existingPregnantMemberCount > 0) {
             pregnancyCountTv.setVisibility(View.VISIBLE);
-            pregnancyCountTv.setText(String.format(new Locale("bn"), "%d%s", pregancyMemberListJson.size(), getActivity().getString(R.string.pregnancy_added)));
+            pregnancyCountTv.setText(String.format(new Locale("bn"), "%d%s", pregancyMemberListJson.size() + existingPregnantMemberCount, getActivity().getString(R.string.pregnancy_added)));
             noPregnancyBt.setText(R.string.add_more_member);
             noPregnancyBt.setTag(true);
             pregnancyCheckIm.setImageResource(R.drawable.success);
@@ -809,12 +902,16 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             pregnancyRegLay.setClickable(false);
             isValidatePregReg = true;
         } else {
+            if (isValidatePregReg) {
+                pregnancyCheckIm.setImageResource(R.drawable.success);
+                pregnancyCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+            }
             pregnancyCountTv.setVisibility(View.GONE);
         }
         //member import
-        if (memberImportListJson.size() > 0) {
+        if (memberImportListJson.size() > 0 || existingImportedMemberCount > 0) {
             memberImportCountTV.setVisibility(View.VISIBLE);
-            memberImportCountTV.setText(String.format(new Locale("bn"), "%d%s", memberImportListJson.size(), getActivity().getString(R.string.member_added)));
+            memberImportCountTV.setText(String.format(new Locale("bn"), "%d%s", memberImportListJson.size() + existingImportedMemberCount, getActivity().getString(R.string.member_added)));
             noMemberImportBtn.setText(R.string.add_more_member);
             noMemberImportBtn.setTag(true);
             memberImportCheckIm.setImageResource(R.drawable.success);
@@ -822,10 +919,14 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             memberImportLay.setClickable(false);
             isValidateMemberImport = true;
         } else {
+            if (isValidateMemberImport) {
+                memberImportCheckIm.setImageResource(R.drawable.success);
+                memberImportCheckIm.setColorFilter(ContextCompat.getColor(getActivity(), android.R.color.holo_orange_dark));
+            }
             memberImportCountTV.setVisibility(View.GONE);
         }
 
-        if (isValidateHhVisit){
+        if (isValidateHhVisit) {
             hhUpdateLay.setClickable(false);
             hh_info_CheckIm.setImageResource(R.drawable.success);
             hh_info_CheckIm.setColorFilter(ContextCompat.getColor(getActivity(), R.color.others));
@@ -848,7 +949,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
     @Override
     public void initializeMemberPresenter() {
         familyId = getArguments().getString(Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, "");
-        memberHistoryPresenter = new MemberListPresenter(this,familyId);
+        memberHistoryPresenter = new MemberListPresenter(this, familyId);
     }
 
     @Override
@@ -863,24 +964,25 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     /**
      * open hh visit form
+     *
      * @param familyBaseEntityId // family base entity id
      */
-    private void openHHVisit(String familyBaseEntityId){
+    private void openHHVisit(String familyBaseEntityId) {
         HnppConstants.getGPSLocation(((CoreFamilyProfileActivity) getActivity()), new OnPostDataWithGps() {
             @Override
             public void onPost(double latitude, double longitude) {
-                try{
-                    Map<String,String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId,"ec_family");
+                try {
+                    Map<String, String> hhByBaseEntityId = HnppDBUtils.getDetails(familyBaseEntityId, "ec_family");
                     JSONObject jsonForm = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson(HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY);
                     HnppJsonFormUtils.setEncounterDateTime(jsonForm);
 
                     HnppJsonFormUtils.updateHhVisitForm(jsonForm, hhByBaseEntityId);
                     ArrayList<String[]> memberList = HnppDBUtils.getAllMembersInHouseHold(familyBaseEntityId);
-                    HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm,memberList);
-                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
-                    startHHFormActivity(jsonForm,familyBaseEntityId,REQUEST_HOME_VISIT);
+                    HnppJsonFormUtils.updateFormWithAllMemberName(jsonForm, memberList);
+                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm, latitude, longitude);
+                    startHHFormActivity(jsonForm, familyBaseEntityId, REQUEST_HOME_VISIT);
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     hideProgressDialog();
                 }
@@ -889,9 +991,9 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
     }
 
-    public void startHHFormActivity(JSONObject jsonForm,String familyBaseEntityId,  int requestCode) {
-        if(TextUtils.isEmpty(familyBaseEntityId)){
-            Toast.makeText(getActivity(),"BaseEntityId showing empty",Toast.LENGTH_SHORT).show();
+    public void startHHFormActivity(JSONObject jsonForm, String familyBaseEntityId, int requestCode) {
+        if (TextUtils.isEmpty(familyBaseEntityId)) {
+            Toast.makeText(getActivity(), "BaseEntityId showing empty", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -902,14 +1004,14 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
 
             Form form = new Form();
             form.setWizard(false);
-            if(!HnppConstants.isReleaseBuild()){
+            if (!HnppConstants.isReleaseBuild()) {
                 form.setActionBarBackground(R.color.test_app_color);
 
-            }else{
+            } else {
                 form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
             }
-            if(HnppConstants.isPALogin()){
+            if (HnppConstants.isPALogin()) {
                 form.setHideSaveLabel(true);
                 form.setSaveLabel("");
             }
@@ -919,7 +1021,7 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
             if (getActivity() != null) {
                 getActivity().startActivityForResult(intent, requestCode);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

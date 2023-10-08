@@ -39,10 +39,12 @@ import org.smartregister.brac.hnpp.listener.OnEachMemberDueValidate;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.listener.OnUpdateMemberList;
 import org.smartregister.brac.hnpp.model.ChildService;
+import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.model.HhForumDetails;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
@@ -128,7 +130,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 // if tag is boolean and true
                 //means all data added
                 //then submit data
-                if (nextButton.getTag() instanceof Boolean) {
+           /*     if (nextButton.getTag() instanceof Boolean) {
                     if (((boolean) nextButton.getTag())) {
                         if (fragment instanceof HouseHoldFormTypeFragment) {
                             if (((HouseHoldFormTypeFragment) fragment).finalValidation()) {
@@ -139,11 +141,12 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                             return;
                         }
                     }
-                }
+                }*/
 
                 //need to add data from other fragment
                 if (fragment instanceof HouseHoldFormTypeFragment) {
                     if (((HouseHoldFormTypeFragment) fragment).initalValidation()) {
+                        nextButton.setText(getString(R.string.submit));
                         gotoNextFrag(fragment);
                     } else {
                         Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
@@ -165,11 +168,46 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 }
                 else if (fragment instanceof HouseHoldMemberFragment) {
                     if (((HouseHoldMemberFragment) fragment).isValidateHHMembers()) {
-                        isFinalSubmission = true;
+                        //isFinalSubmission = true;
                         memberArrayList = ((HouseHoldMemberFragment) fragment).memberArrayList;
-                        updateHHVisitLayoutVisibility();
+
+                        //getting and formatting data from local and put on map
+                        for(Member member : memberArrayList){
+                            List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getMemberDueByHH(familyBaseEntityId,member.getBaseEntityId());
+                            if( FormApplicability.getAge(member.getDob()) <= 5){
+                                ArrayList<ChildService> childServiceList = new ArrayList<>();
+                                for (HHVisitInfoModel data : datas) {
+                                    if(data.pageEventType.equals(HnppConstants.EVENT_TYPE.HH_CHILD_DUE)){
+                                        ChildService childService = new ChildService();
+                                        childService.setEventType(data.eventType);
+                                        childService.setStatus(data.isDone);
+                                        childServiceList.add(childService);
+                                    }
+                                }
+                               // childServiceMap.put(member.getBaseEntityId(),childServiceList);
+                            }else {
+                                ArrayList<MemberProfileDueData> memberProfileDueDataList = new ArrayList<>();
+                                for (HHVisitInfoModel data : datas) {
+                                    if(data.pageEventType.equals(HnppConstants.EVENT_TYPE.HH_MEMBER_DUE)){
+                                        MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
+                                        memberProfileDueData.setEventType(data.eventType);
+                                        memberProfileDueData.setStatus(data.isDone);
+                                        memberProfileDueDataList.add(memberProfileDueData);
+                                    }
+                                }
+                              //  memberServiceMap.put(member.getBaseEntityId(),memberProfileDueDataList);
+                            }
+                            /*for (HHVisitInfoModel data : datas) {
+                                if(data.pageEventType.equals(HnppConstants.EVENT_TYPE.HH_MEMBER_DUE)){
+                                    memberServiceMap.put(data.memberBaseEntityId,)
+                                }
+                            }*/
+                        }
+                        /*updateHHVisitLayoutVisibility();
                         nextButton.setText(getString(R.string.submit));
-                        nextButton.setTag(true);
+                        nextButton.setTag(true);*/
+                        submitTotalData(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
+                        //onBackPressed();
                     } else {
                         Toast.makeText(HouseHoldVisitActivity.this, getString(R.string.continue_to_submit_data_msg), Toast.LENGTH_SHORT).show();
                     }
@@ -179,6 +217,14 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
     }
 
+   /* private void getDueFromLocal() {
+        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getMemberDueByHH(familyBaseEntityId);
+        for (HHVisitInfoModel data : datas) {
+            isExistData(data);
+        }
+    }*/
+
+
     /**
      * process and save hh visit data
      * and total event client
@@ -187,7 +233,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     private void submitTotalData(String eventType) {
         showProgressDialog(R.string.please_wait_message);
         Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
-        if (fragment instanceof HouseHoldFormTypeFragment) {
+        if (fragment instanceof HouseHoldMemberFragment) {
             proccessAndSaveHHData(fragment, eventType)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -264,12 +310,12 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 String baseEntityId = generateRandomUUIDString();
 
                 HhForumDetails hhForumDetails = new HhForumDetails();
-                hhForumDetails.isMemberAdded = ((HouseHoldFormTypeFragment) fragment).memberListJson.size() > 0;
-                hhForumDetails.isDeadInfoAdded = ((HouseHoldFormTypeFragment) fragment).removedMemberListJson.size() > 0;
-                hhForumDetails.isMigrationAdded = ((HouseHoldFormTypeFragment) fragment).migratedMemberListJson.size() > 0;
-                hhForumDetails.isPregnancyAdded = ((HouseHoldFormTypeFragment) fragment).pregancyMemberListJson.size() > 0;
-                hhForumDetails.isHhInfoAdded = ((HouseHoldFormTypeFragment) fragment).isValidateHhVisit;
-                hhForumDetails.isMemberImported = ((HouseHoldFormTypeFragment) fragment).memberImportListJson.size() > 0;
+                hhForumDetails.isMemberAdded = (HouseHoldFormTypeFragment.memberListJson.size() > 0 || HouseHoldFormTypeFragment.existingNewMemberCount > 0);
+                hhForumDetails.isDeadInfoAdded = (HouseHoldFormTypeFragment.removedMemberListJson.size() > 0  || HouseHoldFormTypeFragment.existingRemovedMemberCount > 0);
+                hhForumDetails.isMigrationAdded = (HouseHoldFormTypeFragment.migratedMemberListJson.size() > 0  || HouseHoldFormTypeFragment.existingMigratedMemberCount > 0);
+                hhForumDetails.isPregnancyAdded = (HouseHoldFormTypeFragment.pregancyMemberListJson.size() > 0  || HouseHoldFormTypeFragment.existingPregnantMemberCount > 0);
+                hhForumDetails.isHhInfoAdded = (HouseHoldFormTypeFragment.isValidateHhVisit);
+                hhForumDetails.isMemberImported = (HouseHoldFormTypeFragment.memberImportListJson.size() > 0 || HouseHoldFormTypeFragment.existingImportedMemberCount > 0);
                 FormTag formTag = formTag(Utils.getAllSharedPreferences());
                 formTag.appVersionName = BuildConfig.VERSION_NAME;
                 Log.v("FORUM_TEST", "processAndSaveForum>>eventType:" + eventType + ":baseEntityId:" + baseEntityId);
@@ -287,7 +333,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 clientjson.put("addresses", dsasd.getJSONArray("addresses"));
                 getSyncHelper().addClient(baseClient.getBaseEntityId(), clientjson);
 
-                Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(baseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT, hhForumDetails,memberArrayList,memberServiceMap,childServiceMap);
+                Event baseEvent = HnppJsonFormUtils.processHHVisitEvent(familyBaseEntityId, HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT, hhForumDetails,memberArrayList,memberServiceMap,childServiceMap);
                 if (baseEvent != null) {
                     baseEvent.setFormSubmissionId(org.smartregister.util.JsonFormUtils.generateRandomUUIDString());
                     org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(Utils.getAllSharedPreferences(), baseEvent);
@@ -310,6 +356,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                     long lastSyncTimeStamp = Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0);
                     Date lastSyncDate = new Date(lastSyncTimeStamp);
                     Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+                    deleteHHInfo();
                     e.onNext(true);
                     e.onComplete();
                 }
@@ -318,6 +365,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                 e.onComplete();
             }
         });
+    }
+
+    private void deleteHHInfo() {
+        HnppApplication.getHHVisitInfoRepository().deleteDataByHH(familyBaseEntityId);
     }
 
 
@@ -459,7 +510,8 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
 
         Fragment fragment = fragmentManager.findFragmentById(R.id.hh_visit_container);
         //return if current fragment is last fragment
-        if(fragment instanceof HouseHoldFormTypeFragment){
+        if(fragment instanceof HouseHoldFormTypeFragment ){
+            finish();
             return;
         }
         //check validation for HouseHoldMemberDueFragment
@@ -469,7 +521,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
             int isValid = fragment1.validate();
             if (isValid == 1 || isValid == 3) {
                 nextButton.setVisibility(View.VISIBLE);
-                nextButton.setText(getString(R.string.next));
+                //nextButton.setText(getString(R.string.next));
                 String baseEntityId = fragment1.baseEntityId;
                 memberServiceMap.put(baseEntityId,fragment1.serviceList);
                 super.onBackPressed();
@@ -484,7 +536,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
             int isValid = fragment1.validate();
             if (isValid == 1 || isValid == 3) {
                 nextButton.setVisibility(View.VISIBLE);
-                nextButton.setText(getString(R.string.next));
+               // nextButton.setText(getString(R.string.next));
                 String baseEntityId = fragment1.childBaseEntityId;
                 childServiceMap.put(baseEntityId,fragment1.serviceList);
                 super.onBackPressed();
@@ -496,6 +548,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
         //and trigger back press
         else if (fragment instanceof HouseHoldMemberFragment) {
             if(((HouseHoldMemberFragment) fragment).isAnyDataAdded()) {
+                finish();
                 return;
             }else {
                 super.onBackPressed();

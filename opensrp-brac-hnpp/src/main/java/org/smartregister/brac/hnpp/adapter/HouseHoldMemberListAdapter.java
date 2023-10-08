@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.fragment.HouseHoldMemberFragment;
 import org.smartregister.brac.hnpp.holder.HouseHoldMemberListViewHolder;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -20,10 +21,12 @@ public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMe
     private ArrayList<Member> memberArrayList;
     private Context context;
     private OnClickAdapter onClickAdapter;
+    private OnClickAdapter onAbsentClickAdapter;
 
-    public HouseHoldMemberListAdapter(Context context, OnClickAdapter onClickAdapter) {
+    public HouseHoldMemberListAdapter(Context context, OnClickAdapter onClickAdapter,OnClickAdapter onAbsentClickAdapter) {
         this.context = context;
         this.onClickAdapter = onClickAdapter;
+        this.onAbsentClickAdapter = onAbsentClickAdapter;
         memberArrayList = new ArrayList<>();
     }
 
@@ -79,8 +82,7 @@ public class HouseHoldMemberListAdapter extends RecyclerView.Adapter<HouseHoldMe
         viewHolder.absentBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                content.setStatus(2);
-                notifyDataSetChanged();
+                onAbsentClickAdapter.onClick(viewHolder.getAdapterPosition(), content);
             }
         });
     }

@@ -1,23 +1,21 @@
 package org.smartregister.brac.hnpp.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.adapter.HouseHoldMemberListAdapter;
-import org.smartregister.brac.hnpp.adapter.MemberListAdapter;
 import org.smartregister.brac.hnpp.contract.MemberListContract;
 import org.smartregister.brac.hnpp.listener.OnEachMemberDueValidate;
+import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -30,6 +28,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HouseHoldMemberFragment extends Fragment implements MemberListContract.View {
     public static String TAG = "HouseHoldMemberFragment";
@@ -54,9 +53,9 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
         memberArrayList = memberHistoryPresenter.getMemberList();
         noDataFoundTv = view.findViewById(R.id.no_data_found_tv);
 
-        if(memberArrayList.isEmpty()){
+        if (memberArrayList.isEmpty()) {
             noDataFoundTv.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             noDataFoundTv.setVisibility(View.GONE);
         }
 
@@ -72,7 +71,7 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
                 bundle.putInt(HnppConstants.POSITION, position);
 
                 // for child
-                if(age <= 5){
+                if (age <= 5) {
                     childProfileDueFragment = (HouseHoldChildProfileDueFragment) HouseHoldChildProfileDueFragment.newInstance(bundle);
                     childProfileDueFragment.setCommonPersonObjectClient(commonPersonObjectClient);
                     ((HouseHoldVisitActivity) getActivity()).setupFragment(childProfileDueFragment, HouseHoldChildProfileDueFragment.TAG, bundle);
@@ -83,6 +82,13 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
                     profileMemberFragment.setCommonPersonObjectClient(commonPersonObjectClient);
                     ((HouseHoldVisitActivity) getActivity()).setupFragment(profileMemberFragment, HouseHoldMemberDueFragment.TAG, bundle);
                 }
+            }
+        }, new HouseHoldMemberListAdapter.OnClickAdapter() {
+            @Override
+            public void onClick(int position, Member content) {
+                memberArrayList.get(position).setStatus(2);
+                addDataToDb(content);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -101,20 +107,55 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
             @Override
             public void validate(int isValidate, int pos) {
                 memberArrayList.get(pos).setStatus(isValidate);
+                addDataToDb(memberArrayList.get(pos));
                 adapter.notifyDataSetChanged();
             }
         });
+
+        checkDataFromLocalDb();
 
         return view;
     }
 
     /**
+     * checking data exist or not for particular hh
+     */
+    private void checkDataFromLocalDb() {
+        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getHhVisitInfoByHH(familyId, HnppConstants.EVENT_TYPE.HH_MEMBER);
+        for (HHVisitInfoModel data : datas) {
+            isExistData(data);
+        }
+    }
+
+    private void isExistData(HHVisitInfoModel model) {
+        for (Member member : memberArrayList) {
+            if (member.getBaseEntityId().equals(model.memberBaseEntityId)) {
+                member.setStatus(model.isDone);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
+    public void addDataToDb(Member member) {
+        HHVisitInfoModel hhVisitInfoModel = new HHVisitInfoModel();
+        hhVisitInfoModel.pageEventType = HnppConstants.EVENT_TYPE.HH_MEMBER;
+        hhVisitInfoModel.eventType = HnppConstants.EVENT_TYPE.MEMBER_DUE_ADD;
+        hhVisitInfoModel.hhBaseEntityId = familyId;
+        hhVisitInfoModel.memberBaseEntityId = member.getBaseEntityId();
+        hhVisitInfoModel.infoCount = 1;
+        hhVisitInfoModel.isDone = member.getStatus();
+        HnppApplication.getHHVisitInfoRepository().addOrUpdateHhMemmerData(hhVisitInfoModel);
+    }
+
+    /**
      * is validate all members
+     *
      * @return status
      */
     public boolean isValidateHHMembers() {
-        for (Member member : memberArrayList){
-            if(member.getStatus() == 3){
+        for (Member member : memberArrayList) {
+            if (member.getStatus() == 3) {
                 return false;
             }
         }
@@ -124,13 +165,14 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
 
     /**
      * checking is any data added or not for member
+     *
      * @return
      */
     public boolean isAnyDataAdded() {
         int countDefault = 0;
-        for (Member member : memberArrayList){
-            if(member.getStatus() == 3 || member.getStatus() == 2){
-               countDefault++;
+        for (Member member : memberArrayList) {
+            if (member.getStatus() == 3 || member.getStatus() == 2) {
+                countDefault++;
             }
         }
         return countDefault != memberArrayList.size();
@@ -138,6 +180,7 @@ public class HouseHoldMemberFragment extends Fragment implements MemberListContr
 
     /**
      * creating common person object
+     *
      * @param baseEntityId
      * @return
      */

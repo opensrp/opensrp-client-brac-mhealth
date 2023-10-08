@@ -711,6 +711,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+            case  HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT:
+                return HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT;
             /*case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;*/
 

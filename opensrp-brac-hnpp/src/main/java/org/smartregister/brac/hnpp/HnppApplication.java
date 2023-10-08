@@ -38,6 +38,7 @@ import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
 import org.smartregister.brac.hnpp.repository.HHVisitDurationRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.brac.hnpp.repository.HouseHoldVisitInfoRepository;
 import org.smartregister.brac.hnpp.repository.IndicatorRepository;
 import org.smartregister.brac.hnpp.repository.MemberListRepository;
 import org.smartregister.brac.hnpp.repository.NotificationRepository;
@@ -96,6 +97,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private HnppVisitLogRepository hnppVisitLogRepository;
     private static SSLocationRepository locationRepository;
     private static HHVisitDurationRepository hhVisitDurationRepository;
+    private static HouseHoldVisitInfoRepository houseHoldVisitInfoRepository;
     private static RiskDetailsRepository riskDetailsRepository;
     private static TargetVsAchievementRepository targetVsAchievementRepository;
     private static IndicatorRepository indicatorRepository;
@@ -308,6 +310,13 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             hhVisitDurationRepository = new HHVisitDurationRepository(getInstance().getRepository());
         }
         return hhVisitDurationRepository;
+    }
+
+    public static HouseHoldVisitInfoRepository getHHVisitInfoRepository() {
+        if ( houseHoldVisitInfoRepository == null) {
+            houseHoldVisitInfoRepository = new HouseHoldVisitInfoRepository(getInstance().getRepository());
+        }
+        return houseHoldVisitInfoRepository;
     }
 
     public static RiskDetailsRepository getRiskDetailsRepository() {
