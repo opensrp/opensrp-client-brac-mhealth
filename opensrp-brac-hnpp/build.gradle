@@ -36,9 +36,9 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.smartregister.unicef.dghs"
+        applicationId "org.smartregister.unicef.mis"
         minSdkVersion 18
-        targetSdkVersion 30
+        targetSdkVersion 33
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         Properties properties = new Properties()
@@ -151,7 +151,7 @@ android {
 
         }
         production{
-            versionCode 10
+            versionCode 11
             versionName "1.1.1"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'

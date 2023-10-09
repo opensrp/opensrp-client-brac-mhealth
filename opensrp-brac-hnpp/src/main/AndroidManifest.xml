@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.smartregister.unicef.dghs">
+    package="org.smartregister.unicef.mis">
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -21,7 +21,7 @@
 
 
     <application
-        android:name=".HnppApplication"
+        android:name="org.smartregister.unicef.mis.HnppApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_shb_logo_maa_shishu_gov"
         android:label="@string/app_name"
@@ -32,75 +32,75 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon">
         <activity
-            android:name=".activity.PaymentHistoryActivity"
+            android:name="org.smartregister.unicef.mis.activity.PaymentHistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
         </activity>
         <activity
-            android:name=".activity.UpdateLocationActivity"
+            android:name="org.smartregister.unicef.mis.activity.UpdateLocationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
-            android:name=".activity.PaymentSuccess_Activity"
+            android:name="org.smartregister.unicef.mis.activity.PaymentSuccess_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.GlobalSearchMemberProfileActivity"
+            android:name="org.smartregister.unicef.mis.activity.GlobalSearchMemberProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.BkashActivity"
+            android:name="org.smartregister.unicef.mis.activity.BkashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.InvalidDataDisplayActivity"
+            android:name="org.smartregister.unicef.mis.activity.InvalidDataDisplayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.RiskyDataDisplayActivity"
+            android:name="org.smartregister.unicef.mis.activity.RiskyDataDisplayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.PaymentActivity"
+            android:name="org.smartregister.unicef.mis.activity.PaymentActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.DFSActivity"
+            android:name="org.smartregister.unicef.mis.activity.DFSActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.GlobalSearchDetailsActivity"
+            android:name="org.smartregister.unicef.mis.activity.GlobalSearchDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.GlobalSearchActivity"
+            android:name="org.smartregister.unicef.mis.activity.GlobalSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.MigrationActivity"
+            android:name="org.smartregister.unicef.mis.activity.MigrationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.NotificationActivity"
+            android:name="org.smartregister.unicef.mis.activity.NotificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:exported="true"
-            android:name=".activity.LoginActivity"
+            android:name="org.smartregister.unicef.mis.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.Login"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
@@ -126,60 +126,60 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.FamilyRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.FamilyProfileActivity"
+            android:name="org.smartregister.unicef.mis.activity.FamilyProfileActivity"
             android:label="@string/title_family_detail"
-            android:parentActivityName=".activity.FamilyRegisterActivity"
+            android:parentActivityName="org.smartregister.unicef.mis.activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.smartregister.unicef.dghs.activity.FamilyRegisterActivity" />
+                android:value="org.smartregister.unicef.mis.activity.FamilyRegisterActivity" />
         </activity>
         <activity
-            android:name=".activity.GuestMemberProfileActivity"
+            android:name="org.smartregister.unicef.mis.activity.GuestMemberProfileActivity"
             android:label="@string/title_family_detail"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppFamilyOtherMemberProfileActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity"
             android:label="@string/title_family_detail"
-            android:parentActivityName=".activity.FamilyRegisterActivity"
+            android:parentActivityName="org.smartregister.unicef.mis.activity.FamilyRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.smartregister.unicef.dghs.activity.FamilyProfileActivity" />
+                android:value="org.smartregister.unicef.mis.activity.FamilyProfileActivity" />
         </activity>
         <activity
-            android:name=".activity.ChildRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.ChildRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.AncMedicalHistoryActivity"
+            android:name="org.smartregister.unicef.mis.activity.AncMedicalHistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.IndividualProfileRemoveActivity"
+            android:name="org.smartregister.unicef.mis.activity.IndividualProfileRemoveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppHomeVisitActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppHomeVisitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppChildProfileActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppChildProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.FamilyRemoveMemberActivity"
+            android:name="org.smartregister.unicef.mis.activity.FamilyRemoveMemberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.FamilyProfileMenuActivity"
+            android:name="org.smartregister.unicef.mis.activity.FamilyProfileMenuActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
@@ -187,31 +187,31 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.ReferralTaskViewActivity"
+            android:name="org.smartregister.unicef.mis.activity.ReferralTaskViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.AncRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.AncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppAncRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppAncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppAncRiskRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppAncRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppElcoRiskRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppElcoRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppChildRiskRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppChildRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppPncRiskRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppPncRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
 
@@ -236,148 +236,148 @@
 <!--            android:theme="@style/HNPPTheme.NoActionBar" />-->
         <activity android:name="org.smartregister.chw.core.activity.ChwP2pModeSelectActivity" />
         <activity
-            android:name=".activity.HNPPJsonFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.HNPPJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.GuestAddMemberJsonFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.GuestAddMemberJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.HNPPJsonWizardFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.HNPPJsonWizardFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.IndividualProfileRemoveJsonFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.IndividualProfileRemoveJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.HnppAncJsonFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppAncJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.HnppFormViewActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppFormViewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.COVIDJsonFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.COVIDJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.HNPPMemberJsonFormActivity"
+            android:name="org.smartregister.unicef.mis.activity.HNPPMemberJsonFormActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/FamilyTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".activity.HnppCoreChildProfileActivity" />
+        <activity android:name="org.smartregister.unicef.mis.activity.HnppCoreChildProfileActivity" />
         <activity
-            android:name=".activity.HnppAllMemberRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppAllMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.AdultMemberRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.AdultMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.AdoMemberRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.AdoMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.WomenServiceRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.WomenServiceRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.IYCFRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.IYCFRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.AdultRiskRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.AdultRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.ForceSyncActivity"
+            android:name="org.smartregister.unicef.mis.activity.ForceSyncActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.QRScannerActivity"
+            android:name="org.smartregister.unicef.mis.activity.QRScannerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.SearchActivity"
+            android:name="org.smartregister.unicef.mis.activity.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.NewDashBoardActivity"
+            android:name="org.smartregister.unicef.mis.activity.NewDashBoardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.GrowthReportActivity"
+            android:name="org.smartregister.unicef.mis.activity.GrowthReportActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.GuestMemberActivity"
+            android:name="org.smartregister.unicef.mis.activity.GuestMemberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".activity.HnppSettingsActivity" />
+        <activity android:name="org.smartregister.unicef.mis.activity.HnppSettingsActivity" />
         <activity
-            android:name=".activity.HnppPncRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppPncRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.HnppElcoMemberRegisterActivity"
+            android:name="org.smartregister.unicef.mis.activity.HnppElcoMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
-            android:name=".activity.ChildVaccinationActivity"
+            android:name="org.smartregister.unicef.mis.activity.ChildVaccinationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
 
 
         <activity
-            android:name=".activity.SearchHHMemberActivity"
+            android:name="org.smartregister.unicef.mis.activity.SearchHHMemberActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
 
 
-        <activity android:name=".activity.TermAndConditionWebView"
+        <activity android:name="org.smartregister.unicef.mis.activity.TermAndConditionWebView"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".activity.WebViewActivity"
+        <activity android:name="org.smartregister.unicef.mis.activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".activity.TikaCardViewActivity"
+        <activity android:name="org.smartregister.unicef.mis.activity.TikaCardViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".activity.ChildGMPActivity"
+        <activity android:name="org.smartregister.unicef.mis.activity.ChildGMPActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"/>
 
-        <service android:name=".service.HnppSyncIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.HnppSyncIntentService" />
 
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.RecurringIntentService" />
         <service android:name="org.smartregister.sync.intent.PullUniqueIdsIntentService" />
-        <service android:name=".service.NotificationGeneratorIntentService" /> <!-- <service android:name="org.smartregister.sync.intent.SyncIntentService" /> -->
+        <service android:name="org.smartregister.unicef.mis.service.NotificationGeneratorIntentService" /> <!-- <service android:name="org.smartregister.sync.intent.SyncIntentService" /> -->
         <service android:name="org.smartregister.sync.intent.ExtendedSyncIntentService" />
         <service android:name="org.smartregister.sync.intent.ValidateIntentService" />
         <service android:name="org.smartregister.sync.intent.DatSyncByBaseEntityIntentService"/>
@@ -386,23 +386,23 @@
         <service android:name="org.smartregister.sync.intent.ForceSyncIntentService" />
         <service android:name="org.smartregister.service.ImageUploadSyncService" />
         <service android:name="org.smartregister.sync.intent.LocationIntentService" />
-        <service android:name=".sync.intent.PullHouseholdIdIntentService" />
-        <service android:name=".service.HALocationFetchIntentService" />
-        <service android:name=".service.GlobalLocationFetchIntentService" />
-        <service android:name=".service.TargetFetchIntentService" />
-        <service android:name=".service.MigrationFetchIntentService" />
-        <service android:name=".service.StockFetchIntentService" />
-        <service android:name=".service.VaccineDueUpdateIntentService" />
-        <service android:name=".service.VisitLogIntentService" />
-        <service android:name=".service.HnppPncCloseDateIntent" />
-        <service android:name=".service.GuestMemberIdIntentService" />
-        <service android:name=".service.DataDeleteIntentService" />
+        <service android:name="org.smartregister.unicef.mis.sync.intent.PullHouseholdIdIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.HALocationFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.GlobalLocationFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.TargetFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.MigrationFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.StockFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.VaccineDueUpdateIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.VisitLogIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.HnppPncCloseDateIntent" />
+        <service android:name="org.smartregister.unicef.mis.service.GuestMemberIdIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.DataDeleteIntentService" />
         <service android:name="org.smartregister.growthmonitoring.service.intent.WeightIntentService" />
         <service android:name="org.smartregister.growthmonitoring.service.intent.MuacIntentService" />
         <service android:name="org.smartregister.growthmonitoring.service.intent.HeightIntentService" />
         <service android:name="org.smartregister.immunization.service.intent.VaccineIntentService" />
         <service android:name="org.smartregister.growthmonitoring.service.intent.ZScoreRefreshIntentService" />
-        <service android:name=".service.CampFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.CampFetchIntentService" />
         <service android:name=".service.OtherVaccineDueIntentService" />
 
         <uses-library
