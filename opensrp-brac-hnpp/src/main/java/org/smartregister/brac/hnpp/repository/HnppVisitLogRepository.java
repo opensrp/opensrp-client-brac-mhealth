@@ -63,7 +63,6 @@ public class HnppVisitLogRepository extends BaseRepository {
     public void updateFamilyFromHomeVisit(ContentValues values,String base_entity_id,String last_home_visit){
         try{
             SQLiteDatabase database = getWritableDatabase();
-            values.put("last_home_visit",last_home_visit);
             supportListOfAsset(values);
             String selection = "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null)";
             int isUpdated = database.update("ec_family",values,selection,null);

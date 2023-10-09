@@ -50,6 +50,7 @@ import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.MemberListPresenter;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -806,6 +807,13 @@ public class HouseHoldFormTypeFragment extends Fragment implements MemberListCon
                 openHHVisit(familyId);
             }
         });
+
+        if(FormApplicability.isDueAnyForm(familyId,HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY)){
+            hhUpdateLay.setVisibility(View.VISIBLE);
+        }else {
+            hhUpdateLay.setVisibility(View.GONE);
+            isValidateHhVisit = true;
+        }
 
     }
 

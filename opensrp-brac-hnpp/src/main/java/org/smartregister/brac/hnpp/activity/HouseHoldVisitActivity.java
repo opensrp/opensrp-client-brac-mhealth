@@ -44,6 +44,7 @@ import org.smartregister.brac.hnpp.model.HhForumDetails;
 import org.smartregister.brac.hnpp.model.HnppFamilyProfileModel;
 import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.presenter.FamilyProfilePresenter;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
@@ -348,6 +349,7 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
                     visit.setPreProcessedJson(new Gson().toJson(baseEvent));
 
                     visitRepository().addVisit(visit);
+                    FormParser.processVisitLog(visit);
                     visitRepository().completeProcessing(visit.getVisitId());
                     JSONObject eventJson = new JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseEvent));
                     Log.v("FORUM_TEST", "addEvent>>eventType:" + baseClient.getBaseEntityId() + ":eventJson:" + eventJson);

@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class FormApplicability {
 
-    public static boolean isDueHHVisit(String baseEntityId){
+    public static boolean isDueHouseHoldHVisit(String baseEntityId){
         int duration = getDurationByType(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
         boolean isDoneAfterJuly  = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAfterJuly2023(baseEntityId);
         if(isDoneAfterJuly){
@@ -39,8 +39,6 @@ public class FormApplicability {
         }else{
             return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,24);
         }
-
-
     }
     public static boolean isDueElcoVisit(String baseEntityId){
         int duration = getDurationByType(HnppConstants.EVENT_TYPE.ELCO);
@@ -50,7 +48,7 @@ public class FormApplicability {
     }
     public static boolean isDueAnyForm(String baseEntityId, String eventType){
         if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT)){
-            return isDueHHVisit(baseEntityId);
+            return isDueHouseHoldHVisit(baseEntityId);
         }else if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
             return isDueElcoVisit(baseEntityId);
         }

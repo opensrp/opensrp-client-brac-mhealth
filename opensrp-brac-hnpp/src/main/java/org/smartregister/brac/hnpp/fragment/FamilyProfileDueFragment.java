@@ -145,7 +145,7 @@ public class FamilyProfileDueFragment extends BaseFamilyProfileDueFragment imple
         }
 
         otherServiceView.setVisibility(View.VISIBLE);
-        if(FormApplicability.isDueHHVisit(familyBaseEntityId)){
+        if(FormApplicability.isDueHouseHoldHVisit(familyBaseEntityId)){
             View homeVisitView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
             ImageView image1 = homeVisitView.findViewById(R.id.image_view);
             TextView name1 =  homeVisitView.findViewById(R.id.patient_name_age);
