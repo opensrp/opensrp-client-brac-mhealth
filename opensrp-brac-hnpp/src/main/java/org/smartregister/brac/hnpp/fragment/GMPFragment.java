@@ -260,7 +260,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         TableLayout heightTable = fragmentView.findViewById(R.id.heights_table);
         HeightRepository wp = GrowthMonitoringLibrary.getInstance().getHeightRepository();
         List<Height> heightList = wp.getMaximum12(childDetails.entityId());
-        if (heightList.size() > 0) {
+        if (heightList !=null && heightList.size() > 0) {
             try {
                 GrowthUtil.refreshPreviousHeightsTable(mActivity, heightTable, getGender(), dobToDateTime(childDetails).toDate(), heightList, isNeedToUpdateDB, Calendar.getInstance());
             } catch (Exception e) {

@@ -72,7 +72,18 @@ public class HnppVisitLogRepository extends BaseRepository {
 
         }
     }
+    public void updateLastHomeVisitTime(String base_entity_id,String last_home_visit){
+        try{
+            SQLiteDatabase database = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("last_home_visit",last_home_visit);
+            String selection = "base_entity_id = '"+base_entity_id+"' and (last_home_visit < '"+last_home_visit+"' or last_home_visit is null)";
+            int isUpdated = database.update("ec_family",values,selection,null);
+        }catch(Exception e){
+            e.printStackTrace();
 
+        }
+    }
     /*
         This method reshape the multiple question input abc,xye output like ["abc","xyz"]
      */
