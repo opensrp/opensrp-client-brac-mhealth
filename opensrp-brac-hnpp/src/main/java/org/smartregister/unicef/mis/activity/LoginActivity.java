@@ -167,10 +167,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         findViewById(R.id.login_login_btn).setAlpha(1.0f);
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
-        if(BuildConfig.DEBUG){
-            userNameText.setText("saif101");//userNameText.setText("md3539632@gmail.com");
-            passwordText.setText("123456");//Bangladesh#123
-        }
+//        if(BuildConfig.DEBUG){
+//            userNameText.setText("saif101");//userNameText.setText("md3539632@gmail.com");
+//            passwordText.setText("123456");//Bangladesh#123
+//        }
         ((TextView) findViewById(R.id.login_build_text_view)).setText("Version " + getVersion() + ", Built on: " + getBuildDate());
 
         if(!BuildConfig.DEBUG)updateAppVersion();
