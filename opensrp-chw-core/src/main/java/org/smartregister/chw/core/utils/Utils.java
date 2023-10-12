@@ -138,40 +138,10 @@ public abstract class Utils extends org.smartregister.family.util.Utils {
 
     public static boolean launchDialer(final Activity activity, final FamilyCallDialogContract.View callView, final String phoneNumber) {
 
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-
-            // set a pending call execution request
-            if (callView != null) {
-                callView.setPendingCallRequest(() -> Utils.launchDialer(activity, callView, phoneNumber));
-            }
-
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE}, PermissionUtils.PHONE_STATE_PERMISSION_REQUEST_CODE);
-
-            return false;
-        } else {
-
-            if (((TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE)).getLine1Number()
-                    == null) {
-
-                Timber.i("No dial application so we launch copy to clipboard...");
-
-                ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText(activity.getText(R.string.copied_phone_number), phoneNumber);
-                clipboard.setPrimaryClip(clip);
-
-                CopyToClipboardDialog copyToClipboardDialog = new CopyToClipboardDialog(activity, R.style.copy_clipboard_dialog);
-                copyToClipboardDialog.setContent(phoneNumber);
-                copyToClipboardDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                copyToClipboardDialog.show();
-                // no phone
-                Toast.makeText(activity, activity.getText(R.string.copied_phone_number), Toast.LENGTH_SHORT).show();
-
-            } else {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
                 activity.startActivity(intent);
-            }
-            return true;
-        }
+           return true;
+
     }
 
     public static float convertDpToPixel(float dp, Context context) {
