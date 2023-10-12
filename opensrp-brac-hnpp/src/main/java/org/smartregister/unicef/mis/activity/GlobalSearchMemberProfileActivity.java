@@ -215,7 +215,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
                     HnppJsonFormUtils.updateFormWithDivision(jsonForm, divJsonArray);
                     intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                     Form form = new Form();
-                    form.setWizard(false);
+                    form.setWizard(true);
                     form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
                     intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 
@@ -404,7 +404,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
-            form.setWizard(false);
+            form.setWizard(true);
             if(!HnppConstants.isReleaseBuild()){
                 form.setActionBarBackground(R.color.test_app_color);
 

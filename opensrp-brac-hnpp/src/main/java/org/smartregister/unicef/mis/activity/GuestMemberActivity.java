@@ -183,7 +183,7 @@ public class GuestMemberActivity extends BaseProfileActivity implements GuestMem
                             HnppJsonFormUtils.updateFormWithDivision(jsonForm, divJsonArray);
                             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
                             Form form = new Form();
-                            form.setWizard(false);
+                            form.setWizard(true);
                             form.setActionBarBackground(org.smartregister.family.R.color.customAppThemeBlue);
 
                             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);

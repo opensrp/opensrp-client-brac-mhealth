@@ -228,7 +228,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
     @Override
     public void sync(Activity activity) {
         startServices();
-      if(!BuildConfig.DEBUG)userStatusCheck(activity);
+      //if(!BuildConfig.DEBUG)userStatusCheck(activity);
     }
     private io.reactivex.Observable<String> sendAlertForVaccine(){
         return  io.reactivex.Observable.create(e->{

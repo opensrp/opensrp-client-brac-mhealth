@@ -1117,7 +1117,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                     intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
                     Form form = new Form();
-                    form.setWizard(false);
+                    form.setWizard(true);
                     if(!HnppConstants.isReleaseBuild()){
                         form.setActionBarBackground(R.color.test_app_color);
                     }else{
