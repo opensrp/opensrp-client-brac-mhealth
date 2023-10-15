@@ -339,7 +339,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:paddingBottom="5dp"
-                            android:text="All rights reserved"
+                            android:text="All rights reserved by"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
 
@@ -365,7 +365,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:paddingBottom="5dp"
-                            android:text="Develop by"
+                            android:text="Developed by"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
                         <ImageView

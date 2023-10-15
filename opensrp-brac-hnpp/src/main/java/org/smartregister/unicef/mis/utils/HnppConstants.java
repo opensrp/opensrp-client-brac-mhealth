@@ -198,6 +198,84 @@ public class HnppConstants extends CoreConstants {
         );
 
     }
+    public static Observable<String> forseHPVVaccineData() {
+
+        return  Observable.create(e->{
+                    try {
+
+                        forseSyncHpvData(0);
+                        e.onNext("done");//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        e.onNext("");//error
+                        e.onComplete();
+                    }
+
+                }
+        );
+
+    }
+    public static Observable<String> sendOtherVaccineSingleData(OtherVaccineContentData otherVaccineContentData) {
+
+        return  Observable.create(e->{
+                    try {
+
+                        postOtherVaccineData(otherVaccineContentData);
+                        e.onNext("done");//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        e.onNext("");//error
+                        e.onComplete();
+                    }
+
+                }
+        );
+
+    }
+    private static void postOtherVaccineData(OtherVaccineContentData otherVaccineContentData){
+        String ADD_URL = "rest/api/vaccination/sync";
+        ArrayList<String> list = new ArrayList<>();
+        String json = JsonFormUtils.gson.toJson(otherVaccineContentData);
+        list.add(json);
+
+        Log.v("OTHER_VACCINE","processUnSyncData>>"+list);
+        if(list.size()==0) return;
+        try{
+            JSONObject request = new JSONObject();
+            request.put("vaccines",list);
+            String jsonPayload = request.toString();
+            //{"vaccines":[{"brn":"123456","dob":"2022-08-01","vaccineDate":"2023-01-01","vaccine_name":"HPV"},{"brn":"1234564","dob":"2022-08-01","vaccineDate":"2023-01-01","vaccine_name":"HPV"}]}
+            String add_url =  MessageFormat.format("{0}{1}",
+                    BuildConfig.citizen_url,
+                    ADD_URL);
+            Log.v("OTHER_VACCINE","jsonPayload>>>"+jsonPayload);
+            jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
+            HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+            HashMap<String,String> headers = new HashMap<>();
+            headers.put("dd",BuildConfig.dd);
+            Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
+            Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
+            if (response.isFailure() || response.isTimeoutError()) {
+                HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
+                HnppApplication.getOtherVaccineRepository().addOtherVaccine(otherVaccineContentData);
+                return;
+            }
+            HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
+            //{"error":[],"notFound":[]}
+            JSONObject results = new JSONObject((String) response.payload());
+            if(results.has("error") && results.getJSONArray("error").length()==0){
+                HnppApplication.getOtherVaccineRepository().addAndUpdateOtherVaccine(otherVaccineContentData);
+            }else{
+                HnppApplication.getOtherVaccineRepository().addOtherVaccine(otherVaccineContentData);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+    }
     private static void processOtherVaccineUnSyncData(int count){
         String ADD_URL = "rest/api/vaccination/sync";
         ArrayList<OtherVaccineContentData> vaccineContentData = HnppApplication.getOtherVaccineRepository().getUnSyncData();
@@ -225,20 +303,79 @@ public class HnppConstants extends CoreConstants {
             headers.put("dd",BuildConfig.dd);
             Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
             Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
-            if (response.isFailure()) {
+            if (response.isFailure() || response.isTimeoutError()) {
                 HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
                 return;
             }
             HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
-            for (OtherVaccineContentData contentData: vaccineContentData){
-                HnppApplication.getOtherVaccineRepository().updateOtherVaccineStatus(contentData);
+            //{"error":[],"notFound":[]}
+            JSONObject results = new JSONObject((String) response.payload());
+            if(results.has("error")){
+                for (OtherVaccineContentData contentData: vaccineContentData){
+                    HnppApplication.getOtherVaccineRepository().updateOtherVaccineStatus(contentData);
+                }
+                if (count < CoreLibrary.getInstance().getSyncConfiguration().getSyncMaxRetries()) {
+                    int newCount = count + 1;
+                    processOtherVaccineUnSyncData(newCount);
+                }else{
+                    Log.v("SYNC_URL","done");
+                }
             }
-            if (count < CoreLibrary.getInstance().getSyncConfiguration().getSyncMaxRetries()) {
-                int newCount = count + 1;
-                processOtherVaccineUnSyncData(newCount);
-            }else{
-                Log.v("SYNC_URL","done");
+
+
+//{"timestamp":"2023-09-04T14:40:53.495+00:00","status":500,"error":"Internal Server Error","trace":"org.springframework.security.web.firewall.RequestRejectedException: The request was rejected because the URL contained a potentially malicious String \"//\"\n\tat org.springframework.security.web.firewall.StrictHttpFirewall.rejectedBlocklistedUrls(StrictHttpFirewall.java:535)\n\tat org.springframework.security.web.firewall.StrictHttpFirewall.getFirewalledRequest(StrictHttpFirewall.java:505)\n\tat org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:196)\n\tat org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)\n\tat org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)\n\tat org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)\n\tat org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)\n\tat org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)\n\tat org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)\n\tat org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)\n\tat org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)\n\tat org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)\n\tat org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)\n\tat org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)\n\tat org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890)\n\tat org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)\n\tat org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)\n\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\n\tat java.lang.Thread.run(Thread.java:748)\n","message":"The request was rejected because the URL contained a potentially malicious String \"//\"","path":"//rest/api/vaccination/sync"}
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+    }
+    private static void forseSyncHpvData(int count){
+        String ADD_URL = "rest/api/vaccination/sync";
+        ArrayList<OtherVaccineContentData> vaccineContentData = HnppApplication.getOtherVaccineRepository().getAllDataForForseSync(count);
+        Log.v("OTHER_VACCINE","processUnSyncData>>"+vaccineContentData.size());
+        ArrayList<String> list = new ArrayList<>();
+
+        for(OtherVaccineContentData otherVaccineContentData: vaccineContentData){
+            String json = JsonFormUtils.gson.toJson(otherVaccineContentData);
+            list.add(json);
+        }
+        Log.v("OTHER_VACCINE","processUnSyncData>>"+list);
+        if(list.size()==0) return;
+        try{
+            JSONObject request = new JSONObject();
+            request.put("vaccines",list);
+            String jsonPayload = request.toString();
+            //{"vaccines":[{"brn":"123456","dob":"2022-08-01","vaccineDate":"2023-01-01","vaccine_name":"HPV"},{"brn":"1234564","dob":"2022-08-01","vaccineDate":"2023-01-01","vaccine_name":"HPV"}]}
+            String add_url =  MessageFormat.format("{0}{1}",
+                    BuildConfig.citizen_url,
+                    ADD_URL);
+            Log.v("OTHER_VACCINE","jsonPayload>>>"+jsonPayload);
+            jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
+            HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+            HashMap<String,String> headers = new HashMap<>();
+            headers.put("dd",BuildConfig.dd);
+            Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
+            Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
+            if (response.isFailure() || response.isTimeoutError()) {
+                HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
+                return;
             }
+            HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
+            //{"error":[],"notFound":[]}
+            JSONObject results = new JSONObject((String) response.payload());
+            if(results.has("error")){
+                for (OtherVaccineContentData contentData: vaccineContentData){
+                    HnppApplication.getOtherVaccineRepository().updateOtherVaccineStatus(contentData);
+                }
+                if (count < CoreLibrary.getInstance().getSyncConfiguration().getSyncMaxRetries()) {
+                    int newCount = count + 29;
+                    forseSyncHpvData(newCount);
+                }else{
+                    Log.v("SYNC_URL","done");
+                }
+            }
+
 
 //{"timestamp":"2023-09-04T14:40:53.495+00:00","status":500,"error":"Internal Server Error","trace":"org.springframework.security.web.firewall.RequestRejectedException: The request was rejected because the URL contained a potentially malicious String \"//\"\n\tat org.springframework.security.web.firewall.StrictHttpFirewall.rejectedBlocklistedUrls(StrictHttpFirewall.java:535)\n\tat org.springframework.security.web.firewall.StrictHttpFirewall.getFirewalledRequest(StrictHttpFirewall.java:505)\n\tat org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:196)\n\tat org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183)\n\tat org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354)\n\tat org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)\n\tat org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)\n\tat org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)\n\tat org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)\n\tat org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)\n\tat org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)\n\tat org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)\n\tat org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)\n\tat org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)\n\tat org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)\n\tat org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:890)\n\tat org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)\n\tat org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)\n\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\n\tat java.lang.Thread.run(Thread.java:748)\n","message":"The request was rejected because the URL contained a potentially malicious String \"//\"","path":"//rest/api/vaccination/sync"}
 

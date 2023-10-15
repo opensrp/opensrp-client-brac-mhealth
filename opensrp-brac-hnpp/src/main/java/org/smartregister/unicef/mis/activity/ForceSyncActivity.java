@@ -358,13 +358,51 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
         DataSyncByBaseEntityServiceJob.scheduleJobImmediately(DataSyncByBaseEntityServiceJob.TAG);
     }
     private void forceSyncData() {
-        invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
-        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
         showProgressDialog(getString(R.string.data_syncing));
-        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
-        ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
+        HnppConstants.forseHPVVaccineData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e1){
+
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                    }
+                });
+//        invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(ForceSyncIntentService.ACTION_SYNC);
+//        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+//        showProgressDialog(getString(R.string.data_syncing));
+//        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);
+//        ForceSyncDataServiceJob.scheduleJobImmediately(ForceSyncDataServiceJob.TAG);
     }
     private void checkInvalidData() {
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();

@@ -213,8 +213,17 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         vaccineName = result[1];
         String brn = result[2];
         dob = result[3];
+        if(TextUtils.isEmpty(brn)||TextUtils.isEmpty(dob)){
+            Toast.makeText(this,"Please input all field",Toast.LENGTH_LONG).show();
+            return;
+        }
         if(!HnppConstants.isConnectedToInternet(this)){
             HnppConstants.checkNetworkConnection(this);
+            return;
+        }
+        if(HnppApplication.getOtherVaccineRepository().isExists(brn)){
+            HnppConstants.showOneButtonDialog(this,"জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে","");
+            startScanner();
             return;
         }
         OtherVaccineContentData otherVaccineContentData = new OtherVaccineContentData();
@@ -287,8 +296,13 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             public void onClick(View v) {
                 dialog.dismiss();
                 content.date = vaccineDateTxt.getText().toString();
-                saveOtherVaccineInfo(content);
-                finish();
+                if(HnppConstants.isConnectedToInternet(QRScannerActivity.this)){
+                    sendOtherVaccineInfo(content);
+                }else{
+                    saveOtherVaccineInfo(content);
+                }
+
+                //finish();
             }
         });
         dialog.show();
@@ -480,7 +494,54 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
         this.globalSearchResult = globalSearchResult;
 
     }
+    private void sendOtherVaccineInfo(OtherVaccineContentData contentData){
+        showProgressDialog("saving....");
+        HnppConstants.sendOtherVaccineSingleData(contentData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
 
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e1){
+
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("OTHER_VACCINE","completed");
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                        HnppConstants.showOneButtonDialog(QRScannerActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                            @Override
+                            public void run() {
+                                startScanner();
+                            }
+                        });
+                    }
+                });
+        //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
+
+    }
 
     private void saveOtherVaccineInfo(OtherVaccineContentData contentData){
         showProgressDialog("saving....");
@@ -494,19 +555,37 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                     @Override
                     public void onNext(String s) {
                         Log.v("OTHER_VACCINE","onNext>>s:"+s);
-                        hideProgressDialog();
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.v("OTHER_VACCINE",""+e);
-                        hideProgressDialog();
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e1){
+
+                        }
                     }
 
                     @Override
                     public void onComplete() {
                         Log.v("OTHER_VACCINE","completed");
-                        hideProgressDialog();
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                        HnppConstants.showOneButtonDialog(QRScannerActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                            @Override
+                            public void run() {
+                                startScanner();
+                            }
+                        });
                     }
                 });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);

@@ -57,7 +57,29 @@ public class OtherVaccineRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getTableName());
     }
+    public  void addAndUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(VACCINE_NAME, otherVaccineContentData.vaccine_name);
+        contentValues.put(VACCINE_DATE, otherVaccineContentData.date);
+        contentValues.put(BRN, otherVaccineContentData.brn);
+        contentValues.put(DOB, otherVaccineContentData.dob);
+        contentValues.put(VACCINE_JSON,gson.toJson(otherVaccineContentData));
+        contentValues.put(IS_SYNC, 1);
+        SQLiteDatabase database = getWritableDatabase();
+        try{
+            //if(findUnique(database,otherVaccineContentData)){
+            long inserted = database.insert(getTableName(), null, contentValues);
+            Log.v("INDICATOR_INSERTED","inserted:"+inserted);
+//            }else{
+//                Log.v("INDICATOR_INSERTED","failed value:"+contentValues);
+//            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+
+//        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+INDICATOR_NAME+" = '"+targetName+"'");
+    }
     public  void addOtherVaccine(OtherVaccineContentData otherVaccineContentData){
         ContentValues contentValues = new ContentValues();
         contentValues.put(VACCINE_NAME, otherVaccineContentData.vaccine_name);
@@ -96,11 +118,58 @@ public class OtherVaccineRepository extends BaseRepository {
         if(cursor!=null) cursor.close();
         return true;
     }
+    public boolean isExists(String brn) {
+        SQLiteDatabase database = getReadableDatabase();
+        String selection = VACCINE_NAME + " = ? " + COLLATE_NOCASE + " and " + BRN + " = ? " ;
+        String[] selectionArgs = new String[]{"HPV", brn};
+        Cursor cursor = database.query(getTableName(), null, selection, selectionArgs, null, null, null, null);
+        if(cursor!=null && cursor.getCount() > 0){
+            cursor.close();
+            return true;
+        }
+        if(cursor!=null) cursor.close();
+        return false;
+    }
+    public int getUnSyncCount() {
+        Cursor cursor = null;
+        int unsyncCount = 0;
+        try {
+            String sql = "SELECT count(*) FROM " + getTableName()+" where "+IS_SYNC+" is null or is_sync = '0' ";
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                unsyncCount = Integer.parseInt(cursor.getString(0));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return unsyncCount;
+    }
     public ArrayList<OtherVaccineContentData> getUnSyncData() {
         Cursor cursor = null;
         ArrayList<OtherVaccineContentData> otherVaccineContentData = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM " + getTableName()+" where "+IS_SYNC+" = '0' limit 30";
+            String sql = "SELECT * FROM " + getTableName()+" where "+IS_SYNC+" is null or is_sync = '0' limit 30";
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                otherVaccineContentData.add(readCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        Log.v("OtherVaccineContentData","locations>>>"+otherVaccineContentData.size());
+        return otherVaccineContentData;
+    }
+    public ArrayList<OtherVaccineContentData> getAllDataForForseSync(int limit) {
+        Cursor cursor = null;
+        ArrayList<OtherVaccineContentData> otherVaccineContentData = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM " + getTableName()+"  limit 30 OFFSET "+limit;
             cursor = getReadableDatabase().rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 otherVaccineContentData.add(readCursor(cursor));

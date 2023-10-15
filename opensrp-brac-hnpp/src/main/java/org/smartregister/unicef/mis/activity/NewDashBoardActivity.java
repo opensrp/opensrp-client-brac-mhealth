@@ -12,6 +12,7 @@ import android.widget.TextView;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.fragment.BaseDashBoardFragment;
 import org.smartregister.unicef.mis.fragment.CountSummeryDashBoardFragment;
+import org.smartregister.unicef.mis.fragment.HPVSummeryDashBoardFragment;
 import org.smartregister.unicef.mis.fragment.ImmunizationSummeryDashBoardFragment;
 import org.smartregister.unicef.mis.fragment.ReportFragment;
 import org.smartregister.unicef.mis.fragment.ReportGrowthFalterFragment;
@@ -43,21 +44,24 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     private void loadCountSummeryFragment(int position){
         switch (position){
             case 0:
-                dashBoardFragment = new ImmunizationSummeryDashBoardFragment();
+                dashBoardFragment = new HPVSummeryDashBoardFragment();
                 break;
             case 1:
-                dashBoardFragment = new ReportFragment();
+                dashBoardFragment = new ImmunizationSummeryDashBoardFragment();
                 break;
             case 2:
-                dashBoardFragment = new ReportGrowthFalterFragment();
+                dashBoardFragment = new ReportFragment();
                 break;
             case 3:
+                dashBoardFragment = new ReportGrowthFalterFragment();
+                break;
+            case 4:
                 dashBoardFragment = new WorkSummeryDashBoardFragment();
                 break;
 //            case 3:
 //                    dashBoardFragment = new MonthlyTargetAchievementFragment();
 //                    break;
-            case 4:
+            case 5:
                     dashBoardFragment = new CountSummeryDashBoardFragment();
                     break;
 
@@ -169,6 +173,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
 //        tabs.addTab(tabs.newTab().setText(R.string.people_in_short));
 //        tabs.addTab(tabs.newTab().setText(R.string.activity_in_short));
 //        tabs.addTab(tabs.newTab().setText(R.string.nurse));
+        tabs.addTab(tabs.newTab().setText("HPV"));
         tabs.addTab(tabs.newTab().setText(getString(R.string.immunization)));
         tabs.addTab(tabs.newTab().setText(R.string.report));
         tabs.addTab(tabs.newTab().setText(R.string.grow_filter));

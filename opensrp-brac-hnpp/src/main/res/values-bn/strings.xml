@@ -109,7 +109,7 @@
     <string name="mark_as_done_title">Mark as done?</string>
     <string name="mark_as_done_message">Referral will closed and disappear from app</string>
     <string name="powered_by_brac">Copyright © BRAC 2019 </string>
-    <string name="powered_by_mpower">Develop by: mPower </string>
+    <string name="powered_by_mpower">Developed by: mPower </string>
     <string name="member_count">খানার মোট সদস্যঃ %s</string>
     <string name="nid">জাতীয় পরিচয় পত্র: %s</string>
     <string name="bid">জন্ম নিবন্ধন: %s</string>

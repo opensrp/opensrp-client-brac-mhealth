@@ -17,6 +17,7 @@
             <LinearLayout
                 android:id="@+id/permission_check_panel"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
@@ -166,6 +167,7 @@
                 android:textSize="18sp" />
             <Button
                 android:id="@+id/invalid_data"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
@@ -202,6 +204,7 @@
                 android:textSize="18sp" />
             <Button
                 android:id="@+id/data_sync_by_id"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"

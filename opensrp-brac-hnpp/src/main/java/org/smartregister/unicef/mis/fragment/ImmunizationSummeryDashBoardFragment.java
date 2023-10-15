@@ -23,7 +23,7 @@ public class ImmunizationSummeryDashBoardFragment extends BaseDashBoardFragment 
         ssView.setVisibility(View.GONE);
         fromMonthView.setVisibility(View.VISIBLE);
         toMonthView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override

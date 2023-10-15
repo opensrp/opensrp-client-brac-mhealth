@@ -12,15 +12,55 @@
         android:layout_width="match_parent"
         android:layout_height="60dp" />
 
+
+    <org.smartregister.view.customcontrols.CustomFontTextView
+        android:id="@+id/unsync_count"
+        style="@style/CustomFontTextViewStyle.ClientList.Light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topbar"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Total unsync count:"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/sync_unsync_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/topbar"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/unsync_count"
+        android:background="@drawable/login_button_bg"
+        android:drawableLeft="@mipmap/sidemenu_sync"
+        android:ems="10"
+        android:shadowColor="#ffffff"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="0.5"
+        android:text="@string/nav_sync"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_below="@+id/topbar"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/unsync_count"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:visibility="visible" />
+        android:visibility="visible"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
     <ProgressBar
         android:id="@+id/progress_bar"
         android:visibility="gone"
