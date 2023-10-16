@@ -274,7 +274,7 @@
         "openmrs_entity_id": "is_using_family_plan",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যাবহার করছেন ?",
+        "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যবহার করছেন কি?",
         "values": [
           "হ্যাঁ",
           "না"

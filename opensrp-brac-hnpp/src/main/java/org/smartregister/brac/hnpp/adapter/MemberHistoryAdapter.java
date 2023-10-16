@@ -53,12 +53,18 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
             viewHolder.textViewTitle.setText("সেবা: "+content.getTitle());
         }
         viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
+
+        //removing date when item is immunization or gmp
+        if(content.getTitle().equalsIgnoreCase(context.getString(R.string.immunizations))
+                || content.getTitle().equalsIgnoreCase(context.getString(R.string.gmp))){
+            viewHolder.textViewLastVisit.setVisibility(View.GONE);
+        }
+
         if(!TextUtils.isEmpty(content.getVisitDay())){
             viewHolder.textViewLastVisit.setText("তারিখ: "+content.getVisitDay());
 
         }else{
             viewHolder.textViewLastVisit.setText("তারিখ: "+HnppConstants.DDMMYY.format(content.getVisitDate()));
-
         }
         if(content.isDelay()){
             viewHolder.statusImage.setVisibility(View.VISIBLE);

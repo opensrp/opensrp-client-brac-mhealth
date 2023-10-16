@@ -941,6 +941,65 @@
           "json_mapping": {
             "field": "attributes.which_problem"
           }
+        },
+
+        {
+          "column_name": "child_weight",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_weight"
+          }
+        },
+        {
+          "column_name": "child_height",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_height"
+          }
+        },
+        {
+          "column_name": "weight_zscore",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight_zscore"
+          }
+        },
+        {
+          "column_name": "height_zscore",
+          "type": "Client",
+          "json_mapping": {
+            "field": "height_zscore"
+          }
+        },
+
+        {
+          "column_name": "height_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "height_status"
+          }
+        },
+        {
+          "column_name": "weight_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight_status"
+          }
+        },
+
+        {
+          "column_name": "child_status",
+          "type": "Client",
+          "json_mapping": {
+            "field": "child_status"
+          }
+        },
+        {
+          "column_name": "is_refered",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_refered"
+          }
         }
       ]
     },

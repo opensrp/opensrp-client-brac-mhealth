@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -52,6 +53,7 @@ import org.smartregister.family.domain.FamilyEventClient;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.repository.BaseRepository;
@@ -90,6 +92,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String ENCOUNTER_TYPE = "encounter_type";
 
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+    public static final String REFEREL_EVENT_TYPE = "Referral Clinic";
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
     public static JSONObject getVisitFormWithData(String eventJson, Context context){
@@ -1932,6 +1935,85 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             baseEvent.setFormSubmissionId(formSubmissionID);
         }
     }
+
+
+    public static boolean updateClientStatusAsEvent(Context context,String baseEntityId, String attributeName, Object attributeValue, String entityType, String eventType) {
+        try {
+
+            ECSyncHelper syncHelper = HnppApplication.getHNPPInstance().getEcSyncHelper();
+
+
+            Date date = new Date();
+            EventClientRepository db = FamilyLibrary.getInstance().context().getEventClientRepository();
+
+
+            JSONObject client = db.getClientByBaseEntityId(baseEntityId);
+            AllSharedPreferences allSharedPreferences = GrowthMonitoringLibrary.getInstance().context()
+                    .allSharedPreferences();
+
+            Event event = (Event) new Event()
+                    .withBaseEntityId(baseEntityId)
+                    .withEventDate(new Date())
+                    .withEventType(eventType)
+                    .withLocationId(allSharedPreferences.fetchCurrentLocality())
+                    .withProviderId(allSharedPreferences.fetchRegisteredANM())
+                    .withEntityType(entityType)
+                    .withFormSubmissionId(org.smartregister.family.util.JsonFormUtils.generateRandomUUIDString())
+                    .withDateCreated(new Date());
+            event.addObs((new Obs()).withFormSubmissionField(attributeName).withValue(attributeValue).withFieldCode(attributeName).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<Object>()));
+
+
+            addMetaData(context, event, date);
+            JSONObject eventJson = new JSONObject(org.smartregister.family.util.JsonFormUtils.gson.toJson(event));
+            db.addEvent(baseEntityId, eventJson);
+            long lastSyncTimeStamp = allSharedPreferences.fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
+            FamilyLibrary.getInstance().getClientProcessorForJava().getInstance(context).processClient(syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced));
+            allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
+
+            return true;
+
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return false;
+    }
+
+    public static Event addMetaData(Context context, Event event, Date start) throws JSONException {
+        SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        Map<String, String> metaFields = new HashMap<>();
+        metaFields.put("deviceid", "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        metaFields.put("end", "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        metaFields.put("start", "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Calendar calendar = Calendar.getInstance();
+
+        String end = DATE_TIME_FORMAT.format(calendar.getTime());
+
+        Obs obs = new Obs();
+        obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        obs.setValue(DATE_TIME_FORMAT.format(start));
+        obs.setFieldType("concept");
+        obs.setFieldDataType("start");
+        event.addObs(obs);
+
+
+        obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        obs.setValue(end);
+        obs.setFieldDataType("end");
+        event.addObs(obs);
+
+        TelephonyManager mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        obs.setValue("");
+        obs.setFieldDataType("deviceid");
+        event.addObs(obs);
+        return event;
+    }
+
+
 
     /**
      * setting encounter type from end date

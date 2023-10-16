@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.job.VisitLogServiceJob;
+import org.smartregister.brac.hnpp.utils.GrowthUtil;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -25,6 +26,14 @@ import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.domain.jsonmapping.Column;
 import org.smartregister.domain.jsonmapping.Table;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
+import org.smartregister.growthmonitoring.domain.Height;
+import org.smartregister.growthmonitoring.domain.Weight;
+import org.smartregister.growthmonitoring.domain.ZScore;
+import org.smartregister.growthmonitoring.repository.HeightRepository;
+import org.smartregister.growthmonitoring.repository.WeightRepository;
+import org.smartregister.growthmonitoring.service.intent.HeightIntentService;
+import org.smartregister.growthmonitoring.service.intent.WeightIntentService;
 import org.smartregister.immunization.ImmunizationLibrary;
 import org.smartregister.immunization.db.VaccineRepo;
 import org.smartregister.immunization.domain.ServiceRecord;
@@ -51,6 +60,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     private ClientClassification classification;
     private Table vaccineTable;
     private Table serviceTable;
+    private Table heightTable;
+    private Table weightTable;
     public HnppClientProcessor(Context context) {
         super(context);
     }
@@ -119,6 +130,19 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         return serviceTable;
     }
 
+    private Table getHeightTable() {
+        if (heightTable == null) {
+            heightTable = assetJsonToJava("ec_client_height.json", Table.class);
+        }
+        return heightTable;
+    }
+    private Table getWeightTable() {
+        if (weightTable == null) {
+            weightTable = assetJsonToJava("ec_client_weight.json", Table.class);
+        }
+        return weightTable;
+    }
+
     protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
         Log.v("PROCESS_EVENT","processEvents2>>"+eventType);
         switch (eventType) {
@@ -135,6 +159,16 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 processService(eventClient, serviceTable);
                 break;
+
+            case HeightIntentService.EVENT_TYPE:
+            case HeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
+                processHeight(eventClient, getHeightTable(),eventType.equals(HeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                break;
+            case WeightIntentService.EVENT_TYPE:
+            case WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
+                processWeight(eventClient, getWeightTable(),eventType.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                break;
+
             case CoreConstants.EventType.ANC_HOME_VISIT:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
@@ -401,6 +435,123 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             return null;
         }
     }
+
+    private Boolean processHeight(EventClient height,Table heightTable, boolean outOfCatchment) throws Exception {
+
+        try {
+
+            if (height == null || height.getEvent() == null) {
+                return false;
+            }
+
+            if (heightTable == null) {
+                return false;
+            }
+
+            ContentValues contentValues = processCaseModel(height, heightTable);
+            Log.v("CLIENT_PROCESSOR","processHeight>>"+height);
+            Log.v("CLIENT_PROCESSOR","processHeight>>"+contentValues);
+
+            // save the values to db
+            if (contentValues != null && contentValues.size() > 0) {
+
+                HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
+                Height heightObj = new Height();
+                heightObj.setBaseEntityId(contentValues.getAsString(HeightRepository.BASE_ENTITY_ID));
+                if (contentValues.containsKey(HeightRepository.CM)) {
+                    heightObj.setCm(parseFloat(contentValues.getAsString(HeightRepository.CM)));
+                }
+                try{
+                    String eventDateStr = contentValues.getAsString(HeightRepository.DATE);
+                    Date date = getDate(eventDateStr);
+                    heightObj.setDate(date);
+                }catch (Exception e){
+
+                }
+                heightObj.setZScore(Double.parseDouble(contentValues.getAsString(HeightRepository.Z_SCORE)));
+                heightObj.setAnmId(contentValues.getAsString(HeightRepository.ANMID));
+                heightObj.setLocationId(contentValues.getAsString(HeightRepository.LOCATIONID));
+                heightObj.setSyncStatus(HeightRepository.TYPE_Synced);
+                heightObj.setFormSubmissionId(height.getEvent().getFormSubmissionId());
+                try{
+                    heightObj.setEventId(height.getEvent().getEventId());
+                    String createdAtString = contentValues.getAsString(HeightRepository.CREATED_AT);
+                    Date createdAt = getDate(createdAtString);
+                    heightObj.setCreatedAt(createdAt);
+                }catch (Exception e){
+
+                }
+                heightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
+                heightRepository.add(heightObj);
+                String heightText = ZScore.getZScoreText(heightObj.getZScore());
+                GrowthUtil.updateLastHeight(heightObj.getCm(),heightObj.getZScore(),heightObj.getBaseEntityId(),heightText);
+            }
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private Boolean processWeight(EventClient weight,Table weightTable, boolean outOfCatchment) throws Exception {
+
+        try {
+
+            if (weight == null || weight.getEvent() == null) {
+                return false;
+            }
+
+            if (weightTable == null) {
+                return false;
+            }
+
+            ContentValues contentValues = processCaseModel(weight, weightTable);
+
+            // save the values to db
+            if (contentValues != null && contentValues.size() > 0) {
+
+                WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
+                Weight weightObj = new Weight();
+                weightObj.setBaseEntityId(contentValues.getAsString(WeightRepository.BASE_ENTITY_ID));
+                if (contentValues.containsKey(WeightRepository.KG)) {
+                    weightObj.setKg(parseFloat(contentValues.getAsString(WeightRepository.KG)));
+                }
+                try{
+                    String eventDateStr = contentValues.getAsString(WeightRepository.DATE);
+                    Date date = getDate(eventDateStr);
+                    weightObj.setDate(date);
+                }catch (Exception e){
+
+                }
+                weightObj.setZScore(contentValues.getAsDouble(WeightRepository.Z_SCORE));
+                weightObj.setAnmId(contentValues.getAsString(WeightRepository.ANMID));
+                weightObj.setLocationId(contentValues.getAsString(WeightRepository.LOCATIONID));
+                weightObj.setSyncStatus(WeightRepository.TYPE_Synced);
+                weightObj.setFormSubmissionId(weight.getEvent().getFormSubmissionId());
+                try{
+                    weightObj.setEventId(weight.getEvent().getEventId());
+                    String createdAtString = contentValues.getAsString(WeightRepository.CREATED_AT);
+                    Date createdAt = getDate(createdAtString);
+                    weightObj.setCreatedAt(createdAt);
+                }catch (Exception e){
+
+                }
+                weightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
+                double zScore = ZScore.roundOff(weightObj.getZScore());
+                String weightText = ZScore.getZScoreText(zScore);
+                weightRepository.add(weightObj);
+                //need to update child table
+                GrowthUtil.updateLastWeight(weightObj.getKg(),zScore,weightObj.getBaseEntityId(),weightText);
+            }
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.v("WEIGHT","exxxx>>>>"+e.getLocalizedMessage());
+            return null;
+        }
+    }
+
 
 
     // possible to delegate

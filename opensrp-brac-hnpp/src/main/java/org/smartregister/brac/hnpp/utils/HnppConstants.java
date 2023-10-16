@@ -53,6 +53,7 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
@@ -325,6 +326,67 @@ public class HnppConstants extends CoreConstants {
     }
 
     public static void getGPSLocation(BaseProfileActivity activity, OnPostDataWithGps onPostDataWithGps) {
+        IS_FORM_CLICK = true;
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                try {
+                    activity.showProgressDialog(message);
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void hideProgress() {
+                try {
+                    activity.hideProgressDialog();
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+
+                if(IS_FORM_CLICK){
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
+                        }
+                    });
+                }
+
+                IS_FORM_CLICK = false;
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude, longitude);
+
+            }
+        }, activity);
+    /*    new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (task != null) task.updateUi();
+            }
+        }, 5000);*/
+
+
+    }
+
+    public static void getGPSLocation(ChildFollowupActivity activity, OnPostDataWithGps onPostDataWithGps) {
         IS_FORM_CLICK = true;
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -888,6 +950,8 @@ public class HnppConstants extends CoreConstants {
         public static final String BLOOD_GROUP = "blood_group";
         public static final String LAST_HOME_VISIT = "last_home_visit";
         public static final String DATE_CREATED = "date_created";
+
+        public static final String BIRTH_WEIGHT = "birth_weight";
     }
 
     public static class IDENTIFIER {
@@ -1795,6 +1859,14 @@ public class HnppConstants extends CoreConstants {
             .put("delivery_problems", "প্রসবে সমস্যা")
             .put("pnc_problem", "প্রসব পরবর্তী সমস্যা")
             .put("problems_eyes", "চোখে সমস্যা")
+            .put("severe_malnutrition",  "মারাত্মক অপুষ্টি")
+            .put("overweight", "বেশি ওজন")
+            .put("moderate_malnutrition", "মাঝারি অপুষ্টি")
+            .put("malnutrition",  "স্বল্প অপুষ্টি")
+            .put("severe_short",  "মারাত্মক খর্ব")
+            .put("moderate_short", "মাঝারি খর্ব")
+            .put("medium_short",  "স্বল্প খর্ব")
+            .put("over_short", "বেশি খর্ব")
             .put("diabetes", "ডায়াবেটিস")
             .put("high_blood_pressure", "উচ্চ রক্তচাপ")
             .put("problems_with_birth_control", "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা")

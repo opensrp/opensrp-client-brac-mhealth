@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
 import org.smartregister.brac.hnpp.activity.HnppChildProfileActivity;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.model.ReferralFollowupJsonModel;
 import org.smartregister.brac.hnpp.presenter.HnppChildProfileDuePresenter;
 import org.smartregister.brac.hnpp.provider.HnppFamilyDueRegisterProvider;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
@@ -73,6 +76,8 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private boolean isFirstAnc = false;
     private Handler handler;
     private boolean isStart = true;
+    private static final int RESULT_CHILD_FOLLOW_UP = 8656;
+    ArrayList<ReferralFollowupJsonModel> referralFollowupList;
 
 
     public static BaseFamilyProfileDueFragment newInstance(Bundle bundle) {
@@ -106,7 +111,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             public void run() {
                 if(getActivity() ==null || getActivity().isFinishing()) return;
                 addStaticView();
-                String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
+                /*String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);
                 boolean isImmunizationVisible = FormApplicability.isImmunizationVisible(dob);
                 if(isImmunizationVisible){
@@ -115,7 +120,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         b.updateImmunizationData();
                     }
                 }
-
+*/
 
             }
         },500);
@@ -240,6 +245,8 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     String eventType = "";
     View childInfo1View, childInfo2View, childInfo3View;
     private void addStaticView(){
+        referralFollowupList = new ArrayList<>();
+
         if(getActivity() ==null || getActivity().isFinishing()) return;
         if(otherServiceView.getVisibility() == View.VISIBLE){
             otherServiceView.removeAllViews();
@@ -249,7 +256,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
         boolean isEnc = FormApplicability.isEncVisible(dob);
-        if(isEnc){
+        /*if(isEnc){
             if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
                 View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
                 ImageView image1 = encView.findViewById(R.id.image_view);
@@ -262,7 +269,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 otherServiceView.addView(encView);
             }
 
-        }
+        }*/
 
 
         View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
@@ -275,7 +282,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         familyView.setOnClickListener(this);
         otherServiceView.addView(familyView);
 
-        {
+  {
             View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView imageReferel = referelView.findViewById(R.id.image_view);
             TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
@@ -285,8 +292,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             referelView.setTag(TAG_OPEN_REFEREAL);
             referelView.setOnClickListener(this);
             otherServiceView.addView(referelView);
-        }
-        //if(!isEnc){
+        }//if(!isEnc){
             eventType = FormApplicability.isDueChildFollowUp(day);
 
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS) && FormApplicability.isDueAnyForm(baseEntityId, eventType)){
@@ -441,6 +447,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             referrelFollowUp.setTag(referralFollowUpModel);
             referrelFollowUp.setOnClickListener(this);
             otherServiceView.addView(referrelFollowUp);
+            referralFollowupList.add(new ReferralFollowupJsonModel("",referralFollowUpModel));
 
         }
 
@@ -520,21 +527,25 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 case TAG_CHILD_FOLLOWUP_0_3_MONTHS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_0_3_MONTHS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_3_6_MONTHS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_6_MONTHS,activity.isOnlyVacc,referralFollowupList);
                     }
+
                     break;
 
                 case TAG_CHILD_FOLLOWUP_7_11_MONTHS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_7_11_MONTHS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
 
@@ -542,21 +553,24 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 case TAG_CHILD_FOLLOWUP_12_18_MONTHS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_12_18_MONTHS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_19_24_MONTHS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_19_24_MONTHS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
 
                 case TAG_CHILD_FOLLOWUP_2_3_YEARS:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS);
+                        //activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_2_3_YEARS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
 
@@ -564,6 +578,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_3_4_YEARS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
 
@@ -571,6 +586,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
                         activity.openFollowUpByType(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS);
+                        startFollowupActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS,activity.isOnlyVacc,referralFollowupList);
                     }
                     break;
                 case TAG_OPEN_CORONA:
@@ -599,6 +615,21 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     break;*/
             }
         }
+    }
+
+    private void startFollowupActivity(String formType,boolean isOnlyVaccine,ArrayList<ReferralFollowupJsonModel> referralFollowupList) {
+        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+        Intent intent = new Intent(getActivity(), ChildFollowupActivity.class);
+        intent.putExtra(ChildFollowupActivity.TYPE,formType);
+        intent.putExtra(ChildFollowupActivity.BASE_ENTITY_ID,activity.childBaseEntityId);
+        intent.putExtra(ChildFollowupActivity.GENDER,activity.getGender());
+        intent.putExtra(ChildFollowupActivity.BIRTH_DATE,activity.getBirthDate());
+        intent.putExtra(ChildFollowupActivity.FAMILY_HEAD,activity.getMemberObject());
+        intent.putExtra(ChildFollowupActivity.COMMON_PERSON,activity.getCommonPersonObject());
+        intent.putExtra(ChildFollowupActivity.BUNDLE,activity.getIntent().getExtras());
+        intent.putExtra(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVaccine);
+        intent.putParcelableArrayListExtra(ChildFollowupActivity.REFERRAL_FOLLOWUP_LIST,referralFollowupList);
+        startActivityForResult(intent,RESULT_CHILD_FOLLOW_UP);
     }
 
     @Override

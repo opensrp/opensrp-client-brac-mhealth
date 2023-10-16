@@ -148,7 +148,7 @@
         "type": "check_box",
         "label": "গত ২৪ ঘন্টায গর্ভবতী মা নিচের ৬ ধরনের খাবার খেয়েছে কিনাঃ",
         "exclusive": [
-          "no_problem"
+          "none"
         ],
         "v_required": {
           "value": true,
@@ -196,6 +196,14 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "deep_green_vegetables"
+          },
+
+          {
+            "key": "none",
+            "text": "৭। কোনোটিই নয়",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "none"
           }
         ]
       },
