@@ -55,6 +55,10 @@ import org.smartregister.unicef.mis.utils.HouseHoldInfo;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static org.smartregister.util.JsonFormUtils.FIELDS;
@@ -159,7 +163,9 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
 
         }
 
+
     }
+
 
     @Override
     protected void onResumption() {

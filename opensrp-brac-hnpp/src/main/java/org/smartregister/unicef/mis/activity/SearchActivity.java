@@ -118,10 +118,10 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
             HnppConstants.checkNetworkConnection(this);
             return;
         }
-        if(HnppApplication.getOtherVaccineRepository().isExists(brn)){
-            HnppConstants.showOneButtonDialog(this,"জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে","");
-            return;
-        }
+//        if(HnppApplication.getOtherVaccineRepository().isExists(brn)){
+//            HnppConstants.showOneButtonDialog(this,"জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে","");
+//            return;
+//        }
         OtherVaccineContentData otherVaccineContentData = new OtherVaccineContentData();
         otherVaccineContentData.brn = brn;
         otherVaccineContentData.vaccine_name = vaccineName;
@@ -149,7 +149,12 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
         String date = HnppConstants.YYMMDD.format(System.currentTimeMillis());
         otherVaccineContentData.date = date;
         otherVaccineContentData.dob = dob;
-        if(otherVaccineContentData!=null)showDetailsDialog(otherVaccineContentData);
+        if(TextUtils.isEmpty(otherVaccineContentData.msg)){
+            showDetailsDialog(otherVaccineContentData);
+        }else{
+            HnppConstants.showOneButtonDialog(this,"জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে","");
+            clearData();
+        }
     }
     private void showDetailsDialog(OtherVaccineContentData content){
         String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
@@ -202,6 +207,10 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
         });
         dialog.show();
 
+    }
+    private void clearData(){
+        dobTv.setText("");
+        brnTv.setText("");
     }
 
     private void showDatePicker(TextView vaccineDateTxt) {
@@ -261,52 +270,7 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
             finish();
         }
     }
-//    @SuppressLint("SimpleDateFormat")
-//    private void saveClientAndEvent(Client baseClient){
-//
-//        try{
-//            if(baseClient == null) return;
-//            if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
-//                List<String> ids = new ArrayList<>();
-//                ids.add(globalSearchContentData.getFamilyBaseEntityId());
-//                ids.add(globalSearchContentData.getFamilyBaseEntityId());
-//                baseClient.getRelationships().put("family",ids);
-//            }
-//            JSONObject clientJson = new JSONObject(JsonFormUtils.gson.toJson(baseClient));
-//
-//            getSyncHelper().addClient(baseClient.getBaseEntityId(), clientJson);
-//
-//            for (Event baseEvent: globalSearchResult.events) {
-//                if(baseEvent.getBaseEntityId().equalsIgnoreCase(baseClient.getBaseEntityId())){
-//                    JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(baseEvent));
-//                    getSyncHelper().addEvent(baseEvent.getBaseEntityId(), eventJson);
-//                }
-//            }
-//
-//            long lastSyncTimeStamp = getAllSharedPreferences().fetchLastUpdatedAtDate(0);
-//            Date lastSyncDate = new Date(lastSyncTimeStamp);
-//            getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
-//            getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
-//                ContentValues values = new ContentValues();
-//                values.put(org.smartregister.chw.anc.util.DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-//                values.put("is_closed", 1);
-//                HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
-//                        org.smartregister.chw.anc.util.DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
-//
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                GlobalSearchMemberProfileActivity.startGlobalMemberProfileActivity(QRScannerActivity.this, baseClient);
-//                finish();
-//            }
-//        },1000);
-//
-//    }
+
     private void saveClientAndEvent(Client baseClient){
         AppExecutors appExecutors = new AppExecutors();
         @SuppressLint("SimpleDateFormat") Runnable runnable = () -> {
@@ -420,12 +384,17 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
                         }catch (Exception e){
 
                         }
-                        HnppConstants.showOneButtonDialog(SearchActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        });
+                        try{
+                            HnppConstants.showOneButtonDialog(SearchActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            });
+                        }catch (Exception e){
+
+                        }
+
                     }
                 });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
@@ -469,12 +438,17 @@ public class SearchActivity extends SecuredActivity implements SearchDetailsCont
                         }catch (Exception e){
 
                         }
-                        HnppConstants.showOneButtonDialog(SearchActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        });
+                        try{
+                            HnppConstants.showOneButtonDialog(SearchActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                                @Override
+                                public void run() {
+                                    clearData();
+                                }
+                            });
+                        }catch (Exception e){
+
+                        }
+
                     }
                 });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);

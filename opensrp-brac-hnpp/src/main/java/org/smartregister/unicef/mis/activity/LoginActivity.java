@@ -238,8 +238,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                                 }
                                 Log.v("VERSION_CODE","onNext>>version:"+version);
                                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
-                                alertDialog.setTitle("New version available");
-                                alertDialog.setMessage("Your using version:"+version);
+                                alertDialog.setTitle("এপটির নতুন ভার্সন এসেছে ");
+                                alertDialog.setMessage("অনুগ্রহ করে ভার্শনটি আপডেট করুন");
                                 alertDialog.setCancelable(false);
                                 alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "UPDATE",
                                         new DialogInterface.OnClickListener() {
@@ -364,7 +364,11 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             GlobalLocationFetchJob.scheduleJobImmediately(GlobalLocationFetchJob.TAG);
+            try{
+                postHPVData();
+            }catch (Exception e){
 
+            }
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
@@ -375,6 +379,31 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
         ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
 
+    }
+    private void postHPVData(){
+        HnppConstants.postOtherVaccineData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("OTHER_VACCINE","completed");
+                    }
+                });
     }
 
 }

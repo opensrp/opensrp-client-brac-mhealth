@@ -167,7 +167,6 @@ public class HnppConstants extends CoreConstants {
         return  Observable.create(e->{
                     try {
                         HnppApplication.getOtherVaccineRepository().addOtherVaccine(contentData);
-                        processOtherVaccineUnSyncData(0);
                         e.onNext("done");//error
                         e.onComplete();
                     } catch (Exception ex) {
@@ -279,14 +278,12 @@ public class HnppConstants extends CoreConstants {
     private static void processOtherVaccineUnSyncData(int count){
         String ADD_URL = "rest/api/vaccination/sync";
         ArrayList<OtherVaccineContentData> vaccineContentData = HnppApplication.getOtherVaccineRepository().getUnSyncData();
-        Log.v("OTHER_VACCINE","processUnSyncData>>"+vaccineContentData.size());
         ArrayList<String> list = new ArrayList<>();
 
         for(OtherVaccineContentData otherVaccineContentData: vaccineContentData){
             String json = JsonFormUtils.gson.toJson(otherVaccineContentData);
             list.add(json);
         }
-        Log.v("OTHER_VACCINE","processUnSyncData>>"+list);
         if(list.size()==0) return;
         try{
             JSONObject request = new JSONObject();
@@ -296,12 +293,10 @@ public class HnppConstants extends CoreConstants {
             String add_url =  MessageFormat.format("{0}{1}",
                     BuildConfig.citizen_url,
                     ADD_URL);
-            Log.v("OTHER_VACCINE","jsonPayload>>>"+jsonPayload);
             jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             HashMap<String,String> headers = new HashMap<>();
             headers.put("dd",BuildConfig.dd);
-            Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
             Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
             if (response.isFailure() || response.isTimeoutError()) {
                 HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());

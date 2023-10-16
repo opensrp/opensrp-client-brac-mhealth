@@ -39,7 +39,6 @@ public class HALocationFetchIntentService extends IntentService {
     @Override
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
-        Log.v("LOCATION_UPDATE","jsonobjectlocation??"+jsonObjectLocation.length());
         if(jsonObjectLocation == null || jsonObjectLocation.length()==0){
             broadcastStatus("Need to location update");
         }

@@ -221,11 +221,11 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
             HnppConstants.checkNetworkConnection(this);
             return;
         }
-        if(HnppApplication.getOtherVaccineRepository().isExists(brn)){
-            HnppConstants.showOneButtonDialog(this,"জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে","");
-            startScanner();
-            return;
-        }
+//        if(HnppApplication.getOtherVaccineRepository().isExists(brn)){
+//            HnppConstants.showOneButtonDialog(this,"জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে","");
+//            startScanner();
+//            return;
+//        }
         OtherVaccineContentData otherVaccineContentData = new OtherVaccineContentData();
         otherVaccineContentData.brn = brn;
         otherVaccineContentData.vaccine_name = vaccineName;
@@ -248,12 +248,24 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
     }
     @Override
     public void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData) {
+        if(isFinishing())return;
         hideProgressDialog();
         otherVaccineContentData.vaccine_name = vaccineName;
         String date = HnppConstants.YYMMDD.format(System.currentTimeMillis());
         otherVaccineContentData.date = date;
         otherVaccineContentData.dob = dob;
-        if(otherVaccineContentData!=null)showDetailsDialog(otherVaccineContentData);
+        if(TextUtils.isEmpty(otherVaccineContentData.msg)){
+            showDetailsDialog(otherVaccineContentData);
+        }else{
+            HnppConstants.showOneButtonDialog(this, "জন্ম সনদ নম্বরটিতে ইতিমধ্যে টিকা প্রদান করা হয়েছে", "", new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            });
+
+        }
+
     }
     private void showDetailsDialog(OtherVaccineContentData content){
         String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
@@ -531,12 +543,17 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                         }catch (Exception e){
 
                         }
-                        HnppConstants.showOneButtonDialog(QRScannerActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
-                            @Override
-                            public void run() {
-                                startScanner();
-                            }
-                        });
+                        try{
+                            HnppConstants.showOneButtonDialog(QRScannerActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            });
+                        }catch (Exception e){
+
+                        }
+
                     }
                 });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
@@ -580,12 +597,17 @@ public class QRScannerActivity extends SecuredActivity implements ZXingScannerVi
                         }catch (Exception e){
 
                         }
-                        HnppConstants.showOneButtonDialog(QRScannerActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
-                            @Override
-                            public void run() {
-                                startScanner();
-                            }
-                        });
+                        try{
+                            HnppConstants.showOneButtonDialog(QRScannerActivity.this, "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            });
+                        }catch (Exception e){
+
+                        }
+
                     }
                 });
         //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
