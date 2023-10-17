@@ -143,6 +143,8 @@ public class FormParser {
 
         }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
             saveSSFormData(visit);
+        }else if(visit.getVisitType().equalsIgnoreCase(HOUSE_HOLD_VISIT)){
+            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateLastHomeVisitTime(visit.getBaseEntityId(),String.valueOf(visit.getDate().getTime()));
         }
         else{
 
@@ -332,10 +334,7 @@ public class FormParser {
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 processHHVisitForm(details,log);
                             }
-                            if (HOUSE_HOLD_VISIT.equalsIgnoreCase(encounter_type)){
-                                HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateLastHomeVisitTime(log.getBaseEntityId(),String.valueOf(log.getVisitDate()));
 
-                            }
                             if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
                                 HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
                             }
@@ -2327,6 +2326,7 @@ public class FormParser {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private static void processRemoveChild(String baseEntityId, long eventDate, String dod) {
 
 
