@@ -151,7 +151,7 @@ android {
 
         }
         production{
-            versionCode 15
+            versionCode 16
             versionName "1.1.3"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'

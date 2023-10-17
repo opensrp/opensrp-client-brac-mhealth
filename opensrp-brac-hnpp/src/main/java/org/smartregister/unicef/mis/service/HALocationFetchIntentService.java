@@ -41,6 +41,7 @@ public class HALocationFetchIntentService extends IntentService {
         JSONArray jsonObjectLocation = getLocationList();
         if(jsonObjectLocation == null || jsonObjectLocation.length()==0){
             broadcastStatus("Need to location update");
+            return;
         }
         if(jsonObjectLocation!=null){
             if(!HnppConstants.isPALogin())HnppApplication.getHALocationRepository().dropTable();
