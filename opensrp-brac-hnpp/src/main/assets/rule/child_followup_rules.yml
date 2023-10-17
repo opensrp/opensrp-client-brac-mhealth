@@ -7,9 +7,9 @@ actions:
   - "isRelevant = true"
 ---
 name: step1_can_say_some_word
-description: If Baby Age is between 9 to 11 Month
+description: If Baby Age is between 7 to 11 Month
 priority: 1
-condition: "(step1_month_diff >= 274)"
+condition: "(step1_month_diff >= 210)"
 actions:
   - "isRelevant = true"
 ---

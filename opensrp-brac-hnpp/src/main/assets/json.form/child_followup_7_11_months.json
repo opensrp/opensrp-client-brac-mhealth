@@ -274,13 +274,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "yes",
           "না": "no"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child_followup_rules.yml"
-            }
-          }
         }
       },
 

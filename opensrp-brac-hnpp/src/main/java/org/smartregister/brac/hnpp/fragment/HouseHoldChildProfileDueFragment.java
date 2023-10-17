@@ -484,7 +484,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
             referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             imageReferel.setImageResource(R.mipmap.ic_refer);
-            nameReferel.setText("রেফেরেল");
+            nameReferel.setText("রেফারেল");
             referelView.setTag(TAG_OPEN_REFEREAL);
             referelView.setOnClickListener(this);
             otherServiceView.addView(referelView);
@@ -910,7 +910,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             long day = FormApplicability.getDay(commonPersonObjectClient);
 
             //means greater than 24 month
-            boolean isOnlyVacc = day >= 577;
+            boolean isOnlyVacc = day > 730;
             bundle.putBoolean(ChildFollowupActivity.IS_ONLY_SERVICE,isOnlyVacc);
             ChildVaccinationActivity.startChildVaccinationActivity(getActivity(),bundle,commonPersonObjectClient,isOnlyVacc);
         }else {

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -36,14 +37,17 @@ import org.smartregister.brac.hnpp.adapter.ReferralFollowupAdapter;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowupJsonModel;
+import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -341,7 +345,6 @@ public class ChildFollowupActivity extends AppCompatActivity {
                     String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
                     updateFormField(jsonArray,"weight",birthWeight);
                 }
-
                 if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                     if(gender.equalsIgnoreCase("F")){
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
