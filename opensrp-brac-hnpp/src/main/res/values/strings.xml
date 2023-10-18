@@ -477,4 +477,8 @@
     <string name="already_weight_taken_msg">এই দিনে ইতিমধ্যে ওজন নেওয়া হয়েছে</string>
     <string name="already_height_taken">"এই দিনে ইতিমধ্যে উচ্চতা নেওয়া হয়েছে "</string>
     <string name="referral_followup">রেফারাল ফলোআপ</string>
+    <string name="pregnency_register">গর্ভবতী রেজিস্ট্রেশন</string>
+    <string name="general_disages">শারীরিক সমস্যা</string>
+    <string name="previous_pregnancy_history">পূর্বের গর্ভের ইতিহাস</string>
+    <string name="pregnancy_dietry">গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য</string>
 </resources>
