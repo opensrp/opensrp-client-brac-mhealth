@@ -156,12 +156,28 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
                     startAge ="0";
                 }
                 if(TextUtils.isEmpty(age)){
-                    age = "0";
+                    age = "120";
                 }
                 if(Integer.parseInt(startAge)>Integer.parseInt(age)){
                     startAgeEditText.setError("শেষ বয়সসীমা থেকে ছোট হতে হবে ");
                     return;
                 }
+                if(Integer.parseInt(startAge) < 0 ){
+                    startAgeEditText.setError("0 এর সমান বা বড় হতে হবে");
+                    return;
+                }else if(Integer.parseInt(startAge) > 120){
+                    startAgeEditText.setError("120 এর সমান বা ছোট হতে হবে");
+                    return;
+                }
+
+                if(Integer.parseInt(age) < 0 ){
+                    age_migration.setError("0 এর সমান বা বড় হতে হবে");
+                    return;
+                }else if(Integer.parseInt(age) > 120){
+                    age_migration.setError("120 এর সমান বা ছোট হতে হবে");
+                    return;
+                }
+
                 BaseLocation villageLocation = (BaseLocation) migration_village_spinner.getSelectedItem();
                 BaseLocation district = (BaseLocation) migration_district_spinner.getSelectedItem();
                 MigrationSearchContentData searchContentData = new MigrationSearchContentData();
