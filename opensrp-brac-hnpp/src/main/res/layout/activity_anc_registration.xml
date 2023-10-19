@@ -43,7 +43,7 @@
 
     <!--child followup-->
     <LinearLayout
-        android:id="@+id/child_followup_lay"
+        android:id="@+id/anc_reg_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|left"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <ImageView
-            android:id="@+id/child_followup_check_im"
+            android:id="@+id/anc_check_im"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
@@ -75,11 +75,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/child_followup_lay" />
+        app:layout_constraintTop_toBottomOf="@+id/anc_reg_lay" />
 
     <!--Immunization-->
     <LinearLayout
-        android:id="@+id/immunization_lay"
+        android:id="@+id/physical_prob_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|start"
@@ -97,7 +97,7 @@
             android:gravity="center|start">
 
             <ImageView
-                android:id="@+id/immunization_check_im"
+                android:id="@+id/physical_prob_check_im"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
@@ -120,7 +120,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/immunization_lay" />
+        app:layout_constraintTop_toBottomOf="@+id/physical_prob_lay" />
 
     <LinearLayout
         android:id="@+id/history_lay"
@@ -141,7 +141,7 @@
             android:gravity="center|start">
 
             <ImageView
-                android:id="@+id/immunization_check_im"
+                android:id="@+id/history_check_im"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
@@ -169,7 +169,7 @@
 
     <!--Gmp-->
     <LinearLayout
-        android:id="@+id/gmp_lay"
+        android:id="@+id/diversity_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|left"
@@ -180,7 +180,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view2">
 
         <ImageView
-            android:id="@+id/gmp_check_im"
+            android:id="@+id/diversity_check_im"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
@@ -201,11 +201,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/gmp_lay" />
+        app:layout_constraintTop_toBottomOf="@+id/diversity_lay" />
 
     <!--Referral-->
     <LinearLayout
-        android:id="@+id/referral_ley"
+        android:id="@+id/anc_ley"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|left"
@@ -223,7 +223,7 @@
             android:gravity="center|left">
 
             <ImageView
-                android:id="@+id/referral_check_im"
+                android:id="@+id/anc_check_im"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
@@ -234,21 +234,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/refer"
+                android:text="@string/anc_registration"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
         </LinearLayout>
 
 
         <Button
-            android:id="@+id/not_referred"
+            android:id="@+id/not_interested"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:layout_weight="3"
             android:background="@drawable/vaccine_card_background_blue"
             android:padding="10dp"
-            android:text="@string/not_referred"
+            android:text="@string/not_interested"
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>
@@ -258,34 +258,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/referral_ley" />
+        app:layout_constraintTop_toBottomOf="@+id/anc_ley" />
 
     <!--Referral follow up-->
-    <LinearLayout
-        android:id="@+id/referral_followup_ley"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center|start"
-        android:orientation="horizontal"
-        android:weightSum="10"
-        app:layout_constraintEnd_toEndOf="@+id/view4"
-        app:layout_constraintStart_toStartOf="@+id/view4"
-        app:layout_constraintTop_toBottomOf="@+id/view4">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/referral_followup_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:scrollbars="vertical" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/view5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DDDDDD"
-        app:layout_constraintTop_toBottomOf="@+id/referral_followup_ley" />
 </android.support.constraint.ConstraintLayout>
