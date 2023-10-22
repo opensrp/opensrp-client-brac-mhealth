@@ -356,7 +356,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
     }
     private void showIYCFDialog(){
-        showDialogWithAction(getActivity(), "আপনার কি পরিমাপ নেয়া শেষ  হয়েছে?", "", new Runnable() {
+        showDialogWithAction(getActivity(), getString(R.string.gmp_taken), "", new Runnable() {
             @Override
             public void run() {
                 int month = getMonthDifferenceByDOB();

@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_bar_view"
         android:padding="10dp"
-        android:text="যে সকল কারনে ঝুঁকিপূর্ণ :" />
+        android:text="@string/risky_cause" />
     <HorizontalScrollView
         android:layout_below="@+id/count_tv"
         android:layout_width="match_parent"

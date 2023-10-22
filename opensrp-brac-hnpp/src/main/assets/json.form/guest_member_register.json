@@ -53,7 +53,7 @@
     }
   },
   "step1": {
-    "title": "বহিরাগত সদস্য যোগ করুন",
+    "title": "OOC Member Registration",
     "fields": [
       {
         "key": "provider_id",
@@ -89,7 +89,7 @@
         "openmrs_entity_id": "",
         "key": "section",
         "type": "section_label",
-        "name": "ঠিকানা"
+        "name": "Address"
       },
       {
         "key": "division_per",
@@ -97,14 +97,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "division_per",
         "type": "spinner",
-        "hint": "বিভাগ",
+        "hint": "Division(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select Division"
         }
       },
       {
@@ -113,14 +113,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "district_per",
         "type": "spinner",
-        "hint": "জেলা/সিটি কর্পোরেশন",
+        "hint": "District/City Corporation(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select District/City Corporation"
         }
       },
       {
@@ -129,14 +129,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "upazila_per",
         "type": "spinner",
-        "hint": "উপজেলা/থানা",
+        "hint": "Upazilla/Thanana(Permanent)",
         "values": [
         ],
         "openmrs_choice_ids": {
         },
         "v_required": {
           "value": "true",
-          "err": "নির্বাচন করুন"
+          "err": "Select Upazilla/Thanana"
         }
       },
       {
@@ -145,7 +145,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "shr_id",
         "type": "edit_text",
-        "hint": "শেয়ারড হেলথ রেকর্ড আই ডি",
+        "hint": "SHR ID",
         "read_only": true
       },
       {
@@ -154,7 +154,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "opensrp_id",
         "type": "edit_text",
-        "hint": "সিস্টেম নাম্বার",
+        "hint": "Member ID",
         "read_only": true,
         "v_numeric": {
           "value": "false",
@@ -167,15 +167,15 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "নামের প্রথম অংশ (ইংরেজীতে)",
+        "hint": "First name (in english)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "নাম লিখুন"
+          "err": "Write name"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Write a valid name"
         }
       },
       {
@@ -184,15 +184,15 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
-        "hint": "নামের শেষ অংশ (ইংরেজীতে)",
+        "hint": "Last name (in english)",
         "edit_type": "name",
         "v_required": {
           "value": "true",
-          "err": "খানা প্রধানের নাম লিখুন"
+          "err": "Please enter the last name"
         },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Please enter a valid name"
         }
       },
       {
@@ -201,21 +201,21 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
         "type": "spinner",
-        "hint": "লিঙ্গ",
+        "hint": "Gender",
         "values": [
-          "পুরুষ",
-          "নারী",
-          "তৃতীয় লিঙ্গ"
+          "Male",
+          "Female",
+          "Third gender"
 
         ],
         "openmrs_choice_ids": {
-          "পুরুষ": "M",
-          "নারী":"F",
-          "তৃতীয় লিঙ্গ": "O"
+          "Male": "M",
+          "Female":"F",
+          "Third gender": "O"
         },
         "v_required": {
           "value": true,
-          "err": "লিঙ্গ নির্বাচন করুন"
+          "err": "Select gender"
         }
       },
       {
@@ -224,18 +224,18 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "DOB_known",
         "type": "spinner",
-        "hint": "জন্ম তারিখ জানা আছে কি?",
+        "hint": "Do you know the date of birth?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না":"no"
+          "Yes": "yes",
+          "No":"no"
         },
         "v_required": {
           "value": true,
-          "err": "জন্মতারিখ নির্বাচন করুন"
+          "err": "Select date of birth"
         }
       },
       {
@@ -244,7 +244,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "birthdate",
         "type": "date_picker",
-        "hint": "জন্ম তারিখ",
+        "hint": "Birth Date",
         "expanded": false,
         "duration": {
           "label": "Age"
@@ -253,12 +253,12 @@
         "max_date": "today",
         "v_required": {
           "value": "true",
-          "err": "জন্ম তারিখ প্রবেশ করুন"
+          "err": "Enter date of birth"
         },
         "relevance": {
           "step1:is_birthday_known": {
             "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+            "ex": "equalTo(., \"Yes\")"
           }
         }
       },
@@ -282,32 +282,32 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "age",
         "type": "edit_text",
-        "hint": "বয়স লিখুন (বছর)",
+        "hint": "EIf not known, enter age (years)",
         "v_numeric": {
           "value": "true",
           "err": "Number must begin with 0 and must be a total of 10 digits in length"
         },
         "v_regex": {
           "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
+          "err": "Decimals are not allowed"
         },
         "v_min": {
           "value": "1",
-          "err": "বয়স 1 এর সমান বা 1 এর বেশি হতে হবে"
+          "err": "Age must be equal to or greater than 1"
         },
         "v_max": {
           "value": "120",
-          "err": "বয়স 120 এর সমান বা 120 এর কম হওয়া উচিত"
+          "err": "Age should be equal to 120 or less than 120"
         },
         "relevance": {
           "step1:is_birthday_known": {
             "type": "string",
-            "ex": "equalTo(., \"না\")"
+            "ex": "equalTo(., \"No\")"
           }
         },
         "v_required": {
           "value": true,
-          "err": "বয়স প্রবেশ করুন"
+          "err": "Enter age"
         }
       },
 
@@ -320,14 +320,14 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "edit_type": "name",
-        "hint": "মাতার নাম (ইংরেজীতে)",
+        "hint": "Mother's name (in english)",
         "v_regex": {
           "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
+          "err": "Enter a valid name"
         },
         "v_required": {
           "value": false,
-          "err": "মান নির্বাচন করুন"
+          "err": "Select the value"
         }
       },
       {
@@ -338,7 +338,7 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "look_up": "true",
-        "hint": "পিতার নাম (ইংরেজীতে)",
+        "hint": "Father's name (in english)",
         "edit_type": "name",
         "v_required": {
           "value": "false",
@@ -355,7 +355,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "idtype",
         "type": "check_box",
-        "label": "আপনার কোন পরিচয় পত্রটি আছে?",
+        "label": "Member Identification Card",
         "label_text_style": "normal",
         "text_color": "#C0C0C0",
         "exclusive": [
@@ -364,17 +364,24 @@
         "options": [
           {
             "key": "chk_national_id",
-            "text": "জাতীয় পরিচয় পত্র",
+            "text": "NID",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "chk_national_id"
           },
           {
             "key": "chk_birth_id",
-            "text": "জন্মনিবন্ধন",
+            "text": "Birth certificate",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "chk_birth_id"
+          },
+          {
+            "key": "chk_none",
+            "text": "No ID card",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_none"
           }
         ]
       },
@@ -384,18 +391,18 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "nationalId",
         "type": "edit_text",
-        "hint": "জাতীয় পরিচয় পত্র",
+        "hint": "NID Number",
         "v_required": {
           "value": "true",
-          "err": "জাতীয় পরিচয় পত্র আইডি লিখুন"
+          "err": "Enter National Identity Card ID"
         },
         "v_numeric": {
           "value": "true",
-          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+          "err": "Total must be 10/13/17 numbers"
         },
         "v_regex": {
           "value": "([0-9]{10})|([0-9]{13})|([0-9]{17})|\\s*",
-          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+          "err": "Total must be 10/13/17 numbers"
         },
         "relevance": {
           "step1:id_avail": {
@@ -415,14 +422,14 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birthRegistrationID",
         "type": "edit_text",
-        "hint": "জন্মনিবন্ধন নম্বর",
+        "hint": "Birth Registration Number",
         "v_numeric": {
           "value": "true",
-          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+          "err": "Total must be 17 digits"
         },
         "v_regex": {
           "value": "([0-9]{16})|([0-9]{17})|\\s*",
-          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
+          "err": "Total must be 16/17 numbers"
         },
         "relevance": {
           "step1:id_avail": {
@@ -442,27 +449,28 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Mobile_Number",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
+        "hint": "Mobile number",
         "v_required": {
           "value": true,
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+          "err": "Enter 11 digit mobile number"
         },
         "v_numeric": {
           "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+          "err": "The number must start with 011, 012, 013, 014, 015, 016,017,018 or 019 and must be 11 digits in total."
         },
         "v_regex": {
-          "value": "0|(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+          "value": "(01[1-9][0-9]{8})|\s*",
+          "err": "The number must start with 011, 012, 013, 014, 015, 016,017,018 or 019 and must be 11 digits in total."
         },
         "v_max_length": {
           "value": "11",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "err": "Enter 11 digit mobile number",
           "is_fixed_size":true
+
         },
         "v_min_length": {
           "value": "1",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+          "err": "Enter 11 digit mobile number"
         }
       }
 

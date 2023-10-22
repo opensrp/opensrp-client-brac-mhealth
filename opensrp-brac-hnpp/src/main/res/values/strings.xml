@@ -1014,6 +1014,9 @@
     <string name="no_overweight">% of children who are overweight</string>
     <string name="no_underweight">% of children who are Severly Underweight</string>
     <string name="no_severly_stunted">% of children who are Severly Stunted</string>
+    <string name="gmp_taken">Have you finished to taken the GMP record?</string>
+    <string name="risky_cause">Causes of risky patient :</string>
+    <string name="search_name_pn">Search by Name or phone number</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

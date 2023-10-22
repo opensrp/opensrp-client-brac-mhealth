@@ -1012,6 +1012,9 @@
     <string name="no_overweight">% of children who are overweight</string>
     <string name="no_underweight">% of children who are Severly Underweight</string>
     <string name="no_severly_stunted">% of children who are Severly Stunted</string>
+    <string name="gmp_taken">আপনার কি পরিমাপ নেয়া শেষ  হয়েছে?</string>
+    <string name="risky_cause">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
+    <string name="search_name_pn">নাম বা মোবাইল নম্বর দিয়ে খুজুন</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
