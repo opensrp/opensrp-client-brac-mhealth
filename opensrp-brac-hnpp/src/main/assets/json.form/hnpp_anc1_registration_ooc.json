@@ -432,6 +432,10 @@
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
         },
+        "v_max": {
+          "value": "220",
+          "err": "সংখ্যাটি 220 এর সমান বা ছোট হতে হবে"
+        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -487,6 +491,10 @@
         "v_regex": {
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_min": {
+          "value": "40",
+          "err": "সংখ্যাটি 40 এর সমান বা বড় হতে হবে"
         },
         "v_required": {
           "value": true,
@@ -749,6 +757,14 @@
           "value": "true",
           "err": "Enter a valid Number"
         },
+        "v_min": {
+          "value": "3",
+          "err": "3 এর সমান বা 3 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "20",
+          "err": "20 এর সমান বা 20 এর কম হওয়া উচিত"
+        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -789,6 +805,14 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
+        },
+        "v_min": {
+          "value": "3",
+          "err": "3 এর সমান বা 3 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "20",
+          "err": "20 এর সমান বা 20 এর কম হওয়া উচিত"
         },
         "v_required": {
           "value": true,
