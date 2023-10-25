@@ -509,5 +509,7 @@
     <string name="special_followup">Special Followup</string>
     <string name="telephonic_followup">Telephonic Followup</string>
    <string name="routine_f_up_list">Routine F/Up List</string>
+   <string name="special_f_up_list">Special F/Up List</string>
+   <string name="telephonic_f_up_list">Telephonic F/Up List</string>
 
 </resources>

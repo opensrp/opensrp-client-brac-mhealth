@@ -34,6 +34,7 @@ import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.repository.AncFollowUpRepository;
 import org.smartregister.brac.hnpp.repository.GuestMemberIdRepository;
 import org.smartregister.brac.hnpp.repository.HHVisitDurationRepository;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
@@ -44,6 +45,7 @@ import org.smartregister.brac.hnpp.repository.MemberListRepository;
 import org.smartregister.brac.hnpp.repository.NotificationRepository;
 import org.smartregister.brac.hnpp.repository.PaymentHistoryRepository;
 import org.smartregister.brac.hnpp.repository.RiskDetailsRepository;
+import org.smartregister.brac.hnpp.repository.RiskListRepository;
 import org.smartregister.brac.hnpp.repository.SSLocationRepository;
 import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
@@ -108,6 +110,8 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     private static SurveyHistoryRepository surveyHistoryRepository;
+    private static AncFollowUpRepository ancFollowUpRepository;
+    private static RiskListRepository riskListRepository;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -361,6 +365,20 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
             memberListRepository = new MemberListRepository(getInstance().getRepository());
         }
         return memberListRepository;
+    }
+
+    public static AncFollowUpRepository getAncFollowUpRepository() {
+        if (ancFollowUpRepository == null) {
+            ancFollowUpRepository = new AncFollowUpRepository(getInstance().getRepository());
+        }
+        return ancFollowUpRepository;
+    }
+
+    public static RiskListRepository getRiskListRepository() {
+        if ( riskListRepository == null) {
+            riskListRepository = new RiskListRepository(getInstance().getRepository());
+        }
+        return riskListRepository;
     }
 
     public void setOpenSRPUrl() {

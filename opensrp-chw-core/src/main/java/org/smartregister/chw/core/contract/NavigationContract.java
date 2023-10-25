@@ -30,6 +30,7 @@ public interface NavigationContract {
         void browseMigration(Activity activity);
         void browsePayment(Activity activity);
         void browseDashboard(Activity activity);
+        void browsePregnantFollowUp(Activity activity);
         List<NavigationOption> getOptions();
     }
 

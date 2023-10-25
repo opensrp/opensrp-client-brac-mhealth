@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.RoutineFUpFragment">
+    tools:context=".fragment.risky_patient.RoutineFUpFragment">
 
     <TextView
         android:id="@+id/section_label"
@@ -35,6 +35,7 @@
         app:layout_constraintTop_toTopOf="@+id/section_label" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/routinFollowUpListRv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"

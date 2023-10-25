@@ -1,4 +1,4 @@
-package org.smartregister.brac.hnpp.activity.ui.main;
+package org.smartregister.brac.hnpp.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -8,7 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.fragment.RoutineFUpFragment;
+import org.smartregister.brac.hnpp.fragment.risky_patient.RoutineFUpFragment;
+import org.smartregister.brac.hnpp.fragment.risky_patient.SpecialFUpFragment;
+import org.smartregister.brac.hnpp.fragment.risky_patient.TelephonicFUpFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -29,7 +31,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment.
-        return RoutineFUpFragment.newInstance(position + 1);
+        switch (position){
+            case 0:
+                return RoutineFUpFragment.newInstance(position + 1);
+            case 1:
+                return SpecialFUpFragment.newInstance(position + 1);
+            default:
+                return TelephonicFUpFragment.newInstance(position+1);
+        }
     }
 
     @Nullable

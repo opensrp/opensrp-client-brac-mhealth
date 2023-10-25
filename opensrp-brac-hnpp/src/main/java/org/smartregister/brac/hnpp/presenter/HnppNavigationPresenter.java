@@ -19,6 +19,7 @@ import org.smartregister.brac.hnpp.activity.DFSActivity;
 import org.smartregister.brac.hnpp.activity.MigrationActivity;
 import org.smartregister.brac.hnpp.activity.NewDashBoardActivity;
 import org.smartregister.brac.hnpp.activity.NotificationActivity;
+import org.smartregister.brac.hnpp.activity.RiskyPatientActivity;
 import org.smartregister.brac.hnpp.job.DataDeleteJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.activity.COVIDJsonFormActivity;
@@ -134,6 +135,11 @@ public class HnppNavigationPresenter extends NavigationPresenter {
     @Override
     public void browseDashboard(Activity activity) {
         activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
+    }
+
+    @Override
+    public void browsePregnantFollowUp(Activity activity) {
+        activity.startActivity(new Intent(activity, RiskyPatientActivity.class));
     }
 
     @Override

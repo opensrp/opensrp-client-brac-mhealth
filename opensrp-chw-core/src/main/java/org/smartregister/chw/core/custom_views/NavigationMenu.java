@@ -82,6 +82,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout migration_layout;
     private RelativeLayout payment_layout;
     private RelativeLayout dashboard_layout;
+    private RelativeLayout pregnant_followup_layout;
 
     private View rootView = null;
     private ImageView ivSync;
@@ -198,6 +199,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         migration_layout = rootView.findViewById(R.id.migration_view);
         payment_layout = rootView.findViewById(R.id.payment_view);
         dashboard_layout = rootView.findViewById(R.id.dashboard_view);
+        pregnant_followup_layout = rootView.findViewById(R.id.pregnant_followup_view);
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
         syncProgressBar = rootView.findViewById(R.id.pbSync);
@@ -227,6 +229,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerMigration(activity);
         registerPayment(activity);
         registerDashboard(activity);
+        registerPregnantFollowUp(activity);
 
         registerDeviceToDeviceSync(activity);
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -351,6 +354,12 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         }
     }
 
+    public void browsePregnantFollowup(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browsePregnantFollowUp(activity);
+        }
+    }
+
     @Override
     public void refreshCount() {
         navigationAdapter.notifyDataSetChanged();
@@ -427,6 +436,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerDashboard(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         dashboard_layout.setOnClickListener(v -> browseDashboard(parentActivity));
+    }
+
+    private void registerPregnantFollowUp(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        pregnant_followup_layout.setOnClickListener(v -> browsePregnantFollowup(parentActivity));
     }
 
 

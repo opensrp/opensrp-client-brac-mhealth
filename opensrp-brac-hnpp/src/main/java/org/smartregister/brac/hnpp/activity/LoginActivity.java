@@ -263,8 +263,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(LoginActivity.this,RiskyPatientActivity.class));
-                    //mLoginPresenter.attemptLogin(userNameText.getText().toString(), passwordText.getText().toString());
+                    mLoginPresenter.attemptLogin(userNameText.getText().toString(), passwordText.getText().toString());
                 }
             },500);
 
