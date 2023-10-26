@@ -28,11 +28,13 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSLocations;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.model.ChildService;
 import org.smartregister.brac.hnpp.model.ForumDetails;
+import org.smartregister.brac.hnpp.model.HhForumDetails;
+import org.smartregister.brac.hnpp.model.Member;
 import org.smartregister.brac.hnpp.repository.HnppChwRepository;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
-import org.smartregister.brac.hnpp.service.VisitLogIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
@@ -46,7 +48,6 @@ import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.family.FamilyLibrary;
 import org.smartregister.family.domain.FamilyEventClient;
@@ -78,7 +79,6 @@ import timber.log.Timber;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.smartregister.chw.anc.util.JsonFormUtils.HOME_VISIT_GROUP;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
-import static org.smartregister.chw.anc.util.NCUtils.getClientProcessorForJava;
 import static org.smartregister.chw.anc.util.NCUtils.getSyncHelper;
 
 /**
@@ -416,6 +416,105 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return event;
 
     }
+
+    public static Event processHHVisitEvent(String baseEntityId, String eventType, HhForumDetails forumDetails,
+                                            ArrayList<Member> memberArrayList, HashMap<String, ArrayList<MemberProfileDueData>> memberServiceMap,
+                                            HashMap<String, ArrayList<ChildService>> childServiceMap){
+        Event event = getEvent(baseEntityId, eventType, new Date(), "visits");
+        final String FORM_SUBMISSION_FIELD = "formsubmissionField";
+        final String DATA_TYPE = "text";
+
+        String formSubmissionField = "isMemberAdded";
+        List<Object> vall = new ArrayList<>();
+        vall.add(forumDetails.isMemberAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isDeadInfoAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isDeadInfoAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isMigrationInfoAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isMigrationAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isPregnantWomanAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isPregnancyAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+
+        formSubmissionField = "isHhInfoAdded";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isHhInfoAdded);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        formSubmissionField = "isMemberImported";
+        vall = new ArrayList<>();
+        vall.add(forumDetails.isMemberImported);
+        event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField, "", vall, new ArrayList<>(), null,
+                formSubmissionField));
+        for(Member member : memberArrayList){
+            String field = member.getBaseEntityId();
+            vall = new ArrayList<>();
+
+            if(member.getStatus() == 1){
+                int age = FormApplicability.getAge(member.getDob());
+                if(age <= 5){
+                    ArrayList<ChildService> data = childServiceMap.get(member.getBaseEntityId());
+                    vall.add("MemberServiceAdded: true");
+                    assert data != null;
+                    for(ChildService service : data){
+                        String value = "";
+                        if(service.getStatus() == 1){
+                            value = service.getEventType()+": "+true;
+                        }else if(service.getStatus() == 2){
+                            value = service.getEventType()+": "+false;
+                        }else if(service.getStatus() == 3){
+                            value = service.getEventType()+": empty";
+                        }
+                        vall.add(value);
+                    }
+                    event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, field, "", vall, new ArrayList<>(), null,
+                            field));
+                }else {
+                    ArrayList<MemberProfileDueData> data = memberServiceMap.get(member.getBaseEntityId());
+                    vall.add("MemberServiceAdded: true");
+                    assert data != null;
+                    for(MemberProfileDueData service : data){
+                        String value = "";
+                        if(service.getStatus() == 1){
+                            value = service.getEventType()+": "+true;
+                        }else if(service.getStatus() == 2){
+                            value = service.getEventType()+": "+false;
+                        }else if(service.getStatus() == 3){
+                            value = service.getEventType()+": empty";
+                        }
+                        vall.add(value);
+                    }
+                    event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, field, "", vall, new ArrayList<>(), null,
+                            field));
+                }
+            }
+            else if(member.getStatus() == 2){
+                vall.add("MemberServiceAdded: false");
+                event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, field, "", vall, new ArrayList<>(), null,
+                        field));
+            }else {
+                vall.add("MemberServiceAdded: empty");
+                event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, field, "", vall, new ArrayList<>(), null,
+                        field));
+            }
+
+        }
+        return event;
+
+    }
+
     private static Event getEvent(String entityId, String
             encounterType, Date encounterDate, String childType) {
         Event event = (Event) new Event().withBaseEntityId(entityId) //should be different for main and subform
@@ -612,6 +711,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
             case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
                 return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+            case  HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT:
+                return HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT;
             /*case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;*/
 

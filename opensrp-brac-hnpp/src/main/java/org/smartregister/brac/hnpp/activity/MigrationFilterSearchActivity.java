@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +23,9 @@ import org.smartregister.view.activity.SecuredActivity;
 
 public class MigrationFilterSearchActivity extends SecuredActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener,MigrationContract.View{
     private static final String MIGRATION_TYPE = "migration_type";
-
+    private static final String REQUEST_CODE = "request_code";
+    private static final String EXTRA_FAMILY_ENTITY_ID = "family_id";
+    private static final String EXTRA_HOUSE_HOLD_ID = "household_id";
     protected Spinner migration_district_spinner;
     protected Spinner migration_upazila_spinner;
     protected Spinner migration_pourosova_spinner;
@@ -34,19 +37,28 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
 
     private MigrationFilterSearchPresenter presenter;
     private String gender, startAge,age,migrationType;
+    private int requestCode;
 
     private ArrayAdapter<BaseLocation> districtSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> upazilaSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> pouroshovaSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> unionSpinnerArrayAdapter;
     private ArrayAdapter<BaseLocation> villageSpinnerArrayAdapter;
-
+    private String familyBaseEntityId;
+    private String houseHoldId;
     public static void startMigrationFilterActivity(Activity activity, String type){
         Intent intent = new Intent(activity,MigrationFilterSearchActivity.class);
         intent.putExtra(MIGRATION_TYPE,type);
         activity.startActivity(intent);
     }
-
+    public static void startMigrationFilterActivity(Activity activity, String type, int requestCode, String familyBaseEntityId, String houseHoldId){
+        Intent intent = new Intent(activity,MigrationFilterSearchActivity.class);
+        intent.putExtra(MIGRATION_TYPE,type);
+        intent.putExtra(REQUEST_CODE,requestCode);
+        intent.putExtra(EXTRA_FAMILY_ENTITY_ID,familyBaseEntityId);
+        intent.putExtra(EXTRA_HOUSE_HOLD_ID,houseHoldId);
+        activity.startActivityForResult(intent,requestCode);
+    }
     @Override
     protected void onCreation() {
         setContentView(R.layout.migration_search_view);
@@ -60,6 +72,9 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
         age_migration = findViewById(R.id.migration_age_ET);
         migration_filter_title = findViewById(R.id.titleFilter);
         migrationType = getIntent().getStringExtra(MIGRATION_TYPE);
+        requestCode = getIntent().getIntExtra(REQUEST_CODE,0);
+        familyBaseEntityId = getIntent().getStringExtra(EXTRA_FAMILY_ENTITY_ID);
+        houseHoldId = getIntent().getStringExtra(EXTRA_HOUSE_HOLD_ID);
         if(migrationType!=null && migrationType.equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())){
             migration_filter_title.setText("খানার এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ");
             findViewById(R.id.tv_age).setVisibility(View.GONE);
@@ -128,6 +143,7 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -140,12 +156,28 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
                     startAge ="0";
                 }
                 if(TextUtils.isEmpty(age)){
-                    age = "0";
+                    age = "120";
                 }
                 if(Integer.parseInt(startAge)>Integer.parseInt(age)){
                     startAgeEditText.setError("শেষ বয়সসীমা থেকে ছোট হতে হবে ");
                     return;
                 }
+                if(Integer.parseInt(startAge) < 0 ){
+                    startAgeEditText.setError("0 এর সমান বা বড় হতে হবে");
+                    return;
+                }else if(Integer.parseInt(startAge) > 120){
+                    startAgeEditText.setError("120 এর সমান বা ছোট হতে হবে");
+                    return;
+                }
+
+                if(Integer.parseInt(age) < 0 ){
+                    age_migration.setError("0 এর সমান বা বড় হতে হবে");
+                    return;
+                }else if(Integer.parseInt(age) > 120){
+                    age_migration.setError("120 এর সমান বা ছোট হতে হবে");
+                    return;
+                }
+
                 BaseLocation villageLocation = (BaseLocation) migration_village_spinner.getSelectedItem();
                 BaseLocation district = (BaseLocation) migration_district_spinner.getSelectedItem();
                 MigrationSearchContentData searchContentData = new MigrationSearchContentData();
@@ -157,7 +189,11 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
                 searchContentData.setMigrationType(migrationType);
                 searchContentData.setGender(gender);
                 if(searchContentData.getDistrictId()!=null && searchContentData.getDivisionId()!=null){
-                    MigrationSearchDetailsActivity.startMigrationSearchActivity(this,searchContentData);
+                    if(requestCode!=0){
+                        MigrationSearchDetailsActivity.startMigrationSearchActivity(this,searchContentData,requestCode,familyBaseEntityId,houseHoldId);
+                    }else{
+                        MigrationSearchDetailsActivity.startMigrationSearchActivity(this,searchContentData);
+                    }
                 }else{
                     Toast.makeText(this,"Id not found",Toast.LENGTH_SHORT).show();
                 }
@@ -168,6 +204,16 @@ public class MigrationFilterSearchActivity extends SecuredActivity implements Vi
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == this.requestCode  && resultCode == RESULT_OK){
+            setResult(RESULT_OK,data);
+            finish();
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         if(position == -1) return;

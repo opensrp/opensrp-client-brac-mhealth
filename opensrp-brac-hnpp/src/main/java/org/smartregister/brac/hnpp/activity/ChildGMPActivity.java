@@ -19,6 +19,9 @@ import org.smartregister.growthmonitoring.listener.MUACActionListener;
 import org.smartregister.growthmonitoring.listener.WeightActionListener;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ChildGMPActivity extends SecuredActivity implements WeightActionListener, HeightActionListener, MUACActionListener {
 
     private static final String INTENT_BUNDLE =" intent_bundle";
@@ -75,6 +78,9 @@ public class ChildGMPActivity extends SecuredActivity implements WeightActionLis
     GMPFragment gmpFragment;
     private void initializeFragment(){
         gmpFragment = GMPFragment.newInstance(bundle,isReadOnly);
+        if(childDetails.getDetails() == null){
+            childDetails.setDetails(new HashMap<>());
+        }
         gmpFragment.setChildDetails(childDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =

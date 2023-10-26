@@ -196,6 +196,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
             case HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
             case HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
+            case HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT:
 
             case HnppConstants.EVENT_TYPE.FORUM_CHILD:
             case HnppConstants.EVENT_TYPE.FORUM_WOMEN:

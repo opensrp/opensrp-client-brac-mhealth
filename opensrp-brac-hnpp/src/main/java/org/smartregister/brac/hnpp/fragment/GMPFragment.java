@@ -78,7 +78,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     Activity mActivity;
     boolean isReadOnly = false;
     public CommonPersonObjectClient childDetails;
-    public static GMPFragment newInstance(Bundle bundle,boolean isReadOnly) {
+
+    public static GMPFragment newInstance(Bundle bundle, boolean isReadOnly) {
         Bundle args = bundle;
         GMPFragment fragment = new GMPFragment();
         if (args == null) {
@@ -87,10 +88,11 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (Activity)context;
+        mActivity = (Activity) context;
     }
 
     @Override
@@ -102,8 +104,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     protected void onResumption() {
 
     }
-    public void setChildDetails(CommonPersonObjectClient childDetails)
-    {
+
+    public void setChildDetails(CommonPersonObjectClient childDetails) {
         this.childDetails = childDetails;
     }
 
@@ -119,8 +121,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         super.onViewCreated(view, savedInstanceState);
         String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
 
-        if(TextUtils.isEmpty(dobString)){
-            Toast.makeText(mActivity,"DOB invalid formate",Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(dobString)) {
+            Toast.makeText(mActivity, "DOB invalid formate", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -129,7 +131,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             Date dob = dateTime.toDate();
             long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
             if (timeDiff >= 0) {
-               TextView ageTv = fragmentView.findViewById(R.id.age_tv);
+                TextView ageTv = fragmentView.findViewById(R.id.age_tv);
                 ageTv.setText(String.format("%s %s", getString(R.string.weight_for_age), DateUtil.getDuration(timeDiff)));
             }
         }
@@ -138,7 +140,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         updateGenderInChildDetails();
         refreshEditWeightLayout(false);
         refreshEditHeightLayout(false);
-       // refreshEditMuacLayout(false);
+        // refreshEditMuacLayout(false);
         updateProfileColor();
     }
 
@@ -181,10 +183,10 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         fragmentView.findViewById(R.id.refer_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isRefered = HnppJsonFormUtils.updateClientStatusAsEvent(mActivity,childDetails.entityId(),"","","ec_referel",HnppJsonFormUtils.REFEREL_EVENT_TYPE);
-                if(isRefered){
-                    GrowthUtil.updateIsRefered(childDetails.entityId(),"true");
-                    Toast.makeText(mActivity,"Successfully refered to clinic",Toast.LENGTH_SHORT).show();
+                boolean isRefered = HnppJsonFormUtils.updateClientStatusAsEvent(mActivity, childDetails.entityId(), "", "", "ec_referel", HnppJsonFormUtils.REFEREL_EVENT_TYPE);
+                if (isRefered) {
+                    GrowthUtil.updateIsRefered(childDetails.entityId(), "true");
+                    Toast.makeText(mActivity, "Successfully refered to clinic", Toast.LENGTH_SHORT).show();
                     fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
                 }
             }
@@ -207,7 +209,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
 
         assert activity != null;
-        if(activity.isReadOnly){
+        if (activity.isReadOnly) {
             linearLayoutRecordHeight.setEnabled(false);
             linearLayoutRecordWeight.setEnabled(false);
 
@@ -222,8 +224,9 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
     String heightText = "";
     String weightText = "";
+
     @SuppressLint("InflateParams")
-    private String refreshEditWeightLayout(boolean isNeedToUpdateDb){
+    private String refreshEditWeightLayout(boolean isNeedToUpdateDb) {
         LinearLayout fragmentContainer = (LinearLayout) fragmentView.findViewById(R.id.weight_group_canvas_ll);
         fragmentContainer.removeAllViews();
         fragmentContainer.addView(getLayoutInflater().inflate(R.layout.previous_weightview, null));
@@ -234,7 +237,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         /////////////////////////////////////////////////
         String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
         DateTime dateTime = new DateTime(dobString);
-        Date dob  = dateTime.toDate();
+        Date dob = dateTime.toDate();
         if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), HnppConstants.KEY.BIRTH_WEIGHT, false))
                 && !TextUtils.isEmpty(dobString)) {
 
@@ -245,9 +248,10 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
         Gender gender = getGender();
 
-        weightText = GrowthUtil.refreshPreviousWeightsTable(mActivity,weightTable, gender, dob, weightlist,isNeedToUpdateDb);
+        weightText = GrowthUtil.refreshPreviousWeightsTable(mActivity, weightTable, gender, dob, weightlist, isNeedToUpdateDb);
         return weightText;
     }
+
     @SuppressLint("InflateParams")
     private String refreshEditHeightLayout(boolean isNeedToUpdateDB) {
         LinearLayout fragmentContainer = (LinearLayout) fragmentView.findViewById(R.id.height_group_canvas_ll);
@@ -256,16 +260,17 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         TableLayout heightTable = fragmentView.findViewById(R.id.heights_table);
         HeightRepository wp = GrowthMonitoringLibrary.getInstance().getHeightRepository();
         List<Height> heightList = wp.getMaximum12(childDetails.entityId());
-        if (heightList.size() > 0) {
+        if (heightList !=null && heightList.size() > 0) {
             try {
-                GrowthUtil.refreshPreviousHeightsTable(mActivity, heightTable, getGender(), dobToDateTime(childDetails).toDate(), heightList, isNeedToUpdateDB,Calendar.getInstance());
+                GrowthUtil.refreshPreviousHeightsTable(mActivity, heightTable, getGender(), dobToDateTime(childDetails).toDate(), heightList, isNeedToUpdateDB, Calendar.getInstance());
             } catch (Exception e) {
                 e.printStackTrace();
             }
             Height height = heightList.get(0);
             heightText = HeightZScore.getZScoreText(height.getZScore());
-            Log.v("ZSCORE","heightText>>"+heightText);
-            if(isNeedToUpdateDB) GrowthUtil.updateLastHeight(height.getCm(),height.getZScore(),height.getBaseEntityId(),heightText);
+            Log.v("ZSCORE", "heightText>>" + heightText);
+            if (isNeedToUpdateDB)
+                GrowthUtil.updateLastHeight(height.getCm(), height.getZScore(), height.getBaseEntityId(), heightText);
         }
         return heightText;
     }
@@ -273,51 +278,63 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     int muakColor = 0;
     String muakText = "";
 
-  /*  @SuppressLint("InflateParams")
-    private String refreshEditMuacLayout(boolean isNeedToUpdateDB) {
-        LinearLayout fragmentContainer = (LinearLayout) fragmentView.findViewById(R.id.muac_group_canvas_ll);
-        fragmentContainer.removeAllViews();
-        fragmentContainer.addView(getLayoutInflater().inflate(R.layout.previous_muac_view, null));
-        TableLayout muacTable = fragmentView.findViewById(R.id.muac_table);
-        MUACRepository wp = GrowthMonitoringLibrary.getInstance().getMuacRepository();
-        List<MUAC> heightList = wp.getMaximum12(childDetails.entityId());
-        if (heightList.size() > 0) {
-            MUACUtils.refreshPreviousMuacTable(mActivity, muacTable, getGender(), dobToDateTime(childDetails).toDate(), heightList);
-            MUAC latestMuac = heightList.get(0);
-            muakColor = ZScore.getMuacColor(latestMuac.getCm());
-            muakText = ZScore.getMuacText(latestMuac.getCm());
-            if(isNeedToUpdateDB)GrowthUtil.updateLastMuac(latestMuac.getCm(),childDetails.entityId(),muakText,latestMuac.getEdemaValue());
-        }
-        return muakText;
+    /*  @SuppressLint("InflateParams")
+      private String refreshEditMuacLayout(boolean isNeedToUpdateDB) {
+          LinearLayout fragmentContainer = (LinearLayout) fragmentView.findViewById(R.id.muac_group_canvas_ll);
+          fragmentContainer.removeAllViews();
+          fragmentContainer.addView(getLayoutInflater().inflate(R.layout.previous_muac_view, null));
+          TableLayout muacTable = fragmentView.findViewById(R.id.muac_table);
+          MUACRepository wp = GrowthMonitoringLibrary.getInstance().getMuacRepository();
+          List<MUAC> heightList = wp.getMaximum12(childDetails.entityId());
+          if (heightList.size() > 0) {
+              MUACUtils.refreshPreviousMuacTable(mActivity, muacTable, getGender(), dobToDateTime(childDetails).toDate(), heightList);
+              MUAC latestMuac = heightList.get(0);
+              muakColor = ZScore.getMuacColor(latestMuac.getCm());
+              muakText = ZScore.getMuacText(latestMuac.getCm());
+              if(isNeedToUpdateDB)GrowthUtil.updateLastMuac(latestMuac.getCm(),childDetails.entityId(),muakText,latestMuac.getEdemaValue());
+          }
+          return muakText;
 
-    }*/
+      }*/
     private void updateProfileColor() {
         String resultText = getOverallStatus();
-        Log.v("CHILD_STATUS", " resultText>>>"+resultText);
-        if(!resultText.isEmpty()){
+        Log.v("CHILD_STATUS", " resultText>>>" + resultText);
+        if (!resultText.isEmpty()) {
             int resultColor = ZScore.getZscoreColorByText(resultText);
-            updateChildProfileColor(resultColor,resultText);
+            updateChildProfileColor(resultColor, resultText);
         }
 
     }
-    private String getOverallStatus(){
-        return GrowthUtil.getOverallChildStatus(muakText,weightText,heightText);
+
+    private String getOverallStatus() {
+        return GrowthUtil.getOverallChildStatus(muakText, weightText, heightText);
 
     }
-    private void updateChildProfileColor(int resultColor,String text){
-        if(mActivity!=null && !mActivity.isFinishing()){
+
+    private void updateChildProfileColor(int resultColor, String text) {
+        if (mActivity != null && !mActivity.isFinishing()) {
             //HnppChildProfileActivity profileActivity = (HnppChildProfileActivity) mActivity;
             //profileActivity.updateProfileIconColor(resultColor,text);
 
         }
         showReferedBtn();
     }
+
     private void updateGenderInChildDetails() {
         if (childDetails != null) {
             String genderString = Utils.getValue(childDetails, DBConstants.KEY.GENDER, false);
-            if (genderString.equalsIgnoreCase("ছেলে") || genderString.equalsIgnoreCase("male")) {
+            //gender may empty, when came from HouseHoldChildProfileDueFragment
+            if (genderString.isEmpty()) {
+                genderString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.GENDER, false);
+            }
+            if (genderString.equalsIgnoreCase("ছেলে")
+                    || genderString.equalsIgnoreCase("male")
+                    || genderString.equalsIgnoreCase("m")) {
                 childDetails.getDetails().put("gender", "male");
-            } else if (genderString.equalsIgnoreCase("মেয়ে") || genderString.equalsIgnoreCase("female")) {
+
+            } else if (genderString.equalsIgnoreCase("মেয়ে")
+                    || genderString.equalsIgnoreCase("female")
+                    || genderString.equalsIgnoreCase("f")) {
                 childDetails.getDetails().put("gender", "female");
             } else {
                 childDetails.getDetails().put("gender", "male");
@@ -328,11 +345,11 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     @Override
     public void onHeightTaken(HeightWrapper heightWrapper) {
         final HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
-        float previousHeight =-1;
-        if(heightRepository.getMaximum(childDetails.entityId())!=null){
+        float previousHeight = -1;
+        if (heightRepository.getMaximum(childDetails.entityId()) != null) {
             previousHeight = heightRepository.getMaximum(childDetails.entityId()).getCm();
-            if(heightWrapper.getHeight()<previousHeight){
-                String text = getString(R.string.old_height)+previousHeight+"\n"+getString(R.string.current_height)+heightWrapper.getHeight();
+            if (heightWrapper.getHeight() < previousHeight) {
+                String text = getString(R.string.old_height) + previousHeight + "\n" + getString(R.string.current_height) + heightWrapper.getHeight();
                 showDialogWithAction(getActivity(), getString(R.string.want_to_add_height), text, new Runnable() {
                     @Override
                     public void run() {
@@ -369,11 +386,11 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     public void onWeightTaken(WeightWrapper tag) {
         if (tag != null) {
             final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
-            float previousWeight =-1;
-            if(weightRepository.getMaximum(childDetails.entityId())!=null){
+            float previousWeight = -1;
+            if (weightRepository.getMaximum(childDetails.entityId()) != null) {
                 previousWeight = weightRepository.getMaximum(childDetails.entityId()).getKg();
-                if(tag.getWeight()<previousWeight){
-                    String text = getString(R.string.old_weight)+previousWeight+"\n"+getString(R.string.current_weight)+tag.getWeight();
+                if (tag.getWeight() < previousWeight) {
+                    String text = getString(R.string.old_weight) + previousWeight + "\n" + getString(R.string.current_weight) + tag.getWeight();
                     showDialogWithAction(getActivity(), getString(R.string.want_to_add_weight), text, new Runnable() {
                         @Override
                         public void run() {
@@ -383,23 +400,25 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                     return;
                 }
             }
-             addWeight(tag);
+            addWeight(tag);
 
 
         }
     }
-    private void showIYCFDialog(){
+
+    private void showIYCFDialog() {
         showDialogWithAction(getActivity(), "আপনার কি পরিমাপ নেয়া শেষ  হয়েছে?", "", new Runnable() {
             @Override
             public void run() {
                 int month = getMonthDifferenceByDOB();
-                showGenericDialog(getCountByMonth(month),1,month);
+                showGenericDialog(getCountByMonth(month), 1, month);
             }
         });
     }
-    private void addWeight(WeightWrapper tag){
-        if(checkWeightExistOrNot(tag.getUpdatedWeightDate().toDate())){
-            showAlertDialog(getActivity(),getString(R.string.alert),getString(R.string.already_weight_taken_msg));
+
+    private void addWeight(WeightWrapper tag) {
+        if (checkWeightExistOrNot(tag.getUpdatedWeightDate().toDate())) {
+            showAlertDialog(getActivity(), getString(R.string.alert), getString(R.string.already_weight_taken_msg));
             return;
         }
         final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
@@ -444,7 +463,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         WeightIntentServiceJob.scheduleJobImmediately(WeightIntentServiceJob.TAG);
         String text = refreshEditWeightLayout(true);
         //showIYCFDialog();
-        showGMPDialog(text,1);
+        showGMPDialog(text, 1);
         showGrowthChart();
 
 //        int month = getMonthDifferenceByDOB();
@@ -453,9 +472,10 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         HnppConstants.isViewRefresh = true;
         ChildGMPActivity.isActionTaken = true;
     }
-    private void addHeight(HeightWrapper heightWrapper){
-        if(checkHeightExistOrNot(heightWrapper.getUpdatedHeightDate().toDate())){
-            showAlertDialog(getActivity(),getString(R.string.alert),getString(R.string.already_height_taken));
+
+    private void addHeight(HeightWrapper heightWrapper) {
+        if (checkHeightExistOrNot(heightWrapper.getUpdatedHeightDate().toDate())) {
+            showAlertDialog(getActivity(), getString(R.string.alert), getString(R.string.already_height_taken));
             return;
         }
         if (heightWrapper != null) {
@@ -500,7 +520,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         updateProfileColor();
 
         //showIYCFDialog();
-        showGMPDialog(text,2);
+        showGMPDialog(text, 2);
         HnppConstants.isViewRefresh = true;
         ChildGMPActivity.isActionTaken = true;
         showHeightChart();
@@ -508,13 +528,13 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 //        showGenericDialog(getCountByMonth(month),1,month);
     }
 
-    private boolean checkHeightExistOrNot(Date date){
-        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+    private boolean checkHeightExistOrNot(Date date) {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         String dateStr = dtf.format(date);
 
         SQLiteDatabase hDb = GrowthMonitoringLibrary.getInstance().getHeightRepository().getReadableDatabase();
-        try (Cursor cursor = hDb.rawQuery("SELECT date from heights where date(date/1000,'unixepoch') = '"+dateStr+"' and base_entity_id = '"+childDetails.entityId()+"'", null)) {
-            if(cursor.getCount() > 0){
+        try (Cursor cursor = hDb.rawQuery("SELECT date from heights where date(date/1000,'unixepoch') = '" + dateStr + "' and base_entity_id = '" + childDetails.entityId() + "'", null)) {
+            if (cursor.getCount() > 0) {
                 return true;
             }
         } catch (Exception e) {
@@ -524,13 +544,13 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         return false;
     }
 
-    private boolean checkWeightExistOrNot(Date date){
-        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd",new Locale("en"));
+    private boolean checkWeightExistOrNot(Date date) {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd", new Locale("en"));
         String dateStr = dtf.format(date);
 
         SQLiteDatabase hDb = GrowthMonitoringLibrary.getInstance().getHeightRepository().getReadableDatabase();
-        try (Cursor cursor = hDb.rawQuery("SELECT date from weights where date(date/1000,'unixepoch') = '"+dateStr+"' and base_entity_id = '"+childDetails.entityId()+"'", null)) {
-            if(cursor.getCount() > 0){
+        try (Cursor cursor = hDb.rawQuery("SELECT date from weights where date(date/1000,'unixepoch') = '" + dateStr + "' and base_entity_id = '" + childDetails.entityId() + "'", null)) {
+            if (cursor.getCount() > 0) {
                 return true;
             }
         } catch (Exception e) {
@@ -539,53 +559,58 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
         return false;
     }
-   /* private void addMUAC(MUACWrapper muacWrapper){
-        if (muacWrapper != null) {
-            final MUACRepository muacRepository = GrowthMonitoringLibrary.getInstance().getMuacRepository();
-            MUAC muac = new MUAC();
-            muac.setBaseEntityId(childDetails.entityId());
-            muac.setCm(muacWrapper.getHeight());
-            muac.setDate(muacWrapper.getUpdatedHeightDate().toDate());
-            String anm = FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
-            muac.setAnmId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
-            muac.setLocationId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultLocalityId(anm));
-            muac.setTeam(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeam(anm));
-            muac.setTeamId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeamId(anm));
-            muac.setEdemaValue(muacWrapper.getEdemaValue());
 
-            String dobstring = childDetails.getColumnmaps().get("dob");
-            GrowthUtil.DOB_STRING = dobstring;
+    /* private void addMUAC(MUACWrapper muacWrapper){
+         if (muacWrapper != null) {
+             final MUACRepository muacRepository = GrowthMonitoringLibrary.getInstance().getMuacRepository();
+             MUAC muac = new MUAC();
+             muac.setBaseEntityId(childDetails.entityId());
+             muac.setCm(muacWrapper.getHeight());
+             muac.setDate(muacWrapper.getUpdatedHeightDate().toDate());
+             String anm = FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM();
+             muac.setAnmId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchRegisteredANM());
+             muac.setLocationId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultLocalityId(anm));
+             muac.setTeam(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeam(anm));
+             muac.setTeamId(FamilyLibrary.getInstance().context().allSharedPreferences().fetchDefaultTeamId(anm));
+             muac.setEdemaValue(muacWrapper.getEdemaValue());
 
-            muacRepository.add(muac);
-            muacWrapper.setDbKey(muac.getId());
+             String dobstring = childDetails.getColumnmaps().get("dob");
+             GrowthUtil.DOB_STRING = dobstring;
 
-        }
-        MuactIntentServiceJob.scheduleJobImmediately(MuactIntentServiceJob.TAG);
-        String text = refreshEditMuacLayout(true);
-        updateProfileColor();
+             muacRepository.add(muac);
+             muacWrapper.setDbKey(muac.getId());
 
-        showIYCFDialog();
-        showGMPDialog(text,3);
-        HnppConstants.isViewRefresh = true;
-        showMuacChart();
-//        int month = getMonthDifferenceByDOB();
-//        showGenericDialog(getCountByMonth(month),1,month);
-    }*/
-    private int getCountByMonth(int month){
-        if(month<6) return 2;
+         }
+         MuactIntentServiceJob.scheduleJobImmediately(MuactIntentServiceJob.TAG);
+         String text = refreshEditMuacLayout(true);
+         updateProfileColor();
+
+         showIYCFDialog();
+         showGMPDialog(text,3);
+         HnppConstants.isViewRefresh = true;
+         showMuacChart();
+ //        int month = getMonthDifferenceByDOB();
+ //        showGenericDialog(getCountByMonth(month),1,month);
+     }*/
+    private int getCountByMonth(int month) {
+        if (month < 6) return 2;
         return 3;
     }
-    private void showGrowthChart(){
+
+    private void showGrowthChart() {
         Utils.startAsyncTask(new ShowGrowthChartTask(), null);
 
     }
-    private void showHeightChart(){
+
+    private void showHeightChart() {
         Utils.startAsyncTask(new ShowHeightChartTask(), null);
     }
-    private void showMuacChart(){
+
+    private void showMuacChart() {
         Utils.startAsyncTask(new ShowMuacChartTask(), null);
     }
-    public static void showDialogWithAction(Context context,String title, String text,Runnable runnable){
+
+    public static void showDialogWithAction(Context context, String title, String text, Runnable runnable) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_two_button);
@@ -609,7 +634,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         dialog.show();
     }
 
-    public static void showAlertDialog(Context context,String title, String text){
+    public static void showAlertDialog(Context context, String title, String text) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_one_button);
@@ -627,25 +652,26 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     }
 
     int globalCount = 1;
-    private void showGenericDialog(int totalCount,int count, int month){
-        Log.v("CLICK_COUNT","showGenericDialog totalCount>>"+totalCount+":count :"+count );
+
+    private void showGenericDialog(int totalCount, int count, int month) {
+        Log.v("CLICK_COUNT", "showGenericDialog totalCount>>" + totalCount + ":count :" + count);
 //        if(Boolean.TRUE.equals(HnppConstants.GMPMessage.get(childDetails.entityId()))){
 //            return;
 //        }else{
 //            HnppConstants.GMPMessage.put(childDetails.entityId(),true);
 //        }
-        String dialogMessage = getGenericMessage(count,month);
+        String dialogMessage = getGenericMessage(count, month);
         Dialog dialog = new Dialog(mActivity);
         dialog.setCancelable(true);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_for_generic_message);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
-        titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
+        titleTv.setText(HtmlCompat.fromHtml(dialogMessage, HtmlCompat.FROM_HTML_MODE_COMPACT));
 
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
-        if(count<totalCount){
+        if (count < totalCount) {
             ok_btn.setText(getString(R.string.next));
-        }else{
+        } else {
             ok_btn.setText(getString(R.string.ok));
         }
 
@@ -653,32 +679,33 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             @Override
             public void onClick(View v) {
 
-                Log.v("CLICK_COUNT","totalCount>>"+totalCount+":click[0] :"+globalCount );
-                if(totalCount==globalCount){
+                Log.v("CLICK_COUNT", "totalCount>>" + totalCount + ":click[0] :" + globalCount);
+                if (totalCount == globalCount) {
                     dialog.dismiss();
-                    globalCount=0;
-                }else {
+                    globalCount = 0;
+                } else {
                     globalCount++;
-                    String dialogMessage = getGenericMessage(globalCount,month);
-                    titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
-                    if(globalCount<totalCount){
+                    String dialogMessage = getGenericMessage(globalCount, month);
+                    titleTv.setText(HtmlCompat.fromHtml(dialogMessage, HtmlCompat.FROM_HTML_MODE_COMPACT));
+                    if (globalCount < totalCount) {
                         ok_btn.setText(getString(R.string.next));
-                    }else{
+                    } else {
                         ok_btn.setText(getString(R.string.ok));
                     }
                 }
 
             }
         });
-       dialog.show();
+        dialog.show();
 
     }
-    private void showGMPDialog(String text, int type){
+
+    private void showGMPDialog(String text, int type) {
         int resultColor = ZScore.getZscoreColorByText(text);
-        if(text.equalsIgnoreCase("OVER WEIGHT")) text = GMP_STATUS.OVER_WEIGHT.toString();
-        if(text.equalsIgnoreCase("DARK YELLOW")) text = GMP_STATUS.MAM.toString();
-        Log.v("SHOW_GMP","text>>"+text);
-        String dialogMessage = getDialogMessageByType(text,type);
+        if (text.equalsIgnoreCase("OVER WEIGHT")) text = GMP_STATUS.OVER_WEIGHT.toString();
+        if (text.equalsIgnoreCase("DARK YELLOW")) text = GMP_STATUS.MAM.toString();
+        Log.v("SHOW_GMP", "text>>" + text);
+        String dialogMessage = getDialogMessageByType(text, type);
         Dialog dialog = new Dialog(mActivity);
         dialog.setCancelable(true);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -696,124 +723,121 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                 dialog.dismiss();
             }
         });
-        if(!dialogMessage.isEmpty())dialog.show();
+        if (!dialogMessage.isEmpty()) dialog.show();
 
     }
-    private String getGenericMessage(int count, int month){
 
-        switch (count){
+    private String getGenericMessage(int count, int month) {
+
+        switch (count) {
 
             case 1:
 
-                if(month<6) return getString(R.string.gmp_msg_0_3m_1);
-                if(month <=8) return getString(R.string.gmp_msg_3m_6m_1);
-                if(month <=11) return getString(R.string.gmp_msg_6m_8m_1);
-                if(month <=23) return getString(R.string.gmp_msg_9m_11m_1);
+                if (month < 6) return getString(R.string.gmp_msg_0_3m_1);
+                if (month <= 8) return getString(R.string.gmp_msg_3m_6m_1);
+                if (month <= 11) return getString(R.string.gmp_msg_6m_8m_1);
+                if (month <= 23) return getString(R.string.gmp_msg_9m_11m_1);
             case 2:
-                if(month<6) return getString(R.string.gmp_msg_0_3m_2);
-                if(month <=8) return getString(R.string.gmp_msg_3m_6m_2);
-                if(month <=11) return getString(R.string.gmp_msg_6m_8m_2);
-                if(month <=23) return getString(R.string.gmp_msg_9m_11m_2);
+                if (month < 6) return getString(R.string.gmp_msg_0_3m_2);
+                if (month <= 8) return getString(R.string.gmp_msg_3m_6m_2);
+                if (month <= 11) return getString(R.string.gmp_msg_6m_8m_2);
+                if (month <= 23) return getString(R.string.gmp_msg_9m_11m_2);
             case 3:
-                if(month <=11) return getString(R.string.gmp_msg_6m_8m_3);
-                if(month <=23) return getString(R.string.gmp_msg_9m_11m_3);
+                if (month <= 11) return getString(R.string.gmp_msg_6m_8m_3);
+                if (month <= 23) return getString(R.string.gmp_msg_9m_11m_3);
         }
-         return getString(R.string.gmp_msg_0_3m_1);
+        return getString(R.string.gmp_msg_0_3m_1);
     }
-    private String getDialogMessageByType(String text, int type){
+
+    private String getDialogMessageByType(String text, int type) {
         String dialogMsg = "";
-        switch (type){
+        switch (type) {
             case 1://weight
-                if(text.equalsIgnoreCase(GMP_STATUS.SAM.toString())){
+                if (text.equalsIgnoreCase(GMP_STATUS.SAM.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.sam_6m_weight);
-                    if(month <=8) return getString(R.string.sam_6m_8m_weight);
-                    if(month <=11) return getString(R.string.sam_9m_11m_weight);
-                    if(month <=23) return getString(R.string.sam_12m_23m_weight);
-                }
-                else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString()) ){
+                    if (month < 6) return getString(R.string.sam_6m_weight);
+                    if (month <= 8) return getString(R.string.sam_6m_8m_weight);
+                    if (month <= 11) return getString(R.string.sam_9m_11m_weight);
+                    if (month <= 23) return getString(R.string.sam_12m_23m_weight);
+                } else if (text.equalsIgnoreCase(GMP_STATUS.MAM.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.mam_6m_weight);
-                    if(month <=8) return getString(R.string.mam_6m_8m_weight);
-                    if(month <=11) return getString(R.string.mam_9m_11m_weight);
-                    if(month <=23) return getString(R.string.mam_12m_23m_weight);
-                }
-                else if(text.equalsIgnoreCase(GMP_STATUS.OVER_WEIGHT.toString())){
+                    if (month < 6) return getString(R.string.mam_6m_weight);
+                    if (month <= 8) return getString(R.string.mam_6m_8m_weight);
+                    if (month <= 11) return getString(R.string.mam_9m_11m_weight);
+                    if (month <= 23) return getString(R.string.mam_12m_23m_weight);
+                } else if (text.equalsIgnoreCase(GMP_STATUS.OVER_WEIGHT.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.over_6m);
-                    if(month <=8) return getString(R.string.over_6m_8m);
-                    if(month <=11) return getString(R.string.over_9m_11m);
-                    if(month <=23) return getString(R.string.over_12m_23m);
-                }
-                else {
+                    if (month < 6) return getString(R.string.over_6m);
+                    if (month <= 8) return getString(R.string.over_6m_8m);
+                    if (month <= 11) return getString(R.string.over_9m_11m);
+                    if (month <= 23) return getString(R.string.over_12m_23m);
+                } else {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.normal_6m_weight);
-                    if(month <=8) return getString(R.string.normal_6m_8m_weight);
-                    if(month <=11) return getString(R.string.normal_9m_11m_weight);
-                    if(month <=23) return getString(R.string.normal_12m_23m_weight);
+                    if (month < 6) return getString(R.string.normal_6m_weight);
+                    if (month <= 8) return getString(R.string.normal_6m_8m_weight);
+                    if (month <= 11) return getString(R.string.normal_9m_11m_weight);
+                    if (month <= 23) return getString(R.string.normal_12m_23m_weight);
                 }
                 break;
             case 2://height
-                if(text.equalsIgnoreCase(GMP_STATUS.SAM.toString())){
+                if (text.equalsIgnoreCase(GMP_STATUS.SAM.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.sam_6m_height);
-                    if(month <=8) return getString(R.string.sam_6m_8m_height);
-                    if(month <=11) return getString(R.string.sam_9m_11m_height);
-                    if(month <=23) return getString(R.string.sam_12m_23m_height);
-                }
-                else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString())){
+                    if (month < 6) return getString(R.string.sam_6m_height);
+                    if (month <= 8) return getString(R.string.sam_6m_8m_height);
+                    if (month <= 11) return getString(R.string.sam_9m_11m_height);
+                    if (month <= 23) return getString(R.string.sam_12m_23m_height);
+                } else if (text.equalsIgnoreCase(GMP_STATUS.MAM.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.mam_6m_height);
-                    if(month <=8) return getString(R.string.mam_6m_8m_height);
-                    if(month <=11) return getString(R.string.mam_9m_11m_height);
-                    if(month <=23) return getString(R.string.mam_12m_23m_height);
-                }
-                else {
+                    if (month < 6) return getString(R.string.mam_6m_height);
+                    if (month <= 8) return getString(R.string.mam_6m_8m_height);
+                    if (month <= 11) return getString(R.string.mam_9m_11m_height);
+                    if (month <= 23) return getString(R.string.mam_12m_23m_height);
+                } else {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.normal_6m_height);
-                    if(month <=8) return getString(R.string.normal_6m_8m_height);
-                    if(month <=11) return getString(R.string.normal_9m_11m_height);
-                    if(month <=23) return getString(R.string.normal_12m_23m_height);
+                    if (month < 6) return getString(R.string.normal_6m_height);
+                    if (month <= 8) return getString(R.string.normal_6m_8m_height);
+                    if (month <= 11) return getString(R.string.normal_9m_11m_height);
+                    if (month <= 23) return getString(R.string.normal_12m_23m_height);
                 }
                 break;
             case 3://muac
-                if(text.equalsIgnoreCase(GMP_STATUS.SAM.toString())){
+                if (text.equalsIgnoreCase(GMP_STATUS.SAM.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return "";
-                    if(month <=8) return getString(R.string.sam_6m_8m_muac);
-                    if(month <=11) return getString(R.string.sam_9m_11m_muac);
-                    if(month <=23) return getString(R.string.sam_12m_23m_muac);
-                }
-                else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString())){
+                    if (month < 6) return "";
+                    if (month <= 8) return getString(R.string.sam_6m_8m_muac);
+                    if (month <= 11) return getString(R.string.sam_9m_11m_muac);
+                    if (month <= 23) return getString(R.string.sam_12m_23m_muac);
+                } else if (text.equalsIgnoreCase(GMP_STATUS.MAM.toString())) {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return "";
-                    if(month <=8) return getString(R.string.mam_6m_8m_muac);
-                    if(month <=11) return getString(R.string.mam_9m_11m_muac);
-                    if(month <=23) return getString(R.string.mam_12m_23m_muac);
-                }
-                else {
+                    if (month < 6) return "";
+                    if (month <= 8) return getString(R.string.mam_6m_8m_muac);
+                    if (month <= 11) return getString(R.string.mam_9m_11m_muac);
+                    if (month <= 23) return getString(R.string.mam_12m_23m_muac);
+                } else {
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return "";
-                    if(month <=8) return getString(R.string.normal_6m_8m_muac);
-                    if(month <=11) return getString(R.string.normal_9m_11m_muac);
-                    if(month <=23) return getString(R.string.normal_12m_23m_muac);
+                    if (month < 6) return "";
+                    if (month <= 8) return getString(R.string.normal_6m_8m_muac);
+                    if (month <= 11) return getString(R.string.normal_9m_11m_muac);
+                    if (month <= 23) return getString(R.string.normal_12m_23m_muac);
                 }
                 break;
         }
         return dialogMsg;
     }
-    private void showReferedBtn(){
+
+    private void showReferedBtn() {
         String isReferedValue = Utils.getValue(childDetails, "is_refered", false);
-        boolean isAlreadyRefered = !TextUtils.isEmpty(isReferedValue)&&isReferedValue.equalsIgnoreCase("true");
-        if(isAlreadyRefered) {
+        boolean isAlreadyRefered = !TextUtils.isEmpty(isReferedValue) && isReferedValue.equalsIgnoreCase("true");
+        if (isAlreadyRefered) {
             fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
             return;
         }
-        if(muakText.equalsIgnoreCase("sam")||heightText.equalsIgnoreCase("sam")
-           || weightText.equalsIgnoreCase("sam")){
+        if (muakText.equalsIgnoreCase("sam") || heightText.equalsIgnoreCase("sam")
+                || weightText.equalsIgnoreCase("sam")) {
             fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
         }
     }
+
     private boolean isDataOk() {
         return childDetails != null && childDetails.getDetails() != null;
     }
@@ -937,15 +961,17 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
         return gender;
     }
-    private int getMonthDifferenceByDOB(){
+
+    private int getMonthDifferenceByDOB() {
         String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
         DateTime dateTime = new DateTime(dobString);
-        double month = HeightZScore.getAgeInMonths(dateTime.toDate(),new Date());
+        double month = HeightZScore.getAgeInMonths(dateTime.toDate(), new Date());
         int m = (int) Math.round(month);
-        Log.v("MONTH_DIFF","m:"+m);
+        Log.v("MONTH_DIFF", "m:" + m);
 
         return m;
     }
+
     public enum GMP_STATUS {
         SAM,
         MAM,

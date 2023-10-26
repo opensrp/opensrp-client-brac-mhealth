@@ -73,6 +73,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REG
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.EYE_TEST;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
@@ -142,6 +143,8 @@ public class FormParser {
 
         }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
             saveSSFormData(visit);
+        }else if(visit.getVisitType().equalsIgnoreCase(HOUSE_HOLD_VISIT)){
+            HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateLastHomeVisitTime(visit.getBaseEntityId(),String.valueOf(visit.getDate().getTime()));
         }
         else{
 
@@ -331,7 +334,6 @@ public class FormParser {
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 processHHVisitForm(details,log);
                             }
-
                             if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
                                 HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
                             }

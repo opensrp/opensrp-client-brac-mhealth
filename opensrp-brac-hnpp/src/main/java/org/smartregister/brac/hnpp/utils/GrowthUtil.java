@@ -227,6 +227,7 @@ public class GrowthUtil {
 
     }
     public static String refreshPreviousWeightsTable(Activity context, TableLayout previousweightholder, Gender gender, Date dob, List<Weight> weights,boolean isNeedToUpdateDB) {
+       if(weights == null) return "";
         String weightText = "";
         HashMap<Long, Weight> weightHashMap = new HashMap<>();
         for (Weight curWeight : weights) {

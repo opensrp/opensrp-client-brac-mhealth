@@ -18,6 +18,7 @@ import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
 import org.smartregister.view.activity.SecuredActivity;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChildVaccinationActivity extends SecuredActivity implements VaccinationActionListener, ServiceActionListener {
 
@@ -89,6 +90,9 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     ChildImmunizationFragment immunizationFragment;
     private void initializeFragment(){
         immunizationFragment = ChildImmunizationFragment.newInstance(bundle);
+        if(childDetails.getDetails() == null){
+            childDetails.setDetails(new HashMap<>());
+        }
         immunizationFragment.setChildDetails(childDetails);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =

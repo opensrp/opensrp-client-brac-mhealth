@@ -272,6 +272,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         }*/
 
 
+
         View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
         ImageView image = familyView.findViewById(R.id.image_view);
         TextView name =  familyView.findViewById(R.id.patient_name_age);
