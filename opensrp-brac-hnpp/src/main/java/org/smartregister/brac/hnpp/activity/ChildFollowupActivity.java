@@ -11,11 +11,13 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -300,6 +302,8 @@ public class ChildFollowupActivity extends AppCompatActivity {
         noImmunizationBt = findViewById(R.id.no_immunization_button);
         referralFollowupCauseTv = findViewById(R.id.referral_followup_cause_tv);
         referralFollowupRv = findViewById(R.id.referral_followup_rv);
+        ConstraintLayout toolbar = findViewById(R.id.toolbar);
+        HnppConstants.updateAppBackground(toolbar);
     }
 
     /**

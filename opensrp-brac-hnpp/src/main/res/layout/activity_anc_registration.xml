@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <ImageView
-            android:id="@+id/anc_check_im"
+            android:id="@+id/anc_reg_check_im"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"

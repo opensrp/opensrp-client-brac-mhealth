@@ -50,7 +50,11 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
         </receiver>
-
+        <activity
+            android:name=".activity.NewANCRegistrationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.PaymentHistoryActivity"
             android:screenOrientation="portrait"

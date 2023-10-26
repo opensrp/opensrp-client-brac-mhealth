@@ -280,13 +280,15 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     public void startAncRegister() {
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
-                HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
-                        HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName,textViewName.getText().toString(),latitude,longitude);
-            }
-        });
+        NewANCRegistrationActivity.startNewAncRegistrationActivity(this,baseEntityId);
+
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
+//                HnppAncRegisterActivity.startHnppAncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId, PhoneNumber,
+//                        HnppConstants.JSON_FORMS.ANC_FORM, null, familyBaseEntityId, familyName,textViewName.getText().toString(),latitude,longitude);
+//            }
+//        });
     }
 
     @Override
