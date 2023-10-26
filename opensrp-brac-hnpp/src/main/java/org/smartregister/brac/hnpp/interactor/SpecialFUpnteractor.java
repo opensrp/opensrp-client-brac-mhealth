@@ -1,29 +1,19 @@
 package org.smartregister.brac.hnpp.interactor;
 
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
-import org.apache.http.NoHttpResponseException;
-import org.json.JSONObject;
-import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.contract.BkashStatusContract;
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
+import org.smartregister.brac.hnpp.contract.SpecialFUpContract;
+import org.smartregister.brac.hnpp.contract.TelephonicFUpContract;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
-import org.smartregister.brac.hnpp.model.FollowUpModel;
-import org.smartregister.brac.hnpp.utils.BkashStatus;
 import org.smartregister.family.util.AppExecutors;
-import org.smartregister.service.HTTPAgent;
 
 import java.util.ArrayList;
 
-public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
+public class SpecialFUpnteractor implements SpecialFUpContract.Interactor {
     private AppExecutors appExecutors;
     private ArrayList<AncFollowUpModel> followUpList;
 
-    public RoutinFUpnteractor() {
+    public SpecialFUpnteractor() {
         this.followUpList = new ArrayList<>();
     }
 

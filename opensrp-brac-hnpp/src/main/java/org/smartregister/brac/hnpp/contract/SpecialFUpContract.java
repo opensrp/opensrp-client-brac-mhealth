@@ -3,12 +3,10 @@ package org.smartregister.brac.hnpp.contract;
 import android.content.Context;
 
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
-import org.smartregister.brac.hnpp.model.FollowUpModel;
-import org.smartregister.brac.hnpp.utils.BkashStatus;
 
 import java.util.ArrayList;
 
-public interface RoutinFUpContract {
+public interface SpecialFUpContract {
 
     interface View{
         void showProgressBar();

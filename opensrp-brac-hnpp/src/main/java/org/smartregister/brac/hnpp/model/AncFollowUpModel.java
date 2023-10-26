@@ -2,10 +2,19 @@ package org.smartregister.brac.hnpp.model;
 
 public class AncFollowUpModel {
     public String baseEntityId;
-    public String followUpDate;
-    public String nextFollowUpDate;
-    public String visitDate;
-    public String telephonyFollowUpDate;
-    public String specialFollowUpDate;
+    public long followUpDate;
+    public long nextFollowUpDate;
+    public long visitDate;
+    public long telephonyFollowUpDate;
+    public long specialFollowUpDate;
     public int noOfAnc;
+
+    public String highRiskKey;
+    public String highRiskValue;
+    public String lowRiskKey;
+    public String lowRiskValue;
+    public int riskType;
+
+    public String memberName;
+    public String memberPhoneNum;
 }

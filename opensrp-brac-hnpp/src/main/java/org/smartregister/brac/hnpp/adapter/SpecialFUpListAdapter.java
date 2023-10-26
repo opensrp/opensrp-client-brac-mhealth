@@ -2,30 +2,24 @@ package org.smartregister.brac.hnpp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
-import org.smartregister.brac.hnpp.holder.MemberListViewHolder;
 import org.smartregister.brac.hnpp.holder.RoutinFUpListViewHolder;
+import org.smartregister.brac.hnpp.holder.SpecialFUpListViewHolder;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
-import org.smartregister.brac.hnpp.model.FollowUpModel;
-import org.smartregister.brac.hnpp.model.Member;
-import org.smartregister.brac.hnpp.utils.FormApplicability;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListViewHolder> {
+public class SpecialFUpListAdapter extends RecyclerView.Adapter<SpecialFUpListViewHolder> {
     private ArrayList<AncFollowUpModel> memberArrayList;
     private Context context;
     private OnClickAdapter onClickAdapter;
 
-    public RoutinFUpListAdapter(Context context, OnClickAdapter onClickAdapter) {
+    public SpecialFUpListAdapter(Context context, OnClickAdapter onClickAdapter) {
         this.context = context;
         this.onClickAdapter = onClickAdapter;
         memberArrayList = new ArrayList<>();
@@ -38,8 +32,8 @@ public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListView
 
     @NonNull
     @Override
-    public RoutinFUpListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new RoutinFUpListViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(getAdapterLayout(), viewGroup,false));
+    public SpecialFUpListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        return new SpecialFUpListViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(getAdapterLayout(), viewGroup,false));
 
     }
     public int getAdapterLayout(){
@@ -48,7 +42,7 @@ public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListView
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final RoutinFUpListViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final SpecialFUpListViewHolder viewHolder, int position) {
         final AncFollowUpModel content = memberArrayList.get(position);
         if(content.riskType == 2){
             viewHolder.layout.setBackgroundResource(R.color.red);

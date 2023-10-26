@@ -20,8 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
+import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.model.HHMemberProperty;
+import org.smartregister.brac.hnpp.model.RiskListModel;
 import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.service.EventFetchIntentService;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -241,7 +243,7 @@ public class FormParser {
                                     FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
                                 }
                             }*/
-                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
+                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log);
                         }
 
                         if(PNC_REGISTRATION_BEFORE_48_hour.equalsIgnoreCase(encounter_type)||
@@ -283,19 +285,19 @@ public class FormParser {
                         if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                            /* FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",0+"");
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");*/
-                            updateAncRegistrationRisk(base_entity_id,details);
+                            updateAncRegistrationRisk(base_entity_id,details,log);
                         }
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateIYCFRisk(base_entity_id,details);
                         }
                         if(HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)){
-                            updatePhysicalProblemRisk(base_entity_id,details);
+                            updatePhysicalProblemRisk(base_entity_id,details,log);
                         }
                         if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateNcdPackageRisk(base_entity_id,details);
                         }
                         if(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)){
-                            updatePreviousHistoryRisk(base_entity_id,details);
+                            updatePreviousHistoryRisk(base_entity_id,details,log);
                         }
                         if(HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                             log.setFamilyId(base_entity_id);
@@ -1144,7 +1146,9 @@ public class FormParser {
 
         }
     }
-    private static void updateAncRegistrationRisk(String baseEntityId,HashMap<String,String>details){
+    private static void updateAncRegistrationRisk(String baseEntityId, HashMap<String, String> details, VisitLog log){
+        updateAncFollowUp(log);
+
         if(details.containsKey("no_prev_preg") && !StringUtils.isEmpty(details.get("no_prev_preg"))){
             String ancValue = details.get("no_prev_preg");
             if(!TextUtils.isEmpty(ancValue)){
@@ -1156,6 +1160,14 @@ public class FormParser {
                         riskyModel.riskyKey = "no_prev_preg";
                         riskyModel.eventType = ANC_REGISTRATION;
                         riskyModel.baseEntityId = baseEntityId;
+
+                        RiskListModel riskListModel = new RiskListModel();
+                        riskListModel.baseEntityId = baseEntityId;
+                        riskListModel.highRiskKey = "no_prev_preg";
+                        riskListModel.highRiskValue = ancValue;
+                        riskListModel.riskType = 2; //2-> high risk
+                        HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                         HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                         HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ANC_REGISTRATION);
                         return;
@@ -1188,8 +1200,23 @@ public class FormParser {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",ANC_REGISTRATION);
 
     }
-    private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details){
+
+    private static void updateAncFollowUp(VisitLog log) {
+        AncFollowUpModel ancFollowUpModel = new AncFollowUpModel();
+        ancFollowUpModel.baseEntityId = log.getBaseEntityId();
+        ancFollowUpModel.visitDate = log.visitDate;
+        ancFollowUpModel.followUpDate = log.visitDate;
+        ancFollowUpModel.nextFollowUpDate = log.visitDate;
+        ancFollowUpModel.telephonyFollowUpDate = log.visitDate;
+        ancFollowUpModel.specialFollowUpDate = log.visitDate;
+        ancFollowUpModel.noOfAnc = 1;
+        HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+    }
+
+    private static void updateAncHomeVisitRisk(String eventType, String baseEntityId, HashMap<String, String> details, VisitLog log){
         boolean isAncHomeVisitRisk = false;
+        updateAncFollowUp(log);
+
         if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String bps = details.get("blood_pressure_systolic");
             if(!TextUtils.isEmpty(bps)){
@@ -1216,12 +1243,28 @@ public class FormParser {
                                                 riskynBPSModel.eventType = eventType;
                                                 riskynBPSModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+
+                                                RiskListModel riskListModel = new RiskListModel();
+                                                riskListModel.baseEntityId = baseEntityId;
+                                                riskListModel.highRiskKey = "blood_pressure_systolic";
+                                                riskListModel.highRiskValue = bps;
+                                                riskListModel.riskType = 2; //2-> high risk
+                                                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                                                 RiskyModel riskynBPDModel = new RiskyModel();
                                                 riskynBPDModel.riskyValue = bpd;
                                                 riskynBPDModel.riskyKey = "blood_pressure_diastolic";
                                                 riskynBPDModel.eventType = eventType;
                                                 riskynBPDModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
+
+                                                RiskListModel riskBpd = new RiskListModel();
+                                                riskListModel.baseEntityId = baseEntityId;
+                                                riskListModel.highRiskKey = "blood_pressure_diastolic";
+                                                riskListModel.highRiskValue = bpd;
+                                                riskListModel.riskType = 2; //2-> high risk
+                                                HnppApplication.getRiskListRepository().addOrUpdate(riskBpd);
+
                                                 RiskyModel riskyedemaModel = new RiskyModel();
                                                 riskyedemaModel.riskyValue = edema;
                                                 riskyedemaModel.riskyKey = "has_edema";
@@ -1229,12 +1272,26 @@ public class FormParser {
                                                 riskyedemaModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
 
+                                                RiskListModel riskEdema = new RiskListModel();
+                                                riskListModel.baseEntityId = baseEntityId;
+                                                riskListModel.highRiskKey = "has_edema";
+                                                riskListModel.highRiskValue = edema;
+                                                riskListModel.riskType = 2; //2-> high risk
+                                                HnppApplication.getRiskListRepository().addOrUpdate(riskEdema);
+
                                                 RiskyModel riskyalbuminModel = new RiskyModel();
                                                 riskyalbuminModel.riskyValue = albumin;
                                                 riskyalbuminModel.riskyKey = "albumin";
                                                 riskyalbuminModel.eventType = eventType;
                                                 riskyalbuminModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
+
+                                                RiskListModel riskAlbumin = new RiskListModel();
+                                                riskListModel.baseEntityId = baseEntityId;
+                                                riskListModel.highRiskKey = "albumin";
+                                                riskListModel.highRiskValue = albumin;
+                                                riskListModel.riskType = 2; //2-> high risk
+                                                HnppApplication.getRiskListRepository().addOrUpdate(riskAlbumin);
 
                                             }
 
@@ -1294,7 +1351,9 @@ public class FormParser {
 
     }
 
-    private static void updatePhysicalProblemRisk(String baseEntityId,HashMap<String,String>details){
+    private static void updatePhysicalProblemRisk(String baseEntityId, HashMap<String, String> details, VisitLog log){
+       updateAncFollowUp(log);
+
         if(details.containsKey("high_blood_pressure") && !StringUtils.isEmpty(details.get("high_blood_pressure"))){
             String eb = details.get("high_blood_pressure");
             if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
@@ -1303,6 +1362,15 @@ public class FormParser {
                 riskyModel.riskyKey = "high_blood_pressure";
                 riskyModel.eventType = ANC_GENERAL_DISEASE;
                 riskyModel.baseEntityId = baseEntityId;
+
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "high_blood_pressure";
+                riskListModel.highRiskValue = eb;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
                 return;
@@ -1347,6 +1415,14 @@ public class FormParser {
                 riskyModel.riskyKey = "asthma";
                 riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
                 riskyModel.baseEntityId = baseEntityId;
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "asthma";
+                riskListModel.highRiskValue = obs;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
                 return;
@@ -1362,6 +1438,7 @@ public class FormParser {
                 riskyModel.riskyKey = "kidney_disease";
                 riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
                 riskyModel.baseEntityId = baseEntityId;
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
                 return;
@@ -1377,6 +1454,7 @@ public class FormParser {
                 riskyModel.riskyKey = "tuberculosis";
                 riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
                 riskyModel.baseEntityId = baseEntityId;
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
                 return;
@@ -1387,7 +1465,9 @@ public class FormParser {
         HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
 
     }
-    private static void updatePreviousHistoryRisk(String baseEntityId,HashMap<String,String>details){
+    private static void updatePreviousHistoryRisk(String baseEntityId, HashMap<String, String> details, VisitLog log){
+       updateAncFollowUp(log);
+
         if(details.containsKey("abortion_mr") && !StringUtils.isEmpty(details.get("abortion_mr"))){
             String eb = details.get("abortion_mr");
             if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
@@ -1396,6 +1476,14 @@ public class FormParser {
                 riskyModel.riskyKey = "abortion_mr";
                 riskyModel.eventType = ANC_PREGNANCY_HISTORY;
                 riskyModel.baseEntityId = baseEntityId;
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "abortion_mr";
+                riskListModel.highRiskValue = eb;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
                 return;
@@ -1410,6 +1498,14 @@ public class FormParser {
                 riskyModel.riskyKey = "still_birth";
                 riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
                 riskyModel.baseEntityId = baseEntityId;
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "still_birth";
+                riskListModel.highRiskValue = obs;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
                 return;
@@ -1425,6 +1521,14 @@ public class FormParser {
                 riskyModel.riskyKey = "c_section";
                 riskyModel.eventType =HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
                 riskyModel.baseEntityId = baseEntityId;
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "c_section";
+                riskListModel.highRiskValue = obs;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
                 return;
@@ -1440,6 +1544,14 @@ public class FormParser {
                 riskyModel.riskyKey = "obsessive_compulsive_disorder";
                 riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
                 riskyModel.baseEntityId = baseEntityId;
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "obsessive_compulsive_disorder";
+                riskListModel.highRiskValue = obs;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
                 return;
@@ -1455,6 +1567,14 @@ public class FormParser {
                 riskyModel.riskyKey = "postnatal_bleeding";
                 riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
                 riskyModel.baseEntityId = baseEntityId;
+
+                RiskListModel riskListModel = new RiskListModel();
+                riskListModel.baseEntityId = baseEntityId;
+                riskListModel.highRiskKey = "postnatal_bleeding";
+                riskListModel.highRiskValue = obs;
+                riskListModel.riskType = 2; //2-> high risk
+                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
                 return;
@@ -1475,6 +1595,7 @@ public class FormParser {
                 riskyModel.riskyKey = "complications_known";
                 riskyModel.eventType = ELCO;
                 riskyModel.baseEntityId = baseEntityId;
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ELCO);
                 return;
@@ -1495,6 +1616,7 @@ public class FormParser {
                 riskyModel.riskyKey = "head_balance";
                 riskyModel.eventType = IYCF_PACKAGE;
                 riskyModel.baseEntityId = baseEntityId;
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
                 return;
@@ -1509,6 +1631,7 @@ public class FormParser {
                 riskyModel.riskyKey = "can_sit";
                 riskyModel.eventType = IYCF_PACKAGE;
                 riskyModel.baseEntityId = baseEntityId;
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
                 return;
@@ -1523,6 +1646,7 @@ public class FormParser {
                 riskyModel.riskyKey = "can_sound";
                 riskyModel.eventType = IYCF_PACKAGE;
                 riskyModel.baseEntityId = baseEntityId;
+
                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
                 HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
                 return;

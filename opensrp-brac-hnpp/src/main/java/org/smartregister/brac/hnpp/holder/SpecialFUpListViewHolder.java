@@ -12,13 +12,13 @@ import org.smartregister.brac.hnpp.R;
 /**
  * Created by tanvir on 25/10/23.
  */
-public class RoutinFUpListViewHolder extends RecyclerView.ViewHolder {
+public class SpecialFUpListViewHolder extends RecyclerView.ViewHolder {
     public TextView nameTv;
     public TextView phoneNumber;
     public ImageView imageView;
     public RelativeLayout layout;
 
-    public RoutinFUpListViewHolder(@NonNull View itemView) {
+    public SpecialFUpListViewHolder(@NonNull View itemView) {
         super(itemView);
         nameTv = itemView.findViewById(R.id.woman_name);
         phoneNumber = itemView.findViewById(R.id.phoneNumber);

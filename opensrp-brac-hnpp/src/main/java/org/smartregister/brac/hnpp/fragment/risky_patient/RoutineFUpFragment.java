@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.widget.ProgressBar;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
+import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.model.FollowUpModel;
 import org.smartregister.brac.hnpp.presenter.BkashStatusPresenter;
 import org.smartregister.brac.hnpp.presenter.RoutinFUpPresenter;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.View {
     RoutinFUpPresenter presenter;
     RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -47,6 +50,7 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_routin_f_up, container, false);
         recyclerView = root.findViewById(R.id.routinFollowUpListRv);
+        progressBar = root.findViewById(R.id.progress_bar);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         initializePresenter();
         return root;
@@ -54,12 +58,12 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
 
     @Override
     public void showProgressBar() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -69,16 +73,18 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
 
     @Override
     public void initializePresenter() {
+        showProgressBar();
         presenter = new RoutinFUpPresenter(this);
-        ArrayList<FollowUpModel> list =  presenter.fetchRoutinFUp();
+        ArrayList<AncFollowUpModel> list =  presenter.fetchRoutinFUp();
         RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
             @Override
-            public void onClick(int position, FollowUpModel content) {
+            public void onClick(int position, AncFollowUpModel content) {
 
             }
         });
         adapter.setData(list);
         recyclerView.setAdapter(adapter);
+        hideProgressBar();
     }
 
     @Override

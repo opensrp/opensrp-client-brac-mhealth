@@ -45,11 +45,11 @@ public class AncFollowUpRepository extends BaseRepository {
             "CREATE TABLE " + ANC_FOLLOW_UP_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                     BASE_ENTITY_ID + " VARCHAR , " +
-                    FOLLOW_UP_DATE + " VARCHAR , " +
-                    NEXT_FOLLOW_UP_DATE + " VARCHAR," +
-                    VISIT_DATE + " VARCHAR NOT NULL," +
-                    TELEPHONY_FOLLOW_UP_DATE + " VARCHAR," +
-                    SPECIAL_FOLLOW_UP_DATE + " VARCHAR ," +
+                    FOLLOW_UP_DATE + " INTEGER , " +
+                    NEXT_FOLLOW_UP_DATE + " INTEGER," +
+                    VISIT_DATE + " INTEGER," +
+                    TELEPHONY_FOLLOW_UP_DATE + " INTEGER," +
+                    SPECIAL_FOLLOW_UP_DATE + " INTEGER ," +
                     NO_OF_ANC + " INTEGER ) ";
 
 
@@ -98,13 +98,33 @@ public class AncFollowUpRepository extends BaseRepository {
         }
     }
 
-    public ArrayList<RiskyModel> getRiskyKeyByEntityId(String baseEntityId) {
+    public ArrayList<AncFollowUpModel> getAncFollowUpData(String type) {
         Cursor cursor = null;
-        ArrayList<RiskyModel> locations = new ArrayList<>();
+        ArrayList<AncFollowUpModel> ancFollowUpModelArrayList = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getAncFollowupTableName() + " where base_entity_id = '" + baseEntityId + "", null);
+            cursor = getReadableDatabase().rawQuery("SELECT a.base_entity_id," +
+                    "a.follow_up_date," +
+                    "a.next_follow_up_date," +
+                    "a.visit_date," +
+                    "a.telephony_follow_up_date," +
+                    "a.special_follow_up_date," +
+                    "a.no_of_anc," +
+                    "r.high_risky_key," +
+                    "r.high_risky_value," +
+                    "r.low_risky_key," +
+                    "r.low_risky_value," +
+                    "r.risk_type," +
+                    "e.first_name," +
+                    "e.phone_number," +
+                    "e.base_entity_id as b " +
+                    "from anc_follow_up as a " +
+                    "left join risk_list as r on a.base_entity_id = r.base_entity_id " +
+                    "left join ec_family_member as e on a.base_entity_id = e.base_entity_id " +
+                    "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) " +
+                    "and e.base_entity_id not null " +
+                    "group by a.base_entity_id", null);
             while (cursor.moveToNext()) {
-                //locations.add(readCursor(cursor));
+                ancFollowUpModelArrayList.add(readCursor(cursor));
             }
             cursor.close();
         } catch (Exception e) {
@@ -113,17 +133,22 @@ public class AncFollowUpRepository extends BaseRepository {
             if (cursor != null)
                 cursor.close();
         }
-        return locations;
+        return ancFollowUpModelArrayList;
     }
 
     protected AncFollowUpModel readCursor(Cursor cursor) {
         String baseEntityId = cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID));
-        String followUpDate = cursor.getString(cursor.getColumnIndex(FOLLOW_UP_DATE));
-        String nextFollowUpDate = cursor.getString(cursor.getColumnIndex(NEXT_FOLLOW_UP_DATE));
-        String visitDate = cursor.getString(cursor.getColumnIndex(VISIT_DATE));
-        String telephonyFollowUpDate = cursor.getString(cursor.getColumnIndex(TELEPHONY_FOLLOW_UP_DATE));
-        String specialFollowUpDate = cursor.getString(cursor.getColumnIndex(SPECIAL_FOLLOW_UP_DATE));
+        long followUpDate = cursor.getLong(cursor.getColumnIndex(FOLLOW_UP_DATE));
+        long nextFollowUpDate = cursor.getLong(cursor.getColumnIndex(NEXT_FOLLOW_UP_DATE));
+        long visitDate = cursor.getLong(cursor.getColumnIndex(VISIT_DATE));
+        long telephonyFollowUpDate = cursor.getLong(cursor.getColumnIndex(TELEPHONY_FOLLOW_UP_DATE));
+        long specialFollowUpDate = cursor.getLong(cursor.getColumnIndex(SPECIAL_FOLLOW_UP_DATE));
         int noOfAnc = cursor.getInt(cursor.getColumnIndex(NO_OF_ANC));
+
+        int riskType = cursor.getInt(cursor.getColumnIndex("risk_type"));
+
+        String memberName = cursor.getString(cursor.getColumnIndex("first_name"));
+        String memberPhoneNo = cursor.getString(cursor.getColumnIndex("phone_number"));
 
         AncFollowUpModel ancFollowUpModel = new AncFollowUpModel();
         ancFollowUpModel.baseEntityId = baseEntityId;
@@ -133,6 +158,12 @@ public class AncFollowUpRepository extends BaseRepository {
         ancFollowUpModel.telephonyFollowUpDate = telephonyFollowUpDate;
         ancFollowUpModel.specialFollowUpDate = specialFollowUpDate;
         ancFollowUpModel.noOfAnc = noOfAnc;
+        ancFollowUpModel.riskType = riskType;
+
+        ancFollowUpModel.memberName = memberName;
+        ancFollowUpModel.memberPhoneNum = memberPhoneNo;
+
+
         return ancFollowUpModel;
     }
 

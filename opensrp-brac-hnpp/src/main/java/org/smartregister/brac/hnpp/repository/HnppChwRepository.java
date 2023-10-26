@@ -95,6 +95,7 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion43(database);
         upgradeToVersion44(database);
         upgradeToVersion45(database);
+        upgradeToVersion46(database);
     }
 
     @Override
@@ -232,6 +233,12 @@ public class HnppChwRepository extends Repository {
     private void upgradeToVersion45(SQLiteDatabase db) {
         HouseHoldVisitInfoRepository.createTable(db);
     }
+
+    private void upgradeToVersion46(SQLiteDatabase db) {
+        AncFollowUpRepository.createTable(db);
+        RiskListRepository.createTable(db);
+    }
+
     private void upgradeToVersion41(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion41");
         try {

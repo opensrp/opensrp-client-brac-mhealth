@@ -70,7 +70,7 @@ public class RiskListRepository extends BaseRepository {
     public void addOrUpdate(RiskListModel riskListModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(BASE_ENTITY_ID, riskListModel.baseEntityId);
-        contentValues.put(HIGH_RISKY_KEY, riskListModel.highRiskValue);
+        contentValues.put(HIGH_RISKY_KEY, riskListModel.highRiskKey);
         contentValues.put(HIGH_RISKY_VALUE, riskListModel.highRiskValue);
         contentValues.put(LOW_RISKY_KEY, riskListModel.lowRiskKey);
         contentValues.put(LOW_RISKY_VALUE, riskListModel.lowRiskValue);
