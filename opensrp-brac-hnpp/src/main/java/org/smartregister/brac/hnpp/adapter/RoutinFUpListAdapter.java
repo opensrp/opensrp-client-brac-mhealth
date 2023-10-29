@@ -57,7 +57,7 @@ public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListView
         }else {
             viewHolder.layout.setBackgroundResource(R.color.green);
         }
-        viewHolder.nameTv.setText(content.memberName+" "+content.riskType);
+        viewHolder.nameTv.setText(content.memberName);
         viewHolder.phoneNumber.setText(content.memberPhoneNum);
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }

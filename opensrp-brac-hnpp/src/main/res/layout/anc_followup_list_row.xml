@@ -7,7 +7,7 @@
     app:cardCornerRadius="10dp"
     >
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,32 +20,35 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/register_list_item_margin"
+            android:layout_marginStart="10dp"
             android:adjustViewBounds="true"
             android:maxWidth="@dimen/client_profile_pic_width"
             android:maxHeight="@dimen/client_profile_pic_height"
             android:paddingStart="@dimen/register_list_top_bottom_min_padding"
             android:paddingBottom="@dimen/register_list_top_bottom_min_padding"
             android:scaleType="centerCrop"
-            android:src="@drawable/rowavatar_member" />
+            android:src="@drawable/rowavatar_member"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/patient_column"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/register_list_item_margin"
-            android:layout_marginLeft="@dimen/register_list_item_margin"
-            android:layout_marginTop="@dimen/register_list_top_bottom_margin"
-            android:layout_marginEnd="@dimen/register_list_item_margin"
-            android:layout_marginRight="@dimen/register_list_item_margin"
-            android:layout_marginBottom="@dimen/register_list_top_bottom_margin"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_toEndOf="@+id/hh_profile_img"
             android:layout_toRightOf="@+id/hh_profile_img"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/due_button_wrapper"
+            app:layout_constraintStart_toEndOf="@+id/hh_profile_img"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -75,9 +78,9 @@
                     android:paddingLeft="0dp"
                     android:singleLine="true"
                     android:text="Patient Name"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/register_list_title_size" />
+                    android:textSize="@dimen/register_list_title_size"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -100,7 +103,7 @@
 
         <LinearLayout
             android:id="@+id/due_button_wrapper"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="@dimen/register_list_item_height"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -111,7 +114,8 @@
             android:paddingTop="@dimen/register_list_top_bottom_padding"
             android:paddingEnd="@dimen/register_list_item_padding"
             android:paddingRight="@dimen/register_list_item_padding"
-            android:paddingBottom="@dimen/register_list_top_bottom_padding">
+            android:paddingBottom="@dimen/register_list_top_bottom_padding"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <Button
                 android:id="@+id/due_button"
@@ -122,7 +126,6 @@
                 android:background="@drawable/purple_background"
                 android:elevation="@dimen/register_list_elevation"
                 android:gravity="center"
-                android:visibility="visible"
                 android:hapticFeedbackEnabled="true"
                 android:paddingLeft="20dp"
                 android:paddingTop="20dp"
@@ -135,7 +138,8 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/register_list_due_size"
                 android:textStyle="bold"
-                android:typeface="normal" />
+                android:typeface="normal"
+                android:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/due_lay_telephonic"
@@ -146,39 +150,39 @@
                 android:background="@drawable/purple_background"
                 android:elevation="@dimen/register_list_elevation"
                 android:gravity="center"
-                android:visibility="gone"
                 android:hapticFeedbackEnabled="true"
                 android:paddingLeft="20dp"
                 android:paddingTop="20dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="20dp"
                 android:stateListAnimator="@drawable/button"
-                android:typeface="normal">
+                android:typeface="normal"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/yellow"
-                    android:padding="5dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="011111111"
-                        android:textColor="@color/black"
-                        />
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Due: 26/12/2023"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

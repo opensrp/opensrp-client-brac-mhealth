@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.holder;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +17,7 @@ public class SpecialFUpListViewHolder extends RecyclerView.ViewHolder {
     public TextView nameTv;
     public TextView phoneNumber;
     public ImageView imageView;
-    public RelativeLayout layout;
+    public ConstraintLayout layout;
 
     public SpecialFUpListViewHolder(@NonNull View itemView) {
         super(itemView);
