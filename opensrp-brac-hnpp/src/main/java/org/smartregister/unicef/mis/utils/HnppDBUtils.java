@@ -806,6 +806,96 @@ public class HnppDBUtils {
         }
         return birthWeight;
     }
+    public static int getChildRefCount(){
+
+        String query = "select count(DISTINCT(baseEntityId)) from event where eventType = 'Referral Clinic' group by baseEntityId";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
+    public static int getChildGmpCounselingCount(){
+
+        String query = "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_COUNSELING+"' group by baseEntityId";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
+    public static int getChildRefFollowupCount(){
+
+        String query = "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP+"' ";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
+    public static int getImmunizationCount(){
+
+        String query = "select count(DISTINCT(baseEntityId)) from event where (eventType = 'Vaccination' OR eventType = 'Recurring Service') ";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
+    public static int getGMPCount(){
+
+        String query = "select count(DISTINCT(baseEntityId)) from event where (eventType = 'Height Monitoring' OR eventType = 'Weight Monitoring') ";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
     public static boolean isRisk(String baseEntityId, String eventType){
 
         String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and risk_event_type ='"+ eventType+"'";

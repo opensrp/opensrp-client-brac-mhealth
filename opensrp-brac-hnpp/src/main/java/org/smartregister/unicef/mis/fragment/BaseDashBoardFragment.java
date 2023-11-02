@@ -79,7 +79,6 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
          View view = inflater.inflate(R.layout.base_fragment_dashboard,null);
-
         unsyncCountTv = view.findViewById(R.id.unsync_count);
         syncBtn = view.findViewById(R.id.sync_unsync_btn);
         recyclerView = view.findViewById(R.id.recycler_view);

@@ -1,6 +1,5 @@
 package org.smartregister.unicef.mis.fragment;
 
-import static org.smartregister.unicef.mis.utils.HnppJsonFormUtils.REFEREL_EVENT_TYPE;
 import static org.smartregister.util.Utils.dobToDateTime;
 
 import android.annotation.SuppressLint;
@@ -9,6 +8,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +27,11 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
@@ -53,15 +57,21 @@ import org.smartregister.growthmonitoring.repository.WeightRepository;
 import org.smartregister.growthmonitoring.util.HeightUtils;
 import org.smartregister.growthmonitoring.util.MUACUtils;
 import org.smartregister.location.helper.LocationHelper;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.activity.FamilyRegisterActivity;
+import org.smartregister.unicef.mis.activity.HnppAncJsonFormActivity;
 import org.smartregister.unicef.mis.activity.HnppChildProfileActivity;
+import org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.unicef.mis.job.HeightIntentServiceJob;
 import org.smartregister.unicef.mis.job.MuactIntentServiceJob;
 import org.smartregister.unicef.mis.job.WeightIntentServiceJob;
+import org.smartregister.unicef.mis.sync.FormParser;
 import org.smartregister.unicef.mis.utils.GrowthUtil;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
 import org.smartregister.util.DateUtil;
+import org.smartregister.util.JsonFormUtils;
 import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
@@ -74,6 +84,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     View fragmentView;
     Activity mActivity;
     public CommonPersonObjectClient childDetails;
+    String baseEntityId = "";
     public static GMPFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
         GMPFragment fragment = new GMPFragment();
@@ -114,7 +125,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
-
+        baseEntityId = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
         if(TextUtils.isEmpty(dobString)){
             Toast.makeText(mActivity,"DOB invalid formate",Toast.LENGTH_SHORT).show();
             return;
@@ -150,6 +161,14 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                 GrowthUtil.showWeightRecordDialog(mActivity, childDetails, 1, DIALOG_TAG);
             }
         });
+        fragmentView.findViewById(R.id.gmpCounceling).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showIYCFDialog();
+                HnppJsonFormUtils.updateReferralAsEvent(mActivity,childDetails.entityId(),"","","ec_counseling",HnppConstants.EVENT_TYPE.GMP_COUNSELING);
+
+            }
+        });
         fragmentView.findViewById(R.id.height_chart_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,15 +178,31 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         fragmentView.findViewById(R.id.refer_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isRefered = HnppJsonFormUtils.updateClientStatusAsEvent(mActivity,childDetails.entityId(),"","","ec_referel",REFEREL_EVENT_TYPE);
+                boolean isRefered = HnppJsonFormUtils.updateReferralAsEvent(mActivity,childDetails.entityId(),"","","ec_referel",HnppConstants.EVENT_TYPE.GMP_REFERRAL);
                 if(isRefered){
+
                     GrowthUtil.updateIsRefered(childDetails.entityId(),"true");
-                    Toast.makeText(mActivity,"Successfully refered to clinic",Toast.LENGTH_SHORT).show();
+                    HnppConstants.showOneButtonDialog(mActivity, getString(R.string.referrel_hospital), "", new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
                     fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
+                    fragmentView.findViewById(R.id.refer_followup_btn).setVisibility(View.VISIBLE);
+                    FormParser.makeVisitLog();
                 }
             }
         });
-
+        fragmentView.findViewById(R.id.refer_followup_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                    HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    activity.openGMPRefereal();
+                }
+            }
+        });
         View recordMUAC = fragmentView.findViewById(R.id.recordMUAC);
         recordMUAC.setClickable(true);
         recordMUAC.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +219,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         });
 
     }
+
     String heightText = "";
     String weightText = "";
     @SuppressLint("InflateParams")
@@ -255,7 +291,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         return muakText;
 
     }
-    private void updateProfileColor() {
+    public void updateProfileColor() {
+       if(fragmentView!=null) fragmentView.findViewById(R.id.refer_followup_btn).setVisibility(View.GONE);
         String resultText = getOverallStatus();
         Log.v("CHILD_STATUS", " resultText>>>"+resultText);
         if(!resultText.isEmpty()){
@@ -277,7 +314,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
 
         }
-        showReferedBtn();
+        showReferedBtn(text);
     }
     private void updateGenderInChildDetails() {
         if (childDetails != null) {
@@ -356,13 +393,13 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
     }
     private void showIYCFDialog(){
-        showDialogWithAction(getActivity(), getString(R.string.gmp_taken), "", new Runnable() {
-            @Override
-            public void run() {
+//        showDialogWithAction(getActivity(), getString(R.string.gmp_taken), "", new Runnable() {
+//            @Override
+//            public void run() {
                 int month = getMonthDifferenceByDOB();
                 showGenericDialog(getCountByMonth(month),1,month);
-            }
-        });
+//            }
+//        });
     }
     private void addWeight(WeightWrapper tag){
         final WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
@@ -406,7 +443,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         tag.setPatientAge(formattedAge);
         WeightIntentServiceJob.scheduleJobImmediately(WeightIntentServiceJob.TAG);
         String text = refreshEditWeightLayout(true);
-        showIYCFDialog();
+        //showIYCFDialog();
         showGMPDialog(text,1);
         showGrowthChart();
 
@@ -457,7 +494,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         String text = refreshEditHeightLayout(true);
         updateProfileColor();
 
-        showIYCFDialog();
+        //showIYCFDialog();
         showGMPDialog(text,2);
         HnppConstants.isViewRefresh = true;
         showHeightChart();
@@ -489,7 +526,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         String text = refreshEditMuacLayout(true);
         updateProfileColor();
 
-        showIYCFDialog();
+        //showIYCFDialog();
         showGMPDialog(text,3);
         HnppConstants.isViewRefresh = true;
         showMuacChart();
@@ -583,7 +620,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     private void showGMPDialog(String text, int type){
         int resultColor = ZScore.getZscoreColorByText(text);
         if(text.equalsIgnoreCase("OVER WEIGHT")) text = GMP_STATUS.OVER_WEIGHT.toString();
-        if(text.equalsIgnoreCase("DARK YELLOW")) text = GMP_STATUS.MAM.toString();
+        if(text.equalsIgnoreCase("MAM")) text = GMP_STATUS.MAM.toString();
+        if(text.equalsIgnoreCase("LMAL")) text = GMP_STATUS.LMAL.toString();
         Log.v("SHOW_GMP","text>>"+text);
         String dialogMessage = getDialogMessageByType(text,type);
         Dialog dialog = new Dialog(mActivity);
@@ -595,7 +633,6 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
         titleTv.setTextColor(mActivity.getResources().getColor(resultColor));
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
-        showReferedBtn();
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -633,24 +670,24 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             case 1://weight
                 if(text.equalsIgnoreCase(GMP_STATUS.SAM.toString())){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.sam_6m_weight);
-                    if(month <=8) return getString(R.string.sam_6m_8m_weight);
-                    if(month <=11) return getString(R.string.sam_9m_11m_weight);
-                    if(month <=23) return getString(R.string.sam_12m_23m_weight);
+                    if(month<6) return getString(R.string.sam_6m_weight)+" \n "+getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.sam_6m_8m_weight)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.sam_9m_11m_weight)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.sam_12m_23m_weight)+" \n "+getString(R.string.gmp_message);
                 }
                 else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString()) ){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.mam_6m_weight);
-                    if(month <=8) return getString(R.string.mam_6m_8m_weight);
-                    if(month <=11) return getString(R.string.mam_9m_11m_weight);
-                    if(month <=23) return getString(R.string.mam_12m_23m_weight);
+                    if(month<6) return getString(R.string.mam_6m_weight)+" \n "+getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.mam_6m_8m_weight)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.mam_9m_11m_weight)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.mam_12m_23m_weight)+" \n "+getString(R.string.gmp_message);
                 }
                 else if(text.equalsIgnoreCase(GMP_STATUS.OVER_WEIGHT.toString())){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.over_6m);
-                    if(month <=8) return getString(R.string.over_6m_8m);
-                    if(month <=11) return getString(R.string.over_9m_11m);
-                    if(month <=23) return getString(R.string.over_12m_23m);
+                    if(month<6) return getString(R.string.over_6m)+" \n "+getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.over_6m_8m)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.over_9m_11m)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.over_12m_23m)+" \n "+getString(R.string.gmp_message);
                 }
                 else {
                     int month = getMonthDifferenceByDOB();
@@ -663,17 +700,17 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             case 2://height
                 if(text.equalsIgnoreCase(GMP_STATUS.SAM.toString())){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.sam_6m_height);
-                    if(month <=8) return getString(R.string.sam_6m_8m_height);
-                    if(month <=11) return getString(R.string.sam_9m_11m_height);
-                    if(month <=23) return getString(R.string.sam_12m_23m_height);
+                    if(month<6) return getString(R.string.sam_6m_height)+" \n "+getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.sam_6m_8m_height)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.sam_9m_11m_height)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.sam_12m_23m_height)+" \n "+getString(R.string.gmp_message);
                 }
                 else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString())){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return getString(R.string.mam_6m_height);
-                    if(month <=8) return getString(R.string.mam_6m_8m_height);
-                    if(month <=11) return getString(R.string.mam_9m_11m_height);
-                    if(month <=23) return getString(R.string.mam_12m_23m_height);
+                    if(month<6) return getString(R.string.mam_6m_height)+" \n "+getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.mam_6m_8m_height)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.mam_9m_11m_height)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.mam_12m_23m_height)+" \n "+getString(R.string.gmp_message);
                 }
                 else {
                     int month = getMonthDifferenceByDOB();
@@ -686,17 +723,17 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             case 3://muac
                 if(text.equalsIgnoreCase(GMP_STATUS.SAM.toString())){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return "";
-                    if(month <=8) return getString(R.string.sam_6m_8m_muac);
-                    if(month <=11) return getString(R.string.sam_9m_11m_muac);
-                    if(month <=23) return getString(R.string.sam_12m_23m_muac);
+                    if(month<6) return getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.sam_6m_8m_muac)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.sam_9m_11m_muac)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.sam_12m_23m_muac)+" \n "+getString(R.string.gmp_message);
                 }
                 else if(text.equalsIgnoreCase(GMP_STATUS.MAM.toString())){
                     int month = getMonthDifferenceByDOB();
-                    if(month<6) return "";
-                    if(month <=8) return getString(R.string.mam_6m_8m_muac);
-                    if(month <=11) return getString(R.string.mam_9m_11m_muac);
-                    if(month <=23) return getString(R.string.mam_12m_23m_muac);
+                    if(month<6) return getString(R.string.gmp_message);
+                    if(month <=8) return getString(R.string.mam_6m_8m_muac)+" \n "+getString(R.string.gmp_message);
+                    if(month <=11) return getString(R.string.mam_9m_11m_muac)+" \n "+getString(R.string.gmp_message);
+                    if(month <=23) return getString(R.string.mam_12m_23m_muac)+" \n "+getString(R.string.gmp_message);
                 }
                 else {
                     int month = getMonthDifferenceByDOB();
@@ -709,17 +746,20 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
         return dialogMsg;
     }
-    private void showReferedBtn(){
-        String isReferedValue = Utils.getValue(childDetails, "is_refered", false);
+    private void showReferedBtn(String text){
+        String isReferedValue = GrowthUtil.getIsRefferedValue(baseEntityId);//Utils.getValue(childDetails, "is_refered", false);
         boolean isAlreadyRefered = !TextUtils.isEmpty(isReferedValue)&&isReferedValue.equalsIgnoreCase("true");
         if(isAlreadyRefered) {
             fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
-            return;
+            fragmentView.findViewById(R.id.refer_followup_btn).setVisibility(View.VISIBLE);
+        }else{
+            if(text.equalsIgnoreCase("sam")){
+                fragmentView.findViewById(R.id.refer_btn).setVisibility(View.VISIBLE);
+                fragmentView.findViewById(R.id.refer_followup_btn).setVisibility(View.GONE);
+            }
+
         }
-        if(muakText.equalsIgnoreCase("sam")||heightText.equalsIgnoreCase("sam")
-           || weightText.equalsIgnoreCase("sam")){
-            fragmentView.findViewById(R.id.refer_btn).setVisibility(View.GONE);
-        }
+
     }
     private boolean isDataOk() {
         return childDetails != null && childDetails.getDetails() != null;
@@ -850,6 +890,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     public enum GMP_STATUS {
         SAM,
         MAM,
+        LMAL,
         OVER_WEIGHT,
         NORMAL;
 

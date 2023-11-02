@@ -17,7 +17,7 @@
 
     </string-array>
     <string name="member_import">সদস্য ইম্পোর্ট</string>
-    <string name="report">রিপোর্ট</string>
+    <string name="report">GMP রিপোর্ট</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
     <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
     <string name="logo">logo</string>
@@ -450,6 +450,8 @@
     <string name="record_weight">ওজন রেকর্ড করুন</string>
     <string name="record_height">উচ্চতা রেকর্ড করুন</string>
     <string name="record_muac">MUAC রেকর্ড করুন</string>
+    <string name="gmp_counceling">জিএমপি কাউন্সেলিং</string>
+    <string name="gmp_message">উপজেলা হাসপাতালে যেতে রেফারেল স্লিপের জন্য সিএইচসিপি এর সাথে সাক্ষাত করুন।</string>
     <string name="weight_for_age">ওজন-বয়স</string>
     <string name="birthdate_age">বয়স</string>
     <string name="child_contact_number">ওজন</string>
@@ -1004,17 +1006,24 @@
     <string name="no_fipv2">No of FIPV 2 vaccination</string>
     <string name="no_mr1">No of MR 1 vaccination</string>
     <string name="no_mr2">No of MR 2 vaccination</string>
-    <string name="no_gmp">% of children reaching for GMP</string>
-    <string name="no_normal_growth">% of children who have normal growth</string>
-    <string name="no_sam">% of children who are SAM</string>
-    <string name="no_mam">% of children who are MAM</string>
-    <string name="no_edema">% of children who have Edema</string>
-    <string name="no_overweight">% of children who are overweight</string>
-    <string name="no_underweight">% of children who are Severly Underweight</string>
-    <string name="no_severly_stunted">% of children who are Severly Stunted</string>
+    <string name="no_attend_immunization">Number of children attended Immunization  </string>
+    <string name="no_gmp">Number of children growth monitored </string>
+    <string name="no_gmp_counceling">Number of children received GMP counselling </string>
+    <string name="no_normal_growth">Number of children who have normal growth</string>
+    <string name="no_sam">Number of SAM(MUAC) children </string>
+    <string name="no_mam">Number of MAM(MUAC) children </string>
+    <string name="no_sam_weight">Number of SAM(WEIGHT) children</string>
+    <string name="no_mam_weight">Number of MAM(WEIGHT) children </string>
+    <string name="no_edema">Number of children who have Edema</string>
+    <string name="no_overweight">Number of overweight children</string>
+    <string name="no_underweight">Number of LOW Malnutrition children</string>
+    <string name="no_severly_stunted">Number of Stunted children</string>
+    <string name="no_child_ref">Number of Children referred</string>
+    <string name="no_child_ref_followup">Number of Children referred followup</string>
     <string name="gmp_taken">আপনার কি পরিমাপ নেয়া শেষ  হয়েছে?</string>
     <string name="risky_cause">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
     <string name="search_name_pn">নাম বা মোবাইল নম্বর দিয়ে খুজুন</string>
+    <string name="referrel_hospital">শিশুকে স্বাস্থ্য সেবার জন্য উপজেলা হাসপাতালে রেফার করুন</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

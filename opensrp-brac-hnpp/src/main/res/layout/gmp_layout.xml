@@ -54,7 +54,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:background="@drawable/record_weight_bg"
+                    android:background="@drawable/button_cliick"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingBottom="16dp"
@@ -102,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:background="@drawable/record_weight_bg"
+                    android:background="@drawable/button_cliick"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingBottom="16dp"
@@ -150,7 +150,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:background="@drawable/record_weight_bg"
+                    android:background="@drawable/button_cliick"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingBottom="16dp"
@@ -176,6 +176,70 @@
                     android:background="@null"
                     android:src="@drawable/ic_icon_growth_chart" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/gmpCounceling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:background="@drawable/button_cliick"
+                android:gravity="center"
+                android:layout_marginTop = "10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/gmp_counceling"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/text_black"
+                    android:textSize="19sp" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/refer_btn"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="bottom|center"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="@string/referrel"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/refer_followup_btn"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="bottom|center"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="@string/referrel_followup"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -249,26 +313,5 @@
     </android.support.v7.widget.CardView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <Button
-        android:id="@+id/refer_btn"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_gravity="bottom|center"
-        android:gravity="bottom|center_horizontal"
-        android:background="@drawable/login_button_bg"
-        android:ems="10"
-        android:shadowColor="#ffffff"
-        android:shadowDx="0"
-        android:shadowDy="1"
-        android:shadowRadius="0.5"
-        android:textStyle="bold"
-        android:text="Refer to nearest clinic"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+
 </RelativeLayout>

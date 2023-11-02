@@ -1448,6 +1448,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_PROFILE_VISIT= "child_profile_visit";
         public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
+        public static final String GMP_REFERREL_FOLLOWUP = "gmp_referral_followup";
         public static final String CHILD_FOLLOWUP = "child_followup";
         public static final String NEW_BORN_PNC_1_4 = "new_born_pnc_1_4";
         public static final String AEFI_CHILD_ = "aefi_child";
@@ -1485,6 +1486,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";
+
 //        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
 //        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
         public static final String ANC_HOME_VISIT= "ANC Home Visit";
@@ -1508,6 +1510,9 @@ public class HnppConstants extends CoreConstants {
         public static final String PREGNANCY_OUTCOME = "Pregnancy Outcome";
         public static final String PREGNANCY_OUTCOME_OOC = "OOC Pregnancy Outcome";
         public static final String REFERREL_FOLLOWUP = "Member Referral Followup";
+        public static final String GMP_REFERRAL = "Referral Clinic";
+        public static final String GMP_COUNSELING = "GMP Counseling";
+        public static final String GMP_REFERREL_FOLLOWUP = "GMP Referral Followup";
         public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";
         public static final String CHILD_INFO_7_24_MONTHS = "Child Info 7-24 months";
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
@@ -1874,6 +1879,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
                 .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
                 .put("Member referral",HnppApplication.appContext.getString(R.string.referrel))
+                .put(EVENT_TYPE.GMP_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
 //            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
 
                 .put( EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.pregnancy_outcome))
@@ -1894,6 +1900,8 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.VACCINATION, HnppApplication.appContext.getString(R.string.vaccination))
                 .put(EVENT_TYPE.SERVICES, HnppApplication.appContext.getString(R.string.vitamin_service))
                 .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+                .put(EVENT_TYPE.GMP_COUNSELING,HnppApplication.appContext.getString(R.string.gmp_counceling))
+                .put(EVENT_TYPE.GMP_REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
                 .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
                 .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
                 .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.appContext.getString(R.string.aifi_child))
@@ -2066,6 +2074,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.VACCINATION, HnppApplication.appContext.getString(R.string.vaccination))
             .put(EVENT_TYPE.SERVICES, HnppApplication.appContext.getString(R.string.vitamin_service))
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.GMP_COUNSELING,HnppApplication.appContext.getString(R.string.gmp_counceling))
+            .put(EVENT_TYPE.GMP_REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.GMP_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
             .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
             .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc))
             .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))

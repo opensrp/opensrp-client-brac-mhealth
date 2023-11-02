@@ -144,10 +144,11 @@ android {
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             buildConfigField "boolean", 'IS_MIS', 'true'
-            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
-            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
-//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.22.22:8080/opensrp/"'
-            //buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://unicef-ha.mpower-social.com/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha.mpower-social.com/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"http://192.168.23.90:8080/opensrp/"'
+            buildConfigField "String", 'opensrp_url_training', '"http://192.168.23.90:8080/opensrp/"'
+            buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
 
         }
         production{
@@ -202,7 +203,7 @@ dependencies {
     implementation 'com.github.RobertApikyan:SegmentedControl:1.2.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 //    //from branch muac_edema_gmp
-    api ('org.smartregister:opensrp-client-growth-monitoring:1.1.9-gmp-SNAPSHOT@aar') {
+    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.0-gmp-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'design'

@@ -271,7 +271,7 @@ public class ReportGrowthFalterFragment extends BaseDashBoardFragment implements
                        healthyWeight++;
                    }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("OVER WEIGHT")){
                        overWeight++;
-                   }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("DARK YELLOW")
+                   }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("MAM")
                     || getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("SAM")){
                        moderatelyWeight++;
                    }else if(getZScoreText(childData.getWeightZscore()).equalsIgnoreCase("MAM")){
@@ -284,7 +284,7 @@ public class ReportGrowthFalterFragment extends BaseDashBoardFragment implements
                    Log.d("ttttHeiZSc",getZScoreText(Double.valueOf(childData.getChild_height())));
                    if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("normal")){
                        normalStunting++;
-                   }else if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("DARK YELLOW")
+                   }else if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("MAM")
                     || HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("SAM")){
                        moderatelyStunting++;
                    }else if(HeightZScore.getZScoreText(childData.getHeightZScore()).equalsIgnoreCase("MAM")){
@@ -297,10 +297,10 @@ public class ReportGrowthFalterFragment extends BaseDashBoardFragment implements
 
 
         if(pos==0){
-            values.add(new BarEntry(1, (normalChildMuac*100)/totalGmpChild));
-            values.add(new BarEntry(2, (mamChildMuac*100)/totalGmpChild));
-            values.add(new BarEntry(3, (samChildMuac*100)/totalGmpChild));
-            values.add(new BarEntry(4, (hasEdemaMuac*100)/totalGmpChild));
+            values.add(new BarEntry(1, normalChildMuac));//(normalChildMuac*100)/totalGmpChild));
+            values.add(new BarEntry(2, mamChildMuac));//(mamChildMuac*100)/totalGmpChild));
+            values.add(new BarEntry(3, samChildMuac));//(samChildMuac*100)/totalGmpChild));
+            values.add(new BarEntry(4, hasEdemaMuac));//(hasEdemaMuac*100)/totalGmpChild));
 
             colors = new int[]{
                     ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark),
@@ -310,10 +310,10 @@ public class ReportGrowthFalterFragment extends BaseDashBoardFragment implements
 
         }
         else if(pos==1){
-            values.add(new BarEntry(1, (healthyWeight*100)/totalGmpChild));
-            values.add(new BarEntry(2, (overWeight*100)/totalGmpChild));
-            values.add(new BarEntry(3, (moderatelyWeight*100)/totalGmpChild));
-            values.add(new BarEntry(4, (severlyWeight*100)/totalGmpChild));
+            values.add(new BarEntry(1, healthyWeight));//(healthyWeight*100)/totalGmpChild));
+            values.add(new BarEntry(2,overWeight));// (overWeight*100)/totalGmpChild));
+            values.add(new BarEntry(3, moderatelyWeight));//(moderatelyWeight*100)/totalGmpChild));
+            values.add(new BarEntry(4, severlyWeight));//(severlyWeight*100)/totalGmpChild));
 
             colors = new int[]{
                     ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark),
@@ -322,9 +322,9 @@ public class ReportGrowthFalterFragment extends BaseDashBoardFragment implements
                     ContextCompat.getColor(getActivity(), R.color.quick_check_red)};
         }
         else if(pos==2){
-            values.add(new BarEntry(1, (normalStunting*100)/totalGmpChild));
-            values.add(new BarEntry(2, (moderatelyStunting*100)/totalGmpChild));
-            values.add(new BarEntry(3, (severlyStunting*100)/totalGmpChild));
+            values.add(new BarEntry(1,normalStunting));// (normalStunting*100)/totalGmpChild));
+            values.add(new BarEntry(2, moderatelyStunting));//(moderatelyStunting*100)/totalGmpChild));
+            values.add(new BarEntry(3, severlyStunting));//(severlyStunting*100)/totalGmpChild));
 
             colors = new int[]{
                     ContextCompat.getColor(getActivity(), android.R.color.holo_green_dark),

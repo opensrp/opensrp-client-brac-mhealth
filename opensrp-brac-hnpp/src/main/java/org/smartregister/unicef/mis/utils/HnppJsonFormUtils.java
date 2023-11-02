@@ -99,7 +99,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
-    public static final String REFEREL_EVENT_TYPE = "Referral Clinic";
+
     public static Pair<List<Client>, List<Event>> processFamilyUpdateRelations(HnppApplication HnppApplication, Context context, FamilyMember familyMember, String lastLocationId) throws Exception {
         List<Client> clients = new ArrayList<>();
         List<Event> events = new ArrayList<>();
@@ -169,7 +169,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return Pair.create(clients, events);
     }
 
-    public static boolean updateClientStatusAsEvent(Context context,String baseEntityId, String attributeName, Object attributeValue, String entityType, String eventType) {
+    public static boolean updateReferralAsEvent(Context context, String baseEntityId, String attributeName, Object attributeValue, String entityType, String eventType) {
         try {
 
             ECSyncHelper syncHelper = HnppApplication.getHNPPInstance().getEcSyncHelper();
@@ -193,7 +193,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                     .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
                     .withDateCreated(new Date());
             event.addObs((new Obs()).withFormSubmissionField(attributeName).withValue(attributeValue).withFieldCode(attributeName).withFieldType("formsubmissionField").withFieldDataType("text").withParentCode("").withHumanReadableValues(new ArrayList<Object>()));
+            String blockId =  HnppDBUtils.getBlocksIdFromMember(baseEntityId);
 
+            HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
+            event.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
 
             addMetaData(context, event, date);
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
@@ -619,6 +622,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
             case  HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4:
                 return HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
+            case  HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP:
+                return HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
             case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
             case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:

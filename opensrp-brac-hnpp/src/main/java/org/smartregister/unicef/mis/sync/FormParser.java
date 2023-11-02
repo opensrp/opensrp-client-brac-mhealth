@@ -19,6 +19,7 @@ import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.model.ForumDetails;
 import org.smartregister.unicef.mis.model.HHMemberProperty;
 import org.smartregister.unicef.mis.repository.StockRepository;
+import org.smartregister.unicef.mis.utils.GrowthUtil;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
@@ -62,6 +63,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.EYE_TEST;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
@@ -164,6 +166,9 @@ public class FormParser {
                                 }
                             }
 
+                        }
+                        if(GMP_REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
+                            GrowthUtil.updateIsRefered(base_entity_id,"false");
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
@@ -2084,7 +2089,7 @@ public class FormParser {
     }
     private static List<Visit> getGMPVisitsFromEvent() {
         List<Visit> v = new ArrayList<>();
-        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Height Monitoring' OR event.eventType = 'Weight Monitoring' OR event.eventType = 'MUAC Monitoring') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
+        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Height Monitoring' OR event.eventType = 'Weight Monitoring' OR event.eventType = 'MUAC Monitoring' OR event.eventType ='Referral Clinic') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
         Cursor cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
         try{
             if(cursor !=null && cursor.getCount() > 0) {
@@ -2253,6 +2258,9 @@ public class FormParser {
                 break;
             case REFERREL_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.REFERREL_FOLLOWUP + ".json";
+                break;
+            case GMP_REFERREL_FOLLOWUP:
+                form_name = HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP + ".json";
                 break;
             case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";

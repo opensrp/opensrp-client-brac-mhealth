@@ -59,6 +59,8 @@ import static org.smartregister.util.Utils.getValue;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import timber.log.Timber;
+
 public class GrowthUtil {
     public static String DOB_STRING = "2012-01-01T00:00:00.000Z";
     private static String CM_FORMAT = "%s cm";
@@ -336,9 +338,6 @@ public class GrowthUtil {
         }catch (Exception e){
 
         }
-        if(status.equalsIgnoreCase("sam")){
-            updateIsRefered(baseEntityId,"true");
-        }
     }
     public static void updateLastHeight(float kg,double hightZscore,String baseEntityId,String status){
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
@@ -368,44 +367,47 @@ public class GrowthUtil {
             e.printStackTrace();
         }
 
-        if(status.equalsIgnoreCase("sam")){
-            updateIsRefered(baseEntityId,"true");
-        }
     }
     public static void updateIsRefered(String baseEntityId,String state){
+        Log.v("GMP_REFERREL","updateIsRefered>>"+baseEntityId+":state:"+state);
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
         String sql = "UPDATE ec_child SET is_refered = '"+state+"' WHERE base_entity_id = '" + baseEntityId + "';";
         db.execSQL(sql);
-        try{
-            String sqlOCA = "UPDATE ec_child SET is_refered = '"+state+"' WHERE base_entity_id = '" + baseEntityId + "';";
-            db.execSQL(sqlOCA);
-        }catch (Exception e){
-
-        }
     }
-//    public static void updateChildStatus(String baseEntityId,String status){
-//        AncRepository repo = (AncRepository) AncApplication.getInstance().getRepository();
-//        SQLiteDatabase db = repo.getReadableDatabase();
-//        Log.v("CHILD_STATUS","updateChildStatus>>"+status);
-//        String sql = "UPDATE ec_child SET child_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
-//        db.execSQL(sql);
-//    }
-    public static String getChildStatus(String baseEntityId){
-        SQLiteDatabase sqLiteDatabase = HnppApplication.getInstance().getRepository().getWritableDatabase();
-        String query = "select muac_status,weight_status,height_status from ec_child where base_entity_id = '"+baseEntityId+"'";
-        Cursor cursor = sqLiteDatabase.rawQuery( query, null);
-        String finalStatus = "";
-        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                String muac_status = cursor.getString(cursor.getColumnIndex("muac_status"));
-                String weight_status = cursor.getString(cursor.getColumnIndex("weight_status"));
-                String height_status = cursor.getString(cursor.getColumnIndex("height_status"));
-                finalStatus = GrowthUtil.getOverallChildStatus(muac_status,weight_status,height_status);
 
+    public static String getBirthWeight(String baseEntityId){
+        String query = "select birth_weight from ec_child where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
             }
+            if(cursor!=null)cursor.close();
+            return birthWeight;
+        } catch (Exception e) {
+            Timber.e(e);
         }
-        if(cursor!=null) cursor.close();
-        return finalStatus;
+        return birthWeight;
+    }
+    public static String getIsRefferedValue(String baseEntityId){
+        String query = "select is_refered from ec_child where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String referrelStatus="";
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                referrelStatus = cursor.getString(0);
+            }
+            if(cursor!=null)cursor.close();
+            return referrelStatus;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return referrelStatus;
     }
     public static String getOverallChildStatus(String muacStatus, String weightStatus, String heightStatus){
         if(TextUtils.isEmpty(muacStatus)&&TextUtils.isEmpty(weightStatus)&&TextUtils.isEmpty(heightStatus)){
@@ -428,9 +430,9 @@ public class GrowthUtil {
                 || (!TextUtils.isEmpty(muacStatus)&&muacStatus.equalsIgnoreCase("MAM"))){
             return "MAM";
         }
-        if((!TextUtils.isEmpty(weightStatus)&&weightStatus.equalsIgnoreCase("DARK YELLOW"))
-                || (!TextUtils.isEmpty(heightStatus)&&heightStatus.equalsIgnoreCase("DARK YELLOW"))){
-            return "DARK YELLOW";
+        if((!TextUtils.isEmpty(weightStatus)&&weightStatus.equalsIgnoreCase("LMAL"))
+                || (!TextUtils.isEmpty(heightStatus)&&heightStatus.equalsIgnoreCase("LMAL"))){
+            return "LMAL";
         }
         return "NORMAL";
     }

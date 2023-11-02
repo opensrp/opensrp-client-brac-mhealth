@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.fragment;
 
+import static org.smartregister.growthmonitoring.domain.ZScore.getMuacText;
 import static org.smartregister.growthmonitoring.domain.ZScore.getZScoreText;
 
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,14 +25,14 @@ import org.smartregister.unicef.mis.adapter.ReportRecyclerViewAdapter;
 import org.smartregister.unicef.mis.domain.ChildData;
 import org.smartregister.unicef.mis.domain.ReportData;
 import org.smartregister.unicef.mis.utils.GrowthUtil;
+import org.smartregister.unicef.mis.utils.HnppDBUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ReportFragment extends BaseDashBoardFragment {
-    private RecyclerView reportRv;
-    private ArrayList<ChildData> childDataList;
-    private ArrayList<ReportData> reportDataList;
+    private ArrayList<ChildData> childDataList =  new ArrayList<>();
+    private ArrayList<ReportData> reportDataList = new ArrayList<>();
     CommonRepository commonRepository;
     DetailsRepository detailRepository;
     private int gmpChildren=0;
@@ -41,7 +43,7 @@ public class ReportFragment extends BaseDashBoardFragment {
     private int edemaChild=0;
     private int overWeightChild=0;
     private int severlyStunted=0;
-    private int underWeightChild=0;
+    private int lmalChild=0;
     private int muacMeasureChild=0;
     private int weightMeasureChild=0;
     private int heightMeasureChild=0;
@@ -74,27 +76,38 @@ public class ReportFragment extends BaseDashBoardFragment {
 
     @Override
     void initilizePresenter() {
-
+        monthView.setVisibility(View.GONE);
+        dateView.setVisibility(View.GONE);
+        fromDateView.setVisibility(View.GONE);
+        toDateView.setVisibility(View.GONE);
+        ssView.setVisibility(View.GONE);
+        fromMonthView.setVisibility(View.VISIBLE);
+        toMonthView.setVisibility(View.VISIBLE);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_report, container, false);
-        childDataList = new ArrayList<>();
-        reportDataList = new ArrayList<>();
-
-        reportRv = view.findViewById(R.id.reportRv);
-        reportRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        populateReportList();
-        return view;
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View view =  inflater.inflate(R.layout.fragment_report, container, false);
+//        childDataList = new ArrayList<>();
+//        reportDataList = new ArrayList<>();
+//
+//        reportRv = view.findViewById(R.id.reportRv);
+//        reportRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
+//        populateReportList();
+//        return view;
+//    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //super.onViewCreated(view, savedInstanceState);
         updateTitle();
+        initilizePresenter();
+        populateReportList();
     }
+    int weightSamCount = 0;
+    int weightMamCount = 0;
 
     private void populateReportList() {
         childDataList.clear();
@@ -170,27 +183,41 @@ public class ReportFragment extends BaseDashBoardFragment {
             }
             String h = HeightZScore.getZScoreText(childData.getHeightZScore());
             Log.v("zscore text","h>>"+h);
-            if(h.equalsIgnoreCase("DARK YELLOW") || h.equalsIgnoreCase("SAM")){
+            if(h.equalsIgnoreCase("MAM") || h.equalsIgnoreCase("SAM")){
                 severlyStunted++;
             }
             String w = getZScoreText(childData.getWeightZscore());
             Log.v("zscore text","weightStatus>>"+w);
-            if(w.equalsIgnoreCase("DARK YELLOW") || w.equalsIgnoreCase("SAM")){
-                underWeightChild++;
+            if(w.equalsIgnoreCase("LMAL")  ){
+                lmalChild++;
+            }else if(w.equalsIgnoreCase("SAM")){
+                weightSamCount++;
+            }else if(w.equalsIgnoreCase("MAM")){
+                weightMamCount++;
             }
         }
-        DecimalFormat decimalFormat = new DecimalFormat("##.#");
-        reportDataList.add(new ReportData(decimalFormat.format((gmpChildren*100.0)/totalChild).replace("NaN","0"),getString(R.string.no_gmp),R.color.black));
-        reportDataList.add(new ReportData(decimalFormat.format((normalChild*100.0)/gmpChildren).replace("NaN","0"),getString(R.string.no_normal_growth),R.color.green));
-        reportDataList.add(new ReportData(decimalFormat.format((samChild*100.0)/muacMeasureChild).replace("NaN","0"),getString(R.string.no_sam),R.color.red));
-        reportDataList.add(new ReportData(decimalFormat.format((mamChild*100.0)/muacMeasureChild).replace("NaN","0"),getString(R.string.no_mam),R.color.yellow));
-        reportDataList.add(new ReportData(decimalFormat.format((edemaChild*100.0)/muacMeasureChild).replace("NaN","0"),getString(R.string.no_edema),R.color.black));
+        int noChildRef = HnppDBUtils.getChildRefCount();
+        int noChildRefFollowup = HnppDBUtils.getChildRefFollowupCount();
+        int noOfImmunization = HnppDBUtils.getImmunizationCount();
+        int noOfGMP = HnppDBUtils.getGMPCount();
+        int noOfGMPCounseling = HnppDBUtils.getChildGmpCounselingCount();
+        reportDataList.add(new ReportData(noOfImmunization+"",getString(R.string.no_attend_immunization),R.color.black));
+        reportDataList.add(new ReportData(noOfGMP+"",getString(R.string.no_gmp),R.color.black));
+        reportDataList.add(new ReportData(noOfGMPCounseling+"",getString(R.string.no_gmp_counceling),R.color.black));
+        reportDataList.add(new ReportData(weightSamCount+"",getString(R.string.no_sam_weight),R.color.red));
+        reportDataList.add(new ReportData(weightMamCount+"",getString(R.string.no_mam_weight),R.color.dark_yellow));
+        reportDataList.add(new ReportData(lmalChild+"",getString(R.string.no_underweight),R.color.yellow));
+        reportDataList.add(new ReportData(overWeightChild+"",getString(R.string.no_overweight),R.color.red));
+        reportDataList.add(new ReportData(severlyStunted+"",getString(R.string.no_severly_stunted),R.color.red));
+        reportDataList.add(new ReportData(samChild+"",getString(R.string.no_sam),R.color.red));
+        reportDataList.add(new ReportData(mamChild+"",getString(R.string.no_mam),R.color.yellow));
 
-        reportDataList.add(new ReportData(decimalFormat.format((overWeightChild*100.0)/weightMeasureChild).replace("NaN","0"),getString(R.string.no_overweight),R.color.red));
-        reportDataList.add(new ReportData(decimalFormat.format((underWeightChild*100.0)/weightMeasureChild).replace("NaN","0"),getString(R.string.no_underweight),R.color.black));
-        reportDataList.add(new ReportData(decimalFormat.format((severlyStunted*100.0)/heightMeasureChild).replace("NaN","0"),getString(R.string.no_severly_stunted),R.color.black));
+        reportDataList.add(new ReportData(edemaChild+"",getString(R.string.no_edema),R.color.black));
+        reportDataList.add(new ReportData(normalChild+"",getString(R.string.no_normal_growth),R.color.green));
 
-        reportRv.setAdapter(new ReportRecyclerViewAdapter(getActivity(),reportDataList));
+        reportDataList.add(new ReportData(noChildRef+"",getString(R.string.no_child_ref),R.color.black));
+        reportDataList.add(new ReportData(noChildRefFollowup+"",getString(R.string.no_child_ref_followup),R.color.black));
+        recyclerView.setAdapter(new ReportRecyclerViewAdapter(getActivity(),reportDataList));
     }
 
 

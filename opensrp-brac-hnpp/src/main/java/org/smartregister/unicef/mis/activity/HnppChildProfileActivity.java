@@ -575,7 +575,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_REFERRAL,REQUEST_HOME_VISIT);
     }
-
+    public void openGMPRefereal() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP,REQUEST_HOME_VISIT);
+    }
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
@@ -676,13 +678,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         return ((HnppChildProfilePresenter)presenter).getFamilyID();
     }
     public void startAnyFormActivity(String formName, int requestCode) {
-//        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
-//            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
-//            return;
-//        }
-//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-//            @Override
-//            public void onPost(double latitude, double longitude) {
+
                 try {
                     if(TextUtils.isEmpty(childBaseEntityId)){
                         Toast.makeText(HnppChildProfileActivity.this, "baseentityid null", Toast.LENGTH_SHORT).show();
@@ -691,11 +687,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     HnppConstants.appendLog("SAVE_VISIT", "open form>>childBaseEntityId:"+childBaseEntityId+":formName:"+formName);
 
                     JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
-//                    try{
-//                        HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,getFamilyBaseId());
-//                    }catch (Exception e){
-//                        e.printStackTrace();
-//                    }
+
                     try{
                         HnppJsonFormUtils.addAddToStockValue(jsonForm);
                     }catch (Exception e){
@@ -714,19 +706,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
 
-//                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-//                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-//                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-//                        Date date = Utils.dobStringToDate(DOB);
-//                        String dobFormate = HnppConstants.DDMMYY.format(date);
-//                        String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(childBaseEntityId+"_SOLID_FOOD");
-//                        if(!TextUtils.isEmpty(prevalue)){
-//                            updateFormField(jsonArray,"solid_food_month",prevalue);
-//                            JSONObject solidObj = getFieldJSONObject(jsonArray, "solid_food_month");
-//                            solidObj.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
-//                        }
-//
-//                        updateFormField(jsonArray,"dob",dobFormate);
                     }
 
                     else if(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4.equalsIgnoreCase(formName)){
@@ -1023,6 +1002,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             public void run() {
                                 hideProgressDialog();
                                 mViewPager.setCurrentItem(3,true);
+                                if(growthFragment !=null){
+                                    growthFragment.updateProfileColor();
+                                }
 //                                if(memberOtherServiceFragment !=null){
 //                                    memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
 //                                    memberOtherServiceFragment.updateStaticView();
