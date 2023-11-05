@@ -13,6 +13,7 @@ import org.smartregister.brac.hnpp.holder.SpecialFUpListViewHolder;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SpecialFUpListAdapter extends RecyclerView.Adapter<SpecialFUpListViewHolder> {
     private ArrayList<AncFollowUpModel> memberArrayList;
@@ -51,6 +52,11 @@ public class SpecialFUpListAdapter extends RecyclerView.Adapter<SpecialFUpListVi
         }else {
             viewHolder.layout.setBackgroundResource(R.color.green);
         }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(content.specialFollowUpDate);
+        String date = calendar.get(Calendar.DAY_OF_MONTH)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
+        viewHolder.dueButton.setText(date);
+
         viewHolder.nameTv.setText(content.memberName);
         viewHolder.phoneNumber.setText(content.memberPhoneNum);
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));

@@ -48,8 +48,10 @@ import org.smartregister.util.AssetHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC1_REGISTRATION_OOC;
@@ -1200,13 +1202,21 @@ public class FormParser {
     }
 
     private static void updateAncFollowUp(VisitLog log) {
+        Calendar calendarSp = Calendar.getInstance(Locale.ENGLISH);
+        calendarSp.setTimeInMillis(log.visitDate);
+        calendarSp.add(Calendar.MONTH,1);
+
+        Calendar calendarTel = Calendar.getInstance(Locale.ENGLISH);
+        calendarTel.setTimeInMillis(log.visitDate);
+        calendarTel.add(Calendar.DAY_OF_MONTH,3);
+
         AncFollowUpModel ancFollowUpModel = new AncFollowUpModel();
         ancFollowUpModel.baseEntityId = log.getBaseEntityId();
         ancFollowUpModel.visitDate = log.visitDate;
         ancFollowUpModel.followUpDate = log.visitDate;
         ancFollowUpModel.nextFollowUpDate = log.visitDate;
-        ancFollowUpModel.telephonyFollowUpDate = log.visitDate;
-        ancFollowUpModel.specialFollowUpDate = log.visitDate;
+        ancFollowUpModel.telephonyFollowUpDate = calendarTel.getTimeInMillis();
+        ancFollowUpModel.specialFollowUpDate = calendarSp.getTimeInMillis();
         ancFollowUpModel.noOfAnc = 1;
         HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
     }
@@ -1214,6 +1224,28 @@ public class FormParser {
     private static void updateAncHomeVisitRisk(String eventType, String baseEntityId, HashMap<String, String> details, VisitLog log){
         boolean isAncHomeVisitRisk = false;
         updateAncFollowUp(log);
+
+        RiskListModel riskListModel = new RiskListModel();
+        riskListModel.baseEntityId = baseEntityId;
+        if(details.containsKey("is_high_risk")){
+            String value = details.get("is_high_risk");
+            assert value != null;
+            if(value.equals("true")){
+                riskListModel.highRiskKey = "anc_high_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 2; //2-> high risk
+            }
+        }else if(details.containsKey("is_low_risk")) {
+            String value = details.get("is_low_risk");
+            assert value != null;
+            if(value.equals("true")){
+                riskListModel.highRiskKey = "anc_low_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 1; //1-> low risk
+            }
+        }
+
+        HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
 
         if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String bps = details.get("blood_pressure_systolic");
@@ -1242,26 +1274,12 @@ public class FormParser {
                                                 riskynBPSModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
 
-                                                RiskListModel riskListModel = new RiskListModel();
-                                                riskListModel.baseEntityId = baseEntityId;
-                                                riskListModel.highRiskKey = "blood_pressure_systolic";
-                                                riskListModel.highRiskValue = bps;
-                                                riskListModel.riskType = 2; //2-> high risk
-                                                HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
-
                                                 RiskyModel riskynBPDModel = new RiskyModel();
                                                 riskynBPDModel.riskyValue = bpd;
                                                 riskynBPDModel.riskyKey = "blood_pressure_diastolic";
                                                 riskynBPDModel.eventType = eventType;
                                                 riskynBPDModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
-
-                                                RiskListModel riskBpd = new RiskListModel();
-                                                riskListModel.baseEntityId = baseEntityId;
-                                                riskListModel.highRiskKey = "blood_pressure_diastolic";
-                                                riskListModel.highRiskValue = bpd;
-                                                riskListModel.riskType = 2; //2-> high risk
-                                                HnppApplication.getRiskListRepository().addOrUpdate(riskBpd);
 
                                                 RiskyModel riskyedemaModel = new RiskyModel();
                                                 riskyedemaModel.riskyValue = edema;
@@ -1270,12 +1288,6 @@ public class FormParser {
                                                 riskyedemaModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
 
-                                                RiskListModel riskEdema = new RiskListModel();
-                                                riskListModel.baseEntityId = baseEntityId;
-                                                riskListModel.highRiskKey = "has_edema";
-                                                riskListModel.highRiskValue = edema;
-                                                riskListModel.riskType = 2; //2-> high risk
-                                                HnppApplication.getRiskListRepository().addOrUpdate(riskEdema);
 
                                                 RiskyModel riskyalbuminModel = new RiskyModel();
                                                 riskyalbuminModel.riskyValue = albumin;
@@ -1283,13 +1295,6 @@ public class FormParser {
                                                 riskyalbuminModel.eventType = eventType;
                                                 riskyalbuminModel.baseEntityId = baseEntityId;
                                                 HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
-
-                                                RiskListModel riskAlbumin = new RiskListModel();
-                                                riskListModel.baseEntityId = baseEntityId;
-                                                riskListModel.highRiskKey = "albumin";
-                                                riskListModel.highRiskValue = albumin;
-                                                riskListModel.riskType = 2; //2-> high risk
-                                                HnppApplication.getRiskListRepository().addOrUpdate(riskAlbumin);
 
                                             }
 

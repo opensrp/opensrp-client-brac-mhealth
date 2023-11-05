@@ -22,6 +22,8 @@ public class TelephonicFUpListViewHolder extends RecyclerView.ViewHolder {
     public ConstraintLayout layout;
     public Button dueButton;
     public LinearLayout dueLay;
+    public TextView phNumber;
+    public TextView dueDate;
 
     public TelephonicFUpListViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -31,5 +33,7 @@ public class TelephonicFUpListViewHolder extends RecyclerView.ViewHolder {
         layout = itemView.findViewById(R.id.item);
         dueButton = itemView.findViewById(R.id.due_button);
         dueLay = itemView.findViewById(R.id.due_lay_telephonic);
+        phNumber = itemView.findViewById(R.id.phone_num_tv);
+        dueDate = itemView.findViewById(R.id.due_date_tv);
     }
 }

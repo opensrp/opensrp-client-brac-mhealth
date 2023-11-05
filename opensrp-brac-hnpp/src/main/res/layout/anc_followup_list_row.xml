@@ -167,12 +167,14 @@
                     android:padding="5dp">
 
                     <TextView
+                        android:id="@+id/phone_num_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="011111111"
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:id="@+id/due_date_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Due: 26/12/2023"
