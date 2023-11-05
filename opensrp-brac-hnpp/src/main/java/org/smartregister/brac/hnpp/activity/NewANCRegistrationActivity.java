@@ -1,6 +1,9 @@
 package org.smartregister.brac.hnpp.activity;
 
 
+import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
+import static org.smartregister.util.JsonFormUtils.FIELDS;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
@@ -27,11 +32,14 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -154,11 +162,29 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     private boolean isHighRisk(){
         for(String jsonstr: jsonStringList){
             try {
-                JSONObject jsonObject = new JSONObject(jsonstr);
+                JSONObject jsonForm = new JSONObject(jsonstr);
+                JSONObject step1 = jsonForm.getJSONObject("step1");
+                JSONArray fields = step1.getJSONArray(FIELDS);
+                for (int i = 0; i < fields.length(); i++) {
+                    try {
+                        JSONObject fieldObject = fields.getJSONObject(i);
+                        if("is_high_risk".equalsIgnoreCase(fieldObject.getString("key"))){
+                            String str = fieldObject.getString("is_visible");
+                            if (Boolean.parseBoolean(str)) {
+                                return true;
+                            }
+                        }
+
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+        return false;
 
     }
 
@@ -247,6 +273,16 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+                try{
+                    String dob = HnppDBUtils.getDOB(baseEntityId);
+                    Date date = Utils.dobStringToDate(dob);
+                    String dobFormate = HnppConstants.DDMMYY.format(date);
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"dob",dobFormate);
+                    String phoneNo = HnppDBUtils.getPhoneNo(baseEntityId);
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"phone_number",phoneNo);
+                }catch (Exception e){
+
+                }
 
                 jsonForm.put(JsonFormUtils.ENTITY_ID,baseEntityId);
                 Intent intent = new Intent(NewANCRegistrationActivity.this, HnppAncJsonFormActivity.class);
@@ -303,6 +339,10 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             else if(requestCode == REQUEST_DIVERTY){
                 if(data!=null){
                     setJsonStringList(data,diversityCheckIm);
+                   boolean isHighRisk =  isHighRisk();
+                   if(isHighRisk){
+                       notInterestedB.setVisibility(View.INVISIBLE);
+                   }
                 }
             }
             else if(requestCode == REQUEST_ANC_VISIT){

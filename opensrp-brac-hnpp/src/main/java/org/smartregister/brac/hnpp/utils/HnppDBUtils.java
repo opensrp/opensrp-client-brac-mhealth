@@ -739,7 +739,40 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return birthWeight;
     }
-
+    public static String getPhoneNo(String baseEntityId){
+        String query = "select phone_number from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String phoneNo="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                phoneNo = cursor.getString(0);
+            }
+            if(cursor!=null)cursor.close();
+            return phoneNo;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return phoneNo;
+    }
+    public static String getDOB(String baseEntityId){
+        String query = "select dob from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String dob="";
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                dob = cursor.getString(0);
+            }
+            if(cursor!=null)cursor.close();
+            return dob;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return dob;
+    }
     public static void populatePNCChildDetails(String baseEntityId, JSONObject jsonForm){
         String tempUniqueId = "";
         try {

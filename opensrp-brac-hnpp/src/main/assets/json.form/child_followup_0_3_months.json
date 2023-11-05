@@ -63,8 +63,8 @@
       {
         "key": "dob",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "dob",
         "type": "hidden"
       },
 

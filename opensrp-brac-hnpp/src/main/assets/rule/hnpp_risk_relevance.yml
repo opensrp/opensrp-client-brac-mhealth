@@ -26,9 +26,37 @@ condition: "step1_no_surv_children > step1_no_prev_preg"
 actions:
   - "isRelevant = true"
 ---
+name: step1_is_high_risk
+description: is_high_risk calculated
+priority: 1
+condition: "step1_height<145 || (step1_age_calculated>=35 || step1_age_calculated<18)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_is_high_risk_gd
+description: is_high_risk calculated
+priority: 1
+condition: "step1_high_blood_pressure.equals('হ্যাঁ') || step1_diabetes.equals('হ্যাঁ')||step1_asthma.equals('হ্যাঁ')||step1_kidney_disease.equals('হ্যাঁ')||step1_tuberculosis.equals('হ্যাঁ')||step1_thyroid.equals('হ্যাঁ')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_special_followup_needed
+description: special_followup_needed calculated
+priority: 1
+condition: "(step1_height<145 || (step1_age_calculated>=35 || step1_age_calculated<=18)) && step1.ga>210"
+actions:
+  - "isRelevant = true"
+---
+name: step1_is_low_risk
+description: is_low_risk calculated
+priority: 1
+condition: "step1_age_calculated<18 && step1_age_calculated>35 "
+actions:
+  - "isRelevant = true"
+---
 name: step1_risk_toaster_2
 description: risk_toaster_2
 priority: 1
-condition: "!step1_weight.isEmpty() && step1_height < 145"
+condition: "!step1_height.isEmpty() && step1_height < 145"
 actions:
   - "isRelevant = true"

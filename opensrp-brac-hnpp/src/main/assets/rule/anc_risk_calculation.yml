@@ -2,15 +2,23 @@
 name: step1_is_high_risk
 description: is_high_risk calculated
 priority: 1
-condition: "step1_height<145 || step1_preg_outcome == 'alive_with_problem'"
+condition: "step1_height<145 && step1_ga>210"
 actions:
   - "calculation = 1"
 
 ---
-name: step1_gravida
-description: gravida calculated
+name: step1_ga
+description: ga calculated
 priority: 1
 condition: "true"
 actions:
-  - "calculation = step1_no_prev_preg + 1"
+  - "calculation = helper.getDifferenceDays(step1_last_menstrual_period)"
+---
+name: step1_age_calculated
+description: Age calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = helper.getDifferenceDays(step1_dob) / 365.25"
+
 

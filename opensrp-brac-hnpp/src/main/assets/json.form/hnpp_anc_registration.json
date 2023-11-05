@@ -97,16 +97,61 @@
         }
       },
       {
-        "key": "is_high_risk",
+        "key": "ga",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk",
-        "type": "edit_text",
+        "openmrs_entity_id": "ga",
+        "type": "hidden",
         "read_only": true,
         "calculation": {
           "rules-engine": {
             "ex-rules": {
               "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_high_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk",
+        "type": "hidden",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "special_followup_needed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "special_followup_needed",
+        "type": "hidden",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_low_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_low_risk",
+        "type": "hidden",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
             }
           }
         }
@@ -234,7 +279,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন ",
+        "text": "যেহেতু আপনার উচ্চতা কম, বাড়িতে আপনার প্রসব সম্ভব নয়। সে কারণে প্রসব ব্যথা উঠা মাত্রই দ্রুত ইউনিয়ন সাব সেন্টার বা উপজেলা স্বাস্থ কমপ্লেক্স যেতে হবে ।",
         "text_size": "22px",
         "text_color": "#FF0000",
         "toaster_type": "problem",
@@ -242,6 +287,28 @@
           "rules-engine": {
             "ex-rules": {
               "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "age_calculated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "age_calculated",
+        "type": "hidden",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
             }
           }
         }
