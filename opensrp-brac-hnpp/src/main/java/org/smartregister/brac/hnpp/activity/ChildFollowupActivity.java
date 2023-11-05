@@ -126,6 +126,9 @@ public class ChildFollowupActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_child_followup);
 
+        ConstraintLayout toolbar = findViewById(R.id.toolbar);
+        HnppConstants.updateAppBackground(toolbar);
+
         getIntentData();
         initView();
         viewInteraction();

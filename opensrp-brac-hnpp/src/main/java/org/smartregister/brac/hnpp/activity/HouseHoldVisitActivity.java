@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -114,6 +115,10 @@ public class HouseHoldVisitActivity extends CoreFamilyProfileActivity {
     protected void onCreation() {
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_hh_visit);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        HnppConstants.updateAppBackground(toolbar);
+        //setSupportActionBar(toolbar);
+
         initializePresenter();
 
         nextButton = findViewById(R.id.next_button);
