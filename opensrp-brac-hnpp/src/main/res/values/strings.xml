@@ -512,4 +512,10 @@
    <string name="special_f_up_list">Special F/Up List</string>
    <string name="telephonic_f_up_list">Telephonic F/Up List</string>
 
+    <string name="pregnency_register">গর্ভবতী রেজিস্ট্রেশন</string>
+    <string name="general_disages">শারীরিক সমস্যা</string>
+    <string name="previous_pregnancy_history">পূর্বের গর্ভের ইতিহাস</string>
+    <string name="pregnancy_dietry">গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য</string>
+    <string name="anc_registration">গর্ভবতী পরিচর্যা</string>
+    <string name="not_interested">ইচ্ছুক নই</string>
 </resources>

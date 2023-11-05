@@ -549,14 +549,6 @@
               "rules-file": "hnpp_bmi_calculation_rule.yml"
             }
           }
-        },
-        "v_min": {
-          "value": "20",
-          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
-        },
-        "v_max": {
-          "value": "50",
-          "err": "50 এর সমান বা 50 এর কম হওয়া উচিত"
         }
       },
       {

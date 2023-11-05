@@ -309,6 +309,8 @@ public class ChildFollowupActivity extends AppCompatActivity {
         noImmunizationBt = findViewById(R.id.no_immunization_button);
         referralFollowupCauseTv = findViewById(R.id.referral_followup_cause_tv);
         referralFollowupRv = findViewById(R.id.referral_followup_rv);
+        ConstraintLayout toolbar = findViewById(R.id.toolbar);
+        HnppConstants.updateAppBackground(toolbar);
     }
 
     /**

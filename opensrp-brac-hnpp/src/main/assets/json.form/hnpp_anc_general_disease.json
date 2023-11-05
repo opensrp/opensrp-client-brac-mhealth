@@ -59,6 +59,21 @@
         "value": "hnpp_anc_general_disease"
       },
       {
+        "key": "is_high_risk_gd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_gd",
+        "type": "hidden",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "high_blood_pressure",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -85,7 +100,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যেহেতু আপনার পূর্বের রোগের ইতিহাস আছে সে কারণে যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -123,7 +138,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যেহেতু আপনার পূর্বের রোগের ইতিহাস আছে সে কারণে যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -200,7 +215,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যেহেতু আপনার পূর্বের রোগের ইতিহাস আছে সে কারণে যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -238,7 +253,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যেহেতু আপনার পূর্বের রোগের ইতিহাস আছে সে কারণে যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -276,12 +291,50 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যেহেতু আপনার পূর্বের রোগের ইতিহাস আছে সে কারণে যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
         "relevance": {
           "step1:tuberculosis": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "thyroid",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "thyroid",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "থাইরয়েড আছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "risk_toaster_6",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "যেহেতু আপনার পূর্বের রোগের ইতিহাস আছে সে কারণে যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
+        "text_color": "#FF0000",
+        "text_size": "20sp",
+        "toaster_type": "problem",
+        "relevance": {
+          "step1:thyroid": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
