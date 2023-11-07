@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import org.smartregister.brac.hnpp.adapter.NotificationAdapter;
 import org.smartregister.brac.hnpp.adapter.SearchMigrationAdapter;
 import org.smartregister.brac.hnpp.contract.MigrationContract;
 import org.smartregister.brac.hnpp.contract.SearchDetailsContract;
+import org.smartregister.brac.hnpp.fragment.HouseHoldFormTypeFragment;
 import org.smartregister.brac.hnpp.holder.SearchMigrationViewHolder;
 import org.smartregister.brac.hnpp.interactor.MigrationInteractor;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
@@ -57,7 +59,9 @@ import java.util.ArrayList;
 
 public class MigrationSearchDetailsActivity extends SecuredActivity implements View.OnClickListener, SearchDetailsContract.View {
     public static final String EXTRA_SEARCH_CONTENT = "extra_search_content";
-
+    private static final String REQUEST_CODE = "request_code";
+    private static final String EXTRA_FAMILY_ENTITY_ID = "family_id";
+    private static final String EXTRA_HOUSE_HOLD_ID = "household_id";
     protected RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView titleTextView;
@@ -65,7 +69,9 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
     ImageView crossBtn;
     private SearchDetailsPresenter presenter;
     private SearchMigrationAdapter adapter;
-
+    private int requestCode;
+    private String familyBaseEntityId;
+    private String houseHoldId;
     private MigrationSearchContentData migrationSearchContentData;
 
     public static void startMigrationSearchActivity(Activity activity, MigrationSearchContentData migrationSearchContentData){
@@ -73,7 +79,14 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         intent.putExtra(EXTRA_SEARCH_CONTENT,migrationSearchContentData);
         activity.startActivity(intent);
     }
-
+    public static void startMigrationSearchActivity(Activity activity, MigrationSearchContentData migrationSearchContentData,int requestCode, String familyBaseEntityId, String houseHoldId){
+        Intent intent = new Intent(activity,MigrationSearchDetailsActivity.class);
+        intent.putExtra(EXTRA_SEARCH_CONTENT,migrationSearchContentData);
+        intent.putExtra(REQUEST_CODE,requestCode);
+        intent.putExtra(EXTRA_FAMILY_ENTITY_ID,familyBaseEntityId);
+        intent.putExtra(EXTRA_HOUSE_HOLD_ID,houseHoldId);
+        activity.startActivityForResult(intent,requestCode);
+    }
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_migration_search_details);
@@ -89,12 +102,17 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         progressBar = findViewById(R.id.progress_bar);
 
         migrationSearchContentData =(MigrationSearchContentData) getIntent().getSerializableExtra(EXTRA_SEARCH_CONTENT);
-
+        requestCode = getIntent().getIntExtra(REQUEST_CODE,0);
+        familyBaseEntityId = getIntent().getStringExtra(EXTRA_FAMILY_ENTITY_ID);
+        houseHoldId = getIntent().getStringExtra(EXTRA_HOUSE_HOLD_ID);
         presenter = new SearchDetailsPresenter(this);
         if(migrationSearchContentData !=null){
             if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
                 titleTextView.setText(getString(R.string.member_migration));
-            }else {
+            } else if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.IMPORT_MM.name())){
+                titleTextView.setText(getString(R.string.member_import));
+            }
+            else {
                 titleTextView.setText(getString(R.string.hh_migration));
             }
             presenter.fetchData(migrationSearchContentData.getMigrationType(),migrationSearchContentData.getDistrictId(),migrationSearchContentData.getVillageId(), migrationSearchContentData.getGender(),migrationSearchContentData.getStartAge(), migrationSearchContentData.getAge());
@@ -125,6 +143,7 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -170,10 +189,16 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
                 PopupMenu popup = new PopupMenu(getContext(), viewHolder.imageViewMenu);
                 popup.inflate(R.menu.popup_menu);
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.migration_menu:
+                                if(requestCode!=0){
+                                    content.cityVillage = content.addresses.get(0).getCityVillage();
+                                    showDetailsDialog(content);
+                                    return true;
+                                }
                                 migrationSearchContentData.setBaseEntityId(content.baseEntityId);
                                 openFamilyListActivity();
                                 return true;
@@ -220,7 +245,8 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
         TextView textViewName = dialog.findViewById(R.id.name_TV);
         TextView textViewVillage = dialog.findViewById(R.id.village_TV);
         TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
-        if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())){
+        if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())
+         || migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.IMPORT_MM.name())){
             textViewName.setText(this.getString(R.string.name,content.firstName));
             textViewVillage.setText(content.cityVillage);
             StringBuilder builder = new StringBuilder();
@@ -285,11 +311,54 @@ public class MigrationSearchDetailsActivity extends SecuredActivity implements V
             public void onClick(View v) {
                 dialog.dismiss();
                 migrationSearchContentData.setBaseEntityId(content.baseEntityId);
+                if(requestCode!=0){
+                    importMember();
+                    return;
+                }
                 openFamilyListActivity();
             }
         });
         dialog.show();
 
+    }
+    private void importMember(){
+        HnppConstants.showDialogWithAction(this, getString(R.string.dialog_title), "", new Runnable() {
+            @Override
+            public void run() {
+                migrationSearchContentData.setFamilyBaseEntityId(familyBaseEntityId);
+                migrationSearchContentData.setHhId(houseHoldId);
+                new MigrationInteractor(new AppExecutors()).migrateMember(migrationSearchContentData, new MigrationContract.MigrationPostInteractorCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(MigrationSearchDetailsActivity.this, "Successfully migrated,Syncing data", Toast.LENGTH_SHORT).show();
+                        HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+
+                        Intent intent = new Intent();
+                        intent.putExtra(HouseHoldFormTypeFragment.PUT_EXTRA_IMPORT_MM, "done");
+                        setResult(RESULT_OK, intent);
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Intent intent = new Intent();
+                        intent.putExtra(HouseHoldFormTypeFragment.PUT_EXTRA_IMPORT_MM, "");
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
+
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.putExtra(HouseHoldFormTypeFragment.PUT_EXTRA_IMPORT_MM, "");
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
     ArrayAdapter<String> villageSpinnerArrayAdapter;
     String mSelectedVillageName,mSelectedSSName,mSelectedVillageId;

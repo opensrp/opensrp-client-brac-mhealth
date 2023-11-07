@@ -56,6 +56,28 @@ public class FamilyProfilePresenter extends CoreFamilyProfilePresenter {
     }
 
     @Override
+    public void updateFamilyMember(String jsonString) {
+        try {
+            getView().showProgressDialog(org.smartregister.family.R.string.saving_dialog_title);
+
+            FamilyEventClient familyEventClient = model.processUpdateMemberRegistration(jsonString, familyBaseEntityId);
+            if (familyEventClient == null) {
+                getView().hideProgressDialog();
+                return;
+            }
+            interactor.saveRegistration(familyEventClient, jsonString, true, this);
+        } catch (Exception e) {
+            getView().hideProgressDialog();
+            Timber.e(e);
+        }
+    }
+
+    @Override
+    public void updateFamilyMemberServiceDue(String serviceDueStatus) {
+
+    }
+
+    @Override
     public void startFormForEdit(CommonPersonObjectClient client) {
         HnppConstants.getGPSLocation(baseProfileActivity, new OnPostDataWithGps() {
             @Override

@@ -56,6 +56,8 @@ import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.ChildFollowupActivity;
 import org.smartregister.brac.hnpp.activity.FamilyProfileActivity;
 import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldFormTypeActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.listener.OnGpsDataGenerateListener;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.activity.TermAndConditionWebView;
@@ -69,6 +71,7 @@ import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
+import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.clientandeventmodel.Address;
@@ -137,6 +140,10 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss", Locale.US);
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM", Locale.US);
     public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+    public static String MEMBER = "member";
+    public static String POSITION = "position";
+    public static String VALIDATION_STATUS = "status";
 
 
     public static  Observable<Boolean>  deleteLogFile() {
@@ -242,7 +249,7 @@ public class HnppConstants extends CoreConstants {
 
     public enum SEARCH_TYPE {HH, ADO, WOMEN, CHILD, NCD, ADULT}
 
-    public enum MIGRATION_TYPE {HH, Member}
+    public enum MIGRATION_TYPE {HH, Member,IMPORT_MM}
 
     public static boolean isConnectedToInternet(Context context) {
         ConnectivityManager conMgr = null;
@@ -321,6 +328,59 @@ public class HnppConstants extends CoreConstants {
                 task.updateUi();
             }
         }, 5000);*/
+
+
+    }
+
+    public static void getGPSLocation(CoreFamilyProfileActivity activity, final OnPostDataWithGps onPostDataWithGps) {
+        IS_FORM_CLICK = true;
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                activity.showProgressDialog(message);
+            }
+
+            @Override
+            public void hideProgress() {
+                activity.hideProgressDialog();
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+                if(IS_FORM_CLICK){
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
+                        }
+                    });
+                }
+
+                IS_FORM_CLICK = false;
+
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude, longitude);
+
+            }
+        }, activity);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                task.updateUi();
+            }
+        }, 5000);
 
 
     }
@@ -443,6 +503,67 @@ public class HnppConstants extends CoreConstants {
                 if (task != null) task.updateUi();
             }
         }, 5000);*/
+
+
+    }
+
+    public static void getGPSLocationContext(HouseHoldVisitActivity activity, OnPostDataWithGps onPostDataWithGps) {
+        IS_FORM_CLICK = true;
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                try {
+                    activity.showProgressDialog(message);
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void hideProgress() {
+                try {
+                    activity.hideProgressDialog();
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+
+                if(IS_FORM_CLICK){
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!IS_MANDATORY_GPS) onPostDataWithGps.onPost(0.0, 0.0);
+                        }
+                    });
+                }
+
+                IS_FORM_CLICK = false;
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude, longitude);
+
+            }
+        }, activity);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (task != null) task.updateUi();
+            }
+        }, 5000);
 
 
     }
@@ -578,8 +699,10 @@ public class HnppConstants extends CoreConstants {
         });
         dialog.show();
     }
-
-    public static void showDialogWithAction(Context context, String title, String text, Runnable runnable) {
+    public static void showDialogWithAction(Context context, String title, String text, Runnable okClick) {
+        showDialogWithAction(context,title,text,okClick,null);
+    }
+    public static void showDialogWithAction(Context context, String title, String text, Runnable okClick,Runnable cancelClick) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_with_two_button);
@@ -590,6 +713,9 @@ public class HnppConstants extends CoreConstants {
         dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(cancelClick!=null){
+                    cancelClick.run();
+                }
                 dialog.dismiss();
             }
         });
@@ -597,7 +723,7 @@ public class HnppConstants extends CoreConstants {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                runnable.run();
+                okClick.run();
             }
         });
         dialog.show();
@@ -1072,6 +1198,20 @@ public class HnppConstants extends CoreConstants {
 
     public class EVENT_TYPE {
         public static final String ELCO = "ELCO Registration";
+        public static final String GMP = "GMP";
+        public static final String INPORT_MEMBER = "Import Member";
+        public static final String PREGNANCY = "Pregnancy";
+        public static final String MEMBER_ADD = "Member Add";
+        public static final String HOME_VISIT = "Home Visit";
+        public static final String REMOVE_MEMBER = "Remove Member";
+        public static final String MIGRATE_MEMBER = "Migrate Member";
+        public static final String HH_FORM_TYPE = "HH Form Type";
+        public static final String HH_MEMBER = "HH Member";
+        public static final String HH_MEMBER_DUE = "HH Member Due";
+        public static final String HH_CHILD_DUE = "HH Child Due";
+        public static final String MEMBER_DUE_ADD = "Member Due Add";
+        public static final String MEMBER_EACH_DUE_ADD = "Member Each Due Add";
+
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";
@@ -1181,6 +1321,8 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_PACKAGE = "PNC package";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
+
+        public static final String HOUSE_HOLD_VISIT = "House Hold Visit";
     }
 
     public static final class SURVEY_KEY {
@@ -1503,6 +1645,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ANC_REGISTRATION, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ELCO, R.drawable.ic_elco)
+            .put(EVENT_TYPE.GMP, R.drawable.ic_icon_growth_chart)
             .put(EventType.REMOVE_FAMILY, R.drawable.ic_remove)
             .put(EventType.REMOVE_MEMBER, R.drawable.ic_remove)
             .put(HnppConstants.EventType.FAMILY_REGISTRATION, R.drawable.ic_home)

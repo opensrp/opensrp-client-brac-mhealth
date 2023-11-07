@@ -27,6 +27,7 @@ import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.HnppAncRegisterFragment;
+import org.smartregister.brac.hnpp.fragment.MemberListDialogFragment;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
@@ -38,6 +39,7 @@ import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.chw.anc.AncLibrary;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.interactor.BaseAncRegisterInteractor;
@@ -98,6 +100,10 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
     private static double latitude;
     private static double longitude;
 
+    protected static boolean isFromHH;
+
+    private static HouseHoldVisitActivity houseHoldVisitActivity;
+
 
 
     public static void startHnppAncRegisterActivity(Activity activity, String memberBaseEntityID, String phoneNumber, String formName,
@@ -113,6 +119,27 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
         longitude = longi;
         baseEntityId = memberBaseEntityID;
         unique_id = uniqueId;
+        intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.ACTION, org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION);
+        intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
+        activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
+    }
+
+    public static void startHnppAncRegisterActivityFromHAddition(Activity activity, String memberBaseEntityID, String phoneNumber,
+                                                                 String formName,
+                                                                 String uniqueId, String familyBaseID, String family_name,
+                                                                 double lat, double longi) {
+        Intent intent = new Intent(activity, org.smartregister.brac.hnpp.activity.HnppAncRegisterActivity.class);
+        intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID, memberBaseEntityID);
+        phone_number = phoneNumber;
+        familyBaseEntityId = familyBaseID;
+        form_name = formName;
+        familyName = family_name;
+        latitude = lat;
+        longitude = longi;
+        baseEntityId = memberBaseEntityID;
+        unique_id = uniqueId;
+        isFromHH = true;
+        houseHoldVisitActivity = ((HouseHoldVisitActivity) activity);
         intent.putExtra(org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD.ACTION, org.smartregister.chw.anc.util.Constants.ACTIVITY_PAYLOAD_TYPE.REGISTRATION);
         intent.putExtra(Constants.ACTIVITY_PAYLOAD.TABLE_NAME, getFormTable());
         activity.startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
@@ -363,8 +390,16 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
                                 }
                             }else if(eventType.equalsIgnoreCase(Constants.EVENT_TYPE.ANC_REGISTRATION)){
                                 // HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-                                HnppConstants.isViewRefresh = true;
-                                refreshList(FetchStatus.fetched);
+                                if(isFromHH){
+                                    assert data != null;
+                                    data.putExtra(MemberListDialogFragment.MEMBER_TYPE, MemberTypeEnum.ELCO);
+                                    houseHoldVisitActivity.onActivityResult(MemberListDialogFragment.REQUEST_CODE,Activity.RESULT_OK,data);
+                                    finish();
+                                }else {
+                                    HnppConstants.isViewRefresh = true;
+                                    refreshList(FetchStatus.fetched);
+                                }
+
 
                             }
                             if(familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){

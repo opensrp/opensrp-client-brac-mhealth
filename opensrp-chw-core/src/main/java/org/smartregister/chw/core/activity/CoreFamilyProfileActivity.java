@@ -193,7 +193,7 @@ public abstract class CoreFamilyProfileActivity extends BaseFamilyProfileActivit
         return (CoreFamilyProfilePresenter) presenter;
     }
 
-    protected void setPrimaryCaregiver(String caregiver) {
+    public void setPrimaryCaregiver(String caregiver) {
         if (StringUtils.isNotBlank(caregiver)) {
             this.primaryCaregiver = caregiver;
             getIntent().putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, caregiver);
@@ -202,7 +202,7 @@ public abstract class CoreFamilyProfileActivity extends BaseFamilyProfileActivit
 
     protected abstract void refreshPresenter();
 
-    protected void refreshMemberFragment(String careGiverID, String familyHeadID) {
+    public void refreshMemberFragment(String careGiverID, String familyHeadID) {
         BaseFamilyProfileMemberFragment memberFragment = this.getProfileMemberFragment();
         if (memberFragment != null) {
             if (StringUtils.isNotBlank(careGiverID)) {

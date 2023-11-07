@@ -8,6 +8,7 @@ public class MemberProfileDueData {
     private String subTitle;
     private int type;
     public String from;
+    int status = 3;
 
     public String getFrom() {
         return from;
@@ -66,5 +67,13 @@ public class MemberProfileDueData {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

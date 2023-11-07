@@ -95,6 +95,31 @@
       },
 
       {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "hint": "ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "সংখ্যাটি 1 এর সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "60",
+          "err": "সংখ্যাটি 60 এর সমান বা ছোট হতে হবে"
+        }
+      },
+
+      {
         "key": "is_child_drinking_milk",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -211,6 +236,28 @@
       },
 
       {
+        "key": "is_child_taken_all_vaccine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_child_taken_all_vaccine",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশু সবগুলো টিকা গ্রহণ করেছে কিনা ? টিকার কার্ড দেখে তথ্য নিতে হবে।",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না": "no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+
+      {
         "key": "ate_deworming_medicine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -237,28 +284,6 @@
         "text_color": "#000000",
         "text": "অসুস্থতা/ জটিলতা",
         "text_size": "30sp"
-      },
-
-      {
-        "key": "is_child_taken_all_vaccine",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_child_taken_all_vaccine",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "শিশু সবগুলো টিকা গ্রহণ করেছে কিনা ? টিকার কার্ড দেখে তথ্য নিতে হবে।",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না": "no"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
       },
 
       {

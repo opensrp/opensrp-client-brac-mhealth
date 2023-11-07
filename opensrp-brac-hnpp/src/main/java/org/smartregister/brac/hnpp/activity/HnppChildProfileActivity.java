@@ -281,7 +281,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity {
         long day = FormApplicability.getDay(commonPersonObject);
 
         //means greater than 24 month
-        isOnlyVacc = day >= 577;
+        isOnlyVacc = day > 730;
 
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());

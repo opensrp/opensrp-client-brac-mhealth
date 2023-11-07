@@ -23,6 +23,10 @@ public interface FamilyProfileExtendedContract {
 
         boolean updatePrimaryCareGiver(Context context, String jsonString, String familyBaseEntityId, String entityID);
 
+        void updateFamilyMember(String jsonString);
+
+        void updateFamilyMemberServiceDue(String serviceDueStatus);
+
     }
 
     interface View extends FamilyProfileContract.View {

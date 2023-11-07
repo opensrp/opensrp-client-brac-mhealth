@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.contract;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
@@ -28,7 +29,7 @@ public interface HnppMemberProfileContract {
 
     interface Interactor{
         void fetchData(CommonPersonObjectClient commonPersonObjectClient,
-                       Context context,
+                       Fragment fragment,
                        String baseEntityId,
                        HnppMemberProfileContract.InteractorCallBack callBack);
         String getLastEvent();

@@ -87,6 +87,9 @@ public class MigrationInteractor  {
             if (TextUtils.isEmpty(userName)) {
                 return false;
             }
+            if(migrationSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.IMPORT_MM.name())){
+                migrationSearchContentData.setMigrationType(HnppConstants.MIGRATION_TYPE.Member.name());
+            }
             String url = baseUrl + MIGRATION_POST + "districtId=" + migrationSearchContentData.getDistrictId() + "&divisionId=" + migrationSearchContentData.getDivisionId()
                     + "&villageId=" + migrationSearchContentData.getVillageId() + "&type="+migrationSearchContentData.getMigrationType();
 //            String url = baseUrl + MIGRATION_POST + "districtId=10371&divisionId=10349&villageId=9315&type="+migrationSearchContentData.getMigrationType();

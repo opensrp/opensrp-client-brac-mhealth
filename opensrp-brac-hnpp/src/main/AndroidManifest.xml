@@ -26,11 +26,18 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_app_icon"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/HNPPTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon">
+        <activity
+            android:name=".activity.HouseHoldFormTypeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".activity.HouseHoldVisitActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.ChildFollowupActivity"
             android:exported="false" />
@@ -55,7 +62,8 @@
             android:name=".activity.PaymentHistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+        </activity>
         <activity
             android:name=".activity.BkashStatusActivity"
             android:screenOrientation="portrait"
@@ -83,8 +91,8 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.PaymentActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
@@ -113,8 +121,8 @@
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".activity.LoginActivity"
             android:exported="true"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.Login"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
@@ -232,6 +240,7 @@
             android:name=".activity.HnppPncRiskRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
+
         <activity
             android:name="org.smartregister.chw.core.activity.CoreAncMemberProfileActivity"
             android:screenOrientation="portrait"
@@ -393,8 +402,7 @@
             android:name=".activity.SSInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
-        <activity
-            android:name=".activity.TermAndConditionWebView"
+        <activity android:name=".activity.TermAndConditionWebView"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
