@@ -1,0 +1,379 @@
+{
+  "count": "1",
+  "encounter_type": "Child ECCD Followup 18 months",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Child ECCD Followup 18 months",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Child ECCD Followup 18 months",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "child_eccd_18_months"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "referral_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referral_id",
+        "type": "hidden"
+      },
+      {
+        "key": "previous_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_referred",
+        "type": "spinner",
+        "hint": "The child was previously referred.",
+        "read_only": true,
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "refered_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "refered_place",
+        "type": "edit_text",
+        "hint": "Place previously refered",
+        "read_only": true,
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "refered_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "refered_date",
+        "type": "edit_text",
+        "hint": "Date of Previously Referral",
+        "read_only": true,
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "referred_visited",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referred_visited",
+        "type": "spinner",
+        "hint": "Did the child visited the referred facility?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "stand_without_help",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "stand_without_help",
+        "type": "spinner",
+        "hint": "Can your child stand on his/her own without help?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "put_small_object",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "put_small_object",
+        "type": "spinner",
+        "hint": "Can your child put small object in a container?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "point_finger",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "point_finger",
+        "type": "spinner",
+        "hint": "Does your child point finger at an object when named?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "respond_gestures_seems",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "respond_gestures_seems",
+        "type": "spinner",
+        "hint": "Does your child respond to gestures and seems not to be in his/her own world?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "use_both_hands",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "use_both_hands",
+        "type": "spinner",
+        "hint": "Does your child use both hands for everyday activities( do not show preference for one hand)? ",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "sound_mama_dada",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "sound_mama_dada",
+        "type": "spinner",
+        "hint": "Does your child utter single word like “mama” or “dada”?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "ad_toaster_18",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "Take necessary consultation from Specialist",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referral",
+        "type": "toaster_notes",
+        "text": "Refer the child to the nearest hospital",
+        "text_color": "#000000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance_18.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "spinner",
+        "hint": "Place of Referral",
+        "values":[
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility"
+        ],
+        "openmrs_choice_ids":{
+          "Community Clinic":"Community_Clinic",
+          "Union Sub-center (USC)":"Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
+          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital":"10_Bed_Hospital",
+          "20 Beds Hospital":"20_Beds_Hospital",
+          "Upazila Health Complex":"Upazila_Health_Complex",
+          "District Hospital":"District_Hospital",
+          "Medical College Hospital":"Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital":"Specialized_Hospital",
+          "Others Health Facility":"Others_Health_Facility"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance_18.yml"
+            }
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      }
+    ]
+  }
+}

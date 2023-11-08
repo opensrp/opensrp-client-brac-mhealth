@@ -23,6 +23,7 @@ import org.smartregister.unicef.mis.utils.GrowthUtil;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
+import org.smartregister.unicef.mis.utils.ReferralData;
 import org.smartregister.unicef.mis.utils.RiskyModel;
 import org.smartregister.unicef.mis.utils.VisitLog;
 import org.smartregister.chw.anc.AncLibrary;
@@ -53,6 +54,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HO
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_DISEASE;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
@@ -174,9 +176,13 @@ public class FormParser {
 
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
-                        if(CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
+                        if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
 
-                            updatePNCHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
+                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
+                        }
+                        if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type)){
+
+                            updateChildReferral(base_entity_id,details,formSubmissionId,log);
                         }
 
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
@@ -1076,6 +1082,33 @@ public class FormParser {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.PNC_HOME_VISIT);
         }else {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.PNC_HOME_VISIT);
+        }
+    }
+    private static void updateChildReferral(String baseEntityId,HashMap<String,String>details,String formSubmissionId,VisitLog log){
+        Log.v("updateChildReferral",">>>>>>>");
+        if(details.containsKey("place_of_referral") && !StringUtils.isEmpty(details.get("place_of_referral"))){
+            String pck = details.get("place_of_referral");
+            Log.v("updateChildReferral","place_of_referral>>>>>>>"+pck);
+            if(!TextUtils.isEmpty(pck) ){
+                ReferralData referralData = new ReferralData();
+                referralData.baseEntityId = baseEntityId;
+                referralData.referralId = formSubmissionId;
+                referralData.referralStatus = 0;
+                referralData.referralEvent = log.eventType;
+                referralData.referralDate = log.visitDate;
+                referralData.referralPlace = pck;
+                HnppApplication.getReferralRepository().addAndUpdateReferral(referralData);
+
+            }
+        }
+        if(details.containsKey("referred_visited") && !StringUtils.isEmpty(details.get("referred_visited"))){
+            String pck = details.get("referred_visited");
+            Log.v("updateChildReferral","referred_visited>>"+pck);
+            if(!TextUtils.isEmpty(pck)  ){
+                if(pck.equalsIgnoreCase("yes")||pck.equalsIgnoreCase("হ্যাঁ") ){
+                    HnppApplication.getReferralRepository().updateReferralStatus(baseEntityId);
+                }
+            }
         }
     }
     private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate){
@@ -2277,9 +2310,9 @@ public class FormParser {
             case MEMBER_DISEASE:
                 form_name = HnppConstants.JSON_FORMS.MEMBER_DISEASE + ".json";
                 break;
-            case CHILD_INFO_EBF12:
+            case CHILD_ECCD_2_3_MONTH:
             case "Child Info EBF 1&2":
-                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_EBF12 + ".json";
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_2_3_MONTH + ".json";
                 break;
             case CHILD_INFO_7_24_MONTHS:
                 form_name = HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS + ".json";

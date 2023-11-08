@@ -296,7 +296,7 @@
         "openmrs_entity_id":"Place_of_Refer",
         "openmrs_data_type":"",
         "type":"spinner",
-        "hint":"রেফারের স্থান",
+        "hint":"Place of referral",
         "values":[
           "Community Clinic",
           "Union Sub-center (USC)",

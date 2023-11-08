@@ -48,20 +48,27 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
 
     }
-    public static String isDueChildInfo(long day){
+    public static String isDueChildEccd(Date dob){
 
         if(HnppConstants.isPALogin()){
             return null;
         }
-        //int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
-        if(day >= 2 && day <= 3){
-            return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
-        }
-        else if((day >= 180 && day <= 210)||(day >= 331 && day <= 366)||(day >= 515 && day <= 545)) {
-            return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
-        }
-        else if((day >= 700 && day <= 730)) {
-            return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
+        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+
+        if(day >= 60 && day <= 90){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH;
+        }else if(day >= 91 && day <= 180){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH;
+        }else if(day >= 181 && day <= 270){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;
+        }else if(day >= 271 && day <= 360){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
+        }else if(day >= 540){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
+        }else if(day >= 720){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
+        }else if(day >= 1080){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;
         }
         return "";
     }

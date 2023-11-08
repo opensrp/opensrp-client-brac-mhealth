@@ -53,6 +53,7 @@ import org.smartregister.unicef.mis.repository.IndicatorRepository;
 import org.smartregister.unicef.mis.repository.NotificationRepository;
 import org.smartregister.unicef.mis.repository.OtherVaccineRepository;
 import org.smartregister.unicef.mis.repository.PaymentHistoryRepository;
+import org.smartregister.unicef.mis.repository.ReferralRepository;
 import org.smartregister.unicef.mis.repository.RiskDetailsRepository;
 import org.smartregister.unicef.mis.repository.HouseholdIdRepository;
 import org.smartregister.unicef.mis.repository.StockRepository;
@@ -113,6 +114,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private static PaymentHistoryRepository paymentHistoryRepository;
     private static StockRepository stockRepository;
     private static OtherVaccineRepository otherVaccineRepository;
+    private static ReferralRepository referralRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     @SuppressLint("StaticFieldLeak")
@@ -449,6 +451,12 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
             indicatorRepository = new IndicatorRepository(getInstance().getRepository());
         }
         return indicatorRepository;
+    }
+    public static ReferralRepository getReferralRepository() {
+        if ( referralRepository == null) {
+            referralRepository = new ReferralRepository(getInstance().getRepository());
+        }
+        return referralRepository;
     }
     public static OtherVaccineRepository getOtherVaccineRepository() {
         if ( otherVaccineRepository == null) {

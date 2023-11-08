@@ -1454,6 +1454,13 @@ public class HnppConstants extends CoreConstants {
         public static final String AEFI_CHILD_ = "aefi_child";
         public static final String CHILD_DISEASE = "child_general_disease_survey";
         public static final String MEMBER_DISEASE = "general_disease_survey";
+        public static final String CHILD_ECCD_2_3_MONTH = "child_eccd_2_3_months";
+        public static final String CHILD_ECCD_4_6_MONTH = "child_eccd_4_6_months";
+        public static final String CHILD_ECCD_7_9_MONTH = "child_eccd_7_9_months";
+        public static final String CHILD_ECCD_10_12_MONTH = "child_eccd_10_12_months";
+        public static final String CHILD_ECCD_18_MONTH = "child_eccd_18_months";
+        public static final String CHILD_ECCD_24_MONTH = "child_eccd_24_months";
+        public static final String CHILD_ECCD_36_MONTH = "child_eccd_36_months";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
         public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";
@@ -1513,6 +1520,13 @@ public class HnppConstants extends CoreConstants {
         public static final String GMP_REFERRAL = "Referral Clinic";
         public static final String GMP_COUNSELING = "GMP Counseling";
         public static final String GMP_REFERREL_FOLLOWUP = "GMP Referral Followup";
+        public static final String CHILD_ECCD_2_3_MONTH = "Child ECCD Followup 2-3 months";
+        public static final String CHILD_ECCD_4_6_MONTH = "Child ECCD Followup 4-6 months";
+        public static final String CHILD_ECCD_7_9_MONTH = "Child ECCD Followup 7-9 months";
+        public static final String CHILD_ECCD_10_12_MONTH = "Child ECCD Followup 10-12 months";
+        public static final String CHILD_ECCD_18_MONTH = "Child ECCD Followup 18 months";
+        public static final String CHILD_ECCD_24_MONTH = "Child ECCD Followup 24 months";
+        public static final String CHILD_ECCD_36_MONTH = "Child ECCD Followup 36 months";
         public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";
         public static final String CHILD_INFO_7_24_MONTHS = "Child Info 7-24 months";
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
@@ -1774,7 +1788,13 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
             .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
             .put(EVENT_TYPE.PNC_REGISTRATION_OOC,JSON_FORMS.PNC_FORM_OOC)
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,JSON_FORMS.CHILD_INFO_EBF12)
+            .put(EVENT_TYPE.CHILD_ECCD_2_3_MONTH,JSON_FORMS.CHILD_ECCD_2_3_MONTH)
+            .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,JSON_FORMS.CHILD_ECCD_4_6_MONTH)
+            .put(EVENT_TYPE.CHILD_ECCD_7_9_MONTH,JSON_FORMS.CHILD_ECCD_7_9_MONTH)
+            .put(EVENT_TYPE.CHILD_ECCD_10_12_MONTH,JSON_FORMS.CHILD_ECCD_10_12_MONTH)
+            .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,JSON_FORMS.CHILD_ECCD_18_MONTH)
+            .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,JSON_FORMS.CHILD_ECCD_24_MONTH)
+            .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,JSON_FORMS.CHILD_ECCD_36_MONTH)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
             .build();
@@ -1838,7 +1858,12 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.AEFI_CHILD,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_DISEASE,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.MEMBER_DISEASE,R.drawable.rowavatar_member)
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_2_3_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_7_9_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_10_12_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,R.drawable.rowavatar_child)
@@ -1907,7 +1932,13 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.appContext.getString(R.string.aifi_child))
                 .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
                 .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
-                .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+                .put(EVENT_TYPE.CHILD_ECCD_2_3_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_2_3))
+                .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_4_6))
+                .put(EVENT_TYPE.CHILD_ECCD_7_9_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_7_9))
+                .put(EVENT_TYPE.CHILD_ECCD_10_12_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_10_12))
+                .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_18))
+                .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
+                .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
                 .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_child_reg))
@@ -1994,7 +2025,13 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
                 .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
                 .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
-                .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+                .put(EVENT_TYPE.CHILD_ECCD_2_3_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_2_3))
+                .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_4_6))
+                .put(EVENT_TYPE.CHILD_ECCD_7_9_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_7_9))
+                .put(EVENT_TYPE.CHILD_ECCD_10_12_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_10_12))
+                .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_18))
+                .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
+                .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
                 .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
@@ -2082,7 +2119,13 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
             .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
             .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
-            .put(EVENT_TYPE.CHILD_INFO_EBF12,HnppApplication.appContext.getString(R.string.child_info))
+            .put(EVENT_TYPE.CHILD_ECCD_2_3_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_2_3))
+            .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_4_6))
+            .put(EVENT_TYPE.CHILD_ECCD_7_9_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_7_9))
+            .put(EVENT_TYPE.CHILD_ECCD_10_12_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_10_12))
+            .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_18))
+            .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
+            .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_child_reg))

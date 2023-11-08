@@ -54,7 +54,7 @@ android {
         buildConfigField "String[]", "ALLOWED_LOCATION_LEVELS", '{"MOH Jhpiego Facility Name" , "Village"}'
         buildConfigField "String", 'DEFAULT_LOCATION', '"Village"'
         buildConfigField "boolean", 'SUPPORT_QR', 'false'
-        buildConfigField "int", "DATABASE_VERSION", '3'
+        buildConfigField "int", "DATABASE_VERSION", '4'
         buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '10'
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         buildConfigField "boolean", "TIME_CHECK", "false"
@@ -126,8 +126,8 @@ android {
 
 
         training{
-            versionCode 15
-            versionName "1.1.5"
+            versionCode 16
+            versionName "1.1.6"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'

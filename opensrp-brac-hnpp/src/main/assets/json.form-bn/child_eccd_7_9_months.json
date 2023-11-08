@@ -1,0 +1,379 @@
+{
+  "count": "1",
+  "encounter_type": "Child ECCD Followup 7-9 months",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Child ECCD Followup 7-9 months",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Child ECCD Followup 7-9 months",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "child_eccd_7_9_months"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "referral_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referral_id",
+        "type": "hidden"
+      },
+      {
+        "key": "previous_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_referred",
+        "type": "edit_text",
+        "hint": "শিশুটিকে পূর্বে রেফার করা হয়েছিল।",
+        "read_only": true,
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "refered_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "refered_place",
+        "type": "edit_text",
+        "hint": "পূর্বে রেফারকৃত স্থান",
+        "read_only": true,
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "refered_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "refered_date",
+        "type": "edit_text",
+        "hint": "রেফারের তারিখ",
+        "read_only": true,
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "referred_visited",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referred_visited",
+        "type": "spinner",
+        "hint": "শিশুকি রেফারকৃত সেবাকেন্দ্রে গিয়েছিল?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "roll_over",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "roll_over",
+        "type": "spinner",
+        "hint": "আপনার শিশু কি এপাশ থেকে ওপাশে গড়াতে পারে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "sit_without_support",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "sit_without_support",
+        "type": "spinner",
+        "hint": "আপনার শিশু কি সাহায্য ছাড়াই বসতে পারে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "turn_towards_sound",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "turn_towards_sound",
+        "type": "spinner",
+        "hint": "আপনার শিশু কি দৃষ্টিসীমার বাইরে কোনও শব্দ হলে সেদিকে ফিরে তাকায়?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "bang_using_toys",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "bang_using_toys",
+        "type": "spinner",
+        "hint": "আপনার শিশু কি কোন খেলনা/বস্তু পেলে বারি মারে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "sounds_pa_ma",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "sounds_pa_ma",
+        "type": "spinner",
+        "hint": "আপনার শিশু কি \"দা..দা\", \"মা..মা\", \"বা..বা\" ইত্যাদি এর মতো শব্দগুলি উচ্চারণ করে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "always_tilts_head",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "always_tilts_head",
+        "type": "spinner",
+        "hint": "আপনার শিশু কি কোন বস্তুর দিকে তাকানোর সময় মাথা সোজা রাখে(সবসময় একপাশে মাথা কাত করে রাখেনা)? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      },
+      {
+        "key": "ad_toaster",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "বিশেষজ্ঞের কাছ থেকে প্রয়োজনীয় পরামর্শ নিন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "referral",
+        "type": "toaster_notes",
+        "text": "শিশুটিকে নিকটস্থ  হাসপাতালে রেফার করুন",
+        "text_color": "#000000",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "spinner",
+        "hint": "রেফারের স্থান",
+        "values": [
+          "কমিউনিটি ক্লিনিক",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র": "Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল": "10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল": "20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
+          "সদর হাসপাতাল": "District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
+          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
+          "এনজিও": "Non-governmental_Organization",
+          "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
+          "অন্যান্য": "Others"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance.yml"
+            }
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select option"
+        }
+      }
+    ]
+  }
+}

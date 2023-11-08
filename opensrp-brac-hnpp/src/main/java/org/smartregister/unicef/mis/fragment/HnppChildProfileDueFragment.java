@@ -50,9 +50,15 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_AEFI_CHILD = 33301;
     private static final int TAG_CHILD_DISEASE = 333012;
     private static final int TAG_MEMBER_DISEASE = 333013;
-    private static final int TAG_CHILD_INFO_EBF12 = 1212;
     private static final int TAG_CHILD_INFO_7_24_months = 1213;
     private static final int TAG_CHILD_INFO_25_months = 1214;
+    private static final int TAG_CHILD_ECCD_2_3_month = 1223;
+    private static final int TAG_CHILD_ECCD_4_6_month = 1246;
+    private static final int TAG_CHILD_ECCD_7_9_month = 1279;
+    private static final int TAG_CHILD_ECCD_10_12_month = 121012;
+    private static final int TAG_CHILD_ECCD_18_month = 1218;
+    private static final int TAG_CHILD_ECCD_24_month = 1224;
+    private static final int TAG_CHILD_ECCD_36_month = 1236;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
     private static final int TAG_OPEN_CORONA = 88888;
@@ -236,6 +242,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
     String eventType = "";
     View childInfo1View, childInfo2View, childInfo3View;
+    @SuppressLint("InflateParams")
     private void addStaticView(){
         if(getActivity() ==null || getActivity().isFinishing()) return;
         if(otherServiceView.getVisibility() == View.VISIBLE){
@@ -333,40 +340,26 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
 //
 //        }
-//        eventType = FormApplicability.isDueChildInfo(day);
-//        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-//            childInfo1View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//            ImageView fImg = childInfo1View.findViewById(R.id.image_view);
-//            TextView fName =  childInfo1View.findViewById(R.id.patient_name_age);
-//            childInfo1View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//            fImg.setImageResource(iconMapping.get(eventType));
-//            fName.setText(eventTypeMapping.get(eventType));
-//            childInfo1View.setTag(TAG_CHILD_INFO_EBF12);
-//            childInfo1View.setOnClickListener(this);
-//            otherServiceView.addView(childInfo1View);
-//        }
-//        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-//            childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//            ImageView fImg = childInfo2View.findViewById(R.id.image_view);
-//            TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
-//            childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//            fImg.setImageResource(iconMapping.get(eventType));
-//            fName.setText(eventTypeMapping.get(eventType));
-//            childInfo2View.setTag(TAG_CHILD_INFO_7_24_months);
-//            childInfo2View.setOnClickListener(this);
-//            otherServiceView.addView(childInfo2View);
-//        }
-//        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS) && FormApplicability.isDueChildInfoForm(baseEntityId,eventType)){
-//            childInfo3View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//            ImageView fImg = childInfo3View.findViewById(R.id.image_view);
-//            TextView fName =  childInfo3View.findViewById(R.id.patient_name_age);
-//            childInfo3View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//            fImg.setImageResource(iconMapping.get(eventType));
-//            fName.setText(eventTypeMapping.get(eventType));
-//            childInfo3View.setTag(TAG_CHILD_INFO_25_months);
-//            childInfo3View.setOnClickListener(this);
-//            otherServiceView.addView(childInfo3View);
-//        }
+        eventType = FormApplicability.isDueChildEccd(dob);
+        if(TextUtils.isEmpty(eventType))return;
+        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH)){
+            updateDueView(eventType,TAG_CHILD_ECCD_2_3_month);
+        }
+        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH) ){
+            updateDueView(eventType,TAG_CHILD_ECCD_4_6_month);
+        }
+        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH) ){
+            updateDueView(eventType,TAG_CHILD_ECCD_7_9_month);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH)){
+            updateDueView(eventType,TAG_CHILD_ECCD_10_12_month);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH) ){
+            updateDueView(eventType,TAG_CHILD_ECCD_18_month);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH)){
+            updateDueView(eventType,TAG_CHILD_ECCD_24_month);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH) ){
+            updateDueView(eventType,TAG_CHILD_ECCD_36_month);
+        }
+
 
 //        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
 //
@@ -409,6 +402,18 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 //            referelView.setOnClickListener(this);
 //            otherServiceView.addView(referelView);
 
+    }
+    @SuppressLint("InflateParams")
+    private void updateDueView(String eventType, int tag){
+        childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+        ImageView fImg = childInfo2View.findViewById(R.id.image_view);
+        TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
+        childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+        fImg.setImageResource(iconMapping.get(eventType));
+        fName.setText(HnppConstants.getVisitEventTypeMapping().get(eventType));
+        childInfo2View.setTag(tag);
+        childInfo2View.setOnClickListener(this);
+        otherServiceView.addView(childInfo2View);
     }
 
     @Override
@@ -500,10 +505,46 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         activity.openGMPScreen();
                     }
                     break;
-                case TAG_CHILD_INFO_EBF12:
+                case TAG_CHILD_ECCD_2_3_month:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
-                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12);
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH);
+                    }
+                    break;
+                case TAG_CHILD_ECCD_4_6_month:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH);
+                    }
+                    break;
+                case TAG_CHILD_ECCD_7_9_month:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH);
+                    }
+                    break;
+                case TAG_CHILD_ECCD_10_12_month:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH);
+                    }
+                    break;
+                case TAG_CHILD_ECCD_18_month:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH);
+                    }
+                    break;
+                case TAG_CHILD_ECCD_24_month:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH);
+                    }
+                    break;
+                case TAG_CHILD_ECCD_36_month:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH);
                     }
                     break;
                 case TAG_CHILD_INFO_7_24_months:

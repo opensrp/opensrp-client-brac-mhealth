@@ -593,64 +593,68 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return org.smartregister.util.JsonFormUtils.createEvent(fields, metadata, formTag(allSharedPreferences), entityId, derivedEncounterType, tableName);
     }
     public static String getEncounterType(String formEncounterType) {
-        switch (formEncounterType){
-            case HnppConstants.EVENT_TYPE.ELCO:
-                return HnppConstants.EVENT_TYPE.ELCO;
-            case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
-                return HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
-            case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
-                return HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
-            case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
-                return HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
-            case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-                return HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
-            case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-                return HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
-            case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
-                return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-            case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-                return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
-                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
-            case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
-                return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
-            case  HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT:
-                return HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
-            case  HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT:
-                return HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT;
-            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
-                return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
-            case  HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4:
-                return HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
-            case  HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP:
-                return HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
-            case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
-                return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
-            case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
-                return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
-            case  HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
-                return HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
-            case  HnppConstants.EVENT_TYPE.EYE_TEST:
-                return HnppConstants.EVENT_TYPE.EYE_TEST;
-            case  HnppConstants.EVENT_TYPE.BLOOD_GROUP:
-                return HnppConstants.EVENT_TYPE.BLOOD_GROUP;
-            case  HnppConstants.EventType.REMOVE_MEMBER:
-                return HnppConstants.EventType.REMOVE_MEMBER;
-            case  HnppConstants.EventType.REMOVE_CHILD:
-                return HnppConstants.EventType.REMOVE_CHILD;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
-            case  HnppConstants.EVENT_TYPE.CHILD_DISEASE:
-                return HnppConstants.EVENT_TYPE.CHILD_DISEASE;
-            case  HnppConstants.EVENT_TYPE.MEMBER_DISEASE:
-                return HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
-                default:
-                    return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
-        }
+        return formEncounterType;
+//        switch (formEncounterType){
+//
+//            case HnppConstants.EVENT_TYPE.ELCO:
+//                return HnppConstants.EVENT_TYPE.ELCO;
+//            case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
+//                return HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
+//            case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
+//                return HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
+//            case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
+//                return HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
+//            case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
+//                return HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
+//            case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
+//                return HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
+//            case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
+//                return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
+//            case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
+//                return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+//            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION:
+//                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+//            case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
+//                return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+//            case  HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT:
+//                return HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
+//            case  HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT:
+//                return HnppConstants.EVENT_TYPE.CHILD_PROFILE_VISIT;
+//            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
+//                return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
+//            case  HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4:
+//                return HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
+//            case  HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP:
+//                return HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
+//            case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
+//                return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
+//            case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
+//                return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
+//            case  HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
+//                return HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
+//            case  HnppConstants.EVENT_TYPE.EYE_TEST:
+//                return HnppConstants.EVENT_TYPE.EYE_TEST;
+//            case  HnppConstants.EVENT_TYPE.BLOOD_GROUP:
+//                return HnppConstants.EVENT_TYPE.BLOOD_GROUP;
+//            case  HnppConstants.EventType.REMOVE_MEMBER:
+//                return HnppConstants.EventType.REMOVE_MEMBER;
+//            case  HnppConstants.EventType.REMOVE_CHILD:
+//                return HnppConstants.EventType.REMOVE_CHILD;
+//            case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
+//                return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
+//            case  HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS:
+//                return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
+//            case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
+//                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
+//            case  HnppConstants.EVENT_TYPE.CHILD_DISEASE:
+//                return HnppConstants.EVENT_TYPE.CHILD_DISEASE;
+//            case  HnppConstants.EVENT_TYPE.MEMBER_DISEASE:
+//                return HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
+//            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
+//                return HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+//                default:
+//                    return formEncounterType;
+//        }
 
     }
 

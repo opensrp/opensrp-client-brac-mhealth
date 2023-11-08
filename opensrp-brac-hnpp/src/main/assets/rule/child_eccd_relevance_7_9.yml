@@ -1,0 +1,21 @@
+---
+name: step1_ad_toaster
+description: 7-9 month
+priority: 3
+condition: "step1_always_tilts_head.equals('No')||step1_bang_using_toys.equals('No')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_referral
+description: 7-9 month
+priority: 3
+condition: "step1_always_tilts_head.equals('No')||step1_bang_using_toys.equals('No')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: 2-3 month
+priority: 3
+condition: "step1_hands_kept_open_fisted.equals('No')||step1_persistently_squint.equals('No')"
+actions:
+  - "isRelevant = true"

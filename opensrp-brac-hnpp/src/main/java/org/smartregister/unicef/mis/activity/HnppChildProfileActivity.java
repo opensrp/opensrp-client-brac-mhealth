@@ -46,6 +46,7 @@ import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.immunization.listener.ServiceActionListener;
 import org.smartregister.immunization.listener.VaccinationActionListener;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.adapter.ReferralCardViewAdapter;
 import org.smartregister.unicef.mis.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.mis.fragment.ChildHistoryFragment;
@@ -78,6 +79,7 @@ import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.unicef.mis.utils.ReferralData;
 import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
@@ -142,6 +144,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         });
 
     }
+    @SuppressLint("SetTextI18n")
     private void openRiskFactorDialog(){
 
         String weight = HnppDBUtils.getBirthWeight(childBaseEntityId);
@@ -712,7 +715,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }
-                    else if(HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS.equalsIgnoreCase(formName)
+                    else if(HnppConstants.JSON_FORMS.CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(formName)
                             || HnppConstants.JSON_FORMS.CHILD_DISEASE.equalsIgnoreCase(formName) ){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
@@ -721,6 +724,14 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         String dobFormate = HnppConstants.DDMMYY.format(date);
 
                         updateFormField(jsonArray,"dob",dobFormate);
+                        ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
+                        if(referralData!=null){
+                            updateFormField(jsonArray,"is_referred","Yes");
+                            updateFormField(jsonArray,"referral_id",referralData.referralId);
+                            updateFormField(jsonArray,"previous_referred","Yes");
+                            updateFormField(jsonArray,"refered_place",referralData.referralPlace);
+                            updateFormField(jsonArray,"refered_date", HnppConstants.DDMMYY.format(new Date(referralData.referralDate)));
+                        }
                     }
                     else if(HnppConstants.JSON_FORMS.CHILD_PROFILE_VISIT.equalsIgnoreCase(formName)){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
