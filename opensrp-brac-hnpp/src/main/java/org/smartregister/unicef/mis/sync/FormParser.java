@@ -54,7 +54,13 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HO
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_DISEASE;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
@@ -180,8 +186,11 @@ public class FormParser {
 
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
-                        if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type)){
-
+                        if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(encounter_type)||
+                        CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(encounter_type) ||
+                        CHILD_ECCD_18_MONTH.equalsIgnoreCase(encounter_type)|| CHILD_ECCD_24_MONTH.equalsIgnoreCase(encounter_type)||
+                        CHILD_ECCD_36_MONTH.equalsIgnoreCase(encounter_type))
+                        {
                             updateChildReferral(base_entity_id,details,formSubmissionId,log);
                         }
 
