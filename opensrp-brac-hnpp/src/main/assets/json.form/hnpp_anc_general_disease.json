@@ -59,16 +59,17 @@
         "value": "hnpp_anc_general_disease"
       },
       {
-        "key": "is_high_risk_gd",
+        "key": "is_high_risk",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk_gd",
+        "openmrs_entity_id": "is_high_risk",
+        "openmrs_data_type": "text",
         "type": "hidden",
         "read_only": true,
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_risk_relevance.yml"
+              "rules-file": "hnpp_risk_relevance_gd.yml"
             }
           }
         }
@@ -168,23 +169,6 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "risk_toaster_3",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
-        "text_color": "#FF0000",
-        "text_size": "20sp",
-        "toaster_type": "problem",
-        "relevance": {
-          "step1:heart_disease": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
         }
       },
       {
@@ -324,7 +308,7 @@
         }
       },
       {
-        "key": "risk_toaster_6",
+        "key": "risk_toaster_7",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",

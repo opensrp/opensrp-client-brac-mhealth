@@ -208,6 +208,9 @@ public class HnppChwRepository extends Repository {
                 case 45:
                     upgradeToVersion45(db);
                     break;
+                case 47:
+                    upgradeToVersion47(db);
+                    break;
                 default:
                     break;
             }
@@ -238,7 +241,15 @@ public class HnppChwRepository extends Repository {
         AncFollowUpRepository.createTable(db);
         RiskListRepository.createTable(db);
     }
-
+    private void upgradeToVersion47(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion44");
+        try{
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date LONG;");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     private void upgradeToVersion41(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion41");
         try {

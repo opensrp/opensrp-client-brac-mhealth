@@ -84,7 +84,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -121,7 +121,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -158,7 +158,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যেহেতু আপনার পূর্বের সিজার হয়েছে সে কারণে ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -195,7 +195,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -232,7 +232,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞ ডাক্তারের পরামর্শ নিন",
+        "text": "যত তাড়াতড়ি সম্ভব  উপজেলা স্বাস্থ্য কমপ্লেক্স থেকে এএনসি  নিতে হবে।  ডাক্তারের পরামর্শ অনুযায়ী হাসপাতালে ডেলিভারি করতে হবে।",
         "text_color": "#FF0000",
         "text_size": "20sp",
         "toaster_type": "problem",
@@ -242,8 +242,86 @@
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
-      }
-    ,
+      },
+      {
+        "key": "is_high_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_history.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_low_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_low_risk",
+        "type": "hidden",
+        "read_only": true,
+        "openmrs_data_type": "text",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_history.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "special_followup_needed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "special_followup_needed",
+        "type": "hidden",
+        "read_only": true,
+        "openmrs_data_type": "text",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_history.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "সম্ভাব্য প্রসবের তারিখ",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ga",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ga",
+        "type": "hidden",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+      },
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

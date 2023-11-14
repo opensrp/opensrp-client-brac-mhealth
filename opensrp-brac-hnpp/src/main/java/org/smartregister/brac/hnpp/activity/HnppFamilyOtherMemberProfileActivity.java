@@ -30,6 +30,7 @@ import com.simprints.libsimprints.Tier;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,10 +68,13 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.fragment.FamilyOtherMemberProfileFragment;
 import org.smartregister.brac.hnpp.presenter.HnppFamilyOtherMemberActivityPresenter;
+import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.adapter.ViewPagerAdapter;
 import org.smartregister.family.fragment.BaseFamilyOtherMemberProfileFragment;
 import org.smartregister.family.model.BaseFamilyOtherMemberProfileActivityModel;
+import org.smartregister.family.presenter.BaseFamilyProfileMemberPresenter;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
@@ -323,6 +327,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setProfileDetailThree(String detailThree) {
         super.setProfileDetailThree(detailThree);
@@ -604,6 +609,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             checkedItem = checkedItem+","+text;
         }
     }
+    @SuppressLint("SetTextI18n")
     private void disagreeDialog(){
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1028,6 +1034,32 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             }
 
 
+        }
+        else if(resultCode == NewANCRegistrationActivity.RESULT_ANC_REGISTRATION && requestCode == NewANCRegistrationActivity.RESULT_ANC_REGISTRATION){
+            refreshList();
+            finish();
+            //goToOtherMemberProfileActivity(clientObject(baseEntityId));
+        }
+
+    }
+    private CommonPersonObjectClient clientObject(String baseEntityId) {
+        CommonRepository commonRepository = org.smartregister.family.util.Utils.context().commonrepository(org.smartregister.family.util.Utils.metadata().familyMemberRegister.tableName);
+        final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
+        final CommonPersonObjectClient client =
+                new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
+        client.setColumnmaps(commonPersonObject.getColumnmaps());
+        return client;
+    }
+    public void goToOtherMemberProfileActivity(CommonPersonObjectClient patient) {
+        String DOD = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), DBConstants.KEY.DOD, false);
+        if(StringUtils.isEmpty(DOD)){
+            Intent intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
+            intent.putExtra(IS_COMES_IDENTITY,false);
+            intent.putExtra(Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+            intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, patient);
+            intent.putExtra(Constants.INTENT_KEY.FAMILY_HEAD, ((BaseFamilyProfileMemberPresenter) presenter).getFamilyHead());
+            intent.putExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER, ((BaseFamilyProfileMemberPresenter) presenter).getPrimaryCaregiver());
+            startActivity(intent);
         }
 
     }

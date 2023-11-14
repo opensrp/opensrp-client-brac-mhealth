@@ -14,6 +14,20 @@ condition: "true"
 actions:
   - "calculation = helper.getDifferenceDays(step1_last_menstrual_period)"
 ---
+name: step1_monthly_weight_increase
+description: monthly_weight_increase calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = ((step1_woman_weight - step1_previous_weight)/step1_month_diff)"
+---
+name: step1_monthly_weight_anc
+description: monthly_weight_anc calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = ((step1_weight - step1_previous_weight)/step1_month_diff)"
+---
 name: step1_age_calculated
 description: Age calculated
 priority: 1

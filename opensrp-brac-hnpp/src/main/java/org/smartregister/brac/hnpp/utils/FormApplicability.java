@@ -213,7 +213,7 @@ public class FormApplicability {
         }
         return false;
     }
-    private static int getMonthsDifference(LocalDate date1, LocalDate date2) {
+    public static int getMonthsDifference(LocalDate date1, LocalDate date2) {
         return Months.monthsBetween(
                 date1.withDayOfMonth(1),
                 date2.withDayOfMonth(1)).getMonths();

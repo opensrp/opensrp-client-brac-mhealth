@@ -85,38 +85,6 @@
       },
 
       {
-        "key": "is_high_risk",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk",
-        "type": "hidden",
-        "value": "true",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_risk_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
-        "key": "is_low_risk",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_low_risk",
-        "type": "hidden",
-        "value": "true",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "anc_risk_relevance.yml"
-            }
-          }
-        }
-      },
-
-      {
         "key": "brac_anc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -585,6 +553,31 @@
         }
       },
       {
+        "key": "previous_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_weight",
+        "type": "hidden",
+        "read_only": true
+      },
+      {
+        "key": "monthly_weight_anc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "monthly_weight_anc",
+        "type": "edit_text",
+        "hint": "মাসিক ওজন বৃদ্ধির হার",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+
+      },
+      {
         "key": "advice_toaster_1",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -600,6 +593,14 @@
             }
           }
         }
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "month_diff",
+        "type": "hidden",
+        "read_only": true
       },
       {
         "key": "advice_toaster_2",
@@ -882,6 +883,20 @@
         }
       },
       {
+        "key": "is_high_risk_sys",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_sys",
+        "type": "hidden",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "blood_pressure_diastolic",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -941,6 +956,21 @@
           "rules-engine": {
             "ex-rules": {
               "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "is_high_risk_dias",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_dias",
+        "type": "hidden",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
             }
           }
         }
@@ -1205,6 +1235,20 @@
         }
       },
       {
+        "key": "is_high_risk_fasting",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_fasting",
+        "type": "hidden",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "random_blood_sugar",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -1316,6 +1360,34 @@
           "rules-engine": {
             "ex-rules": {
               "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_high_risk_hmg_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_hmg_1",
+        "type": "hidden",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_high_risk_hmg_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_hmg_2",
+        "type": "hidden",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
             }
           }
         }

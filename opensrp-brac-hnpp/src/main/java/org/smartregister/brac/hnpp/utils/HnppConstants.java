@@ -1140,6 +1140,8 @@ public class HnppConstants extends CoreConstants {
         public static final String DATE_CREATED = "date_created";
 
         public static final String BIRTH_WEIGHT = "birth_weight";
+        public static final String MEMBER_WEIGHT = "weight";
+        public static final String WEIGHT_DATE = "weight_date";
     }
 
     public static class IDENTIFIER {
@@ -1273,6 +1275,7 @@ public class HnppConstants extends CoreConstants {
         public static final String HH_CHILD_DUE = "HH Child Due";
         public static final String MEMBER_DUE_ADD = "Member Due Add";
         public static final String MEMBER_EACH_DUE_ADD = "Member Each Due Add";
+        public static final String NEW_ANC_REGISTRATION = "New anc registration";
 
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";

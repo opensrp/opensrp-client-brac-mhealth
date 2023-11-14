@@ -112,51 +112,6 @@
         }
       },
       {
-        "key": "is_high_risk",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk",
-        "type": "hidden",
-        "read_only": true,
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_risk_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "special_followup_needed",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "special_followup_needed",
-        "type": "hidden",
-        "read_only": true,
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_risk_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "is_low_risk",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_low_risk",
-        "type": "hidden",
-        "read_only": true,
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_risk_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "no_prev_preg",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -273,6 +228,7 @@
           "err": "সংখ্যাটি 210 এর কম হতে হবে"
         }
       },
+
       {
         "key": "risk_toaster_2",
         "openmrs_entity_parent": "",
@@ -359,8 +315,56 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      }
-    ,
+      },
+      {
+        "key": "is_high_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_reg.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_low_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_low_risk",
+        "type": "hidden",
+        "read_only": true,
+        "openmrs_data_type": "text",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_reg.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "special_followup_needed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "special_followup_needed",
+        "type": "hidden",
+        "read_only": true,
+        "openmrs_data_type": "text",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_reg.yml"
+            }
+          }
+        }
+      },
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

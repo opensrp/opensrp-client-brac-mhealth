@@ -226,28 +226,23 @@ public class FormParser {
                             }
 
                         }
-                        if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
-                                || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-                            /*if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
-                                String ancValue = details.get("brac_anc");
-                                String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
-                                if(!TextUtils.isEmpty(prevalue)){
-                                    try{
-                                        int lastValue = Integer.parseInt(prevalue);
-                                        int ancValueInt = Integer.parseInt(ancValue);
-                                        if(ancValueInt >= lastValue){
-
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
-                                        }
-                                    }catch (NumberFormatException ne){
-
-                                    }
-
-                                }else{
-                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
-                                }
-                            }*/
+                        if(ANC_REGISTRATION.equalsIgnoreCase(encounter_type)|| ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)
+                                ||ANC_PREGNANCY_HISTORY.equalsIgnoreCase(encounter_type)
+                                ||ANC1_REGISTRATION.equalsIgnoreCase(encounter_type)
+                                || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
+                                || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type)
+                                || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
+                            if(details.containsKey(HnppConstants.KEY.MEMBER_WEIGHT)){
+                                String weightValue = details.get(HnppConstants.KEY.MEMBER_WEIGHT);
+                                HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,log.visitDate);
+                            }
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log);
+                        }
+                        if(PREGNANT_WOMAN_DIETARY_DIVERSITY.equalsIgnoreCase(encounter_type)){
+                            if(details.containsKey(HnppConstants.KEY.MEMBER_WEIGHT)){
+                                String weightValue = details.get(HnppConstants.KEY.MEMBER_WEIGHT);
+                                HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,log.visitDate);
+                            }
                         }
 
                         if(PNC_REGISTRATION_BEFORE_48_hour.equalsIgnoreCase(encounter_type)||
@@ -1222,7 +1217,7 @@ public class FormParser {
     }
 
     private static void updateAncHomeVisitRisk(String eventType, String baseEntityId, HashMap<String, String> details, VisitLog log){
-        boolean isAncHomeVisitRisk = false;
+
         updateAncFollowUp(log);
 
         RiskListModel riskListModel = new RiskListModel();
@@ -1246,7 +1241,11 @@ public class FormParser {
         }
 
         HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
+        updateRiskDetails(eventType,baseEntityId,details,log);
 
+    }
+    private static void updateRiskDetails(String eventType,String baseEntityId, HashMap<String, String> details, VisitLog log){
+        boolean isAncHomeVisitRisk = false;
         if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
             String bps = details.get("blood_pressure_systolic");
             if(!TextUtils.isEmpty(bps)){
@@ -2454,6 +2453,7 @@ public class FormParser {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private static void processRemoveChild(String baseEntityId, long eventDate, String dod) {
 
 

@@ -121,6 +121,7 @@ public class HnppDBUtils extends CoreChildUtils {
 
         }
     }
+
     public static void updateMigratedOrRejectedMember(String base_entity_id){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
@@ -1165,6 +1166,39 @@ public class HnppDBUtils extends CoreChildUtils {
             Timber.e(e);
         }
         return motherName;
+    }
+    public static String[] getWeightFromBaseEntityId(String baseEntityId){
+        String query = "select weight,weight_date from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String[] weight= new String[2];
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                weight[0] = cursor.getString(0);
+                weight[1] = cursor.getLong(1)+"";
+            }
+
+            return weight;
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return weight;
+    }
+    public static void updateMemberWeight(String base_entity_id, String weight, long weightDate){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set "+HnppConstants.KEY.MEMBER_WEIGHT+" = '"+weight+"' , "+HnppConstants.KEY.WEIGHT_DATE+" = '"+weightDate+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
     }
     public static String getFamilyIdFromBaseEntityId(String baseEntityId){
         String query = "select relational_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";

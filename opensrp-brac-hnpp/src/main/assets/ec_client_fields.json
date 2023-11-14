@@ -1070,6 +1070,13 @@
           "json_mapping": {
             "field": "attributes.dateRemoved"
           }
+        },
+        {
+          "column_name": "weight",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight"
+          }
         }
       ]
     },

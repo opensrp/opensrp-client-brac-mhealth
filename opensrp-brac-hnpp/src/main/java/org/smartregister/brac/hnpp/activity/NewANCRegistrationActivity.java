@@ -24,23 +24,28 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
+import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import io.reactivex.Observable;
@@ -57,7 +62,6 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     public static final int REQUEST_DISAGES = 103;
     public static final int REQUEST_DIVERTY = 104;
     public static final int REQUEST_ANC_VISIT = 105;
-    public static final int RESULT_CHILD_FOLLOW_UP = 10111;
 
     ImageView closeImage;
     Button saveButton;
@@ -92,6 +96,25 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         initView();
         viewInteraction();
         initProgressDialog();
+        checkDataFromLocalDb();
+    }
+    private void initView() {
+        closeImage = findViewById(R.id.close_image_view);
+        saveButton = findViewById(R.id.submit_btn);
+
+        ancRegLay = findViewById(R.id.anc_reg_lay);
+        physicalProbLay = findViewById(R.id.physical_prob_lay);
+        historyLay = findViewById(R.id.history_lay);
+        diversityLay = findViewById(R.id.diversity_lay);
+        ancLey = findViewById(R.id.anc_ley);
+
+        ancRegCheckIm= findViewById(R.id.anc_reg_check_im);
+        physicalProbCheckIm = findViewById(R.id.physical_prob_check_im);
+        historyCheckIm = findViewById(R.id.history_check_im);
+        diversityCheckIm = findViewById(R.id.diversity_check_im);
+        ancLeyCheckIm = findViewById(R.id.anc_check_im);
+
+        notInterestedB = findViewById(R.id.not_interested);
     }
 
     private void initProgressDialog() {
@@ -107,7 +130,35 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         baseEntityId = intent.getStringExtra(BASE_ENTITY_ID);
 
     }
+    boolean isValidateAncReg,isPhysicalProblem,isPreviousHistory,isDiversity,ancVisit;
+    private void checkDataFromLocalDb() {
+        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getHhVisitInfoByHH(baseEntityId, HnppConstants.EVENT_TYPE.NEW_ANC_REGISTRATION);
+        for (HHVisitInfoModel model : datas) {
+            switch (model.eventType) {
+                case HnppConstants.EVENT_TYPE.ANC_REGISTRATION:
+                    isValidateAncReg = model.isDone == 1;
+                    updateUi(isValidateAncReg,ancRegCheckIm);
+                    break;
+                case HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE:
+                    isPhysicalProblem = model.isDone == 1;
+                    updateUi(isPhysicalProblem,physicalProbCheckIm);
+                    break;
+                case HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY:
+                    isPreviousHistory = model.isDone == 1;
+                    updateUi(isPreviousHistory,historyCheckIm);
+                    break;
+                case HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY:
+                    isDiversity = model.isDone == 1;
+                    updateUi(isDiversity,diversityCheckIm);
+                    break;
+                case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
+                    ancVisit = model.isDone == 1;
+                    updateUi(ancVisit,ancLeyCheckIm);
+                    break;
+            }
+        }
 
+    }
     /**
      * view interaction like button click
      */
@@ -122,8 +173,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
 
         notInterestedB.setOnClickListener(view -> {
             jsonStringList.add("test");
-            ancLeyCheckIm.setImageResource(R.drawable.success);
-            ancLeyCheckIm.setColorFilter(ContextCompat.getColor(NewANCRegistrationActivity.this, android.R.color.holo_orange_dark));
+            updateUi(false,ancLeyCheckIm);
             checkButtonEnableStatus();
         });
 
@@ -154,11 +204,11 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
      * submit all collected data
      */
     private void submitData() {
-        showProgressDialog(R.string.data_adding);
+        showProgressDialog(R.string.saving);
         processForm();
-        //hideProgressDialog();
 
     }
+    String edd ="",height = "";
     private boolean isHighRisk(){
         for(String jsonstr: jsonStringList){
             try {
@@ -168,12 +218,19 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 for (int i = 0; i < fields.length(); i++) {
                     try {
                         JSONObject fieldObject = fields.getJSONObject(i);
+                        if("edd".equalsIgnoreCase(fieldObject.getString("key"))){
+                            edd = fieldObject.getString("value");
+                        }
+                        if("height".equalsIgnoreCase(fieldObject.getString("key"))){
+                            height = fieldObject.getString("value");
+                        }
                         if("is_high_risk".equalsIgnoreCase(fieldObject.getString("key"))){
                             String str = fieldObject.getString("is_visible");
                             if (Boolean.parseBoolean(str)) {
                                 return true;
                             }
                         }
+
 
                     } catch (JSONException e) {
 
@@ -191,19 +248,34 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     /**
      * process all data
      */
-    void processForm(){
+    void  processForm(){
         processVisitFormAndSave()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
+                .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(Integer integer) {
-                        //isSave.set(integer);
+                    public void onNext(String evenType) {
+                      if(evenType.equalsIgnoreCase("done")){
+                          showServiceDoneDialog(new Runnable() {
+                              @Override
+                              public void run() {
+                                  try {
+                                      NCUtils.startClientProcessing();
+                                  } catch (Exception e) {
+                                      e.printStackTrace();
+                                  }
+                                  Intent intent = getIntent();
+                                  setResult(NewANCRegistrationActivity.RESULT_ANC_REGISTRATION, intent);
+                                  finish();
+                              }
+                          });
+
+                      }
                     }
 
                     @Override
@@ -214,35 +286,22 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        hideProgressDialog();
-                        Intent intent = getIntent();
-                        setResult(NewANCRegistrationActivity.RESULT_CHILD_FOLLOW_UP, intent);
-                        finish();
+
                     }
                 });
     }
-
+//    private void addToTempTable(String evenType, int status){
+//        HHVisitInfoModel hhVisitInfoModel = new HHVisitInfoModel();
+//        hhVisitInfoModel.pageEventType = HnppConstants.EVENT_TYPE.NEW_ANC_REGISTRATION;
+//        hhVisitInfoModel.eventType = evenType;
+//        hhVisitInfoModel.hhBaseEntityId = baseEntityId;
+//        hhVisitInfoModel.memberBaseEntityId = "";
+//        hhVisitInfoModel.infoCount = 1;
+//        hhVisitInfoModel.isDone = status;
+//        HnppApplication.getHHVisitInfoRepository().addOrUpdateHhMemmerData(hhVisitInfoModel);
+//    }
     /**
      * initializing all views here
-     */
-    private void initView() {
-        closeImage = findViewById(R.id.close_image_view);
-        saveButton = findViewById(R.id.submit_btn);
-
-        ancRegLay = findViewById(R.id.anc_reg_lay);
-        physicalProbLay = findViewById(R.id.physical_prob_lay);
-        historyLay = findViewById(R.id.history_lay);
-        diversityLay = findViewById(R.id.diversity_lay);
-        ancLey = findViewById(R.id.anc_ley);
-
-        ancRegCheckIm= findViewById(R.id.anc_reg_check_im);
-        physicalProbCheckIm = findViewById(R.id.physical_prob_check_im);
-        historyCheckIm = findViewById(R.id.history_check_im);
-        diversityCheckIm = findViewById(R.id.diversity_check_im);
-        ancLeyCheckIm = findViewById(R.id.anc_check_im);
-
-        notInterestedB = findViewById(R.id.not_interested);
-    }
 
     /**
      * start child followup form here
@@ -268,11 +327,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                try{
-                    HnppJsonFormUtils.addAddToStockValue(jsonForm);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
                 try{
                     String dob = HnppDBUtils.getDOB(baseEntityId);
                     Date date = Utils.dobStringToDate(dob);
@@ -282,8 +337,36 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"phone_number",phoneNo);
                 }catch (Exception e){
 
+                } if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_HISTORY)){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"edd",edd);
                 }
+                if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) ||
+                        formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) ||
+                        formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"edd",edd);
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"height",height);
+                    HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
+                    try{
+                        HnppJsonFormUtils.addAddToStockValue(jsonForm);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                    if(weights.length>0){
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                        int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                    }
+                }
+                if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY)){
+                    String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                    if(weights.length>0){
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                        int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                    }
 
+                }
                 jsonForm.put(JsonFormUtils.ENTITY_ID,baseEntityId);
                 Intent intent = new Intent(NewANCRegistrationActivity.this, HnppAncJsonFormActivity.class);
                 intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
@@ -324,6 +407,11 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             if(requestCode == REQUEST_ANC_REG){
                 if(data!=null){
                     setJsonStringList(data,ancRegCheckIm);
+                    boolean isHighRisk =  isHighRisk();
+                    if(isHighRisk){
+                        notInterestedB.setVisibility(View.INVISIBLE);
+                        showAlertForHighRiskPatient();
+                    }
                 }
             }
             else if(requestCode == REQUEST_HISTORY){
@@ -339,10 +427,12 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             else if(requestCode == REQUEST_DIVERTY){
                 if(data!=null){
                     setJsonStringList(data,diversityCheckIm);
-                   boolean isHighRisk =  isHighRisk();
-                   if(isHighRisk){
-                       notInterestedB.setVisibility(View.INVISIBLE);
-                   }
+                    boolean isHighRisk =  isHighRisk();
+                    if(isHighRisk){
+                        notInterestedB.setVisibility(View.INVISIBLE);
+                        showAlertForHighRiskPatient();
+                    }
+
                 }
             }
             else if(requestCode == REQUEST_ANC_VISIT){
@@ -354,12 +444,25 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         }
         checkButtonEnableStatus();
     }
-    private void setJsonStringList(Intent data, ImageView imageView){
+
+    private void showAlertForHighRiskPatient() {
+
+    }
+
+    private void setJsonStringList(Intent data,ImageView imageView){
         String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
         if(!TextUtils.isEmpty(jsonString)){
             jsonStringList.add(jsonString);
-            imageView.setImageResource(R.drawable.success);
+            updateUi(true,imageView);
+        }
+    }
+    private void updateUi(boolean status,ImageView imageView){
+        imageView.setImageResource(R.drawable.success);
+        if(status){
             imageView.setColorFilter(ContextCompat.getColor(this, R.color.others));
+        }else{
+            imageView.setColorFilter(ContextCompat.getColor(NewANCRegistrationActivity.this, android.R.color.holo_orange_dark));
+
         }
     }
 
@@ -374,17 +477,13 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     }
 
     //process prom via rxJava
-    private Observable<Integer> processVisitFormAndSave(){
+    private Observable<String> processVisitFormAndSave(){
 
         return Observable.create(e-> {
-            if(TextUtils.isEmpty(baseEntityId)) e.onNext(2);
+            if(TextUtils.isEmpty(baseEntityId)) e.onNext("");
             try {
-                int successCount = 0;
-                for(String jsonString : jsonStringList){
-                    if(Objects.equals(jsonString, "test")) {
-                        successCount++;
-                        continue;
-                    }
+                for (String jsonString: jsonStringList){
+                    if(jsonString.equalsIgnoreCase("test")) continue;
                     String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
                     String visitId = JsonFormUtils.generateRandomUUIDString();
 
@@ -402,29 +501,15 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                         HnppHomeVisitIntentService.processVisits();
                         FormParser.processVisitLog(visit);
                         HnppConstants.appendLog("SAVE_VISIT", "processVisitLog done:"+formSubmissionId+":type:"+type);
-
-                        //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
-                        successCount++;
-
-
-                    }/*else if(visit != null && visit.getVisitId().equals("0")){
-                        e.onNext(3);
-                        e.onComplete();
-                    }else{
-                        e.onNext(2);
-                        e.onComplete();
-                    }*/
+                    }
                 }
-                if(successCount == jsonStringList.size()){
-                    e.onNext(1);
-                }else {
-                    e.onNext(2);
-                }
+
+
+                e.onNext("done");
                 e.onComplete();
             } catch (Exception ex) {
                 HnppConstants.appendLog("SAVE_VISIT","exception processVisitFormAndSave >>"+ex.getMessage());
-                e.onNext(1);
-                e.onComplete();
+                e.onNext("");
             }
         });
     }
@@ -447,7 +532,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     /**
      * service done dialog
      */
-    private void showServiceDoneDialog(){
+    private void showServiceDoneDialog(Runnable runnable){
         if(dialog != null) return;
         dialog = new Dialog(this);
         dialog.setCancelable(false);
@@ -457,7 +542,10 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         titleTv.setText(R.string.survice_added);
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
 
-        ok_btn.setOnClickListener(v -> dialog.dismiss());
+        ok_btn.setOnClickListener(v ->{
+            dialog.dismiss();
+            runnable.run();
+        } );
         dialog.show();
 
     }

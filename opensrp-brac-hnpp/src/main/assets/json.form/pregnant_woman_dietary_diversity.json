@@ -68,7 +68,22 @@
         "type": "hidden",
         "read_only": true
       },
-
+      {
+        "key": "previous_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_weight",
+        "type": "hidden",
+        "read_only": true
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "month_diff",
+        "type": "hidden",
+        "read_only": true
+      },
       {
         "key": "woman_weight",
         "openmrs_entity_parent": "",
@@ -93,7 +108,37 @@
           "err": "200 এর সমান বা 200 এর কম হওয়া উচিত"
         }
       },
+      {
+        "key": "monthly_weight_increase",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "monthly_weight_increase",
+        "type": "edit_text",
+        "hint": "মাসিক ওজন বৃদ্ধির হার",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
 
+      },
+      {
+        "key": "is_low_risk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_low_risk",
+        "type": "hidden",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
       {
         "key": "woman_advice",
         "openmrs_entity_parent": "",
@@ -157,42 +202,42 @@
         "options": [
           {
             "key": "one_of_fish_meat_liver",
-            "text": "১। মাছ , মাংস, কলিজার যে কোন ১টি",
+            "text": "মাছ , মাংস, কলিজার যে কোন ১টি",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "one_of_fish_meat_liver"
           },
           {
             "key": "egg",
-            "text": "২। ডিম",
+            "text": "ডিম",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "egg"
           },
           {
             "key": "thick_dal",
-            "text": "৩। ঘন ডাল",
+            "text": "ঘন ডাল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "thick_dal"
           },
           {
             "key": "desert",
-            "text": "৪। দুধ বা দুগ্ধ জাতীয় যে কোন খাবার",
+            "text": "দুধ বা দুগ্ধ জাতীয় যে কোন খাবার",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "desert"
           },
           {
             "key": "yellow_vegetables",
-            "text": "৫। হলুদ ও কমলা রং এর সবজি বা ফল; যেমন-গাজর/ মিষ্টি কুমড়া/ আম/ কাঠাল",
+            "text": "হলুদ ও কমলা রং এর সবজি বা ফল; যেমন-গাজর/ মিষ্টি কুমড়া/ আম/ কাঠাল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "yellow_vegetables"
           },
           {
             "key": "deep_green_vegetables",
-            "text": "৬। গাঢ় সবুজ শাক সবজি",
+            "text": "গাঢ় সবুজ শাক সবজি",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "deep_green_vegetables"
@@ -200,7 +245,7 @@
 
           {
             "key": "none",
-            "text": "৭। কোনোটিই নয়",
+            "text": "কোনোটিই নয়",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "none"
