@@ -66,7 +66,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 //eventype = anc1||anc2||anc3{
                 //(FormApplicability.isDueAnyForm(baseEntityId, "pregency") && !TextUtils.isEmpty(pregency)//}
 
-                switch (eventType) {
+                /*switch (eventType) {
                     case HnppConstants.EVENT_TYPE.ANC1_REGISTRATION:
                     case HnppConstants.EVENT_TYPE.ANC2_REGISTRATION:
                     case HnppConstants.EVENT_TYPE.ANC3_REGISTRATION:
@@ -82,7 +82,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                             memberProfileDueDataArrayList.add(memberProfileDueData2);
                         }
                         break;
-                }
+                }*/
             }
 
             if (context instanceof HnppMemberProfileDueFragment) {

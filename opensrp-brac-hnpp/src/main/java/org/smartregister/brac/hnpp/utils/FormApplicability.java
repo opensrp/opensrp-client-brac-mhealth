@@ -270,6 +270,7 @@ public class FormApplicability {
         return dayPass;
     }
     public static int getDaysFromEDD(String edd){
+        if(edd.isEmpty()) return 0;
         int dayPass = Days.daysBetween(new DateTime(),DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
         return 281 - dayPass;
     }

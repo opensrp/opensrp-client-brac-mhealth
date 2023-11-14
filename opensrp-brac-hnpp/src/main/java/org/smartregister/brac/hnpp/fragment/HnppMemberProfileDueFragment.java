@@ -22,10 +22,12 @@ import android.widget.Toast;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.brac.hnpp.activity.NewANCRegistrationActivity;
 import org.smartregister.brac.hnpp.adapter.HnppMemberProfileDueAdapter;
 import org.smartregister.brac.hnpp.adapter.OtherServiceAdapter;
 import org.smartregister.brac.hnpp.contract.HnppMemberProfileContract;
 import org.smartregister.brac.hnpp.contract.OtherServiceContract;
+import org.smartregister.brac.hnpp.enums.AncRegistrationType;
 import org.smartregister.brac.hnpp.model.MemberProfileDueModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.HnppMemberProfilePresenter;
@@ -313,6 +315,8 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         String eventType = (String) content.getEventType();
                         activity.requestedFormName = content.from;
+                        NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
+                       /* return;
                         if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
@@ -320,7 +324,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                             activity.openHomeVisitForm();
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
-                        }
+                        }*/
                     }
                     break;
             }
@@ -369,14 +373,16 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
+                        NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
+
+                        /*if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
                                 && FormApplicability.isFirstTimeAnc(baseEntityId)){
                             activity.openHomeVisitForm();
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
-                        }
+                        }*/
                     }
                     break;
             }

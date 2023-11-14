@@ -31,11 +31,13 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.custom_view.FamilyMemberFloatingMenu;
+import org.smartregister.brac.hnpp.enums.AncRegistrationType;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.MemberHistoryFragment;
 import org.smartregister.brac.hnpp.fragment.MemberOtherServiceFragment;
@@ -284,7 +286,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     @Override
     public void startAncRegister() {
-        NewANCRegistrationActivity.startNewAncRegistrationActivity(this,baseEntityId);
+        NewANCRegistrationActivity.startNewAncRegistrationActivity(this,baseEntityId, AncRegistrationType.fromOtherMember);
 
 //        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
 //            @Override
@@ -456,7 +458,21 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) ||
                     formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) ||
                     formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+                String[] eddAndHeight = HnppDBUtils.getEddAndHeight(baseEntityId);
+                HnppJsonFormUtils.addJsonKeyValue(jsonForm,"edd",eddAndHeight[0]);
+                HnppJsonFormUtils.addJsonKeyValue(jsonForm,"height", eddAndHeight[1]);
                 HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
+                try{
+                    HnppJsonFormUtils.addAddToStockValue(jsonForm);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                if(weights.length>0){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                }
             } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)||
                formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
                     ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)  ){
@@ -470,6 +486,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 }else{
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","false");
                 }
+                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                if(weights.length>0){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                }
 
             }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
@@ -481,14 +503,6 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
             }
 
-//           if(formName.contains("anc"))
-            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            String height = visitLogRepository.getHeight(baseEntityId);
-            if(!TextUtils.isEmpty(height)){
-                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                updateFormField(jsonArray,"height",height);
-            }
 
             intent = new Intent(this, HnppAncJsonFormActivity.class);
 //           else
