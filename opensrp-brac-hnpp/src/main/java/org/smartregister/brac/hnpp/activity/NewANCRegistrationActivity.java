@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -41,6 +42,7 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
@@ -214,10 +216,21 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
 
         });
         ancLey.setOnClickListener(view -> {
-            startAnyFormActivity(HnppConstants.JSON_FORMS.ANC1_FORM, REQUEST_ANC_VISIT);
-
+            startAncForm();
         });
 
+    }
+
+    private void startAncForm() {
+        CommonPersonObjectClient client = HnppDBUtils.getClientByBaseEntityId(baseEntityId);
+        String evenType = FormApplicability.getDueFormForMarriedWomen(baseEntityId, FormApplicability.getAge(client));
+        if(Objects.equals(evenType, HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)) {
+            startAnyFormActivity(HnppConstants.JSON_FORMS.ANC1_FORM, REQUEST_ANC_VISIT);
+        }else if(Objects.equals(evenType, HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)) {
+            startAnyFormActivity(HnppConstants.JSON_FORMS.ANC2_FORM, REQUEST_ANC_VISIT);
+        }else if(Objects.equals(evenType, HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)) {
+            startAnyFormActivity(HnppConstants.JSON_FORMS.ANC3_FORM, REQUEST_ANC_VISIT);
+        }
     }
 
     /**
@@ -377,7 +390,12 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "edd", edd);
                     }
 
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm, "height", height);
+                    if(height.isEmpty()){
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm, "height", HnppDBUtils.getEddAndHeight(baseEntityId)[1]);
+                    }else {
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm, "height", height);
+                    }
+
                     HnppJsonFormUtils.addLastAnc(jsonForm, baseEntityId, false);
                     try {
                         HnppJsonFormUtils.addAddToStockValue(jsonForm);
@@ -388,7 +406,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                     String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
                     if (weights.length > 0) {
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "previous_weight", weights[0]);
-                        int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]), new LocalDate(System.currentTimeMillis()));
+                        int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(Long.parseLong(weights[1])), new LocalDate(System.currentTimeMillis()));
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "month_diff", monthDiff + "");
                     }
                 }
@@ -396,7 +414,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                     String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
                     if (weights.length > 0) {
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "previous_weight", weights[0]);
-                        int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]), new LocalDate(System.currentTimeMillis()));
+                        int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(Long.parseLong(weights[1])), new LocalDate(System.currentTimeMillis()));
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "month_diff", monthDiff + "");
                     }
 
@@ -419,7 +437,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 startActivityForResult(intent, requestCode);
 
             } catch (Exception ignored) {
-
+                Log.d("exxxxx",ignored.getLocalizedMessage());
             }
         });
 

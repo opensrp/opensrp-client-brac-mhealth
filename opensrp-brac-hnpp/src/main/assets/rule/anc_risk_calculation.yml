@@ -17,7 +17,7 @@ actions:
 name: step1_monthly_weight_increase
 description: monthly_weight_increase calculated
 priority: 1
-condition: "true"
+condition: "step1_woman_weight != '' && step1_previous_weight!= '' && step1_month_diff!= 0"
 actions:
   - "calculation = ((step1_woman_weight - step1_previous_weight)/step1_month_diff)"
 ---

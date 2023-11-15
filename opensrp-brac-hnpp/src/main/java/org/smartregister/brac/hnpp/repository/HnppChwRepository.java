@@ -96,6 +96,7 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion44(database);
         upgradeToVersion45(database);
         upgradeToVersion46(database);
+        upgradeToVersion47(database);
     }
 
     @Override

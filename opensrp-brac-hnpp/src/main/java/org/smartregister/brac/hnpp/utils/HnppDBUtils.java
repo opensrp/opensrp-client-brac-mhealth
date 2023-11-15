@@ -1192,12 +1192,19 @@ public class HnppDBUtils extends CoreChildUtils {
     public static String[] getWeightFromBaseEntityId(String baseEntityId){
         String query = "select weight,weight_date from ec_family_member where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
-        String[] weight= new String[2];
+        String[] weight = new String[2];
+
+        weight[0] = "0";
+        weight[1] = "0";
+
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 weight[0] = cursor.getString(0);
+                if(weight[0] == null){
+                    weight[0] = "0";
+                }
                 weight[1] = cursor.getLong(1)+"";
             }
 

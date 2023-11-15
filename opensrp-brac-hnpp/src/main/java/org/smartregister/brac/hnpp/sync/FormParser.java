@@ -239,8 +239,8 @@ public class FormParser {
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log);
                         }
                         if(PREGNANT_WOMAN_DIETARY_DIVERSITY.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey(HnppConstants.KEY.MEMBER_WEIGHT)){
-                                String weightValue = details.get(HnppConstants.KEY.MEMBER_WEIGHT);
+                            if(details.containsKey(HnppConstants.KEY.WOMAN_WEIGHT)){
+                                String weightValue = details.get(HnppConstants.KEY.WOMAN_WEIGHT);
                                 HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,log.visitDate);
                             }
                         }
