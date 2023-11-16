@@ -132,6 +132,9 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             ancRegLay.setVisibility(View.GONE);
             physicalProbLay.setVisibility(View.GONE);
             historyLay.setVisibility(View.GONE);
+            notInterestedB.setVisibility(View.GONE);
+        }else {
+            notInterestedB.setVisibility(View.VISIBLE);
         }
     }
 
@@ -222,6 +225,10 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     }
 
     private void startAncForm() {
+        if (ancRegistrationType != AncRegistrationType.fromDue) {
+            startAnyFormActivity(HnppConstants.JSON_FORMS.ANC1_FORM, REQUEST_ANC_VISIT);
+            return;
+        }
         CommonPersonObjectClient client = HnppDBUtils.getClientByBaseEntityId(baseEntityId);
         String evenType = FormApplicability.getDueFormForMarriedWomen(baseEntityId, FormApplicability.getAge(client));
         if(Objects.equals(evenType, HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)) {

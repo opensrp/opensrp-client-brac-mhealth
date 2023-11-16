@@ -584,7 +584,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                             || "is_high_risk_dias".equalsIgnoreCase(fieldObject.getString("key"))
                             || "is_high_risk_fasting".equalsIgnoreCase(fieldObject.getString("key"))
                             || "is_high_risk_hmg_1".equalsIgnoreCase(fieldObject.getString("key"))
-                            || "is_high_risk_hmg_1".equalsIgnoreCase(fieldObject.getString("key"))
+                            || "is_high_risk_hmg_2".equalsIgnoreCase(fieldObject.getString("key"))
                             || "is_high_risk_sys".equalsIgnoreCase(fieldObject.getString("key"))) {
                         String str = fieldObject.getString("is_visible");
                         fieldObject.remove("is_visible");
