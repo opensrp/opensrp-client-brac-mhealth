@@ -16,6 +16,36 @@
         <item>হ্যাঁ</item>
 
     </string-array>
+    <string-array name="year_epi">
+        <item>2024</item>
+        <item>2023</item>
+        <item>2022</item>
+        <item>2021</item>
+    </string-array>
+    <string-array name="center_type">
+        <item>Permanent</item>
+        <item>Temporary</item>
+        <item>Community Clinic</item>
+        <item>Satellite</item>
+    </string-array>
+    <string-array name="transportation_type">
+        <item>Bus</item>
+        <item>Ricksha</item>
+        <item>By road</item>
+    </string-array>
+    <string-array name="status_epi">
+        <item>All</item>
+        <item>New</item>
+        <item>Pending</item>
+        <item>Done</item>
+    </string-array>
+    <string-array name="years">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+    </string-array>
     <string name="member_import">সদস্য ইম্পোর্ট</string>
     <string name="report">GMP রিপোর্ট</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
@@ -1033,6 +1063,7 @@
     <string name="risky_cause">Causes of risky patient :</string>
     <string name="search_name_pn">Search by Name or phone number</string>
     <string name="referrel_hospital">শিশুকে স্বাস্থ্য সেবার জন্য উপজেলা হাসপাতালে রেফার করুন</string>
+    <string name="microplan">Microplan</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

@@ -201,6 +201,11 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
     }
 
     @Override
+    public void microplan(Activity activity) {
+        activity.startActivity(new Intent(activity, SearchActivity.class));
+    }
+
+    @Override
     public void browseNotification(Activity activity) {
         activity.startActivity(new Intent(activity, NotificationActivity.class));
     }

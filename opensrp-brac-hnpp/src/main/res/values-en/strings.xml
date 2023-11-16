@@ -1003,6 +1003,7 @@
     <string name="risky_cause">Caused of risky patient :</string>
     <string name="search_name_pn">Search by Name or phone number</string>
     <string name="referrel_hospital">Refer to Upozila Hospital</string>
+    <string name="microplan">Microplan</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

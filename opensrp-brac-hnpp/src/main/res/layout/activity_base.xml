@@ -148,39 +148,7 @@
                             android:drawableLeft="@drawable/ic_cov"
                             android:textColor="@color/white"
                             android:textSize="20sp" />
-                        <RelativeLayout
-                            android:id="@+id/rlIconLang"
-                            android:visibility="visible"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:paddingStart="15dp"
-                            android:paddingLeft="15dp"
-                            android:paddingBottom="15dp">
 
-                            <ImageView
-                                android:id="@+id/ivIconLang"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
-                                android:scaleType="centerInside"
-                                app:srcCompat="@drawable/ic_nav_language" />
-
-                            <TextView
-                                android:id="@+id/tvLang"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_toEndOf="@+id/ivIconLang"
-                                android:layout_toRightOf="@+id/ivIconLang"
-                                android:fontFamily="sans-serif"
-                                android:text="English"
-                                android:textColor="@color/white"
-                                android:textSize="20sp" />
-
-                        </RelativeLayout>
 
                         <RelativeLayout
                             android:id="@+id/rlIconDevice"
@@ -408,6 +376,72 @@
                                 android:layout_toRightOf="@+id/ivssinfo"
                                 android:fontFamily="sans-serif"
                                 android:text="Search"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/rlIconMicro"
+                            android:visibility="visible"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:id="@+id/ivIconMicro"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                app:srcCompat="@drawable/ic_calender" />
+
+                            <TextView
+                                android:id="@+id/tvMicro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivIconMicro"
+                                android:layout_toRightOf="@+id/ivIconMicro"
+                                android:fontFamily="sans-serif"
+                                android:text="@string/microplan"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/rlIconLang"
+                            android:visibility="visible"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:id="@+id/ivIconLang"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                app:srcCompat="@drawable/ic_nav_language" />
+
+                            <TextView
+                                android:id="@+id/tvLang"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivIconLang"
+                                android:layout_toRightOf="@+id/ivIconLang"
+                                android:fontFamily="sans-serif"
+                                android:text="English"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

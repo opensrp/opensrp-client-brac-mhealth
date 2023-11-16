@@ -331,7 +331,7 @@ public class TikaCardViewActivity extends SecuredActivity {
     private  void openPDF(String pdfFilePath) {
        try{
            File file = new File(pdfFilePath);
-           Uri uri = FileProvider.getUriForFile(this,"org.smartregister.unicef.dghs.fileprovider",file);
+           Uri uri = FileProvider.getUriForFile(this,getPackageName()+".fileprovider",file);
 
            Intent intent = new Intent(Intent.ACTION_VIEW);
            intent.setDataAndType(uri, "application/pdf");

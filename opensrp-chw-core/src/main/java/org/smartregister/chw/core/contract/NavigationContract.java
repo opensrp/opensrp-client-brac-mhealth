@@ -26,6 +26,7 @@ public interface NavigationContract {
         void covid19(Activity activity);
         void forceSync(Activity activity);
         void scanQR(Activity activity);
+        void microplan(Activity activity);
         void browseSSInfo(Activity activity);
         void browseNotification(Activity activity);
         void updateLocation(Activity activity);

@@ -1031,6 +1031,7 @@
     <string name="risky_cause">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
     <string name="search_name_pn">নাম বা মোবাইল নম্বর দিয়ে খুজুন</string>
     <string name="referrel_hospital">শিশুকে স্বাস্থ্য সেবার জন্য উপজেলা হাসপাতালে রেফার করুন</string>
+    <string name="microplan">Microplan</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

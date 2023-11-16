@@ -78,6 +78,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout dashboard_layout;
     private RelativeLayout qrscan_layout;
     private RelativeLayout updateLocation;
+    private RelativeLayout microplanLayout;
     private View rootView = null;
     private ImageView ivSync;
     private ProgressBar syncProgressBar;
@@ -188,6 +189,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         tvLogout = rootView.findViewById(R.id.tvLogout);
         tvCovid19 = rootView.findViewById(R.id.covid19);
         tvForceSync = rootView.findViewById(R.id.tvForceSync);
+        microplanLayout = rootView.findViewById(R.id.rlIconMicro);
         ss_info_browse = rootView.findViewById(R.id.ss_info_browse);
         updateLocation = rootView.findViewById(R.id.update_location);
         notification_layout = rootView.findViewById(R.id.notification_view);
@@ -232,6 +234,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerPayment(activity);
         registerDashboard(activity);
         registerQRScan(activity);
+        registerMicroplan(activity);
         //registerDeviceToDeviceSync(activity);
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -338,6 +341,11 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             mPresenter.browseSSInfo(activity);
         }
     }
+    public void microplan(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.microplan(activity);
+        }
+    }
     public void browseNotification(Activity activity) {
         if(mPresenter!=null){
             mPresenter.browseNotification(activity);
@@ -429,6 +437,10 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private void registerBrowseSSInfo(final Activity parentActivity){
         mPresenter.displayCurrentUser();
         ss_info_browse.setOnClickListener(v -> browseSSInfo(parentActivity));
+    }
+    private void registerMicroplan(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        microplanLayout.setOnClickListener(v -> microplan(parentActivity));
     }
     private void registerUpdateLocation(final Activity parentActivity){
         mPresenter.displayCurrentUser();

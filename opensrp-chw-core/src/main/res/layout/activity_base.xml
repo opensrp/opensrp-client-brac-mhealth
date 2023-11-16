@@ -127,7 +127,39 @@
                         android:layout_marginRight="15dp"
                         android:layout_marginBottom="25dp"
                         android:orientation="vertical">
+                        <RelativeLayout
+                            android:id="@+id/rlIconMicro"
+                            android:visibility="visible"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:paddingStart="15dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="15dp">
 
+                            <ImageView
+                                android:id="@+id/ivIconMicro"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:scaleType="centerInside"
+                                app:srcCompat="@drawable/ic_input_add" />
+
+                            <TextView
+                                android:id="@+id/tvMicro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toEndOf="@+id/ivIconMicro"
+                                android:layout_toRightOf="@+id/ivIconMicro"
+                                android:fontFamily="sans-serif"
+                                android:text="Microplan"
+                                android:textColor="@color/white"
+                                android:textSize="20sp" />
+
+                        </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/rlIconLang"
                             android:layout_width="match_parent"
