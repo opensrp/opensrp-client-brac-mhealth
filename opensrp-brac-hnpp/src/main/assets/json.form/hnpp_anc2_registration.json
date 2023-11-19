@@ -852,6 +852,24 @@
           }
         }
       },
+
+      {
+        "key": "is_high_risk_sys",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_sys",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "blood_pressure_diastolic",
         "openmrs_entity_parent": "",
@@ -916,6 +934,24 @@
           }
         }
       },
+
+      {
+        "key": "is_high_risk_dias",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_dias",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "spacer",
         "openmrs_entity_parent": "",
@@ -1202,6 +1238,24 @@
           }
         }
       },
+
+      {
+        "key": "is_high_risk_fasting",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_fasting",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "random_blood_sugar",
         "openmrs_entity_parent": "",
@@ -1317,6 +1371,40 @@
           }
         }
       },
+
+      {
+        "key": "is_high_risk_hmg_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_hmg_1",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_high_risk_hmg_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_hmg_2",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "albumin_test",
         "openmrs_entity_parent": "",

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContentInfo;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.smartregister.brac.hnpp.R;
@@ -52,6 +53,11 @@ public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListView
     @Override
     public void onBindViewHolder(@NonNull final RoutinFUpListViewHolder viewHolder, int position) {
         final AncFollowUpModel content = memberArrayList.get(position);
+        if(content.followUpDate == 0){
+            viewHolder.itemView.setVisibility(View.GONE);
+        }else {
+            viewHolder.itemView.setVisibility(View.VISIBLE);
+        }
         if(content.riskType == 2){
             viewHolder.layout.setBackgroundResource(R.color.red);
         }else if(content.riskType == 1){

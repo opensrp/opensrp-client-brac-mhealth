@@ -45,6 +45,12 @@ public class TelephonicFUpListAdapter extends RecyclerView.Adapter<TelephonicFUp
     @Override
     public void onBindViewHolder(@NonNull final TelephonicFUpListViewHolder viewHolder, int position) {
         final AncFollowUpModel content = memberArrayList.get(position);
+        if(content.telephonyFollowUpDate == 0){
+            viewHolder.itemView.setVisibility(View.GONE);
+        }else {
+            viewHolder.itemView.setVisibility(View.VISIBLE);
+        }
+
         viewHolder.dueButton.setVisibility(View.GONE);
         viewHolder.dueLay.setVisibility(View.VISIBLE);
 

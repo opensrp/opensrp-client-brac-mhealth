@@ -888,6 +888,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_high_risk_sys",
         "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -967,6 +969,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_high_risk_dias",
         "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1240,6 +1244,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_high_risk_fasting",
         "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1370,6 +1376,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_high_risk_hmg_1",
         "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -1384,6 +1392,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_high_risk_hmg_2",
         "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
         "relevance": {
           "rules-engine": {
             "ex-rules": {

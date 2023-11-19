@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.interactor;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.contract.TelephonicFUpContract;
+import org.smartregister.brac.hnpp.enums.FollowUpType;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.family.util.AppExecutors;
 
@@ -19,7 +20,7 @@ public class TelephonicFUpnteractor implements TelephonicFUpContract.Interactor 
     private ArrayList<AncFollowUpModel> getData() {
         followUpList.clear();
 
-        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData("");
+        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.telephonic);
         return followUpList;
     }
 

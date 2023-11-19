@@ -10,6 +10,7 @@ import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.joda.time.DateTime;
+import org.smartregister.brac.hnpp.enums.FollowUpType;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.utils.RiskyModel;
 import org.smartregister.repository.BaseRepository;
@@ -98,11 +99,20 @@ public class AncFollowUpRepository extends BaseRepository {
         }
     }
 
-    public ArrayList<AncFollowUpModel> getAncFollowUpData(String type) {
+    public ArrayList<AncFollowUpModel> getAncFollowUpData(FollowUpType type) {
         Cursor cursor = null;
         ArrayList<AncFollowUpModel> ancFollowUpModelArrayList = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT a.base_entity_id," +
+            String typeQuery = "";
+            if(type == FollowUpType.routine){
+                typeQuery = "and (a.follow_up_date > 0)";
+            }else if(type == FollowUpType.special){
+                typeQuery = "and (a.special_follow_up_date > 0)";
+            }else if(type == FollowUpType.telephonic){
+                typeQuery = "and (a.telephony_follow_up_date > 0)";
+            }
+
+            String query = "SELECT a.base_entity_id," +
                     "a.follow_up_date," +
                     "a.next_follow_up_date," +
                     "a.visit_date," +
@@ -121,8 +131,12 @@ public class AncFollowUpRepository extends BaseRepository {
                     "left join risk_list as r on a.base_entity_id = r.base_entity_id " +
                     "left join ec_family_member as e on a.base_entity_id = e.base_entity_id " +
                     "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) " +
-                    "and e.base_entity_id not null " +
-                    "group by a.base_entity_id", null);
+                    "and e.base_entity_id not null " +typeQuery+
+                    " group by a.base_entity_id";
+
+            Log.d("QQQQQ",""+query);
+
+            cursor = getReadableDatabase().rawQuery(query, null);
             while (cursor.moveToNext()) {
                 ancFollowUpModelArrayList.add(readCursor(cursor));
             }

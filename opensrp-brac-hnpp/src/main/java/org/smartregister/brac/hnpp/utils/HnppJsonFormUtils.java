@@ -573,7 +573,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if (encounterType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION) ||
                 encounterType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
                 || encounterType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                || encounterType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)) {
+                || encounterType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)
+                || encounterType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)) {
             for (int i = 0; i < fields.length(); i++) {
                 try {
                     JSONObject fieldObject = fields.getJSONObject(i);
