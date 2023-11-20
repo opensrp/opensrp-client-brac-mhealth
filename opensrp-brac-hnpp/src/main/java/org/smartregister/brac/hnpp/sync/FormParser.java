@@ -1192,107 +1192,255 @@ public class FormParser {
         ancFollowUpModel.baseEntityId = log.getBaseEntityId();
         ancFollowUpModel.visitDate = log.visitDate;
         ancFollowUpModel.followUpDate = log.visitDate;
-        ancFollowUpModel.nextFollowUpDate = log.visitDate;
+        ancFollowUpModel.nextFollowUpDate = 0;
         ancFollowUpModel.telephonyFollowUpDate = 0;
         ancFollowUpModel.specialFollowUpDate = 0;
-        ancFollowUpModel.noOfAnc = 1;
+        ancFollowUpModel.noOfAnc = 0;
 
         return ancFollowUpModel;
     }
 
     private static void updateAncHomeVisitRisk(String eventType, String baseEntityId, HashMap<String, String> details, VisitLog log){
-
-        AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+        boolean isNormal = true;
 
         RiskListModel riskListModel = new RiskListModel();
         riskListModel.baseEntityId = baseEntityId;
+
+        Log.d("DDDDDDDDDDDDDDD",details.keySet()+"\n"+details.values());
+
         if(details.containsKey("is_high_risk")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
                 HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+                Log.d("RRRRRRRRR",""+value+" "+baseEntityId+" "+riskListModel.riskType);
             }
-        }else if(details.containsKey("is_high_risk_gd")){
+        }
+        if(details.containsKey("is_high_risk_gd")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk_gd");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+
+                Log.d("RRRRRRRRR_GD",""+value+" "+baseEntityId+" "+riskListModel.riskType);
             }
-        }else if(details.containsKey("is_high_risk_dias")){
+        }
+        if(details.containsKey("is_high_risk_dias")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk_dias");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,1);
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
                 HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+
+                Log.d("RRRRRRRRR_DIS",""+value+" "+baseEntityId+" "+riskListModel.riskType);
             }
-        }else if(details.containsKey("is_high_risk_fasting")){
+        }
+        if(details.containsKey("is_high_risk_fasting")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk_fasting");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+
                 HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+
+                Log.d("RRRRRRRRR_FASTING",""+value+" "+baseEntityId+" "+riskListModel.riskType+"  "+ancFollowUpModel.telephonyFollowUpDate);
             }
-        }else if(details.containsKey("is_high_risk_hmg_1")){
+        }
+        if(details.containsKey("is_high_risk_hmg_1")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk_hmg_1");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
 
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,60);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+
                 HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+
+                Log.d("RRRRRRRRR_HMG_1",""+value+" "+baseEntityId+" "+riskListModel.riskType);
             }
-        }else if(details.containsKey("is_high_risk_hmg_2")){
+        }
+        if(details.containsKey("is_high_risk_hmg_2")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk_hmg_2");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
 
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,30);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
                 HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+                Log.d("RRRRRRRRR_HMG_2",""+value+" "+baseEntityId+" "+riskListModel.riskType);
             }
-        }else if(details.containsKey("is_high_risk_sys")){
+        }
+        if(details.containsKey("is_high_risk_sys")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_high_risk_sys");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,1);
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
                 HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
 
             }
-        }else if(details.containsKey("is_low_risk")) {
+        }
+        if(details.containsKey("is_low_risk")) {
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
             String value = details.get("is_low_risk");
-            assert value != null;
-            if(value.equals("true")){
+            if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_low_risk";
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 1; //1-> low risk
+
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+                Log.d("RRRRRRRRR_LOW",""+value+" "+baseEntityId+" "+riskListModel.riskType);
             }
+        }
+
+        if(isNormal){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+            riskListModel.highRiskKey = "anc_normal";
+            riskListModel.highRiskValue = "";
+            riskListModel.riskType = 0;
+
+            if(details.containsKey("ga")){
+                String ga = details.get("ga");
+                ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+            }
+            if(details.containsKey("number_of_anc")) {
+                String anc = details.get("number_of_anc");
+                assert anc != null;
+                ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+            }
+            HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+            Log.d("RRRRRRRRR_NORMAL","normal"+" "+baseEntityId+" "+riskListModel.riskType);
         }
 
         HnppApplication.getRiskListRepository().addOrUpdate(riskListModel);
         updateRiskDetails(eventType,baseEntityId,details,log);
 
+    }
+
+    private static long getRoutineDate(String ga,VisitLog log) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(log.visitDate);
+
+        int gaInt = Integer.parseInt(ga);
+        if(gaInt >= 30 && gaInt <= 34){
+            calendar.add(Calendar.DAY_OF_MONTH,21); //3 weeks
+        }else if(gaInt >= 35){
+            calendar.add(Calendar.DAY_OF_MONTH,14); //2 weeks
+        }else {
+            calendar.add(Calendar.DAY_OF_MONTH,49); //7 weeks
+        }
+
+        return calendar.getTimeInMillis();
     }
 
     private static Long getAddedDate(VisitLog log,int type,int value){

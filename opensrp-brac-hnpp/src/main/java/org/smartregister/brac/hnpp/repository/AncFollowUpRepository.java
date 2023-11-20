@@ -91,11 +91,13 @@ public class AncFollowUpRepository extends BaseRepository {
         contentValues.put(TELEPHONY_FOLLOW_UP_DATE, ancFollowUpModel.telephonyFollowUpDate);
         contentValues.put(SPECIAL_FOLLOW_UP_DATE, ancFollowUpModel.specialFollowUpDate);
         contentValues.put(NO_OF_ANC, ancFollowUpModel.noOfAnc);
+        Log.d("CCCCCCCCCCCC",""+contentValues);
+
         int status = getReadableDatabase().update(getAncFollowupTableName(), contentValues,
                 BASE_ENTITY_ID + " = ?",
                 new String[]{ancFollowUpModel.baseEntityId});
         if (status <= 0) {
-            long updated = getWritableDatabase().replace(getAncFollowupTableName(), null, contentValues);
+            long updated = getWritableDatabase().insert(getAncFollowupTableName(), null, contentValues);
         }
     }
 
@@ -105,7 +107,7 @@ public class AncFollowUpRepository extends BaseRepository {
         try {
             String typeQuery = "";
             if(type == FollowUpType.routine){
-                typeQuery = "and (a.follow_up_date > 0)";
+                typeQuery = "and (a.next_follow_up_date > 0)";
             }else if(type == FollowUpType.special){
                 typeQuery = "and (a.special_follow_up_date > 0)";
             }else if(type == FollowUpType.telephonic){

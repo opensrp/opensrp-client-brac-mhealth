@@ -458,7 +458,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) ||
                     formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) ||
                     formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
-                String[] eddAndHeight = HnppDBUtils.getEddAndHeight(baseEntityId);
+                String[] eddAndHeight = HnppDBUtils.getEddLmpAndHeight(baseEntityId);
                 HnppJsonFormUtils.addJsonKeyValue(jsonForm,"edd",eddAndHeight[0]);
                 HnppJsonFormUtils.addJsonKeyValue(jsonForm,"height", eddAndHeight[1]);
                 HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);

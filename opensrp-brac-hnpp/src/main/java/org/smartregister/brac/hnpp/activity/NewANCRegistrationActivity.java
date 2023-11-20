@@ -391,14 +391,18 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 if (formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) ||
                         formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) ||
                         formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)) {
+                    String[] eddLmpAndHeight = HnppDBUtils.getEddLmpAndHeight(baseEntityId);
+
                     if(edd.isEmpty()){
-                        HnppJsonFormUtils.addJsonKeyValue(jsonForm, "edd", HnppDBUtils.getEddAndHeight(baseEntityId)[0]);
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm, "edd", eddLmpAndHeight[0]);
                     }else {
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "edd", edd);
                     }
 
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm, "last_menstrual_period", eddLmpAndHeight[2]);
+
                     if(height.isEmpty()){
-                        HnppJsonFormUtils.addJsonKeyValue(jsonForm, "height", HnppDBUtils.getEddAndHeight(baseEntityId)[1]);
+                        HnppJsonFormUtils.addJsonKeyValue(jsonForm, "height", eddLmpAndHeight[1]);
                     }else {
                         HnppJsonFormUtils.addJsonKeyValue(jsonForm, "height", height);
                     }

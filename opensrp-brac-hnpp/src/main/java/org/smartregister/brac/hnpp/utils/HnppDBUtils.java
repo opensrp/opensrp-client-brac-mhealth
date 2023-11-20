@@ -1167,16 +1167,17 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return motherName;
     }
-    public static String[] getEddAndHeight(String baseEntityId){
-        String query = "select edd,height from ec_anc_register where base_entity_id = '"+baseEntityId+"'";
+    public static String[] getEddLmpAndHeight(String baseEntityId){
+        String query = "select edd,height,last_menstrual_period from ec_anc_register where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
-        String[] data= new String[2];
+        String[] data= new String[3];
         try {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 data[0] = cursor.getString(0);
                 data[1] = cursor.getString(1);
+                data[2] = cursor.getString(2);
             }
 
             return data;

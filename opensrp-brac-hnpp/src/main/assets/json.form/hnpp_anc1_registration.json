@@ -85,6 +85,32 @@
       },
 
       {
+        "key": "last_menstrual_period",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "hidden",
+        "read_only": true,
+        "openmrs_type": "text"
+      },
+
+      {
+        "key": "ga",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ga",
+        "type": "hidden",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+      },
+
+      {
         "key": "brac_anc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

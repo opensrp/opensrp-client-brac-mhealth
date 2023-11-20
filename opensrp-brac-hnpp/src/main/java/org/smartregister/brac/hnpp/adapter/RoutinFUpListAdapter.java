@@ -67,7 +67,7 @@ public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListView
         }
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(content.visitDate);
+        calendar.setTimeInMillis(content.nextFollowUpDate);
         String date = calendar.get(Calendar.DAY_OF_MONTH)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.YEAR);
         viewHolder.dueButton.setText(date);
 
