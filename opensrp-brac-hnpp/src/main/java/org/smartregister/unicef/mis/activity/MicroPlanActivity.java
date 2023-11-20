@@ -1,9 +1,11 @@
 package org.smartregister.unicef.mis.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -37,6 +39,7 @@ public class MicroPlanActivity extends SecuredActivity implements View.OnClickLi
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -44,12 +47,11 @@ public class MicroPlanActivity extends SecuredActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.add_outreach_btn:
-                GlobalSearchActivity.startMigrationFilterActivity(MicroPlanActivity.this,HnppConstants.MIGRATION_TYPE.Member.name());
-                //showDetailsDialog(HnppConstants.MIGRATION_TYPE.Member.name());
+                startActivity(new Intent(MicroPlanActivity.this,OutreachActivity.class));
                 break;
             case R.id.add_epi_btn:
-//                showDetailsDialog(HnppConstants.MIGRATION_TYPE.HH.name());
-                GlobalSearchActivity.startMigrationFilterActivity(MicroPlanActivity.this,HnppConstants.MIGRATION_TYPE.HH.name());
+                startActivity(new Intent(MicroPlanActivity.this,AddMicroplanActivity.class));
+
 
                 break;
         }

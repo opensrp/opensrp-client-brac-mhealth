@@ -19,6 +19,7 @@ import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.activity.DFSActivity;
 import org.smartregister.unicef.mis.activity.GrowthReportActivity;
+import org.smartregister.unicef.mis.activity.MicroPlanActivity;
 import org.smartregister.unicef.mis.activity.MigrationActivity;
 import org.smartregister.unicef.mis.activity.NotificationActivity;
 import org.smartregister.unicef.mis.activity.QRScannerActivity;
@@ -202,7 +203,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void microplan(Activity activity) {
-        activity.startActivity(new Intent(activity, SearchActivity.class));
+        activity.startActivity(new Intent(activity, MicroPlanActivity.class));
     }
 
     @Override

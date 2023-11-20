@@ -106,6 +106,8 @@ public class HnppChwRepository extends Repository {
         database.execSQL(AlertRepository.OFFLINE_INDEX);
         OtherVaccineRepository.createTable(database);
         ReferralRepository.createTable(database);
+        OutreachRepository.createTable(database);
+        MicroPlanRepository.createTable(database);
     }
 
     @Override
@@ -122,6 +124,10 @@ public class HnppChwRepository extends Repository {
                     break;
                 case 4:
                     ReferralRepository.createTable(db);
+                    break;
+                case 5:
+                    OutreachRepository.createTable(db);
+                    MicroPlanRepository.createTable(db);
                     break;
                 default:
                     break;

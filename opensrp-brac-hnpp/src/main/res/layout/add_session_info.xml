@@ -29,7 +29,7 @@
             android:gravity="center"
             android:paddingStart="0dp"
             android:paddingLeft="0dp"
-            android:text="Session Plan"
+            android:text="@string/session_plan"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -50,7 +50,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="January"
+                android:text="@string/year"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+            <Spinner
+                android:id="@+id/year_spinner"
+                android:layout_marginBottom="20dp"
+                android:minWidth="200dp"
+                android:entries="@array/year_epi"
+                android:layout_width="wrap_content"
+                android:background="@drawable/spinner_resource"
+                android:layout_margin="5dp"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/january"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -62,6 +85,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -73,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="February"
+                android:text="@string/february"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -84,6 +108,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -95,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="March"
+                android:text="@string/march"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -106,6 +131,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -117,7 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="April"
+                android:text="@string/april"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -125,10 +151,10 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/april_text"
-                android:enabled="false"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -140,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="May"
+                android:text="@string/may"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -151,6 +177,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -162,7 +189,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="June"
+                android:text="@string/june"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -173,6 +200,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -184,7 +212,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="July"
+                android:text="@string/july"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -195,6 +223,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -206,7 +235,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="August"
+                android:text="@string/august"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -217,6 +246,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -228,7 +258,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="September"
+                android:text="@string/september"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -239,6 +269,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -250,7 +281,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="October"
+                android:text="@string/october"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -261,6 +292,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -272,7 +304,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="November"
+                android:text="@string/november"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -283,6 +315,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -294,7 +327,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="December"
+                android:text="@string/december"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -305,6 +338,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:inputType="number"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -319,137 +353,149 @@
             android:background="@drawable/round_btn_selected"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="+Add Additional plan"
+            android:text="@string/add_additional_plan"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
         <LinearLayout
+            android:id="@+id/additional_month_view"
             android:gravity="center_vertical"
+            android:orientation="vertical"
             android:visibility="gone"
             android:layout_marginTop="10dp"
             android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:text="Month"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/month_1_spinner"
-                android:minWidth="150dp"
-                android:entries="@array/years"
-                android:layout_width="wrap_content"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-            </Spinner>
-            <EditText
-                android:id="@+id/month_1_value"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/round_btn"
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="Month"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/month_2_spinner"
-                android:minWidth="150dp"
-                android:entries="@array/years"
-                android:layout_width="wrap_content"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-            </Spinner>
-            <EditText
-                android:id="@+id/month_2_value"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/round_btn"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/month"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/month_1_spinner"
+                    android:minWidth="150dp"
+                    android:entries="@array/months"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </Spinner>
+                <EditText
+                    android:id="@+id/month_1_value"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:inputType="number"
+                    android:background="@drawable/round_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="Month"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/month_3_spinner"
-                android:minWidth="150dp"
-                android:entries="@array/years"
-                android:layout_width="wrap_content"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-            </Spinner>
-            <EditText
-                android:id="@+id/month_3_value"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/round_btn"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/month"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/month_2_spinner"
+                    android:minWidth="150dp"
+                    android:entries="@array/months"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </Spinner>
+                <EditText
+                    android:id="@+id/month_2_value"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:inputType="number"
+                    android:background="@drawable/round_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="Month"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/month_4_spinner"
-                android:minWidth="150dp"
-                android:entries="@array/years"
-                android:layout_width="wrap_content"
-                android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-            </Spinner>
-            <EditText
-                android:id="@+id/month_4_value"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/round_btn"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/month"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/month_3_spinner"
+                    android:minWidth="150dp"
+                    android:entries="@array/months"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </Spinner>
+                <EditText
+                    android:id="@+id/month_3_value"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:inputType="number"
+                    android:background="@drawable/round_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/month"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"/>
+                <Spinner
+                    android:id="@+id/month_4_spinner"
+                    android:minWidth="150dp"
+                    android:entries="@array/months"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/spinner_resource"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </Spinner>
+                <EditText
+                    android:id="@+id/month_4_value"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:inputType="number"
+                    android:background="@drawable/round_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
         </LinearLayout>
+
         <RelativeLayout
             android:gravity="center_vertical"
             android:layout_marginTop="10dp"
@@ -467,7 +513,7 @@
                 android:background="@drawable/round_btn_selected"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Previous"
+                android:text="@string/previous"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
             <Button
@@ -478,7 +524,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
-                android:text="Next"
+                android:text="@string/next"
                 android:textColor="@color/white"
                 android:background="@drawable/round_btn_selected"
                 android:layout_width="150dp"

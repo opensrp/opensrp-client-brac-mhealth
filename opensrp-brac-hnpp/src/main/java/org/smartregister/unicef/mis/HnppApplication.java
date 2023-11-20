@@ -50,8 +50,10 @@ import org.smartregister.unicef.mis.repository.GuestMemberIdRepository;
 import org.smartregister.unicef.mis.repository.HnppChwRepository;
 import org.smartregister.unicef.mis.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.mis.repository.IndicatorRepository;
+import org.smartregister.unicef.mis.repository.MicroPlanRepository;
 import org.smartregister.unicef.mis.repository.NotificationRepository;
 import org.smartregister.unicef.mis.repository.OtherVaccineRepository;
+import org.smartregister.unicef.mis.repository.OutreachRepository;
 import org.smartregister.unicef.mis.repository.PaymentHistoryRepository;
 import org.smartregister.unicef.mis.repository.ReferralRepository;
 import org.smartregister.unicef.mis.repository.RiskDetailsRepository;
@@ -114,6 +116,8 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private static PaymentHistoryRepository paymentHistoryRepository;
     private static StockRepository stockRepository;
     private static OtherVaccineRepository otherVaccineRepository;
+    private static MicroPlanRepository microPlanRepository;
+    private static OutreachRepository outreachRepository;
     private static ReferralRepository referralRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
@@ -457,6 +461,18 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
             referralRepository = new ReferralRepository(getInstance().getRepository());
         }
         return referralRepository;
+    }
+    public static MicroPlanRepository getMicroPlanRepository() {
+        if ( microPlanRepository == null) {
+            microPlanRepository = new MicroPlanRepository(getInstance().getRepository());
+        }
+        return microPlanRepository;
+    }
+    public static OutreachRepository getOutreachRepository() {
+        if ( outreachRepository == null) {
+            outreachRepository = new OutreachRepository(getInstance().getRepository());
+        }
+        return outreachRepository;
     }
     public static OtherVaccineRepository getOtherVaccineRepository() {
         if ( otherVaccineRepository == null) {

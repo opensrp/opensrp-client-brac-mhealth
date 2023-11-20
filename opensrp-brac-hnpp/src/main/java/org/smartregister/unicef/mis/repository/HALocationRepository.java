@@ -285,6 +285,22 @@ public class HALocationRepository extends BaseRepository {
         }
         return HALocation;
     }
+    public ArrayList<HALocation> getAllLocation() {
+        Cursor cursor = null;
+        ArrayList<HALocation> haLocations = new ArrayList<>();
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" group by "+BLOCK_ID, null);
+            while (cursor.moveToNext()) {
+                haLocations.add(readCursor(cursor));
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return haLocations;
+    }
 
     protected HALocation readCursor(Cursor cursor) {
         String countryId = cursor.getString(cursor.getColumnIndex(COUNTRY_ID));

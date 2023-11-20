@@ -29,7 +29,7 @@
             android:gravity="center"
             android:paddingStart="0dp"
             android:paddingLeft="0dp"
-            android:text="Distribution point info"
+            android:text="@string/distribution_info"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Distribution point name"
+                android:text="@string/point_name"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -73,14 +73,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Distribution point distance from Upozila Health Complex(KM)"
+                android:text="@string/distribution_distance"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/distribution_name"
+                android:id="@+id/distance_upozilla"
+                android:inputType="number"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
@@ -95,14 +96,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Transportation"
+                android:text="@string/transport"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"/>
             <Spinner
-                android:id="@+id/transportation_spinner"
+                android:id="@+id/transportation_upozilla_spinner"
                 android:minWidth="200dp"
                 android:entries="@array/transportation_type"
                 android:layout_width="wrap_content"
@@ -118,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Distribution point distance time (minute)"
+                android:text="@string/distance_minute"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -128,6 +129,7 @@
                 android:id="@+id/distance_minute"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:inputType="number"
                 android:textSize="20sp"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
@@ -140,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Distribution point distance time (Hour)"
+                android:text="@string/distance_hour"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -163,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Name of portar"
+                android:text="@string/portar_name"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -185,7 +187,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Mobile Number"
+                android:text="@string/mobile_no"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -193,9 +195,11 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/mobile_no"
+                android:inputType="number"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
+                android:maxLength ="11"
                 android:background="@drawable/round_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"/>
@@ -207,15 +211,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="EPI center distance from Distribution point(KM)"
+                android:text="@string/distance_epi"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/distribution_name"
+                android:id="@+id/distance_epi_txt"
                 android:paddingLeft="10dp"
+                android:inputType="number"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
                 android:background="@drawable/round_btn"
@@ -229,7 +234,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Transportation"
+                android:text="@string/transport"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -251,32 +256,34 @@
             android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/previous_btn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="left"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_btn_selected"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:text="Previous"
+                android:text="@string/previous"
                 android:textColor="@color/white"
-                android:background="@drawable/round_btn_selected"
-                android:layout_width="150dp"
-                android:layout_height="50dp"/>
+                android:textSize="20sp" />
+
             <Button
                 android:id="@+id/next_btn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_btn_selected"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:text="Next"
+                android:text="@string/next"
                 android:textColor="@color/white"
-                android:background="@drawable/round_btn_selected"
-                android:layout_width="150dp"
-                android:layout_height="50dp"/>
+                android:textSize="20sp" />
         </RelativeLayout>
 
     </LinearLayout>

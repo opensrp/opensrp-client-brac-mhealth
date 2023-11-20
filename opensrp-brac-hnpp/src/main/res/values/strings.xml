@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Smart Health BD</string>
     <string-array name="gender">
         <item>নারী</item>
@@ -23,21 +23,29 @@
         <item>2021</item>
     </string-array>
     <string-array name="center_type">
-        <item>Permanent</item>
-        <item>Temporary</item>
-        <item>Community Clinic</item>
+        <item>Static</item>
         <item>Satellite</item>
     </string-array>
+    <string-array name="designation_array">
+        <item>HI</item>
+        <item>AHI</item>
+        <item>FPI</item>
+        <item>Vaccinator Supervisor</item>
+        <item>Clinic manager</item>
+    </string-array>
     <string-array name="transportation_type">
-        <item>Bus</item>
-        <item>Ricksha</item>
-        <item>By road</item>
+        <item>Rickshaw</item>
+        <item>Bicycle</item>
+        <item>Van</item>
+        <item>Boat</item>
+        <item>By walk</item>
+        <item>Boat,By walk,Rickshaw</item>
     </string-array>
     <string-array name="status_epi">
         <item>All</item>
-        <item>New</item>
+        <item>Not created</item>
         <item>Pending</item>
-        <item>Done</item>
+        <item>Approved</item>
     </string-array>
     <string-array name="years">
         <item>January</item>
@@ -1064,9 +1072,72 @@
     <string name="search_name_pn">Search by Name or phone number</string>
     <string name="referrel_hospital">শিশুকে স্বাস্থ্য সেবার জন্য উপজেলা হাসপাতালে রেফার করুন</string>
     <string name="microplan">Microplan</string>
+    <string name="add_outreach">Add Outreach</string>
+    <string name="add_epi_microplan">Add EPI microplan</string>
+    <string name="outreach_name">Outreach Name:</string>
+    <string name="center_type">Center Type</string>
+    <string name="address">Address</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="manual_btn">Manual</string>
+    <string name="auto_btn">Auto</string>
+    <string name="status">Status</string>
+    <string name="center_details">Center Details</string>
+    <string name="house_no">House No:</string>
+    <string name="type">Type</string>
+    <string name="male_full">Male</string>
+    <string name="female_full">Female</string>
+    <string name="total">Total</string>
+    <string name="total_population">Total population</string>
+    <string name="zero_eleven">0-11 month child count</string>
+    <string name="twelve_twenty">12-20 month child count</string>
+    <string name="fifteen_fortynine">15-49 year woman count</string>
+    <string name="distribution_info">Distribution point info</string>
+    <string name="point_name">Distribution point name</string>
+    <string name="distribution_distance">Distribution point distance from Upozila Health Complex(KM)</string>
+    <string name="transport">Transportation</string>
+    <string name="distance_minute">Distribution point distance time (minute)</string>
+    <string name="distance_hour">Distribution point distance time (Hour)</string>
+    <string name="portar_name">Name of porter</string>
+    <string name="distance_epi">EPI center distance from Distribution point(KM)</string>
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="add_additional_plan">+Add Additional plan</string>
+    <string name="worker_info">Worker and supervisor info</string>
+    <string name="worker_info_1">Worker#1 info</string>
+    <string name="designation">Designation</string>
+    <string name="worker_2_info">Worker#2 info</string>
+    <string name="supervisor_1_info">Supervisor#1 info</string>
+    <string name="supervisor_2_info">Supervisor#2 info</string>
+    <string name="session_plan">Session Plan</string>
+    <string name="outreach_list">Outreach List</string>
+    <string name="outreach_error">Outreach name empty</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
         <item>Stunting</item>
+    </string-array>
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
     </string-array>
 </resources>

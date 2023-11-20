@@ -33,7 +33,7 @@
             android:gravity="center"
             android:paddingStart="0dp"
             android:paddingLeft="0dp"
-            android:text="Outreach List"
+            android:text="@string/outreach_list"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -68,14 +68,91 @@
             app:rippleColor="@color/white"
             android:gravity="center|right"
             android:src="@drawable/ic_input_add" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <HorizontalScrollView
+            android:layout_below="@+id/count_tv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/search_bar"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/action_bar_layout"
+                android:orientation="vertical"
+                android:padding="10dp">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:background="@color/grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/union_txt"
+                        android:text="Union"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/old_ward_txt"
+                        android:text="Old Ward"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/new_ward_txt"
+                        android:text="New Ward"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
 
-            />
+                    <TextView
+                        android:id="@+id/block_txt"
+                        android:text="Block"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:text="Action"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/search_bar"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    />
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+
 
     </LinearLayout>
 

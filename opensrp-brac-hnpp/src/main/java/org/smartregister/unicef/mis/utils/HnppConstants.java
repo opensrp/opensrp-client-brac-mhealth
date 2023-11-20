@@ -23,6 +23,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -54,6 +55,7 @@ import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.LangUtils;
 import org.smartregister.view.activity.BaseProfileActivity;
+import org.smartregister.view.activity.SecuredActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -627,7 +629,55 @@ public class HnppConstants extends CoreConstants {
 
 
     }
+    public static void getGPSLocation(SecuredActivity activity, OnPostDataWithGps onPostDataWithGps){
 
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    11111);
+            return ;
+        }
+        GenerateGPSTask task = new GenerateGPSTask(new OnGpsDataGenerateListener() {
+            @Override
+            public void showProgressBar(int message) {
+                Toast.makeText(activity,"GPS finding........",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void hideProgress() {
+            }
+
+            @Override
+            public void onGpsDataNotFound() {
+                try{
+                    HnppConstants.showOneButtonDialog(activity, "", activity.getString(R.string.gps_not_found), new Runnable() {
+                        @Override
+                        public void run() {
+                            if(!IS_MANDATORY_GPS)onPostDataWithGps.onPost(0.0,0.0);
+                        }
+                    });
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onGpsData(double latitude, double longitude) {
+                onPostDataWithGps.onPost(latitude,longitude);
+
+            }
+        },activity);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(task!=null) task.updateUi();
+            }
+        },5000);
+
+
+    }
     public static String addZeroForMonth(String month){
         if(TextUtils.isEmpty(month)) return "";
         if(month.length()==1) return "0"+month;

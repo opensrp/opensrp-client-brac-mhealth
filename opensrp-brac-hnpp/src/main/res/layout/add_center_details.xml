@@ -29,7 +29,7 @@
             android:gravity="center"
             android:paddingStart="0dp"
             android:paddingLeft="0dp"
-            android:text="Center Details"
+            android:text="@string/center_details"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Status"
+                android:text="@string/status"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -56,6 +56,7 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/status_name"
+                android:enabled="false"
                 android:layout_gravity="bottom"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -71,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Outreach Name"
+                android:text="@string/outreach_name"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -79,6 +80,7 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/outreach_name"
+                android:enabled="false"
                 android:layout_gravity="bottom"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -94,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="House No:"
+                android:text="@string/house_no"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -108,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/outreach_name"
+                android:id="@+id/hh_to"
                 android:layout_gravity="bottom"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -124,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <EditText
-                android:id="@+id/outreach_name"
+                android:id="@+id/hh_from"
                 android:layout_gravity="bottom"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -140,21 +142,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Center Type"
+                android:text="@string/center_type"
                 android:padding="10dp"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/center_type_spinner"
-                android:minWidth="200dp"
-                android:entries="@array/center_type"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/center_type"
                 android:background="@drawable/spinner_resource"
-                android:layout_margin="5dp"
-                android:layout_height="50dp">
-            </Spinner>
+                android:textColor="@color/grey"
+                android:text="@string/center_type"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:gravity="center_vertical"
@@ -169,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="Type"
+                    android:text="@string/type"
                     android:padding="10dp"
                     android:gravity="center"
                     android:layout_margin="1dp"
@@ -179,7 +182,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"/>
                 <TextView
-                    android:text="Male"
+                    android:text="@string/male_full"
                     android:padding="10dp"
                     android:gravity="center"
                     android:layout_margin="1dp"
@@ -189,7 +192,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"/>
                 <TextView
-                    android:text="Female"
+                    android:text="@string/female_full"
                     android:padding="10dp"
                     android:gravity="center"
                     android:layout_margin="1dp"
@@ -201,7 +204,7 @@
 
 
                 <TextView
-                    android:text="Total"
+                    android:text="@string/total"
                     android:padding="10dp"
                     android:gravity="center"
                     android:layout_margin="1dp"
@@ -213,11 +216,13 @@
 
             </LinearLayout>
             <LinearLayout
+                android:focusableInTouchMode="true"
+                android:focusable="false"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="Total population"
+                    android:text="@string/total_population"
                     android:background="@drawable/edit_text_bg"
                     android:padding="10dp"
                     android:gravity="center"
@@ -270,7 +275,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="0-11 month child count"
+                    android:text="@string/zero_eleven"
                     android:background="@drawable/edit_text_bg"
                     android:padding="10dp"
                     android:gravity="center"
@@ -323,7 +328,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="12-20 month child count"
+                    android:text="@string/twelve_twenty"
                     android:padding="10dp"
                     android:gravity="center"
                     android:layout_margin="1dp"
@@ -377,7 +382,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="15-49 month child count"
+                    android:text="@string/fifteen_fortynine"
                     android:padding="10dp"
                     android:gravity="center"
                     android:layout_margin="1dp"
@@ -433,7 +438,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textSize="20sp"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="@color/white"
             android:background="@drawable/round_btn_selected"
             android:layout_width="150dp"
