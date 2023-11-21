@@ -994,8 +994,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
             String prevalue = FormApplicability.getVisitCount(baseEntityId, CoreConstants.EventType.ANC_HOME_VISIT);
-
-            /*if(!isReadOnlyView)*/updateFormField(jsonArray, "brac_anc", TextUtils.isEmpty(prevalue)?"0":prevalue);
+            int noOfAnc = (FormApplicability.getANCCount(baseEntityId));
+            /*if(!isReadOnlyView)*/updateFormField(jsonArray, "brac_anc", String.valueOf(noOfAnc));
 
             int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
             if(isReadOnlyView){
