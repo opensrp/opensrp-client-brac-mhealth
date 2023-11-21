@@ -1206,8 +1206,6 @@ public class FormParser {
         RiskListModel riskListModel = new RiskListModel();
         riskListModel.baseEntityId = baseEntityId;
 
-        Log.d("DDDDDDDDDDDDDDD",details.keySet()+"\n"+details.values());
-
         if(details.containsKey("is_high_risk")){
             AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
 

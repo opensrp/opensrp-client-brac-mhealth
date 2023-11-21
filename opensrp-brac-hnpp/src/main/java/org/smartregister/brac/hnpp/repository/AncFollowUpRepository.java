@@ -91,14 +91,13 @@ public class AncFollowUpRepository extends BaseRepository {
         contentValues.put(TELEPHONY_FOLLOW_UP_DATE, ancFollowUpModel.telephonyFollowUpDate);
         contentValues.put(SPECIAL_FOLLOW_UP_DATE, ancFollowUpModel.specialFollowUpDate);
         contentValues.put(NO_OF_ANC, ancFollowUpModel.noOfAnc);
-        Log.d("CCCCCCCCCCCC",""+contentValues);
 
-        int status = getReadableDatabase().update(getAncFollowupTableName(), contentValues,
+        /*int status = getReadableDatabase().update(getAncFollowupTableName(), contentValues,
                 BASE_ENTITY_ID + " = ?",
-                new String[]{ancFollowUpModel.baseEntityId});
-        if (status <= 0) {
+                new String[]{ancFollowUpModel.baseEntityId});*/
+        //if (status <= 0) {
             long updated = getWritableDatabase().insert(getAncFollowupTableName(), null, contentValues);
-        }
+       // }
     }
 
     public ArrayList<AncFollowUpModel> getAncFollowUpData(FollowUpType type) {
@@ -106,20 +105,43 @@ public class AncFollowUpRepository extends BaseRepository {
         ArrayList<AncFollowUpModel> ancFollowUpModelArrayList = new ArrayList<>();
         try {
             String typeQuery = "";
+            String orderByQuery = "";
+            String minNextFollowUp = "";
+            String minSpecialFollowUp = "";
+            String minTelephonicFollowUp = "";
+
             if(type == FollowUpType.routine){
                 typeQuery = "and (a.next_follow_up_date > 0)";
+                orderByQuery = "a.next_follow_up_date asc";
+
+                minNextFollowUp = "min(a.next_follow_up_date) as next_follow_up_date,";
+                minSpecialFollowUp = "a.special_follow_up_date,";
+                minTelephonicFollowUp = "a.telephony_follow_up_date,";
+
             }else if(type == FollowUpType.special){
                 typeQuery = "and (a.special_follow_up_date > 0)";
+                orderByQuery = "a.special_follow_up_date asc";
+
+                minNextFollowUp = "a.next_follow_up_date,";
+                minSpecialFollowUp = "min(a.special_follow_up_date) as special_follow_up_date,";
+                minTelephonicFollowUp = "a.telephony_follow_up_date,";
+
             }else if(type == FollowUpType.telephonic){
                 typeQuery = "and (a.telephony_follow_up_date > 0)";
+                orderByQuery = "a.telephony_follow_up_date asc";
+
+                minNextFollowUp = "a.next_follow_up_date,";
+                minSpecialFollowUp = "a.special_follow_up_date,";
+                minTelephonicFollowUp = "min(a.telephony_follow_up_date) as telephony_follow_up_date,";
+
             }
 
             String query = "SELECT a.base_entity_id," +
                     "a.follow_up_date," +
-                    "a.next_follow_up_date," +
+                    minNextFollowUp +
                     "a.visit_date," +
-                    "a.telephony_follow_up_date," +
-                    "a.special_follow_up_date," +
+                    minTelephonicFollowUp +
+                    minSpecialFollowUp +
                     "a.no_of_anc," +
                     "r.high_risky_key," +
                     "r.high_risky_value," +
@@ -134,7 +156,7 @@ public class AncFollowUpRepository extends BaseRepository {
                     "left join ec_family_member as e on a.base_entity_id = e.base_entity_id " +
                     "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) " +
                     "and e.base_entity_id not null " +typeQuery+
-                    " group by a.base_entity_id";
+                    " group by a.base_entity_id order by "+orderByQuery;
 
             Log.d("QQQQQ",""+query);
 
