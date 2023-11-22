@@ -281,8 +281,8 @@
                 app:tabIndicatorHeight="4dp"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#E2E363"
-                app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator.sub.white" />
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator.sub.white"  />
 
         </android.support.design.widget.AppBarLayout>
 

@@ -1338,6 +1338,10 @@ public class HnppConstants extends CoreConstants {
         return false;
 
     }
+    public static boolean isUrbanUser(){
+        return true;
+
+    }
 
     public static boolean isReleaseBuild() {
 //        if(BuildConfig.IS_TRAINING){

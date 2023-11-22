@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <io.blackbox_vision.materialcalendarview.view.CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:calendarIsMultiSelectDayEnabled="false"
+        app:calendarIsOverflowDatesVisible="true"
+        app:calendarBackgroundColor="@color/colorPrimary"
+        app:calendarTitleTextColor="@color/colorAccent"
+        app:calendarCurrentDayTextColor="@color/white"
+        app:calendarDayOfWeekTextColor="@color/grey"
+        app:calendarDayOfMonthTextColor="@android:color/white"
+        app:calendarDisabledDayBackgroundColor="@color/colorPrimary"
+        app:calendarDisabledDayTextColor="@android:color/darker_gray"
+        app:calendarSelectedDayBackgroundColor="@color/colorAccent"
+        app:calendarTitleBackgroundColor="@color/colorPrimary"
+        app:calendarWeekBackgroundColor="@color/colorPrimary"
+        app:calendarCurrentDayBackgroundColor="@color/light_blue"
+        app:calendarWeekendTextColor="@color/colorAccent"
+        app:calendarButtonBackgroundColor="@color/colorAccent"
+        app:calendarWeekendDays="friday|saturday">
+    </io.blackbox_vision.materialcalendarview.view.CalendarView>
+
+    <Button
+        android:id="@+id/get_selected_dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Dates"
+        tools:layout_editor_absoluteX="229dp"
+        tools:layout_editor_absoluteY="447dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateselected"/>
+</LinearLayout>
