@@ -997,7 +997,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             int noOfAnc = (FormApplicability.getANCCount(baseEntityId));
             /*if(!isReadOnlyView)*/updateFormField(jsonArray, "brac_anc", String.valueOf(noOfAnc));
 
-            int initVal = TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue);
+            int initVal = /*TextUtils.isEmpty(prevalue)?0:Integer.parseInt(prevalue)*/noOfAnc;
             if(isReadOnlyView){
                 initVal = 0;
             }

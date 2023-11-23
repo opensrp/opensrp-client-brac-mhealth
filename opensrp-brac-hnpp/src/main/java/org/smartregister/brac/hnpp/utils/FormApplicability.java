@@ -173,8 +173,8 @@ public class FormApplicability {
     }
 
     static String ancOrElco(String baseEntityId,int dayPass){
-        long ancVisitDate = 0;
-        long pocVisitDate = 0;
+        long ancVisitDate;
+        long pocVisitDate;
         ancVisitDate = getVisitDate(CoreConstants.EventType.ANC_REGISTRATION,baseEntityId);
         pocVisitDate = getVisitDate(CoreConstants.EventType.PREGNANCY_OUTCOME,baseEntityId);
 
