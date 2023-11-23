@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.Context;
+import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.domain.HouseholdId;
@@ -37,12 +38,14 @@ import org.smartregister.unicef.mis.location.HALocation;
 import org.smartregister.unicef.mis.location.WardLocation;
 import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.repository.GlobalLocationRepository;
+import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import static com.vijay.jsonwizard.utils.FormUtils.getFieldJSONObject;
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.USER_ID;
 import static org.smartregister.util.Utils.getValue;
 
 public class HNPPJsonFormFragment extends JsonWizardFormFragment {
@@ -708,9 +711,20 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 //                if(hhid == null){
 //                    return blockIdList.get(index);
 //                }
-                @SuppressLint("DefaultLocale") String id = String.format("%02d", new Random().nextInt(100));
+
+                int householdCount = HnppDBUtils.getHouseHoldCount();
+                @SuppressLint("DefaultLocale") String householdCountFourDigit = String.format("%04d", householdCount+1);
+                String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
+                Log.v("HH_ID","id>>>userId:"+userId+":householdCountFourDigit:"+householdCountFourDigit);
                 HALocation HALocation = HnppApplication.getHALocationRepository().getLocationByBlock(blocksIds.get(index));
-                unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);// hhid.getOpenmrsId() + "");
+                String id = getRandom3Digit()+""+userId+""+householdCountFourDigit;
+                unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);
+                boolean isExistUniqueId = HnppDBUtils.isExitHouseHoldId(unique_id);
+                if(isExistUniqueId){
+                    id = getRandom3Digit()+""+userId+""+householdCountFourDigit;
+                    unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);
+                }
+                Log.v("HH_ID","final HH_ID>>:"+unique_id);
 
                 return null;
             }
@@ -727,6 +741,12 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         return;
                     }
 
+                }
+                //double check for remove duplication
+                boolean isExistUniqueId = HnppDBUtils.isExitHouseHoldId(unique_id);
+                if(isExistUniqueId){
+                    showNewIdRetriveaPopup();
+                    return;
                 }
                 ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
                 for (int i = 0; i < formdataviews.size(); i++) {
@@ -751,6 +771,12 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 }
             }
         }, null);
+    }
+    private String getRandom3Digit(){
+        long time = System.currentTimeMillis();
+        @SuppressLint("DefaultLocale") String random3digit = String.format("%03d", time % 1000);
+        Log.v("HH_ID","id>>>random3digit:"+random3digit+":time:"+time);
+        return random3digit;
     }
 
     @Override

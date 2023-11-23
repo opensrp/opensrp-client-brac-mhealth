@@ -281,7 +281,6 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
-                app:tabTextAppearance="@style/TabTextStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"
@@ -289,7 +288,8 @@
                 app:tabIndicatorHeight="4dp"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#E2E363"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator.sub.white"
                 />
 
         </android.support.design.widget.AppBarLayout>

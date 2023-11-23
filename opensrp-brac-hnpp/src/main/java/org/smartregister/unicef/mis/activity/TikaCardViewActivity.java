@@ -344,7 +344,7 @@ public class TikaCardViewActivity extends SecuredActivity {
     private void openImage(String imageFilePath) {
         try{
             File file = new File(imageFilePath);
-            Uri uri = FileProvider.getUriForFile(this,"org.smartregister.unicef.dghs.fileprovider",file);
+            Uri uri = FileProvider.getUriForFile(this,getPackageName()+".fileprovider",file);
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "image/*");

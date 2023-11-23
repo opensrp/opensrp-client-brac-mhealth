@@ -895,7 +895,7 @@
     <string name="stock_name">\"স্টক নামঃ \"</string>
     <string name="end_balance_2">\"শেষ ব্যালেন্স: \"</string>
     <string name="bmi">বি.এম.আই</string>
-    <string name="new_id_sync_msg">নতুন আইডি আনা হচ্ছে ........। দয়া করে ইন্টারনেট অন রাখুন</string>
+    <string name="new_id_sync_msg">নতুন আইডি আনা হচ্ছে ........। আবার চেষ্টা করুন</string>
     <string name="id_sync_done">আইডি শেষ হয়ে গিয়েছে !!!!</string>
     <string name="mother_not_reg">মাতা রেজিস্টার্ড নয়</string>
     <string name="relation_with_hh">খানা প্রধানের সাথে সম্পর্ক</string>
