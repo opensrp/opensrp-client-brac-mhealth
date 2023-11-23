@@ -1,5 +1,7 @@
 package org.smartregister.unicef.mis.service;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.USER_ID;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -50,6 +52,9 @@ public class HALocationFetchIntentService extends IntentService {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
                     SSModel ssModel =  new Gson().fromJson(object.toString(), SSModel.class);
                     if(ssModel != null){
+                        if(!TextUtils.isEmpty(ssModel.user_id)){
+                            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(USER_ID,ssModel.user_id+"");
+                        }
                         HnppApplication.getHALocationRepository().addOrUpdate(ssModel);
                     }
                 } catch (JSONException e) {
