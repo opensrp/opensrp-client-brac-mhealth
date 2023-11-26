@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -19,7 +20,12 @@ import org.smartregister.unicef.mis.utils.DistributionData;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.MicroPlanEpiData;
 import org.smartregister.unicef.mis.utils.SessionPlanData;
+import org.smartregister.unicef.mis.widget.CustomCalendarView;
 import org.smartregister.view.activity.SecuredActivity;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import io.blackbox_vision.materialcalendarview.view.CalendarView;
 
@@ -43,7 +49,8 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         findViewById(R.id.additional_btn).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.previous_btn).setOnClickListener(this);
-        findViewById(R.id.showCalenderBtn).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn_0).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn_1).setOnClickListener(this);
         findViewById(R.id.next_btn).setOnClickListener(this);
         initUi();
         microPlanEpiData = (MicroPlanEpiData) getIntent().getSerializableExtra(PUT_EXTRA_MICRO_PLAN);
@@ -104,15 +111,35 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth4ValueTxt = findViewById(R.id.month_4_value);
         yearSpinner = findViewById(R.id.year_spinner);
     }
-    private void showMultiDatePicker(){
+    private void showMultiDatePicker(int index){
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         dialog.setContentView(R.layout.add_multidate_picker);
-        io.blackbox_vision.materialcalendarview.view.CalendarView calendarView = dialog.findViewById(R.id.calendar_view);
+        CustomCalendarView calendarView = dialog.findViewById(R.id.calendar_view);
         if(HnppConstants.isUrbanUser()){
             calendarView.setMultiSelectDayEnabled(true);
+            calendarView.currentMonthIndex = index;
+            calendarView.setOnMultipleDaySelectedListener(new CustomCalendarView.OnMultipleDaySelectedListener() {
+                @Override
+                public void onMultipleDaySelected(int month, @NonNull List<Date> dates) {
+                    for (Date selectedDate : dates){
+                        calendarView.markDateAsSelected(selectedDate);
+                    }
 
+                }
+            });
+            calendarView.setOnDateClickListener(new CustomCalendarView.OnDateClickListener() {
+                @Override
+                public void onDateClick(@NonNull Date selectedDate) {
+//                    Calendar calendar = Calendar.getInstance();
+//                    calendar.setFirstDayOfWeek(firstDayOfWeek);
+//                    calendar.setTime(calendar.getTime());
+//                    calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dayOfMonthText.getText().toString()));
+
+                    calendarView.markDateAsSelected(selectedDate);
+                }
+            });
         }
         dialog.show();
     }
@@ -121,8 +148,11 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.showCalenderBtn:
-                showMultiDatePicker();
+            case R.id.showCalenderBtn_0:
+                showMultiDatePicker(0);
+                break;
+            case R.id.showCalenderBtn_1:
+                showMultiDatePicker(1);
                 break;
             case R.id.backBtn:
             case R.id.previous_btn:

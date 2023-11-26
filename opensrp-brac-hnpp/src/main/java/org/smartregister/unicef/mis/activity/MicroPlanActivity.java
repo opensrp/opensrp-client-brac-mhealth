@@ -50,7 +50,9 @@ public class MicroPlanActivity extends SecuredActivity implements View.OnClickLi
                 startActivity(new Intent(MicroPlanActivity.this,OutreachActivity.class));
                 break;
             case R.id.add_epi_btn:
-                startActivity(new Intent(MicroPlanActivity.this,AddMicroplanActivity.class));
+                AddSessionActivity.startAddSessionActivity(MicroPlanActivity.this,null);
+
+               // startActivity(new Intent(MicroPlanActivity.this,AddMicroplanActivity.class));
 
 
                 break;

@@ -5,10 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <io.blackbox_vision.materialcalendarview.view.CalendarView
+    <org.smartregister.unicef.mis.widget.CustomCalendarView
         android:id="@+id/calendar_view"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="350dp"
+        android:background="@color/grey"
         app:calendarIsMultiSelectDayEnabled="false"
         app:calendarIsOverflowDatesVisible="true"
         app:calendarBackgroundColor="@color/colorPrimary"
@@ -25,7 +26,7 @@
         app:calendarWeekendTextColor="@color/colorAccent"
         app:calendarButtonBackgroundColor="@color/colorAccent"
         app:calendarWeekendDays="friday|saturday">
-    </io.blackbox_vision.materialcalendarview.view.CalendarView>
+    </org.smartregister.unicef.mis.widget.CustomCalendarView>
 
     <Button
         android:id="@+id/get_selected_dates"
