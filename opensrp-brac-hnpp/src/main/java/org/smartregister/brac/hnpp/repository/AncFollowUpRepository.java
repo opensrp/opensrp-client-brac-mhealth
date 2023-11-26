@@ -19,6 +19,7 @@ import org.smartregister.repository.Repository;
 import org.smartregister.util.DateTimeTypeConverter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by tanvir on 10/25/23.
@@ -100,7 +101,11 @@ public class AncFollowUpRepository extends BaseRepository {
        // }
     }
 
-    public ArrayList<AncFollowUpModel> getAncFollowUpData(FollowUpType type) {
+    public ArrayList<AncFollowUpModel> getAncFollowUpData(FollowUpType type,boolean isFromReceiver) {
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
+        Log.d("CCCCC",""+currentDate);
+        //String currentDate = "2023-12-21";
         Cursor cursor = null;
         ArrayList<AncFollowUpModel> ancFollowUpModelArrayList = new ArrayList<>();
         try {
@@ -111,7 +116,11 @@ public class AncFollowUpRepository extends BaseRepository {
             String minTelephonicFollowUp = "";
 
             if(type == FollowUpType.routine){
-                typeQuery = "and (a.next_follow_up_date > 0)";
+                if(isFromReceiver){
+                    typeQuery = "and (date(a.next_follow_up_date/1000, 'unixepoch') = '"+currentDate+"')";
+                }else {
+                    typeQuery = "and (a.next_follow_up_date > 0)";
+                }
                 orderByQuery = "a.next_follow_up_date asc";
 
                 minNextFollowUp = "min(a.next_follow_up_date) as next_follow_up_date,";
@@ -119,7 +128,11 @@ public class AncFollowUpRepository extends BaseRepository {
                 minTelephonicFollowUp = "a.telephony_follow_up_date,";
 
             }else if(type == FollowUpType.special){
-                typeQuery = "and (a.special_follow_up_date > 0)";
+                if(isFromReceiver){
+                    typeQuery = "and (date(a.special_follow_up_date/1000, 'unixepoch') = '"+currentDate+"')";
+                }else {
+                    typeQuery = "and (a.special_follow_up_date > 0)";
+                }
                 orderByQuery = "a.special_follow_up_date asc";
 
                 minNextFollowUp = "a.next_follow_up_date,";
@@ -127,7 +140,11 @@ public class AncFollowUpRepository extends BaseRepository {
                 minTelephonicFollowUp = "a.telephony_follow_up_date,";
 
             }else if(type == FollowUpType.telephonic){
-                typeQuery = "and (a.telephony_follow_up_date > 0)";
+                if(isFromReceiver){
+                    typeQuery = "and (date(a.telephony_follow_up_date/1000, 'unixepoch') = '"+currentDate+"')";
+                }else {
+                    typeQuery = "and (a.telephony_follow_up_date > 0)";
+                }
                 orderByQuery = "a.telephony_follow_up_date asc";
 
                 minNextFollowUp = "a.next_follow_up_date,";

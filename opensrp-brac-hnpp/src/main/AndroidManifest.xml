@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".HnppApplication"
@@ -62,6 +63,9 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".risk_alarm_manager.RiskAlarmReceiver" />
+
         <activity
             android:name=".activity.NewANCRegistrationActivity"
             android:screenOrientation="portrait"

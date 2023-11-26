@@ -1,8 +1,12 @@
 package org.smartregister.brac.hnpp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.evernote.android.job.JobManager;
@@ -51,6 +55,7 @@ import org.smartregister.brac.hnpp.repository.HouseholdIdRepository;
 import org.smartregister.brac.hnpp.repository.StockRepository;
 import org.smartregister.brac.hnpp.repository.SurveyHistoryRepository;
 import org.smartregister.brac.hnpp.repository.TargetVsAchievementRepository;
+import org.smartregister.brac.hnpp.risk_alarm_manager.RiskAlarmHelper;
 import org.smartregister.brac.hnpp.sync.HnppClientProcessor;
 import org.smartregister.brac.hnpp.sync.HnppSyncConfiguration;
 import org.smartregister.brac.hnpp.utils.HNPPApplicationUtils;
@@ -112,11 +117,16 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
     private static SurveyHistoryRepository surveyHistoryRepository;
     private static AncFollowUpRepository ancFollowUpRepository;
     private static RiskListRepository riskListRepository;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
         context = Context.getInstance();
+        setupRiskAlarmManager();
+
+        RiskAlarmHelper helper = new RiskAlarmHelper(this);
+        helper.scheduleAlarm("Test");
 
         //init Job Manager
         SyncStatusBroadcastReceiver.init(this);
@@ -147,6 +157,21 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         FamilyLibrary.getInstance().setClientProcessorForJava(HnppClientProcessor.getInstance(getApplicationContext()));
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setupRiskAlarmManager() {
+        String channelId = "alarm_id";
+        String channelName = "alarm_name";
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        notificationManager.createNotificationChannel(channel);
+    }
+
     public void initOfflineSchedules() {
         try {
             List<VaccineGroup> childVaccines = VaccinatorUtils.getSupportedVaccines(this);

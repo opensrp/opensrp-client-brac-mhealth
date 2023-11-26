@@ -21,7 +21,7 @@ public class SpecialFUpnteractor implements SpecialFUpContract.Interactor {
     private ArrayList<AncFollowUpModel> getData() {
         followUpList.clear();
 
-        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.special);
+        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.special,false);
         return followUpList;
     }
 

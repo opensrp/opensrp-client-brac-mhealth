@@ -20,7 +20,7 @@ public class TelephonicFUpnteractor implements TelephonicFUpContract.Interactor 
     private ArrayList<AncFollowUpModel> getData() {
         followUpList.clear();
 
-        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.telephonic);
+        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.telephonic,false);
         return followUpList;
     }
 

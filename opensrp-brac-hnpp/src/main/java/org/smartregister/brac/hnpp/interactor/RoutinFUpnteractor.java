@@ -31,7 +31,7 @@ public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
     private ArrayList<AncFollowUpModel> getData() {
         followUpList.clear();
 
-        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.routine);
+        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.routine,false);
         return followUpList;
     }
 
