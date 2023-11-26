@@ -896,6 +896,42 @@ public class HnppDBUtils {
         }
         return count;
     }
+    public static int getHouseHoldCount(){
+
+        String query = "select count(*) from ec_family";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
+    public static boolean isExitHouseHoldId(String uniqueId){
+
+        String query = "select count(*) from ec_family where unique_id = '"+uniqueId+"'";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count>0;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count>0;
+    }
     public static boolean isRisk(String baseEntityId, String eventType){
 
         String query = "select count(*) from ec_family_member where base_entity_id = '"+baseEntityId+"' and is_risk ='true' and risk_event_type ='"+ eventType+"'";

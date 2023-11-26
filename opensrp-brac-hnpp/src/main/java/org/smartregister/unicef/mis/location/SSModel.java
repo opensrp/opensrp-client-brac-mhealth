@@ -12,6 +12,8 @@ public class SSModel {
     public String skUserName=" ";
     public String ss_id;
     public String username=" ";
+    @SerializedName("user_id")
+    public String user_id=" ";
     @SerializedName("simprints_enable")
     public boolean simprints_enable = false;
     @SerializedName("payment_enable")
