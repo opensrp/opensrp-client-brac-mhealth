@@ -90,7 +90,7 @@ public class OutreachRepository extends BaseRepository {
         contentValues.put(LATITUDE, outreachContentData.latitude);
         contentValues.put(LONGITUDE, outreachContentData.longitude);
         contentValues.put(OUTREACH_JSON,gson.toJson(outreachContentData));
-        contentValues.put(IS_SYNC, 1);
+        contentValues.put(IS_SYNC, 0);
         contentValues.put(MICROPLAN_STATUS, MicroPlanRepository.MICROPLAN_STATUS_TAG.NOT_CREATED.getValue());
         SQLiteDatabase database = getWritableDatabase();
         try{
@@ -99,7 +99,11 @@ public class OutreachRepository extends BaseRepository {
             Log.v("OUTREACH","inserted:"+inserted+":contentValues:"+contentValues);
             return inserted>0;
             }else{
-                Log.v("OUTREACH","failed value:"+contentValues);
+                String selection = BLOCK_ID + " = ? " + COLLATE_NOCASE;
+                String[] selectionArgs = new String[]{outreachContentData.blockId+""};
+                int updated = database.update(getTableName(),contentValues,selection,selectionArgs);
+                Log.v("OUTREACH","updated value:"+contentValues);
+                return updated>0;
             }
         }catch (Exception e){
             e.printStackTrace();

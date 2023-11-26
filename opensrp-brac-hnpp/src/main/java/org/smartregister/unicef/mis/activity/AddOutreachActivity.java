@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -57,9 +58,25 @@ public class AddOutreachActivity extends SecuredActivity implements View.OnClick
         findViewById(R.id.submit_btn).setOnClickListener(this);
         initUi();
         outreachContentData = (OutreachContentData) getIntent().getSerializableExtra(PUT_EXTRA_DATA);
-        if(outreachContentData!=null){
-            //TO DO edit
-        }
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void populatedUI() {
+        unionSpinner.setSelection(((ArrayAdapter<String>)unionSpinner.getAdapter()).getPosition(outreachContentData.unionName));
+        unionSpinner.setEnabled(false);
+        oldWardSpinner.setSelection(((ArrayAdapter<String>)oldWardSpinner.getAdapter()).getPosition(outreachContentData.oldWardName));
+        oldWardSpinner.setEnabled(false);
+        newWardSpinner.setSelection(((ArrayAdapter<String>)newWardSpinner.getAdapter()).getPosition(outreachContentData.newWardName));
+        newWardSpinner.setEnabled(false);
+        blockSpinner.setSelection(((ArrayAdapter<String>)blockSpinner.getAdapter()).getPosition(outreachContentData.blockName));
+        blockSpinner.setEnabled(false);
+        centerTypeSpinner.setSelection(((ArrayAdapter<String>)centerTypeSpinner.getAdapter()).getPosition(outreachContentData.centerType));
+        outreachNameTxt.setText(outreachContentData.outreachName);
+        addressTxt.setText(outreachContentData.address);
+        mobileTxt.setText(outreachContentData.mobile);
+        latitudeTxt.setText(outreachContentData.latitude+"");
+        longitudeTxt.setText(outreachContentData.longitude+"");
     }
 
     private void initUi() {
@@ -173,6 +190,15 @@ public class AddOutreachActivity extends SecuredActivity implements View.OnClick
     @Override
     protected void onResumption() {
         loadLocation();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(outreachContentData!=null){
+                    populatedUI();
+                }
+            }
+        },1000);
+
     }
     private void loadLocation(){
         ArrayList<String> unionSpinnerArray = new ArrayList<>();
@@ -229,7 +255,7 @@ public class AddOutreachActivity extends SecuredActivity implements View.OnClick
                 if(isInserted){
                     finish();
                 }else {
-                    Toast.makeText(this,"Already added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Failed to add or update", Toast.LENGTH_LONG).show();
                 }
                 break;
         }

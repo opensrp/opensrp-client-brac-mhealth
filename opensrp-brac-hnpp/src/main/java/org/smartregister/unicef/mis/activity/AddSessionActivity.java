@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.utils.DistributionData;
@@ -28,8 +29,10 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
     }
     EditText januaryCountTxt,februaryCountTxt,marchCountTxt,aprilCountTxt,mayCountTxt,juneCountTxt,julyCountTxt,augustCountTxt;
     EditText septemberTxt,octoberTxt,novemberTxt,decemberTxt;
-    Spinner additionalMonth1Txt,additionalMonth2Txt,additionalMonth3Txt,additionalMonth4Txt,yearSpinner;
+    Spinner additionalMonth1Txt,additionalMonth2Txt,additionalMonth3Txt,additionalMonth4Txt;
     EditText additionalMonth1ValueTxt,additionalMonth2ValueTxt,additionalMonth3ValueTxt,additionalMonth4ValueTxt;
+    TextView yearText;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreation() {
         setContentView(R.layout.add_session_info);
@@ -38,12 +41,14 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.previous_btn).setOnClickListener(this);
         findViewById(R.id.next_btn).setOnClickListener(this);
+        yearText = findViewById(R.id.year_text);
         initUi();
         microPlanEpiData = (MicroPlanEpiData) getIntent().getSerializableExtra(PUT_EXTRA_MICRO_PLAN);
         if(microPlanEpiData!=null){
             if(microPlanEpiData.sessionPlanData!=null){
                 populatedUi();
             }
+            yearText.setText(microPlanEpiData.year+"");
         }
     }
     @SuppressLint("SetTextI18n")
@@ -68,9 +73,7 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth2Txt.setSelection(((ArrayAdapter<String>)additionalMonth2Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth2));
         additionalMonth3Txt.setSelection(((ArrayAdapter<String>)additionalMonth3Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth3));
         additionalMonth4Txt.setSelection(((ArrayAdapter<String>)additionalMonth4Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth4));
-        yearSpinner.setSelection(((ArrayAdapter<String>)yearSpinner.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.year+""));
-
-
+        yearText.setText(microPlanEpiData.sessionPlanData.year+"");
 
     }
 
@@ -95,7 +98,6 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth3ValueTxt = findViewById(R.id.month_3_value);
         additionalMonth4Txt = findViewById(R.id.month_4_spinner);
         additionalMonth4ValueTxt = findViewById(R.id.month_4_value);
-        yearSpinner = findViewById(R.id.year_spinner);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -131,7 +133,7 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
                 sessionPlanData.additionalMonth3Date =getIntValue(additionalMonth3ValueTxt.getText()+"");
                 sessionPlanData.additionalMonth4 = additionalMonth4Txt.getSelectedItem()+"";
                 sessionPlanData.additionalMonth4Date =  getIntValue(additionalMonth4ValueTxt.getText()+"");
-                sessionPlanData.year = getIntValue(yearSpinner.getSelectedItem()+"");
+                sessionPlanData.year = getIntValue(yearText.getText()+"");//getIntValue(yearSpinner.getSelectedItem()+"");
                 microPlanEpiData.sessionPlanData = sessionPlanData;
                 microPlanEpiData.year = sessionPlanData.year;
                 AddWorkerActivity.startAddWorkerActivity(AddSessionActivity.this,microPlanEpiData);
