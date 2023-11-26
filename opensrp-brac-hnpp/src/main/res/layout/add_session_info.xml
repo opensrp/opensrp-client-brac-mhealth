@@ -56,8 +56,9 @@
                 android:textSize="18sp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/year_spinner"
+            <TextView
+                android:id="@+id/year_text"
+                android:gravity="center_vertical"
                 android:layout_marginBottom="20dp"
                 android:minWidth="200dp"
                 android:entries="@array/year_epi"

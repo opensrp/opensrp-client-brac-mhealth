@@ -34,6 +34,7 @@ import java.util.ArrayList;
  */
 public class MicroPlanRepository extends BaseRepository {
     public enum MICROPLAN_STATUS_TAG {
+        ALL("All"),
         NOT_CREATED("Not created"),
         PENDING("Pending"),
         APPROVED("Approved"),
@@ -128,8 +129,9 @@ public class MicroPlanRepository extends BaseRepository {
             }else{
                 String selection = BLOCK_ID + " = ?  and " + YEAR + " = ? " + COLLATE_NOCASE;
                 String[] selectionArgs = new String[]{microPlanEpiData.blockId+"", microPlanEpiData.year+""};
-                database.update(getTableName(),contentValues,selection,selectionArgs);
+                int updated = database.update(getTableName(),contentValues,selection,selectionArgs);
                 Log.v("OUTREACH","failed value:"+contentValues);
+                return updated>0;
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -261,13 +263,24 @@ public class MicroPlanRepository extends BaseRepository {
                 microPlanEpiData1.outreachId = outreachContentData.outreachId;
                 microPlanEpiData1.centerType = outreachContentData.centerType;
             }
-            MicroPlanEpiData microPlan= getMicroPlan(status,microPlanEpiData1.blockId,year);
-            if(microPlan==null){
-                microPlanEpiData1.microPlanStatus = MICROPLAN_STATUS_TAG.NOT_CREATED.getValue();
+
+            if(status.equalsIgnoreCase(MICROPLAN_STATUS_TAG.NOT_CREATED.getValue()) || status.equalsIgnoreCase(MICROPLAN_STATUS_TAG.ALL.getValue())){
+                MicroPlanEpiData microPlan= getMicroPlan(status,microPlanEpiData1.blockId,year);
+                if(microPlan==null){
+                    microPlanEpiData1.microPlanStatus = MICROPLAN_STATUS_TAG.NOT_CREATED.getValue();
+                }else{
+                    microPlanEpiData1 = microPlan;
+                }
+                microPlanEpiData.add(microPlanEpiData1);
             }else{
-                microPlanEpiData1 = microPlan;
+                MicroPlanEpiData microPlan= getMicroPlan(status,microPlanEpiData1.blockId,year);
+                if(microPlan!=null){
+                    microPlanEpiData.add(microPlan);
+                }
+
             }
-            microPlanEpiData.add(microPlanEpiData1);
+
+
 
         }
         return microPlanEpiData;

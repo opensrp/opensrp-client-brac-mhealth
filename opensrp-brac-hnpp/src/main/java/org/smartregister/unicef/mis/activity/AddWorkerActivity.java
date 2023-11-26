@@ -56,8 +56,9 @@ public class AddWorkerActivity extends SecuredActivity implements View.OnClickLi
                 populatedUI();
             }
             if(microPlanEpiData.isViewMode){
-                findViewById(R.id.submit_btn).setEnabled(false);
-                findViewById(R.id.submit_btn).setAlpha(.3f);
+                findViewById(R.id.submit_btn).setVisibility(View.GONE);
+//                findViewById(R.id.submit_btn).setEnabled(false);
+//                findViewById(R.id.submit_btn).setAlpha(.3f);
             }
         }
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
@@ -155,7 +156,7 @@ public class AddWorkerActivity extends SecuredActivity implements View.OnClickLi
                     public void onNext(Boolean isInserted) {
                         hideProgressDialog();
                         if(isInserted){
-                            Toast.makeText(AddWorkerActivity.this,"Save Microplan successfully",Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddWorkerActivity.this,"Save MicroPlan successfully",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(AddWorkerActivity.this,AddMicroplanActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

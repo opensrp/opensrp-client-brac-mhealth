@@ -123,9 +123,9 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0){
+                //if(s.length() > 0){
                     updateZeroElevenTotal();
-                }
+                //}
 
             }
         };
@@ -142,9 +142,9 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0){
+                //if(s.length() > 0){
                     updateTwelveTwentyTotal();
-                }
+               // }
 
             }
         };
@@ -161,9 +161,9 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0){
+                //if(s.length() > 0){
                     updateFifteenTotal();
-                }
+                //}
 
             }
         };
@@ -180,9 +180,9 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() > 0){
+               // if(s.length() > 0){
                     updateTotalPopulation();
-                }
+               // }
 
             }
         };
@@ -197,26 +197,26 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
     }
         @SuppressLint("SetTextI18n")
         private void updateZeroElevenTotal(){
-        int male = Integer.parseInt(zeroElevenMaleTxt.getText().toString());
-        int female = Integer.parseInt(zeroElevenFeMaleTxt.getText().toString());
+        int male = getIntValue(zeroElevenMaleTxt.getText().toString());
+        int female = getIntValue(zeroElevenFeMaleTxt.getText().toString());
         zeroElevenTotal.setText((male+female)+"");
     }
     @SuppressLint("SetTextI18n")
     private void updateTwelveTwentyTotal(){
-        int male = Integer.parseInt(twelveTwentyMaleTxt.getText().toString());
-        int female = Integer.parseInt(twelveTwentyFemaleTxt.getText().toString());
+        int male = getIntValue(twelveTwentyMaleTxt.getText().toString());
+        int female = getIntValue(twelveTwentyFemaleTxt.getText().toString());
         twelveTwentyTotalTxt.setText((male+female)+"");
     }
     @SuppressLint("SetTextI18n")
     private void updateFifteenTotal(){
-        int male = Integer.parseInt(fifteenMaleTxt.getText().toString());
-        int female = Integer.parseInt(fifteenFemaleTxt.getText().toString());
+        int male = getIntValue(fifteenMaleTxt.getText().toString());
+        int female = getIntValue(fifteenFemaleTxt.getText().toString());
         fifteenTotalTxt.setText((male+female)+"");
     }
     @SuppressLint("SetTextI18n")
     private void updateTotalPopulation(){
-        int male = Integer.parseInt(totalPopulationMaleTxt.getText().toString());
-        int female = Integer.parseInt(totalPopulationFemaleTxt.getText().toString());
+        int male = getIntValue(totalPopulationMaleTxt.getText().toString());
+        int female = getIntValue(totalPopulationFemaleTxt.getText().toString());
         totalPopulationTxt.setText((male+female)+"");
     }
     @Override
