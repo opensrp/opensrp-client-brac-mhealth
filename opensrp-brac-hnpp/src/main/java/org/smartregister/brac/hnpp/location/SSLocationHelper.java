@@ -4,11 +4,13 @@ import android.util.Log;
 
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.IdentityModel;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.brac.hnpp.model.SkLocation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSLocationHelper {
 
@@ -125,6 +127,31 @@ public class SSLocationHelper {
         address.setCountyDistrict(ssLocations.district.name);
         address.setCountry(ssLocations.country.name);
         return address;
+    }
+    public Map<String,String> getGeoIdentifier(SSLocations ssLocations){
+        Map<String,String> identifiers = new HashMap<>();
+        identifiers.put("division_id", ssLocations.division.id+"");
+        identifiers.put("district_id", ssLocations.district.id+"");
+        identifiers.put("city_corporation_upazila_id", ssLocations.city_corporation_upazila.id+"");
+        identifiers.put("pourasabha_id", ssLocations.pourasabha.id+"");
+        identifiers.put("union_ward_id", ssLocations.union_ward.id+"");
+        identifiers.put("village_id", ssLocations.village.id+"");
+        identifiers.put("division", ssLocations.division.name+"");
+        identifiers.put("district", ssLocations.district.name+"");
+        identifiers.put("city_corporation_upazila", ssLocations.city_corporation_upazila.name+"");
+        identifiers.put("pourasabha", ssLocations.pourasabha.name+"");
+        identifiers.put("union_ward", ssLocations.union_ward.name+"");
+        identifiers.put("village", ssLocations.village.name+"");
+        return identifiers;
+    }
+    public Map<String,String> getMemberIdentifier(IdentityModel identityModel,Map<String,String> identifiers){
+        if(identifiers == null){
+             identifiers = new HashMap<>();
+        }
+        identifiers.put("name", identityModel.getName()+"");
+        identifiers.put("mobile", identityModel.getPhoneNo()+"");
+        identifiers.put("dob", identityModel.getDob()+"");
+        return identifiers;
     }
     public static void clearLocation(){
         instance =null;

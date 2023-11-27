@@ -614,9 +614,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(formSubmissionId);
             try {
-                Map<String, String> villageIds = new HashMap<>();
-                villageIds.put("village_id", HnppDBUtils.getVillageIdByBaseEntityId(baseEvent.getBaseEntityId()));
-                baseEvent.setIdentifiers(villageIds);
+
+                String ssName =  HnppDBUtils.getSSName(baseEvent.getBaseEntityId());
+                SSLocations ss1 = HnppApplication.getSSLocationRepository().getSSLocationStr(ssName);
+                baseEvent.setIdentifiers(SSLocationHelper.getInstance().getGeoIdentifier(ss1));
+                IdentityModel identityModel = HnppDBUtils.getIdentityByBaseEntityId(baseEvent.getBaseEntityId());
+                baseEvent.setIdentifiers(SSLocationHelper.getInstance().getMemberIdentifier(identityModel,baseEvent.getIdentifiers()));
+
+
             } catch (Exception e) {
 
             }
@@ -660,9 +665,14 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if (baseEvent != null) {
             baseEvent.setFormSubmissionId(formSubmissionId);
             try {
-                Map<String, String> villageIds = new HashMap<>();
-                villageIds.put("village_id", HnppDBUtils.getVillageIdByBaseEntityId(baseEvent.getBaseEntityId()));
-                baseEvent.setIdentifiers(villageIds);
+
+                String ssName =  HnppDBUtils.getSSName(baseEvent.getBaseEntityId());
+                SSLocations ss1 = HnppApplication.getSSLocationRepository().getSSLocationStr(ssName);
+                baseEvent.setIdentifiers(SSLocationHelper.getInstance().getGeoIdentifier(ss1));
+                IdentityModel identityModel = HnppDBUtils.getIdentityByBaseEntityId(baseEvent.getBaseEntityId());
+                baseEvent.setIdentifiers(SSLocationHelper.getInstance().getMemberIdentifier(identityModel,baseEvent.getIdentifiers()));
+
+
             } catch (Exception e) {
 
             }

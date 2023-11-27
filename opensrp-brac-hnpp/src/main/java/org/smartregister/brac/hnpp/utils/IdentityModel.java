@@ -9,6 +9,24 @@ public class IdentityModel {
     String age;
     String husband;
     String originalGuId;
+    String dob;
+    String phoneNo;
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getDob() {
+        return dob;
+    }
 
     public void setOriginalGuId(String originalGuId) {
         this.originalGuId = originalGuId;
