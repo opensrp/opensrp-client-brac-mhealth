@@ -29,12 +29,17 @@
     </org.smartregister.unicef.mis.widget.CustomCalendarView>
 
     <Button
-        android:id="@+id/get_selected_dates"
+        android:id="@+id/done_btn"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="18sp"
+        android:text="@string/ok"
+        android:textColor="@color/white"
+        android:background="@drawable/round_btn_selected"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selected Dates"
-        tools:layout_editor_absoluteX="229dp"
-        tools:layout_editor_absoluteY="447dp"/>
+        android:layout_height="50dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

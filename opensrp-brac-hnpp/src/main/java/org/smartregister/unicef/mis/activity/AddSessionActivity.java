@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,9 +26,11 @@ import org.smartregister.unicef.mis.utils.SessionPlanData;
 import org.smartregister.unicef.mis.widget.CustomCalendarView;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.blackbox_vision.materialcalendarview.view.CalendarView;
 
@@ -52,8 +56,7 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         findViewById(R.id.additional_btn).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.previous_btn).setOnClickListener(this);
-        findViewById(R.id.showCalenderBtn_0).setOnClickListener(this);
-        findViewById(R.id.showCalenderBtn_1).setOnClickListener(this);
+        findViewById(R.id.session_calender_btn).setOnClickListener(this);
         findViewById(R.id.next_btn).setOnClickListener(this);
         yearText = findViewById(R.id.year_text);
         initUi();
@@ -113,22 +116,29 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth4Txt = findViewById(R.id.month_4_spinner);
         additionalMonth4ValueTxt = findViewById(R.id.month_4_value);
     }
-    private void showMultiDatePicker(int index){
+    ArrayList<Date> selectedDates =  new ArrayList<>();
+    private void showMultiDatePicker(){
+
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         dialog.setContentView(R.layout.add_multidate_picker);
+        Button doneBtn = dialog.findViewById(R.id.done_btn);
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("SELECTED_MONTH","selectedDates:"+selectedDates+":");
+            }
+        });
         CustomCalendarView calendarView = dialog.findViewById(R.id.calendar_view);
         if(HnppConstants.isUrbanUser()){
             calendarView.setMultiSelectDayEnabled(true);
-            calendarView.currentMonthIndex = index;
+            calendarView.currentMonthIndex = 0;
+            calendarView.year = getIntValue(yearText.getText().toString())==0?2023:getIntValue(yearText.getText().toString());
             calendarView.setOnMultipleDaySelectedListener(new CustomCalendarView.OnMultipleDaySelectedListener() {
                 @Override
                 public void onMultipleDaySelected(int month, @NonNull List<Date> dates) {
-                    for (Date selectedDate : dates){
-                        calendarView.markDateAsSelected(selectedDate);
-                    }
-
+                    Log.v("SELECTED_MONTH","dates:"+dates+":");
                 }
             });
             calendarView.setOnDateClickListener(new CustomCalendarView.OnDateClickListener() {
@@ -140,8 +150,17 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
 //                    calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dayOfMonthText.getText().toString()));
 
                     calendarView.markDateAsSelected(selectedDate);
+                    selectedDates.add(selectedDate);
+                    Log.v("SELECTED_MONTH","month:"+selectedDates+":");
                 }
             });
+            Calendar disabledCal = Calendar.getInstance();
+            disabledCal.set(Calendar.DATE, disabledCal.get(Calendar.DATE) - 1);
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar.set(Calendar.YEAR,2023);
+            calendar.set(Calendar.MONTH,Calendar.JANUARY);
+            calendar.set(Calendar.DAY_OF_MONTH,1);
+            calendarView.update(calendar);
         }
         dialog.show();
     }
@@ -150,11 +169,8 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.showCalenderBtn_0:
-                showMultiDatePicker(0);
-                break;
-            case R.id.showCalenderBtn_1:
-                showMultiDatePicker(1);
+            case R.id.session_calender_btn:
+                showMultiDatePicker();
                 break;
             case R.id.backBtn:
             case R.id.previous_btn:

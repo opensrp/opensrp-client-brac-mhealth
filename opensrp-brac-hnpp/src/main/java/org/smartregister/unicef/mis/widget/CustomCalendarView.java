@@ -38,9 +38,11 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -206,6 +208,7 @@ public final class CustomCalendarView extends LinearLayout {
 
     private int firstDayOfWeek;
     public int currentMonthIndex;
+    public int year;
     private Map<Integer, List<Date>> selectedDatesForMonth = new HashMap<>();
 
     // Day of weekendDays
@@ -268,7 +271,8 @@ public final class CustomCalendarView extends LinearLayout {
                 if (savedInstanceState.getSerializable(KEY_SELECTED_DATE) != null) {
                     lastSelectedDay = (Date) savedInstanceState.getSerializable(KEY_SELECTED_DATE);
                 } else {
-                    lastSelectedDay = new Date();
+                    Date date = new GregorianCalendar(2023, Calendar.JANUARY, 1).getTime();
+                    lastSelectedDay = date;
                 }
             }
             Calendar calendar = getCalDate(lastSelectedDay);
@@ -349,18 +353,19 @@ public final class CustomCalendarView extends LinearLayout {
     private void drawCalendar() {
         view = LayoutInflater.from(getContext()).inflate(R.layout.material_calendar_view, this, true);
         calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.set(year,currentMonthIndex,1);
         firstDayOfWeek = Calendar.SUNDAY;
         currentMonthIndex = 0;
 
-        update(Calendar.getInstance(Locale.getDefault()));
+        update(calendar);
     }
 
     private void drawHeaderView() {
         headerView = (HeaderView) view.findViewById(R.id.header_view);
-        headerView.setVisibility(INVISIBLE);
         headerView.setBackgroundColor(titleBackgroundColor);
-
-        headerView.setTitle(CalendarUtils.getDateTitle(Locale.getDefault(), currentMonthIndex))
+        headerView.findViewById(R.id.right_button).setVisibility(GONE);
+        headerView.findViewById(R.id.left_button).setVisibility(GONE);
+        headerView.setTitle(getDateTitle(Locale.getDefault(), currentMonthIndex,year))
                 .setNextButtonDrawable(nextButtonDrawable)
                 .setBackButtonDrawable(backButtonDrawable)
                 .setNextButtonColor(buttonBackgroundColor)
@@ -370,6 +375,17 @@ public final class CustomCalendarView extends LinearLayout {
                 .setOnTitleClickListener(this::onTitleClick)
                 .setOnNextButtonClickListener(this::onNextButtonClick)
                 .setOnBackButtonClickListener(this::onBackButtonClick);
+    }
+    public static String getDateTitle(Locale locale, int index, int year) {
+        final String[] months = new DateFormatSymbols(locale).getMonths();
+        final Calendar calendar = Calendar.getInstance(locale);
+        calendar.add(Calendar.YEAR, year);
+        calendar.add(Calendar.MONTH, index);
+        calendar.set(Calendar.MONTH,index);
+
+        final String title = months[calendar.get(Calendar.MONTH)] ;
+
+        return title.toUpperCase(Locale.getDefault());
     }
 
     public void onTitleClick() {
@@ -564,7 +580,6 @@ public final class CustomCalendarView extends LinearLayout {
 
             if (day.isCurrentMonth()) {
                 textView.setVisibility(View.VISIBLE);
-
                 container.setOnClickListener(this::onClick);
                 container.setOnLongClickListener(this::onLongClick);
 
@@ -692,22 +707,23 @@ public final class CustomCalendarView extends LinearLayout {
     }
 
     private void drawCurrentDay(@NonNull Date date) {
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.setTime(date);
-
-        if (CalendarUtils.isToday(calendar)) {
-            final DayView dayOfMonth = findViewByCalendar(calendar);
-
-            dayOfMonth.setTextColor(dayOfMonthTextColor);
-
-            Drawable d = ContextCompat.getDrawable(getContext(), R.drawable.circular_background);
-            d.setColorFilter(currentDayBackgroundColor, PorterDuff.Mode.SRC_ATOP);
-
-            ViewCompat.setBackground(dayOfMonth, d);
-        }
+//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+//        calendar.setTime(date);
+//
+//        if (CalendarUtils.isToday(calendar)) {
+//            final DayView dayOfMonth = findViewByCalendar(calendar);
+//
+//            dayOfMonth.setTextColor(dayOfMonthTextColor);
+//
+//            Drawable d = ContextCompat.getDrawable(getContext(), R.drawable.circular_background);
+//            d.setColorFilter(currentDayBackgroundColor, PorterDuff.Mode.SRC_ATOP);
+//
+//            ViewCompat.setBackground(dayOfMonth, d);
+//        }
     }
 
     public void markDateAsSelected(@NonNull Date date) {
+
         Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
         currentCalendar.setFirstDayOfWeek(firstDayOfWeek);
         currentCalendar.setTime(date);
@@ -721,12 +737,12 @@ public final class CustomCalendarView extends LinearLayout {
             List<Date> dates = selectedDatesForMonth.get(month);
 
             if (null != dates) {
-                dates.add(lastSelectedDay);
+                dates.add(date);
             } else {
                 dates = new ArrayList<>();
-                dates.add(lastSelectedDay);
+                dates.add(date);
             }
-
+            lastSelectedDay = date;
             selectedDatesForMonth.put(month, dates);
 
             if (null != onMultipleDaySelectedListener) {

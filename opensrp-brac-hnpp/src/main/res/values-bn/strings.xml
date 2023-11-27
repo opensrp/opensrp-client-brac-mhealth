@@ -1081,6 +1081,7 @@
     <string name="session_plan">সেশন প্ল্যান</string>
     <string name="outreach_list">কেন্দ্রের তালিকা</string>
     <string name="outreach_error">Outreach name empty</string>
+    <string name="calender_session_plan">ক্যালেন্ডার দিয়ে সেশন প্ল্যান</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
