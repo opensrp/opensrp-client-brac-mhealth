@@ -97,6 +97,7 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion45(database);
         upgradeToVersion46(database);
         upgradeToVersion47(database);
+        upgradeToVersion48(database);
     }
 
     @Override
@@ -212,6 +213,9 @@ public class HnppChwRepository extends Repository {
                 case 47:
                     upgradeToVersion47(db);
                     break;
+                case 48:
+                    upgradeToVersion48(db);
+                    break;
                 default:
                     break;
             }
@@ -247,6 +251,14 @@ public class HnppChwRepository extends Repository {
         try{
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
             db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date LONG;");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void upgradeToVersion48(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion48");
+        try{
+            db.execSQL("ALTER TABLE anc_follow_up ADD COLUMN is_called_telephonic INTEGER;");
         }catch (Exception e){
             e.printStackTrace();
         }

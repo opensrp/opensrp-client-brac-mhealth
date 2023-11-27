@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
@@ -38,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
             android:layout_toEndOf="@+id/hh_profile_img"
             android:layout_toRightOf="@+id/hh_profile_img"
             android:orientation="vertical"
@@ -98,6 +98,52 @@
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/register_list_desc_size"
                 android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/follow_up_button_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/register_list_item_height"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:visibility="gone"
+            android:paddingStart="@dimen/register_list_item_padding"
+            android:paddingLeft="@dimen/register_list_item_padding"
+            android:paddingTop="@dimen/register_list_top_bottom_padding"
+            android:paddingEnd="@dimen/register_list_item_padding"
+            android:paddingRight="@dimen/register_list_item_padding"
+            android:paddingBottom="@dimen/register_list_top_bottom_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/due_button_wrapper"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <Button
+                android:id="@+id/followup_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/purple_background"
+                android:elevation="@dimen/register_list_elevation"
+                android:gravity="center"
+                android:hapticFeedbackEnabled="true"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
+                android:stateListAnimator="@drawable/button"
+                android:text="Add followup"
+                android:textAllCaps="false"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/black"
+                android:textSize="@dimen/register_list_due_size"
+                android:textStyle="bold"
+                android:typeface="normal"
+                android:visibility="visible" />
 
         </LinearLayout>
 

@@ -39,6 +39,7 @@ public class AncFollowUpRepository extends BaseRepository {
     protected static final String TELEPHONY_FOLLOW_UP_DATE = "telephony_follow_up_date";
     protected static final String SPECIAL_FOLLOW_UP_DATE = "special_follow_up_date";
     protected static final String NO_OF_ANC = "no_of_anc";
+    protected static final String IS_CALLED_TELEPHONIC = "is_called_telephonic";
 
 
     protected static final String[] COLUMNS = new String[]{ID, BASE_ENTITY_ID};
@@ -52,6 +53,7 @@ public class AncFollowUpRepository extends BaseRepository {
                     VISIT_DATE + " INTEGER," +
                     TELEPHONY_FOLLOW_UP_DATE + " INTEGER," +
                     SPECIAL_FOLLOW_UP_DATE + " INTEGER ," +
+                    IS_CALLED_TELEPHONIC + " INTEGER," +
                     NO_OF_ANC + " INTEGER ) ";
 
 
@@ -99,6 +101,18 @@ public class AncFollowUpRepository extends BaseRepository {
         //if (status <= 0) {
             long updated = getWritableDatabase().insert(getAncFollowupTableName(), null, contentValues);
        // }
+    }
+
+    public void updateCallStatus(AncFollowUpModel ancFollowUpModel) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(IS_CALLED_TELEPHONIC, 1);
+
+        int status = getReadableDatabase().update(getAncFollowupTableName(), contentValues,
+                BASE_ENTITY_ID + " = ? and "+TELEPHONY_FOLLOW_UP_DATE +" = ? and ("+IS_CALLED_TELEPHONIC+" is null or "+IS_CALLED_TELEPHONIC+" = '0')",
+                new String[]{ancFollowUpModel.baseEntityId, String.valueOf(ancFollowUpModel.telephonyFollowUpDate)});
+        if (status <= 0) {
+
+        }
     }
 
     public ArrayList<AncFollowUpModel> getAncFollowUpData(FollowUpType type,boolean isFromReceiver) {
@@ -160,6 +174,7 @@ public class AncFollowUpRepository extends BaseRepository {
                     minTelephonicFollowUp +
                     minSpecialFollowUp +
                     "a.no_of_anc," +
+                    "a.is_called_telephonic," +
                     "r.high_risky_key," +
                     "r.high_risky_value," +
                     "r.low_risky_key," +
@@ -199,6 +214,7 @@ public class AncFollowUpRepository extends BaseRepository {
         long telephonyFollowUpDate = cursor.getLong(cursor.getColumnIndex(TELEPHONY_FOLLOW_UP_DATE));
         long specialFollowUpDate = cursor.getLong(cursor.getColumnIndex(SPECIAL_FOLLOW_UP_DATE));
         int noOfAnc = cursor.getInt(cursor.getColumnIndex(NO_OF_ANC));
+        int isCalledTelephonic = cursor.getInt(cursor.getColumnIndex(IS_CALLED_TELEPHONIC));
 
         int riskType = cursor.getInt(cursor.getColumnIndex("risk_type"));
 
@@ -213,6 +229,7 @@ public class AncFollowUpRepository extends BaseRepository {
         ancFollowUpModel.telephonyFollowUpDate = telephonyFollowUpDate;
         ancFollowUpModel.specialFollowUpDate = specialFollowUpDate;
         ancFollowUpModel.noOfAnc = noOfAnc;
+        ancFollowUpModel.isCalledTelephonic = isCalledTelephonic;
         ancFollowUpModel.riskType = riskType;
 
         ancFollowUpModel.memberName = memberName;

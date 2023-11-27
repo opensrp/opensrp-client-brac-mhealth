@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
 import org.smartregister.brac.hnpp.adapter.TelephonicFUpListAdapter;
@@ -61,7 +62,6 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         progressBar = root.findViewById(R.id.progress_bar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        initializePresenter();
         return root;
     }
 
@@ -96,14 +96,19 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         hideProgressBar();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initializePresenter();
+    }
+
     private void launchCall(AncFollowUpModel content) {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
-        }
-        else
-        {
+        } else {
             Intent intent = new Intent(Intent.ACTION_CALL);
             intent.setData(Uri.parse("tel:"+content.memberPhoneNum));
+            HnppApplication.getAncFollowUpRepository().updateCallStatus(content);
             startActivity(intent);
         }
 

@@ -59,7 +59,7 @@ public class RoutinFUpListAdapter extends RecyclerView.Adapter<RoutinFUpListView
             viewHolder.itemView.setVisibility(View.VISIBLE);
         }
         if(content.riskType == 2){
-            viewHolder.layout.setBackgroundResource(R.color.red);
+            viewHolder.layout.setBackgroundResource(R.color.due_vaccine_red);
         }else if(content.riskType == 1){
             viewHolder.layout.setBackgroundResource(R.color.yellow);
         }else {

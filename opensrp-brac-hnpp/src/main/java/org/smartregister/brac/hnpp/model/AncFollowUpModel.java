@@ -8,6 +8,7 @@ public class AncFollowUpModel {
     public long telephonyFollowUpDate;
     public long specialFollowUpDate;
     public int noOfAnc;
+    public int isCalledTelephonic;
 
     public String highRiskKey;
     public String highRiskValue;
@@ -17,4 +18,5 @@ public class AncFollowUpModel {
 
     public String memberName;
     public String memberPhoneNum;
+
 }

@@ -21,7 +21,9 @@ public class TelephonicFUpListViewHolder extends RecyclerView.ViewHolder {
     public ImageView imageView;
     public ConstraintLayout layout;
     public Button dueButton;
+    public Button followupButton;
     public LinearLayout dueLay;
+    public LinearLayout followupLay;
     public TextView phNumber;
     public TextView dueDate;
 
@@ -32,6 +34,8 @@ public class TelephonicFUpListViewHolder extends RecyclerView.ViewHolder {
         imageView = itemView.findViewById(R.id.imageView);
         layout = itemView.findViewById(R.id.item);
         dueButton = itemView.findViewById(R.id.due_button);
+        followupButton = itemView.findViewById(R.id.followup_button);
+        followupLay = itemView.findViewById(R.id.follow_up_button_wrapper);
         dueLay = itemView.findViewById(R.id.due_lay_telephonic);
         phNumber = itemView.findViewById(R.id.phone_num_tv);
         dueDate = itemView.findViewById(R.id.due_date_tv);

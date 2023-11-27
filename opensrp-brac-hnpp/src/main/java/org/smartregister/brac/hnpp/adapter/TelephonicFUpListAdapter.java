@@ -51,11 +51,19 @@ public class TelephonicFUpListAdapter extends RecyclerView.Adapter<TelephonicFUp
             viewHolder.itemView.setVisibility(View.VISIBLE);
         }
 
-        viewHolder.dueButton.setVisibility(View.GONE);
-        viewHolder.dueLay.setVisibility(View.VISIBLE);
+        if(content.isCalledTelephonic == 1){
+            viewHolder.followupLay.setVisibility(View.VISIBLE);
+            viewHolder.dueButton.setVisibility(View.GONE);
+            viewHolder.dueLay.setVisibility(View.GONE);
+        }else {
+            viewHolder.followupLay.setVisibility(View.GONE);
+            viewHolder.dueButton.setVisibility(View.GONE);
+            viewHolder.dueLay.setVisibility(View.VISIBLE);
+        }
+
 
         if(content.riskType == 2){
-            viewHolder.layout.setBackgroundResource(R.color.red);
+            viewHolder.layout.setBackgroundResource(R.color.due_vaccine_red);
         }else if(content.riskType == 1){
             viewHolder.layout.setBackgroundResource(R.color.yellow);
         }else {
