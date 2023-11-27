@@ -1,8 +1,14 @@
 package org.smartregister.brac.hnpp.fragment.risky_patient;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +34,7 @@ import java.util.ArrayList;
 public class TelephonicFUpFragment extends Fragment implements TelephonicFUpContract.View {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final int REQUEST_PHONE_CALL = 101;
     TelephonicFUpPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
@@ -81,12 +88,26 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         TelephonicFUpListAdapter adapter = new TelephonicFUpListAdapter(getActivity(), new TelephonicFUpListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, AncFollowUpModel content) {
-
+                launchCall(content);
             }
         });
         adapter.setData(list);
         recyclerView.setAdapter(adapter);
         hideProgressBar();
+    }
+
+    private void launchCall(AncFollowUpModel content) {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+        }
+        else
+        {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:"+content.memberPhoneNum));
+            startActivity(intent);
+        }
+
+
     }
 
     @Override

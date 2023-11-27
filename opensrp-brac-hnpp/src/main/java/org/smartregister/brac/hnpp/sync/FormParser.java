@@ -1312,7 +1312,7 @@ public class FormParser {
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
 
-                ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,60);
+                ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,30);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);

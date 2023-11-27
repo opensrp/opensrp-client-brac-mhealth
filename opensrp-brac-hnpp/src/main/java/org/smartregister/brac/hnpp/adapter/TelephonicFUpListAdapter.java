@@ -70,7 +70,7 @@ public class TelephonicFUpListAdapter extends RecyclerView.Adapter<TelephonicFUp
 
         viewHolder.nameTv.setText(content.memberName);
         viewHolder.phoneNumber.setText(content.memberPhoneNum);
-        viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
+        viewHolder.dueLay.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }
 
 

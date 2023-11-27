@@ -126,7 +126,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         setupRiskAlarmManager();
 
         RiskAlarmHelper helper = new RiskAlarmHelper(this);
-        helper.scheduleAlarm("Test");
+        helper.scheduleAlarm();
 
         //init Job Manager
         SyncStatusBroadcastReceiver.init(this);

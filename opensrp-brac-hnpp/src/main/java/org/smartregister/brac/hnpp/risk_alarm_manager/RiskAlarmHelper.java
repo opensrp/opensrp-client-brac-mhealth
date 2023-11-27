@@ -20,17 +20,18 @@ public class RiskAlarmHelper {
         alarmManager = context.getSystemService(AlarmManager.class);
     }
 
-    public void scheduleAlarm(String msg){
+    public void scheduleAlarm(){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,9);
+        calendar.set(Calendar.HOUR,9);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
         calendar.set(Calendar.AM_PM,Calendar.AM);
 
-        Log.d("LLLLL",calendar.get(Calendar.DAY_OF_MONTH)+" "+calendar.get(Calendar.HOUR_OF_DAY)+" "+calendar.get(Calendar.MINUTE)+" "+calendar.get(Calendar.AM_PM));
+        Log.d("LLLLL",calendar.getTimeInMillis()+"   "+calendar.get(Calendar.DAY_OF_MONTH)+" "+calendar.get(Calendar.HOUR_OF_DAY)+" "+calendar.get(Calendar.MINUTE)+" "+calendar.get(Calendar.AM_PM));
 
         Intent intent = new Intent(context, RiskAlarmReceiver.class);
-        intent.putExtra("EXTRA_MESSAGE", msg);
+
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),//9 am
