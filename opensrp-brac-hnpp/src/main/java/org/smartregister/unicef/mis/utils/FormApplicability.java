@@ -54,6 +54,7 @@ public class FormApplicability {
             return null;
         }
         int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        Log.v("isDueChildEccd","isDueChildEccd>>>day:"+day);
 
         if(day >= 60 && day <= 90){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH;
@@ -63,12 +64,14 @@ public class FormApplicability {
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;
         }else if(day >= 271 && day <= 360){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
-        }else if(day >= 540){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
-        }else if(day >= 720){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
         }else if(day >= 1080){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;
+        }
+        else if(day >= 720){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
+        }
+        else if(day >= 540){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
         }
         return "";
     }

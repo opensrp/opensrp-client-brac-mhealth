@@ -376,14 +376,14 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
                 public void run() {
                     try{
                         if(intent != null && intent.getAction().equalsIgnoreCase(HALocationFetchIntentService.LOCATION_UPDATE)){
-                            HnppConstants.showOneButtonDialog(FamilyRegisterActivity.this, "আপনার লোকেশন পাওয়া যায়নি। অনুগ্রহ করে আবার লগইন করুন", "", new Runnable() {
-                                @Override
-                                public void run() {
-                                    HnppApplication.getInstance().forceLogout();
-                                    finish();
-                                }
-                            });
-                           // startActivity(new Intent(FamilyRegisterActivity.this,UpdateLocationActivity.class));
+//                            HnppConstants.showOneButtonDialog(FamilyRegisterActivity.this, "আপনার লোকেশন পাওয়া যায়নি। অনুগ্রহ করে আবার লগইন করুন", "", new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    HnppApplication.getInstance().forceLogout();
+//                                    finish();
+//                                }
+//                            });
+                            startActivity(new Intent(FamilyRegisterActivity.this,UpdateLocationActivity.class));
                         }
                         if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){
                             String value = intent.getStringExtra(HnppConstants.EXTRA_STOCK_COME);
