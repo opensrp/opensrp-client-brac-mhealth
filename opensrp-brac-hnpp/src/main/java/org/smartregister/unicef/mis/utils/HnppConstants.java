@@ -1913,6 +1913,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_ECCD_7_9_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_ECCD_10_12_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,R.drawable.rowavatar_child)
