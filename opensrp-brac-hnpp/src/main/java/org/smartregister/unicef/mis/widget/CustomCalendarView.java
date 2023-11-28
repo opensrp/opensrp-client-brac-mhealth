@@ -22,6 +22,7 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.util.AttributeSet;
+import android.util.MonthDisplayHelper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -265,18 +266,15 @@ public final class CustomCalendarView extends LinearLayout {
         if (state instanceof Bundle) {
             final Bundle savedInstanceState = (Bundle) state;
 
-            if (savedInstanceState != null) {
-                state = savedInstanceState.getParcelable(KEY_STATE);
-                currentMonthIndex = savedInstanceState.getInt(KEY_MONTH_INDEX);
-                if (savedInstanceState.getSerializable(KEY_SELECTED_DATE) != null) {
-                    lastSelectedDay = (Date) savedInstanceState.getSerializable(KEY_SELECTED_DATE);
-                } else {
-                    Date date = new GregorianCalendar(2023, Calendar.JANUARY, 1).getTime();
-                    lastSelectedDay = date;
-                }
+            state = savedInstanceState.getParcelable(KEY_STATE);
+            currentMonthIndex = savedInstanceState.getInt(KEY_MONTH_INDEX);
+            if (savedInstanceState.getSerializable(KEY_SELECTED_DATE) != null) {
+                lastSelectedDay = (Date) savedInstanceState.getSerializable(KEY_SELECTED_DATE);
+            } else {
+                lastSelectedDay = new GregorianCalendar(2023, Calendar.JANUARY, 1).getTime();
             }
             Calendar calendar = getCalDate(lastSelectedDay);
-            update(calendar);
+            //update(calendar);
             markDateAsSelected(lastSelectedDay);
             if (onDateClickListener != null) {
                 onDateClickListener.onDateClick(lastSelectedDay);
@@ -352,12 +350,12 @@ public final class CustomCalendarView extends LinearLayout {
 
     private void drawCalendar() {
         view = LayoutInflater.from(getContext()).inflate(R.layout.material_calendar_view, this, true);
-        calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.set(year,currentMonthIndex,1);
-        firstDayOfWeek = Calendar.SUNDAY;
-        currentMonthIndex = 0;
+//        calendar = Calendar.getInstance(Locale.getDefault());
+//        calendar.set(year,currentMonthIndex,1);
+//        firstDayOfWeek = Calendar.SUNDAY;
+//        currentMonthIndex = 0;
 
-        update(calendar);
+        //update(calendar);
     }
 
     private void drawHeaderView() {
@@ -379,7 +377,7 @@ public final class CustomCalendarView extends LinearLayout {
     public static String getDateTitle(Locale locale, int index, int year) {
         final String[] months = new DateFormatSymbols(locale).getMonths();
         final Calendar calendar = Calendar.getInstance(locale);
-        calendar.add(Calendar.YEAR, year);
+        calendar.add(Calendar.YEAR, year==0?2023:year);
         calendar.add(Calendar.MONTH, index);
         calendar.set(Calendar.MONTH,index);
 
@@ -417,7 +415,7 @@ public final class CustomCalendarView extends LinearLayout {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.add(Calendar.MONTH, currentMonthIndex);
 
-        update(calendar);
+        update(calendar,2);
 
         if (onMonthChangeListener != null) {
             onMonthChangeListener.onMonthChange(calendar.getTime());
@@ -535,7 +533,7 @@ public final class CustomCalendarView extends LinearLayout {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.add(Calendar.MONTH, currentMonthIndex);
 
-        update(calendar);
+        update(calendar,3);
 
         if (onMonthChangeListener != null) {
             onMonthChangeListener.onMonthChange(calendar.getTime());
@@ -543,7 +541,7 @@ public final class CustomCalendarView extends LinearLayout {
     }
 
     private void drawAdapterView() {
-        final List<Day> days = CalendarUtils.obtainDays(calendar, currentMonthIndex);
+        final List<Day> days = obtainDays();
 
         DayView textView;
         ViewGroup container;
@@ -626,8 +624,88 @@ public final class CustomCalendarView extends LinearLayout {
             }
         }
     }
+    public  List<Day> obtainDays() {
+        int year = CalendarUtils.getYear(calendar);
+        int month = CalendarUtils.getMonth(calendar);
+        int firstDayOfWeek = CalendarUtils.getFirstDayOfWeek(calendar);
 
-    private void clearDayViewSelection(Date currentDate) {
+        final MonthDisplayHelper helper = new MonthDisplayHelper(year, month, firstDayOfWeek);
+        final List<Day> days = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            int n[] = helper.getDigitsForRow(i);
+
+            for (int j = 0; j < 7; j++) {
+                Day d = new Day();
+
+                if (helper.isWithinCurrentMonth(i, j)) {
+                    Calendar c = Calendar.getInstance(Locale.getDefault());
+                    c.set(Calendar.YEAR,calendar.get(Calendar.YEAR));
+                    c.set(Calendar.MONTH, currentMonthIndex);
+                    c.set(Calendar.DAY_OF_MONTH, n[j]);
+
+                    int m = CalendarUtils.getMonth(c);
+                    int y = CalendarUtils.getYear(c);
+
+                    if (n[j] == c.get(Calendar.DAY_OF_MONTH) && CalendarUtils.isWeekend(c) && currentMonthIndex == 0) {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(false)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(true);
+
+                    } else if (n[j] == c.get(Calendar.DAY_OF_MONTH) && currentMonthIndex == 0) {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(true)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(false);
+
+                    } else if (CalendarUtils.isWeekend(c)) {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(false)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(true);
+
+                    } else {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(false)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(false);
+                    }
+
+                } else {
+                    Calendar c = Calendar.getInstance(Locale.getDefault());
+
+                    c.add(Calendar.MONTH, currentMonthIndex);
+                    c.set(Calendar.DAY_OF_MONTH, n[j]);
+
+                    d.setDay(n[j])
+                            .setMonth(CalendarUtils.getMonth(c))
+                            .setYear(CalendarUtils.getYear(c))
+                            .setCurrentDay(false)
+                            .setCurrentMonth(false)
+                            .setCurrentYear(true)
+                            .setWeekend(false);
+                }
+
+                days.add(d);
+            }
+        }
+
+        return days;
+    }
+    public void clearDayViewSelection(Date currentDate) {
         if (currentDate != null) {
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
             calendar.setFirstDayOfWeek(firstDayOfWeek);
@@ -677,10 +755,12 @@ public final class CustomCalendarView extends LinearLayout {
         return (DayView) view.findViewWithTag(key + index);
     }
 
-    public void update(@NonNull Calendar calender) {
+    public void update(@NonNull Calendar calender,int type) {
         calendar = calender;
+        firstDayOfWeek = Calendar.SUNDAY;
         calendar.setFirstDayOfWeek(firstDayOfWeek);
 
+        currentMonthIndex = 0;
         calculateWeekEnds();
 
         drawHeaderView();

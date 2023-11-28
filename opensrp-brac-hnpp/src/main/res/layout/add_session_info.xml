@@ -67,19 +67,6 @@
                 android:layout_margin="5dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
-        <Button
-            android:id="@+id/session_calender_btn"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textSize="18sp"
-            android:drawableRight="@drawable/ic_calender"
-            android:text="@string/calender_session_plan"
-            android:textColor="@color/white"
-            android:background="@drawable/round_btn_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"/>
 
         <LinearLayout
             android:gravity="center_vertical"
@@ -100,9 +87,17 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
-                android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_jan"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -125,7 +120,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_feb"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -148,7 +152,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_mar"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -171,7 +184,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_april"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -194,7 +216,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_may"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -217,7 +248,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_jun"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -240,7 +280,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_july"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -263,7 +312,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_aug"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -286,7 +344,16 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:id="@+id/showCalenderBtn_sep"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/round_btn"
+                android:layout_width="50dp"
                 android:layout_height="50dp"/>
         </LinearLayout>
         <LinearLayout
@@ -309,8 +376,9 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:gravity="center_vertical"
@@ -332,8 +400,9 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:gravity="center_vertical"
@@ -355,11 +424,13 @@
                 android:textSize="20sp"
                 android:inputType="number"
                 android:background="@drawable/round_btn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_width="180dp"
+                android:minHeight ="50dp"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <Button
             android:id="@+id/additional_btn"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
