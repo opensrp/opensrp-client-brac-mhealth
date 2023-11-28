@@ -1081,6 +1081,7 @@
     <string name="session_plan">সেশন প্ল্যান</string>
     <string name="outreach_list">কেন্দ্রের তালিকা</string>
     <string name="outreach_error">Outreach name empty</string>
+    <string name="system_number">সিস্টেম নাম্বার</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

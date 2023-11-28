@@ -751,7 +751,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
                 for (int i = 0; i < formdataviews.size(); i++) {
                     if (formdataviews.get(i) instanceof MaterialEditText) {
-                        if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase("সিস্টেম নাম্বার")) {
+                        if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase(getString(R.string.system_number))) {
                             ((MaterialEditText) formdataviews.get(i)).setText(unique_id);
                             try {
                                 JSONArray jsonArray = getStep("step1").getJSONArray("fields");
