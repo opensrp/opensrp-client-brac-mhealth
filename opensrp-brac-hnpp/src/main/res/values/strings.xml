@@ -1122,6 +1122,7 @@
     <string name="outreach_list">Outreach List</string>
     <string name="outreach_error">Outreach name empty</string>
     <string name="calender_session_plan">Session plan from calender</string>
+    <string name="system_no">সিস্টেম নাম্বার</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
