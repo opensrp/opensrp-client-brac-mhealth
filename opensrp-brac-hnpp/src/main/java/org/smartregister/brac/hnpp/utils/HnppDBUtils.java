@@ -722,7 +722,28 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return identityModel;
     }
+    public static IdentityModel getIdentityByBaseEntityId(String baseEntityId){
+        String query = "select first_name,phone_number,dob from ec_family_member  where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        IdentityModel identityModel = new IdentityModel();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                identityModel.setName(cursor.getString(0));
+                identityModel.setPhoneNo(cursor.getString(1));
+                identityModel.setDob(cursor.getString(2));
+            }
 
+            return identityModel;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return identityModel;
+    }
     public static String getBirthWeight(String baseEntityId){
         String query = "select birth_weight from ec_child where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
