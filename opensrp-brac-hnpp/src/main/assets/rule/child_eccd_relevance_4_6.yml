@@ -2,20 +2,20 @@
 name: step1_ad_toaster
 description: 4-6 month
 priority: 3
-condition: "step1_head_straight.equals('No')"
+condition: "step1_head_straight.equals('No')|| step1_head_straight.equals('না')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_referral
 description: 4-6 month
 priority: 3
-condition: "step1_head_straight.equals('No')"
+condition: "step1_head_straight.equals('No')|| step1_head_straight.equals('না')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_place_of_referral
 description: 2-3 month
 priority: 3
-condition: "step1_head_straight.equals('No')"
+condition: "step1_head_straight.equals('No')|| step1_head_straight.equals('না')"
 actions:
   - "isRelevant = true"

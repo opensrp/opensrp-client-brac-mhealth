@@ -33,10 +33,11 @@ public class HALocationHelper {
         return instance;
     }
 
-    public String generateHouseHoldId(HALocation HALocation, String lastFourDigit){
+    public String generateHouseHoldId(HALocation HALocation, String randomId){
+
         return  "1"+HALocation.division.code+""+ HALocation.district.code+""+ HALocation.upazila.code+""
                 + HALocation.union.code+""+ HALocation.ward.code+""
-                + HALocation.block.code+""+lastFourDigit;
+                + HALocation.block.code+""+randomId;
     }
     public Address getSSAddress(HALocation HALocation){
         Address address = new Address();

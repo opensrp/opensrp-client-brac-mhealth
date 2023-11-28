@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -409,6 +410,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         ImageView fImg = childInfo2View.findViewById(R.id.image_view);
         TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
         childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+        Log.v("EVENT_TYPE","eventType>>"+eventType);
         fImg.setImageResource(iconMapping.get(eventType));
         fName.setText(HnppConstants.getVisitEventTypeMapping().get(eventType));
         childInfo2View.setTag(tag);

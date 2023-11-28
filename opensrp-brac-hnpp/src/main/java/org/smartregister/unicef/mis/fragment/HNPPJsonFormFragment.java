@@ -712,20 +712,14 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
 //                    return blockIdList.get(index);
 //                }
 
-                int householdCount = HnppDBUtils.getHouseHoldCount();
-                @SuppressLint("DefaultLocale") String householdCountFourDigit = String.format("%04d", householdCount+1);
-                String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
-                Log.v("HH_ID","id>>>userId:"+userId+":householdCountFourDigit:"+householdCountFourDigit);
                 HALocation HALocation = HnppApplication.getHALocationRepository().getLocationByBlock(blocksIds.get(index));
-                String id = getRandom3Digit()+""+userId+""+householdCountFourDigit;
+                String id = generatedRandomId();
                 unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);
                 boolean isExistUniqueId = HnppDBUtils.isExitHouseHoldId(unique_id);
                 if(isExistUniqueId){
-                    id = getRandom3Digit()+""+userId+""+householdCountFourDigit;
+                    id = generatedRandomId();
                     unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);
                 }
-                Log.v("HH_ID","final HH_ID>>:"+unique_id);
-
                 return null;
             }
 
@@ -751,7 +745,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
                 for (int i = 0; i < formdataviews.size(); i++) {
                     if (formdataviews.get(i) instanceof MaterialEditText) {
-                        if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase(getString(R.string.system_no))) {
+                        if (!TextUtils.isEmpty(((MaterialEditText) formdataviews.get(i)).getFloatingLabelText()) && ((MaterialEditText) formdataviews.get(i)).getFloatingLabelText().toString().trim().equalsIgnoreCase(getString(R.string.system_number))) {
                             ((MaterialEditText) formdataviews.get(i)).setText(unique_id);
                             try {
                                 JSONArray jsonArray = getStep("step1").getJSONArray("fields");
@@ -772,11 +766,13 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }, null);
     }
-    private String getRandom3Digit(){
+    private String generatedRandomId(){
+        int householdCount = HnppDBUtils.getHouseHoldCount();
+        @SuppressLint("DefaultLocale") String householdCountFourDigit = String.format("%04d", householdCount+1);
+        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
         long time = System.currentTimeMillis();
         @SuppressLint("DefaultLocale") String random3digit = String.format("%03d", time % 1000);
-        Log.v("HH_ID","id>>>random3digit:"+random3digit+":time:"+time);
-        return random3digit;
+        return random3digit+""+userId+""+householdCountFourDigit;
     }
 
     @Override
