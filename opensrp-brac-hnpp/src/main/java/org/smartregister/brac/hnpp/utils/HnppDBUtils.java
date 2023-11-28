@@ -1333,6 +1333,26 @@ public class HnppDBUtils extends CoreChildUtils {
         return "";
     }
 
+    public static String getAncHomeVisitFormSubId(String baseEntityId){
+        String query = "select form_submission_id from visits where base_entity_id = '"+baseEntityId+"' order by visit_date desc limit 1";
+        Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String name = cursor.getString(0);
+                return name;
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return "";
+    }
+
+
 
     public static String matchPhrase(String phrase) {
         String stringPhrase = phrase;

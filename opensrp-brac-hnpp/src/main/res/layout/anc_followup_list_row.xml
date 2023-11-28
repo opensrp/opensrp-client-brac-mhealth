@@ -136,7 +136,7 @@
                 android:paddingRight="20dp"
                 android:paddingBottom="20dp"
                 android:stateListAnimator="@drawable/button"
-                android:text="Add followup"
+                android:text="@string/add_followup"
                 android:textAllCaps="false"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/black"

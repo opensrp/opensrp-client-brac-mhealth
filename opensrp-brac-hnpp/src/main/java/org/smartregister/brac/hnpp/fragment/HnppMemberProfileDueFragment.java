@@ -315,9 +315,15 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         String eventType = (String) content.getEventType();
                         activity.requestedFormName = content.from;
-                        NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
-                       /* return;
                         if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
+                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
+                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)) {
+                            NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
+                        }else {
+                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                        }
+                        return;
+                        /*if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
                                 && FormApplicability.isFirstTimeAnc(baseEntityId)){
@@ -373,8 +379,13 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                     if (mActivity != null && mActivity instanceof HnppFamilyOtherMemberProfileActivity) {
                         HnppFamilyOtherMemberProfileActivity activity = (HnppFamilyOtherMemberProfileActivity) mActivity;
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
-
+                        if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
+                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
+                                && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)) {
+                            NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
+                        }else {
+                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                        }
                         /*if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)

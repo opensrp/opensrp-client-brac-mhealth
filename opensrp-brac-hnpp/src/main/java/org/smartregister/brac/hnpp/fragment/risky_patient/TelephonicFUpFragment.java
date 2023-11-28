@@ -16,15 +16,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.vijay.jsonwizard.activities.JsonFormActivity;
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.domain.Form;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
+import org.smartregister.brac.hnpp.activity.GuestAddMemberJsonFormActivity;
+import org.smartregister.brac.hnpp.activity.GuestMemberActivity;
+import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
+import org.smartregister.brac.hnpp.activity.RiskyPatientActivity;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
 import org.smartregister.brac.hnpp.adapter.TelephonicFUpListAdapter;
 import org.smartregister.brac.hnpp.contract.TelephonicFUpContract;
+import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.SpecialFUpPresenter;
 import org.smartregister.brac.hnpp.presenter.TelephonicFUpPresenter;
+import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
+import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.util.Constants;
+import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.family.util.Utils;
+import org.smartregister.util.FormUtils;
 
 import java.util.ArrayList;
 
@@ -84,16 +106,51 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     public void initializePresenter() {
         presenter = new TelephonicFUpPresenter(this);
         showProgressBar();
-        ArrayList<AncFollowUpModel> list =  presenter.fetchData();
-        TelephonicFUpListAdapter adapter = new TelephonicFUpListAdapter(getActivity(), new TelephonicFUpListAdapter.OnClickAdapter() {
-            @Override
-            public void onClick(int position, AncFollowUpModel content) {
-                launchCall(content);
-            }
-        });
+        ArrayList<AncFollowUpModel> list = presenter.fetchData();
+        TelephonicFUpListAdapter adapter = new TelephonicFUpListAdapter(getActivity(),
+                new TelephonicFUpListAdapter.OnClickAdapter() {
+                    @Override
+                    public void onClick(int position, AncFollowUpModel content) {
+                        launchCall(content);
+                    }
+                },
+                new TelephonicFUpListAdapter.OnClickAdapter() {
+                    @Override
+                    public void onClick(int position, AncFollowUpModel content) {
+                        startFollowupActivity(content);
+                    }
+                });
         adapter.setData(list);
         recyclerView.setAdapter(adapter);
         hideProgressBar();
+    }
+
+    private void startFollowupActivity(AncFollowUpModel content) {
+        HnppConstants.getGPSLocation((RiskyPatientActivity) getActivity(), new OnPostDataWithGps() {
+            @Override
+            public void onPost(double latitude, double longitude) {
+                try{
+                    Intent intent = new Intent(getActivity(), HnppAncJsonFormActivity.class);
+                    JSONObject jsonForm = FormUtils.getInstance(getActivity()).getFormJson(HnppConstants.JSON_FORMS.ANC_FOLLOWUP_FORM);
+                    HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
+                    String formSubmissionId = HnppDBUtils.getAncHomeVisitFormSubId(content.baseEntityId);
+                    JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
+                    JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+
+                    org.smartregister.chw.anc.util.JsonFormUtils.updateFormField(jsonArray, "form_submission_id", formSubmissionId);
+                    intent.putExtra(org.smartregister.chw.anc.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+                    Form form = new Form();
+                    form.setWizard(false);
+                    form.setActionBarBackground(R.color.test_app_color);
+
+                    intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
+
+                    startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -103,16 +160,10 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     }
 
     private void launchCall(AncFollowUpModel content) {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:"+content.memberPhoneNum));
-            HnppApplication.getAncFollowUpRepository().updateCallStatus(content);
-            startActivity(intent);
-        }
-
-
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + content.memberPhoneNum));
+        HnppApplication.getAncFollowUpRepository().updateCallStatus(content);
+        startActivity(intent);
     }
 
     @Override

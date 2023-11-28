@@ -518,4 +518,5 @@
     <string name="pregnancy_dietry">গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য</string>
     <string name="anc_registration">গর্ভবতী পরিচর্যা</string>
     <string name="not_interested">ইচ্ছুক নই</string>
+    <string name="add_followup">ফলোআপ দিন</string>
 </resources>
