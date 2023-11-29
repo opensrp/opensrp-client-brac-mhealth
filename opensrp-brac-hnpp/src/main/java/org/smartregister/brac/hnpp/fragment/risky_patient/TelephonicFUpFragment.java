@@ -1,6 +1,9 @@
 package org.smartregister.brac.hnpp.fragment.risky_patient;
 
+import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -76,6 +79,7 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int REQUEST_PHONE_CALL = 101;
+    public static final int REQUEST_CODE_GET_JSON = 2244;
     TelephonicFUpPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
@@ -176,50 +180,52 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(isProcessing) return;
-        AtomicInteger isSave = new AtomicInteger(2);
-        Utils.showProgressDialog(R.string.empty_string,R.string.please_wait_message,getActivity());
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
+            if(isProcessing) return;
+            AtomicInteger isSave = new AtomicInteger(2);
+            Utils.showProgressDialog(R.string.empty_string,R.string.please_wait_message,getActivity());
 
-        isProcessing = true;
-        String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-        String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-        String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
-        processAndSaveVisitForm(jsonString,formSubmissionId,visitId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Integer>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+            isProcessing = true;
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+            String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+            processAndSaveVisitForm(jsonString,formSubmissionId,visitId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Integer>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
-
-                    @Override
-                    public void onNext(Integer aInteger) {
-                        isSave.set(aInteger);
-                        Log.v("SAVE_VISIT","onError>>"+aInteger);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("visitCalledCompleted","true");
-                        if(isSave.get() == 1){
-                            Utils.hideProgressDialog();
-                            showServiceDoneDialog(1);
-                            HnppApplication.getAncFollowUpRepository().resetTelephonicDate(currentFollowupContent);
-                        }else if(isSave.get() == 3){
-                            Utils.hideProgressDialog();
-                            showServiceDoneDialog(3);
-                        }else {
-                            Utils.hideProgressDialog();
-                            //showServiceDoneDialog(false);
                         }
-                    }
-                });
+
+                        @Override
+                        public void onNext(Integer aInteger) {
+                            isSave.set(aInteger);
+                            Log.v("SAVE_VISIT","onError>>"+aInteger);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            //hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.d("visitCalledCompleted","true");
+                            if(isSave.get() == 1){
+                                Utils.hideProgressDialog();
+                                showServiceDoneDialog(1);
+                                HnppApplication.getAncFollowUpRepository().resetTelephonicDate(currentFollowupContent);
+                            }else if(isSave.get() == 3){
+                                Utils.hideProgressDialog();
+                                showServiceDoneDialog(3);
+                            }else {
+                                Utils.hideProgressDialog();
+                                //showServiceDoneDialog(false);
+                            }
+                        }
+                    });
+        }
     }
 
     Dialog dialog;
