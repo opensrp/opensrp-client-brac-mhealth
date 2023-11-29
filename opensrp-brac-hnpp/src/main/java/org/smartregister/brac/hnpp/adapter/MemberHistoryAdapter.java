@@ -55,9 +55,11 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
         viewHolder.textViewLastVisit.setVisibility(View.VISIBLE);
 
         //removing date when item is immunization or gmp
-        if(content.getTitle().equalsIgnoreCase(context.getString(R.string.immunizations))
-                || content.getTitle().equalsIgnoreCase(context.getString(R.string.gmp))){
-            viewHolder.textViewLastVisit.setVisibility(View.GONE);
+        if(content.getTitle() != null){
+            if(content.getTitle().equalsIgnoreCase(context.getString(R.string.immunizations))
+                    || content.getTitle().equalsIgnoreCase(context.getString(R.string.gmp))){
+                viewHolder.textViewLastVisit.setVisibility(View.GONE);
+            }
         }
 
         if(!TextUtils.isEmpty(content.getVisitDay())){

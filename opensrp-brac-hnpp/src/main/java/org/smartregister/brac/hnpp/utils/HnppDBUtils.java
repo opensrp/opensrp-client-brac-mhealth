@@ -133,6 +133,42 @@ public class HnppDBUtils extends CoreChildUtils {
 
         }
     }
+
+
+
+    public static void updateNextFollowupDate(String base_entity_id,long date){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set next_followup_date = '"+date+"' where " +
+                    "base_entity_id = '"+base_entity_id+"';";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
+
+    public static long getNextFollowupDate(String base_entity_id){
+        String query = "select next_followup_date from ec_family_member where " +
+                "base_entity_id = '"+base_entity_id+"';";
+        Cursor cursor = null;
+        VisitInfo visitInfo = new VisitInfo();
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                return cursor.getLong(0);
+            }
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return 0;
+    }
+
     public static boolean isAvailableStock(String stockName){
         String query = "select  product_name, (sum(coalesce(stock_quantity,0)) - sum(coalesce(achievemnt_count,0))) as balance from stock_table where  product_name='"+stockName+"' group by product_name having balance>0";
         Cursor cursor = null;

@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.fragment.risky_patient;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,9 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,7 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
+import com.vijay.jsonwizard.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +36,7 @@ import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.GuestAddMemberJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.GuestMemberActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
+import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.activity.RiskyPatientActivity;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
 import org.smartregister.brac.hnpp.adapter.TelephonicFUpListAdapter;
@@ -39,16 +46,27 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.SpecialFUpPresenter;
 import org.smartregister.brac.hnpp.presenter.TelephonicFUpPresenter;
+import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
+import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.anc.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
-import org.smartregister.family.util.Utils;
 import org.smartregister.util.FormUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -61,6 +79,8 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     TelephonicFUpPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    boolean isProcessing = false;
+    private AncFollowUpModel currentFollowupContent;
 
     public static TelephonicFUpFragment newInstance(int index) {
         TelephonicFUpFragment fragment = new TelephonicFUpFragment();
@@ -117,6 +137,7 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
                 new TelephonicFUpListAdapter.OnClickAdapter() {
                     @Override
                     public void onClick(int position, AncFollowUpModel content) {
+                        currentFollowupContent = content;
                         startFollowupActivity(content);
                     }
                 });
@@ -152,6 +173,118 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(isProcessing) return;
+        AtomicInteger isSave = new AtomicInteger(2);
+        Utils.showProgressDialog(R.string.empty_string,R.string.please_wait_message,getActivity());
+
+        isProcessing = true;
+        String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+        String formSubmissionId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+        String visitId = org.smartregister.util.JsonFormUtils.generateRandomUUIDString();
+        processAndSaveVisitForm(jsonString,formSubmissionId,visitId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Integer aInteger) {
+                        isSave.set(aInteger);
+                        Log.v("SAVE_VISIT","onError>>"+aInteger);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("visitCalledCompleted","true");
+                        if(isSave.get() == 1){
+                            Utils.hideProgressDialog();
+                            showServiceDoneDialog(1);
+                            HnppApplication.getAncFollowUpRepository().resetTelephonicDate(currentFollowupContent);
+                        }else if(isSave.get() == 3){
+                            Utils.hideProgressDialog();
+                            showServiceDoneDialog(3);
+                        }else {
+                            Utils.hideProgressDialog();
+                            //showServiceDoneDialog(false);
+                        }
+                    }
+                });
+    }
+
+    Dialog dialog;
+    private void showServiceDoneDialog(Integer isSuccess){
+        if(dialog!=null) return;
+        dialog = new Dialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(isSuccess==1?"সার্ভিসটি দেওয়া সম্পূর্ণ হয়েছে":isSuccess==3?"সার্ভিসটি ইতিমধ্যে দেওয়া হয়েছে":"সার্ভিসটি দেওয়া সফল হয়নি। পুনরায় চেষ্টা করুন ");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                dialog = null;
+                isProcessing = false;
+                initializePresenter();
+            }
+        });
+        dialog.show();
+
+    }
+
+    private Observable<Integer> processAndSaveVisitForm(String jsonString, String formSubmissionId, String visitId){
+        return  Observable.create(e-> {
+            if (TextUtils.isEmpty(currentFollowupContent.baseEntityId)) {
+                e.onNext(2);
+            }
+            Map<String, String> jsonStrings = new HashMap<>();
+            //jsonStrings.put("First",jsonString);
+            try {
+                JSONObject form = new JSONObject(jsonString);
+                HnppJsonFormUtils.setEncounterDateTime(form);
+
+                jsonStrings.put("First",form.toString());
+
+                String  type = form.getString(org.smartregister.family.util.JsonFormUtils.ENCOUNTER_TYPE);
+                type = HnppJsonFormUtils.getEncounterType(type);
+
+                Visit visit = HnppJsonFormUtils.saveVisit(false,false,false,"", currentFollowupContent.baseEntityId, type, jsonStrings, "",formSubmissionId,visitId);
+                if(visit!=null && !visit.getVisitId().equals("0")){
+                    HnppHomeVisitIntentService.processVisits();
+                    FormParser.processVisitLog(visit);
+                    //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
+                    e.onNext(1);
+                    e.onComplete();
+                }else if(visit!=null && visit.getVisitId().equals("0")){
+                    e.onNext(3);
+                    e.onComplete();
+                }else{
+                    e.onNext(2);
+                    e.onComplete();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                e.onNext(2);
+                e.onComplete();
+            }
+
+        });
+    }
+
 
     @Override
     public void onResume() {

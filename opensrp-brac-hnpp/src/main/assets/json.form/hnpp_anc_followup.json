@@ -63,9 +63,9 @@
         "key": "form_submission_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "",
+        "openmrs_entity_id": "form_submission_id",
         "openmrs_data_type": "text",
-        "type": "edit_text"
+        "type": "hidden"
       },
 
       {

@@ -98,6 +98,7 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion46(database);
         upgradeToVersion47(database);
         upgradeToVersion48(database);
+        upgradeToVersion49(database);
     }
 
     @Override
@@ -216,6 +217,9 @@ public class HnppChwRepository extends Repository {
                 case 48:
                     upgradeToVersion48(db);
                     break;
+                case 49:
+                    upgradeToVersion49(db);
+                    break;
                 default:
                     break;
             }
@@ -263,6 +267,16 @@ public class HnppChwRepository extends Repository {
             e.printStackTrace();
         }
     }
+
+    private void upgradeToVersion49(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion49");
+        try{
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN next_followup_date INTEGER;");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void upgradeToVersion41(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion41");
         try {

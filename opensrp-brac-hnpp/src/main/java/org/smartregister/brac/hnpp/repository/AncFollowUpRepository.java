@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.smartregister.brac.hnpp.enums.FollowUpType;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.utils.RiskyModel;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
@@ -20,6 +21,8 @@ import org.smartregister.util.DateTimeTypeConverter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import timber.log.Timber;
 
 /**
  * Created by tanvir on 10/25/23.
@@ -108,8 +111,20 @@ public class AncFollowUpRepository extends BaseRepository {
         contentValues.put(IS_CALLED_TELEPHONIC, 1);
 
         int status = getReadableDatabase().update(getAncFollowupTableName(), contentValues,
-                BASE_ENTITY_ID + " = ? and "+TELEPHONY_FOLLOW_UP_DATE +" = ? and ("+IS_CALLED_TELEPHONIC+" is null or "+IS_CALLED_TELEPHONIC+" = '0')",
-                new String[]{ancFollowUpModel.baseEntityId, String.valueOf(ancFollowUpModel.telephonyFollowUpDate)});
+                BASE_ENTITY_ID + " = ? and ("+IS_CALLED_TELEPHONIC+" is null or "+IS_CALLED_TELEPHONIC+" = '0')",
+                new String[]{ancFollowUpModel.baseEntityId});
+        if (status <= 0) {
+
+        }
+    }
+
+    public void resetTelephonicDate(AncFollowUpModel ancFollowUpModel) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TELEPHONY_FOLLOW_UP_DATE, 0);
+
+        int status = getReadableDatabase().update(getAncFollowupTableName(), contentValues,
+                BASE_ENTITY_ID + " = ? and "+IS_CALLED_TELEPHONIC+" = '1'",
+                new String[]{ancFollowUpModel.baseEntityId});
         if (status <= 0) {
 
         }
@@ -118,7 +133,6 @@ public class AncFollowUpRepository extends BaseRepository {
     public ArrayList<AncFollowUpModel> getAncFollowUpData(FollowUpType type,boolean isFromReceiver) {
         Calendar calendar = Calendar.getInstance();
         String currentDate = calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DAY_OF_MONTH);
-        Log.d("CCCCC",""+currentDate);
         //String currentDate = "2023-12-21";
         Cursor cursor = null;
         ArrayList<AncFollowUpModel> ancFollowUpModelArrayList = new ArrayList<>();
@@ -190,8 +204,6 @@ public class AncFollowUpRepository extends BaseRepository {
                     "and e.base_entity_id not null " +typeQuery+
                     " group by a.base_entity_id order by "+orderByQuery;
 
-            Log.d("QQQQQ",""+query);
-
             cursor = getReadableDatabase().rawQuery(query, null);
             while (cursor.moveToNext()) {
                 ancFollowUpModelArrayList.add(readCursor(cursor));
@@ -204,6 +216,27 @@ public class AncFollowUpRepository extends BaseRepository {
                 cursor.close();
         }
         return ancFollowUpModelArrayList;
+    }
+
+    public static long getMinFollowupDate(String baseEntityId){
+        String query = "select min(next_follow_up_date) as next_follow_up_date,min(special_follow_up_date) as special_follow_up_date from anc_follow_up where base_entity_id = '"+baseEntityId+"' " +
+                "and special_follow_up_date > 0 and next_follow_up_date > 0";
+
+        long nextFollowupDate = 0;
+        long specialFollowupDate = 0;
+        try (android.database.Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{})) {
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                nextFollowupDate = cursor.getLong(0);
+                specialFollowupDate = cursor.getLong(1);
+            }
+
+            return Math.min(nextFollowupDate, specialFollowupDate);
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        return 0;
     }
 
     protected AncFollowUpModel readCursor(Cursor cursor) {

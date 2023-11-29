@@ -31,29 +31,43 @@ import java.util.Map;
 
 public class FormApplicability {
 
-    public static boolean isDueHouseHoldHVisit(String baseEntityId){
+    public static boolean isDueHouseHoldHVisit(String baseEntityId) {
         int duration = getDurationByType(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT);
-        boolean isDoneAfterJuly  = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAfterJuly2023(baseEntityId);
-        if(isDoneAfterJuly){
-            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,duration);
-        }else{
-            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId,24);
+        boolean isDoneAfterJuly = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAfterJuly2023(baseEntityId);
+        if (isDoneAfterJuly) {
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId, duration);
+        } else {
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneHHVisit(baseEntityId, 24);
         }
     }
-    public static boolean isDueElcoVisit(String baseEntityId){
+
+    public static boolean isDueElcoVisit(String baseEntityId) {
         int duration = getDurationByType(HnppConstants.EVENT_TYPE.ELCO);
-        Log.d("HH_VISIT_DURATION",""+duration);
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneElcoVisit(baseEntityId,duration);
+        Log.d("HH_VISIT_DURATION", "" + duration);
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneElcoVisit(baseEntityId, duration);
 
     }
-    public static boolean isDueAnyForm(String baseEntityId, String eventType){
-        if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT)){
+
+    public static boolean isDueAnyForm(String baseEntityId, String eventType) {
+        if (!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT)) {
             return isDueHouseHoldHVisit(baseEntityId);
-        }else if(!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)){
+        } else if (!TextUtils.isEmpty(eventType) && eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)) {
             return isDueElcoVisit(baseEntityId);
+        } else if (!TextUtils.isEmpty(eventType) &&
+                (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                        eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
+                        eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION))) {
+
+            long nextFollowUpDate = HnppDBUtils.getNextFollowupDate(baseEntityId);
+            if (nextFollowUpDate > 0) {
+                long currentDateTime = System.currentTimeMillis();
+                if (currentDateTime <= nextFollowUpDate) {
+                    return true;
+                }
+            }
         }
         int duration = getDurationByType(eventType);
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType,duration);
+        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType, duration);
 
     }
 
@@ -61,14 +75,14 @@ public class FormApplicability {
         //4 hr threshhold. as after submit any service it's showing 4hr different
         int duration = 24;
         HHVisitDurationModel hhVisitDurationModel = HnppApplication.getHHVisitDurationRepository().getHhVisitDurationByType(eventType);
-        if(hhVisitDurationModel!=null){
+        if (hhVisitDurationModel != null) {
             duration = hhVisitDurationModel.value;
-        }else{
-            if(eventType != null && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY))){
-                duration = 24*300;
+        } else {
+            if (eventType != null && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY))) {
+                duration = 24 * 300;
             }
         }
-        return  duration;
+        return duration;
     }
 
  /*   public static boolean isDueChildInfoForm(String baseEntityId, String eventType){
@@ -93,149 +107,156 @@ public class FormApplicability {
         return "";
     }*/
 
-    public static String isDueChildFollowUp(long day){
-        if(day>= 0 && day <= 90) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
-        if(day>= 91 && day <= 180) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
-        if(day>= 181 && day <= 330) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
-        if(day>= 331 && day <= 540) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
-        if(day>= 541 && day <= 730) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
+    public static String isDueChildFollowUp(long day) {
+        if (day >= 0 && day <= 90) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
+        if (day >= 91 && day <= 180) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
+        if (day >= 181 && day <= 330) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
+        if (day >= 331 && day <= 540) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
+        if (day >= 541 && day <= 730) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
 
-        if(day>= 731 && day <= 1095) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
-        if(day>= 1096 && day <= 1460) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
-        if(day>= 1461 && day <= 1825) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
+        if (day >= 731 && day <= 1095) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS;
+        if (day >= 1096 && day <= 1460) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS;
+        if (day >= 1461 && day <= 1825) return HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
         return "";
     }
 
-    public static ArrayList<ReferralFollowUpModel> getReferralFollowUp(String baseEntityId){
+    public static ArrayList<ReferralFollowUpModel> getReferralFollowUp(String baseEntityId) {
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getAllReferrelFollowUp(baseEntityId);
     }
-    public static boolean isPregnant(String baseEntityId){
+
+    public static boolean isPregnant(String baseEntityId) {
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isPregnantFromElco(baseEntityId);
     }
-    public static boolean isDueCoronaForm(String baseEntityId){
+
+    public static boolean isDueCoronaForm(String baseEntityId) {
         //boolean isDoneToday =  HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinTwentyFourHours(baseEntityId, HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL);
         //if(!isDoneToday){
-            String coronaValue = HnppDBUtils.getIsCorona(baseEntityId);
-           if(!TextUtils.isEmpty(coronaValue) && coronaValue.equalsIgnoreCase("true")){
-               return true;
-           }
-           return false;
+        String coronaValue = HnppDBUtils.getIsCorona(baseEntityId);
+        if (!TextUtils.isEmpty(coronaValue) && coronaValue.equalsIgnoreCase("true")) {
+            return true;
+        }
+        return false;
 //        }
 //        return isDoneToday;
     }
 
-    public static String getDueFormForMarriedWomen(String baseEntityId, int age){
+    public static String getDueFormForMarriedWomen(String baseEntityId, int age) {
         String lmp = getLmp(baseEntityId);
-            if(!TextUtils.isEmpty(lmp)){
-                int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
-                int pncDay = getDayPassPregnancyOutcome(baseEntityId);
-                if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
-                    if(pncDay<=41){
-                        //todo prosober current datetime - prosober_date+prosober_time>48hr = PNC AFTER else PNC WITHIN 48
-                        return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
-                                HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
-                    }else{
-                        return HnppConstants.EVENT_TYPE.ELCO;
-                    }
-                }
-                if(isClosedANC(baseEntityId)){
-                    if(isElco(age) && isDueElcoVisit(baseEntityId)){
-                        return HnppConstants.EVENT_TYPE.ELCO;
-                    }
-                }
-                else{
-                    return getANCEvent(dayPass);
-                }
-                return "";
-            }
-
-        if(isElco(age)&& isDueElcoVisit(baseEntityId)){
-            return HnppConstants.EVENT_TYPE.ELCO;
-        }
-        return "";
-    }
-    public static String getGuestMemberDueFormForWomen(String baseEntityId, int age){
-        String lmp = getLmp(baseEntityId);
-        if(!TextUtils.isEmpty(lmp)){
+        if (!TextUtils.isEmpty(lmp)) {
             int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
             int pncDay = getDayPassPregnancyOutcome(baseEntityId);
-            if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
-                if(pncDay<=41){
+            if (pncDay != -1 && !isClosedPregnancyOutCome(baseEntityId)) {
+                if (pncDay <= 41) {
+                    //todo prosober current datetime - prosober_date+prosober_time>48hr = PNC AFTER else PNC WITHIN 48
                     return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
-                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
-                }else{
-                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
+                } else {
+                    return HnppConstants.EVENT_TYPE.ELCO;
                 }
             }
-            if(isClosedANC(baseEntityId)){
-                if(isElco(age)){
-                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+            if (isClosedANC(baseEntityId)) {
+                if (isElco(age) && isDueElcoVisit(baseEntityId)) {
+                    return HnppConstants.EVENT_TYPE.ELCO;
                 }
-            }
-            else{
+            } else {
                 return getANCEvent(dayPass);
             }
             return "";
         }
 
-        if(isElco(age)){
+        if (isElco(age) && isDueElcoVisit(baseEntityId)) {
+            return HnppConstants.EVENT_TYPE.ELCO;
+        }
+        return "";
+    }
+
+    public static String getGuestMemberDueFormForWomen(String baseEntityId, int age) {
+        String lmp = getLmp(baseEntityId);
+        if (!TextUtils.isEmpty(lmp)) {
+            int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+            int pncDay = getDayPassPregnancyOutcome(baseEntityId);
+            if (pncDay != -1 && !isClosedPregnancyOutCome(baseEntityId)) {
+                if (pncDay <= 41) {
+                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
+                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
+                } else {
+                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                }
+            }
+            if (isClosedANC(baseEntityId)) {
+                if (isElco(age)) {
+                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                }
+            } else {
+                return getANCEvent(dayPass);
+            }
+            return "";
+        }
+
+        if (isElco(age)) {
             return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
         }
         return "";
     }
-    public static String getANCEvent(int dayPass){
-        if(dayPass > 1 && dayPass <= 84){
+
+    public static String getANCEvent(int dayPass) {
+        if (dayPass > 1 && dayPass <= 84) {
             //first trimester
             return HnppConstants.EVENT_TYPE.ANC1_REGISTRATION;
-        }else if(dayPass > 84 && dayPass <= 168){
+        } else if (dayPass > 84 && dayPass <= 168) {
 
             return HnppConstants.EVENT_TYPE.ANC2_REGISTRATION;
-        }else if(dayPass > 168){
+        } else if (dayPass > 168) {
 
             return HnppConstants.EVENT_TYPE.ANC3_REGISTRATION;
         }
         return "";
     }
-    public static boolean isElco(int age){
+
+    public static boolean isElco(int age) {
         return age >= 14 && age < 50;
     }
-    public static boolean isEncVisible(Date dob){
-        int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
-        if(dayPass <= 41){
+
+    public static boolean isEncVisible(Date dob) {
+        int dayPass = DateUtil.dayDifference(new LocalDate(dob), new LocalDate(System.currentTimeMillis()));
+        if (dayPass <= 41) {
             return true;
         }
         return false;
     }
-    public static boolean isImmunizationVisible(Date dob){
-        int monthsDifference = getMonthsDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
-        if(monthsDifference <= 36){
+
+    public static boolean isImmunizationVisible(Date dob) {
+        int monthsDifference = getMonthsDifference(new LocalDate(dob), new LocalDate(System.currentTimeMillis()));
+        if (monthsDifference <= 36) {
             return true;
         }
         return false;
     }
+
     public static int getMonthsDifference(LocalDate date1, LocalDate date2) {
         return Months.monthsBetween(
                 date1.withDayOfMonth(1),
                 date2.withDayOfMonth(1)).getMonths();
     }
 
-    public static String getLmp(String baseEntityId){
+    public static String getLmp(String baseEntityId) {
         String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
-        if(valus.size()>0){
+        if (valus.size() > 0) {
             return valus.get(0).get("last_menstrual_period");
         }
 
         return "";
 
     }
-    public static boolean isClosedANC(String baseEntityId){
+
+    public static boolean isClosedANC(String baseEntityId) {
         String DeliveryDateSql = "SELECT is_closed FROM ec_anc_register where base_entity_id = ? ";
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
 
-        if(valus.size() > 0){
-            if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
+        if (valus.size() > 0) {
+            if ("1".equalsIgnoreCase(valus.get(0).get("is_closed"))) {
                 return true;
             }
 
@@ -243,13 +264,14 @@ public class FormApplicability {
         }
         return false;
     }
-    public static boolean isClosedPregnancyOutCome(String baseEntityId){
+
+    public static boolean isClosedPregnancyOutCome(String baseEntityId) {
         String DeliveryDateSql = "SELECT is_closed FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
 
-        if(valus.size() > 0){
-            if("1".equalsIgnoreCase(valus.get(0).get("is_closed"))){
+        if (valus.size() > 0) {
+            if ("1".equalsIgnoreCase(valus.get(0).get("is_closed"))) {
                 return true;
             }
 
@@ -258,43 +280,45 @@ public class FormApplicability {
         return false;
     }
 
-    public static int getDayPassPregnancyOutcome(String baseEntityId){
+    public static int getDayPassPregnancyOutcome(String baseEntityId) {
         int dayPass = -1;
         String DeliveryDateSql = "SELECT delivery_date FROM ec_pregnancy_outcome where base_entity_id = ? ";
 
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
-        if(valus.size() > 0&&valus.get(0).get("delivery_date")!=null){
+        if (valus.size() > 0 && valus.get(0).get("delivery_date") != null) {
             dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(valus.get(0).get("delivery_date")), new DateTime()).getDays();
 
         }
         return dayPass;
     }
-    public static int getDaysFromEDD(String edd){
-        if(edd.isEmpty()) return 0;
-        int dayPass = Days.daysBetween(new DateTime(),DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
+
+    public static int getDaysFromEDD(String edd) {
+        if (edd.isEmpty()) return 0;
+        int dayPass = Days.daysBetween(new DateTime(), DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(edd)).getDays();
         return 281 - dayPass;
     }
 
-    public static int getUterusLengthInCM(String edd){
+    public static int getUterusLengthInCM(String edd) {
         int days = getDaysFromEDD(edd);
-        if(days>=112&&days<=140){
+        if (days >= 112 && days <= 140) {
             return 24;
-        }else if(days>=141&&days<=168){
+        } else if (days >= 141 && days <= 168) {
             return 28;
-        }else if(days>=169&&days<=196){
+        } else if (days >= 169 && days <= 196) {
             return 32;
-        }else if(days>=197&&days<=224){
+        } else if (days >= 197 && days <= 224) {
             return 36;
-        }else if(days>=225&&days<=252){
+        } else if (days >= 225 && days <= 252) {
             return 38;
         }
         return 0;
     }
 
-    public static boolean isFirstTimeAnc(String baseEntityId){
+    public static boolean isFirstTimeAnc(String baseEntityId) {
         return HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isFirstTime(baseEntityId);
 
     }
+
     public static boolean isWomanOfReproductiveAge(CommonPersonObjectClient commonPersonObject) {
         if (commonPersonObject == null) {
             return false;
@@ -302,117 +326,125 @@ public class FormApplicability {
 
         // check age and gender
         int age = getAge(commonPersonObject);
-        String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "marital_status", false);
-        if ( age != -1 && getGender(commonPersonObject).trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
+        String maritalStatus = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "marital_status", false);
+        if (age != -1 && getGender(commonPersonObject).trim().equalsIgnoreCase("F") && !TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase("Married")) {
 
             return isElco(age);
         }
 
         return false;
     }
-    public static int getAge(CommonPersonObjectClient commonPersonObject){
-        if(commonPersonObject == null) return -1;
+
+    public static int getAge(CommonPersonObjectClient commonPersonObject) {
+        if (commonPersonObject == null) return -1;
         String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
-        if(!TextUtils.isEmpty(dobString) ){
-            Period period = new Period(new DateTime(dobString), new DateTime());
-            return period.getYears();
-        }
-        return -1;
-    }
-    public static int getAge(String dobString){
-        if(!TextUtils.isEmpty(dobString) ){
+        if (!TextUtils.isEmpty(dobString)) {
             Period period = new Period(new DateTime(dobString), new DateTime());
             return period.getYears();
         }
         return -1;
     }
 
-    public static long getDay(CommonPersonObjectClient commonPersonObject){
-        String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
-        if(!TextUtils.isEmpty(dobString) ){
-            Date date = Utils.dobStringToDate(dobString);
-           long day =  getDayDifference(new LocalDate(date),new LocalDate());
-           return day;
+    public static int getAge(String dobString) {
+        if (!TextUtils.isEmpty(dobString)) {
+            Period period = new Period(new DateTime(dobString), new DateTime());
+            return period.getYears();
         }
         return -1;
     }
-    public static long getDay(String dobString){
-        if(!TextUtils.isEmpty(dobString) ){
+
+    public static long getDay(CommonPersonObjectClient commonPersonObject) {
+        String dobString = org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "dob", false);
+        if (!TextUtils.isEmpty(dobString)) {
             Date date = Utils.dobStringToDate(dobString);
-            long day =  getDayDifference(new LocalDate(date),new LocalDate());
+            long day = getDayDifference(new LocalDate(date), new LocalDate());
             return day;
         }
         return -1;
     }
-    public static String getGender(CommonPersonObjectClient commonPersonObject){
+
+    public static long getDay(String dobString) {
+        if (!TextUtils.isEmpty(dobString)) {
+            Date date = Utils.dobStringToDate(dobString);
+            long day = getDayDifference(new LocalDate(date), new LocalDate());
+            return day;
+        }
+        return -1;
+    }
+
+    public static String getGender(CommonPersonObjectClient commonPersonObject) {
         return org.smartregister.util.Utils.getValue(commonPersonObject.getColumnmaps(), "gender", false);
     }
-    //other service and package
-    public static boolean isIycfApplicable(long day){
-        if(HnppConstants.isPALogin()) return false;
 
-        return day >=181 && day <=731;
+    //other service and package
+    public static boolean isIycfApplicable(long day) {
+        if (HnppConstants.isPALogin()) return false;
+
+        return day >= 181 && day <= 731;
     }
-    public static boolean isAdolescentApplicable(int age, boolean isWomen){
-        if(HnppConstants.isPALogin()) return false;
-        return isWomen && age>=10 && age <=19;
+
+    public static boolean isAdolescentApplicable(int age, boolean isWomen) {
+        if (HnppConstants.isPALogin()) return false;
+        return isWomen && age >= 10 && age <= 19;
     }
+
     //feedback comes from naimul vai to add the age limit 14 to 49
-    public static boolean isWomenPackageApplicable(String baseEntityId , int age, boolean isWomen){
-        if(HnppConstants.isPALogin()) return false;
-        return isWomen && age >14 && age <50 && !isPragnent(baseEntityId,age);
+    public static boolean isWomenPackageApplicable(String baseEntityId, int age, boolean isWomen) {
+        if (HnppConstants.isPALogin()) return false;
+        return isWomen && age > 14 && age < 50 && !isPragnent(baseEntityId, age);
     }
 
     public static boolean isPragnent(String baseEntityId, int age) {
-        String eventType = getDueFormForMarriedWomen(baseEntityId,age);
-        if(!TextUtils.isEmpty(eventType) && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+        String eventType = getDueFormForMarriedWomen(baseEntityId, age);
+        if (!TextUtils.isEmpty(eventType) && (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
                 || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION)
-                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION))){
+                || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION))) {
             return true;
         }
         return false;
 
     }
 
-    public static boolean isNcdApplicable(int age){
+    public static boolean isNcdApplicable(int age) {
         //return age >=18 && age<50;
         //client wants "NCD-NCD সেবা 18 বছর থেকে 49 বছরের মধ্যে দেয়া যায় কিন্তু এই বয়স সীমার (18-49) বাইরে NCD সেবা দেওয়া যায় না
         //"
-        return age >=18;
+        return age >= 18;
     }
 
     private static long getDayDifference(LocalDate date1, LocalDate date2) {
         long startTime = date2.toDate().getTime() - date1.toDate().getTime();
-        long difference_In_Days= startTime / 86400000L;
+        long difference_In_Days = startTime / 86400000L;
         return difference_In_Days;
     }
 
-    public static int getHourPassPregnancyOutcome(String baseEntityId){
+    public static int getHourPassPregnancyOutcome(String baseEntityId) {
         int hoursPassed = -1;
         String DeliveryDateSql = "SELECT delivery_date, delivery_time FROM ec_pregnancy_outcome where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(DeliveryDateSql, new String[]{baseEntityId});
-        if( valus.size() > 0 && valus.get(0).get("delivery_date")!= null && valus.get(0).get("delivery_time")!= null ){
+        if (valus.size() > 0 && valus.get(0).get("delivery_date") != null && valus.get(0).get("delivery_time") != null) {
             String day = valus.get(0).get("delivery_date");
             String time = valus.get(0).get("delivery_time");
-            String dateTime = day +" "+ time;
-              hoursPassed = Hours.hoursBetween(DateTimeFormat.forPattern("dd-MM-yyyy HH:mm").parseDateTime(dateTime), new DateTime()).getHours();
+            String dateTime = day + " " + time;
+            hoursPassed = Hours.hoursBetween(DateTimeFormat.forPattern("dd-MM-yyyy HH:mm").parseDateTime(dateTime), new DateTime()).getHours();
         }
-       // HH:mm:ss.SSS
+        // HH:mm:ss.SSS
         Log.e(FormApplicability.class.getSimpleName(), String.valueOf(hoursPassed));
         return hoursPassed;
     }
 
     /**
      * getting visit count from visit table
+     *
      * @param baseEntityId
      * @param visitType
      * @return
      */
-    public static String getVisitCount(String baseEntityId,String visitType){
+    public static String getVisitCount(String baseEntityId, String visitType) {
         String count = "0";
         String visitCountSql = "SELECT count(*) as count FROM visits where base_entity_id = ? and visit_type = ?";
-        List<Map<String, String>> values = AbstractDao.readData(visitCountSql, new String[]{baseEntityId,visitType});
-        if( values.size() > 0 && values.get(0).get("count")!= null ){
+        List<Map<String, String>> values = AbstractDao.readData(visitCountSql, new String[]{baseEntityId, visitType});
+        if (values.size() > 0 && values.get(0).get("count") != null) {
             count = values.get(0).get("count");
         }
         return count;
