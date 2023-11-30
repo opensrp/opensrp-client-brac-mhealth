@@ -716,6 +716,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }
                     else if(HnppConstants.JSON_FORMS.CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_18_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_24_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_36_MONTH.equalsIgnoreCase(formName)
                             || HnppConstants.JSON_FORMS.CHILD_DISEASE.equalsIgnoreCase(formName) ){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);

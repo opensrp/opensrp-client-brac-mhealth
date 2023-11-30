@@ -2323,6 +2323,24 @@ public class FormParser {
             case "Child Info EBF 1&2":
                 form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_2_3_MONTH + ".json";
                 break;
+            case CHILD_ECCD_4_6_MONTH:
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_4_6_MONTH + ".json";
+                break;
+            case CHILD_ECCD_7_9_MONTH:
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_7_9_MONTH + ".json";
+                break;
+            case CHILD_ECCD_10_12_MONTH:
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_10_12_MONTH + ".json";
+                break;
+            case CHILD_ECCD_18_MONTH:
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_18_MONTH + ".json";
+                break;
+            case CHILD_ECCD_24_MONTH:
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_24_MONTH + ".json";
+                break;
+            case CHILD_ECCD_36_MONTH:
+                form_name = HnppConstants.JSON_FORMS.CHILD_ECCD_36_MONTH + ".json";
+                break;
             case CHILD_INFO_7_24_MONTHS:
                 form_name = HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS + ".json";
                 break;

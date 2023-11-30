@@ -66,8 +66,7 @@ public class FormApplicability {
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
         }else if(day >= 1080){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;
-        }
-        else if(day >= 720){
+        }else if(day >= 720){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
         }
         else if(day >= 540){
