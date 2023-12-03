@@ -179,7 +179,17 @@ public class HnppConstants extends CoreConstants {
         );
 
     }
-
+    public static Map<String,String> getRiskeyFactorMapping(){
+        Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
+                .put("blood_pressure_diastolic","ডায়াস্টোলিক")
+                .put("blood_pressure_systolic","সিস্টোলিক")
+                .put("fasting_blood_sugar","ফাস্টিং")
+                .put("hemoglobin_test","হিমোগ্লোবিন(gm/dl)")
+                .put("hemoglobin_test_2","হিমোগ্লোবিন(gm/dl)")
+                .put("height","মায়ের উচ্চতা (সে.মি.)")
+                .build();
+        return riskeyFactorMapping;
+    }
     static boolean deleteDirectory(File path) {
         if (path.exists()) {
             File[] files = path.listFiles();

@@ -5,6 +5,7 @@
         <item>পুরুষ</item>
         <item>তৃতীয় লিঙ্গ</item>
     </string-array>
+   <string name="risk_causes">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
     <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
     <string name="logo">logo</string>

@@ -3,6 +3,7 @@ package org.smartregister.brac.hnpp.interactor;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -71,6 +72,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                                     HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
                                     final CommonPersonObjectClient client = new CommonPersonObjectClient(visit.getBaseEntityId(), details, "");
                                     client.setColumnmaps(details);
+                                    Log.v("EVENT_TYPE","getVisitFormWithData>>>eventType:"+eventType);
                                     jsonForm = FormParser.loadFormFromAsset(eventType);
                                     JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                                     JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
