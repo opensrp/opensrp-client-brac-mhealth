@@ -29,6 +29,7 @@
         android:background="@drawable/border_background"
         android:drawableStart="@drawable/baseline_filter_alt_24"
         android:text="Filter"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toEndOf="@+id/section_label"

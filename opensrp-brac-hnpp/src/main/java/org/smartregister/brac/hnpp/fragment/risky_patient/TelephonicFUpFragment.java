@@ -39,6 +39,7 @@ import org.smartregister.brac.hnpp.activity.FamilyRegisterActivity;
 import org.smartregister.brac.hnpp.activity.GuestAddMemberJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.GuestMemberActivity;
 import org.smartregister.brac.hnpp.activity.HnppAncJsonFormActivity;
+import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.activity.RiskyPatientActivity;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
@@ -56,7 +57,10 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
-import org.smartregister.chw.anc.util.DBConstants;
+import org.smartregister.chw.core.utils.ChildDBConstants;
+import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.util.FormUtils;
 
@@ -143,6 +147,12 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
                     public void onClick(int position, AncFollowUpModel content) {
                         currentFollowupContent = content;
                         startFollowupActivity(content);
+                    }
+                },
+                new TelephonicFUpListAdapter.OnClickAdapter() {
+                    @Override
+                    public void onClick(int position, AncFollowUpModel content) {
+                        openProfile(content);
                     }
                 });
         adapter.setData(list);
@@ -308,5 +318,28 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     @Override
     public TelephonicFUpContract.Presenter getPresenter() {
         return presenter;
+    }
+
+    void openProfile(AncFollowUpModel ancFollowUpModel) {
+
+        CommonPersonObjectClient patient = HnppDBUtils.createFromBaseEntity(ancFollowUpModel.baseEntityId);
+        String familyId = org.smartregister.util.Utils.getValue(patient.getColumnmaps(), ChildDBConstants.KEY.RELATIONAL_ID, false);
+        patient.getColumnmaps().put(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+        String houseHoldHead = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_NAME, true);
+        String address = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true);
+        String houseHoldId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.HOUSE_HOLD_ID, true);
+        String moduleId = org.smartregister.family.util.Utils.getValue(patient.getColumnmaps(), HnppConstants.KEY.MODULE_ID, true);
+        Intent intent = new Intent(getActivity(), HnppFamilyOtherMemberProfileActivity.class);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, patient.getCaseId());
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyId);
+        intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, patient);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, familyId);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, familyId);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.VILLAGE_TOWN, address);
+        intent.putExtra(DBConstants.KEY.UNIQUE_ID,houseHoldId);
+        intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
+        intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
+        intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
+        startActivity(intent);
     }
 }

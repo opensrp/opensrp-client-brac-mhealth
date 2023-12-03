@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.enums.AncRegistrationType;
+import org.smartregister.brac.hnpp.fragment.AncServiceInfoDialogFragment;
+import org.smartregister.brac.hnpp.fragment.StockDashBoardDialogFragment;
 import org.smartregister.brac.hnpp.model.HHVisitInfoModel;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
@@ -108,6 +111,8 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         viewInteraction();
         initProgressDialog();
         checkDataFromLocalDb();
+
+        //showAlertForHighRiskPatient();
     }
 
     private void initView() {
@@ -472,10 +477,10 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 if (data != null) {
                     setJsonStringList(data, ancRegCheckIm);
                     boolean isHighRisk = isHighRisk();
-                    if (isHighRisk) {
+                   /* if (isHighRisk) {
                         notInterestedB.setVisibility(View.INVISIBLE);
                         showAlertForHighRiskPatient();
-                    }
+                    }*/
                 }
             } else if (requestCode == REQUEST_HISTORY) {
                 if (data != null) {
@@ -506,7 +511,8 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     }
 
     private void showAlertForHighRiskPatient() {
-
+        AncServiceInfoDialogFragment dialogFragment = new AncServiceInfoDialogFragment();
+        dialogFragment.show(this.getSupportFragmentManager(), "df");
     }
 
     private void setJsonStringList(Intent data, ImageView imageView) {

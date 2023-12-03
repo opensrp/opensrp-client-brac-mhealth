@@ -61,14 +61,13 @@ public class FormApplicability {
             long nextFollowUpDate = HnppDBUtils.getNextFollowupDate(baseEntityId);
             if (nextFollowUpDate > 0) {
                 long currentDateTime = System.currentTimeMillis();
-                if (currentDateTime <= nextFollowUpDate) {
-                    return true;
-                }
+                return currentDateTime >= nextFollowUpDate;
             }
+            return false;
+        }else {
+            int duration = getDurationByType(eventType);
+            return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType, duration);
         }
-        int duration = getDurationByType(eventType);
-        return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType, duration);
-
     }
 
     private static int getDurationByType(String eventType) {

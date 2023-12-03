@@ -509,9 +509,9 @@
     <string name="routine_f_up">Routine F/Up</string>
     <string name="special_followup">Special Followup</string>
     <string name="telephonic_followup">Telephonic Followup</string>
-   <string name="routine_f_up_list">Routine F/Up List</string>
-   <string name="special_f_up_list">Special F/Up List</string>
-   <string name="telephonic_f_up_list">Telephonic F/Up List</string>
+    <string name="routine_f_up_list">Routine F/Up List</string>
+    <string name="special_f_up_list">Special F/Up List</string>
+    <string name="telephonic_f_up_list">Telephonic F/Up List</string>
 
     <string name="pregnency_register">গর্ভবতী রেজিস্ট্রেশন</string>
     <string name="general_disages">শারীরিক সমস্যা</string>
@@ -520,4 +520,6 @@
     <string name="anc_registration">গর্ভবতী পরিচর্যা</string>
     <string name="not_interested">ইচ্ছুক নই</string>
     <string name="add_followup">ফলোআপ দিন</string>
+    <string name="why_anc_service_is_important">এই এ.এন.সি সেবাটি কেন গুরুত্বপূর্ণ ?</string>
+    <string name="need_anc_service_for_save_pregnant">নিরাপদ গর্ভের জন্য এ.এন.সি সেবাটি দরকার।</string>
 </resources>

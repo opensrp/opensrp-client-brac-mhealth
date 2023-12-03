@@ -46,7 +46,7 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
             telephonicStr = and+telephonicList.size()+" of telephonic followup";
         }
 
-        //if(telephonicList.size()>0 || specialList.size()>0){
+        if(telephonicList.size()>0 || specialList.size()>0){
             if(context != null){
                 Intent notificationIntent = new Intent(context, RiskyPatientActivity.class ) ;
                 PendingIntent resultIntent = PendingIntent. getActivity (context, 0 , notificationIntent ,   PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE ) ;
@@ -60,7 +60,7 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
                         .setContentIntent(resultIntent);
                 notificationManager.notify(1,builder.build());
             }
-        //}
+        }
     }
 }
 
