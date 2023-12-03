@@ -87,7 +87,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     AlertDialog alertDialog;
     Dialog dialog;
-    ArrayList<String> jsonStringList = new ArrayList<>();
+    HashMap<Integer,String> jsonHash = new HashMap<>();
 
     public static void startNewAncRegistrationActivity(Activity activity, String baseEntityId, AncRegistrationType ancRegistrationType) {
         Intent intent = new Intent(activity, NewANCRegistrationActivity.class);
@@ -202,7 +202,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         });
 
         notInterestedB.setOnClickListener(view -> {
-            jsonStringList.add("test");
+            jsonHash.put(0,"test");
             updateUi(false, ancLeyCheckIm);
             checkButtonEnableStatus();
         });
@@ -257,7 +257,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     String edd = "", height = "", weight = "";
 
     private boolean isHighRisk() {
-        for (String jsonstr : jsonStringList) {
+        for (String jsonstr : jsonHash.values()) {
             try {
                 JSONObject jsonForm = new JSONObject(jsonstr);
                 JSONObject step1 = jsonForm.getJSONObject("step1");
@@ -475,7 +475,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             //handling referral submission here
             if (requestCode == REQUEST_ANC_REG) {
                 if (data != null) {
-                    setJsonStringList(data, ancRegCheckIm);
+                    setJsonStringList(REQUEST_ANC_REG,data, ancRegCheckIm);
                     boolean isHighRisk = isHighRisk();
                    /* if (isHighRisk) {
                         notInterestedB.setVisibility(View.INVISIBLE);
@@ -484,15 +484,15 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 }
             } else if (requestCode == REQUEST_HISTORY) {
                 if (data != null) {
-                    setJsonStringList(data, historyCheckIm);
+                    setJsonStringList(REQUEST_HISTORY,data, historyCheckIm);
                 }
             } else if (requestCode == REQUEST_DISAGES) {
                 if (data != null) {
-                    setJsonStringList(data, physicalProbCheckIm);
+                    setJsonStringList(REQUEST_DISAGES,data, physicalProbCheckIm);
                 }
             } else if (requestCode == REQUEST_DIVERTY) {
                 if (data != null) {
-                    setJsonStringList(data, diversityCheckIm);
+                    setJsonStringList(REQUEST_DIVERTY,data, diversityCheckIm);
                     boolean isHighRisk = isHighRisk();
                     if (isHighRisk) {
                         notInterestedB.setVisibility(View.INVISIBLE);
@@ -502,7 +502,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 }
             } else if (requestCode == REQUEST_ANC_VISIT) {
                 if (data != null) {
-                    setJsonStringList(data, ancLeyCheckIm);
+                    setJsonStringList(REQUEST_ANC_VISIT,data, ancLeyCheckIm);
                 }
             }
 
@@ -515,10 +515,10 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         dialogFragment.show(this.getSupportFragmentManager(), "df");
     }
 
-    private void setJsonStringList(Intent data, ImageView imageView) {
+    private void setJsonStringList(int requestCode,Intent data, ImageView imageView) {
         String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
         if (!TextUtils.isEmpty(jsonString)) {
-            jsonStringList.add(jsonString);
+            jsonHash.put(requestCode,jsonString);
             updateUi(true, imageView);
         }
     }
@@ -534,8 +534,8 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     }
 
     private void checkButtonEnableStatus() {
-        if ((ancRegistrationType == AncRegistrationType.fromOtherMember && jsonStringList.size() == 5) ||
-                (ancRegistrationType == AncRegistrationType.fromDue && jsonStringList.size() == 2)) {
+        if ((ancRegistrationType == AncRegistrationType.fromOtherMember && jsonHash.size() == 5) ||
+                (ancRegistrationType == AncRegistrationType.fromDue && jsonHash.size() == 2)) {
             saveButton.setEnabled(true);
             saveButton.setTextColor(Color.WHITE);
         } else {
@@ -550,7 +550,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         return Observable.create(e -> {
             if (TextUtils.isEmpty(baseEntityId)) e.onNext("");
             try {
-                for (String jsonString : jsonStringList) {
+                for (String jsonString : jsonHash.values()) {
                     if (jsonString.equalsIgnoreCase("test")) continue;
                     String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
                     String visitId = JsonFormUtils.generateRandomUUIDString();
