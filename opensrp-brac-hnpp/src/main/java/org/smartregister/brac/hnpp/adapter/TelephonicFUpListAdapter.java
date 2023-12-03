@@ -20,10 +20,15 @@ public class TelephonicFUpListAdapter extends RecyclerView.Adapter<TelephonicFUp
     private Context context;
     private OnClickAdapter onClickAdapter;
     private OnClickAdapter addFollowupClickAdapter;
+    private OnClickAdapter onItemClickAdapter;
 
-    public TelephonicFUpListAdapter(Context context, OnClickAdapter onClickAdapter,OnClickAdapter addFollowupClickAdapter) {
+    public TelephonicFUpListAdapter(Context context,
+                                    OnClickAdapter onClickAdapter,
+                                    OnClickAdapter addFollowupClickAdapter,
+                                    OnClickAdapter onItemClickAdapter) {
         this.context = context;
         this.onClickAdapter = onClickAdapter;
+        this.onItemClickAdapter = onItemClickAdapter;
         this.addFollowupClickAdapter = addFollowupClickAdapter;
         memberArrayList = new ArrayList<>();
     }
@@ -81,6 +86,7 @@ public class TelephonicFUpListAdapter extends RecyclerView.Adapter<TelephonicFUp
         viewHolder.nameTv.setText(content.memberName);
         viewHolder.phoneNumber.setText(content.memberPhoneNum);
         viewHolder.dueLay.setOnClickListener(v -> onClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
+        viewHolder.itemView.setOnClickListener(v -> onItemClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
         viewHolder.followupButton.setOnClickListener(v -> addFollowupClickAdapter.onClick(viewHolder.getAdapterPosition(), content));
     }
 
