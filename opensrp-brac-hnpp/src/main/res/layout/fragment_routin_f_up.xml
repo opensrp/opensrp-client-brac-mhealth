@@ -5,6 +5,8 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context=".fragment.risky_patient.RoutineFUpFragment">
 
     <TextView
@@ -29,11 +31,28 @@
         android:background="@drawable/border_background"
         android:drawableStart="@drawable/baseline_filter_alt_24"
         android:text="Filter"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toEndOf="@+id/section_label"
         app:layout_constraintTop_toTopOf="@+id/section_label" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
+        android:gravity="center|start"
+        android:padding="5dp"
+        android:hint="@string/search_by_name"
+        android:focusableInTouchMode="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/border_background"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/routinFollowUpListRv"
@@ -43,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

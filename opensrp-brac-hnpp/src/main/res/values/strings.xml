@@ -522,4 +522,5 @@
     <string name="add_followup">ফলোআপ দিন</string>
     <string name="why_anc_service_is_important">এই এ.এন.সি সেবাটি কেন গুরুত্বপূর্ণ ?</string>
     <string name="need_anc_service_for_save_pregnant">নিরাপদ গর্ভের জন্য এ.এন.সি সেবাটি দরকার।</string>
+    <string name="search_by_name">Search by name or phone</string>
 </resources>

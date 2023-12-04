@@ -201,8 +201,10 @@ public class AncFollowUpRepository extends BaseRepository {
                     "left join risk_list as r on a.base_entity_id = r.base_entity_id " +
                     "left join ec_family_member as e on a.base_entity_id = e.base_entity_id " +
                     "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) " +
-                    "and e.base_entity_id not null " +typeQuery+
+                    "and a.base_entity_id not in (select base_entity_id from ec_pregnancy_outcome where base_entity_id = a.base_entity_id) and e.base_entity_id not null " +typeQuery+
                     " group by a.base_entity_id order by "+orderByQuery;
+
+            Log.d("QQQQQQQ",query);
 
             cursor = getReadableDatabase().rawQuery(query, null);
             while (cursor.moveToNext()) {
