@@ -2629,6 +2629,9 @@ public class FormParser {
             case HnppConstants.EventType.REMOVE_CHILD:
                 form_name = "family_details_remove_child.json";
                 break;
+            case HnppConstants.EVENT_TYPE.ANC_FOLLOWUP_FORM:
+                form_name = HnppConstants.JSON_FORMS.ANC_FOLLOWUP_FORM + ".json";
+                break;
                 default:
                     break;
         }
