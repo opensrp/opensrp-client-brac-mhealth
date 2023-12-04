@@ -1206,10 +1206,60 @@ public class FormParser {
         RiskListModel riskListModel = new RiskListModel();
         riskListModel.baseEntityId = baseEntityId;
 
-        if(details.containsKey("is_high_risk")){
+        if(details.containsKey("is_high_risk_ph")){
             AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
 
-            String value = details.get("is_high_risk");
+            String value = details.get("is_high_risk_ph");
+            if(value != null && value.equals("true")){
+                riskListModel.highRiskKey = "anc_high_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 2; //2-> high risk
+                //special followup at seventh month
+                ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+                Log.d("RRRRRRRRR",""+value+" "+baseEntityId+" "+riskListModel.riskType);
+            }
+        }
+        if(details.containsKey("is_high_risk_age")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
+            String value = details.get("is_high_risk_age");
+            if(value != null && value.equals("true")){
+                riskListModel.highRiskKey = "anc_high_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 2; //2-> high risk
+                //special followup at seventh month
+                ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                }
+
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+                Log.d("RRRRRRRRR",""+value+" "+baseEntityId+" "+riskListModel.riskType);
+            }
+        }
+        if(details.containsKey("is_high_risk_height")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(log);
+
+            String value = details.get("is_high_risk_height");
             if(value != null && value.equals("true")){
                 riskListModel.highRiskKey = "anc_high_risk";
                 riskListModel.highRiskValue = "";
@@ -1450,13 +1500,36 @@ public class FormParser {
     }
     private static void updateRiskDetails(String eventType,String baseEntityId, HashMap<String, String> details, VisitLog log){
         boolean isAncHomeVisitRisk = false;
-        if(details.containsKey("is_high_risk")){
+
+        if(details.containsKey("is_high_risk_ph")){
             String ga = details.get("ga");
             isAncHomeVisitRisk = true;
 
             RiskyModel riskynBPSModel = new RiskyModel();
-            riskynBPSModel.riskyValue = "সিজারিয়ান অপারেশন:হ্যাঁ"+"Ga:"+ga;
+            riskynBPSModel.riskyValue = "হ্যাঁ"+"Ga:"+ga;
             riskynBPSModel.riskyKey = "c_section";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_age")){
+            String age = details.get("age_calculated");
+            isAncHomeVisitRisk = true;
+
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = age;
+                riskynBPSModel.riskyKey = "is_high_risk_age";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_height")){
+            String height = details.get("height");
+            isAncHomeVisitRisk = true;
+
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = height;
+            riskynBPSModel.riskyKey = "is_high_risk_height";
             riskynBPSModel.eventType = eventType;
             riskynBPSModel.baseEntityId = baseEntityId;
             HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
