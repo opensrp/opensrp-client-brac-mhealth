@@ -83,7 +83,7 @@ public class RiskDetailsRepository extends BaseRepository {
         Cursor cursor = null;
         ArrayList<RiskyModel> locations = new ArrayList<>();
         try {
-            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"", null);
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where base_entity_id = '"+baseEntityId+"'", null);
             while (cursor.moveToNext()) {
                 locations.add(readCursor(cursor));
             }
@@ -101,10 +101,12 @@ public class RiskDetailsRepository extends BaseRepository {
         String riskyKey = cursor.getString(cursor.getColumnIndex(RISKY_KEY));
         String eventType = cursor.getString(cursor.getColumnIndex(EVENT_TYPE));
         String baseEntityId = cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID));
+        String riskyValue = cursor.getString(cursor.getColumnIndex(RISKY_VALUE));
         RiskyModel riskyModel = new RiskyModel();
         riskyModel.baseEntityId = baseEntityId;
         riskyModel.eventType = eventType;
         riskyModel.riskyKey = riskyKey;
+        riskyModel.riskyValue = riskyValue;
         return riskyModel;
     }
 

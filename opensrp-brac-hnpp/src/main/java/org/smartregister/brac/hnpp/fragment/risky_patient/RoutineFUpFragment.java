@@ -125,7 +125,7 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
         intent.putExtra(DBConstants.KEY.UNIQUE_ID,houseHoldId);
         intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,moduleId);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
-        intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
+        intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,false);
         startActivity(intent);
     }
 }

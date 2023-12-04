@@ -179,7 +179,17 @@ public class HnppConstants extends CoreConstants {
         );
 
     }
-
+    public static Map<String,String> getRiskeyFactorMapping(){
+        Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()
+                .put("blood_pressure_diastolic","ডায়াস্টোলিক")
+                .put("blood_pressure_systolic","সিস্টোলিক")
+                .put("fasting_blood_sugar","ফাস্টিং")
+                .put("hemoglobin_test","হিমোগ্লোবিন(gm/dl)")
+                .put("hemoglobin_test_2","হিমোগ্লোবিন(gm/dl)")
+                .put("height","মায়ের উচ্চতা (সে.মি.)")
+                .build();
+        return riskeyFactorMapping;
+    }
     static boolean deleteDirectory(File path) {
         if (path.exists()) {
             File[] files = path.listFiles();
@@ -1341,7 +1351,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_DUE_ADD = "Member Due Add";
         public static final String MEMBER_EACH_DUE_ADD = "Member Each Due Add";
         public static final String NEW_ANC_REGISTRATION = "New anc registration";
-
+        public static final String ANC_FOLLOWUP_FORM = "Anc Followup";
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";
@@ -1760,7 +1770,7 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক", R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা", R.mipmap.ic_anc_pink)
             .put("পূর্বের গর্ভের ইতিহাস", R.mipmap.ic_anc_pink)
-
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC, R.drawable.sidemenu_pnc)
@@ -1858,6 +1868,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.WOMEN_REFERRAL, "রেফারেল")
             .put(EVENT_TYPE.CHILD_REFERRAL, "রেফারেল")
             .put("Member referral", "রেফারেল")
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, "গর্ভবতী পরিচর্যা ফলোআপ")
             .put(JSON_FORMS.PREGNANCY_HISTORY, "পূর্বের গর্ভের ইতিহাস")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসবের ফলাফল")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME_OOC, "প্রসবের ফলাফল")
@@ -1920,7 +1931,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_VISIT_0_6, "০-৬ মাস বয়সী শিশু পরিদর্শন")
             .put(EVENT_TYPE.CHILD_VISIT_7_24, "৭-২৪ মাস বয়সী শিশু প্রদর্শন")
             .put(EVENT_TYPE.CHILD_VISIT_18_36, "১৮-৩৬ মাস বয়সী শিশু পরিদর্শন")
-
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, "গর্ভবতী পরিচর্যা ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ ০-৩ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ ৩-৬ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS, "শিশু ফলোআপ ৭-১১ মাস")
@@ -1975,7 +1986,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.CHILD_REGISTRATION, "শিশু রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC_REGISTRATION, "গর্ভবতী রেজিস্ট্রেশন")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, "গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, "গর্ভবতী পরিচর্যা ফলোআপ")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             //.put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
@@ -2038,7 +2049,7 @@ public class HnppConstants extends CoreConstants {
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, "গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, "পি.এন.সি.(প্রথম ৪৮ ঘন্টা পর)")
-
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, "গর্ভবতী পরিচর্যা ফলোআপ")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
             .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
             .build();
@@ -2064,7 +2075,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, "গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, "গর্ভবতী পরিচর্যা ফলোআপ")
 
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour, "পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")

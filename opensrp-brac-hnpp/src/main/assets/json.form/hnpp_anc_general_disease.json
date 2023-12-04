@@ -59,10 +59,10 @@
         "value": "hnpp_anc_general_disease"
       },
       {
-        "key": "is_high_risk",
+        "key": "is_high_risk_gd",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk",
+        "openmrs_entity_id": "is_high_risk_gd",
         "openmrs_data_type": "text",
         "type": "hidden",
         "read_only": true,

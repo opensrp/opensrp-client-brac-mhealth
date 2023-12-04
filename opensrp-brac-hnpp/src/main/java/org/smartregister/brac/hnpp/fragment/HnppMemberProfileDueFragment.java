@@ -1,6 +1,8 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,12 +16,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.activity.NewANCRegistrationActivity;
@@ -37,6 +42,7 @@ import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
+import org.smartregister.brac.hnpp.utils.RiskyModel;
 import org.smartregister.chw.core.utils.CoreChildUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.adapter.FamilyRecyclerViewCustomAdapter;
@@ -128,7 +134,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_member_profile_due,null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_member_profile_due,null);
        // otherServiceView = view.findViewById(R.id.other_option);
         dueRecyclerView = view.findViewById(R.id.due_recycler_view);
         dueRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -318,7 +324,16 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                         if(!eventType.equals(HnppConstants.EVENT_TYPE.ELCO)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
                                 && !eventType.equals(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)) {
-                            NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
+                            ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(baseEntityId);
+                            if(riskyModels!=null && riskyModels.size()>0){
+                                openRiskFactorDialog(riskyModels, new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        NewANCRegistrationActivity.startNewAncRegistrationActivity(getActivity(),baseEntityId, AncRegistrationType.fromDue);
+
+                                    }
+                                });
+                            }
                         }else {
                             activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
                         }
@@ -336,7 +351,46 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
             }
         }
     }
+    private void openRiskFactorDialog(ArrayList<RiskyModel>riskyModels ,Runnable runnable){
+        StringBuilder builder = new StringBuilder();
+        for (RiskyModel riskyModel:riskyModels) {
+            String[] fs= riskyModel.riskyKey.split(",");
+            if(fs.length>0){
+                for (String key:fs) {
+                    Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
+                    builder.append(HnppConstants.getRiskeyFactorMapping().get(key)==null?key:HnppConstants.getRiskeyFactorMapping().get(key));
+                    builder.append(":");
+                    builder.append(riskyModel.riskyValue);
+                    builder.append("\n");
+                }
+            }else{
+                Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
+                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey));
+                builder.append(":");
+                builder.append(riskyModel.riskyValue);
+                builder.append("\n");
+            }
 
+        }
+
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText(R.string.risk_causes);
+        message.setText(builder.toString());
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
+    }
 
     @Override
     public void onClick(View v) {

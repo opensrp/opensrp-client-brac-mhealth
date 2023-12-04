@@ -1450,72 +1450,72 @@ public class FormParser {
     }
     private static void updateRiskDetails(String eventType,String baseEntityId, HashMap<String, String> details, VisitLog log){
         boolean isAncHomeVisitRisk = false;
-        if(details.containsKey("blood_pressure_systolic") && !StringUtils.isEmpty(details.get("blood_pressure_systolic"))){
-            String bps = details.get("blood_pressure_systolic");
-            if(!TextUtils.isEmpty(bps)){
-                try{
-                    int nBPS = Integer.parseInt(bps);
-                    if(details.containsKey("blood_pressure_diastolic") && !StringUtils.isEmpty(details.get("blood_pressure_diastolic"))){
-                        String bpd = details.get("blood_pressure_diastolic");
-                        if(!TextUtils.isEmpty(bpd)) {
-                            int nBPD = Integer.parseInt(bpd);
-                            if(details.containsKey("has_edema") && !StringUtils.isEmpty(details.get("has_edema"))){
-                                String edema = details.get("has_edema");
-                                if(!TextUtils.isEmpty(edema)) {
-                                    if(details.containsKey("albumin_test") && !StringUtils.isEmpty(details.get("albumin_test"))){
-                                        String albumin = details.get("albumin_test");
-                                        if(!TextUtils.isEmpty(albumin))
-                                        {
-                                            if(edema.equalsIgnoreCase("yes") && (nBPS >=120 || nBPD >= 80) && albumin.equalsIgnoreCase("yes")){
+        if(details.containsKey("is_high_risk")){
+            String ga = details.get("ga");
+            isAncHomeVisitRisk = true;
 
-                                                isAncHomeVisitRisk = true;
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = "সিজারিয়ান অপারেশন:হ্যাঁ"+"Ga:"+ga;
+            riskynBPSModel.riskyKey = "c_section";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_dias")){
+            String dias = details.get("blood_pressure_diastolic");
+            isAncHomeVisitRisk = true;
 
-                                                RiskyModel riskynBPSModel = new RiskyModel();
-                                                riskynBPSModel.riskyValue = bps;
-                                                riskynBPSModel.riskyKey = "blood_pressure_systolic";
-                                                riskynBPSModel.eventType = eventType;
-                                                riskynBPSModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = dias;
+            riskynBPSModel.riskyKey = "blood_pressure_diastolic";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_sys")){
+            String dias = details.get("blood_pressure_systolic");
+            isAncHomeVisitRisk = true;
 
-                                                RiskyModel riskynBPDModel = new RiskyModel();
-                                                riskynBPDModel.riskyValue = bpd;
-                                                riskynBPDModel.riskyKey = "blood_pressure_diastolic";
-                                                riskynBPDModel.eventType = eventType;
-                                                riskynBPDModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPDModel);
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = dias;
+            riskynBPSModel.riskyKey = "blood_pressure_systolic";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_fasting")){
+            String dias = details.get("fasting_blood_sugar");
+            isAncHomeVisitRisk = true;
 
-                                                RiskyModel riskyedemaModel = new RiskyModel();
-                                                riskyedemaModel.riskyValue = edema;
-                                                riskyedemaModel.riskyKey = "has_edema";
-                                                riskyedemaModel.eventType = eventType;
-                                                riskyedemaModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyedemaModel);
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = dias;
+            riskynBPSModel.riskyKey = "fasting_blood_sugar";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_hmg_1")){
+            String dias = details.get("hemoglobin_test");
+            isAncHomeVisitRisk = true;
 
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = dias;
+            riskynBPSModel.riskyKey = "hemoglobin_test";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
+        }
+        if(details.containsKey("is_high_risk_hmg_2")){
+            String dias = details.get("hemoglobin_test");
+            String weight = details.get("monthly_weight_anc");
+            isAncHomeVisitRisk = true;
 
-                                                RiskyModel riskyalbuminModel = new RiskyModel();
-                                                riskyalbuminModel.riskyValue = albumin;
-                                                riskyalbuminModel.riskyKey = "albumin";
-                                                riskyalbuminModel.eventType = eventType;
-                                                riskyalbuminModel.baseEntityId = baseEntityId;
-                                                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyalbuminModel);
-
-                                            }
-
-                                        }
-
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-
-                }catch (NumberFormatException e){
-
-                }
-
-            }
+            RiskyModel riskynBPSModel = new RiskyModel();
+            riskynBPSModel.riskyValue = "Hemoglobin:"+dias+":Monthly Weight:"+weight;
+            riskynBPSModel.riskyKey = "hemoglobin_test_2";
+            riskynBPSModel.eventType = eventType;
+            riskynBPSModel.baseEntityId = baseEntityId;
+            HnppApplication.getRiskDetailsRepository().addOrUpdate(riskynBPSModel);
         }
         if(isAncHomeVisitRisk) {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.ANC_HOME_VISIT);
