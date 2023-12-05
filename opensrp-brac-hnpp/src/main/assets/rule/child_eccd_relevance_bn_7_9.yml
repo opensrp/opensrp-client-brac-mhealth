@@ -1,0 +1,15 @@
+
+---
+name: step1_referral
+description: 7-9 month
+priority: 3
+condition: "step1_always_tilts_head.equals('না')||step1_sounds_pa_ma.equals('না')||step1_bang_using_toys.equals('না')||step1_turn_towards_sound.equals('না')||step1_roll_over.equals('না')||step1_sit_without_support.equals('না')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: 2-3 month
+priority: 3
+condition: "step1_always_tilts_head.equals('না')||step1_sounds_pa_ma.equals('না')||step1_bang_using_toys.equals('না')||step1_turn_towards_sound.equals('না')||step1_roll_over.equals('না')||step1_sit_without_support.equals('না')"
+actions:
+  - "isRelevant = true"

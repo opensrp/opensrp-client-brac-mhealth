@@ -1,0 +1,15 @@
+
+---
+name: step1_referral
+description: 2-3 month
+priority: 3
+condition: "step1_go_up_down_stairs.equals('না')||step1_eat_without_help.equals('না')||step1_communicate_meaningfully.equals('না')||step1_play_pretend_games.equals('না')||step1_continuously_drool_talk.equals('না')||step1_three_word_sentences.equals('না')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: 2-3 month
+priority: 3
+condition: "step1_go_up_down_stairs.equals('না')||step1_eat_without_help.equals('না')||step1_communicate_meaningfully.equals('না')||step1_play_pretend_games.equals('না')||step1_continuously_drool_talk.equals('না')||step1_three_word_sentences.equals('না')"
+actions:
+  - "isRelevant = true"

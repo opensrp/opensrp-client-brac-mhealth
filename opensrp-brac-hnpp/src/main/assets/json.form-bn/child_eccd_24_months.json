@@ -99,7 +99,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "previous_referred",
-        "type": "edit_text",
+        "type": "spinner",
         "hint": "শিশুটিকে পূর্বে রেফার করা হয়েছিল।",
         "read_only": true,
         "values": [
@@ -128,7 +128,7 @@
         "relevance": {
           "step1:is_referred": {
             "type": "string",
-            "ex": "equalTo(., \"Yes\")"
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
       },
@@ -166,6 +166,70 @@
           "step1:is_referred": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "result_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "result_referred",
+        "type": "spinner",
+        "hint": "কোনো ধরনের অক্ষমতা সনাক্ত/নির্ণয় করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "step1:referred_visited": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "actions_specialist",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "actions_specialist",
+        "type": "edit_text",
+        "hint": "বিশেষজ্ঞরা কি পরামর্শ দিয়েছিলেন?",
+        "relevance": {
+          "step1:result_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "type_disability",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_disability",
+        "type": "edit_text",
+        "hint": "কি ধরনের অক্ষমতা?",
+        "relevance": {
+          "step1:result_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "not_visited_cause",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "actions_specialist",
+        "type": "edit_text",
+        "hint": "উল্লেখিত স্বাস্থ্যসেবা কেন্দ্র পরিদর্শন না করার কারণ?",
+        "relevance": {
+          "step1:referred_visited": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
       },
@@ -290,35 +354,18 @@
         }
       },
       {
-        "key": "ad_toaster",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞের কাছ থেকে প্রয়োজনীয় পরামর্শ নিন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child_eccd_relevance_24.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "referral",
         "type": "toaster_notes",
-        "text": "শিশুটিকে নিকটস্থ  হাসপাতালে রেফার করুন",
+        "text": "বিশেষজ্ঞের কাছ থেকে প্রয়োজনীয় পরামর্শের জন্য শিশুটিকে নিকটস্থ হাসপাতাল বা অক্ষমতা পরিষেবা এবং সহায়তা কেন্দ্রে পাঠান।",
         "text_color": "#000000",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_24.yml"
+              "rules-file": "child_eccd_relevance_bn_24.yml"
             }
           }
         }
@@ -365,7 +412,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_24.yml"
+              "rules-file": "child_eccd_relevance_bn_24.yml"
             }
           }
         },

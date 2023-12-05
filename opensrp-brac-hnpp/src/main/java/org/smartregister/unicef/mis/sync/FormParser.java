@@ -1110,7 +1110,7 @@ public class FormParser {
 
             }
         }
-        if(details.containsKey("referred_visited") && !StringUtils.isEmpty(details.get("referred_visited"))){
+        else if(details.containsKey("referred_visited") && !StringUtils.isEmpty(details.get("referred_visited"))){
             String pck = details.get("referred_visited");
             Log.v("updateChildReferral","referred_visited>>"+pck);
             if(!TextUtils.isEmpty(pck)  ){
