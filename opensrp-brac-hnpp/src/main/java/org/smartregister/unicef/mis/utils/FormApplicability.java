@@ -64,6 +64,10 @@ public class FormApplicability {
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;
         }else if(day >= 271 && day <= 360){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
+        } else if(day >= 361 && day <= 540){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
+        }else if(day >= 541 && day <= 720 ){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
         }else if(day >= 1080){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;
         }else if(day >= 720){
@@ -72,12 +76,7 @@ public class FormApplicability {
         else if(day >= 540){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
         }
-        else if(day >= 720){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
-        }
-        else if(day >= 540){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
-        }
+
         return "";
     }
 

@@ -59,6 +59,7 @@ import org.smartregister.unicef.mis.model.ReferralFollowUpModel;
 import org.smartregister.unicef.mis.service.HnppHomeVisitIntentService;
 import org.smartregister.unicef.mis.sync.FormParser;
 import org.smartregister.unicef.mis.utils.ChildDBConstants;
+import org.smartregister.unicef.mis.utils.FormApplicability;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
@@ -201,6 +202,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 aefiImageBtn.setVisibility(View.VISIBLE);
             }
         }
+        ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
+        if(referralData!=null){
+            findViewById(R.id.child_followup).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.child_followup).setVisibility(View.GONE);
+        }
         if(!TextUtils.isEmpty(isRisk) && isRisk.equalsIgnoreCase("1")){
             findViewById(R.id.is_risk).setVisibility(View.VISIBLE);
         }
@@ -318,6 +325,18 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 openAefiVaccineDialog();
             }
         });
+        findViewById(R.id.child_followup_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFollowupBasedOnAge();
+            }
+        });
+        findViewById(R.id.child_followup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFollowupBasedOnAge();
+            }
+        });
         findViewById(R.id.home_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,6 +349,29 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         });
 
 
+    }
+    private void openFollowupBasedOnAge(){
+        String dobString = Utils.getValue(commonPersonObject.getColumnmaps(), org.smartregister.family.util.DBConstants.KEY.DOB, false);
+        Date dob = Utils.dobStringToDate(dobString);
+        String eventType = FormApplicability.isDueChildEccd(dob);
+        if(TextUtils.isEmpty(eventType))return;
+        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH)){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH);
+        }
+        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH) ){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH);
+        }
+        else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH) ){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH)){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH) ){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH)){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH);
+        }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH) ){
+            openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH);
+        }
     }
     private void openAefiVaccineDialog(){
         Dialog dialog = new Dialog(this);
@@ -716,6 +758,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }
                     else if(HnppConstants.JSON_FORMS.CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_18_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_24_MONTH.equalsIgnoreCase(formName)
+                            || HnppConstants.JSON_FORMS.CHILD_ECCD_36_MONTH.equalsIgnoreCase(formName)
                             || HnppConstants.JSON_FORMS.CHILD_DISEASE.equalsIgnoreCase(formName) ){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
@@ -1016,10 +1064,18 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                                 if(growthFragment !=null){
                                     growthFragment.updateProfileColor();
                                 }
-//                                if(memberOtherServiceFragment !=null){
-//                                    memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
-//                                    memberOtherServiceFragment.updateStaticView();
-//                                }
+                                try {
+                                    Thread.sleep(2000);
+                                    ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
+                                    if(referralData!=null){
+                                        findViewById(R.id.child_followup).setVisibility(View.VISIBLE);
+                                    }else{
+                                        findViewById(R.id.child_followup).setVisibility(View.GONE);
+                                    }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
 
                             }
                         },1000);

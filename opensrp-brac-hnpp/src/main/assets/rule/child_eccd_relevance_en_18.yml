@@ -1,0 +1,14 @@
+---
+name: step1_referral
+description: 2-3 month
+priority: 3
+condition: "step1_stand_without_help.equals('No')||step1_put_small_object.equals('No')||step1_point_finger.equals('No')||step1_point_finger.equals('No')||step1_respond_gestures_seems.equals('No')||step1_use_both_hands.equals('No')||step1_sound_mama_dada.equals('No')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: 2-3 month
+priority: 3
+condition: "step1_stand_without_help.equals('No')||step1_put_small_object.equals('No')||step1_point_finger.equals('No')||step1_point_finger.equals('No')||step1_respond_gestures_seems.equals('No')||step1_use_both_hands.equals('No')||step1_sound_mama_dada.equals('No')"
+actions:
+  - "isRelevant = true"

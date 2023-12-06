@@ -170,6 +170,70 @@
         }
       },
       {
+        "key": "result_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "result_referred",
+        "type": "spinner",
+        "hint": "Result of the referral: Any type of disability was identified/diagnosed?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "Yes",
+          "No": "No"
+        },
+        "relevance": {
+          "step1:referred_visited": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "actions_specialist",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "actions_specialist",
+        "type": "edit_text",
+        "hint": "What actions were suggested by specialist?",
+        "relevance": {
+          "step1:result_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "type_disability",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_disability",
+        "type": "edit_text",
+        "hint": "What type of disability?",
+        "relevance": {
+          "step1:result_referred": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "not_visited_cause",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "actions_specialist",
+        "type": "edit_text",
+        "hint": "Cause of not visited to referred facility?",
+        "relevance": {
+          "step1:referred_visited": {
+            "type": "string",
+            "ex": "equalTo(., \"No\")"
+          }
+        }
+      },
+      {
         "key": "social_smile",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -209,26 +273,7 @@
           "err": "Select option"
         }
       },
-      {
-        "key": "persistently_squint",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "persistently_squint",
-        "type": "spinner",
-        "hint": "Does your child persistently squint after 2 months?",
-        "values": [
-          "Yes",
-          "No"
-        ],
-        "openmrs_choice_ids": {
-          "Yes": "Yes",
-          "No": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "Select option"
-        }
-      },
+      
       {
         "key": "persistently_squint",
         "openmrs_entity_parent": "",
@@ -310,35 +355,18 @@
         }
       },
       {
-        "key": "ad_toaster",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "Take necessary consultation from Specialist",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child_eccd_relevance_2_3.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "referral",
         "type": "toaster_notes",
-        "text": "Refer the child to the nearest hospital",
+        "text": "Refer the child to the nearest hospital or disability service and assistance centre for  necessary consultation from Specialist.",
         "text_color": "#000000",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_2_3.yml"
+              "rules-file": "child_eccd_relevance_en_2_3.yml"
             }
           }
         }
@@ -385,7 +413,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_2_3.yml"
+              "rules-file": "child_eccd_relevance_en_2_3.yml"
             }
           }
         },

@@ -105,6 +105,17 @@
                             android:text="@string/profile_update" />
 
                         <Button
+                            android:id="@+id/child_followup_btn"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/update_profile_btn"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/green_click_button"
+                            android:text="@string/child_followup"
+                            android:visibility="gone"
+                            android:textColor="@color/white" />
+
+                        <Button
                             android:id="@+id/member_visit_btn"
                             android:layout_width="130dp"
                             android:layout_height="30dp"
@@ -229,6 +240,23 @@
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/aefi_icon"
                                 android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/child_followup"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_below="@+id/textview_name_age"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="25dp"
+                                android:layout_toRightOf="@+id/aefi_child_img"
+                                android:adjustViewBounds="true"
+                                android:padding="5dp"
+                                android:visibility="gone"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/disability_followup"
+                                android:tint="@color/red" />
 
                             <org.smartregister.view.customcontrols.CustomFontTextView
                                 android:id="@+id/textview_edit_btn"

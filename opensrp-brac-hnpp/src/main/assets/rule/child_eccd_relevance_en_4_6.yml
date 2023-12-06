@@ -1,0 +1,14 @@
+---
+name: step1_referral
+description: 4-6 month
+priority: 3
+condition: "step1_tract_moving_object.equals('No')||step1_sounds_ah_eh.equals('No')||step1_grasp_things.equals('No')||step1_sit_up_with_help.equals('No')||step1_head_straight.equals('No')|| step1_head_up.equals('No')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: 2-3 month
+priority: 3
+condition: "step1_tract_moving_object.equals('No')||step1_sounds_ah_eh.equals('No')||step1_grasp_things.equals('No')||step1_sit_up_with_help.equals('No')||step1_head_straight.equals('No')|| step1_head_up.equals('No')"
+actions:
+  - "isRelevant = true"
