@@ -26,6 +26,7 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String channelId = "alarm_id";
+        StringBuilder detailsStr = new StringBuilder("Anc Followup for bellow Patients \n\n");
 
         AncFollowUpRepository ancFollowUpRepository = HnppApplication.getAncFollowUpRepository();
 
@@ -35,18 +36,23 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
         String telephonicStr = "";
 
         if(specialList.size() > 0){
-            specialStr = specialList.size()+" of special followup";
+            for(AncFollowUpModel data : specialList){
+                detailsStr.append("Special-> ").append(data.memberName).append(" -> ").append(data.memberPhoneNum).append("\n");
+            }
         }
 
         if(telephonicList.size() > 0){
-            String and = "";
+            /*String and = "";
             if(specialStr.length()>0){
                 and = " and ";
+            }*/
+            for(AncFollowUpModel data : telephonicList){
+                detailsStr.append("Telephonic-> ").append(data.memberName).append(" -> ").append(data.memberPhoneNum).append("\n");
             }
-            telephonicStr = and+telephonicList.size()+" of telephonic followup";
+            //telephonicStr = and+telephonicList.size()+" of telephonic followup";
         }
 
-       // if(telephonicList.size()>0 || specialList.size()>0){
+        //if(telephonicList.size()>0 || specialList.size()>0){
             if(context != null){
                 Intent notificationIntent = new Intent(context, RiskyPatientActivity.class ) ;
                 PendingIntent resultIntent = PendingIntent. getActivity (context, 0 , notificationIntent ,   PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE ) ;
@@ -54,8 +60,8 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
                         .setSmallIcon(R.drawable.ic_app_icon)
-                        .setContentTitle("Risk")
-                        .setContentText("You have "+specialStr+telephonicStr)
+                        .setContentTitle("Anc Followup Remainder")
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(detailsStr))
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setContentIntent(resultIntent);
                 notificationManager.notify(1,builder.build());

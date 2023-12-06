@@ -96,6 +96,11 @@ import static org.smartregister.chw.anc.util.NCUtils.eventToVisit;
 import static org.smartregister.util.JsonFormUtils.gson;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FormParser {
 
@@ -1216,9 +1221,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
 
                 if(details.containsKey("number_of_anc")) {
@@ -1241,9 +1248,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
 
                 if(details.containsKey("number_of_anc")) {
@@ -1266,9 +1275,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
 
                 if(details.containsKey("number_of_anc")) {
@@ -1292,6 +1303,7 @@ public class FormParser {
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1313,10 +1325,12 @@ public class FormParser {
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,1);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1341,6 +1355,7 @@ public class FormParser {
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1363,9 +1378,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
 
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,30);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1389,9 +1406,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
 
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,30);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1412,10 +1431,12 @@ public class FormParser {
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,1);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1439,6 +1460,7 @@ public class FormParser {
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1460,6 +1482,7 @@ public class FormParser {
             if(details.containsKey("ga")){
                 String ga = details.get("ga");
                 ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
+                updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
             }
             if(details.containsKey("number_of_anc")) {
                 String anc = details.get("number_of_anc");
@@ -1475,6 +1498,32 @@ public class FormParser {
 
     }
 
+    private static void updateNextFollowupDate(long date){
+        executeNextFollowupDateUpdateQuery(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
     private static long getRoutineDate(String ga,VisitLog log) {
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(log.visitDate);
@@ -2756,6 +2805,28 @@ public class FormParser {
             String sql = "UPDATE ec_family SET last_home_visit = " +
                     "(SELECT visits.visit_date from visits where ec_family.base_entity_id = visits.base_entity_id order by visits.visit_date desc) " +
                     "where ec_family.last_home_visit is NULL";
+
+            try {
+                database.execSQL(sql);
+                e.onNext("");
+                e.onComplete();
+            }catch (Exception error){
+                e.onError(error);
+            }
+
+        });
+    }
+
+    /**
+     * updating ec_family.next_followup_date from on ec_family_member
+     */
+    public static Observable<String> executeNextFollowupDateUpdateQuery(long nextDate){
+        return  Observable.create(e->{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+
+            String sql = "UPDATE ec_family_member SET next_followup_date = " +
+                    +nextDate+
+                    " where next_followup_date is NULL or next_followup_date = '0' or next_followup_date > "+nextDate;
 
             try {
                 database.execSQL(sql);

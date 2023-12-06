@@ -5,6 +5,8 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.HH_SORTED_BY;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
@@ -94,6 +97,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     private View userNameView, passwordView;
     private Activity mActivity;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,8 +195,40 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                     }
                 });
 
-
+        //request notification permission for android 13
+        requestNotificationPermission();
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED
+            ) {
+             setupRiskAlarmManager();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.POST_NOTIFICATIONS}, 10000);
+
+            }
+        }else {
+            setupRiskAlarmManager();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setupRiskAlarmManager() {
+        String channelId = "alarm_id";
+        String channelName = "alarm_name";
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_HIGH
+        );
+        notificationManager.createNotificationChannel(channel);
+    }
+
 
     @Override
     protected void onResume() {

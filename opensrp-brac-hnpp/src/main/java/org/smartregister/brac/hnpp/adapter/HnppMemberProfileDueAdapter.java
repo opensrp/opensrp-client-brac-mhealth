@@ -51,8 +51,10 @@ public class HnppMemberProfileDueAdapter extends RecyclerView.Adapter<HnppMember
 
         }else{
             viewHolder.textViewLastVisit.setVisibility(View.INVISIBLE);
-
         }
+
+        viewHolder.itemView.setEnabled(content.isEnable());
+
         if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
             viewHolder.statusImage.setVisibility(View.INVISIBLE);
         }else{

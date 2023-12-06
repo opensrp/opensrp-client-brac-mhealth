@@ -8,6 +8,7 @@ public class MemberProfileDueData {
     private String subTitle;
     private int type;
     public String from;
+    boolean isEnable = true;
     int status = 3;
 
     public String getFrom() {
@@ -75,5 +76,13 @@ public class MemberProfileDueData {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
     }
 }
