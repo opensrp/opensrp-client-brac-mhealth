@@ -23,8 +23,8 @@
         <item>2021</item>
     </string-array>
     <string-array name="center_type">
-        <item>Static</item>
-        <item>Satellite</item>
+        <item>Outreach</item>
+        <item>Fixed</item>
     </string-array>
     <string-array name="designation_array">
         <item>HI</item>
@@ -1090,7 +1090,8 @@
     <string name="total">Total</string>
     <string name="total_population">Total population</string>
     <string name="zero_eleven">0-11 month child count</string>
-    <string name="twelve_twenty">12-20 month child count</string>
+    <string name="twelve_twenty">12-24 month child count</string>
+    <string name="ten_year">10 years old girl</string>
     <string name="fifteen_fortynine">15-49 year woman count</string>
     <string name="distribution_info">Distribution point info</string>
     <string name="point_name">Distribution point name</string>
@@ -1123,6 +1124,7 @@
     <string name="outreach_error">Outreach name empty</string>
     <string name="calender_session_plan">Session plan from calender</string>
     <string name="system_number">সিস্টেম নাম্বার</string>
+    <string name="yearly_session_count">Yearly session count</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

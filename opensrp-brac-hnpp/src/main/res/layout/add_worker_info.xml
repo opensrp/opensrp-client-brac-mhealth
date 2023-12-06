@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"/>
                     <EditText
                         android:id="@+id/worker_1_mobile"
-
+                        android:maxLength="11"
                         android:inputType="number"
                         android:layout_gravity="bottom"
                         android:paddingLeft="10dp"
@@ -226,6 +226,7 @@
                     <EditText
                         android:id="@+id/worker_2_mobile"
                         android:inputType="number"
+                        android:maxLength="11"
                         android:layout_gravity="bottom"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -316,6 +317,7 @@
                     <EditText
                         android:id="@+id/supervisor_1_mobile"
                         android:inputType="number"
+                        android:maxLength="11"
                         android:layout_gravity="bottom"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -417,7 +419,7 @@
                         android:layout_height="wrap_content"/>
                     <EditText
                         android:id="@+id/supervisor_2_mobile"
-
+                        android:maxLength="11"
                         android:layout_gravity="bottom"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"

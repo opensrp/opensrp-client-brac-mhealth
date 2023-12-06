@@ -176,6 +176,28 @@
                         android:layout_width="150dp"
                         android:layout_height="match_parent"/>
                     <TextView
+                        android:id="@+id/yearly_txt"
+                        android:text="Yearly session count"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/monthly_txt"
+                        android:text="Monthly session count"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
                         android:text="Status"
                         android:padding="10dp"
                         android:gravity="center"

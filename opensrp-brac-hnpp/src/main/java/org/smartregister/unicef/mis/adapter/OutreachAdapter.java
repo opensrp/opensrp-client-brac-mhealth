@@ -35,7 +35,7 @@ public class OutreachAdapter extends RecyclerView.Adapter<OutreachAdapter.AddMic
     @NonNull
     @Override
     public AddMicroPlanViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        AddMicroPlanViewHolder viewHolder = new AddMicroPlanViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_add_microplan, viewGroup,false));
+        AddMicroPlanViewHolder viewHolder = new AddMicroPlanViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_add_outreach, viewGroup,false));
         return viewHolder;
 
     }

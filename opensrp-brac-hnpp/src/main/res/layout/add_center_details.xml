@@ -289,12 +289,67 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"/>
                     <EditText
+                        android:id="@+id/ten_male_number"
+                        android:background="@drawable/edit_text_bg"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:hint="0"
+                        android:textColor="@color/light_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/ten_female_number"
+                        android:background="@drawable/edit_text_bg"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:hint="0"
+                        android:textColor="@color/light_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/ten_total_number"
+                        android:text="Total"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:layout_width="150dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="@string/ten_year"
+                        android:background="@drawable/edit_text_bg"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"/>
+                    <EditText
                         android:id="@+id/zero_eleven_male_number"
                         android:background="@drawable/edit_text_bg"
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:enabled="false"
                         android:inputType="number"
                         android:hint="0"
                         android:textColor="@color/light_blue"
@@ -406,6 +461,7 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:hint="0"
+                        android:enabled="false"
                         android:textColor="@color/light_blue"
                         android:textSize="18sp"
                         android:textStyle="bold" />

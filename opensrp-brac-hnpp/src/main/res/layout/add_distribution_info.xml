@@ -82,6 +82,7 @@
             <EditText
                 android:id="@+id/distance_upozilla"
                 android:inputType="number"
+                android:maxLength="3"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
@@ -127,6 +128,7 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/distance_minute"
+                android:maxLength="4"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:inputType="number"
@@ -151,6 +153,7 @@
             <EditText
                 android:id="@+id/distance_hour"
                 android:enabled="false"
+                android:maxLength="4"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="20sp"
@@ -219,6 +222,7 @@
                 android:layout_height="wrap_content"/>
             <EditText
                 android:id="@+id/distance_epi_txt"
+                android:maxLength="3"
                 android:paddingLeft="10dp"
                 android:inputType="number"
                 android:paddingRight="10dp"

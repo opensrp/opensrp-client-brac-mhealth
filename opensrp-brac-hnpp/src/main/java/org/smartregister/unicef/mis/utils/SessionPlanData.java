@@ -24,6 +24,7 @@ public class SessionPlanData implements Serializable {
     public String additionalMonth2Date;
     public String additionalMonth3Date;
     public String additionalMonth4Date;
+    public String yearlyCount;
 
 
 }

@@ -22,6 +22,7 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewConfigurationCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.MonthDisplayHelper;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -263,23 +264,23 @@ public final class CustomCalendarView extends LinearLayout {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle) {
-            final Bundle savedInstanceState = (Bundle) state;
-
-            state = savedInstanceState.getParcelable(KEY_STATE);
-            currentMonthIndex = savedInstanceState.getInt(KEY_MONTH_INDEX);
-            if (savedInstanceState.getSerializable(KEY_SELECTED_DATE) != null) {
-                lastSelectedDay = (Date) savedInstanceState.getSerializable(KEY_SELECTED_DATE);
-            } else {
-                lastSelectedDay = new GregorianCalendar(2023, Calendar.JANUARY, 1).getTime();
-            }
-            Calendar calendar = getCalDate(lastSelectedDay);
-            //update(calendar);
-            markDateAsSelected(lastSelectedDay);
-            if (onDateClickListener != null) {
-                onDateClickListener.onDateClick(lastSelectedDay);
-            }
-        }
+//        if (state instanceof Bundle) {
+//            final Bundle savedInstanceState = (Bundle) state;
+//
+//            state = savedInstanceState.getParcelable(KEY_STATE);
+//            currentMonthIndex = savedInstanceState.getInt(KEY_MONTH_INDEX);
+//            if (savedInstanceState.getSerializable(KEY_SELECTED_DATE) != null) {
+//                lastSelectedDay = (Date) savedInstanceState.getSerializable(KEY_SELECTED_DATE);
+//            } else {
+//                lastSelectedDay = new GregorianCalendar(2023, Calendar.JANUARY, 1).getTime();
+//            }
+//            Calendar calendar = getCalDate(lastSelectedDay);
+//            //update(calendar);
+//            markDateAsSelected(lastSelectedDay);
+//            if (onDateClickListener != null) {
+//                onDateClickListener.onDateClick(lastSelectedDay);
+//            }
+//        }
 
         super.onRestoreInstanceState(state);
     }
@@ -377,11 +378,12 @@ public final class CustomCalendarView extends LinearLayout {
     public static String getDateTitle(Locale locale, int index, int year) {
         final String[] months = new DateFormatSymbols(locale).getMonths();
         final Calendar calendar = Calendar.getInstance(locale);
-        calendar.add(Calendar.YEAR, year==0?2023:year);
-        calendar.add(Calendar.MONTH, index);
+        calendar.set(Calendar.YEAR, year==0?2023:year);
+//        calendar.add(Calendar.MONTH, index);
         calendar.set(Calendar.MONTH,index);
 
         final String title = months[calendar.get(Calendar.MONTH)] ;
+        Log.v("CALENDER_SET","getDateTitle>>>index:"+index+":"+title);
 
         return title.toUpperCase(Locale.getDefault());
     }
@@ -415,7 +417,7 @@ public final class CustomCalendarView extends LinearLayout {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.add(Calendar.MONTH, currentMonthIndex);
 
-        update(calendar,2);
+        update(calendar,-1);
 
         if (onMonthChangeListener != null) {
             onMonthChangeListener.onMonthChange(calendar.getTime());
@@ -533,7 +535,7 @@ public final class CustomCalendarView extends LinearLayout {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.add(Calendar.MONTH, currentMonthIndex);
 
-        update(calendar,3);
+        update(calendar,-1);
 
         if (onMonthChangeListener != null) {
             onMonthChangeListener.onMonthChange(calendar.getTime());
@@ -755,12 +757,14 @@ public final class CustomCalendarView extends LinearLayout {
         return (DayView) view.findViewWithTag(key + index);
     }
 
-    public void update(@NonNull Calendar calender,int type) {
+    public void update(@NonNull Calendar calender,int month) {
         calendar = calender;
         firstDayOfWeek = Calendar.SUNDAY;
         calendar.setFirstDayOfWeek(firstDayOfWeek);
+        if(month != -1){
+            this.currentMonthIndex = month;
+        }
 
-        currentMonthIndex = 0;
         calculateWeekEnds();
 
         drawHeaderView();

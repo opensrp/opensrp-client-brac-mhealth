@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final AddMicroPlanViewHolder viewHolder, int position) {
         final MicroPlanEpiData content = contentList.get(position);
@@ -70,6 +72,12 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
             viewHolder.imageViewEdit.setVisibility(View.GONE);
             viewHolder.imageViewView.setVisibility(View.GONE);
         }
+         if(content.sessionPlanData!=null){
+             int count = Integer.parseInt(content.sessionPlanData.yearlyCount+"");
+             viewHolder.textViewYearly.setText(count+"");
+
+             viewHolder.textViewMonthly.setText(count/12+"");
+         }
         viewHolder.imageViewView.setOnClickListener(v -> onClickAdapter.onViewClick(position, content));
         viewHolder.imageViewEdit.setOnClickListener(v -> onClickAdapter.onEditClick(position, content));
         viewHolder.imageViewAdd.setOnClickListener(v -> onClickAdapter.onAddClick(position, content));
@@ -87,7 +95,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
         void onAddClick(int position, MicroPlanEpiData content);
     }
     public static class AddMicroPlanViewHolder extends RecyclerView.ViewHolder{
-        public TextView textViewUnion,textViewOldWard,textViewNewWard,textViewBlock,textViewStatus;
+        public TextView textViewUnion,textViewOldWard,textViewNewWard,textViewBlock,textViewStatus,textViewYearly,textViewMonthly;
         private ImageView imageViewAdd,imageViewEdit,imageViewView;
 
         public AddMicroPlanViewHolder(@NonNull View itemView) {
@@ -100,6 +108,8 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
             imageViewAdd = itemView.findViewById(R.id.add_img);
             imageViewEdit = itemView.findViewById(R.id.edit_img);
             imageViewView = itemView.findViewById(R.id.view_img);
+            textViewYearly = itemView.findViewById(R.id.yearly_txt);
+            textViewMonthly = itemView.findViewById(R.id.monthly_txt);
         }
     }
 }

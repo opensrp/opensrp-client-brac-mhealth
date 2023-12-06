@@ -11,6 +11,7 @@ public class MicroPlanTypeData implements Serializable {
     public int zeroElevenChildMale;
     public int zeroElevenChildFeMale;
     public int zeroElevenChildTotal;
+    public int tenFemaleCount;
     public int twelveTwentyThreeChildMale;
     public int twelveTwentyThreeChildFeMale;
     public int twelveTwentyThreeChildTotal;

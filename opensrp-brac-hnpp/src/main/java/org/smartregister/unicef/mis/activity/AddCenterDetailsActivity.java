@@ -32,9 +32,9 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
     private static final String PUT_EXTRA_MICRO_PLAN = "micro_plan_extra";
 
     protected TextView centerTypeTV;
-    protected TextView totalPopulationTxt,zeroElevenTotal,twelveTwentyTotalTxt,fifteenTotalTxt;
+    protected TextView totalPopulationTxt,zeroElevenTotal,twelveTwentyTotalTxt,fifteenTotalTxt,tenTotalTxt;
     protected EditText statusEditText, outreachNameTxt, hhToTxt, hhFromTxt, totalPopulationMaleTxt,totalPopulationFemaleTxt;
-    private EditText zeroElevenMaleTxt,zeroElevenFeMaleTxt,twelveTwentyMaleTxt,twelveTwentyFemaleTxt;
+    private EditText zeroElevenMaleTxt,zeroElevenFeMaleTxt,twelveTwentyMaleTxt,twelveTwentyFemaleTxt,tenFemaleTxt;
     private EditText fifteenMaleTxt,fifteenFemaleTxt;
     private MicroPlanEpiData microPlanEpiData;
 
@@ -79,6 +79,8 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
         totalPopulationFemaleTxt.setText(microPlanEpiData.microPlanTypeData.totalPopulationFemale+"");
         totalPopulationTxt.setText(microPlanEpiData.microPlanTypeData.totalPopulation+"");
         zeroElevenTotal.setText(microPlanEpiData.microPlanTypeData.zeroElevenChildTotal+"");
+        tenFemaleTxt.setText(microPlanEpiData.microPlanTypeData.tenFemaleCount+"");
+        tenTotalTxt.setText(microPlanEpiData.microPlanTypeData.tenFemaleCount+"");
         twelveTwentyTotalTxt.setText(microPlanEpiData.microPlanTypeData.twelveTwentyThreeChildTotal+"");
         fifteenTotalTxt.setText(microPlanEpiData.microPlanTypeData.fifteenFortyNineWomenTotal+"");
         zeroElevenMaleTxt.setText(microPlanEpiData.microPlanTypeData.zeroElevenChildMale+"");
@@ -104,7 +106,8 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
 
         zeroElevenMaleTxt =findViewById(R.id.zero_eleven_male_number);
         zeroElevenFeMaleTxt = findViewById(R.id.zero_eleven_female_number);
-
+        tenFemaleTxt = findViewById(R.id.ten_female_number);
+        tenTotalTxt = findViewById(R.id.ten_total_number);
         twelveTwentyMaleTxt = findViewById(R.id.twelve_male_number);
         twelveTwentyFemaleTxt = findViewById(R.id.twelve_female_number);
 
@@ -186,6 +189,26 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
 
             }
         };
+        TextWatcher tenTotalTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // if(s.length() > 0){
+                updateTenTotal();
+                // }
+
+            }
+        };
+        tenFemaleTxt.addTextChangedListener(tenTotalTextWatcher);
         totalPopulationMaleTxt.addTextChangedListener(totalTextWatcher);
         totalPopulationFemaleTxt.addTextChangedListener(totalTextWatcher);
         fifteenMaleTxt.addTextChangedListener(fifteenTextWatcher);
@@ -219,6 +242,11 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
         int female = getIntValue(totalPopulationFemaleTxt.getText().toString());
         totalPopulationTxt.setText((male+female)+"");
     }
+    @SuppressLint("SetTextI18n")
+    private void updateTenTotal(){
+        int female = getIntValue(tenFemaleTxt.getText().toString());
+        tenTotalTxt.setText((female)+"");
+    }
     @Override
     protected void onResumption() {
     }
@@ -250,6 +278,7 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
                 microPlanTypeData.fifteenFortyNineWomenMale=getIntValue(fifteenMaleTxt.getText().toString()) ;
                 microPlanTypeData.fifteenFortyNineWomenFeMale=getIntValue(fifteenFemaleTxt.getText().toString()) ;
                 microPlanTypeData.fifteenFortyNineWomenTotal=getIntValue(fifteenTotalTxt.getText().toString()) ;
+                microPlanTypeData.tenFemaleCount = getIntValue(tenFemaleTxt.getText().toString());
                 microPlanEpiData.microPlanTypeData = microPlanTypeData;
                 AddDistributionActivity.startAddDistributionActivity(this,microPlanEpiData);
                 break;
