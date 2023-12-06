@@ -274,13 +274,30 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                         if ("height".equalsIgnoreCase(fieldObject.getString("key"))) {
                             height = fieldObject.getString("value");
                         }
-                        if ("is_high_risk".equalsIgnoreCase(fieldObject.getString("key"))) {
+                        if ("is_high_risk_height".equalsIgnoreCase(fieldObject.getString("key"))) {
                             String str = fieldObject.getString("is_visible");
                             if (Boolean.parseBoolean(str)) {
                                 return true;
                             }
                         }
-
+                        if ("is_high_risk_age".equalsIgnoreCase(fieldObject.getString("key"))) {
+                            String str = fieldObject.getString("is_visible");
+                            if (Boolean.parseBoolean(str)) {
+                                return true;
+                            }
+                        }
+                        if ("is_high_risk_ph".equalsIgnoreCase(fieldObject.getString("key"))) {
+                            String str = fieldObject.getString("is_visible");
+                            if (Boolean.parseBoolean(str)) {
+                                return true;
+                            }
+                        }
+                        if ("is_high_risk_pd".equalsIgnoreCase(fieldObject.getString("key"))) {
+                            String str = fieldObject.getString("is_visible");
+                            if (Boolean.parseBoolean(str)) {
+                                return true;
+                            }
+                        }
 
                     } catch (JSONException e) {
 

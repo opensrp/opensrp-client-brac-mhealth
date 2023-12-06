@@ -244,10 +244,10 @@
         }
       },
       {
-        "key": "is_high_risk",
+        "key": "is_high_risk_ph",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk",
+        "openmrs_entity_id": "is_high_risk_ph",
         "type": "hidden",
         "openmrs_data_type": "text",
         "read_only": true,

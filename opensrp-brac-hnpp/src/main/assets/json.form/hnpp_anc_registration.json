@@ -317,10 +317,26 @@
         "hint": "দ্রাঘিমা"
       },
       {
-        "key": "is_high_risk",
+        "key": "is_high_risk_height",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_high_risk",
+        "openmrs_entity_id": "is_high_risk_height",
+        "type": "hidden",
+        "openmrs_data_type": "text",
+        "read_only": true,
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_risk_relevance_reg.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_high_risk_age",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_age",
         "type": "hidden",
         "openmrs_data_type": "text",
         "read_only": true,
