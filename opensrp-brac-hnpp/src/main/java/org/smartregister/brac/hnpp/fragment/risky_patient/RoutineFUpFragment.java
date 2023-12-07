@@ -92,7 +92,7 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
             @Override
             public void onClick(int position, AncFollowUpModel content) {
                 long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
-                HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
+                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
                 openProfile(content);
             }
         });

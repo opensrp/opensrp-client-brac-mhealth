@@ -1221,11 +1221,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
 
                 if(details.containsKey("number_of_anc")) {
@@ -1248,11 +1248,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
 
                 if(details.containsKey("number_of_anc")) {
@@ -1275,11 +1275,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
                 //special followup at seventh month
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,7);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
 
                 if(details.containsKey("number_of_anc")) {
@@ -1303,7 +1303,7 @@ public class FormParser {
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1325,12 +1325,12 @@ public class FormParser {
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,1);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1355,7 +1355,7 @@ public class FormParser {
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1378,11 +1378,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
 
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,30);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1406,11 +1406,11 @@ public class FormParser {
                 riskListModel.riskType = 2; //2-> high risk
 
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,30);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1431,12 +1431,12 @@ public class FormParser {
                 riskListModel.highRiskValue = "";
                 riskListModel.riskType = 2; //2-> high risk
                 ancFollowUpModel.specialFollowUpDate = getAddedDate(log,Calendar.MONTH,1);
-                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
                 ancFollowUpModel.telephonyFollowUpDate = getAddedDate(log,Calendar.DAY_OF_MONTH,3);
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1460,7 +1460,7 @@ public class FormParser {
                 if(details.containsKey("ga")){
                     String ga = details.get("ga");
                     ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
                 }
                 if(details.containsKey("number_of_anc")) {
                     String anc = details.get("number_of_anc");
@@ -1482,7 +1482,7 @@ public class FormParser {
             if(details.containsKey("ga")){
                 String ga = details.get("ga");
                 ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,log);
-                updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate);
+                updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
             }
             if(details.containsKey("number_of_anc")) {
                 String anc = details.get("number_of_anc");
@@ -1498,8 +1498,9 @@ public class FormParser {
 
     }
 
-    private static void updateNextFollowupDate(long date){
-        executeNextFollowupDateUpdateQuery(date)
+    private static void updateNextFollowupDate(long date,String baseEntityId){
+        if(date == 0) return;
+        executeNextFollowupDateUpdateQuery(date,baseEntityId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -2820,13 +2821,14 @@ public class FormParser {
     /**
      * updating ec_family.next_followup_date from on ec_family_member
      */
-    public static Observable<String> executeNextFollowupDateUpdateQuery(long nextDate){
+    public static Observable<String> executeNextFollowupDateUpdateQuery(long nextDate,String baseEntityId){
         return  Observable.create(e->{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
 
-            String sql = "UPDATE ec_family_member SET next_followup_date = " +
-                    +nextDate+
-                    " where next_followup_date is NULL or next_followup_date = '0' or next_followup_date > "+nextDate;
+            String sql = "UPDATE ec_family_member SET next_followup_date = " + nextDate+
+                    " where (base_entity_id = '"+baseEntityId+"') and (next_followup_date is NULL or next_followup_date = '0' or next_followup_date > '"+nextDate+"')";
+
+            Log.d("QQQQQQQ",""+sql);
 
             try {
                 database.execSQL(sql);

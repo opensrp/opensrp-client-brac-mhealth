@@ -32,8 +32,6 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
 
         ArrayList<AncFollowUpModel> specialList =  ancFollowUpRepository.getAncFollowUpData(FollowUpType.special,true);
         ArrayList<AncFollowUpModel> telephonicList =  ancFollowUpRepository.getAncFollowUpData(FollowUpType.telephonic,true);
-        String specialStr = "";
-        String telephonicStr = "";
 
         if(specialList.size() > 0){
             for(AncFollowUpModel data : specialList){
@@ -42,17 +40,12 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
         }
 
         if(telephonicList.size() > 0){
-            /*String and = "";
-            if(specialStr.length()>0){
-                and = " and ";
-            }*/
             for(AncFollowUpModel data : telephonicList){
                 detailsStr.append("Telephonic-> ").append(data.memberName).append(" -> ").append(data.memberPhoneNum).append("\n");
             }
-            //telephonicStr = and+telephonicList.size()+" of telephonic followup";
         }
 
-        //if(telephonicList.size()>0 || specialList.size()>0){
+        if(telephonicList.size()>0 || specialList.size()>0){
             if(context != null){
                 Intent notificationIntent = new Intent(context, RiskyPatientActivity.class ) ;
                 PendingIntent resultIntent = PendingIntent. getActivity (context, 0 , notificationIntent ,   PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE ) ;
@@ -66,7 +59,7 @@ public class RiskAlarmReceiver extends BroadcastReceiver {
                         .setContentIntent(resultIntent);
                 notificationManager.notify(1,builder.build());
             }
-       // }
+        }
     }
 }
 

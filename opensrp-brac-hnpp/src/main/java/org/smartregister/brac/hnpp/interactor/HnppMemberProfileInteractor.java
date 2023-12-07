@@ -67,7 +67,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     Date date = new Date();
                     date.setTime(nextFollowUpDate);
 
-                    memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType)+"   Date:"+dateFormat.format(date));
+                    memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType)+"   Date: "+dateFormat.format(date));
                     memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
                     memberProfileDueData.setEventType(eventType);
                     memberProfileDueData.setEnable(false);

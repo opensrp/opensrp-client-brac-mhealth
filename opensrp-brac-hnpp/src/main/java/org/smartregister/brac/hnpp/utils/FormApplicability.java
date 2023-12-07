@@ -67,7 +67,7 @@ public class FormApplicability {
                 long currentDateTime = System.currentTimeMillis();
                 return currentDateTime >= nextFollowUpDate;
             }
-            return false;
+            return true;
         }else {
             int duration = getDurationByType(eventType);
             return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneAnyForm(baseEntityId, eventType, duration);
