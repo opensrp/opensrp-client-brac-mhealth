@@ -13,7 +13,7 @@ import java.util.Calendar;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class RiskAlarmHelper {
     Context context;
-    private AlarmManager alarmManager;
+    private final AlarmManager alarmManager;
 
     public RiskAlarmHelper(Context context) {
         this.context = context;

@@ -53,7 +53,13 @@ public class HnppMemberProfileDueAdapter extends RecyclerView.Adapter<HnppMember
             viewHolder.textViewLastVisit.setVisibility(View.INVISIBLE);
         }
 
-        viewHolder.itemView.setEnabled(content.isEnable());
+        if(content.isEnable()){
+            viewHolder.itemView.setEnabled(true);
+            viewHolder.textViewTitle.setTextColor(context.getResources().getColor(R.color.black));
+        }else {
+            viewHolder.itemView.setEnabled(false);
+            viewHolder.textViewTitle.setTextColor(context.getResources().getColor(R.color.grey));
+        }
 
         if(content.getType() == HnppMemberProfileInteractor.TAG_OPEN_FAMILY || content.getType() == HnppMemberProfileInteractor.TAG_OPEN_REFEREAL){
             viewHolder.statusImage.setVisibility(View.INVISIBLE);

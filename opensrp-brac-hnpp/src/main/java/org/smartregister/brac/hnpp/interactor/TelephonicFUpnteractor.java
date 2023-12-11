@@ -60,4 +60,16 @@ public class TelephonicFUpnteractor implements TelephonicFUpContract.Interactor 
     public ArrayList<AncFollowUpModel> getFollowUpList() {
        return getData();
     }
+
+    @Override
+    public ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText) {
+        ArrayList<AncFollowUpModel> listAfterSearch = new ArrayList<>();
+        for(AncFollowUpModel model : followUpList){
+            if(model.memberName.toLowerCase().contains(searchedText.toLowerCase()) ||
+                    model.memberPhoneNum.toLowerCase().contains(searchedText.toLowerCase())){
+                listAfterSearch.add(model);
+            }
+        }
+        return listAfterSearch;
+    }
 }

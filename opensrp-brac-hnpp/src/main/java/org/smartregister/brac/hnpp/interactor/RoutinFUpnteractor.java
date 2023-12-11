@@ -14,11 +14,14 @@ import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.enums.FollowUpType;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.model.FollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 import org.smartregister.brac.hnpp.utils.BkashStatus;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.service.HTTPAgent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
     private AppExecutors appExecutors;
@@ -31,7 +34,7 @@ public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
     private ArrayList<AncFollowUpModel> getData() {
         followUpList.clear();
 
-        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.routine,false);
+        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.routine, false);
         return followUpList;
     }
 
@@ -69,6 +72,36 @@ public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
 
     @Override
     public ArrayList<AncFollowUpModel> getFollowUpList() {
-       return getData();
+        return getData();
+    }
+
+    @Override
+    public ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText, RiskyPatientFilterType riskyPatientFilterType) {
+        ArrayList<AncFollowUpModel> listAfterSearch = new ArrayList<>();
+        Calendar visScheduleToday = Calendar.getInstance();
+        Calendar visScheduleNextThree = Calendar.getInstance();
+        if(riskyPatientFilterType.getVisitScheduleToday() != 0){
+            visScheduleToday.setTimeInMillis(System.currentTimeMillis());
+        }
+
+        if(riskyPatientFilterType.getVisitScheduleNextThree() != 0){
+            visScheduleNextThree.setTimeInMillis(System.currentTimeMillis());
+            visScheduleNextThree.add(Calendar.DAY_OF_MONTH,3);
+        }
+
+        for (AncFollowUpModel model : followUpList) {
+            if ((model.memberName.toLowerCase().contains(searchedText.toLowerCase()) ||
+                    model.memberPhoneNum.toLowerCase().contains(searchedText.toLowerCase())) &&
+                    riskyPatientFilterType.getVisitScheduleToday() == 0 ||
+                    (riskyPatientFilterType.getVisitScheduleToday() != 0 && (visScheduleToday.)) &&
+                    riskyPatientFilterType.getVisitScheduleNextThree() == 0 ||
+                    (riskyPatientFilterType.getVisitScheduleNextThree() != 0 &&
+                            (visScheduleNextThree.getTimeInMillis() >= System.currentTimeMillis() &&
+                                    riskyPatientFilterType.getVisitScheduleNextThree() <= visScheduleNextThree.getTimeInMillis()))
+            ) {
+                listAfterSearch.add(model);
+            }
+        }
+        return listAfterSearch;
     }
 }

@@ -18,11 +18,13 @@ public interface SpecialFUpContract {
 
     }
     interface Presenter{
-        ArrayList<AncFollowUpModel> fetchRoutinFUp();
+        ArrayList<AncFollowUpModel> fetchSpecialFUp();
+        ArrayList<AncFollowUpModel> fetchSearchedSpecialFUp(String searchedText);
         View getView();
     }
     interface Interactor{
         ArrayList<AncFollowUpModel> getFollowUpList();
+        ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText);
     }
 
     interface InteractorCallBack{

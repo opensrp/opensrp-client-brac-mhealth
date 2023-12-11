@@ -10,12 +10,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +53,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.SpecialFUpPresenter;
 import org.smartregister.brac.hnpp.presenter.TelephonicFUpPresenter;
+import org.smartregister.brac.hnpp.repository.AncFollowUpRepository;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -89,6 +93,7 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     ProgressBar progressBar;
     boolean isProcessing = false;
     private AncFollowUpModel currentFollowupContent;
+    TextInputEditText searchField;
 
     public static TelephonicFUpFragment newInstance(int index) {
         TelephonicFUpFragment fragment = new TelephonicFUpFragment();
@@ -110,8 +115,26 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         View root = inflater.inflate(R.layout.fragment_telephonic_f_up, container, false);
         recyclerView = root.findViewById(R.id.telephonyFollowUpListRv);
         progressBar = root.findViewById(R.id.progress_bar);
+        searchField = root.findViewById(R.id.editText);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchList(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         return root;
     }
 
@@ -155,6 +178,22 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
                         openProfile(content);
                     }
                 });
+        adapter.setData(list);
+        recyclerView.setAdapter(adapter);
+        hideProgressBar();
+    }
+
+    private void searchList(CharSequence charSequence) {
+        showProgressBar();
+        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedData(charSequence.toString());;
+        RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
+            @Override
+            public void onClick(int position, AncFollowUpModel content) {
+                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
+                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
+                openProfile(content);
+            }
+        });
         adapter.setData(list);
         recyclerView.setAdapter(adapter);
         hideProgressBar();

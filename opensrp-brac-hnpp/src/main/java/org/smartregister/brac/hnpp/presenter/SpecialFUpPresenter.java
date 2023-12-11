@@ -18,8 +18,13 @@ public class SpecialFUpPresenter implements SpecialFUpContract.Presenter, Specia
     }
 
     @Override
-    public ArrayList<AncFollowUpModel> fetchRoutinFUp() {
+    public ArrayList<AncFollowUpModel> fetchSpecialFUp() {
         return interactor.getFollowUpList();
+    }
+
+    @Override
+    public ArrayList<AncFollowUpModel> fetchSearchedSpecialFUp(String searchedText) {
+        return interactor.getFollowUpListAfterSearch(searchedText);
     }
 
     @Override

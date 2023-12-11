@@ -9,6 +9,7 @@ import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SpecialFUpnteractor implements SpecialFUpContract.Interactor {
     private AppExecutors appExecutors;
@@ -60,5 +61,17 @@ public class SpecialFUpnteractor implements SpecialFUpContract.Interactor {
     @Override
     public ArrayList<AncFollowUpModel> getFollowUpList() {
        return getData();
+    }
+
+    @Override
+    public ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText) {
+        ArrayList<AncFollowUpModel> listAfterSearch = new ArrayList<>();
+        for(AncFollowUpModel model : followUpList){
+            if(model.memberName.toLowerCase().contains(searchedText.toLowerCase()) ||
+                    model.memberPhoneNum.toLowerCase().contains(searchedText.toLowerCase())){
+                listAfterSearch.add(model);
+            }
+        }
+        return listAfterSearch;
     }
 }

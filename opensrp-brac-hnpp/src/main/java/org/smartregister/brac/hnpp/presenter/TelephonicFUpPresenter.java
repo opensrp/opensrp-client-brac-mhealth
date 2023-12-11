@@ -23,6 +23,11 @@ public class TelephonicFUpPresenter implements TelephonicFUpContract.Presenter, 
     }
 
     @Override
+    public ArrayList<AncFollowUpModel> fetchSearchedData(String searchedText) {
+        return interactor.getFollowUpListAfterSearch(searchedText);
+    }
+
+    @Override
     public TelephonicFUpContract.View getView() {
         return view;
     }

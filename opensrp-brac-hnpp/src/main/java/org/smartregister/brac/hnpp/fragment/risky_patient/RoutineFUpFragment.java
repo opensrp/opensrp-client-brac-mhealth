@@ -2,24 +2,25 @@ package org.smartregister.brac.hnpp.fragment.risky_patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
-import org.smartregister.brac.hnpp.model.FollowUpModel;
-import org.smartregister.brac.hnpp.presenter.BkashStatusPresenter;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 import org.smartregister.brac.hnpp.presenter.RoutinFUpPresenter;
 import org.smartregister.brac.hnpp.repository.AncFollowUpRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
@@ -27,7 +28,6 @@ import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.utils.ChildDBConstants;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 
 import java.util.ArrayList;
@@ -37,11 +37,19 @@ import java.util.ArrayList;
  * A routine f/up fragment
  */
 public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.View {
+    final String TAG = "RoutineFUpFragment";
+
     RoutinFUpPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    TextInputEditText searchField;
+    AppCompatButton filterBt;
+
+    String searchedText = "";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    RiskyPatientFilterType riskyPatientFilterType = new RiskyPatientFilterType();
 
     public static RoutineFUpFragment newInstance(int index) {
         RoutineFUpFragment fragment = new RoutineFUpFragment();
@@ -63,9 +71,59 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
         View root = inflater.inflate(R.layout.fragment_routin_f_up, container, false);
         recyclerView = root.findViewById(R.id.routinFollowUpListRv);
         progressBar = root.findViewById(R.id.progress_bar);
+        searchField = root.findViewById(R.id.editText);
+        filterBt = root.findViewById(R.id.filter_bt);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         initializePresenter();
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchedText = charSequence.toString();
+                filterList(searchedText, riskyPatientFilterType);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        filterBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFilterDialog();
+            }
+        });
         return root;
+    }
+
+    private void startFilterDialog() {
+        RiskyPatientFilterDialogFragment dialogFragment = new RiskyPatientFilterDialogFragment();
+        dialogFragment.setTargetFragment(this,1);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),TAG);
+    }
+
+    private void filterList(CharSequence charSequence, RiskyPatientFilterType riskyPatientFilterType) {
+        showProgressBar();
+        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedRoutinFUp(charSequence.toString(),riskyPatientFilterType);
+        RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
+            @Override
+            public void onClick(int position, AncFollowUpModel content) {
+                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
+                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
+                openProfile(content);
+            }
+        });
+        adapter.setData(list);
+        recyclerView.setAdapter(adapter);
+        hideProgressBar();
     }
 
     @Override
@@ -127,5 +185,23 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
         intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,false);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RiskyPatientFilterDialogFragment.RESULT_CODE){
+                riskyPatientFilterType.setVisitScheduleToday(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_TODAY,0));
+                riskyPatientFilterType.setVisitScheduleNextThree(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_NEXT_THREE,0));
+                riskyPatientFilterType.setVisitScheduleNextSeven(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_NEXT_SEVEN,0));
+                riskyPatientFilterType.setVisitScheduleLastDay(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_DAY,0));
+                riskyPatientFilterType.setVisitScheduleLastThree(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_THREE,0));
+                riskyPatientFilterType.setVisitScheduleLastSeven(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_SEVEN,0));
+                riskyPatientFilterType.setVisitScheduleAllDue(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_ALL_DAY,0));
+                filterList(searchedText,riskyPatientFilterType);
+            }
+        }
     }
 }

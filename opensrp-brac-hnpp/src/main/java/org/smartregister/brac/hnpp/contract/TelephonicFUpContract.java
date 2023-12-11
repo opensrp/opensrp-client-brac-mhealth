@@ -19,10 +19,12 @@ public interface TelephonicFUpContract {
     }
     interface Presenter{
         ArrayList<AncFollowUpModel> fetchData();
+        ArrayList<AncFollowUpModel> fetchSearchedData(String searchedText);
         View getView();
     }
     interface Interactor{
         ArrayList<AncFollowUpModel> getFollowUpList();
+        ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText);
     }
 
     interface InteractorCallBack{

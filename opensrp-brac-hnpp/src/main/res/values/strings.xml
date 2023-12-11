@@ -5,7 +5,7 @@
         <item>পুরুষ</item>
         <item>তৃতীয় লিঙ্গ</item>
     </string-array>
-   <string name="risk_causes">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
+    <string name="risk_causes">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
     <string name="gender_prompt">লিঙ্গ বাছাই করুন</string>
     <string name="logo">logo</string>
@@ -523,4 +523,12 @@
     <string name="why_anc_service_is_important">এই এ.এন.সি সেবাটি কেন গুরুত্বপূর্ণ ?</string>
     <string name="need_anc_service_for_save_pregnant">নিরাপদ গর্ভের জন্য এ.এন.সি সেবাটি দরকার।</string>
     <string name="search_by_name">Search by name or phone</string>
+
+   <string name="visit_scheduled_today">Visit Scheduled Today</string>
+   <string name="visit_scheduled_next_three">Visit Scheduled within next three days</string>
+   <string name="visit_scheduled_next_seven">Visit Scheduled within next seven days</string>
+   <string name="visit_scheduled_last_day">Due Visit as per last day</string>
+   <string name="visit_scheduled_last_three">Due Visit as per Last Three Days</string>
+   <string name="visit_scheduled_last_seven">Due Visit as per Last Seven Days</string>
+   <string name="visit_scheduled_all">All Due Visit</string>
 </resources>

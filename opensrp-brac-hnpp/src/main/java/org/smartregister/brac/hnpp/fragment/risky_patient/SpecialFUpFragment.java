@@ -3,9 +3,12 @@ package org.smartregister.brac.hnpp.fragment.risky_patient;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import org.smartregister.brac.hnpp.contract.SpecialFUpContract;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.presenter.RoutinFUpPresenter;
 import org.smartregister.brac.hnpp.presenter.SpecialFUpPresenter;
+import org.smartregister.brac.hnpp.repository.AncFollowUpRepository;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.chw.core.utils.ChildDBConstants;
@@ -38,6 +42,7 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
     SpecialFUpPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    TextInputEditText searchField;
 
     public static SpecialFUpFragment newInstance(int index) {
         SpecialFUpFragment fragment = new SpecialFUpFragment();
@@ -59,9 +64,28 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
         View root = inflater.inflate(R.layout.fragment_special_f_up, container, false);
         recyclerView = root.findViewById(R.id.specialFollowUpListRv);
         progressBar = root.findViewById(R.id.progress_bar);
+        searchField = root.findViewById(R.id.editText);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         initializePresenter();
+
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchList(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         return root;
     }
 
@@ -84,10 +108,26 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
     public void initializePresenter() {
         showProgressBar();
         presenter = new SpecialFUpPresenter(this);
-        ArrayList<AncFollowUpModel> list =  presenter.fetchRoutinFUp();
+        ArrayList<AncFollowUpModel> list =  presenter.fetchSpecialFUp();
         SpecialFUpListAdapter adapter = new SpecialFUpListAdapter(getActivity(), new SpecialFUpListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, AncFollowUpModel content) {
+                openProfile(content);
+            }
+        });
+        adapter.setData(list);
+        recyclerView.setAdapter(adapter);
+        hideProgressBar();
+    }
+
+    private void searchList(CharSequence charSequence) {
+        showProgressBar();
+        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedSpecialFUp(charSequence.toString());;
+        RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
+            @Override
+            public void onClick(int position, AncFollowUpModel content) {
+                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
+                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
                 openProfile(content);
             }
         });
