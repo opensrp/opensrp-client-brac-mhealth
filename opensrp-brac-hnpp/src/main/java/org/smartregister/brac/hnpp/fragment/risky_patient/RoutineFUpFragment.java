@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
@@ -44,6 +45,7 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
     ProgressBar progressBar;
     TextInputEditText searchField;
     AppCompatButton filterBt;
+    TextView noDataFoundTv;
 
     String searchedText = "";
 
@@ -73,6 +75,7 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
         progressBar = root.findViewById(R.id.progress_bar);
         searchField = root.findViewById(R.id.editText);
         filterBt = root.findViewById(R.id.filter_bt);
+        noDataFoundTv = root.findViewById(R.id.no_data_found_tv);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         initializePresenter();
@@ -113,11 +116,14 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
     private void filterList(CharSequence charSequence, RiskyPatientFilterType riskyPatientFilterType) {
         showProgressBar();
         ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedRoutinFUp(charSequence.toString(),riskyPatientFilterType);
+        if(list.isEmpty()){
+            noDataFound();
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
         RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, AncFollowUpModel content) {
-                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
-                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
                 openProfile(content);
             }
         });
@@ -142,15 +148,23 @@ public class RoutineFUpFragment extends Fragment implements RoutinFUpContract.Vi
     }
 
     @Override
+    public void noDataFound() {
+        noDataFoundTv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void initializePresenter() {
         showProgressBar();
         presenter = new RoutinFUpPresenter(this);
         ArrayList<AncFollowUpModel> list =  presenter.fetchRoutinFUp();
+        if(list.isEmpty()){
+            noDataFound();
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
         RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, AncFollowUpModel content) {
-                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
-                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
                 openProfile(content);
             }
         });

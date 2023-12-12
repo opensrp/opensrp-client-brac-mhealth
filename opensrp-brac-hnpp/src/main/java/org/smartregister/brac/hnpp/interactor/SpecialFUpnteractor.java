@@ -6,6 +6,8 @@ import org.smartregister.brac.hnpp.contract.SpecialFUpContract;
 import org.smartregister.brac.hnpp.contract.TelephonicFUpContract;
 import org.smartregister.brac.hnpp.enums.FollowUpType;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
+import org.smartregister.brac.hnpp.utils.RiskyPatientFilterUtils;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
@@ -64,13 +66,36 @@ public class SpecialFUpnteractor implements SpecialFUpContract.Interactor {
     }
 
     @Override
-    public ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText) {
+    public ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText, RiskyPatientFilterType riskyPatientFilterType) {
         ArrayList<AncFollowUpModel> listAfterSearch = new ArrayList<>();
-        for(AncFollowUpModel model : followUpList){
-            if(model.memberName.toLowerCase().contains(searchedText.toLowerCase()) ||
-                    model.memberPhoneNum.toLowerCase().contains(searchedText.toLowerCase())){
-                listAfterSearch.add(model);
+        for (AncFollowUpModel model : followUpList) {
+            //first of all, check search query exist or not/ if not
+            if(searchedText.isEmpty()){
+                //if not then check filter
+                if(RiskyPatientFilterUtils.isFilterNeeded(riskyPatientFilterType)){
+                    if(RiskyPatientFilterUtils.checkFilter(model.specialFollowUpDate,riskyPatientFilterType)){
+                        listAfterSearch.add(model);
+                    }
+                }else {
+                    listAfterSearch.add(model);
+                }
             }
+            else {
+                //if search query found then filter with search query also
+                if ((model.memberName.toLowerCase().contains(searchedText.toLowerCase()) ||
+                        model.memberPhoneNum.toLowerCase().contains(searchedText.toLowerCase()))
+                ) {
+                    //then check extra filter options
+                    if(RiskyPatientFilterUtils.isFilterNeeded(riskyPatientFilterType)){
+                        if(RiskyPatientFilterUtils.checkFilter(model.specialFollowUpDate,riskyPatientFilterType)){
+                            listAfterSearch.add(model);
+                        }
+                    }else {
+                        listAfterSearch.add(model);
+                    }
+                }
+            }
+
         }
         return listAfterSearch;
     }

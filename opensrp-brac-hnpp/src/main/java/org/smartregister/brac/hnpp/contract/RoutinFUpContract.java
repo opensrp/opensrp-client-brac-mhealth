@@ -15,6 +15,7 @@ public interface RoutinFUpContract {
         void showProgressBar();
         void hideProgressBar();
         void updateView();
+        void noDataFound();
         void initializePresenter();
         Presenter getPresenter();
         Context getContext();

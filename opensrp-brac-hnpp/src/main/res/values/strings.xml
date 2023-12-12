@@ -531,4 +531,6 @@
    <string name="visit_scheduled_last_three">Due Visit as per Last Three Days</string>
    <string name="visit_scheduled_last_seven">Due Visit as per Last Seven Days</string>
    <string name="visit_scheduled_all">All Due Visit</string>
+
+   <string name="no_data_found">No data found</string>
 </resources>

@@ -3,7 +3,7 @@ package org.smartregister.brac.hnpp.presenter;
 import org.smartregister.brac.hnpp.contract.BkashStatusContract;
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.interactor.BkashStatusInteractor;
-import org.smartregister.brac.hnpp.interactor.RoutinFUpnteractor;
+import org.smartregister.brac.hnpp.interactor.RoutinFUpInteractor;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.model.FollowUpModel;
 import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
@@ -18,7 +18,7 @@ public class RoutinFUpPresenter implements RoutinFUpContract.Presenter, RoutinFU
 
     public RoutinFUpPresenter(RoutinFUpContract.View view){
         this.view = view;
-        interactor = new RoutinFUpnteractor();
+        interactor = new RoutinFUpInteractor();
     }
 
     @Override

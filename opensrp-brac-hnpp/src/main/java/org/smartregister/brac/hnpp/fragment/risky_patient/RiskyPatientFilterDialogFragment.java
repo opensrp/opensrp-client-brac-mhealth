@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment.risky_patient;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,8 +9,10 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import com.rey.material.widget.CheckBox;
+import com.rey.material.widget.RadioButton;
 
 import org.smartregister.brac.hnpp.R;
 
@@ -25,13 +28,14 @@ public class RiskyPatientFilterDialogFragment extends DialogFragment {
     static final String VIS_ALL_DAY = "vis_all_day";
 
     AppCompatButton filterBt;
-    CheckBox visitScheduleTodayCb;
-    CheckBox visitScheduleNextThreeCb;
-    CheckBox visitScheduleNextSevenCb;
-    CheckBox visitScheduleLastCb;
-    CheckBox visitScheduleLastThreeCb;
-    CheckBox visitScheduleLastSevenCb;
-    CheckBox allDueCb;
+    RadioGroup radioGroup;
+  /*  RadioButton visitScheduleTodayCb;
+    RadioButton visitScheduleNextThreeCb;
+    RadioButton visitScheduleNextSevenCb;
+    RadioButton visitScheduleLastCb;
+    RadioButton visitScheduleLastThreeCb;
+    RadioButton visitScheduleLastSevenCb;
+    RadioButton allDueCb;*/
 
     int visitScheduleToday = 0;
     int visitScheduleNextThree = 0;
@@ -81,7 +85,37 @@ public class RiskyPatientFilterDialogFragment extends DialogFragment {
             }
         });
 
-        visitScheduleTodayCb.setOnClickListener(new View.OnClickListener() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.visit_schedule_today_cb:
+                        visitScheduleToday = 1;
+                        break;
+                    case R.id.visit_next_three_cb:
+                        visitScheduleNextThree = 1;
+                        break;
+                    case R.id.visit_next_seven_cb:
+                        visitScheduleNextSeven = 1;
+                        break;
+                    case R.id.visit_last_day:
+                        visitScheduleLastDay = 1;
+                        break;
+                    case R.id.visit_last_three_day:
+                        visitScheduleLastThree = 1;
+                        break;
+                    case R.id.visit_last_seven_day:
+                        visitScheduleLastSeven = 1;
+                        break;
+                    default:
+                        visitScheduleAllDue = 1;
+                        break;
+
+                }
+            }
+        });
+        /*visitScheduleTodayCb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 visitScheduleToday = visitScheduleTodayCb.isChecked()?1:0;
@@ -128,17 +162,17 @@ public class RiskyPatientFilterDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 visitScheduleAllDue = allDueCb.isChecked()?1:0;
             }
-        });
+        });*/
     }
 
     private void initUi(View view) {
         filterBt = view.findViewById(R.id.filter_bt);
-        visitScheduleTodayCb = view.findViewById(R.id.visit_schedule_today_cb);
-        visitScheduleNextThreeCb = view.findViewById(R.id.visit_next_three_cb);
+        radioGroup = view.findViewById(R.id.radioGroup);
+        /*visitScheduleNextThreeCb = view.findViewById(R.id.visit_next_three_cb);
         visitScheduleNextSevenCb = view.findViewById(R.id.visit_next_seven_cb);
         visitScheduleLastCb = view.findViewById(R.id.visit_last_day);
         visitScheduleLastThreeCb = view.findViewById(R.id.visit_last_three_day);
         visitScheduleLastSevenCb = view.findViewById(R.id.visit_last_seven_day);
-        allDueCb = view.findViewById(R.id.visit_all_due);
+        allDueCb = view.findViewById(R.id.visit_all_due);*/
     }
 }

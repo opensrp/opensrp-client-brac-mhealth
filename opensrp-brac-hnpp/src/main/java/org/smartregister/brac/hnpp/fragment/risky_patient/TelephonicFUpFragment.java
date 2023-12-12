@@ -14,6 +14,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -46,11 +47,13 @@ import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity
 import org.smartregister.brac.hnpp.activity.HouseHoldVisitActivity;
 import org.smartregister.brac.hnpp.activity.RiskyPatientActivity;
 import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
+import org.smartregister.brac.hnpp.adapter.SpecialFUpListAdapter;
 import org.smartregister.brac.hnpp.adapter.TelephonicFUpListAdapter;
 import org.smartregister.brac.hnpp.contract.TelephonicFUpContract;
 import org.smartregister.brac.hnpp.listener.OnPostDataWithGps;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 import org.smartregister.brac.hnpp.presenter.SpecialFUpPresenter;
 import org.smartregister.brac.hnpp.presenter.TelephonicFUpPresenter;
 import org.smartregister.brac.hnpp.repository.AncFollowUpRepository;
@@ -81,10 +84,10 @@ import io.reactivex.schedulers.Schedulers;
 
 
 /**
- * A routine f/up fragment
+ * A telephonic f/up fragment
  */
 public class TelephonicFUpFragment extends Fragment implements TelephonicFUpContract.View {
-
+    final String TAG = "TelephonicFUpFragment";
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int REQUEST_PHONE_CALL = 101;
     public static final int REQUEST_CODE_GET_JSON = 2244;
@@ -94,6 +97,11 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     boolean isProcessing = false;
     private AncFollowUpModel currentFollowupContent;
     TextInputEditText searchField;
+    AppCompatButton filterBt;
+    TextView noDataFoundTv;
+
+    String searchedText = "";
+    RiskyPatientFilterType riskyPatientFilterType = new RiskyPatientFilterType();
 
     public static TelephonicFUpFragment newInstance(int index) {
         TelephonicFUpFragment fragment = new TelephonicFUpFragment();
@@ -116,6 +124,8 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         recyclerView = root.findViewById(R.id.telephonyFollowUpListRv);
         progressBar = root.findViewById(R.id.progress_bar);
         searchField = root.findViewById(R.id.editText);
+        filterBt = root.findViewById(R.id.filter_bt);
+        noDataFoundTv = root.findViewById(R.id.no_data_found_tv);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -127,7 +137,8 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchList(charSequence);
+                searchedText = charSequence.toString();
+                filterList(searchedText, riskyPatientFilterType);
             }
 
             @Override
@@ -135,7 +146,21 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
 
             }
         });
+
+        filterBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFilterDialog();
+            }
+        });
+
         return root;
+    }
+
+    private void startFilterDialog() {
+        RiskyPatientFilterDialogFragment dialogFragment = new RiskyPatientFilterDialogFragment();
+        dialogFragment.setTargetFragment(this,1);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),TAG);
     }
 
     @Override
@@ -154,10 +179,20 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
     }
 
     @Override
+    public void noDataFound() {
+        noDataFoundTv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void initializePresenter() {
         presenter = new TelephonicFUpPresenter(this);
         showProgressBar();
         ArrayList<AncFollowUpModel> list = presenter.fetchData();
+        if(list.isEmpty()){
+            noDataFound();
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
         TelephonicFUpListAdapter adapter = new TelephonicFUpListAdapter(getActivity(),
                 new TelephonicFUpListAdapter.OnClickAdapter() {
                     @Override
@@ -183,17 +218,34 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         hideProgressBar();
     }
 
-    private void searchList(CharSequence charSequence) {
+    private void filterList(CharSequence charSequence, RiskyPatientFilterType riskyPatientFilterType) {
         showProgressBar();
-        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedData(charSequence.toString());;
-        RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
-            @Override
-            public void onClick(int position, AncFollowUpModel content) {
-                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
-                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
-                openProfile(content);
-            }
-        });
+        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedData(charSequence.toString(),riskyPatientFilterType);
+        if(list.isEmpty()){
+            noDataFound();
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
+        TelephonicFUpListAdapter adapter = new TelephonicFUpListAdapter(getActivity(),
+                new TelephonicFUpListAdapter.OnClickAdapter() {
+                    @Override
+                    public void onClick(int position, AncFollowUpModel content) {
+                        launchCall(content);
+                    }
+                },
+                new TelephonicFUpListAdapter.OnClickAdapter() {
+                    @Override
+                    public void onClick(int position, AncFollowUpModel content) {
+                        currentFollowupContent = content;
+                        startFollowupActivity(content);
+                    }
+                },
+                new TelephonicFUpListAdapter.OnClickAdapter() {
+                    @Override
+                    public void onClick(int position, AncFollowUpModel content) {
+                        openProfile(content);
+                    }
+                });
         adapter.setData(list);
         recyclerView.setAdapter(adapter);
         hideProgressBar();
@@ -229,7 +281,18 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
+        if(requestCode == 1){
+            if(resultCode == RiskyPatientFilterDialogFragment.RESULT_CODE){
+                riskyPatientFilterType.setVisitScheduleToday(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_TODAY,0));
+                riskyPatientFilterType.setVisitScheduleNextThree(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_NEXT_THREE,0));
+                riskyPatientFilterType.setVisitScheduleNextSeven(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_NEXT_SEVEN,0));
+                riskyPatientFilterType.setVisitScheduleLastDay(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_DAY,0));
+                riskyPatientFilterType.setVisitScheduleLastThree(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_THREE,0));
+                riskyPatientFilterType.setVisitScheduleLastSeven(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_SEVEN,0));
+                riskyPatientFilterType.setVisitScheduleAllDue(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_ALL_DAY,0));
+                filterList(searchedText,riskyPatientFilterType);
+            }
+        }else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_GET_JSON){
             if(isProcessing) return;
             AtomicInteger isSave = new AtomicInteger(2);
             Utils.showProgressDialog(R.string.empty_string,R.string.please_wait_message,getActivity());
@@ -381,4 +444,5 @@ public class TelephonicFUpFragment extends Fragment implements TelephonicFUpCont
         intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
         startActivity(intent);
     }
+
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity;
@@ -20,6 +22,7 @@ import org.smartregister.brac.hnpp.adapter.RoutinFUpListAdapter;
 import org.smartregister.brac.hnpp.adapter.SpecialFUpListAdapter;
 import org.smartregister.brac.hnpp.contract.SpecialFUpContract;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 import org.smartregister.brac.hnpp.presenter.RoutinFUpPresenter;
 import org.smartregister.brac.hnpp.presenter.SpecialFUpPresenter;
 import org.smartregister.brac.hnpp.repository.AncFollowUpRepository;
@@ -37,12 +40,17 @@ import java.util.ArrayList;
  * A routine f/up fragment
  */
 public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.View {
-
+    final String TAG = "SpecialFUpFragment";
     private static final String ARG_SECTION_NUMBER = "section_number";
     SpecialFUpPresenter presenter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     TextInputEditText searchField;
+    AppCompatButton filterBt;
+    TextView noDataFoundTv;
+
+    String searchedText = "";
+    RiskyPatientFilterType riskyPatientFilterType = new RiskyPatientFilterType();
 
     public static SpecialFUpFragment newInstance(int index) {
         SpecialFUpFragment fragment = new SpecialFUpFragment();
@@ -65,6 +73,8 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
         recyclerView = root.findViewById(R.id.specialFollowUpListRv);
         progressBar = root.findViewById(R.id.progress_bar);
         searchField = root.findViewById(R.id.editText);
+        filterBt = root.findViewById(R.id.filter_bt);
+        noDataFoundTv = root.findViewById(R.id.no_data_found_tv);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         initializePresenter();
@@ -77,7 +87,8 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchList(charSequence);
+                searchedText = charSequence.toString();
+                filterList(searchedText, riskyPatientFilterType);
             }
 
             @Override
@@ -86,7 +97,20 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
             }
         });
 
+        filterBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFilterDialog();
+            }
+        });
+
         return root;
+    }
+
+    private void startFilterDialog() {
+        RiskyPatientFilterDialogFragment dialogFragment = new RiskyPatientFilterDialogFragment();
+        dialogFragment.setTargetFragment(this,1);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),TAG);
     }
 
     @Override
@@ -105,10 +129,20 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
     }
 
     @Override
+    public void noDataFound() {
+        noDataFoundTv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void initializePresenter() {
         showProgressBar();
         presenter = new SpecialFUpPresenter(this);
         ArrayList<AncFollowUpModel> list =  presenter.fetchSpecialFUp();
+        if(list.isEmpty()){
+            noDataFound();
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
         SpecialFUpListAdapter adapter = new SpecialFUpListAdapter(getActivity(), new SpecialFUpListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, AncFollowUpModel content) {
@@ -120,14 +154,17 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
         hideProgressBar();
     }
 
-    private void searchList(CharSequence charSequence) {
+    private void filterList(CharSequence charSequence, RiskyPatientFilterType riskyPatientFilterType) {
         showProgressBar();
-        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedSpecialFUp(charSequence.toString());;
-        RoutinFUpListAdapter adapter = new RoutinFUpListAdapter(getActivity(), new RoutinFUpListAdapter.OnClickAdapter() {
+        ArrayList<AncFollowUpModel> list =  presenter.fetchSearchedSpecialFUp(charSequence.toString(),riskyPatientFilterType);
+        if(list.isEmpty()){
+            noDataFound();
+        }else {
+            noDataFoundTv.setVisibility(View.GONE);
+        }
+        SpecialFUpListAdapter adapter = new SpecialFUpListAdapter(getActivity(), new SpecialFUpListAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, AncFollowUpModel content) {
-                long minFollowupDate = AncFollowUpRepository.getMinFollowupDate(content.baseEntityId);
-                //HnppDBUtils.updateNextFollowupDate(content.baseEntityId,minFollowupDate);
                 openProfile(content);
             }
         });
@@ -162,5 +199,22 @@ public class SpecialFUpFragment extends Fragment implements SpecialFUpContract.V
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
         intent.putExtra(HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY,true);
         startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RiskyPatientFilterDialogFragment.RESULT_CODE){
+                riskyPatientFilterType.setVisitScheduleToday(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_TODAY,0));
+                riskyPatientFilterType.setVisitScheduleNextThree(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_NEXT_THREE,0));
+                riskyPatientFilterType.setVisitScheduleNextSeven(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_NEXT_SEVEN,0));
+                riskyPatientFilterType.setVisitScheduleLastDay(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_DAY,0));
+                riskyPatientFilterType.setVisitScheduleLastThree(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_THREE,0));
+                riskyPatientFilterType.setVisitScheduleLastSeven(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_LAST_SEVEN,0));
+                riskyPatientFilterType.setVisitScheduleAllDue(data.getIntExtra(RiskyPatientFilterDialogFragment.VIS_ALL_DAY,0));
+                filterList(searchedText,riskyPatientFilterType);
+            }
+        }
     }
 }
