@@ -533,4 +533,5 @@
    <string name="visit_scheduled_all">All Due Visit</string>
 
    <string name="no_data_found">No data found</string>
+   <string name="next_followup_date">পরবর্তী ফলোআপ তারিখ: </string>
 </resources>

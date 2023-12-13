@@ -14,8 +14,6 @@ public class RiskyPatientFilterUtils {
 
     /**
      * checking filter needed or not
-     * @param riskyPatientFilterType
-     * @return
      */
     public static boolean isFilterNeeded(RiskyPatientFilterType riskyPatientFilterType) {
         return riskyPatientFilterType.getVisitScheduleToday() == 1 ||
@@ -29,9 +27,6 @@ public class RiskyPatientFilterUtils {
 
     /**
      * checking all filer options
-     * @param model
-     * @param riskyPatientFilterType
-     * @return
      */
     public static boolean checkFilter(long followUpDate, RiskyPatientFilterType riskyPatientFilterType) {
         if(riskyPatientFilterType.getVisitScheduleToday() == 1 && RiskyPatientFilterUtils.isToday(followUpDate)){

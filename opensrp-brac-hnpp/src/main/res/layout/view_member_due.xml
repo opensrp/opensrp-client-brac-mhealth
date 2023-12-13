@@ -58,6 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="0dp"
+            android:paddingStart="0dp"
+            android:gravity="start"
             android:visibility="invisible"
             android:text="Last visit 40 Days ago"
             android:textColor="@color/light_grey_text"
