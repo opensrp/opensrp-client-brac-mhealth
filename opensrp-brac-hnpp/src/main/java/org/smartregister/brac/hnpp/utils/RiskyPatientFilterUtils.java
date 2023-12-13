@@ -89,11 +89,17 @@ public class RiskyPatientFilterUtils {
 
         Date currentDate = new Date();
 
+        //date before today's date
+        //if today's date = 2023-10-1 12:12 PM and difference is 3 days
+        //then the date will be 2023-7-1 12:12 PM
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.add(Calendar.DAY_OF_MONTH, days);
         Date daysFromNow = calendar.getTime();
 
+        //before today
+        //if today's date = 2023-10-1 12:12 PM
+        //then the date will be 2023-09-1 12:00 AM
         Calendar todayCal = Calendar.getInstance();
         todayCal.set(Calendar.HOUR,24);
         todayCal.set(Calendar.MINUTE,0);
