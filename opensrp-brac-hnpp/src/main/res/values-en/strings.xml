@@ -1057,6 +1057,19 @@
     <string name="calender_session_plan">Session plan from calender</string>
     <string name="system_number">System Number</string>
     <string name="yearly_session_count">Yearly session count</string>
+    <string name="everyday">Every day</string>
+    <string name="weekly_vaccine_day">Weekly vaccine given date</string>
+    <string name="every_saterday">Every Saturday</string>
+    <string name="every_sunday">Every Sunday</string>
+    <string name="every_monday">Every Monday</string>
+    <string name="every_tuesday">Every Tuesday</string>
+    <string name="wednesday">Every Wednesday</string>
+    <string name="thursday">Every Thursday</string>
+    <string name="other_day">Other</string>
+    <string name="yearly_session">Yearly session count</string>
+    <string name="montly_session">Monthly session count</string>
+    <string name="action">Action</string>
+    <string name="saturday">Saturday</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

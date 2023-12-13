@@ -1085,6 +1085,19 @@
     <string name="calender_session_plan">ক্যালেন্ডার দিয়ে সেশন প্ল্যান</string>
     <string name="system_number">সিস্টেম নাম্বার</string>
     <string name="yearly_session_count">বাৎসরিক সেশনের সংখ্যা</string>
+    <string name="everyday">প্রতিদিন</string>
+    <string name="weekly_vaccine_day">সাপ্তাহিক টিকার দিন</string>
+    <string name="every_saterday">প্রতি শনিবার</string>
+    <string name="every_sunday">প্রতি রবিবার</string>
+    <string name="every_monday">প্রতি সোমবার</string>
+    <string name="every_tuesday">প্রতি মঙ্গলবার</string>
+    <string name="wednesday">প্রতি বুধবার</string>
+    <string name="thursday">প্রতি বৃহস্পতিবার</string>
+    <string name="other_day">অন্যদিন</string>
+    <string name="yearly_session">বাৎসরিক সেশনের সংখ্যা</string>
+    <string name="montly_session">মাসিক সেশনের সংখ্যা</string>
+    <string name="action">Action</string>
+    <string name="saturday">Saturday</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>

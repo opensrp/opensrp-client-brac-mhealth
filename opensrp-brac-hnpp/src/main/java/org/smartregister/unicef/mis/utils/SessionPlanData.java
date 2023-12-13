@@ -25,6 +25,7 @@ public class SessionPlanData implements Serializable {
     public String additionalMonth3Date;
     public String additionalMonth4Date;
     public String yearlyCount;
+    public boolean saturday,sunday,monday,tuesday,wednesday,thursday,other;
 
 
 }

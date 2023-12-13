@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.smartregister.chw.anc.domain.Visit;
@@ -20,6 +21,7 @@ import org.smartregister.unicef.mis.utils.MicroPlanEpiData;
 import org.smartregister.view.activity.SecuredActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -41,9 +43,28 @@ public class AddMicroplanActivity extends SecuredActivity implements View.OnClic
         statusSpinner = findViewById(R.id.status_spinner);
         yearSpinner = findViewById(R.id.year_spinner);
         recyclerView = findViewById(R.id.recycler_view);
+        generateYear();
 
         loadMicroPlanData();
     }
+
+    private void generateYear() {
+        ArrayList<String> yearList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int startyear = currentYear - 2;
+        int endyear = currentYear + 2;
+        for(int i = endyear;i>=startyear;i--){
+            yearList.add(i+"");
+        }
+
+        ArrayAdapter<String> oldWardSpinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                yearList);
+        yearSpinner.setAdapter(oldWardSpinnerArrayAdapter);
+        yearSpinner.setSelection(((ArrayAdapter<String>)yearSpinner.getAdapter()).getPosition(currentYear+""));
+
+    }
+
     private void loadMicroPlanData(){
         showProgressDialog("Loading.....");
         getMicroPlanFromDB(statusSpinner.getSelectedItem().toString(),Integer.parseInt(yearSpinner.getSelectedItem().toString()))

@@ -1,10 +1,14 @@
 package org.smartregister.unicef.mis.activity;
 
+import static java.time.temporal.TemporalAdjusters.firstInMonth;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,7 +18,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,13 +33,27 @@ import org.smartregister.unicef.mis.utils.SessionPlanData;
 import org.smartregister.unicef.mis.widget.CustomCalendarView;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.time.Year;
+import java.time.temporal.ChronoField;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class AddSessionActivity extends SecuredActivity implements View.OnClickListener {
+public class AddSessionActivity extends SecuredActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private static final String PUT_EXTRA_MICRO_PLAN = "micro_plan_extra";
     MicroPlanEpiData microPlanEpiData;
 
@@ -46,6 +67,7 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
     Spinner additionalMonth1Txt,additionalMonth2Txt,additionalMonth3Txt,additionalMonth4Txt;
     EditText additionalMonth1ValueTxt,additionalMonth2ValueTxt,additionalMonth3ValueTxt,additionalMonth4ValueTxt;
     TextView yearText;
+    CheckBox saturdayChk,sundayChk,mondayChk,tuesdayChk,wednesdayChk,thursdayChk,otherChk;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreation() {
@@ -67,7 +89,22 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         findViewById(R.id.showCalenderBtn_nov).setOnClickListener(this);
         findViewById(R.id.showCalenderBtn_dec).setOnClickListener(this);
         findViewById(R.id.next_btn).setOnClickListener(this);
+        saturdayChk = findViewById(R.id.saturday);
+        sundayChk = findViewById(R.id.sunday);
+        mondayChk   = findViewById(R.id.monday);
+        tuesdayChk = findViewById(R.id.tuesday);
+        wednesdayChk = findViewById(R.id.wednesday);
+        thursdayChk  = findViewById(R.id.thursday);
+        otherChk = findViewById(R.id.other);
+        saturdayChk.setOnCheckedChangeListener(this);
+        sundayChk.setOnCheckedChangeListener(this);
+        mondayChk.setOnCheckedChangeListener(this);
+        tuesdayChk.setOnCheckedChangeListener(this);
+        wednesdayChk.setOnCheckedChangeListener(this);
+        thursdayChk.setOnCheckedChangeListener(this);
+        otherChk.setOnCheckedChangeListener(this);
         yearText = findViewById(R.id.year_text);
+
         initUi();
         microPlanEpiData = (MicroPlanEpiData) getIntent().getSerializableExtra(PUT_EXTRA_MICRO_PLAN);
         if(microPlanEpiData!=null){
@@ -75,6 +112,14 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
                 populatedUi();
             }
             yearText.setText(microPlanEpiData.year+"");
+        }
+        if(yearText.getText().toString().isEmpty()) yearText.setText("2024");
+        if(HnppConstants.isUrbanUser()){
+            findViewById(R.id.day_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.calendar_view).setVisibility(View.GONE);
+        }else{
+            findViewById(R.id.calendar_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.day_view).setVisibility(View.GONE);
         }
     }
     @SuppressLint("SetTextI18n")
@@ -101,7 +146,13 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth4Txt.setSelection(((ArrayAdapter<String>)additionalMonth4Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth4));
         yearText.setText(microPlanEpiData.sessionPlanData.year+"");
         yearlyCountTxt.setText(microPlanEpiData.sessionPlanData.yearlyCount+"");
-
+        if(microPlanEpiData.sessionPlanData.saturday) saturdayChk.setChecked(true);
+        if(microPlanEpiData.sessionPlanData.sunday) sundayChk.setChecked(true);
+        if(microPlanEpiData.sessionPlanData.monday) mondayChk.setChecked(true);
+        if(microPlanEpiData.sessionPlanData.tuesday) tuesdayChk.setChecked(true);
+        if(microPlanEpiData.sessionPlanData.wednesday) wednesdayChk.setChecked(true);
+        if(microPlanEpiData.sessionPlanData.thursday) thursdayChk.setChecked(true);
+        if(microPlanEpiData.sessionPlanData.other) otherChk.setChecked(true);
     }
 
     private void initUi() {
@@ -127,6 +178,205 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth4ValueTxt = findViewById(R.id.month_4_value);
         yearlyCountTxt = findViewById(R.id.yearly_count_text);
     }
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+        switch (view.getId()){
+//            case R.id.sunday:
+//                sundayChk.setSelected(isChecked);
+//                generateDateFromDay(1);
+//
+//                break;
+//            case R.id.monday:
+//                mondayChk.setSelected(isChecked);
+//                generateDateFromDay(2);
+//                break;
+//            case R.id.tuesday:
+//                thursdayChk.setSelected(isChecked);
+//                generateDateFromDay(3);
+//                break;
+//            case R.id.wednesday:
+//                wednesdayChk.setSelected(isChecked);
+//                generateDateFromDay(4);
+//                break;
+//            case R.id.thursday:
+//                thursdayChk.setSelected(isChecked);
+//                generateDateFromDay(5);
+//                break;
+//            case R.id.saturday:
+//                saturdayChk.setSelected(isChecked);
+//                generateDateFromDay(7);
+//                break;
+            case R.id.other:
+                saturdayChk.setChecked(false);
+                sundayChk.setChecked(false);
+                mondayChk.setChecked(false);
+                tuesdayChk.setChecked(false);
+                wednesdayChk.setChecked(false);
+                thursdayChk.setChecked(false);
+                otherChk.setChecked(isChecked);
+                findViewById(R.id.calendar_view).setVisibility(View.VISIBLE);
+                findViewById(R.id.day_view).setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.showCalenderBtn_jan:
+                showMultiDatePicker(0,januaryCountTxt);
+                break;
+            case R.id.showCalenderBtn_feb:
+                showMultiDatePicker(1,februaryCountTxt);
+                break;
+            case R.id.showCalenderBtn_mar:
+                showMultiDatePicker(2,marchCountTxt);
+                break;
+            case R.id.showCalenderBtn_april:
+                showMultiDatePicker(3,aprilCountTxt);
+                break;
+            case R.id.showCalenderBtn_may:
+                showMultiDatePicker(4,mayCountTxt);
+                break;
+            case R.id.showCalenderBtn_jun:
+                showMultiDatePicker(5,juneCountTxt);
+                break;
+            case R.id.showCalenderBtn_july:
+                showMultiDatePicker(6,julyCountTxt);
+                break;
+            case R.id.showCalenderBtn_aug:
+                showMultiDatePicker(7,augustCountTxt);
+                break;
+            case R.id.showCalenderBtn_sep:
+                showMultiDatePicker(8,septemberTxt);
+                break;
+            case R.id.showCalenderBtn_oct:
+                showMultiDatePicker(9,octoberTxt);
+                break;
+            case R.id.showCalenderBtn_nov:
+                showMultiDatePicker(10,novemberTxt);
+                break;
+            case R.id.showCalenderBtn_dec:
+                showMultiDatePicker(11,decemberTxt);
+                break;
+            case R.id.backBtn:
+            case R.id.previous_btn:
+                finish();
+                break;
+            case R.id.additional_btn:
+                findViewById(R.id.additional_month_view).setVisibility(View.VISIBLE);
+                break;
+            case R.id.next_btn:
+                if(sundayChk.isChecked()) generateDateFromDay(1);
+                if(mondayChk.isChecked()) generateDateFromDay(2);
+                if(tuesdayChk.isChecked()) generateDateFromDay(3);
+                if(wednesdayChk.isChecked()) generateDateFromDay(4);
+                if(thursdayChk.isChecked()) generateDateFromDay(5);
+                if(saturdayChk.isChecked()) generateDateFromDay(7);
+                SessionPlanData sessionPlanData = new SessionPlanData();
+                sessionPlanData.januaryDate = getIntValue(januaryCountTxt.getText()+"");
+                sessionPlanData.februaryDate = getIntValue(februaryCountTxt.getText()+"");
+                sessionPlanData.marchDate = getIntValue(marchCountTxt.getText()+"");
+                sessionPlanData.aprilDate = getIntValue(aprilCountTxt.getText()+"");
+                sessionPlanData.mayDate = getIntValue(mayCountTxt.getText()+"");
+                sessionPlanData.juneDate = getIntValue(juneCountTxt.getText()+"");
+                sessionPlanData.julyDate = getIntValue(julyCountTxt.getText()+"");
+                sessionPlanData.augustDate = getIntValue(augustCountTxt.getText()+"");
+                sessionPlanData.septemberDate = getIntValue(septemberTxt.getText()+"");
+                sessionPlanData.octoberDate = getIntValue(octoberTxt.getText()+"");
+                sessionPlanData.novemberDate = getIntValue(novemberTxt.getText()+"");
+                sessionPlanData.decemberDate = getIntValue(decemberTxt.getText()+"");
+                sessionPlanData.additionalMonth1 = additionalMonth1Txt.getSelectedItem()+"";
+                sessionPlanData.additionalMonth1Date =  getIntValue(additionalMonth1ValueTxt.getText()+"");
+                sessionPlanData.additionalMonth2 = additionalMonth2Txt.getSelectedItem()+"";
+                sessionPlanData.additionalMonth2Date =  getIntValue(additionalMonth2ValueTxt.getText()+"");
+                sessionPlanData.additionalMonth3 = additionalMonth3Txt.getSelectedItem()+"";
+                sessionPlanData.additionalMonth3Date =getIntValue(additionalMonth3ValueTxt.getText()+"");
+                sessionPlanData.additionalMonth4 = additionalMonth4Txt.getSelectedItem()+"";
+                sessionPlanData.additionalMonth4Date =  getIntValue(additionalMonth4ValueTxt.getText()+"");
+                sessionPlanData.saturday = saturdayChk.isChecked();
+                sessionPlanData.sunday = sundayChk.isChecked();
+                sessionPlanData.monday = mondayChk.isChecked();
+                sessionPlanData.tuesday = tuesdayChk.isChecked();
+                sessionPlanData.wednesday = wednesdayChk.isChecked();
+                sessionPlanData.thursday = thursdayChk.isChecked();
+                sessionPlanData.other = otherChk.isChecked();
+                sessionPlanData.year = getIntValue(yearText.getText()+"");//getIntValue(yearSpinner.getSelectedItem()+"");
+                sessionPlanData.yearlyCount = count+"";
+                microPlanEpiData.sessionPlanData = sessionPlanData;
+                microPlanEpiData.year = Integer.parseInt(sessionPlanData.year);
+                AddWorkerActivity.startAddWorkerActivity(AddSessionActivity.this,microPlanEpiData);
+
+                break;
+        }
+
+
+
+    }
+    HashMap<Integer,String> dayHashMap = new HashMap<>();
+
+    private void generateDateFromDay(int dayIndex){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,2024);//Integer.parseInt(yearText.getText().toString()));
+        calendar.set( Calendar.DAY_OF_MONTH, 1  );
+        int monthIndex = 0;
+        do{
+            calendar.set( Calendar.MONTH, monthIndex  );
+            int month = calendar.get( Calendar.MONTH );
+            StringBuilder builder = new StringBuilder();
+            while( calendar.get( Calendar.MONTH ) == month ) {
+
+                if( calendar.get( Calendar.DAY_OF_WEEK ) == dayIndex ) {
+                    if(builder.length()>0){
+                        builder.append(",");
+                    }
+                    builder.append(calendar.get( Calendar.DAY_OF_MONTH ));
+                }
+
+                calendar.add( Calendar.DAY_OF_MONTH , 1 );
+            }
+
+            String previousData = dayHashMap.get(monthIndex)==null?builder.toString():dayHashMap.get(monthIndex)+","+builder.toString();
+            List<String> list = new ArrayList<String>(Arrays.asList(builder.toString().split(",")));
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                List<Integer> result = list.stream()
+                        .map(Integer::valueOf)
+                        .collect(Collectors.toList());
+                Collections.sort(result);
+            }
+            count = count + list.size();
+            Log.v("DAY_TEXT","list size:"+list.size()+":count:"+count);
+            //Collections.sort(list);
+           // previousData = String.join(",", list);
+            dayHashMap.put(monthIndex,previousData);
+            setOnCalenderView(monthIndex,previousData);
+            monthIndex++;
+        }while (monthIndex<=11);
+       Log.v("DAY_TEXT","hashmap:"+dayHashMap);
+
+    }
+
+    private void setOnCalenderView(int monthIndex, String toString) {
+        switch (monthIndex){
+            case 0: januaryCountTxt.setText(toString);break;
+            case 1: februaryCountTxt.setText(toString);break;
+            case 2: marchCountTxt.setText(toString);break;
+            case 3: aprilCountTxt.setText(toString);break;
+            case 4: mayCountTxt.setText(toString);break;
+            case 5: juneCountTxt.setText(toString);break;
+            case 6: julyCountTxt.setText(toString);break;
+            case 7: augustCountTxt.setText(toString);break;
+            case 8: septemberTxt.setText(toString);break;
+            case 9: octoberTxt.setText(toString);break;
+            case 10: novemberTxt.setText(toString);break;
+            case 11: decemberTxt.setText(toString);break;
+
+        }
+    }
+
     ArrayList<Date> selectedDates =  new ArrayList<>();
     int count = 0;
     private void showMultiDatePicker(int month,EditText editText){
@@ -216,87 +466,7 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
 
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.showCalenderBtn_jan:
-                showMultiDatePicker(0,januaryCountTxt);
-                break;
-            case R.id.showCalenderBtn_feb:
-                showMultiDatePicker(1,februaryCountTxt);
-                break;
-            case R.id.showCalenderBtn_mar:
-                showMultiDatePicker(2,marchCountTxt);
-                break;
-            case R.id.showCalenderBtn_april:
-                showMultiDatePicker(3,aprilCountTxt);
-                break;
-            case R.id.showCalenderBtn_may:
-                showMultiDatePicker(4,mayCountTxt);
-                break;
-            case R.id.showCalenderBtn_jun:
-                showMultiDatePicker(5,juneCountTxt);
-                break;
-            case R.id.showCalenderBtn_july:
-                showMultiDatePicker(6,julyCountTxt);
-                break;
-            case R.id.showCalenderBtn_aug:
-                showMultiDatePicker(7,augustCountTxt);
-                break;
-            case R.id.showCalenderBtn_sep:
-                showMultiDatePicker(8,septemberTxt);
-                break;
-            case R.id.showCalenderBtn_oct:
-                showMultiDatePicker(9,octoberTxt);
-                break;
-            case R.id.showCalenderBtn_nov:
-                showMultiDatePicker(10,novemberTxt);
-                break;
-            case R.id.showCalenderBtn_dec:
-                showMultiDatePicker(11,decemberTxt);
-                break;
-            case R.id.backBtn:
-            case R.id.previous_btn:
-                finish();
-                break;
-            case R.id.additional_btn:
-                findViewById(R.id.additional_month_view).setVisibility(View.VISIBLE);
-                break;
-            case R.id.next_btn:
-                SessionPlanData sessionPlanData = new SessionPlanData();
-                sessionPlanData.januaryDate = getIntValue(januaryCountTxt.getText()+"");
-                sessionPlanData.februaryDate = getIntValue(februaryCountTxt.getText()+"");
-                sessionPlanData.marchDate = getIntValue(marchCountTxt.getText()+"");
-                sessionPlanData.aprilDate = getIntValue(aprilCountTxt.getText()+"");
-                sessionPlanData.mayDate = getIntValue(mayCountTxt.getText()+"");
-                sessionPlanData.juneDate = getIntValue(juneCountTxt.getText()+"");
-                sessionPlanData.julyDate = getIntValue(julyCountTxt.getText()+"");
-                sessionPlanData.augustDate = getIntValue(augustCountTxt.getText()+"");
-                sessionPlanData.septemberDate = getIntValue(septemberTxt.getText()+"");
-                sessionPlanData.octoberDate = getIntValue(octoberTxt.getText()+"");
-                sessionPlanData.novemberDate = getIntValue(novemberTxt.getText()+"");
-                sessionPlanData.decemberDate = getIntValue(decemberTxt.getText()+"");
-                sessionPlanData.additionalMonth1 = additionalMonth1Txt.getSelectedItem()+"";
-                sessionPlanData.additionalMonth1Date =  getIntValue(additionalMonth1ValueTxt.getText()+"");
-                sessionPlanData.additionalMonth2 = additionalMonth2Txt.getSelectedItem()+"";
-                sessionPlanData.additionalMonth2Date =  getIntValue(additionalMonth2ValueTxt.getText()+"");
-                sessionPlanData.additionalMonth3 = additionalMonth3Txt.getSelectedItem()+"";
-                sessionPlanData.additionalMonth3Date =getIntValue(additionalMonth3ValueTxt.getText()+"");
-                sessionPlanData.additionalMonth4 = additionalMonth4Txt.getSelectedItem()+"";
-                sessionPlanData.additionalMonth4Date =  getIntValue(additionalMonth4ValueTxt.getText()+"");
-                sessionPlanData.year = getIntValue(yearText.getText()+"");//getIntValue(yearSpinner.getSelectedItem()+"");
-                sessionPlanData.yearlyCount = count+"";
-                microPlanEpiData.sessionPlanData = sessionPlanData;
-                microPlanEpiData.year = Integer.parseInt(sessionPlanData.year);
-                AddWorkerActivity.startAddWorkerActivity(AddSessionActivity.this,microPlanEpiData);
-                
-                break;
-        }
-        
 
-
-    }
     private String  getIntValue(String value){
         try{
             return value;

@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.model.Survey;
 import org.smartregister.unicef.mis.repository.MicroPlanRepository;
 import org.smartregister.unicef.mis.utils.MicroPlanEpiData;
+import org.smartregister.unicef.mis.utils.SessionPlanData;
 
 import java.util.ArrayList;
 
@@ -77,10 +79,39 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
              viewHolder.textViewYearly.setText(count+"");
 
              viewHolder.textViewMonthly.setText(count/12+"");
+             viewHolder.textViewDays.setText(getDaysName(content.sessionPlanData));
          }
         viewHolder.imageViewView.setOnClickListener(v -> onClickAdapter.onViewClick(position, content));
         viewHolder.imageViewEdit.setOnClickListener(v -> onClickAdapter.onEditClick(position, content));
         viewHolder.imageViewAdd.setOnClickListener(v -> onClickAdapter.onAddClick(position, content));
+    }
+
+    private String getDaysName(SessionPlanData sessionPlanData) {
+        StringBuilder builder = new StringBuilder();
+        if(sessionPlanData.saturday){
+            builder.append(context.getResources().getString(R.string.every_saterday));
+        }
+        if(sessionPlanData.sunday){
+            if(builder.length()>0)builder.append(",");
+            builder.append(context.getResources().getString(R.string.every_sunday));
+        }
+        if(sessionPlanData.monday){
+            if(builder.length()>0)builder.append(",");
+            builder.append(context.getResources().getString(R.string.every_monday));
+        }
+        if(sessionPlanData.tuesday){
+            if(builder.length()>0)builder.append(",");
+            builder.append(context.getResources().getString(R.string.every_tuesday));
+        }
+        if(sessionPlanData.wednesday){
+            if(builder.length()>0)builder.append(",");
+            builder.append(context.getResources().getString(R.string.wednesday));
+        }
+        if(sessionPlanData.wednesday){
+            if(builder.length()>0)builder.append(",");
+            builder.append(context.getResources().getString(R.string.thursday));
+        }
+        return builder.toString();
     }
 
 
@@ -95,7 +126,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
         void onAddClick(int position, MicroPlanEpiData content);
     }
     public static class AddMicroPlanViewHolder extends RecyclerView.ViewHolder{
-        public TextView textViewUnion,textViewOldWard,textViewNewWard,textViewBlock,textViewStatus,textViewYearly,textViewMonthly;
+        public TextView textViewUnion,textViewOldWard,textViewNewWard,textViewBlock,textViewStatus,textViewYearly,textViewMonthly,textViewDays;
         private ImageView imageViewAdd,imageViewEdit,imageViewView;
 
         public AddMicroPlanViewHolder(@NonNull View itemView) {
@@ -110,6 +141,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
             imageViewView = itemView.findViewById(R.id.view_img);
             textViewYearly = itemView.findViewById(R.id.yearly_txt);
             textViewMonthly = itemView.findViewById(R.id.monthly_txt);
+            textViewDays = itemView.findViewById(R.id.weekly_txt);
         }
     }
 }
