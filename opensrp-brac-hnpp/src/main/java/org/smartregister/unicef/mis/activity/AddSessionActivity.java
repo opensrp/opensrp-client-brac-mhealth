@@ -340,15 +340,8 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
 
             String previousData = dayHashMap.get(monthIndex)==null?builder.toString():dayHashMap.get(monthIndex)+","+builder.toString();
             List<String> list = new ArrayList<String>(Arrays.asList(builder.toString().split(",")));
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                List<Integer> result = list.stream()
-                        .map(Integer::valueOf)
-                        .collect(Collectors.toList());
-                Collections.sort(result);
-            }
             count = count + list.size();
-            Log.v("DAY_TEXT","list size:"+list.size()+":count:"+count);
+            Log.v("DAY_TEXT","previousData"+previousData+":count:"+count);
             //Collections.sort(list);
            // previousData = String.join(",", list);
             dayHashMap.put(monthIndex,previousData);
