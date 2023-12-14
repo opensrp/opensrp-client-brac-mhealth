@@ -19,6 +19,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HnppMemberProfileInteractor implements HnppMemberProfileContract.Interactor {
 
@@ -49,10 +50,19 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 //if women
                 eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId, FormApplicability.getAge(commonPersonObjectClient));
                 if (FormApplicability.isDueAnyForm(baseEntityId, eventType) && !TextUtils.isEmpty(eventType)) {
-                    memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
-                    memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
-                    memberProfileDueData.setEventType(eventType);
-                    memberProfileDueDataArrayList.add(memberProfileDueData);
+
+                        memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                        memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
+                        memberProfileDueData.setEventType(eventType);
+                        memberProfileDueDataArrayList.add(memberProfileDueData);
+
+                    if(eventType.equals(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                            eventType.equals(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
+                            eventType.equals(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)
+                    ){
+                        memberProfileDueData.setVisibilityStatus(0);
+                    }
+
                 }
 
                 if (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)) {

@@ -30,7 +30,12 @@ public class HnppMemberProfileDueAdapter extends RecyclerView.Adapter<HnppMember
 
     public void setData(ArrayList<MemberProfileDueData> contentList) {
         this.contentList.clear();
-        this.contentList.addAll(contentList);
+        for(MemberProfileDueData data : contentList){
+            if(data.getVisibilityStatus() != 0){
+                this.contentList.add(data);
+            }
+        }
+
     }
 
 
