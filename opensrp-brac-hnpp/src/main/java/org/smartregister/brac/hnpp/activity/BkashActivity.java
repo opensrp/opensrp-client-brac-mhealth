@@ -46,7 +46,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
          */
         wvBkashPayment.setClickable(true);
         wvBkashPayment.getSettings().setDomStorageEnabled(true);
-        wvBkashPayment.getSettings().setAppCacheEnabled(false);
+        //wvBkashPayment.getSettings().setAppCacheEnabled(false);
         wvBkashPayment.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         wvBkashPayment.clearCache(true);
         wvBkashPayment.getSettings().setAllowFileAccessFromFileURLs(true);

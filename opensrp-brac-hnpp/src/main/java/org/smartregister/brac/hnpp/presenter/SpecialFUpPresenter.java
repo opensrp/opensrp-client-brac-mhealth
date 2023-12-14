@@ -2,9 +2,9 @@ package org.smartregister.brac.hnpp.presenter;
 
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.contract.SpecialFUpContract;
-import org.smartregister.brac.hnpp.interactor.RoutinFUpnteractor;
 import org.smartregister.brac.hnpp.interactor.SpecialFUpnteractor;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 
 import java.util.ArrayList;
 
@@ -18,8 +18,13 @@ public class SpecialFUpPresenter implements SpecialFUpContract.Presenter, Specia
     }
 
     @Override
-    public ArrayList<AncFollowUpModel> fetchRoutinFUp() {
+    public ArrayList<AncFollowUpModel> fetchSpecialFUp() {
         return interactor.getFollowUpList();
+    }
+
+    @Override
+    public ArrayList<AncFollowUpModel> fetchSearchedSpecialFUp(String searchedText, RiskyPatientFilterType riskyPatientFilterType) {
+        return interactor.getFollowUpListAfterSearch(searchedText,riskyPatientFilterType);
     }
 
     @Override

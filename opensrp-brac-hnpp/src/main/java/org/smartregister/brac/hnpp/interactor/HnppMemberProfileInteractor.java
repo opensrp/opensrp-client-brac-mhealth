@@ -11,14 +11,18 @@ import org.smartregister.brac.hnpp.contract.HnppMemberProfileContract;
 import org.smartregister.brac.hnpp.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.brac.hnpp.fragment.HouseHoldMemberDueFragment;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
+import org.smartregister.brac.hnpp.utils.DateFormatUtils;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.brac.hnpp.utils.OtherServiceData;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.AppExecutors;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HnppMemberProfileInteractor implements HnppMemberProfileContract.Interactor {
 
@@ -52,6 +56,22 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
                     memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
                     memberProfileDueData.setEventType(eventType);
+                    memberProfileDueDataArrayList.add(memberProfileDueData);
+                }
+
+                if(!FormApplicability.isDueAnyForm(baseEntityId, eventType) &&
+                        (eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
+                                eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
+                                eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION))){
+                    long nextFollowUpDate = HnppDBUtils.getNextFollowupDate(baseEntityId);
+                    Date date = new Date();
+                    date.setTime(nextFollowUpDate);
+
+                    memberProfileDueData.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                    memberProfileDueData.setSubTitle(context.getString(R.string.next_followup_date)+" "+DateFormatUtils.getYyyyMmDdSf().format(date));
+                    memberProfileDueData.setImageSource(HnppConstants.iconMapping.get(eventType));
+                    memberProfileDueData.setEventType(eventType);
+                    memberProfileDueData.setEnable(false);
                     memberProfileDueDataArrayList.add(memberProfileDueData);
                 }
 

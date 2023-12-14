@@ -1,37 +1,28 @@
 package org.smartregister.brac.hnpp.interactor;
 
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
-import org.apache.http.NoHttpResponseException;
-import org.json.JSONObject;
-import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
-import org.smartregister.brac.hnpp.contract.BkashStatusContract;
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.enums.FollowUpType;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
-import org.smartregister.brac.hnpp.model.FollowUpModel;
-import org.smartregister.brac.hnpp.utils.BkashStatus;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
+import org.smartregister.brac.hnpp.utils.RiskyPatientFilterUtils;
 import org.smartregister.family.util.AppExecutors;
-import org.smartregister.service.HTTPAgent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
+public class RoutinFUpInteractor implements RoutinFUpContract.Interactor {
     private AppExecutors appExecutors;
     private ArrayList<AncFollowUpModel> followUpList;
 
-    public RoutinFUpnteractor() {
+    public RoutinFUpInteractor() {
         this.followUpList = new ArrayList<>();
     }
 
     private ArrayList<AncFollowUpModel> getData() {
         followUpList.clear();
 
-        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.routine,false);
+        followUpList = HnppApplication.getAncFollowUpRepository().getAncFollowUpData(FollowUpType.routine, false);
         return followUpList;
     }
 
@@ -69,6 +60,42 @@ public class RoutinFUpnteractor implements RoutinFUpContract.Interactor {
 
     @Override
     public ArrayList<AncFollowUpModel> getFollowUpList() {
-       return getData();
+        return getData();
     }
+
+    @Override
+    public ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText, RiskyPatientFilterType riskyPatientFilterType) {
+        ArrayList<AncFollowUpModel> listAfterSearch = new ArrayList<>();
+        for (AncFollowUpModel model : followUpList) {
+            //first of all, check search query exist or not/ if not
+            if(searchedText.isEmpty()){
+                //if not then check filter
+                if(RiskyPatientFilterUtils.isFilterNeeded(riskyPatientFilterType)){
+                    if(RiskyPatientFilterUtils.checkFilter(model.nextFollowUpDate,riskyPatientFilterType)){
+                        listAfterSearch.add(model);
+                    }
+                }else {
+                    listAfterSearch.add(model);
+                }
+            }
+            else {
+                //if search query found then filter with search query also
+                if ((model.memberName.toLowerCase().contains(searchedText.toLowerCase()) ||
+                        model.memberPhoneNum.toLowerCase().contains(searchedText.toLowerCase()))
+                ) {
+                    //then check extra filter options
+                    if(RiskyPatientFilterUtils.isFilterNeeded(riskyPatientFilterType)){
+                        if(RiskyPatientFilterUtils.checkFilter(model.nextFollowUpDate,riskyPatientFilterType)){
+                            listAfterSearch.add(model);
+                        }
+                    }else {
+                        listAfterSearch.add(model);
+                    }
+                }
+            }
+
+        }
+        return listAfterSearch;
+    }
+
 }

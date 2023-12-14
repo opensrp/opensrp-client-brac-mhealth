@@ -1,12 +1,16 @@
 package org.smartregister.brac.hnpp;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.evernote.android.job.JobManager;
@@ -123,7 +127,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         super.onCreate();
         mInstance = this;
         context = Context.getInstance();
-        setupRiskAlarmManager();
 
         RiskAlarmHelper helper = new RiskAlarmHelper(this);
         helper.scheduleAlarm();
@@ -158,19 +161,7 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void setupRiskAlarmManager() {
-        String channelId = "alarm_id";
-        String channelName = "alarm_name";
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_HIGH
-        );
-        notificationManager.createNotificationChannel(channel);
-    }
 
     public void initOfflineSchedules() {
         try {

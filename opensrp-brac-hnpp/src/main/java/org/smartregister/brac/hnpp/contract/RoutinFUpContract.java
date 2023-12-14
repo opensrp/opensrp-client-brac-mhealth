@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
 import org.smartregister.brac.hnpp.model.FollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 import org.smartregister.brac.hnpp.utils.BkashStatus;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public interface RoutinFUpContract {
         void showProgressBar();
         void hideProgressBar();
         void updateView();
+        void noDataFound();
         void initializePresenter();
         Presenter getPresenter();
         Context getContext();
@@ -21,10 +23,12 @@ public interface RoutinFUpContract {
     }
     interface Presenter{
         ArrayList<AncFollowUpModel> fetchRoutinFUp();
+        ArrayList<AncFollowUpModel> fetchSearchedRoutinFUp(String searchedText, RiskyPatientFilterType riskyPatientFilterType);
         View getView();
     }
     interface Interactor{
         ArrayList<AncFollowUpModel> getFollowUpList();
+        ArrayList<AncFollowUpModel> getFollowUpListAfterSearch(String searchedText, RiskyPatientFilterType riskyPatientFilterType);
     }
 
     interface InteractorCallBack{

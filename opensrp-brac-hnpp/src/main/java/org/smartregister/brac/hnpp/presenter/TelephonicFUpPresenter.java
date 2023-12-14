@@ -2,9 +2,9 @@ package org.smartregister.brac.hnpp.presenter;
 
 import org.smartregister.brac.hnpp.contract.RoutinFUpContract;
 import org.smartregister.brac.hnpp.contract.TelephonicFUpContract;
-import org.smartregister.brac.hnpp.interactor.RoutinFUpnteractor;
 import org.smartregister.brac.hnpp.interactor.TelephonicFUpnteractor;
 import org.smartregister.brac.hnpp.model.AncFollowUpModel;
+import org.smartregister.brac.hnpp.model.RiskyPatientFilterType;
 
 import java.util.ArrayList;
 
@@ -20,6 +20,11 @@ public class TelephonicFUpPresenter implements TelephonicFUpContract.Presenter, 
     @Override
     public ArrayList<AncFollowUpModel> fetchData() {
         return interactor.getFollowUpList();
+    }
+
+    @Override
+    public ArrayList<AncFollowUpModel> fetchSearchedData(String searchedText, RiskyPatientFilterType riskyPatientFilterType) {
+        return interactor.getFollowUpListAfterSearch(searchedText,riskyPatientFilterType);
     }
 
     @Override

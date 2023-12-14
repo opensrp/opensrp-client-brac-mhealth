@@ -46,11 +46,11 @@ public class SpecialFUpListAdapter extends RecyclerView.Adapter<SpecialFUpListVi
     @Override
     public void onBindViewHolder(@NonNull final SpecialFUpListViewHolder viewHolder, int position) {
         final AncFollowUpModel content = memberArrayList.get(position);
-        if(content.specialFollowUpDate == 0){
+       /* if(content.specialFollowUpDate == 0){
             viewHolder.itemView.setVisibility(View.GONE);
         }else {
             viewHolder.itemView.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         if(content.riskType == 2){
             viewHolder.layout.setBackgroundResource(R.color.due_vaccine_red);
