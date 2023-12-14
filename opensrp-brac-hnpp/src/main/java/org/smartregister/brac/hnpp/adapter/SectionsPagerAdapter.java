@@ -19,7 +19,7 @@ import org.smartregister.brac.hnpp.fragment.risky_patient.TelephonicFUpFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.routine_f_up, R.string.special_followup,R.string.telephonic_followup};
+    private static final int[] TAB_TITLES = new int[]{R.string.telephonic_followup,R.string.special_followup,R.string.routine_f_up};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -33,11 +33,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment.
         switch (position){
             case 0:
-                return RoutineFUpFragment.newInstance(position + 1);
+                return TelephonicFUpFragment.newInstance(position+1);
             case 1:
                 return SpecialFUpFragment.newInstance(position + 1);
             default:
-                return TelephonicFUpFragment.newInstance(position+1);
+                return RoutineFUpFragment.newInstance(position + 1);
         }
     }
 
