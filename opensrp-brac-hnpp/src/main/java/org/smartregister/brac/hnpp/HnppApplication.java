@@ -128,9 +128,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         mInstance = this;
         context = Context.getInstance();
 
-        RiskAlarmHelper helper = new RiskAlarmHelper(this);
-        helper.scheduleAlarm();
-
         //init Job Manager
         SyncStatusBroadcastReceiver.init(this);
         JobManager.create(this).addJobCreator(new HnppJobCreator());

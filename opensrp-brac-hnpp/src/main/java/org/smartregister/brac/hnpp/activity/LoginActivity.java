@@ -64,6 +64,7 @@ import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SaveDistrictTask;
 import org.smartregister.brac.hnpp.presenter.LoginPresenter;
 import org.smartregister.brac.hnpp.repository.DistrictListRepository;
+import org.smartregister.brac.hnpp.risk_alarm_manager.RiskAlarmHelper;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.domain.Response;
@@ -218,7 +219,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupRiskAlarmManager() {
         String channelId = "alarm_id";
-        String channelName = "alarm_name";
+        String channelName = "Follow Up";
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(android.content.Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel(
@@ -227,6 +228,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 NotificationManager.IMPORTANCE_HIGH
         );
         notificationManager.createNotificationChannel(channel);
+
+        RiskAlarmHelper helper = new RiskAlarmHelper(this);
+        helper.scheduleAlarm();
     }
 
 

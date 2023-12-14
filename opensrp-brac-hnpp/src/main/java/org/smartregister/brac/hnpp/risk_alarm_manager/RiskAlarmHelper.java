@@ -32,7 +32,7 @@ public class RiskAlarmHelper {
 
         Intent intent = new Intent(context, RiskAlarmReceiver.class);
 
-        alarmManager.setInexactRepeating(
+        alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(),//9 am
                 AlarmManager.INTERVAL_HOUR*24,//24 h
