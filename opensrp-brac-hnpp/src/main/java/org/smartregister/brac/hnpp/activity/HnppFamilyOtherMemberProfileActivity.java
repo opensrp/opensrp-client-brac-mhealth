@@ -503,6 +503,14 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 HnppJsonFormUtils.addNcdSugerPressure(baseEntityId,jsonForm);
             }
 
+//           if(formName.contains("anc"))
+            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+            String height = visitLogRepository.getHeight(baseEntityId);
+            if(!TextUtils.isEmpty(height)){
+                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                updateFormField(jsonArray,"height",height);
+            }
 
             intent = new Intent(this, HnppAncJsonFormActivity.class);
 //           else

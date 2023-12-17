@@ -202,42 +202,42 @@
         "options": [
           {
             "key": "one_of_fish_meat_liver",
-            "text": "মাছ , মাংস, কলিজার যে কোন ১টি",
+            "text": "১। মাছ , মাংস, কলিজার যে কোন ১টি",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "one_of_fish_meat_liver"
           },
           {
             "key": "egg",
-            "text": "ডিম",
+            "text": "২। ডিম",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "egg"
           },
           {
             "key": "thick_dal",
-            "text": "ঘন ডাল",
+            "text": "৩। ঘন ডাল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "thick_dal"
           },
           {
             "key": "desert",
-            "text": "দুধ বা দুগ্ধ জাতীয় যে কোন খাবার",
+            "text": "৪। দুধ বা দুগ্ধ জাতীয় যে কোন খাবার",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "desert"
           },
           {
             "key": "yellow_vegetables",
-            "text": "হলুদ ও কমলা রং এর সবজি বা ফল; যেমন-গাজর/ মিষ্টি কুমড়া/ আম/ কাঠাল",
+            "text": "৫। হলুদ ও কমলা রং এর সবজি বা ফল; যেমন-গাজর/ মিষ্টি কুমড়া/ আম/ কাঠাল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "yellow_vegetables"
           },
           {
             "key": "deep_green_vegetables",
-            "text": "গাঢ় সবুজ শাক সবজি",
+            "text": "৬। গাঢ় সবুজ শাক সবজি",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "deep_green_vegetables"
@@ -245,7 +245,7 @@
 
           {
             "key": "none",
-            "text": "কোনোটিই নয়",
+            "text": "৭। কোনোটিই নয়",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "none"

@@ -72,6 +72,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
     public static final int REQUEST_DISAGES = 103;
     public static final int REQUEST_DIVERTY = 104;
     public static final int REQUEST_ANC_VISIT = 105;
+    public static final int REQUEST_RISK_DIALOG = 201;
 
     ImageView closeImage;
     Button saveButton;
@@ -529,6 +530,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
 
     private void showAlertForHighRiskPatient() {
         AncServiceInfoDialogFragment dialogFragment = new AncServiceInfoDialogFragment();
+        dialogFragment.setTargetFragment(dialogFragment,REQUEST_RISK_DIALOG);
         dialogFragment.show(this.getSupportFragmentManager(), "df");
     }
 
