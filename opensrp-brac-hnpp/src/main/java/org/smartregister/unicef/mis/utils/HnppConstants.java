@@ -1,5 +1,7 @@
 package org.smartregister.unicef.mis.utils;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.IS_URBAN;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -1339,7 +1341,8 @@ public class HnppConstants extends CoreConstants {
 
     }
     public static boolean isUrbanUser(){
-        return true;
+       String isUrban =  CoreLibrary.getInstance().context().allSharedPreferences().getPreference(IS_URBAN);
+        return isUrban.equalsIgnoreCase("true");
 
     }
 
@@ -1391,6 +1394,7 @@ public class HnppConstants extends CoreConstants {
         return isReleaseBuild()?BuildConfig.SIMPRINT_PROJECT_ID_RELEASE:BuildConfig.SIMPRINT_PROJECT_ID_TRAINING;
     }
     public static final class KEY {
+        public static final String IS_URBAN = "is_urban";
         public static final String USER_ID = "user_id_location";
         public static final String TOTAL_MEMBER = "member_count";
         public static final String VILLAGE_NAME = "village_name";

@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,6 +27,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.MicroPlanEpiData;
@@ -53,7 +57,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AddSessionActivity extends SecuredActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class AddSessionActivity extends SecuredActivity implements AdapterView.OnItemSelectedListener,View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private static final String PUT_EXTRA_MICRO_PLAN = "micro_plan_extra";
     MicroPlanEpiData microPlanEpiData;
 
@@ -88,6 +92,10 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         findViewById(R.id.showCalenderBtn_oct).setOnClickListener(this);
         findViewById(R.id.showCalenderBtn_nov).setOnClickListener(this);
         findViewById(R.id.showCalenderBtn_dec).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn_add_1).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn_add_2).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn_add_3).setOnClickListener(this);
+        findViewById(R.id.showCalenderBtn_add_4).setOnClickListener(this);
         findViewById(R.id.next_btn).setOnClickListener(this);
         saturdayChk = findViewById(R.id.saturday);
         sundayChk = findViewById(R.id.sunday);
@@ -144,6 +152,7 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth2Txt.setSelection(((ArrayAdapter<String>)additionalMonth2Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth2));
         additionalMonth3Txt.setSelection(((ArrayAdapter<String>)additionalMonth3Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth3));
         additionalMonth4Txt.setSelection(((ArrayAdapter<String>)additionalMonth4Txt.getAdapter()).getPosition(microPlanEpiData.sessionPlanData.additionalMonth4));
+
         yearText.setText(microPlanEpiData.sessionPlanData.year+"");
         yearlyCountTxt.setText(microPlanEpiData.sessionPlanData.yearlyCount+"");
         if(microPlanEpiData.sessionPlanData.saturday) saturdayChk.setChecked(true);
@@ -177,6 +186,213 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         additionalMonth4Txt = findViewById(R.id.month_4_spinner);
         additionalMonth4ValueTxt = findViewById(R.id.month_4_value);
         yearlyCountTxt = findViewById(R.id.yearly_count_text);
+        additionalMonth1Txt.setOnItemSelectedListener(this);
+        additionalMonth2Txt.setOnItemSelectedListener(this);
+        additionalMonth3Txt.setOnItemSelectedListener(this);
+        additionalMonth4Txt.setOnItemSelectedListener(this);
+        TextWatcher additionMonth1TW = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0){
+                    boolean isValid = validateDate(additionalMonth1Index,s.toString());
+                    if(!isValid) {
+                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
+                        additionalMonth1ValueTxt.setText("");
+                        updateSessionCount();
+                    }
+
+                }
+
+            }
+        };
+        TextWatcher additionMonth2TW = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0){
+                    boolean isValid = validateDate(additionalMonth2Index,s.toString());
+                    if(!isValid) {
+                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
+                        additionalMonth2ValueTxt.setText("");
+                        updateSessionCount();
+                    }
+
+                }
+
+            }
+        };
+        TextWatcher additionMonth3TW = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0){
+                    boolean isValid = validateDate(additionalMonth3Index,s.toString());
+                    if(!isValid) {
+                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
+                        additionalMonth3ValueTxt.setText("");
+                        updateSessionCount();
+                    }
+
+                }
+
+            }
+        };
+        TextWatcher additionMonth4TW = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0){
+                    boolean isValid = validateDate(additionalMonth4Index,s.toString());
+                    if(!isValid) {
+                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
+                        additionalMonth4ValueTxt.setText("");
+                        updateSessionCount();
+                    }
+
+                }
+
+            }
+        };
+        additionalMonth1ValueTxt.addTextChangedListener(additionMonth1TW);
+        additionalMonth2ValueTxt.addTextChangedListener(additionMonth2TW);
+        additionalMonth3ValueTxt.addTextChangedListener(additionMonth3TW);
+        additionalMonth4ValueTxt.addTextChangedListener(additionMonth4TW);
+
+    }
+    int additionalMonth1Index,additionalMonth2Index,additionalMonth3Index,additionalMonth4Index;
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        Log.v("ADDITIONAL_DATE","position:"+position);
+        if(position<=0) return;
+        switch (adapterView.getId()){
+            case R.id.month_1_spinner:
+                additionalMonth1Index = position;
+                break;
+            case R.id.month_2_spinner:
+                additionalMonth2Index = position;
+                break;
+            case R.id.month_3_spinner:
+                additionalMonth3Index = position;
+                break;
+            case R.id.month_4_spinner:
+                additionalMonth4Index = position;
+                break;
+        }
+
+    }
+    private boolean validateDate(int month, String value){
+        switch (month){
+            case 0:
+              return validationCheck(januaryCountTxt.getText().toString(),februaryCountTxt.getText().toString(),0,1,value);
+            case 1:
+                return validationCheck(februaryCountTxt.getText().toString(),marchCountTxt.getText().toString(),1,2,value);
+            case 2:
+                return validationCheck(marchCountTxt.getText().toString(),aprilCountTxt.getText().toString(),2,3,value);
+            case 3:
+                return validationCheck(aprilCountTxt.getText().toString(),mayCountTxt.getText().toString(),3,4,value);
+            case 4:
+                return validationCheck(mayCountTxt.getText().toString(),juneCountTxt.getText().toString(),4,5,value);
+            case 5:
+                return validationCheck(juneCountTxt.getText().toString(),julyCountTxt.getText().toString(),5,6,value);
+            case 6:
+                return validationCheck(julyCountTxt.getText().toString(),augustCountTxt.getText().toString(),6,7,value);
+            case 7:
+                return validationCheck(augustCountTxt.getText().toString(),septemberTxt.getText().toString(),7,8,value);
+            case 8:
+                return validationCheck(septemberTxt.getText().toString(),octoberTxt.getText().toString(),8,9,value);
+            case 9:
+                return validationCheck(octoberTxt.getText().toString(),novemberTxt.getText().toString(),9,10,value);
+            case 10:
+                return validationCheck(novemberTxt.getText().toString(),decemberTxt.getText().toString(),11,12,value);
+
+              default:
+                return true;
+        }
+    }
+    private boolean validationCheck(String date1Value, String date2Value, int date1Month, int date2Month,String pressV){
+        int previousMonth = parseIntegerValue(date1Value);
+        if(previousMonth == -1) return true;
+        if(previousMonth>5) return false;
+        int pressValue = parseIntegerValue(pressV);
+        String dateStr1 = formatedDateStr(pressValue,date1Month);
+        String dateStr2 = formatedDateStr(previousMonth,date1Month);
+        boolean isValid = isValid(dateStr1,dateStr2);
+        if(!isValid) return false;
+        int nextMonth = parseIntegerValue(date2Value);
+        if(nextMonth == -1)return true;
+        dateStr2 = formatedDateStr(nextMonth,date2Month);
+        isValid = isValid(dateStr1,dateStr2);
+        if(!isValid) return false;
+        return true;
+    }
+    /*
+    datestr1 = inputedDate, datestr2 = comparedDateValue
+     */
+    private boolean isValid(String dateStr1, String dateStr2){
+        Log.v("ADDITIONAL_DATE","isValid>>>"+dateStr1+":dateStr2:"+dateStr2);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
+        org.joda.time.LocalDate date1 = formatter.parseDateTime(dateStr1).toLocalDate();
+        org.joda.time.LocalDate date2 = formatter.parseDateTime(dateStr2).toLocalDate();
+        int dayDiff = Days.daysBetween(date2, date1).getDays();
+        Log.v("ADDITIONAL_DATE","isValid>>>"+dayDiff);
+        return dayDiff>=28;
+    }
+    private int parseIntegerValue(String value){
+        try{
+            return Integer.parseInt(value);
+        }catch (NumberFormatException ne){
+            return -1;
+        }
+    }
+    private String formatedDateStr(int dd, int month){
+        month = month+1;
+        String formatePressDate = dd<=9?"0"+dd:dd+"";
+        String formatePressMonth = month<=9?"0"+month:month+"";
+        return formatePressDate+"-"+formatePressMonth+"-"+yearText.getText().toString();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -260,6 +476,18 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
                 break;
             case R.id.showCalenderBtn_dec:
                 showMultiDatePicker(11,decemberTxt);
+                break;
+            case R.id.showCalenderBtn_add_1:
+                showMultiDatePicker(additionalMonth1Index,additionalMonth1ValueTxt);
+                break;
+            case R.id.showCalenderBtn_add_2:
+                showMultiDatePicker(additionalMonth2Index,additionalMonth2ValueTxt);
+                break;
+            case R.id.showCalenderBtn_add_3:
+                showMultiDatePicker(additionalMonth3Index,additionalMonth3ValueTxt);
+                break;
+            case R.id.showCalenderBtn_add_4:
+                showMultiDatePicker(additionalMonth4Index,additionalMonth4ValueTxt);
                 break;
             case R.id.backBtn:
             case R.id.previous_btn:
@@ -382,10 +610,15 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("SELECTED_MONTH","selectedDates:"+selectedDates+":");
-                count += selectedDates.size();
-                updateYearlyCount();
                 editText.setText(getDateFromAllDates().toString());
+                Log.v("SELECTED_MONTH","selectedDates:"+selectedDates+":");
+                if(!HnppConstants.isUrbanUser()){
+                    updateSessionCount();
+                }else{
+                    count += selectedDates.size();
+                }
+                updateYearlyCount();
+
                 dialog.dismiss();
             }
         });
@@ -413,14 +646,20 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
             calendarView.setOnDateClickListener(new CustomCalendarView.OnDateClickListener() {
                 @Override
                 public void onDateClick(@NonNull Date selectedDate) {
-                    if(isExists(selectedDate)){
-                        calendarView.clearDayViewSelection(selectedDate);
-                        selectedDates.remove(selectedDate);
+                    if(HnppConstants.isUrbanUser()){
+                        if(isExists(selectedDate)){
+                            calendarView.clearDayViewSelection(selectedDate);
+                            selectedDates.remove(selectedDate);
+                        }else{
+                            calendarView.markDateAsSelected(selectedDate);
+                            selectedDates.add(selectedDate);
+                        }
                     }else{
                         calendarView.markDateAsSelected(selectedDate);
+                        selectedDates.clear();
                         selectedDates.add(selectedDate);
-                        Log.v("SELECTED_MONTH","month:"+selectedDates+":");
                     }
+
 
 
                 }
@@ -429,10 +668,31 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
             calendar.set(Calendar.YEAR,calendarView.year);
             calendar.set(Calendar.MONTH,month);
             calendar.set(Calendar.DAY_OF_MONTH,1);
-            Log.v("CALENDER_SET","Month:"+month+":calendarView.currentMonthIndex:"+calendarView.currentMonthIndex);
             calendarView.update(calendar,month);
 
         dialog.show();
+    }
+    private void updateSessionCount(){
+        count = 0;
+        if(!januaryCountTxt.getText().toString().isEmpty())count++;
+        if(!februaryCountTxt.getText().toString().isEmpty())count++;
+        if(!marchCountTxt.getText().toString().isEmpty())count++;
+        if(!aprilCountTxt.getText().toString().isEmpty())count++;
+        if(!mayCountTxt.getText().toString().isEmpty())count++;
+        if(!juneCountTxt.getText().toString().isEmpty())count++;
+        if(!julyCountTxt.getText().toString().isEmpty())count++;
+        if(!augustCountTxt.getText().toString().isEmpty())count++;
+        if(!septemberTxt.getText().toString().isEmpty())count++;
+        if(!octoberTxt.getText().toString().isEmpty())count++;
+        if(!novemberTxt.getText().toString().isEmpty())count++;
+        if(!decemberTxt.getText().toString().isEmpty())count++;
+        if(!additionalMonth1ValueTxt.getText().toString().isEmpty()){
+            count = count+1;
+        }
+        if(!additionalMonth2ValueTxt.getText().toString().isEmpty())count++;
+        if(!additionalMonth3ValueTxt.getText().toString().isEmpty())count++;
+        if(!additionalMonth4ValueTxt.getText().toString().isEmpty())count++;
+        Log.v("ADDITIONAL_DATE","count>>>"+count);
     }
     @SuppressLint("SetTextI18n")
     private void updateYearlyCount(){
@@ -475,4 +735,6 @@ public class AddSessionActivity extends SecuredActivity implements View.OnClickL
     protected void onResumption() {
 
     }
+
+
 }

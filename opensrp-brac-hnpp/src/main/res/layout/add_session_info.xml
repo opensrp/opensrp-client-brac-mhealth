@@ -69,6 +69,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/day_view"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -160,411 +161,461 @@
                 android:button="@drawable/white_checkbox_bg_selector" />
 
         </LinearLayout>
+
+
         <LinearLayout
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/january"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/january"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/january_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_jan"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/february"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/february"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/fabruary_text"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textSize="20sp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
                     android:enabled="false"
                     android:inputType="number"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:minHeight="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_feb"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/march"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/march"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/march_text"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textSize="20sp"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
                     android:enabled="false"
                     android:inputType="number"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:minHeight="50dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_mar"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/april"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/april"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/april_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_april"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/may"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/may"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/may_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_may"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/june"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/june"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/june_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_jun"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/july"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/july"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/july_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_july"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/august"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/august"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/august_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_aug"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/september"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/september"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/september_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_sep"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/october"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/october"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/october_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_oct"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/november"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/november"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/november_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_nov"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/december"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/december"
                     android:textSize="18sp"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/december_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:background="@drawable/round_btn"
-                    android:layout_width="200dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="20sp" />
+
                 <ImageView
-                    android:src="@android:drawable/ic_menu_my_calendar"
                     android:id="@+id/showCalenderBtn_dec"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/round_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
+
             <Button
                 android:id="@+id/additional_btn"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
@@ -575,175 +626,231 @@
                 android:paddingRight="10dp"
                 android:text="@string/add_additional_plan"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/additional_month_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:visibility="visible">
+
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerVertical="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
                     <TextView
-                        android:text="@string/month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:textStyle="bold"
+                        android:text="@string/month"
                         android:textSize="18sp"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"/>
+                        android:textStyle="bold" />
+
                     <Spinner
                         android:id="@+id/month_1_spinner"
-                        android:minWidth="150dp"
-                        android:entries="@array/months"
                         android:layout_width="wrap_content"
-                        android:background="@drawable/spinner_resource"
+                        android:layout_height="50dp"
                         android:layout_margin="5dp"
-                        android:layout_height="50dp">
-                    </Spinner>
+                        android:background="@drawable/spinner_resource"
+                        android:entries="@array/months"
+                        android:minWidth="150dp"/>
+
                     <EditText
                         android:id="@+id/month_1_value"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:enabled="false"
+                        android:inputType="number"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:textSize="20sp"
-                        android:inputType="number"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/showCalenderBtn_add_1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/round_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
+                        android:padding="5dp"
+                        android:src="@android:drawable/ic_menu_my_calendar" />
+
                 </LinearLayout>
+
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerVertical="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
                     <TextView
-                        android:text="@string/month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:textStyle="bold"
+                        android:text="@string/month"
                         android:textSize="18sp"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"/>
+                        android:textStyle="bold" />
+
                     <Spinner
                         android:id="@+id/month_2_spinner"
-                        android:minWidth="150dp"
-                        android:entries="@array/months"
                         android:layout_width="wrap_content"
-                        android:background="@drawable/spinner_resource"
+                        android:layout_height="50dp"
                         android:layout_margin="5dp"
-                        android:layout_height="50dp">
-                    </Spinner>
+                        android:background="@drawable/spinner_resource"
+                        android:entries="@array/months"
+                        android:minWidth="150dp"/>
+
                     <EditText
                         android:id="@+id/month_2_value"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:enabled="false"
+                        android:inputType="number"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:textSize="20sp"
-                        android:inputType="number"
+                        android:textSize="20sp" />
+                    <ImageView
+                        android:id="@+id/showCalenderBtn_add_2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/round_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
+                        android:padding="5dp"
+                        android:src="@android:drawable/ic_menu_my_calendar" />
+
                 </LinearLayout>
+
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerVertical="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
                     <TextView
-                        android:text="@string/month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:textStyle="bold"
+                        android:text="@string/month"
                         android:textSize="18sp"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"/>
+                        android:textStyle="bold" />
+
                     <Spinner
                         android:id="@+id/month_3_spinner"
-                        android:minWidth="150dp"
-                        android:entries="@array/months"
                         android:layout_width="wrap_content"
-                        android:background="@drawable/spinner_resource"
+                        android:layout_height="50dp"
                         android:layout_margin="5dp"
-                        android:layout_height="50dp">
-                    </Spinner>
+                        android:background="@drawable/spinner_resource"
+                        android:entries="@array/months"
+                        android:minWidth="150dp"/>
+
                     <EditText
                         android:id="@+id/month_3_value"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:enabled="false"
+                        android:inputType="number"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:textSize="20sp"
-                        android:inputType="number"
+                        android:textSize="20sp" />
+                    <ImageView
+                        android:id="@+id/showCalenderBtn_add_3"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/round_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
+                        android:padding="5dp"
+                        android:src="@android:drawable/ic_menu_my_calendar" />
+
                 </LinearLayout>
+
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerVertical="true"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
                     <TextView
-                        android:text="@string/month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:textStyle="bold"
+                        android:text="@string/month"
                         android:textSize="18sp"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"/>
+                        android:textStyle="bold" />
+
                     <Spinner
                         android:id="@+id/month_4_spinner"
-                        android:minWidth="150dp"
-                        android:entries="@array/months"
                         android:layout_width="wrap_content"
-                        android:background="@drawable/spinner_resource"
+                        android:layout_height="50dp"
                         android:layout_margin="5dp"
-                        android:layout_height="50dp">
-                    </Spinner>
+                        android:background="@drawable/spinner_resource"
+                        android:entries="@array/months"
+                        android:minWidth="150dp"/>
+
                     <EditText
                         android:id="@+id/month_4_value"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:enabled="false"
+                        android:inputType="number"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:textSize="20sp"
-                        android:inputType="number"
+                        android:textSize="20sp" />
+                    <ImageView
+                        android:id="@+id/showCalenderBtn_add_4"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/round_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"/>
+                        android:padding="5dp"
+                        android:src="@android:drawable/ic_menu_my_calendar" />
+
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="@string/yearly_session_count"
-                    android:padding="10dp"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/yearly_session_count"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/yearly_count_text"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_bg"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:minHeight="50dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textSize="20sp"
-                    android:inputType="number"
-                    android:enabled="false"
-                    android:textStyle="bold"
-                    android:background="@drawable/edit_text_bg"
-                    android:layout_width="180dp"
-                    android:minHeight ="50dp"
-                    android:layout_height="wrap_content"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
-
-
 
         <RelativeLayout
             android:gravity="center_vertical"

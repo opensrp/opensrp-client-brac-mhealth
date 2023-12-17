@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.service;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.IS_URBAN;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.USER_ID;
 
 import android.app.IntentService;
@@ -55,6 +56,11 @@ public class HALocationFetchIntentService extends IntentService {
                         if(!TextUtils.isEmpty(ssModel.user_id)){
                             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(USER_ID,ssModel.user_id+"");
                         }
+                        if(ssModel.locations.get(0).district.name.contains("CITY CORPORATION")
+                                || !ssModel.locations.get(0).paurasava.name.contains("NO PAURASAVA")){
+                            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(IS_URBAN,"true");
+                        }
+
                         HnppApplication.getHALocationRepository().addOrUpdate(ssModel);
                     }
                 } catch (JSONException e) {

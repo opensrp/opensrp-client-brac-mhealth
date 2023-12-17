@@ -1138,6 +1138,7 @@
     <string name="montly_session">Monthly session count</string>
     <string name="action">Action</string>
     <string name="saturday">Saturday</string>
+    <string name="difference_date">\"দুই ডেট এর ব্যবধান ২৮ দিন হতে হবে \"</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
