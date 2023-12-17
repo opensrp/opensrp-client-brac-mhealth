@@ -95,31 +95,6 @@
       },
 
       {
-        "key": "weight",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "weight",
-        "type": "edit_text",
-        "hint": "ওজন(কেজি)",
-        "v_numeric": {
-          "value": "true",
-          "err": "Enter a valid Number"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "v_min": {
-          "value": "1",
-          "err": "সংখ্যাটি 1 এর সমান বা বড় হতে হবে"
-        },
-        "v_max": {
-          "value": "60",
-          "err": "সংখ্যাটি 60 এর সমান বা ছোট হতে হবে"
-        }
-      },
-
-      {
         "key": "child_food_in_24_hours",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

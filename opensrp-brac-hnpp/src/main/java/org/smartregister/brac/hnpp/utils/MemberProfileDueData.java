@@ -8,7 +8,16 @@ public class MemberProfileDueData {
     private String subTitle;
     private int type;
     public String from;
+    public int visibilityStatus = 1;
     int status = 3;
+
+    public int getVisibilityStatus() {
+        return visibilityStatus;
+    }
+
+    public void setVisibilityStatus(int visibilityStatus) {
+        this.visibilityStatus = visibilityStatus;
+    }
 
     public String getFrom() {
         return from;
