@@ -270,7 +270,7 @@
     <!-- Recurring Services -->
     <string name="recurring_services">ভিটামিন সার্ভিস</string>
     <string name="given_today">%1$s আজ দেয়া হয়েছে</string>
-    <string name="given_earlier">%1$s পূর্বে দেয়া হয়েছে</string>
+    <string name="given_earlier">%1$s পূর্বে কত তারিখে দেয়া হয়েছে</string>
     <string name="vaccination_done_earlier">আগে দেওয়া হয়েছে</string>
     <string name="itn_given">Has the child been\ngiven an ITN?</string>
     <string name="itn_date">Date that the ITN\nwas provided:</string>
