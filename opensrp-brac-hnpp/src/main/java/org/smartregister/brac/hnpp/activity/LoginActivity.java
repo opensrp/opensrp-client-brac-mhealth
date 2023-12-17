@@ -518,7 +518,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PermissionUtils.verifyPermissionGranted(permissions, grantResults, Manifest.permission.READ_PHONE_STATE)) {
-            isDeviceVerifyiedCheck();
+           if(!BuildConfig.DEBUG) isDeviceVerifyiedCheck();
         }
     }
 
