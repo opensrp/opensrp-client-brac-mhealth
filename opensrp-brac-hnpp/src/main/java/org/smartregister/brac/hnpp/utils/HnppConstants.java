@@ -187,8 +187,9 @@ public class HnppConstants extends CoreConstants {
                 .put("hemoglobin_test","হিমোগ্লোবিন(gm/dl)")
                 .put("hemoglobin_test_2","হিমোগ্লোবিন(gm/dl)")
                 .put("is_high_risk_height","মায়ের উচ্চতা (সে.মি.)")
-                .put("is_high_risk_age","Age")
+                .put("is_high_risk_age","বয়স")
                 .put("c_section","সিজারিয়ান অপারেশন")
+                .put("height","মায়ের উচ্চতা (সে.মি.)")
                 .build();
         return riskeyFactorMapping;
     }

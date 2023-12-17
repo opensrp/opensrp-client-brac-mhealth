@@ -59,6 +59,7 @@ import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.HouseHoldInfo;
 import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.brac.hnpp.utils.OnDialogOptionSelect;
+import org.smartregister.brac.hnpp.utils.RiskyModel;
 import org.smartregister.chw.anc.domain.MemberObject;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.core.activity.CoreFamilyOtherMemberProfileActivity;
@@ -157,6 +158,65 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         setupViews();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         HnppConstants.isViewRefresh = false;
+        ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(baseEntityId);
+        if(riskyModels!=null && riskyModels.size()>0){
+            findViewById(R.id.risk_view).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.risk_view).setVisibility(View.GONE);
+        }
+        findViewById(R.id.risk_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(riskyModels!=null && riskyModels.size()>0){
+                    openRiskFactorDialog(riskyModels, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+    private void openRiskFactorDialog(ArrayList<RiskyModel>riskyModels ,Runnable runnable){
+        StringBuilder builder = new StringBuilder();
+        for (RiskyModel riskyModel:riskyModels) {
+            String[] fs= riskyModel.riskyKey.split(",");
+            if(fs.length>0){
+                for (String key:fs) {
+                    Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
+                    builder.append(HnppConstants.getRiskeyFactorMapping().get(key)==null?key:HnppConstants.getRiskeyFactorMapping().get(key));
+                    builder.append(":");
+                    builder.append(riskyModel.riskyValue);
+                    builder.append("\n");
+                }
+            }else{
+                Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
+                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey));
+                builder.append(":");
+                builder.append(riskyModel.riskyValue);
+                builder.append("\n");
+            }
+
+        }
+
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText(R.string.risk_causes);
+        message.setText(builder.toString());
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                runnable.run();
+            }
+        });
+        dialog.show();
     }
     boolean isComesFromIdentity;
     private void updateFingerPrintIcon(){
@@ -738,6 +798,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+    @SuppressLint("SetTextI18n")
     private void showVerifyDialog(){
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
