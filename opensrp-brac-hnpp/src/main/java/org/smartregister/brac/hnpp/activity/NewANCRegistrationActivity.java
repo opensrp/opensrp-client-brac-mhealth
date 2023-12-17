@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
 
+import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.util.JsonFormUtils.FIELDS;
 
@@ -43,6 +44,7 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
+import org.smartregister.brac.hnpp.utils.MemberProfileDueData;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.NCUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -138,9 +140,9 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             ancRegLay.setVisibility(View.GONE);
             physicalProbLay.setVisibility(View.GONE);
             historyLay.setVisibility(View.GONE);
-            notInterestedB.setVisibility(View.GONE);
+            //notInterestedB.setVisibility(View.GONE);
         }else {
-            notInterestedB.setVisibility(View.VISIBLE);
+            //notInterestedB.setVisibility(View.VISIBLE);
         }
     }
 
@@ -224,9 +226,9 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             startAnyFormActivity(HnppConstants.JSON_FORMS.PREGNANT_WOMAN_DIETARY_DIVERSITY, REQUEST_DIVERTY);
 
         });
-        ancLey.setOnClickListener(view -> {
+       /* ancLey.setOnClickListener(view -> {
             startAncForm();
-        });
+        });*/
 
     }
 
@@ -487,8 +489,9 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
      * @param data        returned data
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == Activity.RESULT_OK) {
             //handling referral submission here
             if (requestCode == REQUEST_ANC_REG) {
@@ -515,6 +518,8 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                     if (isHighRisk) {
                         notInterestedB.setVisibility(View.INVISIBLE);
                         showAlertForHighRiskPatient();
+                    }else {
+                        showAncFormSubmitAlertDialog();
                     }
 
                 }
@@ -522,15 +527,78 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                 if (data != null) {
                     setJsonStringList(REQUEST_ANC_VISIT,data, ancLeyCheckIm);
                 }
+            } else if (requestCode == REQUEST_RISK_DIALOG) {
+               /* if (data != null) {
+                    setJsonStringList(REQUEST_ANC_VISIT,data, ancLeyCheckIm);
+                }*/
+                showAncFormSubmitAlertDialog();
             }
 
         }
         checkButtonEnableStatus();
     }
 
+    private void showAncFormSubmitAlertDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_two_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        titleTv.setText(R.string.anc_form_submit_alert);
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        Button close_btn = dialog.findViewById(R.id.close_btn);
+
+        ok_btn.setText(R.string.yes);
+        close_btn.setText(R.string.no);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                /*if(FormApplicability.isFirstTimeAnc(baseEntityId)){
+                    openHomeVisitForm();
+                }else {
+                    openHomeVisitSingleForm(eventTypeFormNameMapping.get(data.getEventType()));
+                }*/
+                startAncForm();
+            }
+        });
+
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                setJsonStringList(REQUEST_ANC_VISIT,new Intent(), ancLeyCheckIm);
+            }
+        });
+
+        dialog.show();
+
+       /* new AlertDialog.Builder(this).
+                 setMessage(R.string.anc_form_submit_alert)
+                .setTitle(R.string.alert).setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                       //startAnyFormActivity(eventTypeFormNameMapping.get(data.getEventType()),REQUEST_HOME_VISIT);
+                        if(FormApplicability.isFirstTimeAnc(baseEntityId)){
+                            openHomeVisitForm();
+                        }else {
+                            openHomeVisitSingleForm(eventTypeFormNameMapping.get(data.getEventType()));
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                }).show();*/
+    }
+
     private void showAlertForHighRiskPatient() {
         AncServiceInfoDialogFragment dialogFragment = new AncServiceInfoDialogFragment();
-        dialogFragment.setTargetFragment(dialogFragment,REQUEST_RISK_DIALOG);
+        dialogFragment.setTargetFragment(dialogFragment.getParentFragment(),REQUEST_RISK_DIALOG);
         dialogFragment.show(this.getSupportFragmentManager(), "df");
     }
 
@@ -539,6 +607,9 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(jsonString)) {
             jsonHash.put(requestCode,jsonString);
             updateUi(true, imageView);
+        }else {
+            jsonHash.put(requestCode,"test");
+            updateUi(false, imageView);
         }
     }
 

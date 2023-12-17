@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.activity.NewANCRegistrationActivity;
 import org.smartregister.brac.hnpp.adapter.AncServiceInfoPagerAdapter;
 import org.smartregister.brac.hnpp.fragment.anc_inofo.TextFragment;
 import org.smartregister.brac.hnpp.fragment.anc_inofo.ImageFragment;
@@ -84,6 +86,7 @@ public class AncServiceInfoDialogFragment extends DialogFragment {
         nextBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((NewANCRegistrationActivity) getActivity()).onActivityResult(getTargetRequestCode(), -1, new Intent());
                 dismiss();
             }
         });
