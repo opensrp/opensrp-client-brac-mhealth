@@ -138,8 +138,8 @@ android {
         }
 
         training{
-            versionCode 85
-            versionName "3.0.5_dev"
+            versionCode 86
+            versionName "3.0.3_dev"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -151,8 +151,8 @@ android {
 //            buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
         }
         normal{
-            versionCode 85
-            versionName "3.0.5_dev"
+            versionCode 86
+            versionName "3.0.3_dev"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'true'
             //buildConfigField "String", 'opensrp_url_training', '"https://hnpptest1.mpower-social.com/opensrp/"'
@@ -174,8 +174,8 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"http://hnppqa.mpower-social.com:8080/opensrp/"'
         }
         production{
-            versionCode 85
-            versionName "3.0.2"//2.0.6.4=2.0.7
+            versionCode 86
+            versionName "3.0.3"//2.0.6.4=2.0.7
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "String", 'opensrp_url_training', '"https://mhealth.brac.net/opensrp/"'
