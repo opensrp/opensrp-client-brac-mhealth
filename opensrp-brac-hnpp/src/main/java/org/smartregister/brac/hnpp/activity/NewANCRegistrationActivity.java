@@ -517,7 +517,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                     ancLey.setVisibility(View.VISIBLE);
                     boolean isHighRisk = isHighRisk();
                     if (isHighRisk) {
-                        notInterestedB.setVisibility(View.INVISIBLE);
+                        //notInterestedB.setVisibility(View.INVISIBLE);
                         showAlertForHighRiskPatient();
                     }else {
                         showAncFormSubmitAlertDialog();
