@@ -63,6 +63,7 @@ import org.smartregister.unicef.mis.activity.FamilyRegisterActivity;
 import org.smartregister.unicef.mis.activity.HnppAncJsonFormActivity;
 import org.smartregister.unicef.mis.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity;
+import org.smartregister.unicef.mis.activity.WebViewActivity;
 import org.smartregister.unicef.mis.job.HeightIntentServiceJob;
 import org.smartregister.unicef.mis.job.MuactIntentServiceJob;
 import org.smartregister.unicef.mis.job.WeightIntentServiceJob;
@@ -146,6 +147,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         growthChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                startActivity(new Intent(mActivity, WebViewActivity.class));
+
                 Utils.startAsyncTask(new ShowGrowthChartTask(), null);
             }
         });

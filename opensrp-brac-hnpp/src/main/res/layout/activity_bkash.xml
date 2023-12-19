@@ -46,7 +46,6 @@
       android:layout_alignParentRight="true"
       android:layout_alignParentBottom="true"
       android:layout_marginTop="0dp"
-      android:visibility="gone"
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
@@ -54,22 +53,6 @@
 
 
   </WebView>
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:fillViewport="true"
-      tools:ignore="UselessParent">
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-      <ImageView
-          android:src="@drawable/tika_card"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"/>
-
-    </LinearLayout>
-  </ScrollView>
   <ProgressBar
       android:id="@+id/progressBar"
       style="?android:attr/progressBarStyle"
