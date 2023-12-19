@@ -516,7 +516,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
                     setJsonStringList(REQUEST_DIVERTY,data, diversityCheckIm);
                     boolean isHighRisk = isHighRisk();
                     if (isHighRisk) {
-                        notInterestedB.setVisibility(View.INVISIBLE);
+                        //notInterestedB.setVisibility(View.INVISIBLE);
                         showAlertForHighRiskPatient();
                     }else {
                         showAncFormSubmitAlertDialog();
