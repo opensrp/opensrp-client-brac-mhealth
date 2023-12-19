@@ -204,11 +204,11 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             submitData();
         });
 
-        notInterestedB.setOnClickListener(view -> {
-            jsonHash.put(0,"test");
-            updateUi(false, ancLeyCheckIm);
-            checkButtonEnableStatus();
-        });
+//        notInterestedB.setOnClickListener(view -> {
+//            jsonHash.put(0,"test");
+//            updateUi(false, ancLeyCheckIm);
+//            checkButtonEnableStatus();
+//        });
 
         ancRegLay.setOnClickListener(view -> {
             startAnyFormActivity(HnppConstants.JSON_FORMS.ANC_FORM, REQUEST_ANC_REG);
@@ -556,6 +556,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                notInterestedB.setVisibility(View.GONE);
                 /*if(FormApplicability.isFirstTimeAnc(baseEntityId)){
                     openHomeVisitForm();
                 }else {
@@ -569,7 +570,9 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                notInterestedB.setVisibility(View.VISIBLE);
                 setJsonStringList(REQUEST_ANC_VISIT,new Intent(), ancLeyCheckIm);
+                checkButtonEnableStatus();
             }
         });
 

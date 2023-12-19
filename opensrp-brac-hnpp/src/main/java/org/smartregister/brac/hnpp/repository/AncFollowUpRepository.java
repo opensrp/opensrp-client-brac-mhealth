@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.repository;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.util.Log;
 
@@ -142,6 +143,7 @@ public class AncFollowUpRepository extends BaseRepository {
             String minNextFollowUp = "";
             String minSpecialFollowUp = "";
             String minTelephonicFollowUp = "";
+            String riskTypeCause = "";
 
             if(type == FollowUpType.routine){
                 if(isFromReceiver){
@@ -154,6 +156,7 @@ public class AncFollowUpRepository extends BaseRepository {
                 minNextFollowUp = "min(a.next_follow_up_date) as next_follow_up_date,";
                 minSpecialFollowUp = "a.special_follow_up_date,";
                 minTelephonicFollowUp = "a.telephony_follow_up_date,";
+                riskTypeCause= "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) ";
 
             }else if(type == FollowUpType.special){
                 if(isFromReceiver){
@@ -166,6 +169,7 @@ public class AncFollowUpRepository extends BaseRepository {
                 minNextFollowUp = "a.next_follow_up_date,";
                 minSpecialFollowUp = "min(a.special_follow_up_date) as special_follow_up_date,";
                 minTelephonicFollowUp = "a.telephony_follow_up_date,";
+                riskTypeCause = "where r.risk_type>1 " ;
 
             }else if(type == FollowUpType.telephonic){
                 if(isFromReceiver){
@@ -178,7 +182,7 @@ public class AncFollowUpRepository extends BaseRepository {
                 minNextFollowUp = "a.next_follow_up_date,";
                 minSpecialFollowUp = "a.special_follow_up_date,";
                 minTelephonicFollowUp = "min(a.telephony_follow_up_date) as telephony_follow_up_date,";
-
+                riskTypeCause = "where r.risk_type>1 " ;
             }
 
             String query = "SELECT a.base_entity_id," +
@@ -199,8 +203,9 @@ public class AncFollowUpRepository extends BaseRepository {
                     "e.base_entity_id as b " +
                     "from anc_follow_up as a " +
                     "left join risk_list as r on a.base_entity_id = r.base_entity_id " +
-                    "left join ec_family_member as e on a.base_entity_id = e.base_entity_id " +
-                    "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) " +
+                    "left join ec_family_member as e on a.base_entity_id = e.base_entity_id " +riskTypeCause+
+
+//                    "where (r.risk_type is null or r.risk_type = (select max(risk_type) from risk_list as rl where rl.base_entity_id = a.base_entity_id)) " +
                     "and a.base_entity_id not in (select base_entity_id from ec_pregnancy_outcome where base_entity_id = a.base_entity_id) and e.base_entity_id not null " +typeQuery+
                     " group by a.base_entity_id order by "+orderByQuery;
 
@@ -240,9 +245,9 @@ public class AncFollowUpRepository extends BaseRepository {
         }
         return 0;
     }
-
+    @SuppressLint("Range")
     protected AncFollowUpModel readCursor(Cursor cursor) {
-        String baseEntityId = cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID));
+       String baseEntityId = cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID));
         long followUpDate = cursor.getLong(cursor.getColumnIndex(FOLLOW_UP_DATE));
         long nextFollowUpDate = cursor.getLong(cursor.getColumnIndex(NEXT_FOLLOW_UP_DATE));
         long visitDate = cursor.getLong(cursor.getColumnIndex(VISIT_DATE));

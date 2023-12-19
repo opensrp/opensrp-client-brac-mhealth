@@ -242,14 +242,12 @@
 
         <Button
             android:id="@+id/not_interested"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_weight="3"
-            android:background="@drawable/vaccine_card_background_blue"
             android:padding="10dp"
             android:text="@string/not_interested"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:visibility="gone" />
     </LinearLayout>
