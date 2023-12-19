@@ -113,7 +113,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         initView();
         viewInteraction();
         initProgressDialog();
-        checkDataFromLocalDb();
+//        checkDataFromLocalDb();
 
         //showAlertForHighRiskPatient();
     }
@@ -127,7 +127,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
         historyLay = findViewById(R.id.history_lay);
         diversityLay = findViewById(R.id.diversity_lay);
         ancLey = findViewById(R.id.anc_ley);
-
+        ancLey.setVisibility(View.GONE);
         ancRegCheckIm = findViewById(R.id.anc_reg_check_im);
         physicalProbCheckIm = findViewById(R.id.physical_prob_check_im);
         historyCheckIm = findViewById(R.id.history_check_im);
@@ -163,34 +163,34 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
 
     boolean isValidateAncReg, isPhysicalProblem, isPreviousHistory, isDiversity, ancVisit;
 
-    private void checkDataFromLocalDb() {
-        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getHhVisitInfoByHH(baseEntityId, HnppConstants.EVENT_TYPE.NEW_ANC_REGISTRATION);
-        for (HHVisitInfoModel model : datas) {
-            switch (model.eventType) {
-                case HnppConstants.EVENT_TYPE.ANC_REGISTRATION:
-                    isValidateAncReg = model.isDone == 1;
-                    updateUi(isValidateAncReg, ancRegCheckIm);
-                    break;
-                case HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE:
-                    isPhysicalProblem = model.isDone == 1;
-                    updateUi(isPhysicalProblem, physicalProbCheckIm);
-                    break;
-                case HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY:
-                    isPreviousHistory = model.isDone == 1;
-                    updateUi(isPreviousHistory, historyCheckIm);
-                    break;
-                case HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY:
-                    isDiversity = model.isDone == 1;
-                    updateUi(isDiversity, diversityCheckIm);
-                    break;
-                case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
-                    ancVisit = model.isDone == 1;
-                    updateUi(ancVisit, ancLeyCheckIm);
-                    break;
-            }
-        }
-
-    }
+//    private void checkDataFromLocalDb() {
+//        List<HHVisitInfoModel> datas = HnppApplication.getHHVisitInfoRepository().getHhVisitInfoByHH(baseEntityId, HnppConstants.EVENT_TYPE.NEW_ANC_REGISTRATION);
+//        for (HHVisitInfoModel model : datas) {
+//            switch (model.eventType) {
+//                case HnppConstants.EVENT_TYPE.ANC_REGISTRATION:
+//                    isValidateAncReg = model.isDone == 1;
+//                    updateUi(isValidateAncReg, ancRegCheckIm);
+//                    break;
+//                case HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE:
+//                    isPhysicalProblem = model.isDone == 1;
+//                    updateUi(isPhysicalProblem, physicalProbCheckIm);
+//                    break;
+//                case HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY:
+//                    isPreviousHistory = model.isDone == 1;
+//                    updateUi(isPreviousHistory, historyCheckIm);
+//                    break;
+//                case HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY:
+//                    isDiversity = model.isDone == 1;
+//                    updateUi(isDiversity, diversityCheckIm);
+//                    break;
+//                case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
+//                    ancVisit = model.isDone == 1;
+//                    updateUi(ancVisit, ancLeyCheckIm);
+//                    break;
+//            }
+//        }
+//
+//    }
 
     /**
      * view interaction like button click
@@ -514,6 +514,7 @@ public class NewANCRegistrationActivity extends AppCompatActivity {
             } else if (requestCode == REQUEST_DIVERTY) {
                 if (data != null) {
                     setJsonStringList(REQUEST_DIVERTY,data, diversityCheckIm);
+                    ancLey.setVisibility(View.VISIBLE);
                     boolean isHighRisk = isHighRisk();
                     if (isHighRisk) {
                         notInterestedB.setVisibility(View.INVISIBLE);

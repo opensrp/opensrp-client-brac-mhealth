@@ -67,6 +67,27 @@
         "openmrs_data_type": "text",
         "type": "hidden"
       },
+      {
+        "key": "talk_with_phone",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "talk_with_phone",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "ফোনে কথা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
 
       {
         "key": "went_to_referred_place",
@@ -87,6 +108,60 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:talk_with_phone": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "visit_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "visit_date",
+        "type": "date_picker",
+        "hint": "কত তারিখে গিয়েছিলেন?",
+        "expanded": false,
+        "min_date": "today-6m",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "কত তারিখে গিয়েছিলেন?"
+        },
+        "relevance": {
+          "step1:went_to_referred_place": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "any_prescribe",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "any_prescribe",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কোনো প্রেসক্রিপশন দিয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:went_to_referred_place": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
         }
       },
 
