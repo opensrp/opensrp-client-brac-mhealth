@@ -83,7 +83,8 @@ public class ReportFragment extends BaseDashBoardFragment {
         ssView.setVisibility(View.GONE);
         fromMonthView.setVisibility(View.VISIBLE);
         toMonthView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
 //    @Override
@@ -105,6 +106,9 @@ public class ReportFragment extends BaseDashBoardFragment {
         updateTitle();
         initilizePresenter();
         populateReportList();
+    }
+    private void populateData(String startDate, String endDate){
+
     }
     int weightSamCount = 0;
     int weightMamCount = 0;
@@ -219,7 +223,27 @@ public class ReportFragment extends BaseDashBoardFragment {
         reportDataList.add(new ReportData(noChildRefFollowup+"",getString(R.string.no_child_ref_followup),R.color.black));
         recyclerView.setAdapter(new ReportRecyclerViewAdapter(getActivity(),reportDataList));
     }
+    /*
 
+Monthly reporting dashboard
+o D1 = Number of children 0-23 months newly enrolled (unique cases) in this month
+o D2 = Total number of children 0-23 months attended (both newly enrolled and followed-up) in this month
+o N1 = Number of children 0-23 months weight measured in this month
+o N2 = Number of children 0-23 months length/height measured in this month
+o N3 = Number of children 0-23 months MUAC measured in this month
+o S1 = Number of children 0-23 months were underweight (<-2SD)
+o S2 = Number of children 0-23 months were severely underweight (<-3SD)
+o S3 = Number of children 0-23 months were stunted (<-2SD) diagnosed at facility
+o S4 = Number of children 0-23 months were severely stunted (<-3SD) diagnosed at facility
+o S5 = Number of children 6-23 months with MUAC between >11.5 cm and <12.5 cm
+o S6 = Number of children 6-23 months with MUAC < 11.5 cm
+o S7 = Number of children 0-23 months diagnosed with growth faltering
+o G1 = Number of children 0-23 months referred from outreach to the Community Clinic for further diagnosis
+o G2 = Number of mothers and caregivers of children 0-23 months received counseling on IYCF and early childhood development
+o G3 = Number of children aged 0-23 months visited the Community Clinics referred from outreach
+o G4= Number of children aged 0-23 months visited the Upazila Health Complex referred from CC and or from outreach
+o
+     */
 
 
 /*    public static String getZScoreText(final double absScore) {

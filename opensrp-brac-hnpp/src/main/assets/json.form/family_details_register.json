@@ -318,10 +318,6 @@
         "type": "edit_text",
         "hint": "Last Name of Household Head (English)",
         "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "Enter Last Name of Household Head"
-        },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "Enter valid name"

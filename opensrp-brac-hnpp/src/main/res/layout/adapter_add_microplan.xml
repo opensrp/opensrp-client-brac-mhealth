@@ -136,6 +136,13 @@
                 android:padding="5dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
+            <ImageView
+                android:id="@+id/comment_img"
+                android:src="@drawable/ic_comment_foreground"
+                android:background="@drawable/round_btn"
+                android:padding="5dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

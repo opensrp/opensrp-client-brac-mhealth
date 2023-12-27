@@ -128,6 +128,66 @@ public class HnppConstants extends CoreConstants {
                     "Anytime"
             )
     );
+    public static Observable<Boolean> postMicroPlanData(){
+        return Observable.create(e->{
+            try {
+
+                processMicroPlanUnSyncData();
+                e.onNext(true);//error
+                e.onComplete();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                e.onNext(false);//error
+                e.onComplete();
+            }
+        });
+    }
+    private static void processMicroPlanUnSyncData(){
+        String ADD_URL = "rest/event/microplan-save";
+        ArrayList<MicroPlanEpiData> microPlanEpiDataArrayList = HnppApplication.getMicroPlanRepository().getUnSyncData();
+
+        for(MicroPlanEpiData microPlanEpiData: microPlanEpiDataArrayList){
+
+            try{
+                JSONObject request = new JSONObject();
+                request.put("outreach_info",JsonFormUtils.gson.toJson(microPlanEpiData.outreachContentData));
+                request.put("center_details",JsonFormUtils.gson.toJson(microPlanEpiData.microPlanTypeData));
+                request.put("distribution_data",JsonFormUtils.gson.toJson(microPlanEpiData.distributionData));
+                request.put("session_plan",JsonFormUtils.gson.toJson(microPlanEpiData.sessionPlanData));//JsonFormUtils.gson.toJson(microPlanEpiData.sessionPlanData));
+                request.put("worker_info",JsonFormUtils.gson.toJson(microPlanEpiData.workerData));
+                request.put("supervisor_info",JsonFormUtils.gson.toJson(microPlanEpiData.superVisorData));
+                request.put("status",microPlanEpiData.microPlanStatus);
+                String jsonPayload = request.toString();
+                String add_url =  MessageFormat.format("{0}{1}",
+                        BuildConfig.opensrp_url_live,
+                        ADD_URL);
+                Log.v("MICROPLAN_ADD","add_url:"+add_url);
+
+                jsonPayload = jsonPayload.replace("\\","").replace("\"{","{").replace("}\"","}");
+               Log.v("MICROPLAN_ADD","jsonPayload>>"+jsonPayload);
+                HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+
+                Response<String> response = httpAgent.post(add_url, jsonPayload);
+                if (response.isFailure() || response.isTimeoutError()) {
+                    HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
+                    return;
+                }
+                HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
+                //{"error":[],"notFound":[]}
+                JSONObject results = new JSONObject((String) response.payload());
+                if(results.has("success")){
+                    HnppApplication.getMicroPlanRepository().updateMicroPlanSyncStatus(microPlanEpiData);
+                }
+
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
+        }
+
+    }
     public static Observable<String> getAppVersionFromServer() {
 
         return  Observable.create(e->{
@@ -978,50 +1038,50 @@ public class HnppConstants extends CoreConstants {
         int dayDiff = Days.daysBetween(lastMenstrualPeriod, expectedDeliveryDate).getDays();
         return dayDiff <=30;
     }
-    public static String getSchedulePncDate(String deliveryDate, int noOfPnc){
-        DateTime ddDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(deliveryDate);
-        LocalDate scheduleDate = new LocalDate(ddDate);
-        LocalDate expectedDeliveryDate;
+    public static String getSchedulePncDate(String deliveryDateStr, int noOfPnc){
+        DateTime ddDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(deliveryDateStr);
+        LocalDate deliveryDate = new LocalDate(ddDate);
+        LocalDate scheduleDate;
         switch (noOfPnc){
-            case 2: expectedDeliveryDate= scheduleDate.plusDays(3);
+            case 2: scheduleDate= deliveryDate.plusDays(3);
                 break;
-            case 3: expectedDeliveryDate= scheduleDate.plusDays(7);
+            case 3: scheduleDate= deliveryDate.plusDays(7);
                 break;
-            case 4: expectedDeliveryDate= scheduleDate.plusDays(28);
+            case 4: scheduleDate= deliveryDate.plusDays(28);
                 break;
             default:
-                expectedDeliveryDate= scheduleDate.plusDays(0);
+                scheduleDate= deliveryDate.plusDays(0);
                 break;
         }
-        return DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDeliveryDate);
+        return DateTimeFormat.forPattern("dd-MM-yyyy").print(scheduleDate);
     }
     public static String getScheduleLmpDate(String lmp, int noOfAnc){
         DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
 
         LocalDate lastMenstrualPeriod = new LocalDate(lmpDate);
-        LocalDate expectedDeliveryDate;
+        LocalDate scheduleDate;
         switch (noOfAnc){
-            case 2: expectedDeliveryDate= lastMenstrualPeriod.plusDays(140);
+            case 2: scheduleDate= lastMenstrualPeriod.plusDays(140);
                 break;
-            case 3: expectedDeliveryDate= lastMenstrualPeriod.plusDays(182);
+            case 3: scheduleDate= lastMenstrualPeriod.plusDays(182);
                 break;
-            case 4: expectedDeliveryDate= lastMenstrualPeriod.plusDays(210);
+            case 4: scheduleDate= lastMenstrualPeriod.plusDays(210);
                 break;
-            case 5: expectedDeliveryDate= lastMenstrualPeriod.plusDays(238);
+            case 5: scheduleDate= lastMenstrualPeriod.plusDays(238);
                 break;
-            case 6: expectedDeliveryDate= lastMenstrualPeriod.plusDays(252);
+            case 6: scheduleDate= lastMenstrualPeriod.plusDays(252);
                 break;
-            case 7: expectedDeliveryDate= lastMenstrualPeriod.plusDays(266);
+            case 7: scheduleDate= lastMenstrualPeriod.plusDays(266);
                 break;
-            case 8: expectedDeliveryDate= lastMenstrualPeriod.plusDays(280);
+            case 8: scheduleDate= lastMenstrualPeriod.plusDays(280);
                 break;
             default:
-                expectedDeliveryDate= lastMenstrualPeriod.plusDays(84);
+                scheduleDate= lastMenstrualPeriod.plusDays(84);
                 break;
 
         }
 
-        return  DateTimeFormat.forPattern("dd-MM-yyyy").print(expectedDeliveryDate);
+        return  DateTimeFormat.forPattern("dd-MM-yyyy").print(scheduleDate);
     }
     public static String[] getPncTitle(int noOfPnc){
         String[] ancType = new String[2];
@@ -1246,7 +1306,7 @@ public class HnppConstants extends CoreConstants {
         return HomeVisitType.GREEN.name();
 
     }
-    private static int getMonthsDifference(LocalDate date1, LocalDate date2) {
+    public static int getMonthsDifference(LocalDate date1, LocalDate date2) {
         return Months.monthsBetween(
                 date1.withDayOfMonth(1),
                 date2.withDayOfMonth(1)).getMonths();

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:padding="10dp"
     android:layout_margin="10dp"
-    android:background="@drawable/dashboard_background"
+    android:background="@drawable/vaccine_card_background_white"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -23,16 +23,13 @@
         android:layout_toLeftOf="@+id/count_txt"
         android:layout_toRightOf="@id/image_view"
         android:padding="5dp"
-        android:text="নিবন্ধিত খানা"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
     <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/count_txt"
         android:text="1000"
         android:textSize="25sp"
         android:layout_centerVertical="true"
-        android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"

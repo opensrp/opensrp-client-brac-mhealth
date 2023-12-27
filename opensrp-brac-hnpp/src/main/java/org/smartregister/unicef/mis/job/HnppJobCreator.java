@@ -93,6 +93,8 @@ public class HnppJobCreator implements JobCreator {
                 return new WeightIntentServiceJob();
             case CampFetchJob.TAG:
                 return new CampFetchJob();
+            case MicroPlanFetchJob.TAG:
+                return new MicroPlanFetchJob();
             default:
                 Timber.d("Please create job and specify the right job tag");
                 return null;

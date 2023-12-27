@@ -151,7 +151,7 @@ public class WebViewActivity extends SecuredActivity {
     protected void onResumption() {
 
     }
-    private class CheckoutWebViewClient extends WebViewClient {
+    public class CheckoutWebViewClient extends WebViewClient {
 
 
         @Override

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -156,17 +157,14 @@ public class AddWorkerActivity extends SecuredActivity implements View.OnClickLi
                     public void onNext(Boolean isInserted) {
                         hideProgressDialog();
                         if(isInserted){
-                            Toast.makeText(AddWorkerActivity.this,"Save MicroPlan successfully",Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AddWorkerActivity.this,AddMicroplanActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            sentToServer();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
+                        Toast.makeText(AddWorkerActivity.this,"Failed to save microplan",Toast.LENGTH_LONG).show();
 
                     }
 
@@ -177,10 +175,44 @@ public class AddWorkerActivity extends SecuredActivity implements View.OnClickLi
                     }
                 });
     }
+
+    private void sentToServer() {
+        HnppConstants.postMicroPlanData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(Boolean s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                        Toast.makeText(AddWorkerActivity.this,"Failed to sent",Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("postMicroPlanData","completed");
+                        Toast.makeText(AddWorkerActivity.this,"Save MicroPlan successfully",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(AddWorkerActivity.this,AddMicroplanActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
+    }
+
     private Observable<Boolean> saveMicroPlanDataAtDB(){
         return Observable.create(e-> {
             try{
-                boolean isInserted = HnppApplication.getMicroPlanRepository().addAndUpdateMicroPlan(microPlanEpiData);
+                boolean isInserted = HnppApplication.getMicroPlanRepository().addAndUpdateMicroPlan(microPlanEpiData,false);
                 e.onNext(isInserted);
                 e.onComplete();
 
@@ -190,6 +222,7 @@ public class AddWorkerActivity extends SecuredActivity implements View.OnClickLi
             }
         });
     }
+
     private ProgressDialog dialog;
 
     private void showProgressDialog(String text) {

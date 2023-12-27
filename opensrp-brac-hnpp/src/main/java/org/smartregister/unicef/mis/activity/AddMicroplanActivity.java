@@ -1,14 +1,18 @@
 package org.smartregister.unicef.mis.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.unicef.mis.HnppApplication;
@@ -157,10 +161,33 @@ public class AddMicroplanActivity extends SecuredActivity implements View.OnClic
 
 
             }
+
+            @Override
+            public void onCommentClick(int position, MicroPlanEpiData content) {
+                showComments(content.comments);
+            }
         });
         adapter.setData(microPlanEpiData);
         recyclerView.setAdapter(adapter);
 
+    }
+    private void showComments(String comments){
+        Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = dialog.findViewById(R.id.title_tv);
+        TextView message = dialog.findViewById(R.id.text_tv);
+        titleTv.setText(comments);
+        message.setText("");
+        Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     @SuppressLint("NonConstantResourceId")

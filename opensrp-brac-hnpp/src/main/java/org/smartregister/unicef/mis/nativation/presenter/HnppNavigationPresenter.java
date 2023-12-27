@@ -21,6 +21,7 @@ import org.smartregister.unicef.mis.activity.DFSActivity;
 import org.smartregister.unicef.mis.activity.GrowthReportActivity;
 import org.smartregister.unicef.mis.activity.MicroPlanActivity;
 import org.smartregister.unicef.mis.activity.MigrationActivity;
+import org.smartregister.unicef.mis.activity.NewDashBoardActivity;
 import org.smartregister.unicef.mis.activity.NotificationActivity;
 import org.smartregister.unicef.mis.activity.QRScannerActivity;
 import org.smartregister.unicef.mis.activity.SearchActivity;
@@ -227,8 +228,8 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
 
     @Override
     public void browseDashboard(Activity activity) {
-//        activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
-        activity.startActivity(new Intent(activity, GrowthReportActivity.class));
+        activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
+//        activity.startActivity(new Intent(activity, GrowthReportActivity.class));
     }
 
     @Override
@@ -381,6 +382,29 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
                     @Override
                     public void onComplete() {
                         Log.v("OTHER_VACCINE","completed");
+                    }
+                });
+        HnppConstants.postMicroPlanData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(Boolean s) {
+                        Log.v("MICROPLANDATA","onNext>>s:"+s);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("MICROPLANDATA",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("MICROPLANDATA","completed");
                     }
                 });
     }

@@ -251,7 +251,7 @@ public class AddOutreachActivity extends SecuredActivity implements View.OnClick
                 outreachContentData.centerType = centerTypeSpinner.getSelectedItem().toString();
                 outreachContentData.latitude = getDoubleValue(latitudeTxt.getText().toString());
                 outreachContentData.longitude = getDoubleValue(longitudeTxt.getText().toString());
-                boolean isInserted = HnppApplication.getOutreachRepository().addAndUpdateOutreach(outreachContentData);
+                boolean isInserted = HnppApplication.getOutreachRepository().addAndUpdateOutreach(outreachContentData,false);
                 if(isInserted){
                     finish();
                 }else {

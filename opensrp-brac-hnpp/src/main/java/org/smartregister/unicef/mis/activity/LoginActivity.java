@@ -27,6 +27,7 @@ import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.job.GlobalLocationFetchJob;
 import org.smartregister.unicef.mis.job.HnppPncCloseJob;
 import org.smartregister.unicef.mis.job.HnppSyncIntentServiceJob;
+import org.smartregister.unicef.mis.job.MicroPlanFetchJob;
 import org.smartregister.unicef.mis.job.PullGuestMemberIdServiceJob;
 import org.smartregister.unicef.mis.job.SSLocationFetchJob;
 import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
@@ -369,6 +370,12 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }catch (Exception e){
 
             }
+            try{
+                postMicroPlanData();
+            }catch (Exception e){
+
+            }
+            MicroPlanFetchJob.scheduleJobImmediately(MicroPlanFetchJob.TAG);
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
@@ -402,6 +409,31 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                     @Override
                     public void onComplete() {
                         Log.v("OTHER_VACCINE","completed");
+                    }
+                });
+    }
+    private void postMicroPlanData(){
+        HnppConstants.postMicroPlanData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(Boolean s) {
+                        Log.v("MICROPLANDATA","onNext>>s:"+s);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("MICROPLANDATA",""+e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("MICROPLANDATA","completed");
                     }
                 });
     }

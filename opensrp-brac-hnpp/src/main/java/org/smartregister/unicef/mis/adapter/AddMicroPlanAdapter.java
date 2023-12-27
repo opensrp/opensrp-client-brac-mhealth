@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
         viewHolder.textViewNewWard.setText(content.newWardName);
         viewHolder.textViewBlock.setText(content.blockName);
         String status = content.microPlanStatus;
-        viewHolder.textViewStatus.setText(status);
+        viewHolder.textViewStatus.setText(status.toUpperCase());
          if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.PENDING.getValue())){
             viewHolder.textViewStatus.setBackgroundResource(R.drawable.blue_round);
              viewHolder.imageViewAdd.setVisibility(View.GONE);
@@ -68,22 +69,34 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
              viewHolder.imageViewAdd.setVisibility(View.GONE);
              viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
              viewHolder.imageViewView.setVisibility(View.VISIBLE);
-        }else{
+        }else if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.REVIEWED.getValue())){
+             viewHolder.textViewStatus.setBackgroundResource(R.drawable.yellow_round);
+             viewHolder.imageViewAdd.setVisibility(View.GONE);
+             viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
+             viewHolder.imageViewView.setVisibility(View.VISIBLE);
+         }
+         else{
             viewHolder.textViewStatus.setBackgroundResource(R.drawable.red_round);
             viewHolder.imageViewAdd.setVisibility(View.VISIBLE);
             viewHolder.imageViewEdit.setVisibility(View.GONE);
             viewHolder.imageViewView.setVisibility(View.GONE);
         }
+         if(!TextUtils.isEmpty(content.comments)){
+             viewHolder.imageViewComment.setVisibility(View.VISIBLE);
+         }else{
+             viewHolder.imageViewComment.setVisibility(View.GONE);
+         }
          if(content.sessionPlanData!=null){
              int count = Integer.parseInt(content.sessionPlanData.yearlyCount+"");
              viewHolder.textViewYearly.setText(count+"");
-
              viewHolder.textViewMonthly.setText(count/12+"");
              viewHolder.textViewDays.setText(getDaysName(content.sessionPlanData));
          }
         viewHolder.imageViewView.setOnClickListener(v -> onClickAdapter.onViewClick(position, content));
         viewHolder.imageViewEdit.setOnClickListener(v -> onClickAdapter.onEditClick(position, content));
         viewHolder.imageViewAdd.setOnClickListener(v -> onClickAdapter.onAddClick(position, content));
+        viewHolder.imageViewComment.setOnClickListener(v -> onClickAdapter.onCommentClick(position, content));
+
     }
 
     private String getDaysName(SessionPlanData sessionPlanData) {
@@ -124,10 +137,11 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
         void onViewClick(int position, MicroPlanEpiData content);
         void onEditClick(int position, MicroPlanEpiData content);
         void onAddClick(int position, MicroPlanEpiData content);
+        void onCommentClick(int position, MicroPlanEpiData content);
     }
     public static class AddMicroPlanViewHolder extends RecyclerView.ViewHolder{
         public TextView textViewUnion,textViewOldWard,textViewNewWard,textViewBlock,textViewStatus,textViewYearly,textViewMonthly,textViewDays;
-        private ImageView imageViewAdd,imageViewEdit,imageViewView;
+        private ImageView imageViewAdd,imageViewEdit,imageViewView,imageViewComment;
 
         public AddMicroPlanViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -142,6 +156,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
             textViewYearly = itemView.findViewById(R.id.yearly_txt);
             textViewMonthly = itemView.findViewById(R.id.monthly_txt);
             textViewDays = itemView.findViewById(R.id.weekly_txt);
+            imageViewComment = itemView.findViewById(R.id.comment_img);
         }
     }
 }

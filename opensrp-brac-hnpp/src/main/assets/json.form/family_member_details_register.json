@@ -365,10 +365,6 @@
         "type": "edit_text",
         "hint": "Last name (in english)",
         "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the last name"
-        },
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "Please enter a valid name"

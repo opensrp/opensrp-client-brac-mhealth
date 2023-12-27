@@ -31,10 +31,12 @@ import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.FamilyLibrary;
+import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.growthmonitoring.domain.Height;
@@ -78,6 +80,7 @@ import org.smartregister.view.fragment.BaseProfileFragment;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class GMPFragment extends BaseProfileFragment implements WeightActionListener, HeightActionListener, MUACActionListener {
@@ -147,9 +150,9 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         growthChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(mActivity, WebViewActivity.class));
+                Utils.startAsyncTask(new ShowGrowthChartNew(), null);
 
-                Utils.startAsyncTask(new ShowGrowthChartTask(), null);
+//                Utils.startAsyncTask(new ShowGrowthChartTask(), null);
             }
         });
         fragmentView.findViewById(R.id.record_height).setOnClickListener(new View.OnClickListener() {
@@ -541,7 +544,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         return 3;
     }
     private void showGrowthChart(){
-        Utils.startAsyncTask(new ShowGrowthChartTask(), null);
+//        Utils.startAsyncTask(new ShowGrowthChartTask(), null);
+        Utils.startAsyncTask(new ShowGrowthChartNew(), null);
 
     }
     private void showHeightChart(){
@@ -582,10 +586,10 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 //            HnppConstants.GMPMessage.put(childDetails.entityId(),true);
 //        }
         String dialogMessage = getGenericMessage(count,month);
-        Dialog dialog = new Dialog(mActivity);
-        dialog.setCancelable(true);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_for_generic_message);
+        Dialog dialog = new Dialog(mActivity,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setCancelable(false);
+       // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_gmp_message);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
 
@@ -778,6 +782,14 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         protected List<Weight> doInBackground(Void... params) {
             WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
             List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+            HashMap<Integer,Float> ageWeight = new HashMap<>();
+            for (Weight weight:allWeights){
+                String wd = HnppConstants.DDMMYY.format(weight.getDate());
+                Log.v("GMP_WEIGHT","wd:"+wd);
+
+                int month = getMonthDifferenceByDate(wd);
+                ageWeight.put(month,weight.getKg());
+            }
             try {
                 String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
                 if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), HnppConstants.KEY.BIRTH_WEIGHT, false))
@@ -787,6 +799,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
                     Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null, 0);
                     allWeights.add(weight);
+
                 }
             } catch (Exception e) {
             }
@@ -809,7 +822,56 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             growthDialogFragment.show(ft, DIALOG_TAG);
         }
     }
+    @SuppressLint("StaticFieldLeak")
+    private class ShowGrowthChartNew extends AsyncTask<Void, Void, HashMap<Integer,Float>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
+        @Override
+        protected HashMap<Integer,Float> doInBackground(Void... params) {
+            WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
+            List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+            HashMap<Integer,Float> ageWeight = new HashMap<>();
+            for (Weight weight:allWeights){
+                String wd = HnppConstants.YYMMDD.format(weight.getDate());
+                Log.v("GMP_WEIGHT","wd:"+wd);
+
+                int month = getMonthDifferenceByDate(wd);
+                ageWeight.put(month,weight.getKg());
+            }
+            try {
+                String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
+                if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), HnppConstants.KEY.BIRTH_WEIGHT, false))
+                        && !TextUtils.isEmpty(dobString)) {
+                    DateTime dateTime = new DateTime(dobString);
+                    Double birthWeight = Double.valueOf(Utils.getValue(childDetails.getColumnmaps(), HnppConstants.KEY.BIRTH_WEIGHT, false));
+
+                    Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null, 0);
+                    allWeights.add(weight);
+                    String wd = HnppConstants.DDMMYY.format(weight.getDate());
+                    Log.v("GMP_WEIGHT","wd:"+wd);
+
+                    int month = getMonthDifferenceByDate(wd);
+                    ageWeight.put(month,weight.getKg());
+
+                }
+            } catch (Exception e) {
+            }
+
+            return ageWeight;
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<Integer,Float> allWeights) {
+            super.onPostExecute(allWeights);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
+            GMPWeightDialogFragment weightDialogFragment = GMPWeightDialogFragment.getInstance(mActivity,bundle);
+            weightDialogFragment.setWeightValues(allWeights);
+        }
+    }
     @SuppressLint("StaticFieldLeak")
     private class ShowHeightChartTask extends AsyncTask<Void, Void, List<Height>> {
         @Override
@@ -887,6 +949,18 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         double month = HeightZScore.getAgeInMonths(dateTime.toDate(),new Date());
         int m = (int) Math.round(month);
         Log.v("MONTH_DIFF","m:"+m);
+
+        return m;
+    }
+    private int getMonthDifferenceByDate(String dateStr){
+        LocalDate dateTime = new LocalDate(dateStr);
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
+        LocalDate dobDate = new LocalDate(dobString.substring(0,dobString.indexOf("T")));
+        Log.v("GMP_WEIGHT","getMonthDifferenceByDate>>>dateStr:"+dateStr+":dobString:"+dobString);
+//        double month = HeightZScore.getAgeInMonths(dateTime.toDate(),dobTime.toDate());
+//        int m = (int) Math.round(month);
+        int m = HnppConstants.getMonthsDifference(dobDate,dateTime);
+        Log.v("GMP_WEIGHT","m:"+m);
 
         return m;
     }

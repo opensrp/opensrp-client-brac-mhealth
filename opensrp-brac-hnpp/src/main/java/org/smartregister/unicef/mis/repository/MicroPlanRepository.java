@@ -38,6 +38,7 @@ public class MicroPlanRepository extends BaseRepository {
         NOT_CREATED("Not created"),
         PENDING("Pending"),
         APPROVED("Approved"),
+        REVIEWED("reviewed"),
         RETAKE("Sent back");
         String value;
         MICROPLAN_STATUS_TAG(String s) {
@@ -72,6 +73,7 @@ public class MicroPlanRepository extends BaseRepository {
     public static final String SUPERVISOR_INFO = "supervisor_info";
     public static final String MICROPLAN_STATUS = "status";
     public static final String YEAR = "year";
+    public static final String COMMENT = "comment";
     public static final String IS_SYNC = "is_sync";
 
     private static final String CREATE_TARGET_TABLE =
@@ -79,7 +81,7 @@ public class MicroPlanRepository extends BaseRepository {
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +OUTREACH_ID + " VARCHAR , "  +
                     OUTREACH_NAME + " VARCHAR, " + HH_NO+ " VARCHAR, "+ UNION_NAME+ " VARCHAR, "+UNION_ID+" INTEGER,"+
     OLD_WARD_NAME + " VARCHAR, " + OLD_WARD_ID+ " INTEGER, "+NEW_WARD_NAME+" VARCHAR,"+NEW_WARD_ID+" INTEGER,"+
-
+                    COMMENT+" VARCHAR, "+
     BLOCK_NAME + " VARCHAR, " + BLOCK_ID+ " INTEGER, "+CENTER_TYPE+" VARCHAR,"+MICROPLAN_STATUS+" VARCHAR,"+
                     YEAR + " INTEGER, " + MICROPLAN_TYPE_DATA+ " TEXT, "+DISTRIBUTION_DATA+" TEXT,"+SESSION_PLAN+" TEXT,"+WORKER_INFO+" TEXT,"+SUPERVISOR_INFO+" TEXT,"+IS_SYNC+" INT) ";
 
@@ -98,7 +100,7 @@ public class MicroPlanRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getTableName());
     }
-    public  boolean addAndUpdateMicroPlan(MicroPlanEpiData microPlanEpiData){
+    public  boolean addAndUpdateMicroPlan(MicroPlanEpiData microPlanEpiData, boolean fromSync){
         ContentValues contentValues = new ContentValues();
         contentValues.put(OUTREACH_ID, microPlanEpiData.outreachId);
         contentValues.put(OUTREACH_NAME, microPlanEpiData.outreachName);
@@ -117,8 +119,9 @@ public class MicroPlanRepository extends BaseRepository {
         contentValues.put(WORKER_INFO, gson.toJson(microPlanEpiData.workerData));
         contentValues.put(SUPERVISOR_INFO, gson.toJson(microPlanEpiData.superVisorData));
         contentValues.put(YEAR,microPlanEpiData.year);
-        contentValues.put(IS_SYNC, 0);
-        contentValues.put(MICROPLAN_STATUS, MICROPLAN_STATUS_TAG.PENDING.getValue());
+        contentValues.put(COMMENT,microPlanEpiData.comments);
+        contentValues.put(IS_SYNC, fromSync?1:0);
+        contentValues.put(MICROPLAN_STATUS, TextUtils.isEmpty(microPlanEpiData.microPlanStatus)?MICROPLAN_STATUS_TAG.PENDING.getValue():microPlanEpiData.microPlanStatus);
         SQLiteDatabase database = getWritableDatabase();
         try{
             if(findUnique(database,microPlanEpiData)){
@@ -145,8 +148,8 @@ public class MicroPlanRepository extends BaseRepository {
     public void updateMicroPlanSyncStatus(MicroPlanEpiData microPlanEpiData){
         getWritableDatabase().execSQL("update "+getTableName()+" set is_sync = 1 where "+YEAR+" = '"+microPlanEpiData.year+"' and "+BLOCK_ID+" ='"+microPlanEpiData.blockId+"'");
     }
-    public void updateMicroPlanStatus(int blockId, int year, String status){
-        getWritableDatabase().execSQL("update "+getTableName()+" set "+MICROPLAN_STATUS+" = "+status+" where "+YEAR+" = '"+year+"' and "+BLOCK_ID+" ='"+blockId+"'");
+    public void updateMicroPlanStatus(int blockId, int year, String status, String comment){
+        getWritableDatabase().execSQL("update "+getTableName()+" set "+MICROPLAN_STATUS+" = "+status+","+COMMENT+" = "+comment+" where "+YEAR+" = '"+year+"' and "+BLOCK_ID+" ='"+blockId+"'");
     }
     public boolean findUnique(SQLiteDatabase db, MicroPlanEpiData microPlanEpiData) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
@@ -235,6 +238,7 @@ public class MicroPlanRepository extends BaseRepository {
         microPlanEpiData.blockName = cursor.getString(cursor.getColumnIndex(BLOCK_NAME));
         microPlanEpiData.houseHoldNo = cursor.getString(cursor.getColumnIndex(HH_NO));
         microPlanEpiData.centerType = cursor.getString(cursor.getColumnIndex(CENTER_TYPE));
+        microPlanEpiData.comments = cursor.getString(cursor.getColumnIndex(COMMENT));
         microPlanEpiData.microPlanStatus = cursor.getString(cursor.getColumnIndex(MICROPLAN_STATUS))==null? MICROPLAN_STATUS_TAG.NOT_CREATED.getValue():cursor.getString(cursor.getColumnIndex(MICROPLAN_STATUS));
         microPlanEpiData.microPlanTypeData = gson.fromJson(cursor.getString(cursor.getColumnIndex(MICROPLAN_TYPE_DATA)),MicroPlanTypeData.class);
         microPlanEpiData.distributionData = gson.fromJson(cursor.getString(cursor.getColumnIndex(DISTRIBUTION_DATA)), DistributionData.class);
@@ -242,8 +246,10 @@ public class MicroPlanRepository extends BaseRepository {
         microPlanEpiData.workerData = gson.fromJson(cursor.getString(cursor.getColumnIndex(WORKER_INFO)), WorkerData.class);
         microPlanEpiData.superVisorData = gson.fromJson(cursor.getString(cursor.getColumnIndex(SUPERVISOR_INFO)), SuperVisorData.class);
         microPlanEpiData.year = cursor.getInt(cursor.getColumnIndex(YEAR));
+        microPlanEpiData.outreachContentData  = HnppApplication.getOutreachRepository().getOutreachInformation(microPlanEpiData.blockId);
         return microPlanEpiData;
     }
+
     public ArrayList<MicroPlanEpiData> getAllMicroPlanEpiData(String status, int year){
         ArrayList<MicroPlanEpiData> microPlanEpiData = new ArrayList<>();
         ArrayList<HALocation> getAllHALocation = HnppApplication.getHALocationRepository().getAllLocation();

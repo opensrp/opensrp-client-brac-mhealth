@@ -412,6 +412,7 @@
         <service android:name="org.smartregister.unicef.mis.service.HALocationFetchIntentService" />
         <service android:name="org.smartregister.unicef.mis.service.GlobalLocationFetchIntentService" />
         <service android:name="org.smartregister.unicef.mis.service.TargetFetchIntentService" />
+        <service android:name="org.smartregister.unicef.mis.service.MicroPlanFetchIntentService" />
         <service android:name="org.smartregister.unicef.mis.service.MigrationFetchIntentService" />
         <service android:name="org.smartregister.unicef.mis.service.StockFetchIntentService" />
         <service android:name="org.smartregister.unicef.mis.service.VaccineDueUpdateIntentService" />

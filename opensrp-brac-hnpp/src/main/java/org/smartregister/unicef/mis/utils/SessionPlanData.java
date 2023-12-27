@@ -1,5 +1,8 @@
 package org.smartregister.unicef.mis.utils;
 
+import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.unicef.mis.repository.MicroPlanRepository;
+
 import java.io.Serializable;
 
 public class SessionPlanData implements Serializable {
@@ -25,7 +28,8 @@ public class SessionPlanData implements Serializable {
     public String additionalMonth3Date;
     public String additionalMonth4Date;
     public String yearlyCount;
-    public boolean saturday,sunday,monday,tuesday,wednesday,thursday,other;
-
+    public boolean saturday,sunday,monday,tuesday,wednesday,thursday;
+    transient public boolean other;
+    public String status = MicroPlanRepository.MICROPLAN_STATUS_TAG.PENDING.getValue();
 
 }

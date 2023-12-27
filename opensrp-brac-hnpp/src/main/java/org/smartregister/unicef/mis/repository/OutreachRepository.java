@@ -13,6 +13,8 @@ import org.joda.time.DateTime;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.location.HALocation;
 import org.smartregister.unicef.mis.utils.OtherVaccineContentData;
 import org.smartregister.unicef.mis.utils.OutreachContentData;
 import org.smartregister.util.DateTimeTypeConverter;
@@ -71,7 +73,7 @@ public class OutreachRepository extends BaseRepository {
     public void dropTable(){
         getWritableDatabase().execSQL("delete from "+getTableName());
     }
-    public  boolean addAndUpdateOutreach(OutreachContentData outreachContentData){
+    public  boolean addAndUpdateOutreach(OutreachContentData outreachContentData, boolean fromSync){
         ContentValues contentValues = new ContentValues();
         contentValues.put(OUTREACH_ID, outreachContentData.outreachId);
         contentValues.put(OUTREACH_NAME, outreachContentData.outreachName);
@@ -90,7 +92,7 @@ public class OutreachRepository extends BaseRepository {
         contentValues.put(LATITUDE, outreachContentData.latitude);
         contentValues.put(LONGITUDE, outreachContentData.longitude);
         contentValues.put(OUTREACH_JSON,gson.toJson(outreachContentData));
-        contentValues.put(IS_SYNC, 0);
+        contentValues.put(IS_SYNC, fromSync?1:0);
         contentValues.put(MICROPLAN_STATUS, MicroPlanRepository.MICROPLAN_STATUS_TAG.NOT_CREATED.getValue());
         SQLiteDatabase database = getWritableDatabase();
         try{
@@ -224,6 +226,19 @@ public class OutreachRepository extends BaseRepository {
         outreachContentData.microplanStatus = cursor.getString(cursor.getColumnIndex(MICROPLAN_STATUS))==null?MicroPlanRepository.MICROPLAN_STATUS_TAG.NOT_CREATED.getValue():cursor.getString(cursor.getColumnIndex(MICROPLAN_STATUS));
         outreachContentData.latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE));
         outreachContentData.longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE));
+        HALocation haLocation = HnppApplication.getHALocationRepository().getLocationByBlock(outreachContentData.blockId+"");
+        if(haLocation!=null){
+            outreachContentData.division = haLocation.division.name;
+            outreachContentData.divisionId = haLocation.division.id;
+            outreachContentData.district = haLocation.district.name;
+            outreachContentData.districtId = haLocation.district.id;
+            outreachContentData.upazila = haLocation.upazila.name;
+            outreachContentData.upazilaId = haLocation.upazila.id;
+            outreachContentData.paurasava = haLocation.paurasava.name;
+            outreachContentData.paurasavaId = haLocation.paurasava.id;
+        }
+
+        outreachContentData.provider = org.smartregister.chw.core.utils.Utils.context().allSharedPreferences().fetchRegisteredANM();
         return outreachContentData;
     }
 
