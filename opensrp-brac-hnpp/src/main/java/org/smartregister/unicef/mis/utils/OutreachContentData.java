@@ -25,7 +25,7 @@ public class OutreachContentData implements Serializable {
     public String centerType;
     public String address;
     public long serverVersion;
-    transient public String mobile;
+    public String mobile;
     public double latitude;
     public double longitude;
     transient public String microplanStatus;

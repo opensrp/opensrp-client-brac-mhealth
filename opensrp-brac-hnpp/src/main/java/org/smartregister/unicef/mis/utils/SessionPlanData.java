@@ -29,7 +29,7 @@ public class SessionPlanData implements Serializable {
     public String additionalMonth4Date;
     public String yearlyCount;
     public boolean saturday,sunday,monday,tuesday,wednesday,thursday;
-    transient public boolean other;
+    public boolean other;
     public String status = MicroPlanRepository.MICROPLAN_STATUS_TAG.PENDING.getValue();
 
 }
