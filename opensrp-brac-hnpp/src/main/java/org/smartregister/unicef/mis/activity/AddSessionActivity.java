@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -350,6 +351,7 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
     private boolean validationCheck(String date1Value, String date2Value, int date1Month, int date2Month,String pressV){
         int previousMonth = parseIntegerValue(date1Value);
         if(previousMonth == -1) return true;
+        if(TextUtils.isEmpty(date2Value)) return true;
         if(previousMonth>5) return false;
         int pressValue = parseIntegerValue(pressV);
         String dateStr1 = formatedDateStr(pressValue,date1Month);
@@ -612,7 +614,13 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
             public void onClick(View view) {
                 editText.setText(getDateFromAllDates().toString());
                 Log.v("SELECTED_MONTH","selectedDates:"+selectedDates+":");
+
                 if(!HnppConstants.isUrbanUser()){
+                    boolean isValid = validateDate(month,editText.getText().toString());
+                    if(!isValid){
+                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
+                        editText.setText("");
+                    }
                     updateSessionCount();
                 }else{
                     count += selectedDates.size();
