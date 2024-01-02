@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.text.HtmlCompat;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -178,7 +180,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         fragmentView.findViewById(R.id.height_chart_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startAsyncTask(new ShowHeightChartTask(), null);
+                //Utils.startAsyncTask(new ShowHeightChartTask(), null);
+                Utils.startAsyncTask(new ShowHeightChartNew(), null);
             }
         });
         fragmentView.findViewById(R.id.refer_btn).setOnClickListener(new View.OnClickListener() {
@@ -187,7 +190,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                 boolean isRefered = HnppJsonFormUtils.updateReferralAsEvent(mActivity,childDetails.entityId(),"","","ec_referel",HnppConstants.EVENT_TYPE.GMP_REFERRAL);
                 if(isRefered){
 
-                    GrowthUtil.updateIsRefered(childDetails.entityId(),"true");
+                    GrowthUtil.updateIsRefered(childDetails.entityId(),"true","");
                     HnppConstants.showOneButtonDialog(mActivity, getString(R.string.referrel_hospital), "", new Runnable() {
                         @Override
                         public void run() {
@@ -451,7 +454,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         String text = refreshEditWeightLayout(true);
         //showIYCFDialog();
         showGMPDialog(text,1);
-        showGrowthChart();
+        new Handler().postDelayed(() -> showGrowthChart(),1000);
+
 
 //        int month = getMonthDifferenceByDOB();
 //        showGenericDialog(getCountByMonth(month),1,month);
@@ -503,7 +507,8 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         //showIYCFDialog();
         showGMPDialog(text,2);
         HnppConstants.isViewRefresh = true;
-        showHeightChart();
+        new Handler().postDelayed(() -> showHeightChart(),1000);
+
 //        int month = getMonthDifferenceByDOB();
 //        showGenericDialog(getCountByMonth(month),1,month);
     }
@@ -540,8 +545,10 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 //        showGenericDialog(getCountByMonth(month),1,month);
     }
     private int getCountByMonth(int month){
-        if(month<6) return 2;
-        return 3;
+        if(month>=12 && month <=23) return 3;
+        if(month>=9 && month <=11) return 3;
+        if(month>6 && month <=8) return 3;
+        return 2;
     }
     private void showGrowthChart(){
 //        Utils.startAsyncTask(new ShowGrowthChartTask(), null);
@@ -549,7 +556,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
 
     }
     private void showHeightChart(){
-        Utils.startAsyncTask(new ShowHeightChartTask(), null);
+        Utils.startAsyncTask(new ShowHeightChartNew(), null);
     }
     private void showMuacChart(){
         Utils.startAsyncTask(new ShowMuacChartTask(), null);
@@ -592,19 +599,55 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         dialog.setContentView(R.layout.dialog_gmp_message);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
-
+        LinearLayout imageView = dialog.findViewById(R.id.image_view);
+        ImageView imageView1 = dialog.findViewById(R.id.image_view_1);
+        ImageView imageView2 = dialog.findViewById(R.id.image_view_2);
+        if(month>=6 && month <=8){
+            imageView1.setImageResource(R.drawable.gmp_8_1);
+            imageView2.setImageResource(R.drawable.gmp_8_4);
+        }else if(month>=9 && month <=11){
+            imageView1.setImageResource(R.drawable.gmp_8_2);
+            imageView2.setImageResource(R.drawable.gmp_8_5);
+        }else if(month>=12){
+            imageView1.setImageResource(R.drawable.gmp_8_3);
+            imageView2.setImageResource(R.drawable.gmp_8_6);
+        }else{
+            imageView1.setImageResource(R.drawable.gmp_7_2);
+            imageView2.setImageResource(R.drawable.gmp_7_3);
+        }
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
+        Button previous_btn = dialog.findViewById(R.id.previous_btn);
         if(count<totalCount){
             ok_btn.setText(getString(R.string.next));
         }else{
+            previous_btn.setVisibility(View.INVISIBLE);
             ok_btn.setText(getString(R.string.ok));
         }
+        previous_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Log.v("CLICK_COUNT","previous_btn totalCount>>"+totalCount+":click[0] :"+globalCount );
+
+                    globalCount--;
+                    String dialogMessage = getGenericMessage(globalCount,month);
+                    titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
+                    if(globalCount<totalCount){
+                        ok_btn.setText(getString(R.string.next));
+                        previous_btn.setVisibility(View.VISIBLE);
+                    }else{
+                        ok_btn.setText(getString(R.string.ok));
+                        previous_btn.setVisibility(View.INVISIBLE);
+                    }
+
+
+            }
+        });
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.v("CLICK_COUNT","totalCount>>"+totalCount+":click[0] :"+globalCount );
+                Log.v("CLICK_COUNT","ok_btn totalCount>>"+totalCount+":click[0] :"+globalCount );
                 if(totalCount==globalCount){
                     dialog.dismiss();
                     globalCount=0;
@@ -614,8 +657,14 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                     titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
                     if(globalCount<totalCount){
                         ok_btn.setText(getString(R.string.next));
+                        previous_btn.setVisibility(View.VISIBLE);
                     }else{
+                        if(month>6){
+                            imageView1.setImageResource(R.drawable.gmp_8_7);
+                            imageView2.setImageResource(R.drawable.gmp_8_8);
+                        }
                         ok_btn.setText(getString(R.string.ok));
+                        previous_btn.setVisibility(View.INVISIBLE);
                     }
                 }
 
@@ -655,21 +704,26 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         switch (count){
 
             case 1:
+                if(month<3) return getString(R.string.gmp_msg_0_3m_1);
+                if(month>=24 && month <=36) return getString(R.string.gmp_msg_24m_36m_1);
+                if(month>=12 && month <=23) return getString(R.string.gmp_msg_12m_23m_1);
+                if(month>=9 && month <=11) return getString(R.string.gmp_msg_9m_11m_1);
+                if(month>6 && month <=8) return getString(R.string.gmp_msg_6m_8m_1);
+                if(month<=6) return getString(R.string.gmp_msg_3m_6m_1);
 
-                if(month<6) return getString(R.string.gmp_msg_0_3m_1);
-                if(month <=8) return getString(R.string.gmp_msg_3m_6m_1);
-                if(month <=11) return getString(R.string.gmp_msg_6m_8m_1);
-                if(month <=23) return getString(R.string.gmp_msg_9m_11m_1);
             case 2:
-                if(month<6) return getString(R.string.gmp_msg_0_3m_2);
-                if(month <=8) return getString(R.string.gmp_msg_3m_6m_2);
-                if(month <=11) return getString(R.string.gmp_msg_6m_8m_2);
-                if(month <=23) return getString(R.string.gmp_msg_9m_11m_2);
+                if(month<3) return getString(R.string.gmp_msg_0_3m_2);
+                if(month>=24 && month <=36) return getString(R.string.gmp_msg_24m_36m_2);
+                if(month>=12 && month <=23) return getString(R.string.gmp_msg_12m_23m_2);
+                if(month>=9 && month <=11) return getString(R.string.gmp_msg_9m_11m_2);
+                if(month>6 && month <=8) return getString(R.string.gmp_msg_6m_8m_2);
+                if(month<=6) return getString(R.string.gmp_msg_3m_6m_2);
             case 3:
-                if(month <=11) return getString(R.string.gmp_msg_6m_8m_3);
-                if(month <=23) return getString(R.string.gmp_msg_9m_11m_3);
+                if(month>=12 && month <=23) return getString(R.string.gmp_msg_12m_23m_3);
+                if(month>=9 && month <=11) return getString(R.string.gmp_msg_9m_11m_3);
+                if(month>6 && month <=8) return getString(R.string.gmp_msg_6m_8m_3);
         }
-         return getString(R.string.gmp_msg_0_3m_1);
+         return "";
     }
     private String getDialogMessageByType(String text, int type){
         String dialogMsg = "";
@@ -869,7 +923,42 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             Bundle bundle = new Bundle();
             bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
             GMPWeightDialogFragment weightDialogFragment = GMPWeightDialogFragment.getInstance(mActivity,bundle);
-            weightDialogFragment.setWeightValues(allWeights);
+            int currentAge = getMonthDifferenceByDOB();
+            weightDialogFragment.setWeightValues(allWeights,currentAge,mActivity);
+        }
+    }
+    @SuppressLint("StaticFieldLeak")
+    private class ShowHeightChartNew extends AsyncTask<Void, Void, HashMap<Integer,Float>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected HashMap<Integer,Float> doInBackground(Void... params) {
+            HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
+            List<Height> allHeight = heightRepository.findByEntityId(childDetails.entityId());
+            HashMap<Integer,Float> ageWeight = new HashMap<>();
+            for (Height height:allHeight){
+                String wd = HnppConstants.YYMMDD.format(height.getDate());
+                Log.v("GMP_WEIGHT","wd:"+wd);
+
+                int month = getMonthDifferenceByDate(wd);
+                ageWeight.put(month,height.getCm());
+            }
+
+
+            return ageWeight;
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<Integer,Float> allWeights) {
+            super.onPostExecute(allWeights);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
+            GMPHeightDialogFragment weightDialogFragment = GMPHeightDialogFragment.getInstance(mActivity,bundle);
+            int currentAge = getMonthDifferenceByDOB();
+            weightDialogFragment.setHeightValues(allWeights,currentAge);
         }
     }
     @SuppressLint("StaticFieldLeak")

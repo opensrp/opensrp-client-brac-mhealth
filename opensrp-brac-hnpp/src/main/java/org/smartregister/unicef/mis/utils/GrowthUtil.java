@@ -351,7 +351,7 @@ public class GrowthUtil {
             e.printStackTrace();
         }
         if(status.equalsIgnoreCase("sam")){
-            updateIsRefered(baseEntityId,"true");
+            updateIsRefered(baseEntityId,"true","");
         }
     }
     public static void updateLastMuac(float cm,String baseEntityId,String status,String muacValue){
@@ -368,10 +368,10 @@ public class GrowthUtil {
         }
 
     }
-    public static void updateIsRefered(String baseEntityId,String state){
+    public static void updateIsRefered(String baseEntityId,String state, String isWentToUHC){
         Log.v("GMP_REFERREL","updateIsRefered>>"+baseEntityId+":state:"+state);
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-        String sql = "UPDATE ec_child SET is_refered = '"+state+"' WHERE base_entity_id = '" + baseEntityId + "';";
+        String sql = "UPDATE ec_child SET is_refered = '"+state+"',is_went_uhc ='"+isWentToUHC+"' WHERE base_entity_id = '" + baseEntityId + "';";
         db.execSQL(sql);
     }
 

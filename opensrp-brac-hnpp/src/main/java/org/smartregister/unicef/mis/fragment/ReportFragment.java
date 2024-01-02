@@ -200,11 +200,11 @@ public class ReportFragment extends BaseDashBoardFragment {
                 weightMamCount++;
             }
         }
-        int noChildRef = HnppDBUtils.getChildRefCount();
-        int noChildRefFollowup = HnppDBUtils.getChildRefFollowupCount();
+        int noChildRef = HnppDBUtils.getChildRefCount(-1,-1);
+        int noChildRefFollowup = HnppDBUtils.getChildRefFollowupCount(-1,-1);
         int noOfImmunization = HnppDBUtils.getImmunizationCount();
-        int noOfGMP = HnppDBUtils.getGMPCount();
-        int noOfGMPCounseling = HnppDBUtils.getChildGmpCounselingCount();
+        int noOfGMP = HnppDBUtils.getGMPCount(-1,-1);
+        int noOfGMPCounseling = HnppDBUtils.getChildGmpCounselingCount(-1,-1);
         reportDataList.add(new ReportData(noOfImmunization+"",getString(R.string.no_attend_immunization),R.color.black));
         reportDataList.add(new ReportData(noOfGMP+"",getString(R.string.no_gmp),R.color.black));
         reportDataList.add(new ReportData(noOfGMPCounseling+"",getString(R.string.no_gmp_counceling),R.color.black));

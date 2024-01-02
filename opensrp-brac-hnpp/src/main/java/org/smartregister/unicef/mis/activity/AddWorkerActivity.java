@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.repository.MicroPlanRepository;
 import org.smartregister.unicef.mis.utils.DistributionData;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.MicroPlanEpiData;
@@ -136,6 +137,7 @@ public class AddWorkerActivity extends SecuredActivity implements View.OnClickLi
                     superVisorData.superVisor2Designation = supervisor2DesignationSpinner.getSelectedItem().toString();
                 }
                 microPlanEpiData.superVisorData = superVisorData;
+                microPlanEpiData.microPlanStatus = MicroPlanRepository.MICROPLAN_STATUS_TAG.PENDING.getValue();
                 saveMicroPlanData();
 
                 break;

@@ -35,6 +35,15 @@
             android:text="@string/gmp"
             android:textColor="@color/white"
             android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/download_gmp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <WebView

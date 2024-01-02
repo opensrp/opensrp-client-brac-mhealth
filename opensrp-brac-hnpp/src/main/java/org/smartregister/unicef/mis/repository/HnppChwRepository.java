@@ -108,6 +108,12 @@ public class HnppChwRepository extends Repository {
         ReferralRepository.createTable(database);
         OutreachRepository.createTable(database);
         MicroPlanRepository.createTable(database);
+        try{
+            alterChildTable(database);
+            alterMemberTable(database);
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -128,12 +134,25 @@ public class HnppChwRepository extends Repository {
                 case 5:
                     OutreachRepository.createTable(db);
                     MicroPlanRepository.createTable(db);
+                    try{
+                        alterChildTable(db);
+                        alterMemberTable(db);
+                    }catch (Exception e){
+
+                    }
                     break;
                 default:
                     break;
             }
             upgradeTo++;
         }
+    }
+    private void alterChildTable(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN is_went_uhc VARCHAR;");
+    }
+    private void alterMemberTable(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
+        db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date VARCHAR;");
     }
 
 

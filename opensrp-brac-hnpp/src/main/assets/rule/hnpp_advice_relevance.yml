@@ -2,7 +2,21 @@
 name: step1_advice_toaster_1
 description: advice_toaster_1
 priority: 1
-condition: "!step1_weight.isEmpty() && step1_bmi < 18.5"
+condition: "!step1_Weight.isEmpty() && step1_bmi < 18.5"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_weight_msg
+description: advice_weight_msg
+priority: 1
+condition: "!step1_Weight.isEmpty()"
+actions:
+  - "isRelevant = true"
+---
+name: step1_advice_monthly_weight
+description: advice_monthly_weight
+priority: 1
+condition: "!step1_monthly_weight_anc.isEmpty() && step1_monthly_weight_anc <1"
 actions:
   - "isRelevant = true"
 ---

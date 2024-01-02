@@ -89,6 +89,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_STOCK_END = "EXTRA_STOCK_END";
     public static final String EXTRA_EDD = "EXTRA_EDD";
     public static final long SIX_HOUR = 6*60*60*1000;//6 hr
+    public static final long TWENTY_FOUR_HOUR = 23*60*60*1000;//6 hr
     public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
     public static final long INVALID_CALL_DEFAULT_TIME = 30*60*1000;//30 mint
     public static final long EDD_DEFAULT_TIME = 6*60*60*1000;//6 hr

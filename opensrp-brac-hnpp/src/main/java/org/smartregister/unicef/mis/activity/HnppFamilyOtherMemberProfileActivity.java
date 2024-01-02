@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -573,6 +574,12 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_group",HnppDBUtils.getBloodGroup(baseEntityId));
+                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                if(weights.length>0){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                }
                 form.setWizard(true);
                 form.setHideSaveLabel(true);
                 form.setSaveLabel("");

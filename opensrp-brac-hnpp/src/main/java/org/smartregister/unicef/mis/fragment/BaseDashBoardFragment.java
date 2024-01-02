@@ -54,7 +54,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
     protected String ssName;
     private ImageView filterBtn, fromFilterBtn, toFilterBtn,fromDateFilterBtn, toDateFilterBtn;
     private  TextView monthTV,yearTV, fromMonthTV, toMonthTV, fromYearTV,toYearTV;
-    protected TextView unsyncCountTv;
+    protected TextView unsyncCountTv,fromTextView;
     protected Button syncBtn;
     protected LinearLayout monthView,dateView,fromDateView,toDateView,fromMonthView, toMonthView,ssView;
     protected RelativeLayout monthPicker, fromMonthPicker, toMonthPicker;
@@ -109,6 +109,7 @@ public abstract class BaseDashBoardFragment extends Fragment implements View.OnC
         dateBtn = view.findViewById(R.id.date_btn);
         fromDateBtn = view.findViewById(R.id.from_date_btn);
         toDateBtn = view.findViewById(R.id.to_date_btn);
+        fromTextView = view.findViewById(R.id.from_text_view);
         view.findViewById(R.id.clear_filter).setOnClickListener(this);
         dateBtn.setOnClickListener(this);
         fromDateBtn.setOnClickListener(this);

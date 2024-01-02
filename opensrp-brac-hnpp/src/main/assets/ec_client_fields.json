@@ -1008,6 +1008,20 @@
           "json_mapping": {
             "field": "attributes.geopoint"
           }
+        },
+        {
+          "column_name": "weight",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight"
+          }
+        },
+        {
+          "column_name": "weight_date",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight_date"
+          }
         }
       ]
     },
@@ -1180,6 +1194,20 @@
           "type": "Event",
           "json_mapping": {
             "field": "version"
+          }
+        },
+        {
+          "column_name": "weight",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight"
+          }
+        },
+        {
+          "column_name": "weight_date",
+          "type": "Client",
+          "json_mapping": {
+            "field": "weight_date"
           }
         }
       ]
@@ -1491,6 +1519,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "is_refered"
+          }
+        },
+        {
+          "column_name": "is_went_uhc",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_went_uhc"
           }
         },
         {

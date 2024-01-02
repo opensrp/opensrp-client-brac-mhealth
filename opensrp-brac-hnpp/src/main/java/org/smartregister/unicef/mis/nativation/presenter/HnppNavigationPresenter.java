@@ -29,6 +29,7 @@ import org.smartregister.unicef.mis.job.DataDeleteJob;
 import org.smartregister.unicef.mis.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.mis.activity.COVIDJsonFormActivity;
 import org.smartregister.unicef.mis.activity.ForceSyncActivity;
+import org.smartregister.unicef.mis.job.MicroPlanFetchJob;
 import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.nativation.interactor.NavigationInteractor;
 import org.smartregister.unicef.mis.utils.HnppConstants;
@@ -358,6 +359,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
         PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
         VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+
 //        TargetFetchJob.scheduleJobImmediately(TargetFetchJob.TAG);
 //        StockFetchJob.scheduleJobImmediately(StockFetchJob.TAG);
         DataDeleteJob.scheduleJobImmediately(DataDeleteJob.TAG);
@@ -405,6 +407,7 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
                     @Override
                     public void onComplete() {
                         Log.v("MICROPLANDATA","completed");
+                        MicroPlanFetchJob.scheduleJobImmediately(MicroPlanFetchJob.TAG);
                     }
                 });
     }

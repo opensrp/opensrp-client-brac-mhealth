@@ -176,10 +176,19 @@ public class FormParser {
 
                         }
                         if(GMP_REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
-                            GrowthUtil.updateIsRefered(base_entity_id,"false");
+                            String value ="";
+                            if(details.containsKey("caused_referred")&&!StringUtils.isEmpty(details.get("caused_referred"))){
+                                value = details.get("caused_referred");
+                                log.setReferPlace(value);
+
+                            }
+                            GrowthUtil.updateIsRefered(base_entity_id,"false",value);
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-
+                            if(details.containsKey("weight")){
+                                String weightValue = details.get("weight");
+                                HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,log.visitDate);
+                            }
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){

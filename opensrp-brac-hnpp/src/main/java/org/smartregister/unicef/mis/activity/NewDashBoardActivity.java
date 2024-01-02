@@ -12,6 +12,8 @@ import android.widget.TextView;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.fragment.BaseDashBoardFragment;
 import org.smartregister.unicef.mis.fragment.CountSummeryDashBoardFragment;
+import org.smartregister.unicef.mis.fragment.GMPDashBoardFragment;
+import org.smartregister.unicef.mis.fragment.GMPFragment;
 import org.smartregister.unicef.mis.fragment.HPVSummeryDashBoardFragment;
 import org.smartregister.unicef.mis.fragment.ImmunizationSummeryDashBoardFragment;
 import org.smartregister.unicef.mis.fragment.ReportFragment;
@@ -50,7 +52,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
                 dashBoardFragment = new ImmunizationSummeryDashBoardFragment();
                 break;
             case 2:
-                dashBoardFragment = new ReportFragment();
+                dashBoardFragment = new GMPDashBoardFragment();
                 break;
             case 3:
                 dashBoardFragment = new ReportGrowthFalterFragment();

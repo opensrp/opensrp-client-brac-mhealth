@@ -269,7 +269,17 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         return form_object;
 
     }
+    public static void addJsonKeyValue(JSONObject jsonForm, String key, String value) {
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            updateFormField(jsonArray, key, value);
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static void addRelationalIdAsGuest(JSONObject jsonForm){
         JSONObject stepOne = null;
         try {

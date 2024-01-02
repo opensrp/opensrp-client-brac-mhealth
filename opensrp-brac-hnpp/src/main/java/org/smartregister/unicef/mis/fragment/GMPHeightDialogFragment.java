@@ -4,19 +4,12 @@ package org.smartregister.unicef.mis.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Bundle;
 import android.app.DialogFragment;
-import android.print.PrintAttributes;
-import android.print.PrintDocumentAdapter;
-import android.print.PrintJob;
-import android.print.PrintManager;
+import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +18,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import org.smartregister.unicef.mis.R;
+
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class GMPWeightDialogFragment extends DialogFragment {
-    public static final String DIALOG_TAG = "GMPWeightDialogFragment_DIALOG_TAG";
-    public static GMPWeightDialogFragment getInstance(Activity activity, Bundle bundle){
-        GMPWeightDialogFragment memberHistoryFragment = new GMPWeightDialogFragment();
+public class GMPHeightDialogFragment extends DialogFragment {
+    public static final String DIALOG_TAG = "GMPHeightDialogFragment_DIALOG_TAG";
+    public static GMPHeightDialogFragment getInstance(Activity activity, Bundle bundle){
+        GMPHeightDialogFragment memberHistoryFragment = new GMPHeightDialogFragment();
         Bundle args = bundle;
         if(args == null){
             args = new Bundle();
@@ -64,9 +57,8 @@ public class GMPWeightDialogFragment extends DialogFragment {
     }
     private WebView webView;
     private ProgressBar progressBar;
-    private HashMap<Integer,Float> weightValues;
+    private HashMap<Integer,Float> heightValues;
     private int currentAge;
-    private Activity mActivity;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,16 +71,6 @@ public class GMPWeightDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-        view.findViewById(R.id.download_gmp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    createWebPagePrint(webView);
-                }else{
-                    view.findViewById(R.id.download_gmp).setVisibility(View.GONE);
-                }
-            }
-        });
         return view;
     }
 
@@ -96,18 +78,17 @@ public class GMPWeightDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setStyle(android.app.DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_NoActionBar);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_NoActionBar);
     }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         loadData();
     }
-    public void setWeightValues(HashMap<Integer,Float> weightValues, int currentAge, Activity activity){
-        this.weightValues = weightValues;
+    public void setHeightValues(HashMap<Integer,Float> weightValues, int currentAge){
+        this.heightValues = weightValues;
         this.currentAge = currentAge;
-        this.mActivity = activity;
+
     }
     @SuppressLint("SetJavaScriptEnabled")
     private void loadData(){
@@ -120,36 +101,19 @@ public class GMPWeightDialogFragment extends DialogFragment {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void createWebPagePrint(WebView webView) {
-
-        PrintManager printManager = (PrintManager) mActivity.getSystemService(Context.PRINT_SERVICE);
-        PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
-        String jobName =  " GMP document";
-        PrintAttributes.Builder builder = new PrintAttributes.Builder();
-        builder.setMediaSize(PrintAttributes.MediaSize.ISO_A5);
-        PrintJob printJob = printManager.print(jobName, printAdapter, builder.build());
-
-        if (printJob.isCompleted()) {
-            Toast.makeText(mActivity, "Print complete", Toast.LENGTH_LONG).show();
-        } else if (printJob.isFailed()) {
-            Toast.makeText(mActivity, "Print Failed", Toast.LENGTH_LONG).show();
-        }
-    }
-
     private String getHtmlText(){
         StringBuilder builder = new StringBuilder();
-        Iterator<Integer> it = weightValues.keySet().iterator();       //keyset is a method
+        Iterator<Integer> it = heightValues.keySet().iterator();       //keyset is a method
         while(it.hasNext())
         {
             int key=(int)it.next();
             if(builder.length()>0)builder.append(",");
             builder.append("{");
-            builder.append("x:").append(key).append(",y:").append(weightValues.get(key)).append("}");
-            Log.v("GMP_WEIGHT","Key: "+key+"     Value: "+weightValues.get(key));
+            builder.append("x:").append(key).append(",y:").append(heightValues.get(key)).append("}");
+            Log.v("GMP_WEIGHT","Key: "+key+"     Value: "+ heightValues.get(key));
         }
         Log.v("GMP_WEIGHT","getHtmlText>>"+builder);
-        String functionByAge = currentAge<=23?"gmp.girl_weight_gain_chart_0_24(child);":"gmp.girl_weight_gain_chart_24_60(child);";
+        String functionByAge = currentAge<=23?"gmp.girl_height_gain_chart_0_24(child);":"gmp.girl_weight_gain_chart_24_60v (child);";
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +

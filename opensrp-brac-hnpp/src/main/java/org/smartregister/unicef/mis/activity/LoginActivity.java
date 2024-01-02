@@ -375,7 +375,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }catch (Exception e){
 
             }
-            MicroPlanFetchJob.scheduleJobImmediately(MicroPlanFetchJob.TAG);
+
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
@@ -434,6 +434,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                     @Override
                     public void onComplete() {
                         Log.v("MICROPLANDATA","completed");
+                        MicroPlanFetchJob.scheduleJobImmediately(MicroPlanFetchJob.TAG);
                     }
                 });
     }

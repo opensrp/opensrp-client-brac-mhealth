@@ -219,6 +219,73 @@
         }
       },
       {
+        "key": "advice_weight_msg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "    প্রতিদিন তিন বেলা প্রধান খাবারের মাঝে দুইবার নাস্তা খান। \n     আপনার এবং শিশুর অতিরিক্ত পুষ্টির চাহিদা মেটাতে প্রতিবেলার খাবারের পরিমাণ বাড়ান, যেমন অতিরিক্ত এক টুকরো মাংস/মাছ/ডিম বাড়ান সেই সাথে ডাল ও ভাত খান। \n     প্রতিদিনের আহারে খাদ্য বৈচিত্র্য ও ধরণ নিশ্চিত করুন, খাবারের প্রধান সাতটি গ্রুপ থেকে কমপক্ষে পাঁচটি গ্রুপ খাদ্য তালিকায় রাখতে হবে। \n     জমাট বাঁধে এমন তেল/চর্বি, ডুবো তেলে ভাঁজা খাবার, অতিরিক্ত চিনি ও চিনি জাতীয় পানীয় ও খাবার এবং পাতে লবণ খাওয়া এড়িয়ে চলুন। \n     রান্নার জন্য প্যাকেটজাত আয়োডিনযুক্ত লবণ ব্যবহার করুন। \n     দুপুরে ২ ঘন্টা বিশ্রাম গ্রহণ করুন এবং রাতে ৮ ঘন্টা ঘুমান। \n     কঠোর পরিশ্রম এড়িয়ে চলুন তবে শারীরিকভাবে সক্রিয় থাকুন এবং হাঁটার মতো হালকা ব্যায়াম করুন।  ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "previous_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_weight",
+        "type": "hidden",
+        "read_only": true
+      },
+      {
+        "key": "monthly_weight_anc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "monthly_weight_anc",
+        "hint": "মাসিক ওজন বৃদ্ধির হার",
+        "type": "hidden",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+
+      },
+      {
+        "key": "advice_monthly_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "    গর্ভধারণের প্রথম তিন মাসের পর থেকে প্রতি মাসে কমপক্ষে এক কেজির অধিক ওজন বৃদ্ধি পাওয়া উচিত। ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_advice_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "month_diff",
+        "type": "hidden",
+        "read_only": true
+      },
+      {
         "key": "Height",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -1099,36 +1166,165 @@
         }
       },
       {
-        "key": "get_service",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "name": " আয়রন ফলিক এসিড ট্যাবলেট বিতরণ "
+      },
+      {
+        "key": "iron_folic_distributed",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "get_service",
-        "type": "check_box",
-        "label_text_style": "bold",
-        "text_color": "#3495bf",
-        "text_size": "25px",
-        "label": "চিকিৎসা সেবা",
-        "exclusive": ["none"],
-        "options": [
-          {
-            "key": "calsium",
-            "text": "ক্যালসিয়াম ট্যাবলেট  বিতরণ করা হয়েছে",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "calsium"
-          },
-          {
-            "key": "ifa_mms",
-            "text": "আইএফএ/ মাল্টিপল মাইক্রো নিউট্রিয়েন্ট সাপ্লিমেন্ট (এম এম এস) বিতরণ করা হয়েছে",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "ifa_mms"
+        "openmrs_entity_id": "iron_folic_distributed",
+        "type": "spinner",
+        "hint": "    আয়রন ফলিক এসিড বিতরণ করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "iron_folic_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "iron_folic_number",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "    সংখ্যা ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step3:iron_folic_distributed": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
           }
-
-        ]
-
+        }
+      },
+      {
+        "key": "ad_toaster_iron_folic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "     গর্ভাবস্থা সনাক্তের পর থেকে প্রসব পরবর্তী ৩ মাস পর্যন্ত প্রতিদিন রাতের খাবারের পর ১টি করে মোট ২৭০ টি (১৮০ + ৯০) আয়রন ফলিক এসিড ট্যাবলেট গ্রহণ করতে হবে। \n     খাবার গ্রহণের গ্রহণের পর অথবা আয়রন ফলিক এসিড ট্যাবলেট গ্রহণের পর পর চা/কফি গ্রহণ করবেন না। ",
+        "text_color": "#1199F9",
+        "toaster_type": "info"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "name": " ক্যালসিয়াম ট্যাবলেট বিতরণ "
+      },
+      {
+        "key": "calcium_distributed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "calcium_distributed",
+        "type": "spinner",
+        "hint": "        ক্যালসিয়াম ট্যাবলেট বিতরণ করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "calcium_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "calcium_number",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "    সংখ্যা ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step3:calcium_distributed": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "ad_toaster_calcium",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "    গর্ভধারণের প্রথম তিন মাসের পর থেকে প্রতিদিন দুটি করে ক্যালসিয়াম ট্যাবলেট গ্রহণ করুন।  \n         সকালের নাস্তার পর এবং দুপরের খাবারের পর ক্যালসিয়াম ট্যাবলেট গ্রহণ করতে হবে।  ",
+        "text_color": "#1199F9",
+        "toaster_type": "info"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "name": " এম এম এস বিতরণ "
+      },
+      {
+        "key": "mms_distributed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "mms_distributed",
+        "type": "spinner",
+        "hint": " এম এম এস বিতরণ করা হয়েছে ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "mms_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "mms_number",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "    সংখ্যা ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step3:calcium_distributed": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
       },
       {
         "key": "counseling_service",
@@ -1143,16 +1339,25 @@
         "exclusive": ["none"],
         "options": [
           {
+            "key": "anc_counseling",
+            "text": "গর্ভবতী মায়ের পুষ্টি বিষয়ক কাউন্সেলিং প্রদান করা হয়েছে ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "anc_counseling"
+          },
+          {
             "key": "counseling",
-            "text": "কাউন্সেলিং (পুষ্টি, জন্ম পরিকল্পনা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছ ",
+            "text": "কাউন্সেলিং (গর্ভকালীন জটিলতা, ইবিএফ, ইএনসি, টিকাদান সংক্রান্ত) প্রদান করা হয়েছে ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "counseling"
           },
+
           {
             "key": "pregnancy_preparation",
-            "text": "জন্মদান বিষয়ক প্রস্তুতি ( প্রসবের স্থান, যাতায়াত, অর্থ, রক্তদাতা, সহায়তাকারী ) নেয়া হয়েছে ",
+            "text": "প্রসব পরিকল্পনা বিষয়ক প্রস্তুতি ( প্রসবের স্থান, যাতায়াত, অর্থ, রক্তদাতা, সহায়তাকারী ) নেয়া হয়েছে  ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -1161,6 +1366,27 @@
 
         ]
 
+      },
+      {
+        "key": "ad_toaster_anc_counseling",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "        প্রতিদিন তিন বেলা প্রধান খাবারের মাঝে দুইবার নাস্তা খান।   \n      আপনার এবং শিশুর অতিরিক্ত পুষ্টির চাহিদা মেটাতে প্রতিবেলার খাবারের পরিমাণ বাড়ান, যেমন অতিরিক্ত এক টুকরো মাংস/মাছ/ডিম বাড়ান সেই সাথে ডাল ও ভাত খান। \n      প্রতিদিনের আহারে খাদ্য বৈচিত্র্য ও ধরণ নিশ্চিত করুন, খাবারের প্রধান সাতটি গ্রুপ থেকে কমপক্ষে পাঁচটি গ্রুপ খাদ্য তালিকায় রাখতে হবে। \n     জমাট বাঁধে এমন তেল/চর্বি, ডুবো তেলে ভাঁজা খাবার, অতিরিক্ত চিনি ও চিনি জাতীয় পানীয় ও খাবার এবং পাতে লবণ খাওয়া এড়িয়ে চলুন। \n     রান্নার জন্য প্যাকেটজাত আয়োডিনযুক্ত লবণ ব্যবহার করুন। \n     দুপুরে ২ ঘন্টা বিশ্রাম গ্রহণ করুন এবং রাতে ৮ ঘন্টা ঘুমান। \n     কঠোর পরিশ্রম এড়িয়ে চলুন তবে শারীরিকভাবে সক্রিয় থাকুন এবং হাঁটার মতো হালকা ব্যায়াম করুন।  ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "step3:counseling_service": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "anc_counseling"
+                ]
+              }
+            ]
+          }
+        }
       },
       {
         "key": "is_Referred",

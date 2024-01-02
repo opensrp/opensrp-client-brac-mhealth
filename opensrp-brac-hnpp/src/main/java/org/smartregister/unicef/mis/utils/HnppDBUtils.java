@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.model.ChildVisit;
 import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -88,6 +89,46 @@ public class HnppDBUtils {
     @Nullable
     protected static Long getCursorLongValue(Cursor c, String column_name) {
         return c.getType(c.getColumnIndex(column_name)) == Cursor.FIELD_TYPE_NULL ? null : c.getLong(c.getColumnIndex(column_name));
+    }
+    public static String[] getWeightFromBaseEntityId(String baseEntityId){
+        String query = "select weight,weight_date from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String[] weight = new String[2];
+
+        weight[0] = "0";
+        weight[1] = "0";
+
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                weight[0] = cursor.getString(0);
+                if(weight[0] == null){
+                    weight[0] = "0";
+                }
+                weight[1] = cursor.getLong(1)+"";
+            }
+
+            return weight;
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return weight;
+    }
+    public static void updateMemberWeight(String base_entity_id, String weight, long weightDate){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set weight = '"+weight+"' , weight_date = '"+weightDate+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
     }
     public static String getFirstName(String familyBaseEntityId){
         String query = "select first_name from ec_family  where base_entity_id = '"+familyBaseEntityId+"'";
@@ -806,9 +847,19 @@ public class HnppDBUtils {
         }
         return birthWeight;
     }
-    public static int getChildRefCount(){
+    public static int getChildRefCount(long fromMonth, long toMonth){
+        String query;
+        if(fromMonth == -1 && toMonth == -1){
+            query= "select count(DISTINCT(baseEntityId)) from event where eventType = 'Referral Clinic' group by baseEntityId";
 
-        String query = "select count(DISTINCT(baseEntityId)) from event where eventType = 'Referral Clinic' group by baseEntityId";
+        }
+        else{
+            String fromMonthStr = HnppConstants.getDateFormateFromLong(fromMonth);
+            String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+            query= "select count(DISTINCT(baseEntityId)) from event where eventType = 'Referral Clinic' and eventDate between '"+fromMonthStr+"' and '"+toMonthStr+"'";
+
+        }
+        Log.v("GMP_REPORT","getChildRefCount>>>"+query);
         Cursor cursor = null;
         int count=0;
         try {
@@ -824,9 +875,18 @@ public class HnppDBUtils {
         }
         return count;
     }
-    public static int getChildGmpCounselingCount(){
+    public static int getChildGmpCounselingCount(long fromMonth, long toMonth ){
+        String query;
+        if(fromMonth == -1 && toMonth == -1){
+            query = "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_COUNSELING+"' ";
+        }
+        else{
+            String fromMonthStr = HnppConstants.getDateFormateFromLong(fromMonth);
+            String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+            query= "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_COUNSELING+"' and eventDate between '"+fromMonthStr+"' and '"+toMonthStr+"'";
 
-        String query = "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_COUNSELING+"' group by baseEntityId";
+        }
+        Log.v("GMP_REPORT","getChildGmpCounselingCount>>>"+query);
         Cursor cursor = null;
         int count=0;
         try {
@@ -842,9 +902,18 @@ public class HnppDBUtils {
         }
         return count;
     }
-    public static int getChildRefFollowupCount(){
+    public static int getChildRefFollowupCount(long fromMonth, long toMonth){
+        String query;
+        if(fromMonth == -1 && toMonth == -1){
+            query = "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP+"' ";
+        }
+        else{
+            String fromMonthStr = HnppConstants.getDateFormateFromLong(fromMonth);
+            String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+            query= "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP+"' and eventDate between '"+fromMonthStr+"' and '"+toMonthStr+"'";
 
-        String query = "select count(DISTINCT(baseEntityId)) from event where eventType = '"+HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP+"' ";
+        }
+        Log.v("GMP_REPORT","getChildRefCount>>>"+query);
         Cursor cursor = null;
         int count=0;
         try {
@@ -878,9 +947,17 @@ public class HnppDBUtils {
         }
         return count;
     }
-    public static int getGMPCount(){
+    public static int getGMPCount(long fromMonth, long toMonth){
+        String query;
+        if(fromMonth == -1 && toMonth == -1){
+            query = "select count(DISTINCT(baseEntityId)) from event where (eventType = 'Height Monitoring' OR eventType = 'Weight Monitoring' OR eventType = 'MUAC Monitoring') ";        }
+        else{
+            String fromMonthStr = HnppConstants.getDateFormateFromLong(fromMonth);
+            String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+            query= "select count(DISTINCT(baseEntityId)) from event where (eventType = 'Height Monitoring' OR eventType = 'Weight Monitoring' OR eventType = 'MUAC Monitoring') and eventDate between '"+fromMonthStr+"' and '"+toMonthStr+"'";
 
-        String query = "select count(DISTINCT(baseEntityId)) from event where (eventType = 'Height Monitoring' OR eventType = 'Weight Monitoring') ";
+        }
+        Log.v("GMP_REPORT","getGMPCount>>>"+query);
         Cursor cursor = null;
         int count=0;
         try {
@@ -896,6 +973,104 @@ public class HnppDBUtils {
         }
         return count;
     }
+    public static int getNotUniqueCount(long fromMonth, long toMonth){
+        int totalCount = 0;
+        String query= "select count(DISTINCT(base_entity_id)) from weights where date not between '"+fromMonth+"' and '"+toMonth+"'";
+
+
+        Log.v("GMP_REPORT","getChildGmpCounselingCount>>>"+query);
+        Cursor cursor = null;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                totalCount += cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        query= "select count(DISTINCT(base_entity_id)) from heights where date not between '"+fromMonth+"' and '"+toMonth+"'";
+
+
+        Log.v("GMP_REPORT","getChildGmpCounselingCount>>>"+query);
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                totalCount += cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        query= "select count(DISTINCT(base_entity_id)) from muac_tbl where date not between '"+fromMonth+"' and '"+toMonth+"'";
+
+
+        Log.v("GMP_REPORT","getChildGmpCounselingCount>>>"+query);
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                totalCount += cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return totalCount;
+    }
+    public static int getGMPCount(long fromMonth, long toMonth,String tableName){
+        String query;
+        if(fromMonth == -1 && toMonth == -1){
+            query = "select count(DISTINCT(base_entity_id)) from "+tableName+" ";        }
+        else{
+
+            query= "select count(DISTINCT(base_entity_id)) from "+tableName+" where date between '"+fromMonth+"' and '"+toMonth+"'";
+
+        }
+        Log.v("GMP_REPORT","getChildGmpCounselingCount>>>"+query);
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
+//    public static int getGMPCount(long fromMonth, long toMonth, String eventType){
+//        String query;
+//        if(fromMonth == -1 && toMonth == -1){
+//            query = "select count(DISTINCT(baseEntityId)) from event where eventType='"+eventType+"' ";        }
+//        else{
+//            String fromMonthStr = HnppConstants.getDateFormateFromLong(fromMonth);
+//            String toMonthStr = HnppConstants.getDateFormateFromLong(toMonth);
+//            query= "select count(DISTINCT(baseEntityId)) from event where eventType='"+eventType+"' and eventDate between '"+fromMonthStr+"' and '"+toMonthStr+"'";
+//
+//        }
+//        Log.v("GMP_REPORT","getChildGmpCounselingCount>>>"+query);
+//        Cursor cursor = null;
+//        int count=0;
+//        try {
+//            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//            if(cursor !=null && cursor.getCount() >0){
+//                cursor.moveToFirst();
+//                count = cursor.getInt(0);
+//            }
+//            if(cursor!=null)cursor.close();
+//            return count;
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
+//        return count;
+//    }
     public static int getHouseHoldCount(){
 
         String query = "select count(*) from ec_family";
