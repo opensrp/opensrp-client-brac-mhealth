@@ -47,7 +47,7 @@ public class GMPDashBoardInteractor implements DashBoardContract.Interactor {
             toMonth = -1;
         }
         else{
-            toMonth = fromMonth+ HnppConstants.TWENTY_FOUR_HOUR;
+            toMonth = toMonth+ HnppConstants.SIX_HOUR;
         }
 
         /*
@@ -120,4 +120,5 @@ o
         };
         appExecutors.diskIO().execute(runnable);
     }
+
 }

@@ -2,6 +2,7 @@ package org.smartregister.unicef.mis.fragment;
 
 import android.annotation.SuppressLint;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import org.smartregister.unicef.mis.R;
@@ -43,6 +44,7 @@ public class GMPDashBoardFragment extends BaseDashBoardFragment {
     void filterByFromToMonth() {
         long fromMonthFormat = 0;
         long toMonthFormat = 0;
+        toMonth = fromMonth;//as month view
         if((fromMonth == -1 || fromYear == -1) && (toMonth == -1 || toYear == -1 )){
             fromMonthFormat = -1;
             toMonthFormat = -1;
@@ -59,12 +61,29 @@ public class GMPDashBoardFragment extends BaseDashBoardFragment {
             fromMonthFormat = HnppConstants.getLongDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
             toMonthFormat = HnppConstants.getLongDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
         }
-
-
+        Log.v("GMP_REPORT","filterByFromToMonth>>>fromMonthFormat:"+fromMonthFormat+":toMonthFormat:"+toMonthFormat);
 
 
         presenter.filterByFromToMonth(fromMonthFormat,toMonthFormat,ssName);
     }
+//    protected void filterByFromToMonth() {
+//        String fromMonthStr="";
+//        String toMonthStr="";
+//        if(fromMonth == -1 && toMonth != -1 ){
+//            fromMonthStr="1970-01-01";
+//            toMonthStr = HnppConstants.getStringDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
+//        }
+//        if(fromMonth != -1 && toMonth == -1){
+//            fromMonthStr=HnppConstants.getStringDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
+//            toMonthStr = HnppConstants.getStringDateFormatForToMonth(String.valueOf(year),String.valueOf(month));
+//        }
+//        if(fromMonth != -1 && toMonth != -1) {
+//            fromMonthStr=HnppConstants.getStringDateFormatForFromMonth(String.valueOf(fromYear),String.valueOf(fromMonth));
+//            toMonthStr = HnppConstants.getStringDateFormatForToMonth(String.valueOf(toYear),String.valueOf(toMonth));
+//
+//        }
+//        presenter.filterByFromToMonth(fromMonthStr,toMonthStr,ssName);
+//    }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override

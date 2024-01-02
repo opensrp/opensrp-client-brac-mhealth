@@ -154,7 +154,7 @@
         "openmrs_entity_id": "no_surv_children",
         "type": "edit_text",
         "edit_type": "number",
-        "hint": "Para",
+        "hint": "How many live births were born?",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

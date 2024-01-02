@@ -165,8 +165,9 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
-
         try {
+            jsonForm =  HnppJsonFormUtils.getJsonObject(form_name);
+
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
             if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_FORM) || form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME) ){
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());

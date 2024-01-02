@@ -81,6 +81,8 @@ import org.smartregister.util.Utils;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -617,6 +619,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         }
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
         Button previous_btn = dialog.findViewById(R.id.previous_btn);
+        previous_btn.setVisibility(View.INVISIBLE);
         if(count<totalCount){
             ok_btn.setText(getString(R.string.next));
         }else{
@@ -634,7 +637,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                     titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
                     if(globalCount<totalCount){
                         ok_btn.setText(getString(R.string.next));
-                        previous_btn.setVisibility(View.VISIBLE);
+                        //previous_btn.setVisibility(View.VISIBLE);
                     }else{
                         ok_btn.setText(getString(R.string.ok));
                         previous_btn.setVisibility(View.INVISIBLE);
@@ -657,7 +660,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                     titleTv.setText(HtmlCompat.fromHtml(dialogMessage,HtmlCompat.FROM_HTML_MODE_COMPACT));
                     if(globalCount<totalCount){
                         ok_btn.setText(getString(R.string.next));
-                        previous_btn.setVisibility(View.VISIBLE);
+                       // previous_btn.setVisibility(View.VISIBLE);
                     }else{
                         if(month>6){
                             imageView1.setImageResource(R.drawable.gmp_8_7);
@@ -938,12 +941,17 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         protected HashMap<Integer,Float> doInBackground(Void... params) {
             HeightRepository heightRepository = GrowthMonitoringLibrary.getInstance().getHeightRepository();
             List<Height> allHeight = heightRepository.findByEntityId(childDetails.entityId());
+            Collections.sort(allHeight,new Comparator<Height>() {
+                @Override
+                public int compare(Height t1, Height t2) {
+                    return (int)t1.getDate().getTime()-(int)t2.getDate().getTime();
+                }
+            });
             HashMap<Integer,Float> ageWeight = new HashMap<>();
             for (Height height:allHeight){
                 String wd = HnppConstants.YYMMDD.format(height.getDate());
-                Log.v("GMP_WEIGHT","wd:"+wd);
-
                 int month = getMonthDifferenceByDate(wd);
+                Log.v("GMP_WEIGHT","wd:"+wd+":month:"+month+":weight:"+height.getCm());
                 ageWeight.put(month,height.getCm());
             }
 

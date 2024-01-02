@@ -35,138 +35,136 @@
 
 
     </RelativeLayout>
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/action_bar_layout"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent">
         <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/status"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/status_name"
-                android:enabled="false"
-                android:layout_gravity="bottom"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/edit_text_bg"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/outreach_name"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/outreach_name"
-                android:enabled="false"
-                android:layout_gravity="bottom"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/edit_text_bg"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/house_no"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="To"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/hh_to"
-                android:layout_gravity="bottom"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/edit_text_bg"
-                android:layout_width="70dp"
-                android:layout_height="50dp"/>
-            <TextView
-                android:text="From:"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:id="@+id/hh_from"
-                android:layout_gravity="bottom"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="20sp"
-                android:background="@drawable/edit_text_bg"
-                android:layout_width="70dp"
-                android:layout_height="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/center_type"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/center_type"
-                android:background="@drawable/spinner_resource"
-                android:textColor="@color/grey"
-                android:text="@string/center_type"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/action_bar_layout"
+            android:orientation="vertical"
+            android:padding="10dp">
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
                 android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/status"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/status_name"
+                    android:enabled="false"
+                    android:layout_gravity="bottom"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:background="@drawable/edit_text_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/outreach_name"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/outreach_name"
+                    android:enabled="false"
+                    android:layout_gravity="bottom"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:background="@drawable/edit_text_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/house_no"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:text="To"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/hh_to"
+                    android:layout_gravity="bottom"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:background="@drawable/edit_text_bg"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"/>
+                <TextView
+                    android:text="From:"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/hh_from"
+                    android:layout_gravity="bottom"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="20sp"
+                    android:background="@drawable/edit_text_bg"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="@string/center_type"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/center_type"
+                    android:background="@drawable/spinner_resource"
+                    android:textColor="@color/grey"
+                    android:text="@string/center_type"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -280,6 +278,7 @@
                     android:layout_height="match_parent">
                     <TextView
                         android:text="@string/zero_eleven"
+
                         android:background="@drawable/edit_text_bg"
                         android:padding="10dp"
                         android:gravity="center"
@@ -289,7 +288,7 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"/>
                     <EditText
-                        android:id="@+id/ten_male_number"
+                        android:id="@+id/zero_eleven_male_number"
                         android:background="@drawable/edit_text_bg"
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
@@ -301,7 +300,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
                     <EditText
-                        android:id="@+id/ten_female_number"
+                        android:id="@+id/zero_eleven_female_number"
                         android:background="@drawable/edit_text_bg"
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
@@ -315,7 +314,7 @@
 
 
                     <TextView
-                        android:id="@+id/ten_total_number"
+                        android:id="@+id/zero_eleven_total_number"
                         android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
@@ -343,7 +342,7 @@
                         android:layout_width="100dp"
                         android:layout_height="match_parent"/>
                     <EditText
-                        android:id="@+id/zero_eleven_male_number"
+                        android:id="@+id/ten_male_number"
                         android:background="@drawable/edit_text_bg"
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
@@ -356,7 +355,7 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
                     <EditText
-                        android:id="@+id/zero_eleven_female_number"
+                        android:id="@+id/ten_female_number"
                         android:background="@drawable/edit_text_bg"
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
@@ -370,7 +369,7 @@
 
 
                     <TextView
-                        android:id="@+id/zero_eleven_total_number"
+                        android:id="@+id/ten_total_number"
                         android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
@@ -507,7 +506,10 @@
                     android:layout_width="150dp"
                     android:layout_height="50dp"/>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
 </LinearLayout>
