@@ -27,8 +27,8 @@
         <item>Fixed</item>
     </string-array>
     <string-array name="designation_array">
-        <item>HI</item>
-        <item>AHI</item>
+        <item>HA</item>
+        <item>HI/AHI</item>
         <item>FPI</item>
         <item>Vaccinator Supervisor</item>
         <item>Clinic manager</item>
@@ -662,14 +662,14 @@
     <string name="newborn_pnc_3">নবজাতক পি এন সি - ৩য়</string>
     <string name="newborn_pnc_4">নবজাতক পি এন সি - ৪র্থ</string>
     <string name="newborn_pnc">নবজাতক পি এন সি</string>
-    <string name="pregnancy_service_1">গর্ভবতী পরিচর্যা - ১ম</string>
-    <string name="pregnancy_service_2">গর্ভবতী পরিচর্যা - ২য়</string>
-    <string name="pregnancy_service_3">গর্ভবতী পরিচর্যা - ৩য়</string>
-    <string name="pregnancy_service_4">গর্ভবতী পরিচর্যা - ৪র্থ</string>
-    <string name="pregnancy_service_5">গর্ভবতী পরিচর্যা - ৫ম</string>
-    <string name="pregnancy_service_6">গর্ভবতী পরিচর্যা - ৬ষ্ঠ</string>
-    <string name="pregnancy_service_7">গর্ভবতী পরিচর্যা - ৭ম</string>
-    <string name="pregnancy_service_8">গর্ভবতী পরিচর্যা - ৮ম</string>
+    <string name="pregnancy_service_1">গর্ভকালীন সেবা- ১ম</string>
+    <string name="pregnancy_service_2">গর্ভকালীন সেবা- ২য়</string>
+    <string name="pregnancy_service_3">গর্ভকালীন সেবা- ৩য়</string>
+    <string name="pregnancy_service_4">গর্ভকালীন সেবা- ৪র্থ</string>
+    <string name="pregnancy_service_5">গর্ভকালীন সেবা- ৫ম</string>
+    <string name="pregnancy_service_6">গর্ভকালীন সেবা- ৬ষ্ঠ</string>
+    <string name="pregnancy_service_7">গর্ভকালীন সেবা- ৭ম</string>
+    <string name="pregnancy_service_8">গর্ভকালীন সেবা- ৮ম</string>
     <string name="pregnancy_service">গর্ভবতী পরিচর্যা</string>
     <string name="polio_0">পোলিও-0</string>
     <string name="polio_1">পোলিও-১</string>
@@ -707,7 +707,7 @@
     <string name="anc_service_anc">গর্ভবতী পরিচর্যা(এএনসি)</string>
     <string name="old_pnc_service">পূর্বের প্রসবোত্তর পরিচর্যা(পিএনসি)</string>
     <string name="child_reg">শিশু রেজিস্ট্রেশন</string>
-    <string name="preg_service_visit">গর্ভবতী পরিচর্যা ভিজিট(এএনসি)</string>
+    <string name="preg_service_visit">গর্ভকালীন সেবাভিজিট(এএনসি)</string>
     <string name="newborn_service">নবজাতকের সেবা</string>
     <string name="aefi_followup">এ ই এফ আই ফলোআপ</string>
     <string name="total_glass">মোট চশমা</string>
@@ -729,7 +729,7 @@
     <string name="house_number">খানা সংখ্যা</string>
     <string name="number_of_member">সদস্য সংখ্যা</string>
     <string name="number_of_child">শিশু সংখ্যা</string>
-    <string name="pregnancy_service_visit">গর্ভবতী পরিচর্যা ভিজিট(এএনসি)</string>
+    <string name="pregnancy_service_visit">গর্ভকালীন সেবাভিজিট(এএনসি)</string>
     <string name="member_update">সদস্য আপডেট</string>
     <string name="pregnancy_reg_update">গর্ভবতী রেজিস্ট্রেশন আপডেট</string>
     <string name="child_home_visit">শিশু হোম ভিজিট</string>
@@ -938,7 +938,7 @@
     <string name="edd_only">\"ইডিডি: \"</string>
     <string name="third_gender">তৃতীয় লিঙ্গ</string>
     <string name="pregnancy_history">পূর্বের গর্ভের ইতিহাস</string>
-    <string name="pregnancy_care_1_st_trimester">গর্ভবতী পরিচর্যা - ১ম ত্রিমাসিক</string>
+    <string name="pregnancy_care_1_st_trimester">গর্ভকালীন সেবা- ১ম ত্রিমাসিক</string>
     <string name="stock_name">\"স্টক নামঃ \"</string>
     <string name="end_balance_2">\"শেষ ব্যালেন্স: \"</string>
     <string name="bmi">বি.এম.আই</string>

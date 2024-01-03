@@ -149,7 +149,7 @@ public class MicroPlanRepository extends BaseRepository {
         getWritableDatabase().execSQL("update "+getTableName()+" set is_sync = 1 where "+YEAR+" = '"+microPlanEpiData.year+"' and "+BLOCK_ID+" ='"+microPlanEpiData.blockId+"'");
     }
     public void updateMicroPlanStatus(int blockId, int year, String status, String comment){
-        getWritableDatabase().execSQL("update "+getTableName()+" set "+MICROPLAN_STATUS+" = "+status+","+COMMENT+" = "+comment+" where "+YEAR+" = '"+year+"' and "+BLOCK_ID+" ='"+blockId+"'");
+        getWritableDatabase().execSQL("update "+getTableName()+" set "+MICROPLAN_STATUS+" = '"+status+"',"+COMMENT+" = '"+comment+"' where "+YEAR+" = '"+year+"' and "+BLOCK_ID+" ='"+blockId+"'");
     }
     public boolean findUnique(SQLiteDatabase db, MicroPlanEpiData microPlanEpiData) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;

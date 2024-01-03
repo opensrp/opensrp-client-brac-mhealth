@@ -118,8 +118,8 @@ public class OutreachRepository extends BaseRepository {
     public void updateOutreachStatus(OutreachContentData outreachContentData){
         getWritableDatabase().execSQL("update "+getTableName()+" set is_sync = 1 where "+OUTREACH_ID+" = '"+outreachContentData.outreachId+"' and "+BLOCK_ID+" ='"+outreachContentData.blockId+"'");
     }
-    public void updateMicroPlanStatus(int blockId, String outreachId, String status){
-        getWritableDatabase().execSQL("update "+getTableName()+" set "+MICROPLAN_STATUS+" = "+status+" where "+OUTREACH_ID+" = '"+outreachId+"' and "+BLOCK_ID+" ='"+blockId+"'");
+    public void updateMicroPlanStatus(int blockId, String status){
+        getWritableDatabase().execSQL("update "+getTableName()+" set "+MICROPLAN_STATUS+" = '"+status+"' where "+BLOCK_ID+" ='"+blockId+"'");
     }
     public boolean findUnique(SQLiteDatabase db, OutreachContentData outreachContentData) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;

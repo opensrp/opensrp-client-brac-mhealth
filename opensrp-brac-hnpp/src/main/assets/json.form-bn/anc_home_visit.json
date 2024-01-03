@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "গর্ভবতী পরিচর্যা",
+    "title": "গর্ভকালীন সেবা",
     "next": "step2",
     "fields": [
       {
@@ -1320,7 +1320,7 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step3:calcium_distributed": {
+          "step3:mms_distributed": {
             "type": "string",
             "ex": "regex(., \"হ্যাঁ\")"
           }

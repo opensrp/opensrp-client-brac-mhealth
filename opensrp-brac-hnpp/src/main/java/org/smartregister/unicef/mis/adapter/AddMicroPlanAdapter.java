@@ -72,7 +72,7 @@ public class AddMicroPlanAdapter extends RecyclerView.Adapter<AddMicroPlanAdapte
         }else if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.REVIEWED.getValue())){
              viewHolder.textViewStatus.setBackgroundResource(R.drawable.yellow_round);
              viewHolder.imageViewAdd.setVisibility(View.GONE);
-             viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
+             viewHolder.imageViewEdit.setVisibility(View.GONE);
              viewHolder.imageViewView.setVisibility(View.VISIBLE);
          }
          else{

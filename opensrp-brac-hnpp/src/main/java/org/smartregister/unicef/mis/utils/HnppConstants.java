@@ -1935,8 +1935,8 @@ public class HnppConstants extends CoreConstants {
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()
             .put("গর্ভবতী পরিচর্যা-১ম ত্রিমাসিক",R.mipmap.ic_anc_pink)
-            .put("গর্ভবতী পরিচর্যা - ২য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
-            .put("গর্ভবতী পরিচর্যা - ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
+            .put("গর্ভকালীন সেবা- ২য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
+            .put("গর্ভকালীন সেবা- ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)

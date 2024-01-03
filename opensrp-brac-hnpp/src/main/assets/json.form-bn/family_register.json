@@ -383,7 +383,7 @@
         "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
         "edit_type": "name",
         "v_required": {
-          "value": "true",
+          "value": "false",
           "err": "খানা প্রধানের নাম লিখুন"
         },
         "v_regex": {

@@ -95,6 +95,7 @@ public class GMPHeightDialogFragment extends DialogFragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
         webSettings.setAllowFileAccessFromFileURLs(true);
         webView.setWebViewClient(new CheckoutWebViewClient());
         webView.loadDataWithBaseURL("file:///android_asset/", getHtmlText(), "text/html", "UTF-8", null);

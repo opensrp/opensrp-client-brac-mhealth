@@ -88,12 +88,8 @@ public class MicroPlanFetchIntentService extends IntentService {
                         }
 
                         HnppApplication.getMicroPlanRepository().addAndUpdateMicroPlan(microPlanEpiData,true);
-//                        String status = microPlanEpiData.microPlanStatus;
-//                        String comment = microPlanEpiData.comments;
-//                        int blockId = microPlanEpiData.outreachContentData.blockId;
-//                        Log.v("MICROPLAN_STATUS","status>>"+status+":comment:"+comment+":blockId:"+blockId);
-//                        HnppApplication.getMicroPlanRepository().updateMicroPlanStatus(blockId,Integer.parseInt(microPlanEpiData.sessionPlanData.year),status,comment);
-//
+                        HnppApplication.getOutreachRepository().updateMicroPlanStatus(microPlanEpiData.blockId,microPlanEpiData.microPlanStatus);
+
                         timestamp = microPlanEpiData.serverVersion;
                         Log.v("MICROPLAN_DATA","lasttime:"+timestamp);
                     }

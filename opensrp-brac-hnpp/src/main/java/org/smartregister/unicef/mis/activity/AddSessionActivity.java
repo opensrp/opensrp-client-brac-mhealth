@@ -354,6 +354,7 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
         if(TextUtils.isEmpty(date2Value)) return true;
         if(previousMonth>5) return false;
         int pressValue = parseIntegerValue(pressV);
+        if(pressValue == -1) return true;
         String dateStr1 = formatedDateStr(pressValue,date1Month);
         String dateStr2 = formatedDateStr(previousMonth,date1Month);
         boolean isValid = isValid(dateStr1,dateStr2);
