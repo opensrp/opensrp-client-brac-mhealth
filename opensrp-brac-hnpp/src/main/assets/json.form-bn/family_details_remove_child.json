@@ -205,8 +205,8 @@
         "openmrs_entity_id": "date_died",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "label": "মৃত্যু তারিখ",
-        "hint": "তারিখ",
+        "label": "মৃত্যুর তারিখ",
+        "hint": "মৃত্যুর তারিখ",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
@@ -222,10 +222,9 @@
           }
         ],
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
-            }
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
           }
         }
       },
@@ -236,8 +235,8 @@
         "openmrs_entity_id": "time_of_death",
         "openmrs_data_type": "text",
         "type": "time_picker",
-        "label": "মৃত্যু আনুমানিক সময়",
-        "hint": "আনুমানিক সময়",
+        "label": "মৃত্যুর আনুমানিক সময়",
+        "hint": "মৃত্যুর আনুমানিক সময়",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
@@ -246,10 +245,9 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
-            }
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
           }
         }
       },
@@ -284,10 +282,9 @@
           "অন্যান্য": "other"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
-            }
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
           }
         }
       },
@@ -300,10 +297,9 @@
         "type": "edit_text",
         "hint": "বিবরণ",
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
-            }
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
           }
         }
       },
@@ -331,10 +327,9 @@
           "অন্যান্য": "other"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
-            }
+          "step1:remove_reason": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত্যু নিবন্ধন\")"
           }
         }
       },
@@ -364,13 +359,6 @@
             "type": "string",
             "ex": "equalTo(., \"দেশের মধ্যে\")"
           }
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
-            }
-          }
         }
       },
       {
@@ -380,8 +368,8 @@
         "openmrs_entity_id": "date_moved",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "label": "Date moved away",
-        "hint": "Date moved away",
+        "label": "স্থানান্তরের তারিখ ",
+        "hint": "স্থানান্তরের তারিখ",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
@@ -399,7 +387,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Moved away\")"
+            "ex": "equalTo(., \"স্থানান্তর\")"
           }
         }
       },
@@ -415,7 +403,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -446,7 +434,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -469,7 +457,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -484,7 +472,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -499,7 +487,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         },
@@ -523,7 +511,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -538,7 +526,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -554,7 +542,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -595,7 +583,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -615,7 +603,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -639,7 +627,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -668,7 +656,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -753,7 +741,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -777,7 +765,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -894,7 +882,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -941,7 +929,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -957,7 +945,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_family_member_remove_relevance.yml"
+              "rules-file": "child_remove_rule.yml"
             }
           }
         }
@@ -967,10 +955,10 @@
         "key": "age_at_death",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "",
-        "label": "Age at death",
-        "hint": "Age at death",
-        "type": "edit_text",
+        "openmrs_entity_id": "age_at_death",
+        "label": "মৃত্যুর সময় বয়স ",
+        "hint": "মৃত্যুর সময় বয়স ",
+        "type": "hidden",
         "read_only": "true",
         "relevance": {
           "rules-engine": {

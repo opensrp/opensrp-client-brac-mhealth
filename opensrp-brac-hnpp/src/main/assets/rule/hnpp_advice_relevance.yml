@@ -16,7 +16,7 @@ actions:
 name: step1_advice_monthly_weight
 description: advice_monthly_weight
 priority: 1
-condition: "!step1_previous_weight.isEmpty() && step1_monthly_weight_anc <1"
+condition: "!step1_previous_weight.isEmpty() && step1_previous_weight!=0 && step1_monthly_weight_anc <1"
 actions:
   - "isRelevant = true"
 ---

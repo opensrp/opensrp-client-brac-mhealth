@@ -1056,7 +1056,7 @@ public class HnppConstants extends CoreConstants {
         }
         return DateTimeFormat.forPattern("dd-MM-yyyy").print(scheduleDate);
     }
-    public static String getScheduleLmpDate(String lmp, int noOfAnc){
+    public static String getScheduleAncDate(String lmp, int noOfAnc){
         DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
 
         LocalDate lastMenstrualPeriod = new LocalDate(lmpDate);
@@ -1833,6 +1833,17 @@ public class HnppConstants extends CoreConstants {
     @SuppressLint("SimpleDateFormat")
     public static long getLongFromDateFormat(String dateTime){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        long milliseconds =0;
+        try{
+            Date d = format.parse(dateTime);
+            milliseconds  = d.getTime();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return milliseconds;
+    }
+    public static long getLongFromWeightDateFormat(String dateTime){
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         long milliseconds =0;
         try{
             Date d = format.parse(dateTime);

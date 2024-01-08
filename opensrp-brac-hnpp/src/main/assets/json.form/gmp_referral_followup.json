@@ -59,13 +59,13 @@
         "value": "gmp_referral_followup"
       },
       {
-        "key": "caused_referred",
+        "key": "went_cc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "caused_referred",
+        "openmrs_entity_id": "went_cc",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "Is child Went to Upozilla Hospital for Health Facility?",
+        "hint": "Is child Went to Community Clinic?",
         "values": [
           "Yes",
           "No"
@@ -80,12 +80,39 @@
         }
       },
       {
+        "key": "caused_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "caused_referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "Is child Refer to Upozilla Hospital?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "yes",
+          "No":"no"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select answer"
+        },
+        "relevance": {
+          "step1:went_cc": {
+            "type": "string",
+            "ex": "regex(., \"Yes\")"
+          }
+        }
+      },
+      {
         "key": "present_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "present_condition",
         "openmrs_data_type": "",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "Present condition of Child",
         "values": [
           "Good",

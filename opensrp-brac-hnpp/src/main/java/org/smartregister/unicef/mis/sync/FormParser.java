@@ -182,12 +182,19 @@ public class FormParser {
                                 log.setReferPlace(value);
 
                             }
+                            if(details.containsKey("went_cc")&&!StringUtils.isEmpty(details.get("went_cc"))){
+                                value = details.get("went_cc");
+                                log.setReferReason(value);
+
+                            }
                             GrowthUtil.updateIsRefered(base_entity_id,"false",value);
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("weight")){
-                                String weightValue = details.get("weight");
-                                HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,log.visitDate);
+                            if(details.containsKey("Weight")){
+                                String weightValue = details.get("Weight");
+                                String serviceGivenDate = details.get("service_taken_date");
+                                long fromMonthLong = HnppConstants.getLongFromWeightDateFormat(serviceGivenDate);
+                                HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,fromMonthLong);
                             }
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }

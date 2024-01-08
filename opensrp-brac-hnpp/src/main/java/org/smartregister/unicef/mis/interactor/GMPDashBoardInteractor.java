@@ -90,6 +90,7 @@ o
         addToDashBoardList(model.getChildGmpCounselingCount(HnppApplication.getInstance().getString(R.string.no_gmp_counceling),fromMonth,toMonth));
         addToDashBoardList(model.getChildRefFollowupCount(HnppApplication.getInstance().getString(R.string.no_child_ref_followup),fromMonth,toMonth));
         addToDashBoardList(model.getRefVisitedCount("Number of children visited the UHC",fromMonth,toMonth));
+        addToDashBoardList(model.getCCVisitedCount("Number of children visited the Community Clinics referred from outreach",fromMonth,toMonth));
 
 //
 //

@@ -12,8 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.model.ChildVisit;
 import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -99,7 +97,7 @@ public class HnppDBUtils {
         weight[1] = "0";
 
         try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
                 weight[0] = cursor.getString(0);
@@ -120,8 +118,9 @@ public class HnppDBUtils {
         return weight;
     }
     public static void updateMemberWeight(String base_entity_id, String weight, long weightDate){
+        Log.v("WEIGHT_UPDATE","updateMemberWeight>>>weight:"+weight+":weightDate:"+weightDate);
         try{
-            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
             String sql = "update ec_family_member set weight = '"+weight+"' , weight_date = '"+weightDate+"' where " +
                     "base_entity_id = '"+base_entity_id+"' ;";
             database.execSQL(sql);

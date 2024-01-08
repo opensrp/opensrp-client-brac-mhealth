@@ -83,6 +83,7 @@ import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.contract.BaseProfileContract;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -567,7 +568,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
                 String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
                 int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
-                String date = HnppConstants.getScheduleLmpDate(lmpDate,noOfAnc);
+                String date = HnppConstants.getScheduleAncDate(lmpDate,noOfAnc);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"lmp", lmpDate);
                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getANCTitle(baseEntityId));
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", noOfAnc+"");
@@ -577,7 +578,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
                 if(weights.length>0){
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
-                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    long periodSeconds = (System.currentTimeMillis() - Long.parseLong(weights[1])) / 1000;
+                    long elapsedDays = periodSeconds / 60 / 60 / 24;
+                    int monthDiff = (int)elapsedDays/30;
+
+                    //int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
                 }
                 form.setWizard(true);

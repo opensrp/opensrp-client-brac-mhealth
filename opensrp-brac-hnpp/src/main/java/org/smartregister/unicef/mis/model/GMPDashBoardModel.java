@@ -121,6 +121,10 @@ public class GMPDashBoardModel implements DashBoardContract.Model {
         //MUAC < 11.5 cm
         return "refer_place ='Yes' or refer_place ='yes' or refer_place ='হ্যাঁ'";
     }
+    private String getCCVisitedLogic(){
+        //MUAC < 11.5 cm
+        return "refer_reason ='Yes' or refer_reason ='yes' or refer_reason ='হ্যাঁ'";
+    }
     public DashBoardData getUnderWeightCount(String title, long fromMonth, long toMonth) {
         DashBoardData  dashBoardData1 = new DashBoardData();
         dashBoardData1.setTitle(title);
@@ -320,6 +324,35 @@ public class GMPDashBoardModel implements DashBoardContract.Model {
         }
         else{
             query = MessageFormat.format("select count(*) as count from {0} where "+compareDate+" is not null {1} {2} GROUP by base_entity_id ", vaccineTable,getBetweenCondition(fromMonth,toMonth,compareDate)," and "+getMUACSAMLogic()+"");
+
+        }
+        Log.v("GMP_REPORT","getUnderWeightCount:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+        return dashBoardData1;
+    }
+    public DashBoardData getCCVisitedCount(String title, long fromMonth, long toMonth) {
+        DashBoardData  dashBoardData1 = new DashBoardData();
+        dashBoardData1.setTitle(title);
+        String query = null, compareDate = "visit_date", vaccineTable = "ec_visit_log";
+        if(fromMonth == -1 && toMonth == -1){
+            query = MessageFormat.format("select count(*) as count from {0} where {1}", vaccineTable,getCCVisitedLogic());
+        }
+        else{
+            query = MessageFormat.format("select count(*) as count from {0} where "+compareDate+" is not null {1} {2} GROUP by base_entity_id ", vaccineTable,getBetweenCondition(fromMonth,toMonth,compareDate)," and "+getCCVisitedLogic()+"");
 
         }
         Log.v("GMP_REPORT","getUnderWeightCount:"+query);

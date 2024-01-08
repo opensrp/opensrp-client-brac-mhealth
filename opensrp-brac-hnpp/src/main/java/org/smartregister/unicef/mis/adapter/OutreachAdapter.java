@@ -3,6 +3,7 @@ package org.smartregister.unicef.mis.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,35 @@ public class OutreachAdapter extends RecyclerView.Adapter<OutreachAdapter.AddMic
         viewHolder.textViewStatus.setBackgroundResource(R.drawable.red_round);
         viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
         viewHolder.imageViewView.setVisibility(View.GONE);
+        String status = content.microplanStatus;
+        viewHolder.textViewStatus.setText(status.toUpperCase());
+        viewHolder.imageViewAdd.setVisibility(View.GONE);
+        if(TextUtils.isEmpty(status) || status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.NOT_CREATED.getValue())){
+            status = MicroPlanRepository.MICROPLAN_STATUS_TAG.PENDING.getValue();
+        }
 
+        if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.PENDING.getValue())){
+            viewHolder.textViewStatus.setBackgroundResource(R.drawable.blue_round);
+            viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
+            viewHolder.imageViewView.setVisibility(View.VISIBLE);
+        }else if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.APPROVED.getValue())){
+            viewHolder.textViewStatus.setBackgroundResource(R.drawable.green_round);
+            viewHolder.imageViewEdit.setVisibility(View.GONE);
+            viewHolder.imageViewView.setVisibility(View.VISIBLE);
+        }else if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.RETAKE.getValue())){
+            viewHolder.textViewStatus.setBackgroundResource(R.drawable.yellow_round);
+            viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
+            viewHolder.imageViewView.setVisibility(View.VISIBLE);
+        }else if(status.equalsIgnoreCase(MicroPlanRepository.MICROPLAN_STATUS_TAG.REVIEWED.getValue())){
+            viewHolder.textViewStatus.setBackgroundResource(R.drawable.yellow_round);
+            viewHolder.imageViewEdit.setVisibility(View.GONE);
+            viewHolder.imageViewView.setVisibility(View.VISIBLE);
+        }
+        else{
+            viewHolder.textViewStatus.setBackgroundResource(R.drawable.red_round);
+            viewHolder.imageViewEdit.setVisibility(View.VISIBLE);
+            viewHolder.imageViewView.setVisibility(View.GONE);
+        }
         viewHolder.imageViewView.setOnClickListener(v -> onClickAdapter.onViewClick(position, content));
         viewHolder.imageViewEdit.setOnClickListener(v -> onClickAdapter.onEditClick(position, content));
         viewHolder.itemView.setOnClickListener(v -> onClickAdapter.onViewClick(position, content));
@@ -79,7 +108,6 @@ public class OutreachAdapter extends RecyclerView.Adapter<OutreachAdapter.AddMic
             textViewStatus = itemView.findViewById(R.id.status_txt);
             imageViewAdd = itemView.findViewById(R.id.add_img);
             imageViewAdd.setVisibility(View.GONE);
-            textViewStatus.setVisibility(View.GONE);
             imageViewEdit = itemView.findViewById(R.id.edit_img);
             imageViewView = itemView.findViewById(R.id.view_img);
         }

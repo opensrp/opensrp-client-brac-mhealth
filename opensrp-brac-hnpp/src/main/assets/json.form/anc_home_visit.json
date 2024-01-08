@@ -224,7 +224,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "   Gradually eat three main meals and a snack or two between meals daily.  \n Increase the quantity of food in each meal to meet your and baby's additional nutritional needs eg. add an extra piece of meat/fish/egg, extra helping of dal and rice.  \n Ensure diversified food in your daily meals, select at least five food groups from the seven ideal food groups.  \n  Avoid food prepared in saturated fats, deep fried foods, excessive sugar, sugary drinks and food, and taking extra salt in food plate.  \n   Use packaged iodized salt for cooking.  \n    Rest for 2 hours at mid-day and sleep at night for 8 hours.  \n    Avoid strenuous work but be physically active and undertake light exercise like walking. ",
+        "text": "  * Gradually eat three main meals and a snack or two between meals daily.  \n ------------------------------------------------------\n * Increase the quantity of food in each meal to meet your and baby's additional nutritional needs eg. add an extra piece of meat/fish/egg, extra helping of dal and rice.  \n ------------------------------------------------------\n * Ensure diversified food in your daily meals, select at least five food groups from the seven ideal food groups.  \n ------------------------------------------------------\n * Avoid food prepared in saturated fats, deep fried foods, excessive sugar, sugary drinks and food, and taking extra salt in food plate.  \n ------------------------------------------------------\n * Use packaged iodized salt for cooking.  \n ------------------------------------------------------\n * Rest for 2 hours at mid-day and sleep at night for 8 hours.  \n ------------------------------------------------------\n * Avoid strenuous work but be physically active and undertake light exercise like walking. ",
         "text_color": "#1199F9",
         "toaster_type": "info",
         "relevance": {
@@ -1175,7 +1175,7 @@
         "text_color": "#FFFFFF",
         "text_size": "17px",
         "label_text_style": "bold",
-        "name": " আয়রন ফলিক এসিড ট্যাবলেট বিতরণ "
+        "name": "Iron Folic Acid Supplementation"
       },
       {
         "key": "iron_folic_distributed",
@@ -1183,14 +1183,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "iron_folic_distributed",
         "type": "spinner",
-        "hint": "    আয়রন ফলিক এসিড বিতরণ করা হয়েছে?",
+        "hint": "Iron Folic Acid tablet provided ",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -1200,7 +1200,7 @@
         "openmrs_entity_id": "iron_folic_number",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "    সংখ্যা ",
+        "hint": "Number",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -1208,7 +1208,7 @@
         "relevance": {
           "step3:iron_folic_distributed": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -1218,7 +1218,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "     গর্ভাবস্থা সনাক্তের পর থেকে প্রসব পরবর্তী ৩ মাস পর্যন্ত প্রতিদিন রাতের খাবারের পর ১টি করে মোট ২৭০ টি (১৮০ + ৯০) আয়রন ফলিক এসিড ট্যাবলেট গ্রহণ করতে হবে। \n     খাবার গ্রহণের গ্রহণের পর অথবা আয়রন ফলিক এসিড ট্যাবলেট গ্রহণের পর পর চা/কফি গ্রহণ করবেন না। ",
+        "text": "* Take one IFA tablet daily at night as soon as pregnancy is confirmed till 180 days. Continue taking IFA after delivery for 3 months (90 days)  \n ------------------------------------------------------\n * Do not have tea/coffee with meals or IFA tablets.  ",
         "text_color": "#1199F9",
         "toaster_type": "info"
       },
@@ -1232,7 +1232,7 @@
         "text_color": "#FFFFFF",
         "text_size": "17px",
         "label_text_style": "bold",
-        "name": " ক্যালসিয়াম ট্যাবলেট বিতরণ "
+        "name": "Calcium supplement"
       },
       {
         "key": "calcium_distributed",
@@ -1240,14 +1240,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "calcium_distributed",
         "type": "spinner",
-        "hint": "        ক্যালসিয়াম ট্যাবলেট বিতরণ করা হয়েছে?",
+        "hint": "Calcium tablet provided",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -1257,7 +1257,7 @@
         "openmrs_entity_id": "calcium_number",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "    সংখ্যা ",
+        "hint": "Number",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -1265,7 +1265,7 @@
         "relevance": {
           "step3:calcium_distributed": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -1275,7 +1275,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "    গর্ভধারণের প্রথম তিন মাসের পর থেকে প্রতিদিন দুটি করে ক্যালসিয়াম ট্যাবলেট গ্রহণ করুন।  \n         সকালের নাস্তার পর এবং দুপরের খাবারের পর ক্যালসিয়াম ট্যাবলেট গ্রহণ করতে হবে।  ",
+        "text": "* Take two calcium tablets daily after first trimester.\n ------------------------------------------------------\n * Take calcium tablet after morning and afternoon meal.   ",
         "text_color": "#1199F9",
         "toaster_type": "info"
       },
@@ -1289,7 +1289,7 @@
         "text_color": "#FFFFFF",
         "text_size": "17px",
         "label_text_style": "bold",
-        "name": " এম এম এস বিতরণ "
+        "name": "Multiple Micronutrient Supplementation (MMS) "
       },
       {
         "key": "mms_distributed",
@@ -1297,14 +1297,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "mms_distributed",
         "type": "spinner",
-        "hint": " এম এম এস বিতরণ করা হয়েছে ?",
+        "hint": "MMS provided?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "Yes",
+          "No"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
+          "Yes": "Yes",
+          "No": "No"
         }
       },
       {
@@ -1314,7 +1314,7 @@
         "openmrs_entity_id": "mms_number",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "    সংখ্যা ",
+        "hint": "Number ",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -1322,7 +1322,7 @@
         "relevance": {
           "step3:calcium_distributed": {
             "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
+            "ex": "regex(., \"Yes\")"
           }
         }
       },
@@ -1366,6 +1366,27 @@
 
         ]
 
+      },
+      {
+        "key": "ad_toaster_anc_counseling",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "Gradually eat three main meals and a snack or two between meals daily. \n ------------------------------------------------------\n * Increase the quantity of food in each meal to meet your and baby's additional nutritional needs eg. add an extra piece of meat/fish/egg, extra helping of dal and rice.  \n ------------------------------------------------------\n * Ensure diversified food in your daily meals, select at least five food groups from the seven ideal food groups.  \n ------------------------------------------------------\n * Avoid food prepared in saturated fats, deep fried foods, excessive sugar, sugary drinks and food, and taking extra salt in food plate.  \n ------------------------------------------------------\n * Use packaged iodized salt for cooking.  \n ------------------------------------------------------\n * Rest for 2 hours at mid-day and sleep at night for 8 hours.  \n ------------------------------------------------------\n * Avoid strenuous work but be physically active and undertake light exercise like walking.   ",
+        "text_color": "#1199F9",
+        "toaster_type": "info",
+        "relevance": {
+          "step3:counseling_service": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "anc_counseling"
+                ]
+              }
+            ]
+          }
+        }
       },
       {
         "key": "is_Referred",

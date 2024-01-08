@@ -627,7 +627,7 @@
                 android:text="@string/add_additional_plan"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/additional_month_view"

@@ -190,7 +190,7 @@
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
                     <TextView
                         android:text="@string/female_full"
@@ -200,19 +200,19 @@
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
 
                     <TextView
                         android:text="@string/total"
                         android:padding="10dp"
-                        android:gravity="center"
                         android:layout_margin="1dp"
                         android:textColor="@color/black"
+                        android:gravity="left"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>
@@ -235,7 +235,7 @@
                     <EditText
                         android:id="@+id/total_male_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -247,7 +247,7 @@
                     <EditText
                         android:id="@+id/total_female_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -260,15 +260,14 @@
 
                     <TextView
                         android:id="@+id/total_population_number"
-                        android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_margin="1dp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>
@@ -290,7 +289,7 @@
                     <EditText
                         android:id="@+id/zero_eleven_male_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -302,7 +301,7 @@
                     <EditText
                         android:id="@+id/zero_eleven_female_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -315,15 +314,14 @@
 
                     <TextView
                         android:id="@+id/zero_eleven_total_number"
-                        android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_margin="1dp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>
@@ -344,7 +342,7 @@
                     <EditText
                         android:id="@+id/ten_male_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -357,7 +355,7 @@
                     <EditText
                         android:id="@+id/ten_female_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -370,15 +368,14 @@
 
                     <TextView
                         android:id="@+id/ten_total_number"
-                        android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_margin="1dp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>
@@ -400,7 +397,7 @@
                     <EditText
                         android:id="@+id/twelve_male_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -412,7 +409,7 @@
                     <EditText
                         android:id="@+id/twelve_female_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -425,15 +422,14 @@
 
                     <TextView
                         android:id="@+id/twelve_total_number"
-                        android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_margin="1dp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>
@@ -454,7 +450,7 @@
                     <EditText
                         android:id="@+id/fifteen_male_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -467,7 +463,7 @@
                     <EditText
                         android:id="@+id/fifteen_female_number"
                         android:background="@drawable/edit_text_bg"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -480,15 +476,14 @@
 
                     <TextView
                         android:id="@+id/fifteen_total_number"
-                        android:text="Total"
                         android:textStyle="bold"
                         android:padding="10dp"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_margin="1dp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white"
-                        android:layout_width="150dp"
+                        android:layout_width="90dp"
                         android:layout_height="match_parent"/>
 
                 </LinearLayout>

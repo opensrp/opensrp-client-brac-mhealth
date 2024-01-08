@@ -49,7 +49,7 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                         memberProfileDueData.setEventType(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT);
                         String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
                         int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
-                        String date = HnppConstants.getScheduleLmpDate(lmpDate,noOfAnc);
+                        String date = HnppConstants.getScheduleAncDate(lmpDate,noOfAnc);
                         memberProfileDueData.setSubTitle(context.getString(R.string.schedule_date)+date);
 
                     }else{

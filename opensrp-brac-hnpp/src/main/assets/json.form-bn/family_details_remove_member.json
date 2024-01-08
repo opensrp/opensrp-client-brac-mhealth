@@ -786,8 +786,8 @@
         "openmrs_entity_id": "164133AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "label": "Date moved away",
-        "hint": "Date moved away",
+        "label": "স্থানান্তরের তারিখ ",
+        "hint": "স্থানান্তরের তারিখ",
         "expanded": false,
         "min_date": "",
         "max_date": "today",
@@ -805,7 +805,7 @@
         "relevance": {
           "step1:remove_reason": {
             "type": "string",
-            "ex": "equalTo(., \"Moved away\")"
+            "ex": "equalTo(., \"স্থানান্তর\")"
           }
         }
       },
@@ -815,8 +815,8 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "age_at_death",
-        "label": "Age at death",
-        "hint": "Age at death",
+        "label": "মৃত্যুর সময় বয়স",
+        "hint": "মৃত্যুর সময় বয়স",
         "type": "edit_text",
         "read_only": "true",
         "relevance": {

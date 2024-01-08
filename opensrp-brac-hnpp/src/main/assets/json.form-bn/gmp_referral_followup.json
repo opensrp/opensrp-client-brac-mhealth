@@ -59,13 +59,13 @@
         "value": "gmp_referral_followup"
       },
       {
-        "key": "caused_referred",
+        "key": "went_cc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "caused_referred",
+        "openmrs_entity_id": "went_cc",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "শিশুকি স্বাস্থ্য সেবার জন্য উপজেলা হাসপাতালে গিয়েছিল?",
+        "hint": "শিশু কি কমিউনিটি ক্লিনিকে গিয়েছিল? ",
         "values": [
           "হ্যাঁ",
           "না"
@@ -80,12 +80,39 @@
         }
       },
       {
+        "key": "caused_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "caused_referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "শিশুকে উপজেলা হাসপাতালে রেফার করা হয়েছিল? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "yes",
+          "না":"no"
+        },
+        "relevance": {
+          "step1:went_cc": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
         "key": "present_condition",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "present_condition",
         "openmrs_data_type": "",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "শিশুর বর্তমান অবস্থাঃ",
         "values": [
           "সুস্থ",
