@@ -1670,7 +1670,51 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         return value;
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static String processAEFIValueWithChoiceIdsForEdit(JSONObject jsonObject, String value) {
+        try {
+            //spinner
+            if (jsonObject.has("openmrs_choice_ids")) {
+                JSONObject choiceObject = jsonObject.getJSONObject("openmrs_choice_ids");
 
+                for (int i = 0; i < choiceObject.names().length(); i++) {
+                    if (value.equalsIgnoreCase(choiceObject.getString(choiceObject.names().getString(i)))) {
+                        value = choiceObject.names().getString(i);
+                        return value;
+                    }
+                }
+            }else if (jsonObject.has("options")) {
+                JSONArray option_array = jsonObject.getJSONArray("options");
+                JSONArray result = new JSONArray();
+                for (int i = 0; i < option_array.length(); i++) {
+                    JSONObject option = option_array.getJSONObject(i);
+
+                    if (value.contains(option.optString("key"))) {
+                        option.put("value", "true");
+                    }else{
+                        if(!isExists(result,option)){
+                            result.put(option);
+                        }
+                    }
+
+                }
+                jsonObject.put("options",result);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+    private static boolean isExists(JSONArray array, JSONObject object) throws JSONException {
+        for (int i = 0; i< array.length();i++){
+            JSONObject option = array.getJSONObject(i);
+            if(option.optString("key").equalsIgnoreCase(object.optString("key"))){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static String memberCountWithZero(int count){
         return count<10 ? "0"+count : String.valueOf(count);

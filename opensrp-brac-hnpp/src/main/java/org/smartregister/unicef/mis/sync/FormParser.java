@@ -558,6 +558,10 @@ public class FormParser {
                 if (details.containsKey("aefi_child_status") && !StringUtils.isEmpty(details.get("aefi_child_status"))) {
                     String status = details.get("aefi_child_status");
                     String vaccineS = details.get("vaccine_list");
+                    String previousVaccines = details.get("previous_vaccine_problem");
+                    if(!TextUtils.isEmpty(previousVaccines) && !TextUtils.isEmpty(vaccineS)){
+                        vaccineS = vaccineS+"," + previousVaccines;
+                    }
                     Log.v("AEFI_CHILD","status>>"+status+":vaccineS:"+vaccineS);
                     SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                     db.execSQL("UPDATE ec_child set has_aefi='"+status+"',aefi_vaccines ='"+vaccineS+"' where base_entity_id='"+log.getBaseEntityId()+"'");

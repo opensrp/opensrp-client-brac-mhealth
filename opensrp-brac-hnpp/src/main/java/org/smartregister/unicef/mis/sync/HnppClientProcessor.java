@@ -491,7 +491,11 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 heightObj.setFormSubmissionId(height.getEvent().getFormSubmissionId());
                 try{
                     heightObj.setEventId(height.getEvent().getEventId());
-                    String createdAtString = contentValues.getAsString(HeightRepository.CREATED_AT);
+                    String createdAtString = contentValues.getAsString(HeightRepository.DATE);
+                    if(TextUtils.isEmpty(createdAtString)){
+                        createdAtString = height.getEvent().getEventDate().toString();
+                        Log.v("WEIGHT","eventDateStr after>>"+createdAtString);
+                    }
                     Date createdAt = getDate(createdAtString);
                     heightObj.setCreatedAt(createdAt);
                 }catch (Exception e){
@@ -534,6 +538,11 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 try{
                     String eventDateStr = contentValues.getAsString(WeightRepository.DATE);
+                    Log.v("WEIGHT","eventDateStr>>"+eventDateStr);
+                    if(TextUtils.isEmpty(eventDateStr)){
+                        eventDateStr = weight.getEvent().getEventDate().toString();
+                        Log.v("WEIGHT","eventDateStr after>>"+eventDateStr);
+                    }
                     Date date = getDate(eventDateStr);
                     weightObj.setDate(date);
                 }catch (Exception e){
@@ -550,13 +559,15 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     Date createdAt = getDate(createdAtString);
                     weightObj.setCreatedAt(createdAt);
                 }catch (Exception e){
-
+                    Log.v("WEIGHT","Exception");
+                    e.printStackTrace();
                 }
                 weightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
                 Log.v("WEIGHT","taken>>>>"+weightObj.getKg());
 
                 double zScore = ZScore.roundOff(weightObj.getZScore());
                 String weightText = ZScore.getZScoreText(zScore);
+                Log.v("WEIGHT","weightText>>>>"+weightText);
                 weightRepository.add(weightObj);
                 //need to update child table
                 GrowthUtil.updateLastWeight(weightObj.getKg(),zScore,weightObj.getBaseEntityId(),weightText);
@@ -594,6 +605,10 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 }
                 try{
                     String eventDateStr = contentValues.getAsString(MUACRepository.DATE);
+                    if(TextUtils.isEmpty(eventDateStr)){
+                        eventDateStr = muac.getEvent().getEventDate().toString();
+                        Log.v("WEIGHT","eventDateStr after>>"+eventDateStr);
+                    }
                     Date date = getDate(eventDateStr);
                     muacObj.setDate(date);
                 }catch (Exception e){

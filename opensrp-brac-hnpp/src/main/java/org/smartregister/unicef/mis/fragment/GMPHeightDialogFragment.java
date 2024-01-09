@@ -114,7 +114,7 @@ public class GMPHeightDialogFragment extends DialogFragment {
             Log.v("GMP_WEIGHT","Key: "+key+"     Value: "+ heightValues.get(key));
         }
         Log.v("GMP_WEIGHT","getHtmlText>>"+builder);
-        String functionByAge = currentAge<=23?"gmp.girl_height_gain_chart_0_24(child);":"gmp.girl_weight_gain_chart_24_60v (child);";
+        String functionByAge = currentAge<=23?"gmp.girl_height_gain_chart_0_24(child);":"gmp.girl_height_gain_chart_24_60(child) (child);";
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +

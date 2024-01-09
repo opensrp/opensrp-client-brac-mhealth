@@ -90,6 +90,21 @@
 
       },
       {
+        "key": "previous_vaccine_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "previous_vaccine_problem",
+        "type": "edit_text",
+        "hint": "পূর্বে যে সব ভ্যাকসিন এ সমস্যা হয়েছে ",
+        "read_only": true,
+        "relevance": {
+          "step1:aefi_child_status": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
         "key": "vaccine_list",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

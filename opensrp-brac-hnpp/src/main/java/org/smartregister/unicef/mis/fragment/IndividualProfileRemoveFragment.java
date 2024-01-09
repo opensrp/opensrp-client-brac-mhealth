@@ -205,7 +205,7 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
 
         Form form = new Form();
         form.setActionBarBackground( HnppConstants.isReleaseBuild()?R.color.customAppThemeBlue:R.color.alert_urgent_red);
-        form.setWizard(false);
+        form.setWizard(true);
         form.setSaveLabel(getActivity().getString(R.string.submit));
         intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
 

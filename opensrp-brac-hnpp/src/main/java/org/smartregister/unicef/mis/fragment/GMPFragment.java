@@ -890,12 +890,19 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         protected HashMap<Integer,Float> doInBackground(Void... params) {
             WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
             List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+            Collections.sort(allWeights,new Comparator<Weight>() {
+                @Override
+                public int compare(Weight t1, Weight t2) {
+                    return (int)t1.getDate().getTime()-(int)t2.getDate().getTime();
+                }
+            });
             HashMap<Integer,Float> ageWeight = new HashMap<>();
             for (Weight weight:allWeights){
                 String wd = HnppConstants.YYMMDD.format(weight.getDate());
-                Log.v("GMP_WEIGHT","wd:"+wd);
+                Log.v("GMP_WEIGHT","wd:"+wd+":"+weight.getKg());
 
                 int month = getMonthDifferenceByDate(wd);
+                Log.v("GMP_WEIGHT","month:"+month+":"+weight.getKg());
                 ageWeight.put(month,weight.getKg());
             }
             try {
@@ -908,9 +915,9 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
                     Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null, 0);
                     allWeights.add(weight);
                     String wd = HnppConstants.DDMMYY.format(weight.getDate());
-                    Log.v("GMP_WEIGHT","wd:"+wd);
-
                     int month = getMonthDifferenceByDate(wd);
+                    Log.v("GMP_WEIGHT","else month:"+month+":"+weight.getKg());
+
                     ageWeight.put(month,weight.getKg());
 
                 }

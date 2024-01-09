@@ -328,11 +328,12 @@ public class GrowthUtil {
         return weightText;
     }
     public static void updateLastWeight(float kg,double weightZscore,String baseEntityId,String status){
-        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-        Log.v("CHILD_STATUS","updateLastWeight>>"+status);
-        String sql = "UPDATE ec_child SET child_weight = '" + kg + "',weight_zscore = '"+weightZscore+"',weight_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
-        db.execSQL(sql);
+
         try{
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            Log.v("WEIGHT","updateLastWeight>>"+status+":kg:"+kg+":weightZscore:"+weightZscore);
+            String sql = "UPDATE ec_child SET child_weight = '" + kg + "',weight_zscore = '"+weightZscore+"',weight_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
+            db.execSQL(sql);
             String sqlOCA = "UPDATE ec_guest_member SET child_weight = '" + kg + "',weight_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
             db.execSQL(sqlOCA);
         }catch (Exception e){
@@ -340,11 +341,12 @@ public class GrowthUtil {
         }
     }
     public static void updateLastHeight(float kg,double hightZscore,String baseEntityId,String status){
-        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-        Log.v("CHILD_STATUS","updateLastHeight>>"+status);
-        String sql = "UPDATE ec_child SET child_height = '" + kg + "',height_zscore = '" + hightZscore + "',height_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
-        db.execSQL(sql);
         try{
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            Log.v("CHILD_STATUS","updateLastHeight>>"+status);
+            String sql = "UPDATE ec_child SET child_height = '" + kg + "',height_zscore = '" + hightZscore + "',height_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
+            db.execSQL(sql);
+
             String sqlOCA = "UPDATE ec_guest_member SET child_height = '" + kg + "',height_status = '"+status+"' WHERE base_entity_id = '" + baseEntityId + "';";
             db.execSQL(sqlOCA);
         }catch (Exception e){

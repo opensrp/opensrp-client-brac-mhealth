@@ -809,6 +809,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                                 String child_status = getString(R.string.no);
                                 if(hasAefi){
                                     child_status =  getString(R.string.yes);
+                                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
                                 }
                                 jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,child_status);
                             }
@@ -819,18 +820,19 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             if(key.equalsIgnoreCase("vaccine_list")){
                                 if(!TextUtils.isEmpty(aefiVaccine)){
 
-                                    String value = HnppJsonFormUtils.processValueWithChoiceIdsForEdit(jsonObject,aefiVaccine);
-
-                                    if(StringUtils.isEmpty(value)){
-                                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
-                                    }else{
-                                        jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray("["+value+"]"));
-                                    }
+                                    HnppJsonFormUtils.processAEFIValueWithChoiceIdsForEdit(jsonObject,aefiVaccine);
 
                                 }
 
                             }
 
+                            if(key.equalsIgnoreCase("previous_vaccine_problem")){
+                                if(!TextUtils.isEmpty(aefiVaccine)){
+                                    jsonObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,aefiVaccine);
+
+                                }
+
+                            }
 
 
                         }
