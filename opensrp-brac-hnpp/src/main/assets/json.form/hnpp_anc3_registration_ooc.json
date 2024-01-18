@@ -931,7 +931,7 @@
         },
         "v_max": {
           "value": "20",
-          "err": "20 এর সমান বা 20 এর কম হওয়া উচিত"
+          "err": "30 এর সমান বা 30 এর কম হওয়া উচিত"
         },
         "relevance": {
         "step1:blood_sugar_test_condition": {
