@@ -49,8 +49,15 @@ public class SearchMigrationAdapter extends RecyclerView.Adapter<SearchMigration
         }else{
             viewHolder.background_row.setBackgroundColor(context.getResources().getColor(R.color.transparent));
         }
-            //final Migration content = contentList.get(position);
-        viewHolder.textViewName.setText(content.getFirstName()+" "+content.getLastName());
+        StringBuilder nameBuilder = new StringBuilder();
+        if(content.getFirstName()!=null){
+            nameBuilder.append(content.getFirstName());
+        }
+        if(content.getLastName() !=null){
+            nameBuilder.append(" ");
+            nameBuilder.append(content.getLastName());
+        }
+        viewHolder.textViewName.setText(nameBuilder.toString());
         viewHolder.textViewAge.setText(context.getString(R.string.dob, HnppConstants.DDMMYY.format(content.getBirthdate())));
         viewHolder.textViewGender.setText(context.getString(R.string.gender_postfix,content.getGender()+""));
         viewHolder.textViewGender.append(" ");

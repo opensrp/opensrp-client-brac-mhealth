@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.contract.MemberHistoryContract;
 import org.smartregister.unicef.mis.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.mis.sync.FormParser;
@@ -115,7 +116,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
             try{
                 historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
             }catch(NullPointerException e){
-
+                historyData.setImageSource(R.drawable.ic_history);
             }
 //            historyData.setVisitDetails(visitLog.getVisitJson());
             historyData.setVisitDate(visitLog.getVisitDate());
@@ -149,7 +150,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
                     break;
                 }
                 if(!TextUtils.isEmpty(vaccineName)){
-                    memberHistoryData1.setTitle(HnppConstants.vaccineNameMapping.get(vaccineName));
+                    memberHistoryData1.setTitle(HnppConstants.getVaccineNameMapping().get(vaccineName));
 
                 }else{
                     memberHistoryData1.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
@@ -158,7 +159,7 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
                 try{
                     memberHistoryData1.setImageSource(HnppConstants.iconMapping.get(eventType));
                 }catch(NullPointerException e){
-
+                    memberHistoryData1.setImageSource(R.drawable.rowavatar_child);
                 }
                 memberHistoryData1.setEventType(eventType);
                 memberHistoryData1.setVisitDay(date);

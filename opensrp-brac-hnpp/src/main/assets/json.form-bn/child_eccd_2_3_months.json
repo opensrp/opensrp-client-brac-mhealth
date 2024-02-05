@@ -99,7 +99,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "previous_referred",
-        "type": "spinner",
+        "type": "edit_text",
         "hint": "শিশুটিকে পূর্বে রেফার করা হয়েছিল।",
         "read_only": true,
         "values": [
@@ -113,7 +113,7 @@
         "relevance": {
           "step1:is_referred": {
             "type": "string",
-            "ex": "equalTo(., \"Yes\")"
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
       },
@@ -143,7 +143,7 @@
         "relevance": {
           "step1:is_referred": {
             "type": "string",
-            "ex": "equalTo(., \"Yes\")"
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
       },
@@ -165,7 +165,7 @@
         "relevance": {
           "step1:is_referred": {
             "type": "string",
-            "ex": "equalTo(., \"Yes\")"
+            "ex": "equalTo(., \"হ্যাঁ\")"
           }
         }
       },
@@ -229,7 +229,7 @@
         "relevance": {
           "step1:referred_visited": {
             "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+            "ex": "equalTo(., \"না\")"
           }
         }
       },
@@ -359,7 +359,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "referral",
         "type": "toaster_notes",
-        "text": "বিশেষজ্ঞের কাছ থেকে প্রয়োজনীয় পরামর্শের জন্য শিশুটিকে নিকটস্থ হাসপাতাল বা অক্ষমতা পরিষেবা এবং সহায়তা কেন্দ্রে পাঠান।",
+        "text": "বিশেষজ্ঞের কাছ থেকে প্রয়োজনীয় পরামর্শের জন্য শিশুটিকে নিকটস্থ হাসপাতাল বা অক্ষমতা পরিষেবা এবং সহায়ক কেন্দ্রে পাঠান।\n ঢাকা উত্তর সিটি কর্পোরেশন- জোন- ৪ এর রেফারেল কেন্দ্র:\n ১) শিশু বিকাশ কেন্দ্র - শহীদ সোহরাওয়ার্দী মেডিকেল কলেজ এবং হাসপাতাল \n ঠিকানা: ব্লক-২ , রুম নং: ১০১৮ \n মোবাইল নং: ০২-৪৮১১৬০১১\n ২) শিশু বিকাশ কেন্দ্র - বাংলাদেশ শিশু হাসপাতাল  এবং ইনস্টিউট \n ঠিকানা:  রুম নং: ১৮০ \n  মোবাইল নং: ০২-৫৫০৫৯০৫১ \n **সকাল ৯টা থেকে দুপুর ২টা পর্যন্ত খোলা থাকে (শুক্রবার এবং সরকারি ছুটি ছাড়া)",
         "text_color": "#000000",
         "toaster_type": "info",
         "relevance": {
@@ -378,35 +378,13 @@
         "type": "spinner",
         "hint": "রেফারের স্থান",
         "values": [
-          "কমিউনিটি ক্লিনিক",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
-          "বিশেষায়িত হাসপাতাল",
+          "শিশু বিকাশ কেন্দ্র - শহীদ সোহরাওয়ার্দী মেডিকেল কলেজ এবং হাসপাতাল",
+          "শিশু বিকাশ কেন্দ্র - বাংলাদেশ শিশু হাসপাতাল  এবং ইনস্টিউট",
           "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র": "Union_Sub_Center",
-          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র": "Union_Family_Welfare_Center",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
-          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
-          "১০ শয্যা বিশিষ্ট হাসপাতাল": "10_Bed_Hospital",
-          "২০ শয্যা বিশিষ্ট হাসপাতাল": "20_Beds_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
-          "সদর হাসপাতাল": "District_Hospital",
-          "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
-          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও": "Non-governmental_Organization",
-          "বিশেষায়িত হাসপাতাল": "Specialized_Hospital",
+          "শিশু বিকাশ কেন্দ্র - শহীদ সোহরাওয়ার্দী মেডিকেল কলেজ এবং হাসপাতাল": "Sishu Bikash Kendro in Shaheed Suhrawardy Medical College and Hospital",
+          "শিশু বিকাশ কেন্দ্র - বাংলাদেশ শিশু হাসপাতাল  এবং ইনস্টিউট": "Sishu Bikash Kendro in Bangladesh Shishu Hospital & Institute",
           "অন্যান্য": "Others"
         },
         "relevance": {
@@ -419,6 +397,20 @@
         "v_required": {
           "value": true,
           "err": "নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "other_referral_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_referral_place",
+        "type": "edit_text",
+        "hint": "অন্যান্য রেফারের স্থান লিখুন",
+        "relevance": {
+          "step1:place_of_referral": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
         }
       }
     ]

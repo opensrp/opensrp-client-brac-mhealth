@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.utils;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.DISABILITY_ENABLE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.IS_URBAN;
 
 import android.Manifest;
@@ -1404,9 +1405,11 @@ public class HnppConstants extends CoreConstants {
     public static boolean isUrbanUser(){
        String isUrban =  CoreLibrary.getInstance().context().allSharedPreferences().getPreference(IS_URBAN);
         return isUrban.equalsIgnoreCase("true");
-
     }
-
+    public static boolean isDisabilityEnable(){
+        String isUrban =  CoreLibrary.getInstance().context().allSharedPreferences().getPreference(DISABILITY_ENABLE);
+        return isUrban.equalsIgnoreCase("true");
+    }
     public static boolean isReleaseBuild() {
 //        if(BuildConfig.IS_TRAINING){
 //            return false;
@@ -1456,6 +1459,7 @@ public class HnppConstants extends CoreConstants {
     }
     public static final class KEY {
         public static final String IS_URBAN = "is_urban";
+        public static final String DISABILITY_ENABLE = "disability_enable";
         public static final String USER_ID = "user_id_location";
         public static final String TOTAL_MEMBER = "member_count";
         public static final String VILLAGE_NAME = "village_name";
@@ -1569,6 +1573,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_PROFILE_VISIT= "member_profile_visit";
         public static final String REFERREL_FOLLOWUP = "hnpp_member_referral_followup";
         public static final String GMP_REFERREL_FOLLOWUP = "gmp_referral_followup";
+        public static final String GMP_SESSION_INFO = "gmp_session_info";
         public static final String CHILD_FOLLOWUP = "child_followup";
         public static final String NEW_BORN_PNC_1_4 = "new_born_pnc_1_4";
         public static final String AEFI_CHILD_ = "aefi_child";
@@ -1640,6 +1645,7 @@ public class HnppConstants extends CoreConstants {
         public static final String GMP_REFERRAL = "Referral Clinic";
         public static final String GMP_COUNSELING = "GMP Counseling";
         public static final String GMP_REFERREL_FOLLOWUP = "GMP Referral Followup";
+        public static final String GMP_SESSION_INFO = "GMP Session Info";
         public static final String CHILD_ECCD_2_3_MONTH = "Child ECCD Followup 2-3 months";
         public static final String CHILD_ECCD_4_6_MONTH = "Child ECCD Followup 4-6 months";
         public static final String CHILD_ECCD_7_9_MONTH = "Child ECCD Followup 7-9 months";
@@ -1842,6 +1848,7 @@ public class HnppConstants extends CoreConstants {
         }
         return milliseconds;
     }
+    @SuppressLint("SimpleDateFormat")
     public static long getLongFromWeightDateFormat(String dateTime){
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         long milliseconds =0;
@@ -1894,25 +1901,28 @@ public class HnppConstants extends CoreConstants {
             .put("পুরুষ","M")
             .put("তৃতীয় লিঙ্গ","O")
             .build();
-    public static final Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
-            .put("bcg", HnppApplication.appContext.getString(R.string.bcg))
-            .put("opv_0", HnppApplication.appContext.getString(R.string.polio_0))
-            .put("opv_1",HnppApplication.appContext.getString(R.string.polio_1))
-            .put("pcv_1",HnppApplication.appContext.getString(R.string.pcv_1))
-            .put("penta_1",HnppApplication.appContext.getString(R.string.penta_1))
-            .put("opv_2",HnppApplication.appContext.getString(R.string.polio_2))
-            .put("pcv_2",HnppApplication.appContext.getString(R.string.pcv_2))
-            .put("penta_2",HnppApplication.appContext.getString(R.string.penta_2))
-            .put("opv_3",HnppApplication.appContext.getString(R.string.polio_3))
-            .put("ipv",HnppApplication.appContext.getString(R.string.ipv))
-            .put("pcv_3",HnppApplication.appContext.getString(R.string.pcv_3))
-            .put("penta_3","পেন্টা-৩")
-            .put("mr_1",HnppApplication.appContext.getString(R.string.mr_1))
-            .put("mr_2",HnppApplication.appContext.getString(R.string.mr_2))
-            .put("vitamin_a1",HnppApplication.appContext.getString(R.string.vitamin))
-            .put("fipv_1",HnppApplication.appContext.getString(R.string.fipv_1))
-            .put("fipv_2",HnppApplication.appContext.getString(R.string.fipv_2))
-            .build();
+    public static Map<String,String> getVaccineNameMapping(){
+        Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
+                .put("bcg", HnppApplication.appContext.getString(R.string.bcg))
+                .put("opv_0", HnppApplication.appContext.getString(R.string.polio_0))
+                .put("opv_1",HnppApplication.appContext.getString(R.string.polio_1))
+                .put("pcv_1",HnppApplication.appContext.getString(R.string.pcv_1))
+                .put("penta_1",HnppApplication.appContext.getString(R.string.penta_1))
+                .put("opv_2",HnppApplication.appContext.getString(R.string.polio_2))
+                .put("pcv_2",HnppApplication.appContext.getString(R.string.pcv_2))
+                .put("penta_2",HnppApplication.appContext.getString(R.string.penta_2))
+                .put("opv_3",HnppApplication.appContext.getString(R.string.polio_3))
+                .put("ipv",HnppApplication.appContext.getString(R.string.ipv))
+                .put("pcv_3",HnppApplication.appContext.getString(R.string.pcv_3))
+                .put("penta_3","পেন্টা-৩")
+                .put("mr_1",HnppApplication.appContext.getString(R.string.mr_1))
+                .put("mr_2",HnppApplication.appContext.getString(R.string.mr_2))
+                .put("vitamin_a1",HnppApplication.appContext.getString(R.string.vitamin))
+                .put("fipv_1",HnppApplication.appContext.getString(R.string.fipv_1))
+                .put("fipv_2",HnppApplication.appContext.getString(R.string.fipv_2))
+                .build();
+        return vaccineNameMapping;
+    }
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
             .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
@@ -2059,6 +2069,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
                 .put(EVENT_TYPE.GMP_COUNSELING,HnppApplication.appContext.getString(R.string.gmp_counceling))
                 .put(EVENT_TYPE.GMP_REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+                .put(EVENT_TYPE.GMP_SESSION_INFO,HnppApplication.appContext.getString(R.string.session_info))
                 .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
                 .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
                 .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.appContext.getString(R.string.aifi_child))
@@ -2245,6 +2256,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
             .put(EVENT_TYPE.GMP_COUNSELING,HnppApplication.appContext.getString(R.string.gmp_counceling))
             .put(EVENT_TYPE.GMP_REFERREL_FOLLOWUP,HnppApplication.appContext.getString(R.string.referrel_followup))
+            .put(EVENT_TYPE.GMP_SESSION_INFO,HnppApplication.appContext.getString(R.string.session_info))
             .put(EVENT_TYPE.GMP_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
             .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
             .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc))

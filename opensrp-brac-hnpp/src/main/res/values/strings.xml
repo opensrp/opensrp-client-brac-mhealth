@@ -11,11 +11,6 @@
         <item>BRID</item>
         <item>System ID</item>
     </string-array>
-    <string-array name="edema_value">
-        <item>না</item>
-        <item>হ্যাঁ</item>
-
-    </string-array>
     <string-array name="year_epi">
         <item>2024</item>
         <item>2023</item>
@@ -557,6 +552,8 @@
     <string name="over_9m_11m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি আধা বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
     <string name="over_12m_23m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি ১ বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
     <string name="grow_filter">বৃদ্ধি ফিল্টারিং</string>
+    <string name="gmp_growth_faltering"><![CDATA[\u2022* শিশুর দৈহিক ওজন বৃদ্ধি পাচ্ছে না/ হ্রাস পাচ্ছে  <br />  * মারাত্মক তীব্র অপুষ্টি (মুয়াক <১১.৫ সেমি এবং/ ইডিমা) অথবা ইডিমা ব্যতিত অন্য কোন জটিলতা সনাক্ত করতে হবে।  <br /> * মারাত্মক তীব্র অপুষ্টি (মুয়াক <১১.৫ সেমি  ইডিমা) অথবা অন্য কোন জটিলতার উপসর্গ থাকলে উপজেলা হাসপাতালে যেতে রেফারেল স্লিপের জন্য সিএইচসিপি-এর কাছে সাক্ষাতের পরামর্শ প্রদান করুন। ]]></string>
+
     <string name="given_at">দিয়েছে</string>
     <string name="total_unregister_child">+Child: %1$s</string>
     <string name="add_child"><![CDATA[<b><font color=#f70d1a>+Add Child</font></b>]]></string>
@@ -925,13 +922,13 @@
     <string name="select">সিলেক্ট করুন</string>
     <string name="old_height">পূর্বের উচ্চতা :</string>
     <string name="current_height">বর্তমান উচ্চতা:</string>
-    <string name="want_to_add_height">আপনি কি নতুন উচ্চতাটি যোগ করতে ইচ্ছুক?</string>
+    <string name="want_to_add_height">    শিশুর উচ্চতা সঠিকভাবে রেকর্ড করা হয়েছে কিনা তা নিশ্চিত করুন </string>
     <string name="old_muac">পূর্বের MUAC :</string>
     <string name="current_muac">বর্তমান MUAC:</string>
-    <string name="want_to_add_muac">আপনি কি নতুন MUAC যোগ করতে ইচ্ছুক?</string>
+    <string name="want_to_add_muac">    শিশুর মুয়াক সঠিকভাবে রেকর্ড করা হয়েছে কিনা তা নিশ্চিত করুন </string>
     <string name="old_weight">পূর্বের ওজোন :</string>
     <string name="current_weight">বর্তমান ওজোন:</string>
-    <string name="want_to_add_weight">আপনি কি নতুন ওজোনটি যোগ করতে ইচ্ছুক?</string>
+    <string name="want_to_add_weight">    শিশুর ওজন সঠিকভাবে রেকর্ড করা হয়েছে কিনা তা নিশ্চিত করুন </string>
     <string name="system_num">সিস্টেম নাম্বার</string>
     <string name="household_address_not_found_edit">হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন</string>
     <string name="name_only">\"নামঃ \"</string>
@@ -1081,6 +1078,8 @@
     <string name="risky_cause">Causes of risky patient :</string>
     <string name="search_name_pn">Search by Name or phone number</string>
     <string name="referrel_hospital">Refer to meet CHCP</string>
+    <string name="referrel_community">উপজেলা হাসপাতালে যেতে রেফারেল স্লিপের জন্য সিএইচসিপি-এর কাছে সাক্ষাতের পরামর্শ প্রদান করুন ।  </string>
+    <string name="referrel_facility">উপজেলা হাসপাতালে রেফার করুন । </string>
     <string name="microplan">Microplan</string>
     <string name="add_outreach">Add Outreach</string>
     <string name="add_epi_microplan">Add EPI microplan</string>
@@ -1149,6 +1148,11 @@
     <string name="action">Action</string>
     <string name="saturday">Saturday</string>
     <string name="difference_date">\"দুই ডেট এর ব্যবধান ২৮ দিন হতে হবে \"</string>
+    <string name="gmp_measure">অপুষ্টির সনাক্তকরণ</string>
+    <string name="session_info">সেশন এর তথ্য</string>
+    <string name="pustir_obosta">পুষ্টির অবস্থা</string>
+    <string name="session_info_not_found">সেশনের তথ্য পাওয়া যায়নি</string>
+    <string name="previous_weight_vs_height">Previous Weight vs Height</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
@@ -1167,5 +1171,11 @@
         <item>October</item>
         <item>November</item>
         <item>December</item>
+    </string-array>
+    <string name="presence_of_edema">Presence of Bipedal oedema? </string>
+    <string-array name="edema_value">
+        <item>না</item>
+        <item>হ্যাঁ (উভয় পা ফোলা)</item>
+
     </string-array>
 </resources>

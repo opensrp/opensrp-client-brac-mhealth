@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "GMP Referral Followup",
+  "encounter_type": "GMP Session Info",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,44 +47,58 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "রেফারেল ফলোআপ",
+    "title": "সেশন এর তথ্য",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "GMP Referral Followup",
+        "openmrs_entity_id": "GMP Session Info",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "gmp_referral_followup"
+        "value": "gmp_session_info"
       },
       {
-        "key": "session_info",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden"
-      },
-      {
-        "key": "went_cc",
+        "key": "where_gmp_session",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "went_cc",
+        "openmrs_entity_id": "where_gmp_session",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "শিশু কি কমিউনিটি ক্লিনিকে গিয়েছিল? ",
+        "hint": "জি.এম.পি. সেশনটি কোথায় পরিচালিত হয়েছে ?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "কমিউনিটি",
+          "স্বাস্থ্য কেন্দ্রে"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না":"no"
+          "কমিউনিটি": "Community",
+          "স্বাস্থ্য কেন্দ্রে":"Health Care Facility"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "where_in_community",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "where_in_community",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "কমিউনিটির কোথায় পরিচালিত হয়েছে?",
+        "values": [
+          "জি.এম.পি.-ইপিআই আউটরিচ সাইট",
+          "পাড়া সেন্টার"
+        ],
+        "openmrs_choice_ids": {
+          "জি.এম.পি.-ইপিআই আউটরিচ সাইট": "GMP-EPI outreach site",
+          "পাড়া সেন্টার":"Para centre"
         },
         "relevance": {
-          "step1:session_info": {
+          "step1:where_gmp_session": {
             "type": "string",
-            "ex": "equalTo(., \"Community\")"
+            "ex": "equalTo(., \"কমিউনিটি\")"
           }
         },
         "v_required": {
@@ -93,25 +107,33 @@
         }
       },
       {
-        "key": "went_uhc_facility",
+        "key": "where_in_hcf",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "went_uhc_facility",
+        "openmrs_entity_id": "where_in_hcf",
         "openmrs_data_type": "",
         "type": "spinner",
-        "hint": "শিশুকে উপজেলা হাসপাতালে গিয়েছিল? ",
+        "hint": "স্বাস্থ্য কেন্দ্রের কোথায় পরিচালিত হয়েছে?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "কমিউনিটি ক্লিনিক",
+          "এনজিও ক্লিনিক",
+          "আরবান ডিসপেনসারি",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "জেলা হাসপাতাল",
+          "অন্যান্য"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না":"no"
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "এনজিও ক্লিনিক": "NGO-run facilities (Urban)",
+          "আরবান ডিসপেনসারি": "Urban Dispensary",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila Health Complex (UzHC)",
+          "জেলা হাসপাতাল": "District Hospital",
+          "অন্যান্য": "other"
         },
         "relevance": {
-          "step1:session_info": {
+          "step1:where_gmp_session": {
             "type": "string",
-            "ex": "equalTo(., \"Facility\")"
+            "ex": "equalTo(., \"স্বাস্থ্য কেন্দ্রে\")"
           }
         },
         "v_required": {
@@ -120,80 +142,17 @@
         }
       },
       {
-        "key": "caused_referred",
+        "key": "where_in_hcf_other",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "caused_referred",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "শিশুকে উপজেলা হাসপাতালে রেফার করা হয়েছিল? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না":"no"
-        },
+        "openmrs_entity_id": "where_in_hcf_other",
+        "type": "edit_text",
+        "hint": "অন্যান্য (উল্লেখ করুন …)",
         "relevance": {
-          "step1:went_cc": {
+          "step1:where_in_hcf": {
             "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
+            "ex": "equalTo(., \"অন্যান্য\")"
           }
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "went_uhc",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "went_uhc",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "শিশুকে উপজেলা হাসপাতালে গিয়েছিল? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "yes",
-          "না":"no"
-        },
-        "relevance": {
-          "step1:caused_referred": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "present_condition",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "present_condition",
-        "openmrs_data_type": "",
-        "type": "hidden",
-        "hint": "শিশুর বর্তমান অবস্থাঃ",
-        "values": [
-          "সুস্থ",
-          "অসুস্থ",
-          "মৃত"
-        ],
-        "openmrs_choice_ids": {
-          "সুস্থ": "good",
-          "অসুস্থ": "sick",
-          "মৃত": "death"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
         }
       }
     ]

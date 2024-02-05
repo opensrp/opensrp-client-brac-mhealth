@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.service;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.DISABILITY_ENABLE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.IS_URBAN;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.USER_ID;
 
@@ -59,6 +60,10 @@ public class HALocationFetchIntentService extends IntentService {
                         if(ssModel.locations.get(0).district.name.contains("CITY CORPORATION")
                                 || !ssModel.locations.get(0).paurasava.name.contains("NO PAURASAVA")){
                             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(IS_URBAN,"true");
+                        }
+                        if(ssModel.locations.get(0).district.name.equalsIgnoreCase("DHAKA NORTH CITY CORPORATION")
+                                && !ssModel.locations.get(0).union.name.equalsIgnoreCase("Zone-4")){
+                            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(DISABILITY_ENABLE,"true");
                         }
 
                         HnppApplication.getHALocationRepository().addOrUpdate(ssModel);

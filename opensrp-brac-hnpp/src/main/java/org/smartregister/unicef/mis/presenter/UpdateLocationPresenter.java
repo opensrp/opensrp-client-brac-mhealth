@@ -15,6 +15,7 @@ import org.smartregister.unicef.mis.location.UpdateLocationModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class UpdateLocationPresenter implements UpdateLocationContract.Presenter {
@@ -83,7 +84,7 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
         view.showProgressBar();
         Runnable runnable = () -> {
             try {
-                paurashavaList = getLocationListFromServer(GET_PAURASAVA_URL);
+                paurashavaList = getLocationListFromServer(GET_PAURASAVA_URL,0);
                 Log.v("JSON array: ",paurashavaList.size()+"");
 
                 appExecutors.mainThread().execute(() ->{
@@ -108,7 +109,7 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
         view.showProgressBar();
         Runnable runnable = () -> {
             try {
-                unionList = getLocationListFromServer(GET_UNION_URL+""+paurasavaId);
+                unionList.addAll(getLocationListFromServer(GET_UNION_URL+""+paurasavaId,Integer.parseInt(paurasavaId)));
                 Log.v("JSON array: ","unionList"+unionList.size()+"");
 
                 appExecutors.mainThread().execute(() ->{
@@ -127,14 +128,28 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
         };
         appExecutors.diskIO().execute(runnable);
     }
+    public void removeUnion(int paurasavaId){
+        Iterator<UpdateLocationModel> iter = unionList.iterator();
+        while (iter.hasNext()) {
+            UpdateLocationModel updateLocationModel1 = iter.next();
+            if(updateLocationModel1.parentId == paurasavaId) {
+                iter.remove();
+            }
+
+        }
+        appExecutors.mainThread().execute(() ->{
+            view.hideProgressBar();
+            view.updateUnionAdapter();
+        });
+
+    }
 
     @Override
     public void processOldWard(String unionId) {
         view.showProgressBar();
         Runnable runnable = () -> {
             try {
-                oldWardList = getLocationListFromServer(GET_OLD_WARD_URL+""+unionId);
-                Log.v("JSON array: ","oldWardList"+oldWardList.size()+"");
+                oldWardList.addAll(getLocationListFromServer(GET_OLD_WARD_URL+""+unionId,Integer.parseInt(unionId)));
 
                 appExecutors.mainThread().execute(() ->{
                     view.hideProgressBar();
@@ -152,13 +167,28 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
         };
         appExecutors.diskIO().execute(runnable);
     }
+    public void removeOldWard(int unionId){
+        Iterator<UpdateLocationModel> iter = oldWardList.iterator();
+        while (iter.hasNext()) {
+            UpdateLocationModel updateLocationModel1 = iter.next();
+            if(updateLocationModel1.parentId == unionId) {
+                iter.remove();
+            }
+
+        }
+        appExecutors.mainThread().execute(() ->{
+            view.hideProgressBar();
+            view.updateOldWardAdapter();
+        });
+
+    }
 
     @Override
     public void processWard(String oldWardId) {
         view.showProgressBar();
         Runnable runnable = () -> {
             try {
-                wardList = getLocationListFromServer(GET_WARD_URL+""+oldWardId);
+                wardList.addAll(getLocationListFromServer(GET_WARD_URL+""+oldWardId,Integer.parseInt(oldWardId)));
                 Log.v("JSON array: ","wardList"+wardList.size()+"");
 
                 appExecutors.mainThread().execute(() ->{
@@ -177,7 +207,21 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
         };
         appExecutors.diskIO().execute(runnable);
     }
+    public void removeWard(int oldWardId){
+        Iterator<UpdateLocationModel> iter = wardList.iterator();
+        while (iter.hasNext()) {
+            UpdateLocationModel updateLocationModel1 = iter.next();
+            if(updateLocationModel1.parentId == oldWardId) {
+                iter.remove();
+            }
 
+        }
+        appExecutors.mainThread().execute(() ->{
+            view.hideProgressBar();
+            view.updateWardAdapter();
+        });
+
+    }
     @Override
     public void updateLocation() {
 
@@ -255,7 +299,7 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
 
     }
 
-    private ArrayList<UpdateLocationModel> getLocationListFromServer(String locationUrl){
+    private ArrayList<UpdateLocationModel> getLocationListFromServer(String locationUrl, int parentId){
         try{
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             String baseUrl = CoreLibrary.getInstance().context().
@@ -281,6 +325,7 @@ public class UpdateLocationPresenter implements UpdateLocationContract.Presenter
             ArrayList<UpdateLocationModel> locationModels = new ArrayList<>();
             for (int i=0;i< length;i++){
                 UpdateLocationModel model = gson.fromJson(jsonArray.getJSONObject(i).toString(), UpdateLocationModel.class);
+                model.parentId = parentId;
                 locationModels.add(model);
             }
 

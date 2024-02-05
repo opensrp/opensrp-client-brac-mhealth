@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .svg-container {
+            width: 700px;
+            height: 500px;
+            resize: both;
+            overflow: auto;
+            border: 1px dashed #aaa;
+            float: left;
+            margin-left: 50px;
+            margin-bottom: 50px;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .bangla-text {
+            font-size: 12px;
+        }
+
+        .base-point{
+           fill: rgb(200, 0, 255);
+        }
+
+        .legend-text{
+            color: #410404 !important;
+            font-size: 12px;
+        }
+
+        .chart-text{
+            font-size: 12px;
+        }
+
+    </style>
+
+    
+</head>
+<body>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container1">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container2">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container3">
+    </svg>
+</div>
+
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container4">
+    </svg>
+</div>
+
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container5">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container6">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container7">
+    </svg>
+</div>
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container8">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container9">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container10">
+    </svg>
+</div>
+
+<div class="svg-container">
+    <svg viewBox="0 0 700 500" id="svg-container11">
+    </svg>
+</div>
+
+
+
+
+<script src="gmp.1.0.3.min.js"></script>
+
+<script>
+child = [
+            {x:0  , y: 1 },  
+            {x:1  , y: 2},
+            {x:2 , y: 3},
+            {x:3  , y: 4},
+            {x:4  , y: 5 }
+            
+        ];
+
+//Girl Wight Gain chart 0-24 Months. Uncoment bellow line for example
+gmp = new GMPChart("svg-container");
+gmp.girl_weight_gain_chart_0_24(child);
+
+child = [
+                {x:24  , y: 6 },  
+                {x:25  , y: 7},
+                {x:26 , y: 8},
+                {x:27  , y: 9},
+                {x:28  , y: 10 }
+               
+            ];
+
+//Girl Wight Gain chart 24-60 Months. Uncoment bellow line for example
+gmp = new GMPChart("svg-container1");
+gmp.girl_weight_gain_chart_24_60(child);
+
+
+//Girl Wight Gain chart 24-60 Months. Uncoment bellow line for example
+gmp = new GMPChart("svg-container2");
+gmp.girl_weight_gain_chart_0_60(child);
+
+//Girl height Gain chart 0-24 Months. Uncoment bellow line for example
+child = [
+            {x:0  , y: 40 },  
+            {x:1  , y: 50},
+            {x:2 , y: 55},
+            {x:3  , y: 60},
+            {x:4  , y: 65 }
+            
+        ];
+gmp = new GMPChart("svg-container3");
+gmp.girl_height_gain_chart_0_24(child);
+
+//girl height Gain chart 24-60 Months. Uncoment bellow line for example
+child = [
+            {x:24  , y: 60 },  
+            {x:25  , y: 70},
+            {x:26 , y: 75},
+            {x:27  , y: 80},
+            {x:28  , y: 85 }
+            
+        ];
+gmp = new GMPChart("svg-container4");
+gmp.girl_height_gain_chart_24_60(child);
+
+//Girl Height Gain chart 0-60 Months. Uncoment bellow line for example
+gmp = new GMPChart("svg-container5");
+gmp.girl_height_gain_chart_0_60(child);
+
+//Boy weight Gain chart 0-24 Months. Uncoment bellow line for example
+child = [
+            {x:0  , y: 1 },  
+            {x:1  , y: 2},
+            {x:2 , y: 3},
+            {x:3  , y: 3.5},
+            {x:4  , y: 4 }
+            
+        ];
+gmp = new GMPChart("svg-container6");
+gmp.boy_weight_gain_chart_0_24(child);
+
+//Boy weight Gain chart 24-60 Months. Uncoment bellow line for example
+child = [
+            {x:24  , y: 8 },  
+            {x:25  , y: 8.5},
+            {x:26 , y: 9},
+            {x:27  , y: 9.5},
+            {x:28  , y: 10 }
+            
+        ];
+gmp = new GMPChart("svg-container7");
+gmp.boy_weight_gain_chart_24_60(child);
+
+//Boy weight Gain chart 0-60 Months. Uncoment bellow line for example
+gmp = new GMPChart("svg-container8");
+gmp.boy_weight_gain_chart_0_60(child);
+
+//Boy height Gain chart 0-24 Months. Uncoment bellow line for example
+child = [
+            {x:0  , y: 40 },  
+            {x:1  , y: 45},
+            {x:2 , y: 50},
+            {x:3  , y: 55.5},
+            {x:4  , y: 64 }
+            
+        ];
+gmp = new GMPChart("svg-container9");
+gmp.boy_height_gain_chart_0_24(child);
+
+//Boy height Gain chart 24-60 Months. Uncoment bellow line for example
+
+child = [
+            {x:24  , y: 40 },  
+            {x:25  , y: 45},
+            {x:26 , y: 50},
+            {x:27  , y: 55.5},
+            {x:28  , y: 64 }
+            
+        ];
+gmp = new GMPChart("svg-container10");
+gmp.boy_height_gain_chart_24_60(child);
+
+//Boy height Gain chart 24-60 Months. Uncoment bellow line for example
+gmp = new GMPChart("svg-container11");
+gmp.boy_height_gain_chart_0_60(child);
+
+</script>
+
+</body>
+</html> 

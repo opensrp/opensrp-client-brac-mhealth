@@ -236,13 +236,20 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
                      || baseEvent.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_UPDATE_REGISTRATION)){
                         for (Obs observation:baseEvent.getObs()) {
                             if(Objects.equals(observation.getFieldCode(), "age_calculated")){
-                                int age = Integer.parseInt(observation.getValues().get(0)+"");
-                                if(age>5){
-                                    baseEvent.setEventType(HnppConstants.EVENT_TYPE.FAMILY_MEMBER_REGISTRATION);
-                                }else{
-                                    baseEvent.setEventType(HnppConstants.EVENT_TYPE.CHILD_REGISTRATION);
-                                }
-                                break;
+                               try{
+                                   float age = Float.parseFloat(observation.getValues().get(0)+"");
+                                   if(age>5){
+                                       baseEvent.setEventType(HnppConstants.EVENT_TYPE.FAMILY_MEMBER_REGISTRATION);
+                                   }else{
+                                       baseEvent.setEventType(HnppConstants.EVENT_TYPE.CHILD_REGISTRATION);
+                                   }
+                                   break;
+                               }catch (Exception e){
+                                   baseEvent.setEventType(HnppConstants.EVENT_TYPE.FAMILY_MEMBER_REGISTRATION);
+                               }
+
+                            }else{
+                                baseEvent.setEventType(HnppConstants.EVENT_TYPE.FAMILY_MEMBER_REGISTRATION);
                             }
                         }
                     }
@@ -256,14 +263,32 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
                 Date lastSyncDate = new Date(lastSyncTimeStamp);
                 getClientProcessorForJava().processClient(getSyncHelper().getEvents(lastSyncDate, BaseRepository.TYPE_Unprocessed));
                 getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.getTime());
+                Log.v("USER_IMPORT","globalSearchContentData.getMigrationType():"+globalSearchContentData.getMigrationType());
                 if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.Member.name())) {
                     ContentValues values = new ContentValues();
                     values.put(DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
                     values.put("is_closed", 1);
                     HnppApplication.getInstance().getRepository().getWritableDatabase().update(CoreConstants.TABLE_NAME.FAMILY_MEMBER, values,
                             DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
+
                 }
-                Log.v("FAMILY_IDS","saveClientAndEvent>>"+globalSearchContentData.getFamilyBaseEntityId());
+                if(globalSearchContentData.getMigrationType().equalsIgnoreCase(HnppConstants.MIGRATION_TYPE.HH.name())) {
+                    //event table need to sync,valid
+                    ContentValues valuesEvent = new ContentValues();
+                    valuesEvent.put("syncStatus", "Synced");
+                    valuesEvent.put("validationStatus", "Valid");
+                    HnppApplication.getInstance().getRepository().getWritableDatabase().update("event", valuesEvent,
+                            DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
+                    //client table need to sync,valid
+                    ContentValues valuesClient = new ContentValues();
+                    valuesClient.put("syncStatus", "Synced");
+                    valuesClient.put("validationStatus", "Valid");
+                    HnppApplication.getInstance().getRepository().getWritableDatabase().update("client", valuesClient,
+                            DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseClient.getBaseEntityId()});
+
+                }
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -335,7 +360,15 @@ public class GlobalSearchDetailsActivity extends SecuredActivity implements View
         TextView textViewName = dialog.findViewById(R.id.name_TV);
         TextView textViewVillage = dialog.findViewById(R.id.village_TV);
         TextView textViewPhoneNo = dialog.findViewById(R.id.phone_no_TV);
-            textViewName.setText(this.getString(R.string.name,content.getFirstName()+" "+content.getLastName()));
+        StringBuilder nameBuilder = new StringBuilder();
+        if(content.getFirstName()!=null){
+            nameBuilder.append(content.getFirstName());
+        }
+        if(content.getLastName() !=null){
+            nameBuilder.append(" ");
+            nameBuilder.append(content.getLastName());
+        }
+            textViewName.setText(this.getString(R.string.name,nameBuilder.toString()));
             textViewName.append("\n");
             textViewName.append(this.getString(R.string.father_name,content.getAttribute("father_name_english")==null?"":content.getAttribute("father_name_english")));
             textViewName.append("\n");

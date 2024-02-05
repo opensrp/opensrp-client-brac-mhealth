@@ -701,24 +701,15 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         if(index==-1) return;
 
         Utils.startAsyncTask(new AsyncTask() {
-            String block_id = "";
             String unique_id = "";
-            HouseholdId hhid = null;
 
             @Override
             protected Object doInBackground(Object[] objects) {
-                Log.v("SELECTED_BLOCK","block_id:"+blocksIds.get(index));
-//                if(hhid == null){
-//                    return blockIdList.get(index);
-//                }
-
-                HALocation HALocation = HnppApplication.getHALocationRepository().getLocationByBlock(blocksIds.get(index));
-                String id = generatedRandomId();
-                unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);
+                unique_id = HALocationHelper.getInstance().generateHouseHoldId();
+                Log.v("UNIQUE_ID","unique_id:"+unique_id);
                 boolean isExistUniqueId = HnppDBUtils.isExitHouseHoldId(unique_id);
                 if(isExistUniqueId){
-                    id = generatedRandomId();
-                    unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation,id);
+                    unique_id = HALocationHelper.getInstance().generateHouseHoldId();
                 }
                 return null;
             }
@@ -766,14 +757,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }, null);
     }
-    private String generatedRandomId(){
-        int householdCount = HnppDBUtils.getHouseHoldCount();
-        @SuppressLint("DefaultLocale") String householdCountFourDigit = String.format("%04d", householdCount+1);
-        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
-        long time = System.currentTimeMillis();
-        @SuppressLint("DefaultLocale") String random3digit = String.format("%03d", time % 1000);
-        return random3digit+""+userId+""+householdCountFourDigit;
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

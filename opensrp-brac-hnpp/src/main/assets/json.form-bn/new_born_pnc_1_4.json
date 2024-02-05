@@ -66,6 +66,13 @@
         "type": "hidden"
       },
       {
+        "key": "pnc_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "pnc_count",
+        "type": "hidden"
+      },
+      {
         "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -233,7 +240,7 @@
       {
         "key": "new_born_info",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "concept",
         "openmrs_entity_id": "new_born_info",
         "type": "check_box",
         "label": "নবজাতক সম্পর্কিত গুরুত্বপূর্ণ তথ্য",
@@ -322,19 +329,11 @@
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "label": "নবজাতকের শারীরিক তথ্য",
+        "label": "নবজাতকের বিপদচিহ্ন",
         "exclusive": [
           "none"
         ],
         "options": [
-          {
-            "key": "ebf",
-            "text": "নবজাতক ইবিএফ গ্রহন করছে",
-            "value": false,
-            "openmrs_entity_id": "ebf",
-            "openmrs_entity": "concept",
-            "openmrs_entity_parent": ""
-          },
           {
             "key": "redness_around_umbilicus",
             "text": "আম্বিলিকাস বা অ্যাম্বিলিকাস ড্রেনিং পুসের চারপাশে লালভাব",

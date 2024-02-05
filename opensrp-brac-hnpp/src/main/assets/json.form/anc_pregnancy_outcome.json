@@ -242,6 +242,7 @@
           "Medical College Hospital",
           "Private Hospital / NGO clinic",
           "NGO",
+          "Tea Garden Facility",
           "Specialized Hospital",
           "Others Health Facility"
         ],
@@ -259,6 +260,7 @@
           "Medical College Hospital":"Medical_College_and_Hospital",
           "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
           "NGO": "Non-governmental_Organization",
+          "Tea Garden Facility": "Tea Garden Facility",
           "Specialized Hospital":"Specialized_Hospital",
           "Others Health Facility":"Others_Health_Facility"
         },
@@ -394,12 +396,14 @@
           "NVD",
           "Cesarean Section",
           "Assisted Vaginal Delivery (AVD)",
-          "ডেস্ট্রাক্টিভ অপারেশন"
+          "MVA ( Manual Vaccum Aspiration)",
+          "Destructive operations"
         ],
         "openmrs_entity_ids": {
           "NVD": "NVD",
           "Cesarean Section": "Cesarean",
           "Assisted Vaginal Delivery (AVD)": "Assisted vaginal delivery (AVD)",
+          "MVA ( Manual Vaccum Aspiration)": "MVA ( Manual Vaccum Aspiration)",
           "Destructive operations": "Destructive operations"
         },
         "relevance": {

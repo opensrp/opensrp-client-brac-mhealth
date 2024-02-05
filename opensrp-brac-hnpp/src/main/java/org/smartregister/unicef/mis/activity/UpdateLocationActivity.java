@@ -118,11 +118,20 @@ public class UpdateLocationActivity extends SecuredActivity implements  UpdateLo
             public void onClick(int position, UpdateLocationModel content) {
                 presenter.processUnion(content.id+"");
             }
+
+            @Override
+            public void unChecked(int position, UpdateLocationModel content) {
+                presenter.removeUnion(content.id);
+            }
         });
         unionAdapter = new UpdateLocationAdapter(new UpdateLocationAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, UpdateLocationModel content) {
                 presenter.processOldWard(content.id+"");
+            }
+            @Override
+            public void unChecked(int position, UpdateLocationModel content) {
+                presenter.removeOldWard(content.id);
             }
         });
         oldWardAdapter = new UpdateLocationAdapter(new UpdateLocationAdapter.OnClickAdapter() {
@@ -130,11 +139,19 @@ public class UpdateLocationActivity extends SecuredActivity implements  UpdateLo
             public void onClick(int position, UpdateLocationModel content) {
                 presenter.processWard(content.id+"");
             }
+            @Override
+            public void unChecked(int position, UpdateLocationModel content) {
+                presenter.removeWard(content.id);
+            }
         });
         wardAdapter = new UpdateLocationAdapter(new UpdateLocationAdapter.OnClickAdapter() {
             @Override
             public void onClick(int position, UpdateLocationModel content) {
                 //presenter.processOldWard(content.id+"");
+            }
+            @Override
+            public void unChecked(int position, UpdateLocationModel content) {
+               // presenter.removeWard(content.id);
             }
         });
     }

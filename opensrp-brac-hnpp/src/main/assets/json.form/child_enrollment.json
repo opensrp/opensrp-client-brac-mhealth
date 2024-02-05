@@ -174,7 +174,7 @@
         "hint": "Last name (in english)",
         "edit_type": "name",
         "v_required": {
-          "value": "true",
+          "value": "false",
           "err": "Please enter the last name"
         },
         "v_regex": {

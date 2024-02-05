@@ -11,11 +11,6 @@
         <item>BRID</item>
         <item>System ID</item>
     </string-array>
-    <string-array name="edema_value">
-        <item>না</item>
-        <item>হ্যাঁ</item>
-
-    </string-array>
     <string name="member_import">সদস্য ইম্পোর্ট</string>
     <string name="report">GMP রিপোর্ট</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
@@ -515,6 +510,8 @@
     <string name="over_9m_11m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি আধা বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
     <string name="over_12m_23m">শিশুটির বয়সের তুলনায় ওজন বেশি। শিশুকে মায়ের দুধের পাশাপাশি ১ বাটি করে দিনে তিন বার মূল খাবার এবং ১-২ বার ঘরে তৈরি পুষ্টিকর নাস্তা দিন। এর বাইরে পিজ্জা, বার্গার, চিপস, ফ্রেঞ্চফ্রাই, চকলেট, অন্যান্য প্যাকেটজাত খাবার এবং রঙিন জুস বা কোল্ড ড্রিংক বা এনার্জি ড্রিংক ইত্যাদি দিবেন না।</string>
     <string name="grow_filter">বৃদ্ধি ফিল্টারিং</string>
+    <string name="gmp_growth_faltering"><![CDATA[\u2022* শিশুর দৈহিক ওজন বৃদ্ধি পাচ্ছে না/ হ্রাস পাচ্ছে  <br />  * মারাত্মক তীব্র অপুষ্টি (মুয়াক ১১.৫ সেমি কম এবং/ ইডিমা) অথবা ইডিমা ব্যতিত অন্য কোন জটিলতা সনাক্ত করতে হবে।  <br /> * মারাত্মক তীব্র অপুষ্টি (মুয়াক ১১.৫ সেমি কম ইডিমা) অথবা অন্য কোন জটিলতার উপসর্গ থাকলে উপজেলা হাসপাতালে যেতে রেফারেল স্লিপের জন্য সিএইচসিপি-এর কাছে সাক্ষাতের পরামর্শ প্রদান করুন। ]]></string>
+
     <string name="given_at">দিয়েছে</string>
     <string name="total_unregister_child">+Child: %1$s</string>
     <string name="add_child"><![CDATA[<b><font color=#f70d1a>+Add Child</font></b>]]></string>
@@ -874,7 +871,7 @@
     <string name="compare_data_msg">আপনার ডিভাইস এর ডাটা গুলো সার্ভার এর সাথে ম্যাচ আছে কিনা চেক করার জন্য পাঠাতে চান ?</string>
     <string name="data_syncing">ডাটা সিঙ্ক করা হচ্ছে....</string>
     <string name="invalidate_data_syncing">ইনভ্যালিড ডাটা সিঙ্ক করা হচ্ছে....</string>
-    <string name="checking_permission_available_or_not">আপনার অনুমতি আছে কিনা চেক করা হচ্ছে ...</string>
+    <string name="checking_permission_available_or_not">আপনার অনুমতি আছে কিনা চেক করা হচ্ছে …</string>
     <string name="no_permission">আপনার অনুমতি নেই</string>
     <string name="sync_complete_sync_start_if_inval_data_exist">সিঙ্ক কমপ্লিট। আরো ইনভ্যালিড ডাটা থাকলে সিঙ্ক করুন</string>
     <string name="no_invalid_data_found">কোনো ইনভ্যালিড ডাটা পাওয়া যায়নি</string>
@@ -884,13 +881,13 @@
     <string name="select">সিলেক্ট করুন</string>
     <string name="old_height">পূর্বের উচ্চতা :</string>
     <string name="current_height">বর্তমান উচ্চতা:</string>
-    <string name="want_to_add_height">আপনি কি নতুন উচ্চতাটি যোগ করতে ইচ্ছুক?</string>
+    <string name="want_to_add_height">শিশুর উচ্চতা সঠিকভাবে রেকর্ড করা হয়েছে কিনা তা নিশ্চিত করুন </string>
     <string name="old_muac">পূর্বের MUAC :</string>
     <string name="current_muac">বর্তমান MUAC:</string>
-    <string name="want_to_add_muac">আপনি কি নতুন MUAC যোগ করতে ইচ্ছুক?</string>
+    <string name="want_to_add_muac">শিশুর মুয়াক সঠিকভাবে রেকর্ড করা হয়েছে কিনা তা নিশ্চিত করুন </string>
     <string name="old_weight">পূর্বের ওজোন :</string>
     <string name="current_weight">বর্তমান ওজোন:</string>
-    <string name="want_to_add_weight">আপনি কি নতুন ওজোনটি যোগ করতে ইচ্ছুক?</string>
+    <string name="want_to_add_weight">শিশুর ওজন সঠিকভাবে রেকর্ড করা হয়েছে কিনা তা নিশ্চিত করুন </string>
     <string name="system_num">সিস্টেম নাম্বার</string>
     <string name="household_address_not_found_edit">হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন</string>
     <string name="name_only">\"নামঃ \"</string>
@@ -1036,6 +1033,9 @@
     <string name="gmp_taken">আপনার কি পরিমাপ নেয়া শেষ  হয়েছে?</string>
     <string name="risky_cause">যে সকল কারনে ঝুঁকিপূর্ণ :</string>
     <string name="search_name_pn">নাম বা মোবাইল নম্বর দিয়ে খুজুন</string>
+    <string name="referrel_community">উপজেলা হাসপাতালে যেতে রেফারেল স্লিপের জন্য সিএইচসিপি-এর কাছে সাক্ষাতের পরামর্শ প্রদান করুন ।  </string>
+    <string name="referrel_facility">উপজেলা হাসপাতালে রেফার করুন । </string>
+
     <string name="referrel_hospital">সিএইচসিপি-এর কাছে সাক্ষাতের জন্য রেফার করুন</string>
     <string name="microplan">মাইক্রোপ্লান</string>
     <string name="add_outreach">কেন্দ্র যোগ করুন</string>
@@ -1105,6 +1105,11 @@
     <string name="action">Action</string>
     <string name="saturday">Saturday</string>
     <string name="difference_date">\"দুই ডেট এর ব্যবধান ২৮ দিন হতে হবে \"</string>
+    <string name="gmp_measure">অপুষ্টির সনাক্তকরণ</string>
+    <string name="session_info">সেশন এর তথ্য</string>
+    <string name="pustir_obosta">পুষ্টির অবস্থা</string>
+    <string name="session_info_not_found">সেশনের তথ্য পাওয়া যায়নি</string>
+    <string name="previous_weight_vs_height">Previous Weight vs Height</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
@@ -1123,5 +1128,11 @@
         <item>October</item>
         <item>November</item>
         <item>December</item>
+    </string-array>
+    <string name="presence_of_edema">বাইলেটারাল পেটাল ইডিমা নির্ণয় </string>
+    <string-array name="edema_value">
+        <item>না</item>
+        <item>হ্যাঁ (উভয় পা ফোলা)</item>
+
     </string-array>
 </resources>

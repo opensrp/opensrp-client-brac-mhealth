@@ -1529,6 +1529,13 @@
           }
         },
         {
+          "column_name": "session_info_received",
+          "type": "Client",
+          "json_mapping": {
+            "field": "session_info_received"
+          }
+        },
+        {
           "column_name": "last_vaccine_date",
           "type": "Client",
           "json_mapping": {

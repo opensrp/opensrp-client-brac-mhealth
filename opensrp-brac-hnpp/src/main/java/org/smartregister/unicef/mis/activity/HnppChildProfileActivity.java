@@ -400,7 +400,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         StringBuilder realVaccineName = new StringBuilder();
 
         for(String key : vaccineKeyList){
-            realVaccineName.append(HnppConstants.vaccineNameMapping.get(key)).append("\n");
+            realVaccineName.append(HnppConstants.getVaccineNameMapping().get(key)).append("\n");
         }
         return  realVaccineName.toString();
     }
@@ -440,6 +440,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         commonPersonObject = ((HnppChildProfilePresenter)presenter()).commonPersonObjectClient;
         this.mViewPager = viewPager;
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        commonPersonObject.getColumnmaps().put(org.smartregister.family.util.DBConstants.KEY.GENDER,gender);
         if(!HnppConstants.isPALogin()){
             profileMemberFragment =(HnppChildProfileDueFragment) HnppChildProfileDueFragment.newInstance(this.getIntent().getExtras());
             profileMemberFragment.setCommonPersonObjectClient(commonPersonObject);
@@ -623,6 +624,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openGMPRefereal() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP,REQUEST_HOME_VISIT);
     }
+    public void openGMPSessionPlan() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.GMP_SESSION_INFO,REQUEST_HOME_VISIT);
+    }
     public void openFollowUp() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP,REQUEST_HOME_VISIT);
     }
@@ -738,13 +742,21 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-                    if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
-                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
-                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                    try{
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                         Date date = Utils.dobStringToDate(DOB);
                         String dobFormate = HnppConstants.DDMMYY.format(date);
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                         updateFormField(jsonArray,"dob",dobFormate);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    if(HnppConstants.JSON_FORMS.IYCF_PACKAGE.equalsIgnoreCase(formName)){
+                        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                        JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
                         updateFormField(jsonArray,"weight",birthWeight);
                     }
@@ -754,6 +766,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     }
 
                     else if(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4.equalsIgnoreCase(formName)){
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (FormApplicability.getNewBornPNCCount(childBaseEntityId)+1)+"");
+
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }
@@ -767,11 +785,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             || HnppConstants.JSON_FORMS.CHILD_DISEASE.equalsIgnoreCase(formName) ){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
-                        Date date = Utils.dobStringToDate(DOB);
-                        String dobFormate = HnppConstants.DDMMYY.format(date);
 
-                        updateFormField(jsonArray,"dob",dobFormate);
                         ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
                         if(referralData!=null){
                             updateFormField(jsonArray,"is_referred","Yes");
@@ -789,6 +803,15 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         String dobFormate = HnppConstants.DDMMYY.format(date);
 
                         updateFormField(jsonArray,"dob",dobFormate);
+                    }
+                    if(HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP.equalsIgnoreCase(formName)){
+                        String sessionInfo = HnppDBUtils.getSessionInfo(childBaseEntityId);
+                        if(sessionInfo.equalsIgnoreCase("কমিউনিটি") || sessionInfo.equalsIgnoreCase("Community")) {
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"session_info","Community");
+                        }
+                        if(sessionInfo.equalsIgnoreCase("স্বাস্থ্য কেন্দ্রে") || sessionInfo.equalsIgnoreCase("Health Care Facility")){                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"session_info","Community");
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"session_info","Facility");
+                        }
                     }
                     if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                         if(gender.equalsIgnoreCase("F")){

@@ -9,6 +9,7 @@ import org.smartregister.AllConstants;
 import org.smartregister.growthmonitoring.repository.HeightRepository;
 import org.smartregister.growthmonitoring.repository.HeightZScoreRepository;
 import org.smartregister.growthmonitoring.repository.MUACRepository;
+import org.smartregister.growthmonitoring.repository.WeightForHeightRepository;
 import org.smartregister.growthmonitoring.repository.WeightRepository;
 import org.smartregister.growthmonitoring.repository.ZScoreRepository;
 import org.smartregister.unicef.mis.HnppApplication;
@@ -108,10 +109,14 @@ public class HnppChwRepository extends Repository {
         ReferralRepository.createTable(database);
         OutreachRepository.createTable(database);
         MicroPlanRepository.createTable(database);
+        WeightForHeightRepository.createTable(database);
         try{
             alterChildTable(database);
             alterMemberTable(database);
+            alterChildGMPTable(database);
+
         }catch (Exception e){
+            e.printStackTrace();
 
         }
     }
@@ -137,7 +142,10 @@ public class HnppChwRepository extends Repository {
                     try{
                         alterChildTable(db);
                         alterMemberTable(db);
+                        alterChildGMPTable(db);
+                        WeightForHeightRepository.createTable(db);
                     }catch (Exception e){
+                        e.printStackTrace();
 
                     }
                     break;
@@ -149,6 +157,9 @@ public class HnppChwRepository extends Repository {
     }
     private void alterChildTable(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_went_uhc VARCHAR;");
+    }
+    private void alterChildGMPTable(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN session_info_received VARCHAR;");
     }
     private void alterMemberTable(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");

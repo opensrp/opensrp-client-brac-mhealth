@@ -178,7 +178,9 @@ public class MigrationInteractor  {
         if(hhid == null){
             return "";
         }
-        unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation, hhid.getOpenmrsId() + "");
+//        unique_id = HALocationHelper.getInstance().generateHouseHoldId(HALocation, hhid.getOpenmrsId() + "");
+
+        unique_id = HALocationHelper.getInstance().generateHouseHoldId();
 
         return unique_id;
     }

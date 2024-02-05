@@ -87,7 +87,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         String gender = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.GENDER, true);
         String getGender = HnppConstants.getGender(gender);
         getView().setAddress(address);
-        getView().setGender(getGender+", "+parentName);
+        getView().setGender(getGender);
 
         String shrId = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.SHR_ID, false);
         if(!TextUtils.isEmpty(shrId)){

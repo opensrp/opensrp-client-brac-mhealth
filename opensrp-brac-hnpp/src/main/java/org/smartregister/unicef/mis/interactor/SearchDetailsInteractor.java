@@ -113,7 +113,7 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
                 return null;
             }
             String url = "";
-            if(!globalSearchContentData.getShrId().isEmpty()){
+            if(!TextUtils.isEmpty(globalSearchContentData.getShrId())){
                 url = baseUrl + GLOBAL_SEARCH_URL+"shr_id="+globalSearchContentData.getShrId();
             }else{
                 url= baseUrl + GLOBAL_SEARCH_URL + "district_id="+globalSearchContentData.getDistrictId()+"&division_id="+globalSearchContentData.getDivisionId()

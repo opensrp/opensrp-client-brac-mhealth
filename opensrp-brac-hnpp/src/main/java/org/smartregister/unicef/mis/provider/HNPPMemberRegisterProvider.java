@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,6 +116,7 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         if (StringUtils.isNotBlank(dod) ) {
             dobString = org.smartregister.family.util.Utils.getDuration(dod, dob);
             patientName = patientName + "\n" + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context) + " " + this.context.getString(org.smartregister.family.R.string.deceased_brackets);
+            Log.v("PATIENT_PROFILE","patientName>>"+patientName+":dobString:"+dobString);
             viewHolder.patientNameAge.setFontVariant(FontVariant.REGULAR);
             viewHolder.patientNameAge.setTextColor(-7829368);
             viewHolder.patientNameAge.setTypeface(viewHolder.patientNameAge.getTypeface(), Typeface.ITALIC);

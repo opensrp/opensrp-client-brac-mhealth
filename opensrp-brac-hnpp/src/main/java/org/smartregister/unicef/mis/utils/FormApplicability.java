@@ -49,6 +49,7 @@ public class FormApplicability {
 
     }
     public static String isDueChildEccd(Date dob){
+        if(!HnppConstants.isDisabilityEnable()) return null;
 
         if(HnppConstants.isPALogin()){
             return null;

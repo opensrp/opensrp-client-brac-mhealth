@@ -38,21 +38,25 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
             view.showProgressBar();
             searchData.clear();
             for(Client migration:data){
-                String name = migration.getFirstName().toLowerCase()+" "+migration.getLastName().toLowerCase();
+                StringBuilder nameBuilder = new StringBuilder();
+                if(migration.getFirstName()!=null){
+                    nameBuilder.append(migration.getFirstName().toLowerCase());
+                }
+                if(migration.getLastName() !=null){
+                    nameBuilder.append(" ");
+                    nameBuilder.append(migration.getLastName().toLowerCase());
+                }
                 String phoneNo ="",hhPhoneNo="",nationalId ="",birthRegistrationID ="";
                 if(migration.getAttribute("Mobile_Number")!=null){
                     phoneNo = migration.getAttribute("Mobile_Number").toString();
                 }
-//                if(migration.attributes!=null && migration.attributes.HOH_Phone_Number!=null){
-//                    hhPhoneNo = migration.attributes.HOH_Phone_Number;
-//                }
-//                if(migration.attributes!=null && migration.attributes.nationalId!=null){
-//                    nationalId = migration.attributes.nationalId;
-//                }
-//                if(migration.attributes!=null && migration.attributes.birthRegistrationID!=null){
-//                    birthRegistrationID = migration.attributes.birthRegistrationID;
-//                }
-                if(name.contains(query)){
+                if(migration.getAttribute("nationalId")!=null){
+                    nationalId = migration.getAttribute("nationalId").toString();
+                }
+                if(migration.getAttribute("birthRegistrationID")!=null){
+                    birthRegistrationID = migration.getAttribute("birthRegistrationID").toString();
+                }
+                if(nameBuilder.toString().contains(query)){
                     searchData.add(migration);
                 }else if(phoneNo.contains(query)){
                     searchData.add(migration);

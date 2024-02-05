@@ -359,7 +359,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "referral",
         "type": "toaster_notes",
-        "text": "Refer the child to the nearest hospital or disability service and assistance centre for  necessary consultation from Specialist.",
+        "text": "Refer the child to the nearest hospital or disability service and assistance centre for necessary consultation from Specialist.\n Referral centres in DNCC Zone 4 are located as below:\n 1. Sishu Bikash Kendro in Shaheed Suhrawardy Medical College and Hospital\n- Location: Block 2 – room number 1018\n- Contact number: 48116011 \n 2. Sishu Bikash Kendro in Bangladesh Shishu Hospital & Institute\n- Location: Room number 180 \n- Contact number: 02-55059051\nBoth open from 9am to 2pm (Except for Friday and Government holiday)",
         "text_color": "#000000",
         "toaster_type": "info",
         "relevance": {
@@ -378,36 +378,14 @@
         "type": "spinner",
         "hint": "Place of Referral",
         "values":[
-          "Community Clinic",
-          "Union Sub-center (USC)",
-          "UFWC (Union Family Welfare Center)",
-          "UH & FWC",
-          "Metarnal and Child Wellfare Center",
-          "10 Bed Hospital",
-          "20 Beds Hospital",
-          "UHC (Upazila Health Complex)",
-          "District Hospital",
-          "Medical College Hospital",
-          "Private Hospital / NGO clinic",
-          "NGO",
-          "Specialized Hospital",
-          "Others Health Facility"
+          "Sishu Bikash Kendro in Shaheed Suhrawardy Medical College and Hospital",
+          "Sishu Bikash Kendro in Bangladesh Shishu Hospital & Institute",
+          "Others"
         ],
         "openmrs_choice_ids":{
-          "Community Clinic":"Community_Clinic",
-          "Union Sub-center (USC)":"Union_Sub_Center",
-          "UFWC (Union Family Welfare Center)":"Union_Family_Welfare_Center",
-          "UH & FWC":"Union_Health_and_Family_Welfare_Center",
-          "Metarnal and Child Wellfare Center":"Metarnal_and_Child_Wellfare_Center",
-          "10 Bed Hospital":"10_Bed_Hospital",
-          "20 Beds Hospital":"20_Beds_Hospital",
-          "Upazila Health Complex":"Upazila_Health_Complex",
-          "District Hospital":"District_Hospital",
-          "Medical College Hospital":"Medical_College_and_Hospital",
-          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
-          "NGO": "Non-governmental_Organization",
-          "Specialized Hospital":"Specialized_Hospital",
-          "Others Health Facility":"Others_Health_Facility"
+          "Sishu Bikash Kendro in Shaheed Suhrawardy Medical College and Hospital": "Sishu Bikash Kendro in Shaheed Suhrawardy Medical College and Hospital",
+          "Sishu Bikash Kendro in Bangladesh Shishu Hospital & Institute": "Sishu Bikash Kendro in Bangladesh Shishu Hospital & Institute",
+          "Others": "Others"
         },
         "relevance": {
           "rules-engine": {
@@ -419,6 +397,20 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "other_referral_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_referral_place",
+        "type": "edit_text",
+        "hint": "Others referral place",
+        "relevance": {
+          "step1:place_of_referral": {
+            "type": "string",
+            "ex": "equalTo(., \"Others\")"
+          }
         }
       }
     ]

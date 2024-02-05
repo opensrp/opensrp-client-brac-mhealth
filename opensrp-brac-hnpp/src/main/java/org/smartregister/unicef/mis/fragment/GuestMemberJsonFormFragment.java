@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.interactor.HnppJsonFormInteractor;
+import org.smartregister.unicef.mis.location.HALocationHelper;
 import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.repository.GlobalLocationRepository;
 
@@ -231,9 +232,7 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
         }
     }
     private void generatedId(){
-        @SuppressLint("DefaultLocale") String eightDigit = String.format("%08d", new Random().nextInt(10000000));
-        Log.v("SYSTEM_ID","systemId:"+eightDigit);
-        String uniqueId = "2"+selectedDivCode+""+selectedDistrictCode+selectedUpozilaCode+eightDigit;
+        String uniqueId = HALocationHelper.getInstance().generateIdForOCA();
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialEditText) {

@@ -1088,6 +1088,24 @@ public class HnppDBUtils {
         }
         return count;
     }
+    public static int getOCACount(){
+
+        String query = "select count(*) from ec_guest_member";
+        Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
     public static boolean isExitHouseHoldId(String uniqueId){
 
         String query = "select count(*) from ec_family where unique_id = '"+uniqueId+"'";
@@ -1786,5 +1804,17 @@ public class HnppDBUtils {
         List<Map<String, String>> valus = AbstractDao.readData(mem, new String[]{baseEntityId});
 
         return valus.get(0);
+    }
+
+    public static String getaefiVaccines(String baseEntityId) {
+        String lmp = "SELECT aefi_vaccines FROM ec_child where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+
+        return valus.get(0).get("aefi_vaccines");
+    }
+    public static String getSessionInfo(String baseEntityId) {
+        String lmp = "SELECT session_info_received FROM ec_child where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+        return valus.get(0).get("session_info_received");
     }
 }

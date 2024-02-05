@@ -9,7 +9,7 @@ actions:
 name: step1_new_born_info
 description: new_born_info
 priority: 1
-condition: "helper.formatDate(step1_dob,'d') <= 42"
+condition: "helper.formatDate(step1_dob,'d') <= 42 && step1_pnc_count <=1"
 actions:
   - "isRelevant = true"
 ---

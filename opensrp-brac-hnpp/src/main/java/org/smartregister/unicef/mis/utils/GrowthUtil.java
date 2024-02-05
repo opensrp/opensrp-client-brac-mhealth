@@ -229,6 +229,7 @@ public class GrowthUtil {
     public static String refreshPreviousWeightsTable(Activity context, TableLayout previousweightholder, Gender gender, Date dob, List<Weight> weights,boolean isNeedToUpdateDB) {
         String weightText = "";
         HashMap<Long, Weight> weightHashMap = new HashMap<>();
+
         for (Weight curWeight : weights) {
             if (curWeight.getDate() != null) {
                 Calendar curCalendar = Calendar.getInstance();
@@ -237,7 +238,7 @@ public class GrowthUtil {
 
                 if (!weightHashMap.containsKey(curCalendar.getTimeInMillis())) {
                     weightHashMap.put(curCalendar.getTimeInMillis(), curWeight);
-                } else if (curWeight.getUpdatedAt() > weightHashMap.get(curCalendar.getTimeInMillis()).getUpdatedAt()) {
+                } else if (weightHashMap.get(curCalendar.getTimeInMillis())!=null && (curWeight.getDate().getTime() > weightHashMap.get(curCalendar.getTimeInMillis()).getDate().getTime())) {
                     weightHashMap.put(curCalendar.getTimeInMillis(), curWeight);
                 }
             }
@@ -307,11 +308,26 @@ public class GrowthUtil {
             double zScore = (zScoreDouble == null) ? 0 : zScoreDouble.doubleValue();
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
             zScore = ZScore.roundOff(zScore);
+            Log.v("WEIGHT","adapter zscore:"+zScore);
             String text = ZScore.getZScoreText(zScore);
             zScoreTextView.setTextColor(context.getResources().getColor(ZScore.getZScoreColor(zScore)));
             zScoreTextView.setText(String.valueOf(zScore));
             //}
             curRow.addView(zScoreTextView);
+
+            //
+            String eachWeightText = getWeightBengaliText(ZScore.getZScoreText(ZScore.roundOff(zScoreDouble)));
+            // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
+
+            TextView statusTextView = new TextView(previousweightholder.getContext());
+            statusTextView.setHeight(context.getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
+            statusTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.weight_table_contents_text_size));
+            statusTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            statusTextView.setTextColor(context.getResources().getColor(ZScore.getZScoreColor(zScore)));
+            statusTextView.setText(eachWeightText);
+
+            curRow.addView(statusTextView);
             previousweightholder.addView(curRow);
         }
         //Now set the expand button if items are too many
@@ -323,9 +339,27 @@ public class GrowthUtil {
             // double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
             zScore = ZScore.roundOff(zScore);
             weightText = ZScore.getZScoreText(zScore);
+            Log.v("WEIGHT","zScore:"+zScore+":weightText:"+weightText);
             if(isNeedToUpdateDB) updateLastWeight(weight.getKg(),zScore,weight.getBaseEntityId(),weightText);
         }
+        Log.v("WEIGHT",":weightText:"+weightText);
         return weightText;
+    }
+    private static String getWeightBengaliText(String zScoreText) {
+        switch (zScoreText.toUpperCase()){
+            case "SAM":
+                return "মারাত্মক অপুষ্টি";
+            case "DARK YELLOW":
+            case "LMAL":
+                return "মাঝারি অপুষ্টি";
+            case "MAM":
+                return "স্বল্প অপুষ্টি";
+            case "OVER WEIGHT":
+                return "বেশি ওজন";
+            default:
+                return "স্বাভাবিক";
+
+        }
     }
     public static void updateLastWeight(float kg,double weightZscore,String baseEntityId,String status){
 
@@ -352,9 +386,6 @@ public class GrowthUtil {
         }catch (Exception e){
             e.printStackTrace();
         }
-        if(status.equalsIgnoreCase("sam")){
-            updateIsRefered(baseEntityId,"true","");
-        }
     }
     public static void updateLastMuac(float cm,String baseEntityId,String status,String muacValue){
         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
@@ -376,6 +407,12 @@ public class GrowthUtil {
         String sql = "UPDATE ec_child SET is_refered = '"+state+"',is_went_uhc ='"+isWentToUHC+"' WHERE base_entity_id = '" + baseEntityId + "';";
         db.execSQL(sql);
     }
+    public static void updateGMPSession(String baseEntityId,String sessionInfo){
+        Log.v("GMP_REFERREL","updateGMPSession>>"+baseEntityId+":sessionInfo:"+sessionInfo);
+        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+        String sql = "UPDATE ec_child SET session_info_received = '"+sessionInfo+"' WHERE base_entity_id = '" + baseEntityId + "';";
+        db.execSQL(sql);
+    }
 
     public static String getBirthWeight(String baseEntityId){
         String query = "select birth_weight from ec_child where base_entity_id = '"+baseEntityId+"'";
@@ -394,15 +431,16 @@ public class GrowthUtil {
         }
         return birthWeight;
     }
-    public static String getIsRefferedValue(String baseEntityId){
-        String query = "select is_refered from ec_child where base_entity_id = '"+baseEntityId+"'";
+    public static String[] getIsRefferedValue(String baseEntityId){
+        String query = "select is_refered,is_went_uhc from ec_child where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
-        String referrelStatus="";
+        String[] referrelStatus= new String[2];
         try {
             cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
-                referrelStatus = cursor.getString(0);
+                referrelStatus[0] = cursor.getString(0);
+                referrelStatus[1] = cursor.getString(1);
             }
             if(cursor!=null)cursor.close();
             return referrelStatus;

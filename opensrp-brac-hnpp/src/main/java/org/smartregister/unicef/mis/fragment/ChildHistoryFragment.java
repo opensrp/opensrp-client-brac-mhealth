@@ -17,12 +17,15 @@ import com.vijay.jsonwizard.domain.Form;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.family.util.Utils;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.activity.HnppFormViewActivity;
 import org.smartregister.unicef.mis.adapter.MemberHistoryAdapter;
 import org.smartregister.unicef.mis.contract.MemberHistoryContract;
 import org.smartregister.unicef.mis.presenter.ChildHistoryPresenter;
 import org.smartregister.unicef.mis.utils.HnppConstants;
+import org.smartregister.unicef.mis.utils.HnppDBUtils;
+import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.mis.utils.MemberHistoryData;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
@@ -134,7 +137,11 @@ public class ChildHistoryFragment extends Fragment implements MemberHistoryContr
 
             Intent intent = new Intent(getActivity(), HnppFormViewActivity.class);
             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+            if(content.getEventType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.AEFI_CHILD)){
+                String aefiVaccine = HnppDBUtils.getaefiVaccines(baseEntityId);
 
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"previous_vaccine_problem",aefiVaccine);
+            }
             Form form = new Form();
             form.setWizard(false);
             if(!HnppConstants.isReleaseBuild()){

@@ -72,6 +72,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ENC_RE
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.EYE_TEST;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_SESSION_INFO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
@@ -187,7 +188,20 @@ public class FormParser {
                                 log.setReferReason(value);
 
                             }
+                            if(details.containsKey("went_uhc_facility")&&!StringUtils.isEmpty(details.get("went_uhc_facility"))){
+                                value = details.get("went_uhc_facility");
+                                log.setReferReason(value);
+
+                            }
                             GrowthUtil.updateIsRefered(base_entity_id,"false",value);
+                        }
+                        if(GMP_SESSION_INFO.equalsIgnoreCase(encounter_type)){
+                            String sessionInfo ="";
+                            if(details.containsKey("where_gmp_session")&&!StringUtils.isEmpty(details.get("where_gmp_session"))){
+                                sessionInfo = details.get("where_gmp_session");
+
+                            }
+                            GrowthUtil.updateGMPSession(base_entity_id,sessionInfo);
                         }
                         if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
                             if(details.containsKey("Weight")){
@@ -2323,6 +2337,9 @@ public class FormParser {
                 break;
             case GMP_REFERREL_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP + ".json";
+                break;
+            case GMP_SESSION_INFO:
+                form_name = HnppConstants.JSON_FORMS.GMP_SESSION_INFO + ".json";
                 break;
             case CHILD_FOLLOWUP:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOWUP + ".json";

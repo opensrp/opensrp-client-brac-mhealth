@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import org.opensrp.api.constants.Gender;
 import org.smartregister.unicef.mis.R;
 
 import java.util.HashMap;
@@ -59,6 +60,7 @@ public class GMPHeightDialogFragment extends DialogFragment {
     private ProgressBar progressBar;
     private HashMap<Integer,Float> heightValues;
     private int currentAge;
+    private Gender gender;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,9 +87,10 @@ public class GMPHeightDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         loadData();
     }
-    public void setHeightValues(HashMap<Integer,Float> weightValues, int currentAge){
+    public void setHeightValues(HashMap<Integer,Float> weightValues, int currentAge, Gender gender){
         this.heightValues = weightValues;
         this.currentAge = currentAge;
+        this.gender = gender;
 
     }
     @SuppressLint("SetJavaScriptEnabled")
@@ -114,7 +117,9 @@ public class GMPHeightDialogFragment extends DialogFragment {
             Log.v("GMP_WEIGHT","Key: "+key+"     Value: "+ heightValues.get(key));
         }
         Log.v("GMP_WEIGHT","getHtmlText>>"+builder);
-        String functionByAge = currentAge<=23?"gmp.girl_height_gain_chart_0_24(child);":"gmp.girl_height_gain_chart_24_60(child) (child);";
+//        String functionByAge = currentAge<=23?"gmp.girl_height_gain_chart_0_24(child);":"gmp.girl_height_gain_chart_24_60(child) (child);";
+        String functionByAge = gender.name().equalsIgnoreCase(Gender.FEMALE.name())?"gmp.girl_height_gain_chart_0_60(child);":"gmp.boy_height_gain_chart_0_60(child);";
+
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +
@@ -165,7 +170,7 @@ public class GMPHeightDialogFragment extends DialogFragment {
                 "\n" +
                 "\n" +
                 "\n" +
-                "<script src=\"gmp.min.js\"></script>\n" +
+                "<script src=\"gmp.1.0.3.min.js\"></script>\n" +
                 "\n" +
                 "<script>\n" +
                 "    var child = [\n" +builder+
@@ -185,6 +190,8 @@ public class GMPHeightDialogFragment extends DialogFragment {
                 "   \n" +
                 "\n" +
                 "gmp = new GMPChart(\"svg-container\");\n" +
+                "gmp.chart_stroke_width = 4;\n" +
+                "gmp.chart_stroke_color = 'blue';"+
                 "\n" +functionByAge+
                 "//gmp.draw_chart(child);"+
                 "\n" +
@@ -242,7 +249,7 @@ public class GMPHeightDialogFragment extends DialogFragment {
 //                "\n" +
 //                "\n" +
 //                "\n" +
-//                "<script type=\"text/javascript\" src=\"gmp.min.js\" ></script>\n" +
+//                "<script type=\"text/javascript\" src=\"gmp.min_1.js\" ></script>\n" +
 //                "\n" +
 //                "<script>\n" +
 //                "    var child = [\n" +builder+

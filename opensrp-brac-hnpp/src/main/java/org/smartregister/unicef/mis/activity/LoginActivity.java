@@ -31,6 +31,7 @@ import org.smartregister.unicef.mis.job.MicroPlanFetchJob;
 import org.smartregister.unicef.mis.job.PullGuestMemberIdServiceJob;
 import org.smartregister.unicef.mis.job.SSLocationFetchJob;
 import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
+import org.smartregister.unicef.mis.job.WeightHeightIntentServiceJob;
 import org.smartregister.unicef.mis.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.mis.location.SaveDistrictTask;
 import org.smartregister.unicef.mis.presenter.LoginPresenter;
@@ -385,6 +386,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
         HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
         ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
+        WeightHeightIntentServiceJob.scheduleJobImmediately(WeightHeightIntentServiceJob.TAG);
 
     }
     private void postHPVData(){

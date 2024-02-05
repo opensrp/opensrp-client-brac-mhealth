@@ -126,8 +126,8 @@ android {
 
 
         training{
-            versionCode 17
-            versionName "1.1.7"
+            versionCode 18
+            versionName "1.1.8"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -152,7 +152,7 @@ android {
 
         }
         production{
-            versionCode 16
+            versionCode 17
             versionName "1.1.3"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
@@ -204,8 +204,15 @@ dependencies {
 
     implementation 'com.github.RobertApikyan:SegmentedControl:1.2.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-//    //from branch muac_edema_gmp
-    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.0-gmp-SNAPSHOT@aar') {
+//    //from branch muac_weight_height
+//    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.0-gmp-SNAPSHOT@aar') {
+//        transitive = true
+//        exclude group: 'org.smartregister', module: 'opensrp-client-core'
+//        exclude group: 'com.android.support', module: 'design'
+//        exclude group: 'com.android.support', module: 'appcompat-v7'
+//    }
+    //from branch weight_vs_height
+    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.1-gmp-weight-height-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'design'

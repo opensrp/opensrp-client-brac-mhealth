@@ -27,7 +27,7 @@ public class UpdateLocationAdapter extends RecyclerView.Adapter<UpdateLocationAd
     }
 
     public void setData(ArrayList<UpdateLocationModel> contentList) {
-        //this.filterTypeList.clear();
+        this.filterTypeList.clear();
         this.filterTypeList.addAll(contentList);
     }
 
@@ -57,6 +57,7 @@ public class UpdateLocationAdapter extends RecyclerView.Adapter<UpdateLocationAd
                 }else{
                     selectedList.remove(Integer.valueOf(content.id));
                     locationNameList.remove(content.name);
+                    onClickAdapter.unChecked(viewHolder.getAdapterPosition(), content);
 //                    Iterator itr = selectedList.iterator();
 //                    while (itr.hasNext()) {
 //                        int x = (Integer)itr.next();
@@ -83,6 +84,7 @@ public class UpdateLocationAdapter extends RecyclerView.Adapter<UpdateLocationAd
 
     public interface OnClickAdapter {
         void onClick(int position, UpdateLocationModel content);
+        void unChecked(int position, UpdateLocationModel content);
     }
     public static class FilterTypeViewHolder extends RecyclerView.ViewHolder {
         public CheckBox filterTypeCheck;

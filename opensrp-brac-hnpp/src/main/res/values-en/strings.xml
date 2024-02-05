@@ -12,11 +12,6 @@
         <item>EPI No</item>
         <item>System ID</item>
     </string-array>
-    <string-array name="edema_value">
-        <item>No</item>
-        <item>Yes</item>
-
-    </string-array>
     <string name="member_import">Member Import</string>
     <string name="report">GMP Report</string>
     <string name="due_visit">Date of last visit \n %1$s \n Number: %2$s</string>
@@ -519,6 +514,8 @@
     <string name="over_9m_11m">Child is overweight for age. Give the baby half a bowl of main food three times a day and 1–2 home-made nutritious snacks along with breast milk. Apart from this do not give pizza, burger, chips, french fries, chocolate, other packaged food and colored juice or cold drink or energy drink etc.</string>
     <string name="over_12m_23m">Child is overweight for age. Give the baby 1 bowl of main food three times a day and 1–2 home-made nutritious snacks along with breast milk. Apart from this do not give pizza, burger, chips, french fries, chocolate, other packaged food and colored juice or cold drink or energy drink etc.</string>
     <string name="grow_filter">Growth filtering</string>
+    <string name="gmp_growth_faltering"><![CDATA[\u2022* Child\’s weight is not increasing/decreasing  <br />  * Severe acute malnutrition (MUAC <11.5 cm and/ Edema) or any other complication other than edema should be detected. <br /> * If symptoms of severe acute malnutrition (MUAC < 11.5 cm, edema) or any other complications are present, advice to visit community clinic for referral to Upazila Hospital ]]></string>
+
     <string name="given_at">Given</string>
     <string name="total_unregister_child">+Child: %1$s</string>
     <string name="add_child"><![CDATA[<b><font color=#f70d1a>+Add Child</font></b>]]></string>
@@ -843,9 +840,9 @@
     <string name="data_sync_msg">\"Your data is being synced with the server\"</string>
     <string name="compare_data_with_server">Compare data with server</string>
     <string name="compare_data_msg">Would you like to send your device data to the server to check if it matches?</string>
-    <string name="data_syncing">Syncing data...</string>
-    <string name="invalidate_data_syncing">Syncing invalid data...</string>
-    <string name="checking_permission_available_or_not">Checking whether you have permission ...</string>
+    <string name="data_syncing">Syncing data…</string>
+    <string name="invalidate_data_syncing">Syncing invalid data…</string>
+    <string name="checking_permission_available_or_not">Checking whether you have permission …</string>
     <string name="no_permission">You do not have permission</string>
     <string name="sync_complete_sync_start_if_inval_data_exist">Sync complete. Sync</string> if there is more invalid data
     <string name="no_invalid_data_found">No invalid data found</string>
@@ -855,13 +852,13 @@
     <string name="select">Select</string>
     <string name="old_height">Old height :</string>
     <string name="current_height">Current height:</string>
-    <string name="want_to_add_height">Do you want to add new height?</string>
+    <string name="want_to_add_height">    Ensure that the child\'s height is recorded correctly </string>
     <string name="old_muac">Old MUAC :</string>
     <string name="current_muac">Current MUAC:</string>
-    <string name="want_to_add_muac">Do you want to add new MUAC?</string>
+    <string name="want_to_add_muac">    Ensure that the child\'s MUAC is recorded correctly </string>
     <string name="old_weight">Old ozone :</string>
     <string name="current_weight">Current Ozone:</string>
-    <string name="want_to_add_weight">Do you want to add new ozone?</string>
+    <string name="want_to_add_weight">    Ensure that the child\'s weight is recorded correctly </string>
     <string name="system_num">System number</string>
     <string name="household_address_not_found_edit">Household address not found. Edit Household</string>
     <string name="name_only">\"Name: \"</string>
@@ -1010,6 +1007,8 @@
     <string name="risky_cause">Caused of risky patient :</string>
     <string name="search_name_pn">Search by Name or phone number</string>
     <string name="referrel_hospital">Refer to meet CHCP</string>
+    <string name="referrel_community">উপজেলা হাসপাতালে যেতে রেফারেল স্লিপের জন্য সিএইচসিপি-এর কাছে সাক্ষাতের পরামর্শ প্রদান করুন ।  </string>
+    <string name="referrel_facility">উপজেলা হাসপাতালে রেফার করুন । </string>
     <string name="microplan">Microplan</string>
     <string name="add_outreach">Add Outreach</string>
     <string name="add_epi_microplan">Add EPI microplan</string>
@@ -1078,6 +1077,11 @@
     <string name="action">Action</string>
     <string name="saturday">Saturday</string>
     <string name="difference_date">\"দুই ডেট এর ব্যবধান ২৮ দিন হতে হবে \"</string>
+    <string name="gmp_measure">অপুষ্টির সনাক্তকরণ</string>
+    <string name="session_info">সেশন এর তথ্য</string>
+    <string name="pustir_obosta">পুষ্টির অবস্থা</string>
+    <string name="session_info_not_found">সেশনের তথ্য পাওয়া যায়নি</string>
+    <string name="previous_weight_vs_height">Previous Weight vs Height</string>
     <string-array name="report_segment">
         <item>MUAC</item>
         <item>Weight</item>
@@ -1096,5 +1100,12 @@
         <item>October</item>
         <item>November</item>
         <item>December</item>
+    </string-array>
+    <string name="presence_of_edema">Presence of Bipedal oedema? </string>
+
+    <string-array name="edema_value">
+        <item>না</item>
+        <item>হ্যাঁ (উভয় পা ফোলা)</item>
+
     </string-array>
 </resources>

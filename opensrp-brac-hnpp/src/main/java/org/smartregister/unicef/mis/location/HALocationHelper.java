@@ -1,10 +1,16 @@
 package org.smartregister.unicef.mis.location;
 
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.USER_ID;
+
+import android.annotation.SuppressLint;
+
+import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Address;
 import org.smartregister.clientandeventmodel.Client;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.utils.HnppDBUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,12 +38,28 @@ public class HALocationHelper {
         }
         return instance;
     }
-
-    public String generateHouseHoldId(HALocation HALocation, String randomId){
-
-        return  "1"+HALocation.division.code+""+ HALocation.district.code+""+ HALocation.upazila.code+""
-                + HALocation.union.code+""+ HALocation.ward.code+""
-                + HALocation.block.code+""+randomId;
+    @SuppressLint("DefaultLocale")
+    public String generateIdForOCA(){
+        int householdCount = HnppDBUtils.getOCACount();
+        String householdCountFourDigit = String.format("%04d", householdCount+1);
+        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
+        userId = String.format("%05d", Integer.parseInt(userId));
+        long time = System.currentTimeMillis();
+        String random3digit = String.format("%03d", time % 1000);
+        return  "2"+userId+""+random3digit+""+householdCountFourDigit;
+    }
+    @SuppressLint("DefaultLocale")
+    public String generateHouseHoldId(){
+        int householdCount = HnppDBUtils.getHouseHoldCount();
+        String householdCountFourDigit = String.format("%04d", householdCount+1);
+        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
+        userId = String.format("%05d", Integer.parseInt(userId));
+        long time = System.currentTimeMillis();
+        String random3digit = String.format("%03d", time % 1000);
+        return  "1"+userId+""+random3digit+""+householdCountFourDigit;
+//        return  "1"+HALocation.division.code+""+ HALocation.district.code+""+ HALocation.upazila.code+""
+//                + HALocation.union.code+""+ HALocation.ward.code+""
+//                + HALocation.block.code+""+generatedRandomId();
     }
     public Address getSSAddress(HALocation HALocation){
         Address address = new Address();

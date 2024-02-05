@@ -292,10 +292,11 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
         textViewParentName.setText(parentName);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setGender(String gender) {
         this.gender = gender;
-        textViewGender.setText(gender);
+        textViewGender.setText(gender+""+textViewParentName.getText().toString());
         updateTopBar();
     }
     protected void updateTopBar() {
