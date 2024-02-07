@@ -26,7 +26,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import org.opensrp.api.constants.Gender;
 
 import org.smartregister.brac.hnpp.R;
 
@@ -69,6 +69,7 @@ public class GMPWeightDialogFragment extends DialogFragment {
     private HashMap<Integer,Float> weightValues;
     private int currentAge;
     private Activity mActivity;
+    private Gender gender;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,10 +107,11 @@ public class GMPWeightDialogFragment extends DialogFragment {
 
         loadData();
     }
-    public void setWeightValues(HashMap<Integer,Float> weightValues, int currentAge, Activity activity){
+    public void setWeightValues(HashMap<Integer,Float> weightValues, int currentAge, Gender gender,Activity activity){
         this.weightValues = weightValues;
         this.currentAge = currentAge;
         this.mActivity = activity;
+        this.gender = gender;
     }
     @SuppressLint("SetJavaScriptEnabled")
     private void loadData(){
@@ -151,8 +153,10 @@ public class GMPWeightDialogFragment extends DialogFragment {
             builder.append("x:").append(key).append(",y:").append(weightValues.get(key)).append("}");
             Log.v("GMP_WEIGHT","Key: "+key+"     Value: "+weightValues.get(key));
         }
-        Log.v("GMP_WEIGHT","getHtmlText>>"+builder);
-        String functionByAge = currentAge<=23?"gmp.girl_weight_gain_chart_0_24(child);":"gmp.girl_weight_gain_chart_24_60(child);";
+        Log.v("GMP_WEIGHT","getHtmlText>>"+builder+":gender.name():"+gender.name());
+        String functionByAge = gender.name().equalsIgnoreCase(Gender.FEMALE.name())?"gmp.girl_weight_gain_chart_0_60(child);":"gmp.boy_weight_gain_chart_0_60(child);";
+
+        //String functionByAge = currentAge<=23?"gmp.girl_weight_gain_chart_0_24(child);":"gmp.girl_weight_gain_chart_24_60(child);";
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +
@@ -203,7 +207,7 @@ public class GMPWeightDialogFragment extends DialogFragment {
                 "\n" +
                 "\n" +
                 "\n" +
-                "<script src=\"gmp.min.js\"></script>\n" +
+                "<script src=\"gmp.1.0.3.min.js\"></script>\n" +
                 "\n" +
                 "<script>\n" +
                 "    var child = [\n" +builder+
@@ -223,6 +227,8 @@ public class GMPWeightDialogFragment extends DialogFragment {
                 "   \n" +
                 "\n" +
                 "gmp = new GMPChart(\"svg-container\");\n" +
+                "gmp.chart_stroke_width = 4;\n" +
+                "gmp.chart_stroke_color = 'blue';"+
                 "\n" +functionByAge+
                 "//gmp.draw_chart(child);"+
                 "\n" +
@@ -239,81 +245,6 @@ public class GMPWeightDialogFragment extends DialogFragment {
                 "</body>\n" +
                 "</html> ";
 
-//
-//        return "<html>\n" +
-//                "\n" +
-//                "<head>\n" +
-//                "    <style>\n" +
-//                "        .svg-container {\n" +
-//                "            width: 700px;\n" +
-//                "            height: 500px;\n" +
-//                "            resize: both;\n" +
-//                "            overflow: auto;\n" +
-//                "            border: 1px dashed #aaa;\n" +
-//                "            }\n" +
-//                "\n" +
-//                "            svg {\n" +
-//                "            width: 100%;\n" +
-//                "            height: 100%;\n" +
-//                "            }\n" +
-//                "\n" +
-//                "        .bangla-text {\n" +
-//                "            font-size: 12px;\n" +
-//                "        }\n" +
-//                "\n" +
-//                "        .base-point{\n" +
-//                "           fill: rgb(200, 0, 255);\n" +
-//                "        }\n" +
-//                "\n" +
-//                "    </style>\n" +
-//                "\n" +
-//                "    \n" +
-//                "</head>\n" +
-//                "<body>\n" +
-//                "\n" +
-//                "<div class=\"svg-container\">\n" +
-//                "    <svg viewBox=\"0 0 700 500\" id=\"svg-container\">\n" +
-//                "       \n" +
-//                "    </svg>\n" +
-//                "</div>\n" +
-//                "\n" +
-//                "\n" +
-//                "\n" +
-//                "\n" +
-//                "<script type=\"text/javascript\" src=\"gmp.min.js\" ></script>\n" +
-//                "\n" +
-//                "<script>\n" +
-//                "    var child = [\n" +builder+
-////                "                {x:0  , y: 2.9 },\n" +
-////                "                {x:1  , y: 3 },\n" +
-////                "                {x:2 , y: 3.1},\n" +
-////                "                {x:3  , y: 3.2 },\n" +
-////                "                {x:4  , y: 3.5 },\n" +
-////                "                {x:5  , y: 3.8},\n" +
-////                "                {x:6  , y: 4},\n" +
-////                "                {x:7  , y: 4.3},\n" +
-////                "                {x:8  , y: 4.5},\n" +
-////                "                {x:9  , y: 5},\n" +
-////                "                {x:10  , y: 5.1},\n" +
-////                "                {x:11  , y: 5.5},\n" +
-////                "                {x:12  , y: 6},\n" +
-////                "                {x:13  , y: 6.1},\n" +
-////                "                {x:14  , y: 6.3},\n" +
-////                "                {x:15  , y: 6.5},\n" +
-////                "                {x:16  , y: 6.7},\n" +
-////                "                {x:17  , y: 7},\n" +
-////                "                {x:18  , y: 7.2},\n" +
-////                "                {x:19  , y: 7.4}\n" +
-//                "            ];\n" +
-//                "\n" +
-//                "\n" +
-//                "gmp = new GMPChart(\"svg-container\");\n" +
-//                "\n" +
-//                "gmp.draw_chart(child);\n" +
-//                "</script>\n" +
-//                "\n" +
-//                "</body>\n" +
-//                "</html> \n";
     }
     public class CheckoutWebViewClient extends WebViewClient {
 

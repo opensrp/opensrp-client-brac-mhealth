@@ -331,21 +331,12 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
     private void updateGenderInChildDetails() {
         if (childDetails != null) {
             String genderString = Utils.getValue(childDetails, DBConstants.KEY.GENDER, false);
-            //gender may empty, when came from HouseHoldChildProfileDueFragment
-            if (genderString.isEmpty()) {
-                genderString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.GENDER, false);
-            }
-            if (genderString.equalsIgnoreCase("ছেলে")
-                    || genderString.equalsIgnoreCase("male")
-                    || genderString.equalsIgnoreCase("m")) {
-                childDetails.getDetails().put("gender", "male");
-
-            } else if (genderString.equalsIgnoreCase("মেয়ে")
-                    || genderString.equalsIgnoreCase("female")
-                    || genderString.equalsIgnoreCase("f")) {
-                childDetails.getDetails().put("gender", "female");
-            } else {
-                childDetails.getDetails().put("gender", "male");
+            if (genderString.equalsIgnoreCase("ছেলে") ||  genderString.equalsIgnoreCase("পুরুষ")
+                    || genderString.equalsIgnoreCase("male") || genderString.equalsIgnoreCase("M") ) {
+                childDetails.getDetails().put(DBConstants.KEY.GENDER, "male");
+            } else if (genderString.equalsIgnoreCase("মেয়ে")|| genderString.equalsIgnoreCase("মহিলা")
+                    || genderString.equalsIgnoreCase("female")|| genderString.equalsIgnoreCase("F") ) {
+                childDetails.getDetails().put(DBConstants.KEY.GENDER, "female");
             }
         }
     }
@@ -909,7 +900,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         @Override
         protected HashMap<Integer,Float> doInBackground(Void... params) {
             WeightRepository weightRepository = GrowthMonitoringLibrary.getInstance().weightRepository();
-            List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+            List<Weight> allWeights = weightRepository.getMaximum12(childDetails.entityId());
             Collections.sort(allWeights,new Comparator<Weight>() {
                 @Override
                 public int compare(Weight t1, Weight t2) {
@@ -927,6 +918,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             }
             try {
                 String dobString = Utils.getValue(childDetails.getColumnmaps(), DBConstants.KEY.DOB, false);
+                Log.v("GMP_WEIGHT","dobString:"+dobString);
                 if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), HnppConstants.KEY.BIRTH_WEIGHT, false))
                         && !TextUtils.isEmpty(dobString)) {
                     DateTime dateTime = new DateTime(dobString);
@@ -954,7 +946,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
             GMPWeightDialogFragment weightDialogFragment = GMPWeightDialogFragment.getInstance(mActivity,bundle);
             int currentAge = getMonthDifferenceByDOB();
-            weightDialogFragment.setWeightValues(allWeights,currentAge,mActivity);
+            weightDialogFragment.setWeightValues(allWeights,currentAge,getGender(),mActivity);
         }
     }
     private int getMonthDifferenceByDate(String dateStr){
@@ -1034,7 +1026,7 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
             bundle.putString(Constants.INTENT_KEY.BASE_ENTITY_ID,baseEntityId);
             GMPHeightDialogFragment weightDialogFragment = GMPHeightDialogFragment.getInstance(mActivity,bundle);
             int currentAge = getMonthDifferenceByDOB();
-            weightDialogFragment.setHeightValues(allWeights,currentAge);
+            weightDialogFragment.setHeightValues(allWeights,currentAge,getGender());
         }
     }
 
@@ -1072,9 +1064,9 @@ public class GMPFragment extends BaseProfileFragment implements WeightActionList
         Gender gender = Gender.UNKNOWN;
         String genderString = Utils.getValue(childDetails, DBConstants.KEY.GENDER, false);
 
-        if (genderString != null && genderString.equalsIgnoreCase("female")) {
+        if (genderString != null && (genderString.equalsIgnoreCase("female") || genderString.equalsIgnoreCase("f"))) {
             gender = Gender.FEMALE;
-        } else if (genderString != null && genderString.equalsIgnoreCase("male")) {
+        } else if (genderString != null && (genderString.equalsIgnoreCase("male")|| genderString.equalsIgnoreCase("m"))) {
             gender = Gender.MALE;
         }
         return gender;
