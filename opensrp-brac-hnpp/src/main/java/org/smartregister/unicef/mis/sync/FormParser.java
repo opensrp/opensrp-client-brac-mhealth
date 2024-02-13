@@ -19,6 +19,7 @@ import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.model.ForumDetails;
 import org.smartregister.unicef.mis.model.HHMemberProperty;
 import org.smartregister.unicef.mis.repository.StockRepository;
+import org.smartregister.unicef.mis.utils.FormApplicability;
 import org.smartregister.unicef.mis.utils.GrowthUtil;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
@@ -211,10 +212,10 @@ public class FormParser {
                                 HnppDBUtils.updateMemberWeight(base_entity_id,weightValue,fromMonthLong);
                             }
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
+                            updateNextVisitDate(base_entity_id);
                         }
-                        if(CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-
-                            updateAncHomeVisitRisk(encounter_type,base_entity_id,details,log.getVisitDate());
+                        if(CoreConstants.EventType.ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
+                            updateNextVisitDate(base_entity_id);
                         }
                         if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(encounter_type)||
                         CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(encounter_type) ||
@@ -286,6 +287,13 @@ public class FormParser {
             }
         }
 
+    }
+
+    private static void updateNextVisitDate(String base_entity_id) {
+        int noOfAnc = (FormApplicability.getANCCount(base_entity_id)+1);
+        String lmpDate = HnppDBUtils.getLmpDate(base_entity_id);
+        String date = HnppConstants.getScheduleAncDate(lmpDate,noOfAnc);
+        HnppDBUtils.updateNextAncVisitDate(base_entity_id,date);
     }
 
 

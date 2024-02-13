@@ -452,6 +452,142 @@
         }
       },
       {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "name": " মৃত্যুবরণ এর স্থান"
+      },
+
+      {
+        "key": "division_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "division_per",
+        "type": "spinner",
+        "hint": "বিভাগ",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_remove_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "district_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "district_per",
+        "type": "spinner",
+        "hint": "জেলা/সিটি কর্পোরেশন",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_remove_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "upazila_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "upazila_per",
+        "type": "spinner",
+        "hint": "উপজেলা/থানা",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_remove_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "paurosova_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "paurosova_per",
+        "type": "spinner",
+        "hint": "পৌরসভা",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_remove_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "union_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "union_per",
+        "type": "spinner",
+        "hint": "ইউনিয়ন/ জোন",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_remove_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "ward_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ward_per",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "ওয়ার্ড",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_remove_rule.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "present_at_newborn_death_child",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

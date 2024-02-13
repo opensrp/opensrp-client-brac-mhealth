@@ -73,6 +73,7 @@
     <string name="district">District/City Corporation</string>
     <string name="upazila">Upazila/Police station</string>
     <string name="paurosova_per">Paurosova(Permanent)</string>
+    <string name="paurosova">Paurosova</string>
     <string name="union_per">Union/Zone (Permanent)</string>
     <string name="post_office_per">Post office (Permanent Address)</string>
     <string name="post_office_present">Post Office( Present Address)</string>

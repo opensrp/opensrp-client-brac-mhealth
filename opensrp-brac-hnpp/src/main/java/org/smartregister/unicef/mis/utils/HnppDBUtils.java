@@ -501,7 +501,18 @@ public class HnppDBUtils {
 
         }
     }
+    public static void updateNextAncVisitDate(String base_entity_id, String value){
+        try{
+            SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_anc_register set next_visit_date = '"+value+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            Log.v("FILTER_VISIT","updateNextAncVisitDate:"+sql);
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
 
+        }
+    }
     public static boolean isAdolescent(String baseEntityId){
         String query = "select base_entity_id from ec_family_member where base_entity_id ='"+baseEntityId+"' and gender ='F' and (( julianday('now') - julianday(dob))/365) >=10 and (( julianday('now') - julianday(dob))/365) <=19";
         Cursor cursor = null;

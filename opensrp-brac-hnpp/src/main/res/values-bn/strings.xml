@@ -74,6 +74,7 @@
     <string name="district">জেলা/সিটি কর্পোরেশন</string>
     <string name="upazila">উপজেলা/থানা</string>
     <string name="paurosova_per">পৌরসভা(স্থায়ী)</string>
+    <string name="paurosova">পৌরসভা</string>
     <string name="union_per">ইউনিয়ন/ জোন (স্থায়ী)</string>
     <string name="post_office_per">ডাকঘর(স্থায়ী ঠিকানা)</string>
     <string name="post_office_present">ডাকঘর(বর্তমান ঠিকানা)</string>

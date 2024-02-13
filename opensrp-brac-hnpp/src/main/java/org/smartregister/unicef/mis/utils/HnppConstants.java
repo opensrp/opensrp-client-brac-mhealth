@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -130,6 +131,7 @@ public class HnppConstants extends CoreConstants {
                     "Anytime"
             )
     );
+
     public static Observable<Boolean> postMicroPlanData(){
         return Observable.create(e->{
             try {
@@ -1476,6 +1478,8 @@ public class HnppConstants extends CoreConstants {
         public static final String WARD_ID = "ward_id";
         public static final String BLOCK_ID = "block_id";
         public static final String IS_RISK = "is_risk";
+        public static final String NEXT_VISIT_DATE = "next_visit_date";
+        public static final String EDD = "edd";
         public static final String SERIAL_NO = "serial_no";
         public static final String DELIVERY_DATE = "delivery_date";
         public static final String CHILD_MOTHER_NAME_REGISTERED = "mother_name_bangla";

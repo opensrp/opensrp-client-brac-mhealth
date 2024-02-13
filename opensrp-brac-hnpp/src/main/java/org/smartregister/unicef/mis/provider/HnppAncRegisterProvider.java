@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.activity.RiskyDataDisplayActivity;
+import org.smartregister.unicef.mis.utils.FormApplicability;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.chw.anc.fragment.BaseAncRegisterFragment;
@@ -74,25 +75,46 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         // calculate LMP
         String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
         String lmpString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_MENSTRUAL_PERIOD, false);
+        String edd = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.EDD, false);
+        String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
         Log.v("ANC_NAME","lmpString:"+lmpString);
         viewHolder.patientName.setText(patientName);
-        if (StringUtils.isNotBlank(dobString) && StringUtils.isNotBlank(lmpString)) {
+        if(StringUtils.isNotBlank(dobString) ){
             int age = Years.yearsBetween(new DateTime(dobString), new DateTime()).getYears();
-
-            String gaLocation = MessageFormat.format("{0}: {1} {2} {3}",
-                    context.getString(R.string.gestation_age_initial),
-                    NCUtils.gestationAgeString(lmpString, context, false),
-                    context.getString(R.string.abbrv_weeks),
-                    context.getString(R.string.interpunct));
-
             viewHolder.patientName.append(context.getString(R.string.boyos)+":"+age);
+        }
+//        if (StringUtils.isNotBlank(dobString) && StringUtils.isNotBlank(lmpString)) {
+//            int age = Years.yearsBetween(new DateTime(dobString), new DateTime()).getYears();
+//
+//            String gaLocation = MessageFormat.format("{0}: {1} {2} {3}",
+//                    context.getString(R.string.gestation_age_initial),
+//                    NCUtils.gestationAgeString(lmpString, context, false),
+//                    context.getString(R.string.abbrv_weeks),
+//                    context.getString(R.string.interpunct));
+//
+//            viewHolder.patientName.append(context.getString(R.string.boyos)+":"+age);
+//            viewHolder.patientAge.setText(gaLocation);
+//
+//        }
+        if (StringUtils.isNotBlank(lmpString)) {
+
+            String gaLocation = MessageFormat.format("{0}{1}",
+                    context.getString(R.string.edd_date),edd);
+
             viewHolder.patientAge.setText(gaLocation);
 
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
         String mobileNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, true);
-        if (!TextUtils.isEmpty(ssName))viewHolder.patientAge.append(context.getString(R.string.ss_name,ssName));
-        viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true));
+        if (!TextUtils.isEmpty(ssName))viewHolder.villageTown.append(context.getString(R.string.ss_name,ssName));
+        String nextVisitDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.NEXT_VISIT_DATE, false);
+        if(!TextUtils.isEmpty(nextVisitDate)){
+            viewHolder.villageTown.setText(context.getString(R.string.schedule_date)+nextVisitDate);
+        }else{
+            viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true));
+
+        }
+
 
         // add patient listener
         viewHolder.patientColumn.setOnClickListener(onClickListener);
@@ -108,7 +130,7 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
 
         viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
         viewHolder.dueWrapper.setOnClickListener(v -> viewHolder.dueButton.performClick());
-        String baseEntityId = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.BASE_ENTITY_ID, false);
+
         if(HnppDBUtils.isAncRisk(baseEntityId)){
             viewHolder.riskView.setVisibility(View.VISIBLE);
         }else{

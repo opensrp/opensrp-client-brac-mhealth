@@ -1,15 +1,24 @@
 package org.smartregister.unicef.mis.fragment;
 
+import static android.view.View.inflate;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +33,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.family.util.Constants;
+import org.smartregister.unicef.mis.utils.HnppDBConstants;
 import org.smartregister.view.customcontrols.CustomFontTextView;
 import org.smartregister.view.customcontrols.FontVariant;
 
@@ -32,6 +42,8 @@ import java.util.Set;
 import timber.log.Timber;
 
 public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment implements View.OnClickListener{
+    protected String isRiskyWoman,isAncOverdue,isEddOverdue;
+    private boolean isClickedRisky, isClickedAncOverdue, isClickedEddOverdue;
     @Override
     protected void onResumption() {
 
@@ -58,7 +70,45 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
             getSearchView().setBackgroundResource(org.smartregister.family.R.color.white);
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(org.smartregister.family.R.drawable.ic_action_search, 0, 0, 0);
         }
+        view.findViewById(org.smartregister.chw.core.R.id.filter_sort_layout).setVisibility(View.GONE);
+        ViewGroup clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
+        android.view.View filterView;
+        if(checkDevice() == DeviceType.TABLET){
+            filterView= inflate(getContext(), R.layout.anc_list_filter_buttons_tablet, clients_header_layout);
+            clients_header_layout.getLayoutParams().height = 100;
+        }else{
+            filterView= inflate(getContext(), R.layout.anc_list_filter_buttons_phone, clients_header_layout);
+            clients_header_layout.getLayoutParams().height = 180;
+        }
 
+
+
+        clients_header_layout.setVisibility(View.VISIBLE);
+        filterView.findViewById(R.id.risky_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("RISKY","risky clicked");
+                updateRiskyButton(false,view.findViewById(R.id.risky_button));
+                isClickedRisky = !isClickedRisky;
+            }
+        });
+        filterView.findViewById(R.id.edd_due_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("RISKY","edd clicked");
+                updateEddButton(false,view.findViewById(R.id.edd_due_button));
+                isClickedEddOverdue = !isClickedEddOverdue;
+            }
+        });
+        filterView.findViewById(R.id.anc_due_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("RISKY","edd clicked");
+                updateAncButton(false,view.findViewById(R.id.anc_due_button));
+                isClickedAncOverdue = !isClickedAncOverdue;
+            }
+        });
+        filterView.findViewById(R.id.reset_filter_button).setOnClickListener(this);
     }
 
     @Override
@@ -80,21 +130,94 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
         intent.putExtra(Constants.INTENT_KEY.FAMILY_NAME, houseHoldHead);
         startActivity(intent);
     }
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onViewClicked(android.view.View view) {
         super.onViewClicked(view);
-        if (view.getId() == R.id.filter_text_view) {
-            openFilterDialog(true);
+        switch (view.getId()){
+            case R.id.edd_due_button:
+                Log.v("RISKY","edd due clicked");
+                break;
+            case R.id.anc_due_button:
+                Log.v("RISKY","anc due clicked");
+                break;
+            case R.id.reset_filter_button:
+                Log.v("RISKY","reset filter clicked");
+                break;
+            case R.id.filter_text_view:
+                openFilterDialog(true);
+                break;
+            case R.id.due_button:
+                String mobileNo = (String) view.getTag();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + mobileNo));
+                startActivity(intent);
+                break;
+        }
 
-        }
-        if(view.getId() == R.id.due_button){
-            String mobileNo = (String) view.getTag();
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + mobileNo));
-            startActivity(intent);
-        }
+
     }
+    void updateRiskyButton(boolean isReset, Button button){
+        Drawable buttonDrawable = button.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
 
+        if(isReset){
+            DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+            isRiskyWoman = "";
+        }else {
+            if(!isClickedRisky){
+                DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                isRiskyWoman = "yes";
+            }else {
+                DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                isRiskyWoman = "";
+            }
+        }
+        updateFilterView();
+        button.setBackground(buttonDrawable);
+    }
+    void updateEddButton(boolean isReset, Button button){
+        Drawable buttonDrawable = button.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+
+        if(isReset){
+            DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+            isEddOverdue = "";
+        }else {
+            if(!isClickedEddOverdue){
+                DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                isEddOverdue = "yes";
+            }else {
+                DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                isEddOverdue = "";
+            }
+        }
+        updateFilterView();
+        button.setBackground(buttonDrawable);
+    }
+    void updateAncButton(boolean isReset, Button button){
+        Drawable buttonDrawable = button.getBackground();
+        buttonDrawable = DrawableCompat.wrap(buttonDrawable);
+
+        if(isReset){
+            DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+            isAncOverdue = "";
+        }else {
+            if(!isClickedAncOverdue){
+                DrawableCompat.setTint(buttonDrawable, getResources().getColor(R.color.btn_blue));
+                isAncOverdue = "yes";
+            }else {
+                DrawableCompat.setTint(buttonDrawable, Color.GRAY);
+                isAncOverdue = "";
+            }
+        }
+        updateFilterView();
+        button.setBackground(buttonDrawable);
+    }
+    private final String DEFAULT_MAIN_CONDITION = "date_removed is null";
+    public void updateFilterView(){
+        filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
+    }
 
     @Override
     public void setTotalPatients() {
@@ -144,6 +267,17 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
             customFilter.append(MessageFormat.format(" or {0}.{1} like ''%{2}%'' ) ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, org.smartregister.chw.anc.util.DBConstants.KEY.UNIQUE_ID, searchFilterString));
 
         }
+        else if(!StringUtils.isEmpty(isRiskyWoman)){
+            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY_MEMBER, HnppConstants.KEY.IS_RISK, "true"));
+        }
+        else if(!StringUtils.isEmpty(isEddOverdue)){
+            String q = "and cast(julianday(datetime('now')) - julianday(datetime(substr(edd, 7,4)  || '-' || substr(edd, 4,2) || '-' || substr(edd, 1,2))) as integer) >= 1";
+            customFilter.append(q);
+        }
+        else if(!StringUtils.isEmpty(isAncOverdue)){
+            String q = "and cast(julianday(datetime('now')) - julianday(datetime(substr("+ HnppDBConstants.NEXT_VISIT_DATE +", 7,4)  || '-' || substr("+ HnppDBConstants.NEXT_VISIT_DATE +", 4,2) || '-' || substr("+ HnppDBConstants.NEXT_VISIT_DATE +", 1,2))) as integer) >= 1";
+            customFilter.append(q);
+        }
 //        if(!StringUtils.isEmpty(mSelectedClasterName)&&!StringUtils.isEmpty(mSelectedVillageName)){
 //            customFilter.append(MessageFormat.format(" and ( {0}.{1} = ''{2}''  ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.VILLAGE_NAME, mSelectedVillageName));
 //            customFilter.append(MessageFormat.format(" and {0}.{1} = ''{2}'' ) ", HnppConstants.TABLE_NAME.FAMILY, HnppConstants.KEY.CLASTER, mSelectedClasterName));
@@ -166,7 +300,7 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
                 sqb.addCondition(customFilter.toString());
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));
-
+            Log.v("FILTER_QUERY","filter:"+query);
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -320,5 +454,22 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
                 "AND " + HnppConstants.TABLE_NAME.FAMILY_MEMBER + "." + DBConstants.KEY.IS_CLOSED + " = '0' " ;
 //                +
 //                "AND ec_anc_register.base_entity_id NOT IN (SELECT ec_pregnancy_outcome.base_entity_id from ec_pregnancy_outcome where ec_pregnancy_outcome.is_closed = '0')";
+    }
+    private DeviceType checkDevice() {
+        try{
+            DisplayMetrics metrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+            float yInches= metrics.heightPixels/metrics.ydpi;
+            float xInches= metrics.widthPixels/metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+            if (diagonalInches >= 6.5){
+                return DeviceType.TABLET;
+            }else{
+                return DeviceType.MOBILE;
+            }
+        }catch (Exception e){
+            return DeviceType.MOBILE;
+        }
     }
 }

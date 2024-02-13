@@ -18,6 +18,8 @@ public class AncRegisterFragmentModel extends CoreAncRegisterFragmentModel {
         columnList.add(tableName + "." + DBConstants.KEY.LAST_INTERACTED_WITH);
         columnList.add(tableName + "." + DBConstants.KEY.BASE_ENTITY_ID);
         columnList.add(tableName + "." + ChwDBConstants.LMP);
+        columnList.add(tableName + "." +  HnppConstants.KEY.EDD);
+        columnList.add(tableName + "." +  HnppConstants.KEY.NEXT_VISIT_DATE);
         columnList.add(CoreConstants.TABLE_NAME.ANC_MEMBER_LOG + "." + org.smartregister.chw.anc.util.DBConstants.KEY.DATE_CREATED);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.CONFIRMED_VISITS);
         columnList.add(tableName + "." + org.smartregister.chw.anc.util.DBConstants.KEY.LAST_HOME_VISIT);

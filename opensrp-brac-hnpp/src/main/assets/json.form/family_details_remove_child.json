@@ -117,11 +117,13 @@
         "values": [
           "Migration",
           "Death Registration",
+          "Neonatal death(within 42 days)",
           "Other"
         ],
         "openmrs_choice_ids": {
           "Migration": "moved_away",
           "Death Registration": "died",
+          "Neonatal death(within 42 days)": "new_born_death",
           "Other": "other"
         }
       },

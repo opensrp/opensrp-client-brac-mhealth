@@ -119,6 +119,7 @@ public class HnppChwRepository extends Repository {
             e.printStackTrace();
 
         }
+        alterANCRegisterTable(database);
     }
 
     @Override
@@ -149,6 +150,14 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
+                case 6:
+                    try{
+                        alterANCRegisterTable(db);
+
+                    }catch (Exception e){
+
+                    }
+                    break;
                 default:
                     break;
             }
@@ -164,6 +173,9 @@ public class HnppChwRepository extends Repository {
     private void alterMemberTable(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date VARCHAR;");
+    }
+    private void alterANCRegisterTable(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN next_visit_date VARCHAR;");
     }
 
 

@@ -100,7 +100,7 @@
 
     <LinearLayout
         android:id="@+id/due_button_wrapper"
-        android:layout_width="@dimen/register_list_item_width"
+        android:layout_width="100dp"
         android:layout_height="@dimen/register_list_item_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -120,17 +120,18 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:drawableTint="@color/green"
-            android:drawableLeft="@drawable/floating_call"
+            android:drawableTop="@drawable/floating_call"
             android:background="@drawable/due_contact"
             android:elevation="@dimen/register_list_elevation"
             android:gravity="center"
             android:hapticFeedbackEnabled="true"
             android:stateListAnimator="@drawable/button"
-            android:text=""
+            android:text="01917173774"
             android:textAllCaps="false"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/vaccine_blue_bg_st"
-            android:textSize="@dimen/register_list_due_size"
+            android:textSize="13dp"
+            android:textStyle="bold"
             android:typeface="normal" />
 
     </LinearLayout>
