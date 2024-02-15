@@ -66,8 +66,11 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -76,6 +79,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+
 import io.reactivex.Observable;
 
 public class HnppConstants extends CoreConstants {
@@ -1191,6 +1196,23 @@ public class HnppConstants extends CoreConstants {
     public static boolean isMissedSchedule(String dueVaccineDate){
 
         return !TextUtils.isEmpty(dueVaccineDate) && new LocalDate(dueVaccineDate).isBefore(new LocalDate(System.currentTimeMillis()));
+    }
+    @SuppressLint("SimpleDateFormat")
+    public static boolean isMissedScheduleDDMMYYYY(String dueDate){
+        Log.v("FILTER_LIST","isMissedScheduleDDMMYYYY:before>>>dueDate:"+dueDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(Objects.requireNonNull(sdf.parse(dueDate)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        dueDate = sdf1.format(c.getTime());
+        Log.v("FILTER_LIST","isMissedScheduleDDMMYYYY:after>>>dueDate:"+dueDate);
+        return !TextUtils.isEmpty(dueDate) && new LocalDate(dueDate).isBefore(new LocalDate(System.currentTimeMillis()));
     }
     public static String getYesterDay(){
         LocalDate today = LocalDate.now();

@@ -78,7 +78,7 @@ public class HnppAncRegisterFragment extends HnppBaseAncRegisterFragment impleme
             clients_header_layout.getLayoutParams().height = 100;
         }else{
             filterView= inflate(getContext(), R.layout.anc_list_filter_buttons_phone, clients_header_layout);
-            clients_header_layout.getLayoutParams().height = 180;
+            clients_header_layout.getLayoutParams().height = 110;
         }
 
 

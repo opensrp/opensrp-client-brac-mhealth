@@ -1,5 +1,8 @@
 package org.smartregister.unicef.mis.provider;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.isMissedSchedule;
+import static org.smartregister.unicef.mis.utils.HnppConstants.isMissedScheduleDDMMYYYY;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -102,7 +105,9 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
                     context.getString(R.string.edd_date),edd);
 
             viewHolder.patientAge.setText(gaLocation);
-
+            if(isMissedScheduleDDMMYYYY(edd)){
+                viewHolder.patientAge.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
+            }
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
         String mobileNo = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.PHONE_NUMBER, true);
@@ -110,6 +115,9 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
         String nextVisitDate = Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.NEXT_VISIT_DATE, false);
         if(!TextUtils.isEmpty(nextVisitDate)){
             viewHolder.villageTown.setText(context.getString(R.string.schedule_date)+nextVisitDate);
+            if(isMissedScheduleDDMMYYYY(nextVisitDate)){
+                viewHolder.villageTown.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
+            }
         }else{
             viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true));
 

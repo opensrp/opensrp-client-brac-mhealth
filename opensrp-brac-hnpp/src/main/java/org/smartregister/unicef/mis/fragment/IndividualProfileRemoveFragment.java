@@ -15,14 +15,17 @@ import org.smartregister.configurableviews.model.View;
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.activity.FamilyRegisterActivity;
 import org.smartregister.unicef.mis.activity.IndividualProfileRemoveActivity;
 import org.smartregister.unicef.mis.activity.IndividualProfileRemoveJsonFormActivity;
 import org.smartregister.unicef.mis.job.VisitLogServiceJob;
 import org.smartregister.unicef.mis.model.FamilyRemoveMemberModel;
+import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.unicef.mis.provider.FamilyRemoveMemberProvider;
+import org.smartregister.unicef.mis.repository.GlobalLocationRepository;
 import org.smartregister.unicef.mis.service.HnppHomeVisitIntentService;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
@@ -33,6 +36,8 @@ import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -201,6 +206,16 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
         ///setting gender data to  hidden gender field
         HnppJsonFormUtils.addGender(jsonObject,pc.getDetails().get("gender"));
         Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
+        try{
+            JSONArray divJsonArray = new JSONArray();
+            ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
+            for (GlobalLocationModel globalLocationModel:divModels){
+                divJsonArray.put(globalLocationModel.name);
+            }
+            HnppJsonFormUtils.updateFormWithDivision(jsonObject,divJsonArray);
+        }catch (Exception e){
+
+        }
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonObject.toString());
 
         Form form = new Form();

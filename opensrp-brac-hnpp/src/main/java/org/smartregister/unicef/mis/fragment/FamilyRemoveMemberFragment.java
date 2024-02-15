@@ -20,6 +20,7 @@ import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.fragment.BaseFamilyProfileMemberFragment;
 import org.smartregister.family.util.DBConstants;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.activity.FamilyRegisterActivity;
 import org.smartregister.unicef.mis.activity.IndividualProfileRemoveJsonFormActivity;
@@ -27,14 +28,17 @@ import org.smartregister.unicef.mis.model.FamilyRemoveMemberModel;
 import org.smartregister.chw.core.fragment.CoreFamilyProfileChangeDialog;
 import org.smartregister.chw.core.fragment.FamilyRemoveMemberConfirmDialog;
 import org.smartregister.chw.core.utils.CoreConstants;
+import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.presenter.FamilyRemoveMemberPresenter;
 import org.smartregister.unicef.mis.provider.FamilyRemoveMemberProvider;
 import org.smartregister.chw.core.utils.CoreJsonFormUtils;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.family.util.Utils;
+import org.smartregister.unicef.mis.repository.GlobalLocationRepository;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -178,6 +182,16 @@ public class FamilyRemoveMemberFragment extends BaseFamilyProfileMemberFragment 
             HnppJsonFormUtils.addGender(jsonObject,commonPersonObject.getColumnmaps().get("gender"));
         }catch (Exception e){
             e.printStackTrace();
+        }
+        try{
+            JSONArray divJsonArray = new JSONArray();
+            ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
+            for (GlobalLocationModel globalLocationModel:divModels){
+                divJsonArray.put(globalLocationModel.name);
+            }
+            HnppJsonFormUtils.updateFormWithDivision(jsonObject,divJsonArray);
+        }catch (Exception e){
+
         }
 
         Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
