@@ -42,6 +42,7 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
 
         if(HnppConstants.isViewRefresh){
             super.onResumption();
+            HnppConstants.isViewRefresh = false;
         }
 
     }

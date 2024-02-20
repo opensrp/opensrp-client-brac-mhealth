@@ -257,10 +257,10 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death",
         "type": "spinner",
-        "hint": "মৃত্যর ধরণ",
+        "hint": "মৃত্যুর ধরণ",
         "v_required": {
           "value": "true",
-          "err": "মৃত্যর ধরণ নির্বাচন করুন"
+          "err": "মৃত্যুর ধরণ নির্বাচন করুন"
         },
         "values": [
           "শিশু মৃত্যু",

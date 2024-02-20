@@ -107,6 +107,8 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
             viewHolder.patientAge.setText(gaLocation);
             if(isMissedScheduleDDMMYYYY(edd)){
                 viewHolder.patientAge.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
+            }else{
+                viewHolder.patientAge.setTextColor(context.getResources().getColor(android.R.color.black));
             }
         }
         String ssName = org.smartregister.family.util.Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.BLOCK_NAME, true);
@@ -117,6 +119,8 @@ public class HnppAncRegisterProvider extends ChwAncRegisterProvider {
             viewHolder.villageTown.setText(context.getString(R.string.schedule_date)+nextVisitDate);
             if(isMissedScheduleDDMMYYYY(nextVisitDate)){
                 viewHolder.villageTown.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
+            }else{
+                viewHolder.patientAge.setTextColor(context.getResources().getColor(android.R.color.black));
             }
         }else{
             viewHolder.villageTown.setText(Utils.getValue(pc.getColumnmaps(), HnppConstants.KEY.VILLAGE_NAME, true));

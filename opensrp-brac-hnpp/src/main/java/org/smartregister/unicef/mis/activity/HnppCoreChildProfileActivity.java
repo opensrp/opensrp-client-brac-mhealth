@@ -309,8 +309,10 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
     @SuppressLint("SetTextI18n")
     @Override
     public void setId(String id) {
-        if(!StringUtils.isEmpty(id)&&id.length()>=MEMBER_ID_SUFFIX)
-        textViewId.setText("ID:"+id.substring(id.length() - MEMBER_ID_SUFFIX));
+        //if(!StringUtils.isEmpty(id)&&id.length()>=MEMBER_ID_SUFFIX)
+//        textViewId.setText("ID:"+id.substring(id.length() - MEMBER_ID_SUFFIX));
+        textViewId.setText("ID:"+id);
+
     }
     @Override
     public void setAddress(String address) {

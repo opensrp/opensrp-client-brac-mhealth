@@ -361,15 +361,7 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "নামের শেষ অংশ (ইংরেজীতে)",
-        "edit_type": "name",
-        "v_required": {
-          "value": "false",
-          "err": "Please enter the last name"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "Please enter a valid name"
-        }
+        "edit_type": "name"
       },
       {
         "key": "member_name_bengla",

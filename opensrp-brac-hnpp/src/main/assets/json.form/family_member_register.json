@@ -362,11 +362,7 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "Last name (in english)",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "Please enter a valid name"
-        }
+        "edit_type": "name"
       },
 
       {

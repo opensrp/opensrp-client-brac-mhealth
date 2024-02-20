@@ -172,15 +172,7 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "নামের শেষ অংশ (ইংরেজীতে)",
-        "edit_type": "name",
-        "v_required": {
-          "value": "false",
-          "err": "Please enter the last name"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "Please enter a valid name"
-        }
+        "edit_type": "name"
       },
 
       {
@@ -406,23 +398,6 @@
         "openmrs_entity_id": "",
         "type": "toaster_notes",
         "text": " শিশুটির ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "ad_toaster_birth_weight_down",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": " শিশুটির জন্ম ওজন কম। পর্যবেক্ষণে রাখুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {

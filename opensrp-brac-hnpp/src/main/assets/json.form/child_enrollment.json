@@ -172,15 +172,7 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "Last name (in english)",
-        "edit_type": "name",
-        "v_required": {
-          "value": "false",
-          "err": "Please enter the last name"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "Please enter a valid name"
-        }
+        "edit_type": "name"
       },
 
       {
@@ -405,23 +397,6 @@
         "openmrs_entity_id": "",
         "type": "toaster_notes",
         "text": "The baby's birth weight is low. Keep under observation",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_default_baby.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "ad_toaster_birth_weight_down",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "The baby's birth weight is too high. Please Monitor",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {

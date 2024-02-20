@@ -61,28 +61,28 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                     processUpazilaList(position);
                 }
             }
-            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.division))) {
-                if(isManuallyPressed){
-                    processDistrict(position);
-                }
-            }
-            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district))) {
-                if(isManuallyPressed){
-                    Log.v("LOCATION","districtIds>>"+districtIds);
-                    processUpazila(districtIds.get(position));
-                }
-            }
-            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.paurosova))) {
-                if(isManuallyPressed){
-                    Log.v("LOCATION","districtIds>>"+districtIds);
-                    processPaurosova(upazilaIds.get(position));
-                }
-            }
-            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upazila))) {
-                if(isManuallyPressed){
-                    processUnion(paurosovaIds.get(position));
-                }
-            }
+//            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.division))) {
+//                if(isManuallyPressed){
+//                    processDistrict(position);
+//                }
+//            }
+//            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district))) {
+//                if(isManuallyPressed){
+//                    Log.v("LOCATION","districtIds>>"+districtIds);
+//                    processUpazila(districtIds.get(position));
+//                }
+//            }
+//            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.paurosova))) {
+//                if(isManuallyPressed){
+//                    Log.v("LOCATION","districtIds>>"+districtIds);
+//                    processPaurosova(upazilaIds.get(position));
+//                }
+//            }
+//            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upazila))) {
+//                if(isManuallyPressed){
+//                    processUnion(paurosovaIds.get(position));
+//                }
+//            }
             //  hideKeyBoard();
         }
 
@@ -103,7 +103,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                                 .equalsIgnoreCase(getContext().getResources().getString(R.string.district).trim()))) {
 
                     try{
-                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "district_per");
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "district");
                         JSONArray jsonArray = new JSONArray();
                         for(GlobalLocationModel globalLocationModel : districts){
                             jsonArray.put(globalLocationModel.name);
@@ -124,7 +124,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district))) {
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district_per))) {
                                 if(position!=-1){
 
                                     processUpazila(districtIds.get(position));
@@ -165,7 +165,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                                 .equalsIgnoreCase(getContext().getResources().getString(R.string.upazila).trim()))) {
 
                     try{
-                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "upazila_per");
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "upazila");
                         JSONArray jsonArray = new JSONArray();
                         for(GlobalLocationModel globalLocationModel : upazilaList){
                             jsonArray.put(globalLocationModel.name);
@@ -191,7 +191,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                                     processPaurosova(upazilaIds.get(position));
                                     try{
                                         JSONArray jsonArray = getStep("step1").getJSONArray("fields");
-                                        JSONObject upozilaObj = getFieldJSONObject(jsonArray, "upazila_per");
+                                        JSONObject upozilaObj = getFieldJSONObject(jsonArray, "upazila");
                                         upozilaObj.put("value", upazilaNames.get(position));
                                     }catch (Exception e){
 
@@ -225,7 +225,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                                 .equalsIgnoreCase(getContext().getResources().getString(R.string.paurosova).trim()))) {
 
                     try{
-                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "paurosova_per");
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "paurosova");
                         JSONArray jsonArray = new JSONArray();
                         for(GlobalLocationModel globalLocationModel : paurosovaList){
                             jsonArray.put(globalLocationModel.name);
@@ -246,7 +246,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.paurosova))) {
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.paurosova_per))) {
                                 if(position!=-1){
                                     processUnion(paurosovaIds.get(position));
                                     try{
@@ -284,7 +284,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                                 .equalsIgnoreCase(getContext().getResources().getString(R.string.union_zone).trim()))) {
 
                     try{
-                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "union_per");
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "union");
                         JSONArray jsonArray = new JSONArray();
                         for(GlobalLocationModel globalLocationModel : unionList){
                             jsonArray.put(globalLocationModel.name);
@@ -310,7 +310,7 @@ public class IndividualProfileRemoveJsonFormFragment extends JsonWizardFormFragm
                                     selectedUnionId = unionIds.get(position);
                                     try{
                                         JSONArray jsonArray = getStep("step1").getJSONArray("fields");
-                                        JSONObject unionObj = getFieldJSONObject(jsonArray, "union_per");
+                                        JSONObject unionObj = getFieldJSONObject(jsonArray, "union");
                                         unionObj.put("value", unionNames.get(position));
                                     }catch (Exception e){
 

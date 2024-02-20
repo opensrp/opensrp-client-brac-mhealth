@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,7 +17,7 @@ import org.smartregister.unicef.mis.listener.OnClickFloatingMenu;
 
 public class FamilyFloatingMenu extends LinearLayout implements View.OnClickListener {
     private RelativeLayout activityMain;
-    public FloatingActionButton fab,addMemberBtn,addChildBtn;
+    public Button fab,addMemberBtn,addChildBtn;
     private LinearLayout menuBar;
     private Animation fabOpen, fabClose, rotateForward, rotateBack;
     private boolean isFabMenuOpen = false;

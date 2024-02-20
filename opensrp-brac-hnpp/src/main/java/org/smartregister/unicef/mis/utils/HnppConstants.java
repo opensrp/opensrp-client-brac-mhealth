@@ -1547,12 +1547,23 @@ public class HnppConstants extends CoreConstants {
                 "  \"খানা প্রধান\": \"Household Head\"," +
                 "  \"মা/আম্মা\": \"Mother\"," +
                 "  \"বাবা/আব্বা\": \"Father\"," +
-                "  \"ছেলে\": \"Son\"," +
-                "  \"মেয়ে\": \"Daughter\"," +
+                "  \"পুত্র\": \"Son\"," +
+                "  \"কন্যা\": \"Daughter\"," +
+                "  \"পুত্রবধূ\": \"Daughter-in-law\"," +
+                "  \"নাতি\": \"Grandson\"," +
+                "  \"নাতনি\": \"Grand-Daughter\"," +
                 "  \"স্ত্রী\": \"Wife\"," +
                 "  \"স্বামী\": \"Husband\"," +
+                "  \"পিতা\": \"Father\"," +
+                "  \"মাতা\": \"Mother\"," +
                 "  \"ভাই\": \"Brother\"," +
                 "  \"বোন\": \"Brother\"," +
+                "  \"ভাইপো\": \"Nephew\"," +
+                "  \"ভাইঝি\": \"niece\"," +
+                "  \"ভাগ্নে\": \"Nephew\"," +
+                "  \"ভাগ্নি\": \"niece\"," +
+                "  \"শ্যালক\": \"brother-in-law\"," +
+                "  \"শ্যালিকা\": \"sister-in-law\"," +
                 "  \"নাতি\": \"Grandson\"," +
                 "  \"নাতনী\": \"GrandDaughter\"," +
                 "  \"ছেলের বউ\": \"SonsWife\"," +
@@ -1563,8 +1574,16 @@ public class HnppConstants extends CoreConstants {
                 "  \"দাদি\": \"Grandma\"," +
                 "  \"নানা\": \"Grandfather\"," +
                 "  \"নানী\": \"Grandmother\"," +
+                "  \"দেবর\": \"brother-in-law\"," +
+                "  \"জা\": \"sister-in-law\"," +
+                "  \"ননদ\": \"Sister-in-law\"," +
+                "  \"ভাইয়ের স্ত্রী\": \"Brother's wife\"," +
+                "  \"ভগ্নিপতি\": \"sister-in-law\"," +
+                "  \"জামাতা\": \"Son-in-law\"," +
                 "  \"অতিথি\": \"Guest\"," +
                 "  \"অন্যান্য\": \"Others\"" +
+                "  \"অন্যান্য আত্মীয়\": \"other relatives\"" +
+                "  \"অন্যান্য অনাত্মীয়\": \"other non-relative\"" +
                 "}";
         return getKeyByValue(relationshipObject,value);
     }

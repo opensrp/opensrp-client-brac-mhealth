@@ -121,7 +121,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         setupViews();
         setUpToolbar();
         memberSurveyBtn = findViewById(R.id.member_visit_btn);
-        HnppConstants.isViewRefresh = false;
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.collapsing_toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         findViewById(R.id.update_profile_btn).setOnClickListener(new View.OnClickListener() {

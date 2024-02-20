@@ -381,15 +381,7 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
-        "edit_type": "name",
-        "v_required": {
-          "value": "false",
-          "err": "খানা প্রধানের নাম লিখুন"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        }
+        "edit_type": "name"
       },
       {
         "key": "contact_phone_number",
@@ -482,6 +474,10 @@
         "v_min_length": {
           "value": "1",
           "err": "সর্বনিম্ন 1 হতে হবে"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "সদস্য সংখ্যা অবশ্যই ১-৫০ এর মধ্যে হবে এবং প্রথমে ০ দিয়ে শুরু করা যাবে না"
         }
       },
       {

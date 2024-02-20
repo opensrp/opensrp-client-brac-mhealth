@@ -156,7 +156,6 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
         setupViews();
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        HnppConstants.isViewRefresh = false;
         findViewById(R.id.update_profile_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -458,7 +457,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     public void setProfileDetailThree(String detailThree) {
         super.setProfileDetailThree(detailThree);
         if(!TextUtils.isEmpty(detailThree)) {
-            detailThree = detailThree.substring(detailThree.length() - MEMBER_ID_SUFFIX);
+            //detailThree = detailThree.substring(detailThree.length() - MEMBER_ID_SUFFIX);
             textViewDetails3.setText("ID: " + detailThree);
         }
         if(!TextUtils.isEmpty(shrId)){

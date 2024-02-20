@@ -268,7 +268,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death_women",
         "type": "spinner",
-        "hint": "মৃত্যর ধরণ",
+        "hint": "মৃত্যুর ধরণ",
         "values": [
           "বার্ধক্য জনিত",
           "কোভিড-১৯ এ আক্রান্ত হয়ে",
@@ -645,10 +645,10 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cause_of_death_men",
         "type": "spinner",
-        "hint": "মৃত্যর ধরণ",
+        "hint": "মৃত্যুর ধরণ",
         "v_required": {
           "value": "true",
-          "err": "মৃত্যর ধরণ নির্বাচন করুন"
+          "err": "মৃত্যুর ধরণ নির্বাচন করুন"
         },
         "values": [
           "বার্ধক্য জনিত",

@@ -131,6 +131,7 @@ public class HnppFamilyRegisterFragment extends HnppBaseFamilyRegisterFragment i
 
         if(HnppConstants.isViewRefresh){
             super.onResumption();
+
         }
 
 

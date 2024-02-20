@@ -394,7 +394,6 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.family_toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         HnppConstants.isViewRefresh = false;
-
     }
     @Override
     public void onBackPressed() {
