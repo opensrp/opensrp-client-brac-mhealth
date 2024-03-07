@@ -117,8 +117,8 @@ android {
     productFlavors {
 
         pa{
-            versionCode 7
-            versionName "1.0.7"
+            versionCode 8
+            versionName "1.0.8"
             dimension = 'baseDimension'
             applicationIdSuffix ".pa"
             buildConfigField "boolean", 'IS_TRAINING', 'false'
@@ -126,8 +126,8 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"https://mhealth.brac.net/opensrp/"'
         }
         pa_training{
-            versionCode 7
-            versionName "1.0.7_dev"
+            versionCode 8
+            versionName "1.0.8_dev"
             dimension = 'baseDimension'
             applicationIdSuffix ".patraining"
             buildConfigField "boolean", 'IS_TRAINING', 'true'

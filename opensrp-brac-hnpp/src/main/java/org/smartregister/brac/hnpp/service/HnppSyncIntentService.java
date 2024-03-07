@@ -83,9 +83,13 @@ public class HnppSyncIntentService extends SyncIntentService {
                     }
                     if(!vid.isEmpty()){
                         vid = vid.substring(0,vid.length() - 1);
+                        url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&villageIds="+vid;
+
+                    }else{
+                        complete(FetchStatus.fetchedFailed);
+                        return;
                     }
-                    url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd+"&villageIds="+vid;
-                    Log.v("INVALID_REQ","url"+url);
+                    Log.v("SYNC","url"+url);
 
                 }else{
                     url += "?" + configs.getSyncFilterParam().value() + "=" + configs.getSyncFilterValue() + "&serverVersion=" + lastSyncDatetime + "&limit=" + getEventPullLimit()+"&isEmptyToAdd="+isEmptyToAdd;

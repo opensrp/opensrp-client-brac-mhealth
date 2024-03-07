@@ -227,6 +227,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_button:
+
                 if(selectedSSList.size()>=5){
                     Toast.makeText(SkSelectionActivity.this,"সর্বোচ্চ ৫ জন স্বাস্থসেবিকা অ্যাড করতে পারবেন",Toast.LENGTH_SHORT).show();
                     return;
@@ -253,7 +254,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
                 break;
             case R.id.update_button:
                 if(selectedSSList.size()==0){
-                    Toast.makeText(this,"স্বাস্থ্য সেবিকা সিলেক্ট করুন",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SkSelectionActivity.this,"সর্বনিন্ম ১ জন স্বাস্থ্যসেবিকাকে অ্যাড করা লাগবে",Toast.LENGTH_SHORT).show();
                     return;
                 }
                boolean isUpdated =  SSLocationHelper.getInstance().isUpdated(selectedSSList);
@@ -270,6 +271,7 @@ public class SkSelectionActivity extends SecuredActivity implements View.OnClick
                 break;
             case R.id.backBtn:
                 finish();
+                HnppApplication.getHNPPInstance().forceLogout();
                 break;
         }
     }
