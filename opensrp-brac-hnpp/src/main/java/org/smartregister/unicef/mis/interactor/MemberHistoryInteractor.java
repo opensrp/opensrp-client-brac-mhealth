@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.contract.MemberHistoryContract;
 import org.smartregister.unicef.mis.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.mis.sync.FormParser;
@@ -58,6 +59,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                 JSONObject jsonForm = null;
                     Visit visit = v.get(0);
                     if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.ANC_HOME_VISIT)
+                            || visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)
                      || visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.PREGNANCY_OUTCOME)
                     || visit.getVisitType().equalsIgnoreCase(HnppConstants.EventType.PNC_HOME_VISIT)){
                         String eventJson = visit.getJson();
@@ -71,7 +73,7 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
                                     final CommonPersonObjectClient client = new CommonPersonObjectClient(visit.getBaseEntityId(), details, "");
                                     client.setColumnmaps(details);
                                     jsonForm = FormParser.loadFormFromAsset(eventType);
-                                    int count = jsonForm.getInt("count");
+                                    int count = jsonForm.optInt("count")==0?1:jsonForm.optInt("count");
                                     for(int i= 1;i<=count;i++){
                                         JSONObject steps = jsonForm.getJSONObject("step"+i);
                                         JSONArray ja = steps.getJSONArray(JsonFormUtils.FIELDS);
@@ -116,7 +118,8 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             historyData.setVisitId(visitLog.getVisitId());
             String eventType = visitLog.getEventType();
             historyData.setEventType(eventType);
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)
+                    || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
                 count--;
                 historyData.setTitle(FormApplicability.getANCTitleForHistory(count));
             }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
@@ -128,7 +131,12 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             }
 
             try{
-                historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
+                    historyData.setImageSource(R.mipmap.ic_facility);
+                }else{
+                    historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+                }
             }catch(NullPointerException e){
 
             }
@@ -153,7 +161,8 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             historyData.setVisitId(visitLog.getVisitId());
             String eventType = visitLog.getEventType();
             historyData.setEventType(eventType);
-            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+            if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)
+                    || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
                 count--;
                 historyData.setTitle(FormApplicability.getANCTitleForHistory(count));
             }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.PNC_REGISTRATION)){
@@ -165,7 +174,11 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
             }
 
             try{
-                historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
+                    historyData.setImageSource(R.mipmap.ic_facility);
+                }else {
+                    historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
+                }
             }catch(NullPointerException e){
 
             }

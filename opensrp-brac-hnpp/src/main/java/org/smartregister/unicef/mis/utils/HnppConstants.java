@@ -1149,6 +1149,10 @@ public class HnppConstants extends CoreConstants {
     public static String[] getAncTitle(int noOfAnc){
         String[] ancType = new String[2];
         switch (noOfAnc){
+            case 0:
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service);
+                ancType[1] = "ANC";
+                return ancType;
             case 1:
                 ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_1);
                 ancType[1] = "ANC -1";
@@ -1182,8 +1186,8 @@ public class HnppConstants extends CoreConstants {
                 ancType[1] = "ANC -8";
                 return ancType;
             default:
-                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service);
-                ancType[1] = "ANC";
+                ancType[0]=HnppApplication.appContext.getString(R.string.pregnancy_service_8_plus);
+                ancType[1] = "ANC -8+";
                 return ancType;
         }
     }
@@ -1594,6 +1598,7 @@ public class HnppConstants extends CoreConstants {
 
         public static final String  ANC_FORM = "anc_registration";
         public static final String  ANC_VISIT_FORM = "anc_home_visit";
+        public static final String  ANC_VISIT_FORM_FACILITY = "anc_home_visit_facility";
         public static final String  ANC_VISIT_FORM_OOC = "hnpp_anc_home_visit_ooc";
 //        public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
 //        public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
@@ -1667,6 +1672,7 @@ public class HnppConstants extends CoreConstants {
 //        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
 //        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
         public static final String ANC_HOME_VISIT= "ANC Home Visit";
+        public static final String ANC_HOME_VISIT_FACILITY= "Facility_AncService";
         public static final String ANC_HOME_VISIT_OOC= "ANC Home Visit OOC";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
@@ -1971,6 +1977,7 @@ public class HnppConstants extends CoreConstants {
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
             .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
+            .put(EVENT_TYPE.ANC_HOME_VISIT_FACILITY,JSON_FORMS.ANC_VISIT_FORM_FACILITY)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
             .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
             .put(EVENT_TYPE.PNC_REGISTRATION_OOC,JSON_FORMS.PNC_FORM_OOC)
@@ -1985,7 +1992,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
             .build();
     public static final Map<String,String> formNameEventTypeMapping = ImmutableMap.<String,String> builder()
-            .put(JSON_FORMS.ANC_VISIT_FORM,EventType.ANC_HOME_VISIT)
+            .put(JSON_FORMS.ANC_VISIT_FORM_FACILITY,EVENT_TYPE.ANC_HOME_VISIT_FACILITY)
             .put(JSON_FORMS.PNC_FORM,EVENT_TYPE.PNC_REGISTRATION)
             .put(JSON_FORMS.PNC_FORM_OOC,EVENT_TYPE.PNC_REGISTRATION_OOC)
             .put(JSON_FORMS.NCD_PACKAGE,EVENT_TYPE.NCD_PACKAGE)
@@ -2028,8 +2035,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BLOOD_GROUP,R.drawable.ic_blood)
             .put(EVENT_TYPE.EYE_TEST,R.drawable.ic_eye)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
-
+            .put(EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC_HOME_VISIT_FACILITY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
@@ -2086,6 +2093,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
                 .put(JSON_FORMS.ANC_FORM,HnppApplication.appContext.getString(R.string.anc_service))
                 .put(EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.anc_service))
+                .put(EVENT_TYPE.ANC_HOME_VISIT_FACILITY,HnppApplication.appContext.getString(R.string.anc_service))
 //            .put(JSON_FORMS.GENERAL_DISEASE,"শারীরিক সমস্যা")
                 .put(EVENT_TYPE.MEMBER_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
                 .put(EVENT_TYPE.WOMEN_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))

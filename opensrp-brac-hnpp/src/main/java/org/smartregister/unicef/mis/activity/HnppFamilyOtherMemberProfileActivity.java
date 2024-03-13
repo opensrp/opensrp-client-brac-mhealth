@@ -96,6 +96,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import mpower.iot.IOTActivity;
 import timber.log.Timber;
 
 import static org.smartregister.unicef.mis.utils.HnppConstants.MEMBER_ID_SUFFIX;
@@ -574,6 +575,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_group",HnppDBUtils.getBloodGroup(baseEntityId));
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"Systolic", systolic+"");
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"diastolic", diastolic+"");
                 String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
                 if(weights.length>0){
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
@@ -753,6 +756,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     boolean isProcessingHV = false;
     boolean isProcessingANCVisit = false;
+    private float systolic,diastolic,heartrate;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId);
@@ -764,6 +768,17 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         if(resultCode == Activity.RESULT_OK){
             HnppConstants.isViewRefresh = true;
 
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == IOTActivity.IOT_REQUEST_CODE){
+            String yesNoOption = data.getStringExtra(IOTActivity.EXTRA_INTENT_DATA);
+            if(yesNoOption.equalsIgnoreCase("no")){
+                openHomeVisitSingleForm(HnppConstants.JSON_FORMS.ANC_VISIT_FORM);
+            }else{
+                systolic = data.getFloatExtra(IOTActivity.EXTRA_SYSTOLIC,0);
+                diastolic = data.getFloatExtra(IOTActivity.EXTRA_DIASTOLIC,0);
+                heartrate = data.getFloatExtra(IOTActivity.EXTRA_HR,0);
+                openHomeVisitSingleForm(HnppConstants.JSON_FORMS.ANC_VISIT_FORM);
+            }
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
 

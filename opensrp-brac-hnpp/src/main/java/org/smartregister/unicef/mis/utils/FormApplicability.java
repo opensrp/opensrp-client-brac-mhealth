@@ -1,6 +1,7 @@
 package org.smartregister.unicef.mis.utils;
 
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
@@ -470,7 +471,7 @@ public class FormApplicability {
     public static int getANCCount(String baseEntityId){
         long maxVisitDate = getMaxVisitDate(baseEntityId);
         int ancCount = 0;
-        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ ANC_HOME_VISIT+"' and visit_date>="+maxVisitDate;
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and (visit_type ='"+ ANC_HOME_VISIT+"' or visit_type ='"+ ANC_HOME_VISIT_FACILITY+"' )and visit_date>="+maxVisitDate;
         Log.v("HOME_VISIT","getANCCount>>ancQuery:"+ancQuery);
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
         if( values.size() > 0 && values.get(0).get("anc_count")!= null){

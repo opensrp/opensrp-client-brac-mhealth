@@ -172,7 +172,7 @@ public class MemberANCHistoryFragment extends Fragment implements MemberHistoryC
 
     public void makeReadOnlyFields(JSONObject jsonObject){
         try {
-            int count = jsonObject.getInt("count");
+            int count = jsonObject.optInt("count")==0?1:jsonObject.optInt("count");
             for(int i= 1;i<=count;i++){
                 JSONObject steps = jsonObject.getJSONObject("step"+i);
                 JSONArray ja = steps.getJSONArray(JsonFormUtils.FIELDS);

@@ -1,4 +1,5 @@
 package org.smartregister.unicef.mis.activity;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
     private String trnsactionId;
     private Handler myHandler;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_bkash);
@@ -46,7 +48,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
          */
         wvBkashPayment.setClickable(true);
         wvBkashPayment.getSettings().setDomStorageEnabled(true);
-        wvBkashPayment.getSettings().setAppCacheEnabled(false);
+        //wvBkashPayment.getSettings().setAppCacheEnabled(false);
         wvBkashPayment.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         wvBkashPayment.clearCache(true);
         wvBkashPayment.getSettings().setAllowFileAccessFromFileURLs(true);
@@ -68,6 +70,7 @@ public class BkashActivity extends SecuredActivity implements View.OnClickListen
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

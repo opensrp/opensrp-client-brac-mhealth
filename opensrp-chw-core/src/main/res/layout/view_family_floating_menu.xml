@@ -14,51 +14,45 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:orientation="vertical">
-        <android.support.design.widget.FloatingActionButton
+        <Button
             android:id="@+id/add_member"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="5dp"
             android:clickable="true"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/text_black"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/floating_addmember" />
-        <android.support.design.widget.FloatingActionButton
+            android:background="@drawable/add_member_above" />
+        <Button
             android:id="@+id/add_child_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="5dp"
             android:clickable="true"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/text_black"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/add_child" />
+            android:background="@drawable/add_child_five" />
 
-<!--        <Button-->
-<!--            android:id="@+id/add_child_btn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:src="@drawable/add_child"-->
-<!--            android:layout_below="@+id/imageview_profile"-->
-<!--            android:background="@drawable/button_click"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:padding="5dp"/>-->
-<!--        <Button-->
-<!--            android:id="@+id/add_member"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:drawableLeft="@drawable/floating_addmember"-->
-<!--            android:layout_below="@+id/imageview_profile"-->
-<!--            android:background="@drawable/button_click"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:padding="10dp"-->
-<!--            android:text="Add Member" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/add_child_btn"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:src="@drawable/add_child"-->
+        <!--            android:layout_below="@+id/imageview_profile"-->
+        <!--            android:background="@drawable/button_click"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:padding="5dp"/>-->
+        <!--        <Button-->
+        <!--            android:id="@+id/add_member"-->
+        <!--            android:layout_width="150dp"-->
+        <!--            android:layout_marginTop="5dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:drawableLeft="@drawable/floating_addmember"-->
+        <!--            android:layout_below="@+id/imageview_profile"-->
+        <!--            android:background="@drawable/button_click"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:padding="10dp"-->
+        <!--            android:text="Add Member" />-->
     </LinearLayout>
 
 

@@ -176,6 +176,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 processMUAC(eventClient, getMuacTable(),eventType.equals(MuacIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 break;
             case CoreConstants.EventType.ANC_HOME_VISIT:
+            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
             case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
@@ -645,13 +646,13 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     // possible to delegate
     protected void processVisitEvent(EventClient eventClient) {
         try {
-            processAncHomeVisit(eventClient, null, null); // save locally
+            processAncHomeVisit(eventClient); // save locally
         } catch (Exception e) {
             String formID = (eventClient != null && eventClient.getEvent() != null) ? eventClient.getEvent().getFormSubmissionId() : "no form id";
             Timber.e("Form id " + formID + ". " + e.toString());
         }
     }
-    protected void processAncHomeVisit(EventClient baseEvent, SQLiteDatabase database, String parentEventType) {
+    protected void processAncHomeVisit(EventClient baseEvent) {
         try {
             Visit visit = AncLibrary.getInstance().visitRepository().getVisitByFormSubmissionID(baseEvent.getEvent().getFormSubmissionId());
             if (visit == null) {
@@ -662,10 +663,9 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 //                    visit.setParentVisitID(parentVisitID);
 //                }
 
-                if (database != null) {
-                    AncLibrary.getInstance().visitRepository().addVisit(visit, database);
-                } else {
-                    AncLibrary.getInstance().visitRepository().addVisit(visit);
+                AncLibrary.getInstance().visitRepository().addVisit(visit);
+                if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
+                    FormParser.processVisitLog(visit);
                 }
 
 

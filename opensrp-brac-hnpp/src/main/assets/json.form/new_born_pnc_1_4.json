@@ -266,7 +266,7 @@
           },
           {
             "key": "delay_cord_cutting",
-            "text": "Delayed cord cutting",
+            "text": "Delayed cord cutting ( Within 1 to 3 minutes)",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "delay_cord_cutting"
@@ -287,7 +287,7 @@
           },
           {
             "key": "Delayed_bathing",
-            "text": "Delayed bathing",
+            "text": "Delayed bathing (After 72 hours)",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "Delayed_bathing"
@@ -383,11 +383,20 @@
           },
           {
             "key": "high_temperature",
-            "text": "High temperature or fever (above 37.5 C/ 99.5 F)",
+            "text": "Low(Below 36.50) or High  (above 37.5 C/ 99.5 F) temperature ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "Sweating_or_shivering"
+          },
+
+          {
+            "key": "less_birth_weight",
+            "text": "Less Birth Weight ( Under 2500 GM)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "less_birth_weight"
           }
         ]
       },

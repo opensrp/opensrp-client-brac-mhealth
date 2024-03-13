@@ -54,7 +54,7 @@ public class MemberHistoryAdapter extends RecyclerView.Adapter<MemberDueViewHold
             viewHolder.textViewLastVisit.setText(context.getString(R.string.date)+content.getVisitDay());
 
         }else{
-            viewHolder.textViewLastVisit.setText(context.getString(R.string.date)+HnppConstants.DDMMYY.format(content.getVisitDate()));
+            viewHolder.textViewLastVisit.setText(context.getString(R.string.service_receive_date)+HnppConstants.DDMMYY.format(content.getVisitDate()));
 
         }
         if(!TextUtils.isEmpty(content.getScheduleDate())){

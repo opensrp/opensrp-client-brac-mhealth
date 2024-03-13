@@ -52,6 +52,7 @@ import java.util.List;
 //import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.AEFI_CHILD;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_DISEASE;
@@ -115,6 +116,9 @@ public class FormParser {
 
         }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
             saveSSFormData(visit);
+        }
+        else if(visit.getVisitType().equalsIgnoreCase(ANC_HOME_VISIT_FACILITY)){
+            saveANCFacilityFormData(visit);
         }
         else{
 
@@ -1797,6 +1801,54 @@ public class FormParser {
         }
 
     }
+    private static void saveANCFacilityFormData(Visit visit)
+    {
+        try{
+            String local = LangUtils.getLanguage(HnppApplication.getInstance().getApplicationContext());
+            String lang = "";
+            if(local.equals("bn")){
+                lang = "-bn";
+            }
+
+            JSONObject form_object = new JSONObject(AssetHandler.readFileFromAssetsFolder("json.form" +lang+"/" +HnppConstants.JSON_FORMS.ANC_VISIT_FORM_FACILITY+".json", HnppApplication.getHNPPInstance().getApplicationContext()));
+            Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
+            String base_entity_id = baseEvent.getBaseEntityId();
+            HashMap<String,Object>form_details = getFormNamesFromEventObject(baseEvent);
+            HashMap<String,String>details = (HashMap<String, String>) form_details.get("details");
+
+            final CommonPersonObjectClient client = new CommonPersonObjectClient(base_entity_id, details, "");
+            client.setColumnmaps(details);
+
+            try{
+                for(int i= 1;i<9;i++){
+                    JSONObject steps = form_object.getJSONObject("step"+i);
+                    JSONArray jsonArray = steps.getJSONArray(JsonFormUtils.FIELDS);
+
+                    for (int k = 0; k < jsonArray.length(); k++) {
+                        populateValuesForFormObject(client, jsonArray.getJSONObject(k));
+                    }
+                }
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            VisitLog log = new VisitLog();
+            log.setVisitId(visit.getVisitId());
+            log.setVisitType(visit.getVisitType());
+            log.setBaseEntityId(base_entity_id);
+            log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
+            log.setVisitDate(visit.getDate().getTime());
+            log.setEventType(visit.getVisitType());
+
+            long inserted =  HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
+            Log.v("ANC_VISIT_FACILITY","inserted>>>>"+inserted);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
     private static   void saveSSFormData(Visit visit)
     {
         try{
@@ -2297,6 +2349,9 @@ public class FormParser {
 //                break;
             case ANC_HOME_VISIT:
                 form_name = HnppConstants.JSON_FORMS.ANC_VISIT_FORM + ".json";
+                break;
+            case ANC_HOME_VISIT_FACILITY:
+                form_name = HnppConstants.JSON_FORMS.ANC_VISIT_FORM_FACILITY + ".json";
                 break;
             case MEMBER_REFERRAL:
                 form_name = HnppConstants.isPALogin()? HnppConstants.JSON_FORMS.MEMBER_REFERRAL + "_pa.json":HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";

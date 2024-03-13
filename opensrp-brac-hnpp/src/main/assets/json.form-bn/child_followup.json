@@ -99,95 +99,378 @@
         ],
         "options": [
           {
-            "key": "High_fever",
-            "text": "মাত্রাতিরিক্ত জ্বর",
+            "key": "Common_Danger_Sign",
+            "text": "সাধারণ বিপদচিহ্ন",
             "value": false,
-            "openmrs_entity_id": "High_fever",
+            "openmrs_entity_id": "Common_Danger_Sign",
             "openmrs_entity": "concept",
             "openmrs_entity_parent": ""
           },
           {
-            "key": "Cough",
-            "text": "কাশি",
+            "key": "Pnuemonia",
+            "text": "নিউমোনিয়া",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Cough"
+            "openmrs_entity_id": "Pnuemonia"
           },
           {
-            "key": "Runny_nose",
-            "text": "সর্দি",
+            "key": "Diarrhoea",
+            "text": "ডায়রিয়া",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Runny_nose"
+            "openmrs_entity_id": "Diarrhoea"
           },
           {
-            "key": "Red_watery_eyes",
-            "text": "লাল/জলভরা চোখ",
+            "key": "Malaria_or_Fever",
+            "text": "ম্যালেরিয়া বা জ্বর",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Red_watery_eyes"
+            "openmrs_entity_id": "Malaria_or_Fever"
           },
           {
-            "key": "Rash",
-            "text": "ফুসকুড়ি",
+            "key": "Blood_Deficiency",
+            "text": "রক্ত স্বল্পতা",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Rash"
+            "openmrs_entity_id": "Blood_Deficiency"
           },
           {
-            "key": "Difficulty_in_breathing",
-            "text": "শ্বাস নিতে কষ্ট হওয়া",
+            "key": "Dysentery",
+            "text": "আমাশয় ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "Difficulty_in_breathing"
-          },
-          {
-            "key": "Rapid_heartbeat",
-            "text": "দ্রুত হৃদস্পন্দন",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Rapid_heartbeat"
-          },
-          {
-            "key": "Sweating_or_shivering",
-            "text": "ঘাম বা কাঁপুনি",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Sweating_or_shivering"
-          },
-          {
-            "key": "Loss_of_appetite",
-            "text": "ক্ষুধামান্দ্য",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Loss_of_appetite"
-          },
-          {
-            "key": "Recent_diarrhoea_episodes",
-            "text": "সাম্প্রতিক ডায়রিয়া",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Recent_diarrhoea_episodes"
-          },
-          {
-            "key": "none",
-            "text": "কোনোটিই নয়",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "none"
+            "openmrs_entity_id": "Dysentery"
           }
         ]
       },
+
+      {
+        "key": "Common_Danger_Sign",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Common_Danger_Sign",
+        "type": "check_box",
+        "label": "সাধারণ বিপদচিহ্ন",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "Redness_around_umbilicus",
+            "text": "নাভি পাকা ও চারপাশে লালভাব",
+            "value": false,
+            "openmrs_entity_id": "Redness_around_umbilicus",
+            "openmrs_entity": "concept",
+            "openmrs_entity_parent": ""
+          },
+          {
+            "key": "Lethargic",
+            "text": "নেতিয়ে পড়া ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Lethargic"
+          },
+          {
+            "key": "Unable_to_breastfed",
+            "text": "নবজাতক কে বুকের দুধ খাওয়াতে অক্ষম অথবা নবজাতক স্তন্যপানে অক্ষম",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Unable_to_breastfed"
+          },
+          {
+            "key": "Fast_breathing",
+            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Fast_breathing"
+          },
+          {
+            "key": "Chest_in_drawing",
+            "text": "বুকের খাঁচা ডেবে যাওয়া",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Chest_in_drawing"
+          },
+          {
+            "key": "Convulsion",
+            "text": "খিচুনী হয়েছে  ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Convulsion"
+          },
+          {
+            "key": "Low_high_temp",
+            "text": "তাপমাত্রা কমে যাওয়া অথবা জ্বর ( তাপমাত্রা ৩৬.৫oসে এর নিচে অথবা তাপমাত্রা ৩৭.৫ সে . / ৯৯.৫ ফা. এর উপরে)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Low_high_temp"
+          }
+        ],
+        "relevance": {
+          "step1:syndrom": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Common_Danger_Sign"
+                ]
+              }
+            ]
+          }
+        }
+      },
+
+      {
+        "key": "Pnuemonia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Pnuemonia",
+        "type": "check_box",
+        "label": "নিউমোনিয়ার ক্ষেত্রে",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "Chest_in_drawing",
+            "text": "বুকের খাঁচা ডেবে যাওয়া",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Chest_in_drawing"
+          },
+
+          {
+            "key": "Fast_breathing",
+            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Fast_breathing"
+          },
+          {
+            "key": "Normal_breathing",
+            "text": "স্বাভাবিক নিঃশ্বাস নিচ্ছে",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Normal_breathing"
+          }
+        ],
+        "relevance": {
+          "step1:syndrom": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Pnuemonia"
+                ]
+              }
+            ]
+          }
+        }
+      },
+
+      {
+        "key": "Dysentery",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Dysentery",
+        "type": "check_box",
+        "label": "আমাশয়ের ক্ষেত্রে",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "Blood_stained_stool",
+            "text": "মলের সাথে রক্ত থাকা",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Blood_stained_stool"
+          },
+
+          {
+            "key": "No_blood_with_stool",
+            "text": "মলের সাথে রক্ত না থাকা",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "No_blood_with_stool"
+          }
+        ],
+        "relevance": {
+          "step1:syndrom": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Dysentery"
+                ]
+              }
+            ]
+          }
+        }
+      },
+
+      {
+        "key": "Diarrhoea",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Pnuemonia",
+        "type": "check_box",
+        "label": "ডায়রিয়ার ক্ষেত্রে",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "Severe_dehydration",
+            "text": "চরম পানি স্বল্পতা",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Severe_dehydration"
+          },
+
+          {
+            "key": "Some_dehydration",
+            "text": "কিছু পানি স্বল্পতা",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Some_dehydration"
+          },
+          {
+            "key": "No_dehydration",
+            "text": "পানি স্বল্পতা নাই",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "No_dehydration"
+          }
+        ],
+        "relevance": {
+          "step1:syndrom": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Diarrhoea"
+                ]
+              }
+            ]
+          }
+        }
+      },
+
+      {
+        "key": "Malaria_or_Fever",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Malaria_or_Fever",
+        "type": "check_box",
+        "label": "ম্যালেরিয়া বা জ্বরের ক্ষেত্রে",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "Fever",
+            "text": "জ্বর ( তাপমাত্রা ৩৭.৫ সে . / ৯৯.৫ ফা. এর উপরে)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Fever"
+          },
+          {
+            "key": "fever_lasting_more_than_seven_days",
+            "text": "জ্বর ৭ দিনের বেশি",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fever_lasting_more_than_seven_days"
+          },
+          {
+            "key": "Normal_temperature",
+            "text": "তাপমাত্রা স্বাভাবিক",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Normal_temperature"
+          }
+        ],
+        "relevance": {
+          "step1:syndrom": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Malaria_or_Fever"
+                ]
+              }
+            ]
+          }
+        }
+      },
+
+      {
+        "key": "Blood_Deficiency",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Blood_Deficiency",
+        "type": "check_box",
+        "label": "রক্ত স্বল্পতার ক্ষেত্রে ",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "Anaemia",
+            "text": "রক্ত স্বল্পতার আছে",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Anaemia"
+          },
+
+          {
+            "key": "Child_receiving_Iron",
+            "text": "পরামর্শ অনুযায়ী আয়রন পাচ্ছে",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Child_receiving_Iron"
+          },
+          {
+            "key": "No_anaemia",
+            "text": "রক্ত স্বল্পতার নাই",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "No_anaemia"
+          }
+        ],
+        "relevance": {
+          "step1:syndrom": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "Blood_Deficiency"
+                ]
+              }
+            ]
+          }
+        }
+      },
+
       {
         "key": "sound",
         "openmrs_entity_parent": "",
@@ -228,7 +511,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "presence_of_swelling",
         "type": "spinner",
-        "hint": "অঙ্গ-প্রত্যঙ্গের ফোলা উপস্থিত আছে? (ইডিমা এবং কোয়াশিওরকরের চিহ্ন)",
+        "hint": "পা ফোলা আছে? (ইডিমা এবং কোয়াশিওরকরের চিহ্ন)",
         "values": [
           "হ্যাঁ",
           "না"
@@ -246,7 +529,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "discoloration_of_skins",
         "type": "spinner",
-        "hint": "চামড়ার বিবর্ণতা উপস্থিত আছে? (পিঠে হলুদ বা গোলাপী ছোপ)",
+        "hint": "চামড়ার বিবর্ণতা আছে? (পিঠে হলুদ বা গোলাপী ছোপ)",
         "values": [
           "হ্যাঁ",
           "না"
@@ -264,7 +547,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "presence_of_muscle_wasting",
         "type": "spinner",
-        "hint": "পেশী নষ্ট হওয়ার চিহ্ন আছে? (পাঁজরের দৃশ্যমানতা) (মারাসমাসের লক্ষণ)",
+        "hint": "মাংসপেশী শুকিয়ে যাওয়ার চিহ্ন আছে? (পাঁজরের দৃশ্যমানতা) (মারাসমাসের লক্ষণ)",
         "values": [
           "হ্যাঁ",
           "না"
@@ -282,7 +565,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "counseling",
         "type": "spinner",
-        "hint": "পি এন সি সেবার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
+        "hint": "প্রসব পরবর্তী সেবার জন্য ফ্যাসিলিটিতে যাওয়ার জন্য কাউন্সেলিং করা হয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -316,7 +599,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "actions_taken",
         "type": "check_box",
-        "label": "কোন পদক্ষেপ নেওয়া হয়েছে?",
+        "label": "কি পদক্ষেপ নেওয়া হয়েছে?",
         "exclusive": [
           "none"
         ],

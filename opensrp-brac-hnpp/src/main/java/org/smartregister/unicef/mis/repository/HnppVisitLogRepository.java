@@ -640,8 +640,8 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public ArrayList<VisitLog> getCurrentANCTimeline(String baseEntityId, long startDate) {
         SQLiteDatabase database = getReadableDatabase();
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+VISIT_DATE+" >=? and ("+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ?)";
-        String[] selectionArgs = new String[]{baseEntityId,startDate+"", HnppConstants.EVENT_TYPE.ANC_HOME_VISIT, HnppConstants.EVENT_TYPE.PNC_REGISTRATION,HnppConstants.EVENT_TYPE.ANC_REGISTRATION,HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME};
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and "+VISIT_DATE+" >=? and ("+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ?)";
+        String[] selectionArgs = new String[]{baseEntityId,startDate+"", HnppConstants.EVENT_TYPE.ANC_HOME_VISIT, HnppConstants.EVENT_TYPE.PNC_REGISTRATION,HnppConstants.EVENT_TYPE.ANC_REGISTRATION,HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY};
         try{
             net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, " rowid DESC");
             return getAllVisitsFromVisitTable(cursor);
@@ -654,8 +654,8 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public ArrayList<VisitLog> getCurrentANCTimeline(String baseEntityId, long startDate, long endDate) {
         SQLiteDatabase database = getReadableDatabase();
-        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and ("+VISIT_DATE+" >=? and "+VISIT_DATE+" <?) and ("+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ?)";
-        String[] selectionArgs = new String[]{baseEntityId,startDate+"",endDate+"", HnppConstants.EVENT_TYPE.ANC_HOME_VISIT, HnppConstants.EVENT_TYPE.PNC_REGISTRATION,HnppConstants.EVENT_TYPE.ANC_REGISTRATION,HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME};
+        String selection = BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE+" and ("+VISIT_DATE+" >=? and "+VISIT_DATE+" <?) and ("+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ?)";
+        String[] selectionArgs = new String[]{baseEntityId,startDate+"",endDate+"", HnppConstants.EVENT_TYPE.ANC_HOME_VISIT, HnppConstants.EVENT_TYPE.PNC_REGISTRATION,HnppConstants.EVENT_TYPE.ANC_REGISTRATION,HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME,HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY};
         try{
             net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, " rowid DESC");
             return getAllVisitsFromVisitTable(cursor);

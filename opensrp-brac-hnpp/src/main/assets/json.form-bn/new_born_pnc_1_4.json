@@ -253,42 +253,42 @@
         "options": [
           {
             "key": "head_body_covered",
-            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোড়ানো এবং আবৃত করা হয়েছিল",
+            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোছানো এবং মোড়ানো হয়েছিল",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "head_body_covered"
           },
           {
-            "key": "breastfeeding_time",
-            "text": "নবজাতক জন্মের ১ ঘন্টার মধ্যে তাকে মায়ের বুকে লাগানো হয়েছিল",
+            "key": "skin_to_skin_contact",
+            "text": "নবজাতক জন্মের পর পর তাকে মায়ের ত্বকের সংস্পর্শে  রাখা হয়েছিল ",
             "value": false,
             "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "breastfeeding_time"
+            "openmrs_entity_id": "skin_to_skin_contact"
           },
           {
             "key": "delay_cord_cutting",
-            "text": "বিলম্বিত কর্ড কাটা",
+            "text": "বিলম্বিত নাড়ি কাটা (১ থেকে ৩ মিনিটের মধ্যে)",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "delay_cord_cutting"
           },
           {
             "key": "chlorohexadin",
-            "text": "প্রসবকালীন সময়ে সিএইচএক্স(৭.১%) ব্যবহৃত হয়েছিল",
+            "text": "নাড়ি কাঁটার পর সিএইচএক্স(৭.১% ক্লোরহেক্সিডিন) ব্যাবহার  করা হয়েছিল",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "chlorohexadin"
           },
           {
-            "key": "Skin_to_Skin_contact",
+            "key": "newborn_breastfeed",
             "text": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল",
             "value": false,
             "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "Skin_to_Skin_contact"
+            "openmrs_entity_id": "newborn_breastfeed"
           },
           {
             "key": "Delayed_bathing",
-            "text": "বিলম্বিত গোসল করানো হয়েছিল",
+            "text": "বিলম্বিত গোসল করানো হয়েছিল (৭২ ঘণ্টা পর)",
             "value": false,
             "openmrs_entity": "person_attribute",
             "openmrs_entity_id": "Delayed_bathing"
@@ -336,7 +336,7 @@
         "options": [
           {
             "key": "redness_around_umbilicus",
-            "text": "আম্বিলিকাস বা অ্যাম্বিলিকাস ড্রেনিং পুসের চারপাশে লালভাব",
+            "text": "নাভি পাকা ও চারপাশে লালভাব",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -344,7 +344,7 @@
           },
           {
             "key": "lethargic_or_restricted_movement",
-            "text": "শারীরিক ভাবে অবস্থান পরিবর্তনে সীমাবদ্ধ",
+            "text": "নেতিয়ে পড়া",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -360,7 +360,7 @@
           },
           {
             "key": "fast_breathing",
-            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে? (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
+            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -368,7 +368,7 @@
           },
           {
             "key": "chest_in_drawing",
-            "text": "চেস্ট ইন ড্রয়িং",
+            "text": "বুকের খাঁচা ডেবে যাওয়া",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -384,11 +384,19 @@
           },
           {
             "key": "high_temperature",
-            "text": "উচ্চ তাপমাত্রা/ জ্বর ( তাপমাত্রা ৩৭.৫ সে . / ৯৯.৫ ফা. এর উপরে)",
+            "text": "তাপমাত্রা কমে যাওয়া অথবা জ্বর ( তাপমাত্রা ৩৬.৫oসে এর নিচে অথবা তাপমাত্রা ৩৭.৫ সে . / ৯৯.৫ ফা. এর উপরে)",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "Sweating_or_shivering"
+          },
+          {
+            "key": "less_birth_weight",
+            "text": "কম জন্ম ওজন (২৫০০ গ্রামের নিচে)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "less_birth_weight"
           }
         ]
       },
@@ -426,10 +434,10 @@
           "১০ শয্যা বিশিষ্ট হাসপাতাল",
           "২০ শয্যা বিশিষ্ট হাসপাতাল",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "সদর হাসপাতাল",
+          "জেলা সদর হাসপাতাল",
           "মেডিকেল কলেজ হাসপাতাল",
           "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও",
+          "এনজিও ক্লিনিক/ হাসপাতাল",
           "বিশেষায়িত হাসপাতাল",
           "অন্যান্য"
         ],
@@ -442,10 +450,10 @@
           "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
           "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
           "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
-          "সদর হাসপাতাল":"District_Hospital",
+          "জেলা সদর হাসপাতাল":"District_Hospital",
           "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
           "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও": "Non-governmental_Organization",
+          "এনজিও ক্লিনিক/ হাসপাতাল": "Non-governmental_Organization",
           "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
           "অন্যান্য":"Others_Health_Facility"
         },
