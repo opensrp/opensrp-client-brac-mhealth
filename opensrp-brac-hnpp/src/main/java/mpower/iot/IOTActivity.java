@@ -116,7 +116,7 @@ public class IOTActivity extends SecuredActivity {
     protected void onCreation() {
         setContentView(R.layout.activity_iot);
         measurementValue = (TextView) findViewById(R.id.bloodPressureValue);
-        findViewById(R.id.yes_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 findViewById(R.id.bp_panel).setVisibility(View.VISIBLE);
@@ -185,8 +185,11 @@ public class IOTActivity extends SecuredActivity {
             diastolic = measurement.getDiastolic();
             heartrate = measurement.getPulseRate()==null?0:measurement.getPulseRate();
             measurementValue.setText("সিস্টোলিক(mmHg): "+systolic);
+            measurementValue.append("\n");
             measurementValue.append("ডায়াস্টোলিক(mmHg) : "+diastolic);
+            measurementValue.append("\n");
             measurementValue.append("হার্ট রেট: "+heartrate);
+            findViewById(R.id.status_tv).setVisibility(View.GONE);
             //measurementValue.setText(String.format(Locale.ENGLISH, "%s\n\nfrom %s", measurement, peripheral.getName()));
         }
     };

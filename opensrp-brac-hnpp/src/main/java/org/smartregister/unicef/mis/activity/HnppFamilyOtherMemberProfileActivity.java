@@ -602,6 +602,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", pncCount+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_pressure_systolic", systolic+"");
+                HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_pressure_diastolic", diastolic+"");
 //                form.setWizard(true);
 //                form.setHideSaveLabel(true);
 //                form.setSaveLabel("");
@@ -772,12 +774,12 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         if(resultCode == Activity.RESULT_OK && requestCode == IOTActivity.IOT_REQUEST_CODE){
             String yesNoOption = data.getStringExtra(IOTActivity.EXTRA_INTENT_DATA);
             if(yesNoOption.equalsIgnoreCase("no")){
-                openHomeVisitSingleForm(HnppConstants.JSON_FORMS.ANC_VISIT_FORM);
+                startAnyFormActivity(formName,REQUEST_HOME_VISIT);
             }else{
                 systolic = data.getFloatExtra(IOTActivity.EXTRA_SYSTOLIC,0);
                 diastolic = data.getFloatExtra(IOTActivity.EXTRA_DIASTOLIC,0);
                 heartrate = data.getFloatExtra(IOTActivity.EXTRA_HR,0);
-                openHomeVisitSingleForm(HnppConstants.JSON_FORMS.ANC_VISIT_FORM);
+                startAnyFormActivity(formName,REQUEST_HOME_VISIT);
             }
         }
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_HOME_VISIT){
@@ -1164,9 +1166,17 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     }
 
     public void openHomeVisitSingleForm(String formName){
-        startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+        this.formName = formName;
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM) ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+            IOTActivity.startIOTActivity(this);
+        }else{
+            startAnyFormActivity(formName,REQUEST_HOME_VISIT);
+        }
+        //
+
     }
     private boolean needToStartHomeVisit = false;
+    private String formName;
 
     public void openHomeVisitForm(){
         if(!HnppApplication.getStockRepository().isAvailableStock(CoreConstants.EventType.ANC_HOME_VISIT)){
