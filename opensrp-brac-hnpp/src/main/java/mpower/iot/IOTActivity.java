@@ -43,10 +43,15 @@ public class IOTActivity extends SecuredActivity {
     public static final String EXTRA_INTENT_DATA = "extra_result";
     public static final String EXTRA_DIASTOLIC = "extra_diastolic";
     public static final String EXTRA_SYSTOLIC = "extra_systolic";
+    public static final String EXTRA_FASTING = "extra_fasting";
+    public static final String EXTRA_RANDOM = "extra_random";
     public static final String EXTRA_HR = "extra_hr";
     public static final int IOT_REQUEST_CODE = 40000;
-    private TextView measurementValue;
+    private TextView bpMeasurementValue,fastingMeasurementValue,randomMeasurmentValue;
     private float systolic,diastolic,heartrate;
+    private float fasting =0,random =0;
+    private boolean fastingNoSelected,randomNoSelected = false;
+
 
     private final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
     private static String[] PERMISSIONS_BLUETOOTH = {
@@ -64,6 +69,8 @@ public class IOTActivity extends SecuredActivity {
         intent.putExtra(EXTRA_DIASTOLIC, diastolic);
         intent.putExtra(EXTRA_SYSTOLIC, systolic);
         intent.putExtra(EXTRA_HR, heartrate);
+        intent.putExtra(EXTRA_FASTING, fasting);
+        intent.putExtra(EXTRA_RANDOM, random);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -109,27 +116,48 @@ public class IOTActivity extends SecuredActivity {
 //        unregisterReceiver(heartRateDataReceiver);
 //        unregisterReceiver(pulseOxDataReceiver);
 //        unregisterReceiver(weightDataReceiver);
-//        unregisterReceiver(glucoseDataReceiver);
+        unregisterReceiver(glucoseDataReceiver);
     }
 
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_iot);
-        measurementValue = (TextView) findViewById(R.id.bloodPressureValue);
-        findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+        bpMeasurementValue = (TextView) findViewById(R.id.bloodPressureValue);
+        fastingMeasurementValue = (TextView) findViewById(R.id.fastingValue);
+        randomMeasurmentValue = (TextView) findViewById(R.id.randomValue);
+        findViewById(R.id.bp_yes_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 findViewById(R.id.bp_panel).setVisibility(View.VISIBLE);
                 setUpIOTConfiguration();
             }
         });
-        findViewById(R.id.no_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fasting_no_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_INTENT_DATA, "no");
-                setResult(RESULT_OK, intent);
-                finish();
+                findViewById(R.id.fasting_panel).setVisibility(View.GONE);
+                fastingNoSelected = true;
+            }
+        });
+        findViewById(R.id.fasting_yes_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.fasting_panel).setVisibility(View.VISIBLE);
+                setUpIOTConfiguration();
+            }
+        });
+        findViewById(R.id.random_yes_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.random_panel).setVisibility(View.VISIBLE);
+                setUpIOTConfiguration();
+            }
+        });
+        findViewById(R.id.random_no_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.random_panel).setVisibility(View.GONE);
+                randomNoSelected = true;
             }
         });
         findViewById(R.id.next_btn).setOnClickListener(new View.OnClickListener() {
@@ -146,14 +174,14 @@ public class IOTActivity extends SecuredActivity {
 //            registerReceiver(heartRateDataReceiver, new IntentFilter( BluetoothHandler.MEASUREMENT_HEARTRATE ), flags);
 //            registerReceiver(pulseOxDataReceiver, new IntentFilter( BluetoothHandler.MEASUREMENT_PULSE_OX ), flags);
 //            registerReceiver(weightDataReceiver, new IntentFilter(BluetoothHandler.MEASUREMENT_WEIGHT), flags);
-//            registerReceiver(glucoseDataReceiver, new IntentFilter(BluetoothHandler.MEASUREMENT_GLUCOSE), flags);
+            registerReceiver(glucoseDataReceiver, new IntentFilter(BluetoothHandler.MEASUREMENT_GLUCOSE), flags);
         } else {
             registerReceiver(bloodPressureDataReceiver, new IntentFilter( BluetoothHandler.MEASUREMENT_BLOODPRESSURE ));
 //            registerReceiver(temperatureDataReceiver, new IntentFilter( BluetoothHandler.MEASUREMENT_TEMPERATURE ));
 //            registerReceiver(heartRateDataReceiver, new IntentFilter( BluetoothHandler.MEASUREMENT_HEARTRATE ));
 //            registerReceiver(pulseOxDataReceiver, new IntentFilter( BluetoothHandler.MEASUREMENT_PULSE_OX ));
 //            registerReceiver(weightDataReceiver, new IntentFilter(BluetoothHandler.MEASUREMENT_WEIGHT));
-//            registerReceiver(glucoseDataReceiver, new IntentFilter(BluetoothHandler.MEASUREMENT_GLUCOSE));
+            registerReceiver(glucoseDataReceiver, new IntentFilter(BluetoothHandler.MEASUREMENT_GLUCOSE));
         }
     }
 
@@ -184,11 +212,11 @@ public class IOTActivity extends SecuredActivity {
             systolic = measurement.getSystolic();
             diastolic = measurement.getDiastolic();
             heartrate = measurement.getPulseRate()==null?0:measurement.getPulseRate();
-            measurementValue.setText("সিস্টোলিক(mmHg): "+systolic);
-            measurementValue.append("\n");
-            measurementValue.append("ডায়াস্টোলিক(mmHg) : "+diastolic);
-            measurementValue.append("\n");
-            measurementValue.append("হার্ট রেট: "+heartrate);
+            bpMeasurementValue.setText("সিস্টোলিক(mmHg): "+systolic);
+            bpMeasurementValue.append("\n");
+            bpMeasurementValue.append("ডায়াস্টোলিক(mmHg) : "+diastolic);
+            bpMeasurementValue.append("\n");
+            bpMeasurementValue.append("হার্ট রেট: "+heartrate);
             findViewById(R.id.status_tv).setVisibility(View.GONE);
             //measurementValue.setText(String.format(Locale.ENGLISH, "%s\n\nfrom %s", measurement, peripheral.getName()));
         }
@@ -241,16 +269,22 @@ public class IOTActivity extends SecuredActivity {
 //        }
 //    };
 //
-//    private final BroadcastReceiver glucoseDataReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            BluetoothPeripheral peripheral = getPeripheral(intent.getStringExtra(BluetoothHandler.MEASUREMENT_EXTRA_PERIPHERAL));
-//            GlucoseMeasurement measurement = (GlucoseMeasurement) intent.getSerializableExtra(BluetoothHandler.MEASUREMENT_GLUCOSE_EXTRA);
-//            if (measurement != null) {
-//                measurementValue.setText(String.format(Locale.ENGLISH, "%s\n\nfrom %s", measurement, peripheral.getName()));
-//            }
-//        }
-//    };
+    private final BroadcastReceiver glucoseDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            BluetoothPeripheral peripheral = getPeripheral(intent.getStringExtra(BluetoothHandler.MEASUREMENT_EXTRA_PERIPHERAL));
+            GlucoseMeasurement measurement = (GlucoseMeasurement) intent.getSerializableExtra(BluetoothHandler.MEASUREMENT_GLUCOSE_EXTRA);
+            if (measurement != null) {
+                if(fasting== 0 && !fastingNoSelected){
+                    fasting = measurement.getValue();
+                    fastingMeasurementValue.setText("ফাস্টিং (mmol/l): "+fasting);
+                }else  if(random == 0 && !randomNoSelected ){
+                    random = measurement.getValue();
+                    randomMeasurmentValue.setText("ফাস্টিং (mmol/l): "+random);
+                }
+            }
+        }
+    };
 
     private BluetoothPeripheral getPeripheral(String peripheralAddress) {
         BluetoothCentralManager central = BluetoothHandler.getInstance(getApplicationContext()).central;

@@ -577,6 +577,11 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_group",HnppDBUtils.getBloodGroup(baseEntityId));
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"Systolic", systolic+"");
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"diastolic", diastolic+"");
+                if(fasting!=0 || random !=0){
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"blood_sugar_exam", getString(R.string.yes));
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"fbs_result", fasting+"");
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"rbs_result", random+"");
+                }
                 String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
                 if(weights.length>0){
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
@@ -758,7 +763,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     boolean isProcessingHV = false;
     boolean isProcessingANCVisit = false;
-    private float systolic,diastolic,heartrate;
+    private float systolic,diastolic,heartrate,fasting,random;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v("BASE_ENTITY_ID","familyBaseEntityId:"+familyBaseEntityId+":baseEntityId:"+baseEntityId);
@@ -779,6 +784,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                 systolic = data.getFloatExtra(IOTActivity.EXTRA_SYSTOLIC,0);
                 diastolic = data.getFloatExtra(IOTActivity.EXTRA_DIASTOLIC,0);
                 heartrate = data.getFloatExtra(IOTActivity.EXTRA_HR,0);
+                fasting = data.getFloatExtra(IOTActivity.EXTRA_FASTING,0);
+                random = data.getFloatExtra(IOTActivity.EXTRA_RANDOM,0);
                 startAnyFormActivity(formName,REQUEST_HOME_VISIT);
             }
         }
