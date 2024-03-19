@@ -59,8 +59,10 @@ public class IOTActivity extends SecuredActivity {
             Manifest.permission.BLUETOOTH_CONNECT
     };
 
-    public static void startIOTActivity(Activity activity){
-        activity.startActivityForResult(new Intent(activity,IOTActivity.class),IOT_REQUEST_CODE);
+    public static void startIOTActivity(Activity activity,boolean bloodSugerTakenEnable){
+        Intent intent = new Intent(activity,IOTActivity.class);
+        intent.putExtra("blood_suger",bloodSugerTakenEnable);
+        activity.startActivityForResult(new Intent(),IOT_REQUEST_CODE);
     }
 
     private void sendDataToActivity(){
@@ -122,6 +124,11 @@ public class IOTActivity extends SecuredActivity {
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_iot);
+        boolean bloodSuger = getIntent().getBooleanExtra("blood_suger",false);
+        if(!bloodSuger){
+            findViewById(R.id.fasting_ll).setVisibility(View.GONE);
+            findViewById(R.id.random_ll).setVisibility(View.GONE);
+        }
         bpMeasurementValue = (TextView) findViewById(R.id.bloodPressureValue);
         fastingMeasurementValue = (TextView) findViewById(R.id.fastingValue);
         randomMeasurmentValue = (TextView) findViewById(R.id.randomValue);
@@ -274,7 +281,9 @@ public class IOTActivity extends SecuredActivity {
         public void onReceive(Context context, Intent intent) {
             BluetoothPeripheral peripheral = getPeripheral(intent.getStringExtra(BluetoothHandler.MEASUREMENT_EXTRA_PERIPHERAL));
             GlucoseMeasurement measurement = (GlucoseMeasurement) intent.getSerializableExtra(BluetoothHandler.MEASUREMENT_GLUCOSE_EXTRA);
-            if (measurement != null) {
+
+            Log.v("glucoseDataReceiver","glucoseDataReceiver>>>fasting:"+fasting+":fastingNoSelected:"+fastingNoSelected+":"+measurement.getValue());
+        if (measurement != null) {
                 if(fasting== 0 && !fastingNoSelected){
                     fasting = measurement.getValue();
                     fastingMeasurementValue.setText("ফাস্টিং (mmol/l): "+fasting);

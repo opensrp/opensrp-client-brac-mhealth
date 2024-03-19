@@ -209,13 +209,14 @@ class BluetoothHandler {
 //                intent.putExtra(MEASUREMENT_WEIGHT_EXTRA, measurement);
 //                sendMeasurement(intent, peripheral);
 //                Timber.d("%s", measurement);
-//            } else if (characteristicUUID.equals((GLUCOSE_MEASUREMENT_CHARACTERISTIC_UUID))) {
-//                GlucoseMeasurement measurement = new GlucoseMeasurement(value);
-//                Intent intent = new Intent(MEASUREMENT_GLUCOSE);
-//                intent.putExtra(MEASUREMENT_GLUCOSE_EXTRA, measurement);
-//                sendMeasurement(intent, peripheral);
-//                Timber.d("%s", measurement);
-//            }
+ //           }
+            else if (characteristicUUID.equals((GLUCOSE_MEASUREMENT_CHARACTERISTIC_UUID))) {
+                GlucoseMeasurement measurement = new GlucoseMeasurement(value);
+                Intent intent = new Intent(MEASUREMENT_GLUCOSE);
+                intent.putExtra(MEASUREMENT_GLUCOSE_EXTRA, measurement);
+                sendMeasurement(intent, peripheral);
+                Timber.d("%s", measurement);
+            }
             else if (characteristicUUID.equals(CURRENT_TIME_CHARACTERISTIC_UUID)) {
                 Date currentTime = parser.getDateTime();
                 Timber.i("Received device time: %s", currentTime);
