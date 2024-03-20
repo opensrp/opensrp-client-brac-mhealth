@@ -1,0 +1,49 @@
+---
+name: step1_cal_tract_moving_object
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_tract_moving_object.equals('না')||step1_tract_moving_object.equals('No'))?1:0"
+---
+name: step1_cal_sounds_ah_eh
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_sounds_ah_eh.equals('না')||step1_sounds_ah_eh.equals('No'))?1:0"
+---
+name: step1_cal_grasp_things
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_grasp_things.equals('না')||step1_grasp_things.equals('No'))?1:0"
+---
+name: step1_cal_sit_up_with_help
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_sit_up_with_help.equals('না')||step1_sit_up_with_help.equals('No'))?1:0"
+---
+name: step1_cal_head_straight
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_head_straight.equals('না')||step1_head_straight.equals('No'))?1:0"
+---
+name: step1_cal_head_up
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_head_up.equals('না')||step1_head_up.equals('No'))?1:0"
+---
+name: step1_cal_total
+description: all plus
+priority: 1
+condition: "true"
+actions:
+  - "calculation =  step1_cal_tract_moving_object + step1_cal_sounds_ah_eh+step1_cal_grasp_things+step1_cal_sit_up_with_help+step1_cal_head_straight+step1_cal_head_up"

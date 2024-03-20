@@ -454,10 +454,10 @@ public class TikaCardViewActivity extends SecuredActivity {
     public void checkPermission(String permission, int requestCode)
     {
         // Checking if permission is not granted
-        if (ContextCompat.checkSelfPermission(TikaCardViewActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(TikaCardViewActivity.this, new String[] { permission }, requestCode);
-        }
-        else {
+//        if (ContextCompat.checkSelfPermission(TikaCardViewActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+//            ActivityCompat.requestPermissions(TikaCardViewActivity.this, new String[] { permission }, requestCode);
+//        }
+//        else {
             showProgressDialog(getString(R.string.tika_card_making));
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -465,7 +465,7 @@ public class TikaCardViewActivity extends SecuredActivity {
                     takeScreenShot();
                 }
             },2000);
-        }
+        //}
     }
     private ProgressDialog dialog;
 

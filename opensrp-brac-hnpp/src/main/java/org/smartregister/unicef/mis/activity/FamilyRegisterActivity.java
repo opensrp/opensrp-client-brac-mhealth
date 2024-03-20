@@ -24,6 +24,7 @@ import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.activity.BaseFamilyRegisterActivity;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.mis.location.HALocationHelper;
 import org.smartregister.unicef.mis.listener.HnppBottomNavigationListener;
 import org.smartregister.unicef.mis.model.HnppFamilyRegisterModel;
@@ -62,7 +63,6 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static org.smartregister.util.JsonFormUtils.FIELDS;
-
 public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     private BroadcastReceiver notificationBroadcastReceiver;
     private GlobalSearchContentData globalSearchContentData;
@@ -171,6 +171,10 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
     protected void onResumption() {
         try{
             super.onResumption();
+            if(HnppConstants.isNeedToAutoSync()){
+                Log.v("AUTO_SYNC","isNeedToAutoSync>>>>>>>>>>>>>>>>");
+                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

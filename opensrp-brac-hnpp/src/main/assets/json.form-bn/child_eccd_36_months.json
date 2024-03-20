@@ -254,6 +254,22 @@
         }
       },
       {
+        "key": "cal_go_up_down_stairs",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_go_up_down_stairs",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "eat_without_help",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -271,6 +287,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_eat_without_help",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_eat_without_help",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
         }
       },
       {
@@ -294,6 +326,22 @@
         }
       },
       {
+        "key": "cal_communicate_meaningfully",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_communicate_meaningfully",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "play_pretend_games",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -311,6 +359,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_play_pretend_games",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_play_pretend_games",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
         }
       },
       {
@@ -334,6 +398,22 @@
         }
       },
       {
+        "key": "cal_continuously_drool_talk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_continuously_drool_talk",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "three_word_sentences",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -354,6 +434,38 @@
         }
       },
       {
+        "key": "cal_three_word_sentences",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_three_word_sentences",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_total",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_total",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_36.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -365,7 +477,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_bn_36.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         }
@@ -390,7 +502,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_bn_36yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         },

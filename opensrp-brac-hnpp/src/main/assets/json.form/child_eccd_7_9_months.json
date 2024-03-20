@@ -254,6 +254,22 @@
         }
       },
       {
+        "key": "cal_roll_over",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_roll_over",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_7_9.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "sit_without_support",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -271,6 +287,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_sit_without_support",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_sit_without_support",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_7_9.yml"
+            }
+          }
         }
       },
       {
@@ -294,6 +326,22 @@
         }
       },
       {
+        "key": "cal_turn_towards_sound",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_turn_towards_sound",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_7_9.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "bang_using_toys",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -311,6 +359,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_bang_using_toys",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_bang_using_toys",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_7_9.yml"
+            }
+          }
         }
       },
       {
@@ -334,6 +398,22 @@
         }
       },
       {
+        "key": "cal_sounds_pa_ma",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_sounds_pa_ma",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_7_9.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "always_tilts_head",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -354,6 +434,38 @@
         }
       },
       {
+        "key": "cal_always_tilts_head",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_always_tilts_head",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_7_9.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_total",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_total",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -365,7 +477,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_en_7_9.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         }
@@ -390,7 +502,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_en_7_9.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         },

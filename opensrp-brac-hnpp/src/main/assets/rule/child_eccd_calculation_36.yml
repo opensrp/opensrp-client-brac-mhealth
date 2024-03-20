@@ -1,0 +1,49 @@
+---
+name: step1_cal_go_up_down_stairs
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_go_up_down_stairs.equals('না')||step1_go_up_down_stairs.equals('No'))?1:0"
+---
+name: step1_cal_eat_without_help
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_eat_without_help.equals('না')||step1_eat_without_help.equals('No'))?1:0"
+---
+name: step1_cal_communicate_meaningfully
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_communicate_meaningfully.equals('না')||step1_communicate_meaningfully.equals('No'))?1:0"
+---
+name: step1_cal_play_pretend_games
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_play_pretend_games.equals('না')||step1_play_pretend_games.equals('No'))?1:0"
+---
+name: step1_cal_continuously_drool_talk
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_continuously_drool_talk.equals('না')||step1_continuously_drool_talk.equals('No'))?1:0"
+---
+name: step1_cal_three_word_sentences
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_three_word_sentences.equals('না')||step1_three_word_sentences.equals('No'))?1:0"
+---
+name: step1_cal_total
+description: all plus
+priority: 1
+condition: "true"
+actions:
+  - "calculation =  step1_cal_go_up_down_stairs + step1_cal_eat_without_help+step1_cal_communicate_meaningfully+step1_cal_play_pretend_games+step1_cal_continuously_drool_talk+step1_cal_three_word_sentences"

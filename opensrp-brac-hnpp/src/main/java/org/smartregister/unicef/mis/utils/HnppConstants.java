@@ -95,6 +95,7 @@ public class HnppConstants extends CoreConstants {
     public static final String EXTRA_STOCK_COME = "EXTRA_STOCK_COME";
     public static final String EXTRA_STOCK_END = "EXTRA_STOCK_END";
     public static final String EXTRA_EDD = "EXTRA_EDD";
+    public static final long AUTO_SYNC_DEFAULT_TIME = 60 * 60 * 1000;//1 hr
     public static final long SIX_HOUR = 6*60*60*1000;//6 hr
     public static final long TWENTY_FOUR_HOUR = 23*60*60*1000;//6 hr
     public static final long STOCK_END_DEFAULT_TIME = 6*60*60*1000;//6 hr
@@ -849,6 +850,35 @@ public class HnppConstants extends CoreConstants {
             return true;
         }
         return false;
+    }
+    public static boolean isNeedToAutoSync(){
+        String lastEddTimeStr =  org.smartregister.Context.getInstance().allSharedPreferences().getPreference("AUTO_SYNC_TIME");
+        if(TextUtils.isEmpty(lastEddTimeStr)){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("AUTO_SYNC_TIME",System.currentTimeMillis()+"");
+            return false;
+        }
+        long diff = System.currentTimeMillis() - Long.parseLong(lastEddTimeStr);
+        Log.v("AUTO_SYNC","isNeedToAutoSync>>>>diff:"+diff);
+        if(diff > AUTO_SYNC_DEFAULT_TIME){
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("AUTO_SYNC_TIME",System.currentTimeMillis()+"");
+
+            return true;
+        }
+        return false;
+    }
+    public static void saveAutoSyncData(){
+        org.smartregister.Context.getInstance().allSharedPreferences().savePreference("AUTO_SYNC_TIME",System.currentTimeMillis()+"");
+
+    }
+    public static long getFlexValue(int value) {
+        int minutes = 5;
+
+        if (value > 5) {
+
+            minutes = (int) Math.ceil(value / 3);
+        }
+
+        return Math.max(minutes, 5);
     }
     public static void showSaveFormConfirmationDialog(Context context,String title, OnDialogOptionSelect onDialogOptionSelect){
         Dialog dialog = new Dialog(context);
@@ -1950,7 +1980,7 @@ public class HnppConstants extends CoreConstants {
     public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
             .put("নারী","F")
             .put("পুরুষ","M")
-            .put("তৃতীয় লিঙ্গ","O")
+            .put("অন্যান্য","O")
             .build();
     public static Map<String,String> getVaccineNameMapping(){
         Map<String,String> vaccineNameMapping = ImmutableMap.<String,String> builder()
