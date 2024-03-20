@@ -3,7 +3,7 @@
     <string-array name="gender">
         <item>নারী</item>
         <item>পুরুষ</item>
-        <item>তৃতীয় লিঙ্গ</item>
+        <item>অন্যান্য</item>
     </string-array>
     <string-array name="id_card_list">
         <item>সিলেক্ট করুন</item>
@@ -893,7 +893,7 @@
     <string name="household_address_not_found_edit">হাউসহোল্ড এড্রেস খুঁজে পাওয়া যায়নি। হাউসহোল্ড এডিট করুন</string>
     <string name="name_only">\"নামঃ \"</string>
     <string name="edd_only">\"ইডিডি: \"</string>
-    <string name="third_gender">তৃতীয় লিঙ্গ</string>
+    <string name="third_gender">অন্যান্য</string>
     <string name="pregnancy_history">পূর্বের গর্ভের ইতিহাস</string>
     <string name="pregnancy_care_1_st_trimester">গর্ভকালীন সেবা- ১ম ত্রিমাসিক</string>
     <string name="stock_name">\"স্টক নামঃ \"</string>

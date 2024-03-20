@@ -113,6 +113,7 @@ public class HnppSyncIntentService extends SyncIntentService {
 
             if (eCount == 0) {
                 complete(FetchStatus.nothingFetched);
+                HnppConstants.saveAutoSyncData();
                 //VisitLogServiceJob.scheduleJobImmediately(VisitLogServiceJob.TAG);
             } else if (eCount < 0) {
                 Thread.sleep(60000);

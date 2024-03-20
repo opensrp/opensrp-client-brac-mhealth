@@ -20,11 +20,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import org.smartregister.unicef.mis.BuildConfig;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.job.GlobalLocationFetchJob;
+import org.smartregister.unicef.mis.job.HASyncIntentServiceJob;
 import org.smartregister.unicef.mis.job.HnppPncCloseJob;
 import org.smartregister.unicef.mis.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.mis.job.MicroPlanFetchJob;
@@ -387,6 +387,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
         ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
         WeightHeightIntentServiceJob.scheduleJobImmediately(WeightHeightIntentServiceJob.TAG);
+        HASyncIntentServiceJob.scheduleJob(HASyncIntentServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
+                BuildConfig.DATA_SYNC_DURATION_MINUTES), HnppConstants.getFlexValue(BuildConfig.DATA_SYNC_DURATION_MINUTES));
 
     }
     private void postHPVData(){
