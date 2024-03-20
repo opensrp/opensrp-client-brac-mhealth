@@ -787,9 +787,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
                         ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
                         if(referralData!=null){
-                            updateFormField(jsonArray,"is_referred","Yes");
+                            updateFormField(jsonArray,"is_referred",getString(R.string.yes));
                             updateFormField(jsonArray,"referral_id",referralData.referralId);
-                            updateFormField(jsonArray,"previous_referred","Yes");
+                            updateFormField(jsonArray,"previous_referred",getString(R.string.yes));
                             updateFormField(jsonArray,"refered_place",referralData.referralPlace);
                             updateFormField(jsonArray,"refered_date", HnppConstants.DDMMYY.format(new Date(referralData.referralDate)));
                         }

@@ -254,6 +254,22 @@
         }
       },
       {
+        "key": "cal_pick_small_objects",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_pick_small_objects",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "stretch_hands_picked_up",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -271,6 +287,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_stretch_hands_picked_up",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_stretch_hands_picked_up",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
         }
       },
       {
@@ -294,6 +326,22 @@
         }
       },
       {
+        "key": "cal_respond_to_own_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_respond_to_own_name",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "rattle_himself_to_hear",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -311,6 +359,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_rattle_himself_to_hear",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_rattle_himself_to_hear",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
         }
       },
       {
@@ -334,6 +398,22 @@
         }
       },
       {
+        "key": "cal_half_hidden_toys",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_half_hidden_toys",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "hide_and_seek",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -354,6 +434,38 @@
         }
       },
       {
+        "key": "cal_hide_and_seek",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_hide_and_seek",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_total",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_total",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_10_12.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -365,7 +477,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_en_10_12.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         }
@@ -390,7 +502,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_en_10_12.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         },

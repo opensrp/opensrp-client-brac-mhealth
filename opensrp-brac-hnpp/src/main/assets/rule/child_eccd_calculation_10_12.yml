@@ -1,0 +1,49 @@
+---
+name: step1_cal_pick_small_objects
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_pick_small_objects.equals('না')||step1_pick_small_objects.equals('No'))?1:0"
+---
+name: step1_cal_stretch_hands_picked_up
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_stretch_hands_picked_up.equals('না')||step1_stretch_hands_picked_up.equals('No'))?1:0"
+---
+name: step1_cal_respond_to_own_name
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_respond_to_own_name.equals('না')||step1_respond_to_own_name.equals('No'))?1:0"
+---
+name: step1_cal_rattle_himself_to_hear
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_rattle_himself_to_hear.equals('না')||step1_rattle_himself_to_hear.equals('No'))?1:0"
+---
+name: step1_cal_half_hidden_toys
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_half_hidden_toys.equals('না')||step1_half_hidden_toys.equals('No'))?1:0"
+---
+name: step1_cal_hide_and_seek
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_hide_and_seek.equals('না')||step1_hide_and_seek.equals('No'))?1:0"
+---
+name: step1_cal_total
+description: all plus
+priority: 1
+condition: "true"
+actions:
+  - "calculation =  step1_cal_pick_small_objects + step1_cal_stretch_hands_picked_up+step1_cal_respond_to_own_name+step1_cal_rattle_himself_to_hear+step1_cal_half_hidden_toys+step1_cal_hide_and_seek"

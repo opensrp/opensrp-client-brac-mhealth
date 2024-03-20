@@ -1,0 +1,15 @@
+
+---
+name: step1_referral
+description: 2-3 month
+priority: 3
+condition: "step1_cal_total>=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: 2-3 month
+priority: 3
+condition: "step1_cal_total>=3"
+actions:
+  - "isRelevant = true"

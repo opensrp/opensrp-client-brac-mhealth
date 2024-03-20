@@ -254,6 +254,22 @@
         }
       },
       {
+        "key": "cal_head_straight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_head_straight",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "head_up",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -271,6 +287,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_head_up",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_head_up",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
         }
       },
       {
@@ -294,6 +326,22 @@
         }
       },
       {
+        "key": "cal_sit_up_with_help",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_sit_up_with_help",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "grasp_things",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -311,6 +359,22 @@
         "v_required": {
           "value": true,
           "err": "Select option"
+        }
+      },
+      {
+        "key": "cal_grasp_things",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_grasp_things",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
         }
       },
       {
@@ -334,6 +398,22 @@
         }
       },
       {
+        "key": "cal_sounds_ah_eh",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_sounds_ah_eh",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "tract_moving_object",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -354,18 +434,33 @@
         }
       },
       {
-        "key": "ad_toaster",
+        "key": "cal_tract_moving_object",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "বিশেষজ্ঞের কাছ থেকে প্রয়োজনীয় পরামর্শ নিন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_tract_moving_object",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_4_6.yml"
+              "rules-file": "child_eccd_calculation_4_6.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_total",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_total",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_calculation_4_6.yml"
             }
           }
         }
@@ -382,7 +477,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_bn_4_6.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         }
@@ -407,7 +502,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_relevance_bn_4_6.yml"
+              "rules-file": "child_eccd_relevance.yml"
             }
           }
         },

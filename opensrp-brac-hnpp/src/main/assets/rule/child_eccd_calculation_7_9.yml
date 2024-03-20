@@ -1,0 +1,49 @@
+---
+name: step1_cal_always_tilts_head
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_always_tilts_head.equals('না')||step1_always_tilts_head.equals('No'))?1:0"
+---
+name: step1_cal_sounds_pa_ma
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_sounds_pa_ma.equals('না')||step1_sounds_pa_ma.equals('No'))?1:0"
+---
+name: step1_cal_bang_using_toys
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_bang_using_toys.equals('না')||step1_bang_using_toys.equals('No'))?1:0"
+---
+name: step1_cal_turn_towards_sound
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_turn_towards_sound.equals('না')||step1_turn_towards_sound.equals('No'))?1:0"
+---
+name: step1_cal_roll_over
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_roll_over.equals('না')||step1_roll_over.equals('No'))?1:0"
+---
+name: step1_cal_sit_without_support
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_sit_without_support.equals('না')||step1_sit_without_support.equals('No'))?1:0"
+---
+name: step1_cal_total
+description: all plus
+priority: 1
+condition: "true"
+actions:
+  - "calculation =  step1_cal_always_tilts_head + step1_cal_sounds_pa_ma+step1_cal_bang_using_toys+step1_cal_turn_towards_sound+step1_cal_roll_over+step1_cal_sit_without_support"

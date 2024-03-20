@@ -1,0 +1,49 @@
+---
+name: step1_cal_walk_with_balance
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_walk_with_balance.equals('না')||step1_walk_with_balance.equals('No'))?1:0"
+---
+name: step1_cal_scribble_with_pen
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_scribble_with_pen.equals('না')||step1_scribble_with_pen.equals('No'))?1:0"
+---
+name: step1_cal_two_word_phrases
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_two_word_phrases.equals('না')||step1_two_word_phrases.equals('No'))?1:0"
+---
+name: step1_cal_responding_to_bye_bye
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_responding_to_bye_bye.equals('না')||step1_responding_to_bye_bye.equals('No'))?1:0"
+---
+name: step1_cal_different_body_parts
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_different_body_parts.equals('না')||step1_different_body_parts.equals('No'))?1:0"
+---
+name: step1_cal_understand_follow_instructions
+description: social_smile is no
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_understand_follow_instructions.equals('না')||step1_understand_follow_instructions.equals('No'))?1:0"
+---
+name: step1_cal_total
+description: all plus
+priority: 1
+condition: "true"
+actions:
+  - "calculation =  step1_cal_walk_with_balance + step1_cal_scribble_with_pen+step1_cal_two_word_phrases+step1_cal_responding_to_bye_bye+step1_cal_different_body_parts+step1_cal_understand_follow_instructions"
