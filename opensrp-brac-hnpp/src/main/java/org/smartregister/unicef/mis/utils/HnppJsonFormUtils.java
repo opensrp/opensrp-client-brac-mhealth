@@ -1110,7 +1110,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject champtypeObject = getFieldJSONObject(field, CHAMP_TYPE);
         champtypeObject.put(org.smartregister.family.util.JsonFormUtils.VALUE, champtype);
         form.put("relational_id", familyBaseEntityId);
-
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
+        providerIdObj.put("value",userName);
         return form;
     }
     public static String getHouseholdIdFromForm(JSONObject form) throws JSONException {
@@ -1134,6 +1136,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         Log.v("INVALID_REQ","updateFormWithMemberId>>houseHoldId:"+houseHoldId+":memberCount:"+memberCount+":uniqueId:"+uniqueId);
         HnppConstants.appendLog("INVALID_REQ","updateFormWithMemberId>>houseHoldId:"+houseHoldId+":memberCount:"+memberCount+":uniqueId:"+uniqueId);
         memberId.put(org.smartregister.family.util.JsonFormUtils.VALUE, uniqueId);
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        JSONObject providerIdObj = getFieldJSONObject(field, "provider_id");
+        providerIdObj.put("value",userName);
         return form;
     }
     public static String getUniqueMemberId(String familyBaseEntityId) {
