@@ -1615,8 +1615,8 @@ public class HnppConstants extends CoreConstants {
                 "  \"ভগ্নিপতি\": \"sister-in-law\"," +
                 "  \"জামাতা\": \"Son-in-law\"," +
                 "  \"অতিথি\": \"Guest\"," +
-                "  \"অন্যান্য\": \"Others\"" +
-                "  \"অন্যান্য আত্মীয়\": \"other relatives\"" +
+                "  \"অন্যান্য\": \"Others\"," +
+                "  \"অন্যান্য আত্মীয়\": \"other relatives\"," +
                 "  \"অন্যান্য অনাত্মীয়\": \"other non-relative\"" +
                 "}";
         return getKeyByValue(relationshipObject,value);

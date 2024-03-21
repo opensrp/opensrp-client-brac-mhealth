@@ -683,6 +683,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
                     JSONObject form = HnppJsonFormUtils.getAutoPopulatedJsonEditFormString(HnppConstants.JSON_FORM.getFamilyMemberDetailsRegister(), HnppFamilyOtherMemberProfileActivity.this, client, Utils.metadata().familyMemberRegister.updateEventType);
                     String moduleId = HnppDBUtils.getModuleId(familyHead);
                     HnppJsonFormUtils.updateFormWithChampType(form,moduleId,familyBaseEntityId);
+
 //
 //                    try{
 //                        HnppJsonFormUtils.updateLatitudeLongitude(form,latitude,longitude,familyBaseEntityId);
