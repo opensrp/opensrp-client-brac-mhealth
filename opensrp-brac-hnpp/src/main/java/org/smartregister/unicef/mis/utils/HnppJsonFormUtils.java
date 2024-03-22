@@ -1319,6 +1319,73 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(!familyBaseEntityId.isEmpty())updateFormWithBlockInformation(form,familyBaseEntityId);
         return form;
     }
+    public static JSONObject updateMemberInformationFromSearch(JSONObject form,String firstName,String shrId,String mobileNo,String birthDayknown,
+                                                               String dob,String gender,String nId,String brid, String motherNameEng, String fatherNameEng) throws Exception {
+        JSONArray field = fields(form, STEP1);
+        JSONObject first_name = getFieldJSONObject(field, "first_name");
+        JSONObject shr_id = getFieldJSONObject(field, "shr_id");
+        JSONObject mobile_number = getFieldJSONObject(field, "phone_number");
+        JSONObject is_birthday_known = getFieldJSONObject(field, "is_birthday_known");
+        if(!TextUtils.isEmpty(dob)){
+            is_birthday_known.put(org.smartregister.family.util.JsonFormUtils.VALUE,birthDayknown );
+            JSONObject dobObj = getFieldJSONObject(field, "dob");
+            dobObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,dob );
+        }
+        JSONObject genderObj = getFieldJSONObject(field, "sex");
+        genderObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,HnppConstants.getGender(gender) );
+        first_name.put(org.smartregister.family.util.JsonFormUtils.VALUE,firstName );
+        shr_id.put(org.smartregister.family.util.JsonFormUtils.VALUE,shrId );
+        mobile_number.put(org.smartregister.family.util.JsonFormUtils.VALUE,mobileNo );
+        JSONObject idAvailObject = getFieldJSONObject(field, "id_avail");
+        JSONObject national_idObject = getFieldJSONObject(field, "national_id");
+        JSONObject birth_idObject = getFieldJSONObject(field, "birth_id");
+        String idTypeValue = null;
+        if(!TextUtils.isEmpty(nId) && !TextUtils.isEmpty(brid)){
+            idTypeValue = "[\"chk_national_id\",\"chk_birth_id\"]";
+            national_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,nId );
+            birth_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,brid );
+        }else if(!TextUtils.isEmpty(nId) && TextUtils.isEmpty(brid)){
+            idTypeValue = "[\"chk_national_id\"]";
+            national_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,nId );
+        }else if(TextUtils.isEmpty(nId) && !TextUtils.isEmpty(brid)){
+            idTypeValue = "[\"chk_birth_id\"]";
+            birth_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,brid );
+        }
+        String value = processValueWithChoiceIdsForEdit(idAvailObject,idTypeValue);
+        if(StringUtils.isEmpty(value)){
+            idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+        }else{
+            idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+        }
+        JSONObject mother_name_englishObj = getFieldJSONObject(field, "mother_name_english");
+        mother_name_englishObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherNameEng);
+        JSONObject father_name_englishObj = getFieldJSONObject(field, "father_name_english");
+        father_name_englishObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,fatherNameEng);
+        return form;
+    }
+    public static JSONObject updateChildInformationFromSearch(JSONObject form,String firstName,String shrId,String mobileNo,String birthDayknown,
+                                                               String dob,String gender,String nId,String brid,String motherNameEng, String fatherNameEng) throws Exception {
+        JSONArray field = fields(form, STEP1);
+        JSONObject first_name = getFieldJSONObject(field, "first_name");
+        JSONObject shr_id = getFieldJSONObject(field, "shr_id");
+        JSONObject mobile_number = getFieldJSONObject(field, "phone_number");
+        if(!TextUtils.isEmpty(dob)){
+            JSONObject dobObj = getFieldJSONObject(field, "dob");
+            dobObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,dob );
+        }
+        JSONObject genderObj = getFieldJSONObject(field, "gender");
+        genderObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,HnppConstants.getGender(gender) );
+        first_name.put(org.smartregister.family.util.JsonFormUtils.VALUE,firstName );
+        shr_id.put(org.smartregister.family.util.JsonFormUtils.VALUE,shrId );
+        mobile_number.put(org.smartregister.family.util.JsonFormUtils.VALUE,mobileNo );
+        JSONObject birth_idObject = getFieldJSONObject(field, "birth_id");
+        birth_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,brid);
+        JSONObject mother_name_englishObj = getFieldJSONObject(field, "mother_name_english");
+        mother_name_englishObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,motherNameEng);
+        JSONObject father_name_englishObj = getFieldJSONObject(field, "father_name_english");
+        father_name_englishObj.put(org.smartregister.family.util.JsonFormUtils.VALUE,fatherNameEng);
+        return form;
+    }
     public static JSONObject updateLatitudeLongitudeFamily(JSONObject form,double latitude, double longitude) throws JSONException {
         JSONArray field = fields(form, STEP1);
         JSONObject latitude_field = getFieldJSONObject(field, "latitude");

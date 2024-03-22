@@ -31,7 +31,10 @@ public class SearchDetailsPresenter implements SearchDetailsContract.Presenter,S
         view.showProgressBar();
         interactor.fetchData(globalSearchContentData,this);
     }
-
+    public void fetchAddMemberSearchData(GlobalSearchContentData globalSearchContentData) {
+        view.showProgressBar();
+        interactor.fetchAddMemberSearchData(globalSearchContentData,this);
+    }
     public void search(String query){
         if(!TextUtils.isEmpty(query)){
             isFromSearch = true;

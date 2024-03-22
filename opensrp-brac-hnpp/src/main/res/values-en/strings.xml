@@ -958,6 +958,8 @@
     <string name="schedule_date">Schedule Date</string>
     <string name="edd_date">EDD:</string>
     <string name="general_disease">General Disease Survey</string>
+    <string name="registration_shr_id">Registration by Health ID</string>
+
     <string name="search_shr_id">Search by SHR ID</string>
     <string name="search_by_address">Search by Address,NID etc</string>
     <string name="previous_address_info">Please provide information from previous addess</string>
@@ -1104,6 +1106,11 @@
         <item>December</item>
     </string-array>
     <string name="presence_of_edema">Presence of Bipedal oedema? </string>
+    <string name="registration_by_id">Registration By ID</string>
+    <string name="search_by_id">Search by Id</string>
+    <string name="id_type">Id Type</string>
+    <string name="registration_korun">Registration</string>
+    <string name="no_member_found">No member found</string>
 
     <string-array name="edema_value">
         <item>না</item>

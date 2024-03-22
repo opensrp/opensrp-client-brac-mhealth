@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Smart Health BD</string>
     <string-array name="gender">
-        <item>নারী</item>
+        <item>মহিলা</item>
         <item>পুরুষ</item>
         <item>অন্যান্য</item>
     </string-array>
@@ -987,6 +987,7 @@
     <string name="third_trimestarr_count">তৃতীয় ট্রাইসেমিস্টার-এ সনাক্ত</string>
     <string name="general_disease">সাধারণ রোগের তথ্য</string>
     <string name="edd_date">ই ডি ডি: </string>
+    <string name="registration_shr_id">হেলথ আই ডি দিয়ে রেজিস্ট্রেশন</string>
     <string name="search_shr_id">শেয়ারড হেলথ রেকর্ড আই ডি দিয়ে খুঁজুন</string>
     <string name="search_by_address">পূর্ববর্তী ঠিকানা থেকে খুঁজুন</string>
     <string name="previous_address_info">সদস্যের এবং তার পূর্ববর্তী ঠিকানা সম্পর্কে নিম্নোক্ত তথ্যগুলো দিনঃ</string>
@@ -1132,6 +1133,11 @@
         <item>December</item>
     </string-array>
     <string name="presence_of_edema">বাইলেটারাল পেটাল ইডিমা নির্ণয় </string>
+    <string name="registration_by_id">আইডি দিয়ে রেজিস্ট্রেশন</string>
+    <string name="search_by_id">আইডি দিয়ে খুঁজুন</string>
+    <string name="id_type">আইডি টাইপ</string>
+    <string name="registration_korun">রেজিস্ট্রেশন করুন</string>
+    <string name="no_member_found">এই আইডি দিয়ে কোনো সদস্য পাওয়া যায়নি </string>
     <string-array name="edema_value">
         <item>না</item>
         <item>হ্যাঁ (উভয় পা ফোলা)</item>

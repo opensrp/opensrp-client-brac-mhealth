@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+    android:orientation="vertical"
+android:fillViewport="true">
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/customAppThemeBlue">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:tint="@color/white" />
+
+        <org.smartregister.view.customcontrols.CustomFontTextView
+            android:id="@+id/textview_detail_two"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingStart="0dp"
+            android:paddingLeft="0dp"
+            android:text="@string/registration_korun"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/sort_btn"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_sort"
+            android:tint="@color/white" />
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:background="@color/light_gray"
+            android:gravity="center"
+            android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/offline_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:background="@drawable/round_btn"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_tv"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="সদস্য নিবন্ধনের জন্য আপনার ইন্টারনেট কানেকশন টি অন রাখুন"
+                android:textColor="@color/black"
+                android:textSize="25sp"/>
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/offline_btn"
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/red_round"
+                    android:ems="10"
+                    android:shadowColor="#ffffff"
+                    android:shadowDx="0"
+                    android:shadowDy="1"
+                    android:shadowRadius="0.5"
+                    android:text="অফলাইন এ নিবন্ধন"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+                <Button
+                    android:id="@+id/ok_btn"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/login_button_bg"
+                    android:ems="10"
+                    android:shadowColor="#ffffff"
+                    android:shadowDx="0"
+                    android:shadowDy="1"
+                    android:shadowRadius="0.5"
+                    android:textStyle="bold"
+                    android:text="@string/ok"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/online_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:background="@drawable/round_btn"
+            android:gravity="center"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/by_address_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="@string/registration_by_id"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <LinearLayout
+                android:id="@+id/filter_by_div"
+                android:visibility="visible"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/id_type_ll"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_id"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/id_type"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"/>
+                    <Spinner
+                        android:id="@+id/id_type_spinner"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/spinner_resource"
+                        android:entries="@array/member_id_type"
+                        android:layout_margin="5dp"
+                        android:layout_height="50dp">
+
+                    </Spinner>
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/id_card_number"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/edit_text_bg"
+                    android:inputType="number"
+                    android:hint="@string/enter_id"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </EditText>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_id"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dob_hint"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"/>
+                    <EditText
+                        android:id="@+id/dobEditText"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="150dp"
+                        android:inputType="date"
+                        android:hint="yyyy-mm-dd"
+                        android:background="@drawable/edit_text_bg"                android:paddingLeft="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_height="50dp">
+                    </EditText>
+                    <ImageView
+                        android:src="@android:drawable/ic_menu_my_calendar"
+                        android:id="@+id/showCalenderBtn"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
+                <Button
+                    android:id="@+id/search_btn"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/login_button_bg"
+                    android:ems="10"
+                    android:shadowColor="#ffffff"
+                    android:shadowDx="0"
+                    android:shadowDy="1"
+                    android:shadowRadius="0.5"
+                    android:textStyle="bold"
+                    android:text="@string/search"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignWithParentIfMissing="true"
+                    android:layout_below="@+id/search_bar"
+                    android:padding="10dp"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/by_shr_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:textStyle="bold"
+                android:text="@string/registration_shr_id"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/id_less_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/login_button_bg"
+                android:ems="10"
+                android:shadowColor="#ffffff"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="0.5"
+                android:text="আই ডি নেই"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+            <LinearLayout
+                android:id="@+id/filter_by_shr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:background="@drawable/rounded_edit_text_normal"
+                android:gravity="center"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/shr_number"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/edit_text_bg"
+                    android:inputType="number"
+                    android:hint="@string/shr_id"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:layout_margin="5dp"
+                    android:layout_height="50dp">
+                </EditText>
+                <Button
+                    android:id="@+id/shr_search_btn"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_button_bg"
+                    android:ems="10"
+                    android:shadowColor="#ffffff"
+                    android:shadowDx="0"
+                    android:shadowDy="1"
+                    android:shadowRadius="0.5"
+                    android:textStyle="bold"
+                    android:text="@string/search"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></ProgressBar>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

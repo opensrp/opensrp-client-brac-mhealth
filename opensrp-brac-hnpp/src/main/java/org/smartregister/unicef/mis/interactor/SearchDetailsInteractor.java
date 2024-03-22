@@ -26,12 +26,27 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
     private GlobalSearchResult globalSearchResult;
     private static final String GLOBAL_SEARCH_URL = "/rest/event/global-search?";
     private static final String OTHER_VACCINE_URL = "rest/api/vaccination/verify";
-
+    private static final String ADD_MEMBER_SEARCH_URL = "/rest/event/external-search";
 
     public SearchDetailsInteractor(AppExecutors appExecutors){
         this.appExecutors = appExecutors;
     }
 
+    @Override
+    public void fetchAddMemberSearchData(GlobalSearchContentData globalSearchContentData, SearchDetailsContract.InteractorCallBack callBack) {
+        Runnable runnable = () -> {
+            JSONObject jsonObject = getAddMemberSearchInfo(globalSearchContentData);
+            if(jsonObject!=null){
+                globalSearchResult = new Gson().fromJson(jsonObject.toString(), GlobalSearchResult.class);
+                callBack.setGlobalSearchResult(globalSearchResult);
+                appExecutors.mainThread().execute(() -> callBack.onUpdateList(globalSearchResult.clients));
+            }else{
+                appExecutors.mainThread().execute(() -> callBack.onUpdateList(new ArrayList<>()));
+            }
+
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
 
     @Override
     public void fetchData(GlobalSearchContentData globalSearchContentData, SearchDetailsContract.InteractorCallBack callBack) {
@@ -81,6 +96,52 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
             Response<String> response = httpAgent.postWithHeaderAndJwtToken(url
                     ,
                     jsonPayload,headers,BuildConfig.JWT_TOKEN);
+
+            HnppConstants.appendLog("GLOBAL_SEARCH_URL", "pushECToServer:response comes"+response.payload());
+            if (response.isFailure()) {
+                throw new NoHttpResponseException(url + " not returned data");
+            }
+            JSONObject jsonObject = new JSONObject((String)response.payload());
+            Log.v("GLOBAL_SEARCH_URL", "jsonObject:" + jsonObject);
+            return jsonObject;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private JSONObject getAddMemberSearchInfo(GlobalSearchContentData globalSearchContentData){
+        try{
+            HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
+            String baseUrl = CoreLibrary.getInstance().context().
+                    configuration().dristhiBaseURL();
+            String endString = "/";
+            if (baseUrl.endsWith(endString)) {
+                baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
+            }
+            String url = baseUrl +ADD_MEMBER_SEARCH_URL;
+
+            JSONObject request = new JSONObject();
+            if(!TextUtils.isEmpty(globalSearchContentData.getShrId())){
+                request.put("type","hid");
+                request.put("txt",globalSearchContentData.getShrId());
+            }
+            if(!TextUtils.isEmpty(globalSearchContentData.getIdType())){
+                String idType = globalSearchContentData.getIdType();
+                if(idType.equalsIgnoreCase("nid")){
+                    request.put("type","nid");
+                    request.put("txt",globalSearchContentData.getId());
+                }else  if(idType.equalsIgnoreCase("brid")){
+                    request.put("type","brn");
+                    request.put("txt",globalSearchContentData.getId());
+                }
+
+            }
+            //if(!TextUtils.isEmpty(globalSearchContentData.getDob())){
+                request.put("dob",globalSearchContentData.getDob());
+            //}
+            String jsonPayload = request.toString();
+            HnppConstants.appendLog("GLOBAL_SEARCH_URL", "jsonPayload"+jsonPayload+":url:"+url);
+            Response<String> response = httpAgent.post(url, jsonPayload);
 
             HnppConstants.appendLog("GLOBAL_SEARCH_URL", "pushECToServer:response comes"+response.payload());
             if (response.isFailure()) {

@@ -20,6 +20,7 @@ public class GlobalSearchContentData implements Serializable {
     private String selectedBlockId;
     private String dob;
     private String shrId;
+    private String idType;
 
     public OtherVaccineContentData getOtherVaccineContentData() {
         return otherVaccineContentData;
@@ -30,6 +31,14 @@ public class GlobalSearchContentData implements Serializable {
     }
 
     private OtherVaccineContentData otherVaccineContentData;
+
+    public void setIdType(String idType) {
+        this.idType = idType;
+    }
+
+    public String getIdType() {
+        return idType;
+    }
 
     public void setShrId(String shrId) {
         this.shrId = shrId;

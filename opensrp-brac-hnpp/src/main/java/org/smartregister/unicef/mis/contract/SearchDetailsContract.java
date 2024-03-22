@@ -31,5 +31,9 @@ public interface SearchDetailsContract {
     interface Interactor{
         void fetchData(GlobalSearchContentData globalSearchContentData, SearchDetailsContract.InteractorCallBack callBack);
         void fetchOtherVaccineData(OtherVaccineContentData otherVaccineContentData,SearchDetailsContract.InteractorCallBack callBack);
+
+        default void fetchAddMemberSearchData(GlobalSearchContentData globalSearchContentData, SearchDetailsContract.InteractorCallBack callBack) {
+
+        }
     }
 }

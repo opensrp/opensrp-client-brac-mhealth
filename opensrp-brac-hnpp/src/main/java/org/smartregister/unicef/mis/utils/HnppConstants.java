@@ -1978,7 +1978,7 @@ public class HnppConstants extends CoreConstants {
         return dateString;
     }
     public static final Map<String,String> genderMapping = ImmutableMap.<String,String> builder()
-            .put("নারী","F")
+            .put("মহিলা","F")
             .put("পুরুষ","M")
             .put("অন্যান্য","O")
             .build();

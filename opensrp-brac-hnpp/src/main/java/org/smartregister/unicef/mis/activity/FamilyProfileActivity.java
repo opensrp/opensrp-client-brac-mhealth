@@ -307,6 +307,7 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         super.onDestroy();
         if(handler!=null) handler.removeCallbacksAndMessages(null);
     }
+    int type = 0;
 
     @SuppressLint("RtlHardcoded")
     @Override
@@ -334,17 +335,21 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         familyFloatingMenu.addMemberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, null);
+                type = 0;
+                AddMemberSearchActivity.startMigrationFilterActivity(FamilyProfileActivity.this,false);
+                //startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, null);
             }
         });
         familyFloatingMenu.addChildBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                type = 1;
+                AddMemberSearchActivity.startMigrationFilterActivity(FamilyProfileActivity.this,true);
+//                try {
+//                    startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
             }
         });
@@ -453,7 +458,16 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 //                    public void onPost(double latitude, double longitude) {
 //                        try{
                             Intent intent = new Intent(FamilyProfileActivity.this, Utils.metadata().familyMemberFormActivity);
-                            //HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,familyBaseEntityId);
+                            try{
+                                if(type ==0){
+                                    HnppJsonFormUtils.updateMemberInformationFromSearch(jsonForm,firstName,shr_id,mobileNo,getString(R.string.yes),dob,gender,nationalId,birthRegistrationID,mother_name_english,father_name_english);
+                                }else if (type == 1){
+                                    HnppJsonFormUtils.updateChildInformationFromSearch(jsonForm,firstName,shr_id,mobileNo,getString(R.string.yes),dob,gender,nationalId,birthRegistrationID,mother_name_english,father_name_english);
+
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             intent.putExtra("json", jsonForm.toString());
                             Form form = new Form();
                             if(!HnppConstants.isReleaseBuild()){
@@ -477,11 +491,17 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
 
             }
         }catch (Exception e){
+            e.printStackTrace();
 
         }
 
 
     }
+
+    private void updateFormWithMemberInformation(JSONObject jsonForm) {
+
+    }
+
     private void openAsReadOnlyMode(JSONObject jsonForm){
         Intent intent = new Intent(this, HnppFormViewActivity.class);
         intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
@@ -504,10 +524,50 @@ public class FamilyProfileActivity extends BaseFamilyProfileActivity  implements
         }
     }
     boolean isProcessing = false;
+    String idType,hid,firstName,dob,gender,baseEntityId,nationalId,birthRegistrationID,father_name_english,mother_name_english,mobileNo,shr_id;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
+        if(requestCode==AddMemberSearchActivity.REQUEST_CODE && resultCode == RESULT_OK){
+            if(data.getBooleanExtra("offline_reg",false)){
+                if(type == 0){
+                    startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, null);
+                }
+                else if( type == 1){
+                    try {
+                        startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return;
+            }
+            idType = data.getStringExtra("idType");
+            hid = data.getStringExtra("hid");
+            firstName =data.getStringExtra("firstName");
+            dob =data.getStringExtra("dob");
+            gender =data.getStringExtra("gender");
+            baseEntityId =data.getStringExtra("baseEntityId");
+            nationalId =data.getStringExtra("nationalId");
+            birthRegistrationID = data.getStringExtra("birthRegistrationID")+"";
+            father_name_english =data.getStringExtra("father_name_english")+"";
+            mother_name_english = data.getStringExtra("mother_name_english")+"";
+            mobileNo = data.getStringExtra("Mobile_Number")+"";
+            shr_id = !TextUtils.isEmpty(hid)?hid:data.getStringExtra("shr_id");
+
+            if(type == 0){
+                startFormActivity(CoreConstants.JSON_FORM.getFamilyMemberRegister(), null, null);
+            }
+            else if( type == 1){
+                try {
+                    startChildForm(CoreConstants.JSON_FORM.getChildRegister(), "", "", "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        else if (requestCode == JsonFormUtils.REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {
             try {
                 String jsonString = data.getStringExtra(Constants.JSON_FORM_EXTRA.JSON);
 

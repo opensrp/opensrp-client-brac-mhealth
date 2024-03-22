@@ -1175,14 +1175,14 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     public void openHomeVisitSingleForm(String formName){
         this.formName = formName;
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
-            IOTActivity.startIOTActivity(this,true);
-        }else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
-            IOTActivity.startIOTActivity(this,false);
-        }
-        else{
+//        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
+//            IOTActivity.startIOTActivity(this,true);
+//        }else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+//            IOTActivity.startIOTActivity(this,false);
+//        }
+//        else{
             startAnyFormActivity(formName,REQUEST_HOME_VISIT);
-        }
+       // }
         //
 
     }

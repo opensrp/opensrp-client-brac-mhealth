@@ -556,13 +556,6 @@
           }
         },
         {
-          "column_name": "provider_id",
-          "type": "Client",
-          "json_mapping": {
-            "field": "provider_id"
-          }
-        },
-        {
           "column_name": "unique_id",
           "type": "Client",
           "json_mapping": {

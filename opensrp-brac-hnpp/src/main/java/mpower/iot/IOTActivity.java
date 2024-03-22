@@ -54,7 +54,7 @@ public class IOTActivity extends SecuredActivity {
 
 
     private final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
-    private static String[] PERMISSIONS_BLUETOOTH = {
+    private static final String[] PERMISSIONS_BLUETOOTH = {
             Manifest.permission.BLUETOOTH_SCAN,
             Manifest.permission.BLUETOOTH_CONNECT
     };
@@ -62,7 +62,7 @@ public class IOTActivity extends SecuredActivity {
     public static void startIOTActivity(Activity activity,boolean bloodSugerTakenEnable){
         Intent intent = new Intent(activity,IOTActivity.class);
         intent.putExtra("blood_suger",bloodSugerTakenEnable);
-        activity.startActivityForResult(new Intent(),IOT_REQUEST_CODE);
+        activity.startActivityForResult(intent,IOT_REQUEST_CODE);
     }
 
     private void sendDataToActivity(){
