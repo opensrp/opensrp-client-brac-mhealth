@@ -93,9 +93,9 @@ public class AddMemberSearchActivity extends SecuredActivity implements View.OnC
         idNumberEditText = findViewById(R.id.id_card_number);
         dobEditText = findViewById(R.id.dobEditText);
         shrIdEditText  = findViewById(R.id.shr_number);
-        shrIdEditText.setText("98000322738");
-        idNumberEditText.setText("20006715879510392");
-        dobEditText.setText("2000-01-01");
+//        shrIdEditText.setText("98000322738");
+//        idNumberEditText.setText("20006715879510392");
+//        dobEditText.setText("2000-01-01");
         idTypeSpinner = findViewById(R.id.id_type_spinner);
         findViewById(R.id.offline_btn).setOnClickListener(this);
         findViewById(R.id.ok_btn).setOnClickListener(this);
