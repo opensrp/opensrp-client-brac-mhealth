@@ -607,7 +607,6 @@ public class FormParser {
                         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                         db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
-
                 }
                     break;
             case HnppConstants.EventType.REMOVE_MEMBER: {

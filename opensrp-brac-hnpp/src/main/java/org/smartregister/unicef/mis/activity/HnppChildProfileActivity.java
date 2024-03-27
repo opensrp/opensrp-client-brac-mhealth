@@ -770,7 +770,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         String dobFormate = HnppConstants.DDMMYY.format(date);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (FormApplicability.getNewBornPNCCount(childBaseEntityId)+1)+"");
-
+                        String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }

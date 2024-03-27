@@ -1793,10 +1793,10 @@ public class HnppDBUtils {
         return valus.get(0).get("last_menstrual_period");
     }
     public static String getWeight(String baseEntityId) {
-        String lmp = "SELECT birth_weight FROM ec_child where base_entity_id = ? ";
+        String lmp = "SELECT weight FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
-        return valus.get(0).get("birth_weight");
+        return valus.get(0).get("weight");
     }
     public static String getBloodGroup(String baseEntityId) {
         String lmp = "SELECT blood_group FROM ec_family_member where base_entity_id = ? ";

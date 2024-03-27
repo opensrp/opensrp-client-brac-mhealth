@@ -72,19 +72,24 @@ public class GlobalLocationFetchIntentService extends IntentService {
                 return;
             }
             JSONArray jsonObjectLocation = new JSONArray((String) resp.payload());
+            Log.v("HA_LOCATION_FETCH","getLocationList>>length:"+jsonObjectLocation.length());
             if(jsonObjectLocation.length() == 0) return;
             if(jsonObjectLocation.length()>0){
                // if(!HnppConstants.isPALogin())HnppApplication.getGlobalLocationRepository().dropTable();
                int tempId = Integer.parseInt(lastId);
+                Log.v("HA_LOCATION_FETCH","getLocationList>>tempId:"+tempId);
                 for(int i=0;i<jsonObjectLocation.length();i++){
                     try {
                         JSONObject object = jsonObjectLocation.getJSONObject(i);
                         GlobalLocationModel ssModel =  new Gson().fromJson(object.toString(), GlobalLocationModel.class);
+                        Log.v("HA_LOCATION_FETCH","getLocationList>>ssModel:"+ssModel);
                         if(ssModel != null){
+                            Log.v("HA_LOCATION_FETCH","getLocationList>>ssModel:"+ssModel.id+":tempId:"+tempId);
                             if(ssModel.id > tempId) tempId = ssModel.id;
                             HnppApplication.getGlobalLocationRepository().addOrUpdate(ssModel);
                         }
                     } catch (JSONException e) {
+                        Log.v("HA_LOCATION_FETCH","exception:");
                         e.printStackTrace();
                         return;
                     }
@@ -97,7 +102,8 @@ public class GlobalLocationFetchIntentService extends IntentService {
 
 
         }catch (Exception e){
-
+            e.printStackTrace();
+            Log.v("HA_LOCATION_FETCH","exception2:");
         }
 
     }
