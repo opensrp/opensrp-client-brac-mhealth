@@ -114,6 +114,7 @@ public class HnppChwRepository extends Repository {
             alterChildTable(database);
             alterMemberTable(database);
             alterChildGMPTable(database);
+            alterChildTableKMC(database);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -158,6 +159,13 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
+                case 7:
+                    try{
+                        alterChildTableKMC(db);
+                    }catch (Exception e){
+
+                    }
+                    break;
                 default:
                     break;
             }
@@ -170,6 +178,7 @@ public class HnppChwRepository extends Repository {
     private void alterChildGMPTable(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_child ADD COLUMN session_info_received VARCHAR;");
     }
+
     private void alterMemberTable(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
         db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date VARCHAR;");
@@ -177,6 +186,9 @@ public class HnppChwRepository extends Repository {
     private void alterANCRegisterTable(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_anc_register ADD COLUMN next_visit_date VARCHAR;");
     }
-
+    private void alterChildTableKMC(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN kmc_status VARCHAR;");
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN identified_date VARCHAR;");
+    }
 
 }

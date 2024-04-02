@@ -101,6 +101,8 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
         ArrayList<MemberHistoryData> historyDataArrayList  = new ArrayList<>();
         ArrayList<VisitLog> visitLogs = visitLogRepository.getAllVisitLog(baseEntityId);
         int count = FormApplicability.getNewBornPNCCount(baseEntityId)+1;
+        int kmcHomeCount = FormApplicability.getKMCHomeCount(baseEntityId)+1;
+        int kmcHospitalCount = FormApplicability.getKMCServiceHospitalCount(baseEntityId)+1;
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
             String eventType = visitLog.getEventType();
@@ -109,7 +111,14 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
             if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4)){
                 count--;
                 historyData.setTitle(FormApplicability.getNewBornTitleForHistory(count));
-            }else{
+            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME)){
+                kmcHomeCount --;
+                historyData.setTitle(FormApplicability.getKmcHomeTitleForHistory(kmcHomeCount));
+            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL)){
+                kmcHospitalCount --;
+                historyData.setTitle(FormApplicability.getKmcHospitalTitleForHistory(kmcHospitalCount));
+            }
+            else{
                 historyData.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));
             }
 

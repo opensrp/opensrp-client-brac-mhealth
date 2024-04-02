@@ -60,6 +60,9 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_CHILD_ECCD_18_month = 1218;
     private static final int TAG_CHILD_ECCD_24_month = 1224;
     private static final int TAG_CHILD_ECCD_36_month = 1236;
+    private static final int TAG_KMC_HOME = 1337;
+    private static final int TAG_KMC_HOSPITAL = 1338;
+    private static final int TAG_SCANU_FOLLOWUP = 1339;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
     private static final int TAG_OPEN_CORONA = 88888;
@@ -299,120 +302,43 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             newBornView.setOnClickListener(this);
             otherServiceView.addView(newBornView);
         }
-//        boolean isEnc = FormApplicability.isEncVisible(dob);
-//        if(isEnc){
-//            if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)){
-//                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//                ImageView image1 = encView.findViewById(R.id.image_view);
-//                TextView name1 =  encView.findViewById(R.id.patient_name_age);
-//                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//                image1.setImageResource(R.mipmap.ic_child);
-//                name1.setText("নবজাতকের সেবা");
-//                encView.setTag(TAG_ENC);
-//                encView.setOnClickListener(this);
-//                otherServiceView.addView(encView);
-//            }
-//
-//        }
-
-
-//        View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//        ImageView image = familyView.findViewById(R.id.image_view);
-//        TextView name =  familyView.findViewById(R.id.patient_name_age);
-//        familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//        image.setImageResource(R.drawable.childrow_family);
-//        name.setText("ফেমেলির অন্যান্য সদস্য সেবা (বাকি)");
-//        familyView.setTag(TAG_OPEN_FAMILY);
-//        familyView.setOnClickListener(this);
-//        otherServiceView.addView(familyView);
-
-//        {
-//            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-//            TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
-//            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//            imageReferel.setImageResource(R.mipmap.ic_refer);
-//            nameReferel.setText("রেফেরেল");
-//            referelView.setTag(TAG_OPEN_REFEREAL);
-//            referelView.setOnClickListener(this);
-//            otherServiceView.addView(referelView);
-//        }
-//        if(!isEnc){
-
-//
-//        }
+        String kmcForm = FormApplicability.getKMCForm(baseEntityId);
+        if(!TextUtils.isEmpty(kmcForm)){
+            if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME)) updateDueView(kmcForm,TAG_KMC_HOME,FormApplicability.getKMCHomeTitle(baseEntityId));
+            else if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL)) updateDueView(kmcForm,TAG_KMC_HOSPITAL,FormApplicability.getKMCHospitalTitle(baseEntityId));
+        }
         eventType = FormApplicability.isDueChildEccd(dob);
         if(TextUtils.isEmpty(eventType))return;
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH)){
-            updateDueView(eventType,TAG_CHILD_ECCD_2_3_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_2_3_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }
         else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH) ){
-            updateDueView(eventType,TAG_CHILD_ECCD_4_6_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_4_6_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }
         else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH) ){
-            updateDueView(eventType,TAG_CHILD_ECCD_7_9_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_7_9_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH)){
-            updateDueView(eventType,TAG_CHILD_ECCD_10_12_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_10_12_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH) ){
-            updateDueView(eventType,TAG_CHILD_ECCD_18_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_18_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH)){
-            updateDueView(eventType,TAG_CHILD_ECCD_24_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_24_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH) ){
-            updateDueView(eventType,TAG_CHILD_ECCD_36_month);
+            updateDueView(eventType,TAG_CHILD_ECCD_36_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }
 
 
-//        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
-//
-//        for(ReferralFollowUpModel referralFollowUpModel : getList){
-//
-//            View referrelFollowUp = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-//            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
-//            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
-//            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
-//            lastVisitRow.setVisibility(View.VISIBLE);
-//            referrelFollowUp.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-//            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-//            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
-//            referrelFollowUp.setTag(referralFollowUpModel);
-//            referrelFollowUp.setOnClickListener(this);
-//            otherServiceView.addView(referrelFollowUp);
-//
-//        }
-//
-//            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
-//                View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
-//                ImageView imageReferel = referelView.findViewById(R.id.image_view);
-//                TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-//                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//                imageReferel.setImageResource(R.drawable.ic_virus);
-//                nameReferel.setText("করোনা তথ্য");
-//                referelView.setTag(TAG_OPEN_CORONA);
-//                referelView.setOnClickListener(this);
-//                otherServiceView.addView(referelView);
-//            }
-
-//            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
-//            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-//            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-//            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-//            imageReferel.setImageResource(R.drawable.ic_icon_growth_chart);
-//            nameReferel.setText("গ্রোথ মনিটরিং");
-//            referelView.setTag(TAG_OPEN_GMP);
-//            referelView.setOnClickListener(this);
-//            otherServiceView.addView(referelView);
 
     }
     @SuppressLint("InflateParams")
-    private void updateDueView(String eventType, int tag){
+    private void updateDueView(String eventType, int tag, String title){
         childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
         ImageView fImg = childInfo2View.findViewById(R.id.image_view);
         TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
         childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         Log.v("EVENT_TYPE","eventType>>"+eventType);
         fImg.setImageResource(iconMapping.get(eventType));
-        fName.setText(HnppConstants.getVisitEventTypeMapping().get(eventType));
+        fName.setText(title);
         childInfo2View.setTag(tag);
         childInfo2View.setOnClickListener(this);
         otherServiceView.addView(childInfo2View);
@@ -482,7 +408,18 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                         activity.openNewBorn();
                     }
                     break;
-
+                case TAG_KMC_HOME:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openKMCHome();
+                    }
+                    break;
+                case TAG_KMC_HOSPITAL:
+                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                        activity.openKMCHospital();
+                    }
+                    break;
                 case TAG_AEFI_CHILD:
                     if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();

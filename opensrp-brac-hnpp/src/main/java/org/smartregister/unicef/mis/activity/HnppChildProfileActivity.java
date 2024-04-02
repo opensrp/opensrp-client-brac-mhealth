@@ -527,6 +527,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             case R.id.action_member_survey:
                 openChildProfileVisit();
                 return true;
+            case R.id.action_scanu_followup:
+                openScanuFollowup();
+                return true;
             default:
                 break;
         }
@@ -632,8 +635,15 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openNewBorn() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4,REQUEST_HOME_VISIT);
     }
-
-
+    public void openKMCHome() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.KMC_SERVICE_HOME,REQUEST_HOME_VISIT);
+    }
+    public void openKMCHospital() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL,REQUEST_HOME_VISIT);
+    }
+    public void openScanuFollowup() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.SCANU_FOLLOWUP,REQUEST_HOME_VISIT);
+    }
     public void openAefiForm() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.AEFI_CHILD_,REQUEST_AEFI_CHILD);
     }
@@ -768,8 +778,67 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                         Date date = Utils.dobStringToDate(DOB);
                         String dobFormate = HnppConstants.DDMMYY.format(date);
+                        int newPncCount = FormApplicability.getNewPNCCount(childBaseEntityId);
+                        if(newPncCount<=0){
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","Yes");
+                        }else{
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
+                        }
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getScheduleNewPncDate(dobFormate,newPncCount+1));
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
-                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (FormApplicability.getNewBornPNCCount(childBaseEntityId)+1)+"");
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
+                        String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
+                    }
+
+                    else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOME.equalsIgnoreCase(formName)){
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+                        int newPncCount = FormApplicability.getKMCServiceHomeCount(childBaseEntityId);
+                        if(newPncCount<=0){
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","Yes");
+                        }else{
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
+                        }
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getScheduleKMCHomeDate(childBaseEntityId,newPncCount+1));
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
+                        String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
+                    } else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL.equalsIgnoreCase(formName)){
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+                        int newPncCount = FormApplicability.getKMCServiceHospitalCount(childBaseEntityId);
+                        if(newPncCount<=0){
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","Yes");
+                        }else{
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
+                        }
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
+                        String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
+                    }
+                    else if(HnppConstants.JSON_FORMS.SCANU_FOLLOWUP.equalsIgnoreCase(formName)){
+                        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+                        Date date = Utils.dobStringToDate(DOB);
+                        String dobFormate = HnppConstants.DDMMYY.format(date);
+                        int newPncCount = FormApplicability.getScanuCount(childBaseEntityId);
+                        if(newPncCount<=0){
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","Yes");
+                        }else{
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
+                        }
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
