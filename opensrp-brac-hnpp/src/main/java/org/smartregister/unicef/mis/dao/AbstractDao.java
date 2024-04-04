@@ -95,6 +95,21 @@ public class AbstractDao {
         cursor.close();
         return list;
     }
+    public static List<Map<String, String>> readData(android.database.sqlite.SQLiteDatabase database,String query, String[] selectionArgs) {
+        List<Map<String, String>> list = new ArrayList<>();
+        Cursor cursor = database.rawQuery(query, selectionArgs);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Map<String, String> res = new HashMap<>();
+            for (int i = 0; i < cursor.getColumnCount(); i++) {
+                res.put(cursor.getColumnName(i), getCursorValue(cursor, i));
+            }
+            list.add(res);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
 
     @Nullable
     protected static String getCursorValue(Cursor c, int column_index) {
