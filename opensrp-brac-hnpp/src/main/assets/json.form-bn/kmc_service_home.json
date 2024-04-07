@@ -73,6 +73,13 @@
         "type": "hidden"
       },
       {
+        "key": "is_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "is_referred",
+        "type": "hidden"
+      },
+      {
         "key": "pnc_count",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -175,6 +182,12 @@
           "হ্যাঁ": "Yes",
           "না": "No",
           "আগে রেফার করা হয়নি": "not refer"
+        },
+        "relevance": {
+          "step1:is_referred": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
         }
       },
       {
@@ -206,12 +219,6 @@
           "সুস্থ": "healthy",
           "অসুস্থ": "sick",
           "মৃত": "death"
-        },
-        "relevance": {
-          "step1:is_first_time": {
-            "type": "string",
-            "ex": "equalTo(., \"No\")"
-          }
         }
       },
       {

@@ -223,6 +223,40 @@
         "hint": "জন্ম ওজন (গ্রাম)"
       },
       {
+        "key": "birth_weight_warning_less",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটির জন্ম ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "birth_weight_warning_up",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটির জন্ম ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -290,7 +324,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "শিশুটির জন্ম ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
+        "text": "শিশুটির ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -586,7 +620,7 @@
           {
             "key": "none",
             "text": "বিপদচিহ্ন নেই",
-            "value": true,
+            "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
             "openmrs_entity_id": "none"

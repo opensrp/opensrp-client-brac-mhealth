@@ -194,6 +194,9 @@ public class FormApplicability {
     public static String getKMCHomeTitle(String baseEntityId){
         return HnppConstants.getKMCHomeTitle(FormApplicability.getKMCHomeCount(baseEntityId)+1)[0];
     }
+    public static String getScanuTitle(String baseEntityId){
+        return HnppConstants.getScanuTitle(FormApplicability.getScanuCount(baseEntityId)+1)[0];
+    }
     public static String getKMCHospitalTitle(String baseEntityId){
         return HnppConstants.getKMCHospitalTitle(FormApplicability.getKMCHospitalCount(baseEntityId)+1)[0];
     }

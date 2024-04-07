@@ -134,13 +134,14 @@ public class HnppChwRepository extends Repository {
             alterChildTable(database);
             alterMemberTable(database);
             alterChildGMPTable(database);
-            alterChildTableKMC(database);
+
 
         }catch (Exception e){
             e.printStackTrace();
 
         }
         alterANCRegisterTable(database);
+        alterChildTableKMC(database);
     }
 
     @Override

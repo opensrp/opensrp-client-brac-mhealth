@@ -227,7 +227,8 @@ public class FormParser {
                         if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(encounter_type)||
                         CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(encounter_type) ||
                         CHILD_ECCD_18_MONTH.equalsIgnoreCase(encounter_type)|| CHILD_ECCD_24_MONTH.equalsIgnoreCase(encounter_type)||
-                        CHILD_ECCD_36_MONTH.equalsIgnoreCase(encounter_type))
+                        CHILD_ECCD_36_MONTH.equalsIgnoreCase(encounter_type) || KMC_SERVICE_HOME.equalsIgnoreCase(encounter_type) ||
+                        KMC_SERVICE_HOSPITAL.equalsIgnoreCase(encounter_type))
                         {
                             updateChildReferral(base_entity_id,details,formSubmissionId,log);
                         }

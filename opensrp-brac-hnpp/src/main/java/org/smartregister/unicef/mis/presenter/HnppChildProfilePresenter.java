@@ -95,7 +95,7 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         }else{
             String uniqueId = Utils.getValue(client.getColumnmaps(), DBConstants.KEY.UNIQUE_ID, false);
 
-            uniqueId = String.format(getView().getString(org.smartregister.family.R.string.unique_id_text), uniqueId);
+           // uniqueId = String.format(getView().getString(org.smartregister.family.R.string.unique_id_text), uniqueId);
             getView().setId(uniqueId);
         }
 

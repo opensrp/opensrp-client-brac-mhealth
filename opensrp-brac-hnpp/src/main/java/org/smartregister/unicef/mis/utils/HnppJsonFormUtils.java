@@ -1015,6 +1015,22 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
+    public static void addValueAtJsonForm(JSONObject jsonForm, String key, String value,boolean isReadOnly){
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            if(isReadOnly){
+                JSONObject formObject = org.smartregister.util.JsonFormUtils.getFieldJSONObject(jsonArray, key);
+                formObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+            }
+
+            updateFormField(jsonArray,key,value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public static void changeFormTitle(JSONObject jsonForm, String value){
         try {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);

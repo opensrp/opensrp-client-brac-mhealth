@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "SCANU Followup",
+    "title": "স্কানু শিশুর ফলোআপ",
     "fields": [
       {
         "key": "form_name",
@@ -128,12 +128,6 @@
           "সুস্থ": "healthy",
           "অসুস্থ": "sick",
           "মৃত": "death"
-        },
-        "relevance": {
-          "step1:is_first_time": {
-            "type": "string",
-            "ex": "equalTo(., \"No\")"
-          }
         }
       },
       {

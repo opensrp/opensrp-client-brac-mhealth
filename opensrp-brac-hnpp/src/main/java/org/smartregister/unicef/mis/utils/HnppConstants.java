@@ -1273,6 +1273,31 @@ public class HnppConstants extends CoreConstants {
                 return ancType;
         }
     }
+    public static String[] getScanuTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.first_suffix);
+                ancType[1] = "KMC -1";
+                return ancType;
+            case 2:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.second_suffix);
+                ancType[1] = "PNC -2";
+                return ancType;
+            case 3:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.third_suffix);
+                ancType[1] = "PNC -3";
+                return ancType;
+            case 4:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.fourth_suffix);
+                ancType[1] = "PNC -4";
+                return ancType;
+            default:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup);
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
     public static String[] getAncTitle(int noOfAnc){
         String[] ancType = new String[2];
         switch (noOfAnc){
