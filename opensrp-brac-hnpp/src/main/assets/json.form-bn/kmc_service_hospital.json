@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "KMC Service Hospital",
+    "title": "স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ",
     "fields": [
       {
         "key": "form_name",
@@ -116,23 +116,6 @@
         "hint": "জন্ম ওজন (গ্রাম)"
       },
 
-      {
-        "key": "weight_warning_up",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটির জন্ম ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
       {
         "key": "service_taken_date",
         "openmrs_entity_parent": "",
@@ -296,7 +279,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }

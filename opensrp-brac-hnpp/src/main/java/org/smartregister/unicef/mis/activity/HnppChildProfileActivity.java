@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
+import android.support.v4.text.HtmlCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -143,6 +144,29 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             }
         });
 
+    }
+    public void showScanuFollowUpDialog(Context context){
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_with_two_button);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText("স্কানু শিশুর ফলোআপ");
+        textViewTitle.setText("স্কানু শিশুর ফলোআপ শুরু করতে ইচ্ছুক? ");
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                openScanuFollowup();
+            }
+        });
+        dialog.show();
     }
     @SuppressLint("SetTextI18n")
     private void openRiskFactorDialog(){
@@ -528,7 +552,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 openChildProfileVisit();
                 return true;
             case R.id.action_scanu_followup:
-                openScanuFollowup();
+                showScanuFollowUpDialog(HnppChildProfileActivity.this);
                 return true;
             default:
                 break;
@@ -540,9 +564,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         IndividualProfileRemoveActivity.startIndividualProfileActivity(HnppChildProfileActivity.this,
                 commonPersonObject, "", "", "", FamilyRegisterActivity.class.getCanonicalName());
     }
+    Menu menu;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        this.menu = menu;
         menu.findItem(R.id.action_anc_registration).setVisible(false);
         menu.findItem(R.id.action_malaria_registration).setVisible(false);
         menu.findItem(R.id.action_remove_member).setVisible(true);
@@ -552,6 +578,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         menu.findItem(R.id.action_pregnancy_out_come).setVisible(false);
 
         return true;
+    }
+    public void updateScanuFollowupMenu(boolean isVisible){
+        this.menu.findItem(R.id.action_scanu_followup).setVisible(isVisible);
     }
 
     @Override
@@ -788,7 +817,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
-                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
+                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight,!TextUtils.isEmpty(birthWeight));
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }
@@ -810,6 +839,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"birth_weight", birthWeight);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
+                        ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
+                        if(referralData!=null) {
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm, "is_referred", getString(R.string.yes));
+                        }
                     } else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL.equalsIgnoreCase(formName)){
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                         Date date = Utils.dobStringToDate(DOB);
@@ -820,6 +853,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         }else{
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
                         }
+
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);

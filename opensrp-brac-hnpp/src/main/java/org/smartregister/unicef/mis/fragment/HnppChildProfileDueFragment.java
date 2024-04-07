@@ -1,6 +1,8 @@
 package org.smartregister.unicef.mis.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,20 +105,25 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
         }
     }
-
+    Activity mActivity;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (Activity) context;
+    }
     private void updateStaticView() {
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(getActivity() ==null || getActivity().isFinishing()) return;
+                if(mActivity ==null || mActivity.isFinishing()) return;
                 addStaticView();
                 String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
                 Date dob = Utils.dobStringToDate(dobString);
                 boolean isImmunizationVisible = FormApplicability.isImmunizationVisible(dob);
                 if(isImmunizationVisible){
-                    if(getActivity() instanceof HnppChildProfileActivity){
-                        HnppChildProfileActivity b = (HnppChildProfileActivity) getActivity();
+                    if(mActivity instanceof HnppChildProfileActivity){
+                        HnppChildProfileActivity b = (HnppChildProfileActivity) mActivity;
                         b.updateImmunizationData();
                     }
                 }
@@ -167,7 +174,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
     @Override
     public void initializeAdapter(Set<org.smartregister.configurableviews.model.View> visibleColumns) {
-        HnppFamilyDueRegisterProvider chwDueRegisterProvider = new HnppFamilyDueRegisterProvider(this.getActivity(), this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
+        HnppFamilyDueRegisterProvider chwDueRegisterProvider = new HnppFamilyDueRegisterProvider(mActivity, this.commonRepository(), visibleColumns, this.registerActionHandler, this.paginationViewHandler);
         this.clientAdapter = new FamilyRecyclerViewCustomAdapter(null, chwDueRegisterProvider, this.context().commonrepository(this.tablename), Utils.metadata().familyDueRegister.showPagination);
         this.clientAdapter.setCurrentlimit(0);
         this.clientsView.setAdapter(this.clientAdapter);
@@ -211,7 +218,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     View encView;
     @SuppressLint("InflateParams")
     public void  updateChildDueEntry(int type, String serviceName, String dueDate){
-        if(getActivity() == null || getActivity().isFinishing() || otherServiceView==null || TextUtils.isEmpty(serviceName))return;
+        if(mActivity == null || mActivity.isFinishing() || otherServiceView==null || TextUtils.isEmpty(serviceName))return;
         serviceName = HnppConstants.immunizationMapping.get(serviceName.toUpperCase());
 //       if(handler !=null){
 //           handler.postDelayed(new Runnable() {
@@ -219,7 +226,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 //               public void run() {
                    otherServiceView.setVisibility(View.VISIBLE);
                    if(encView !=null) otherServiceView.removeView(encView);
-                   encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+                   encView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
                    ImageView image1 = encView.findViewById(R.id.image_view);
                    TextView name1 =  encView.findViewById(R.id.patient_name_age);
                    encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -248,13 +255,13 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     View childInfo1View, childInfo2View, childInfo3View;
     @SuppressLint("InflateParams")
     private void addStaticView(){
-        if(getActivity() ==null || getActivity().isFinishing()) return;
+        if(mActivity ==null || mActivity.isFinishing()) return;
         if(otherServiceView.getVisibility() == View.VISIBLE){
             otherServiceView.removeAllViews();
         }
         otherServiceView.setVisibility(View.VISIBLE);
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
-            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -265,7 +272,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             otherServiceView.addView(followupView);
         }
 //        if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_DISEASE) && BuildConfig.IS_MIS){
-//            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+//            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
 //            ImageView fImg = followupView.findViewById(R.id.image_view);
 //            TextView fName =  followupView.findViewById(R.id.patient_name_age);
 //            followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -276,7 +283,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 //            otherServiceView.addView(followupView);
 //        }
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.AEFI_CHILD)){
-            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View followupView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
             TextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -292,7 +299,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         boolean isEnc = FormApplicability.isEncVisible(dob);
 
         if(isEnc){
-            @SuppressLint("InflateParams") View newBornView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+            @SuppressLint("InflateParams") View newBornView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = newBornView.findViewById(R.id.image_view);
             TextView fName =  newBornView.findViewById(R.id.patient_name_age);
             newBornView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -306,6 +313,14 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if(!TextUtils.isEmpty(kmcForm)){
             if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME)) updateDueView(kmcForm,TAG_KMC_HOME,FormApplicability.getKMCHomeTitle(baseEntityId));
             else if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL)) updateDueView(kmcForm,TAG_KMC_HOSPITAL,FormApplicability.getKMCHospitalTitle(baseEntityId));
+        }
+        int scanuCount = FormApplicability.getScanuCount(baseEntityId);
+        if(scanuCount>=1){
+            if(mActivity instanceof HnppChildProfileActivity){
+                HnppChildProfileActivity childProfileActivity = (HnppChildProfileActivity) mActivity;
+                childProfileActivity.updateScanuFollowupMenu(false);
+            }
+            updateDueView(kmcForm,TAG_SCANU_FOLLOWUP,FormApplicability.getScanuTitle(baseEntityId)) ;
         }
         eventType = FormApplicability.isDueChildEccd(dob);
         if(TextUtils.isEmpty(eventType))return;
@@ -332,7 +347,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     }
     @SuppressLint("InflateParams")
     private void updateDueView(String eventType, int tag, String title){
-        childInfo2View = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
+        childInfo2View = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
         ImageView fImg = childInfo2View.findViewById(R.id.image_view);
         TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
         childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -361,8 +376,8 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     public void onClick(View v) {
         if(v.getTag() instanceof ReferralFollowUpModel){
             ReferralFollowUpModel referralFollowUpModel = (ReferralFollowUpModel) v.getTag();
-            if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+            if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                 activity.openReferealFollowUp(referralFollowUpModel);
             }
             return;
@@ -371,130 +386,136 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if (tag != null) {
             switch (tag) {
                 case TAG_ENC:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openEnc();
                     }
                     break;
                 case TAG_CHILD_DUE:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openVisitHomeScreen(false);
                     }
                     break;
                 case TAG_OPEN_FAMILY:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openFamilyDueTab();
                     }
                     break;
                 case TAG_OPEN_REFEREAL:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openRefereal();
                     }
                     break;
 
                 case TAG_CHILD_FOLLOWUP:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openFollowUp();
                     }
                     break;
 
                 case TAG_NEW_BORN_PNC_1_4:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openNewBorn();
                     }
                     break;
                 case TAG_KMC_HOME:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openKMCHome();
                     }
                     break;
                 case TAG_KMC_HOSPITAL:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openKMCHospital();
                     }
                     break;
+                case TAG_SCANU_FOLLOWUP:
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
+                        activity.openScanuFollowup();
+                    }
+                    break;
                 case TAG_AEFI_CHILD:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openAefiForm();
                     }
                     break;
                 case TAG_CHILD_DISEASE:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildDiseaseForm();
                     }
                     break;
                 case TAG_OPEN_CORONA:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openCoronaIndividualForm();
                     }
                     break;
                 case TAG_OPEN_GMP:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openGMPScreen();
                     }
                     break;
                 case TAG_CHILD_ECCD_2_3_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH);
                     }
                     break;
                 case TAG_CHILD_ECCD_4_6_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH);
                     }
                     break;
                 case TAG_CHILD_ECCD_7_9_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH);
                     }
                     break;
                 case TAG_CHILD_ECCD_10_12_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH);
                     }
                     break;
                 case TAG_CHILD_ECCD_18_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH);
                     }
                     break;
                 case TAG_CHILD_ECCD_24_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH);
                     }
                     break;
                 case TAG_CHILD_ECCD_36_month:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH);
                     }
                     break;
                 case TAG_CHILD_INFO_7_24_months:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS);
                     }
                     break;
                 case TAG_CHILD_INFO_25_months:
-                    if (getActivity() != null && getActivity() instanceof HnppChildProfileActivity) {
-                        HnppChildProfileActivity activity = (HnppChildProfileActivity) getActivity();
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openChildInfo(HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS);
                     }
                     break;

@@ -1786,6 +1786,12 @@ public class HnppDBUtils {
 
         return valus.get(0).get("kmc_status");
     }
+    public static String getScanuFollowup(String baseEntityId) {
+        String motherQuery = "SELECT kmc_status FROM ec_child where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
+
+        return valus.get(0).get("kmc_status");
+    }
     public static String getKMCIdentifiedDate(String baseEntityId) {
         String motherQuery = "SELECT identified_date FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
