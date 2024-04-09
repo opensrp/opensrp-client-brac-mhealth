@@ -34,7 +34,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
     public Context context() {
         return HnppApplication.getInstance().getContext();
     }
-    boolean isHighTemparature,isLowTemparature = false;
+    boolean isHighTemparature,isLowTemparature = false,breathing = false;
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         super.onItemSelected(parent, view, position, id);
@@ -47,6 +47,10 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 isLowTemparature = position == 2;
                 updateChildBodyInfo(isLowTemparature);
 
+            }else if (((MaterialSpinner) parent).getHint() != null && (((MaterialSpinner) parent).getHint().toString()).equals("শ্বাসের হার (প্রতি মিনিটে)")) {
+                breathing = position == 1;
+                updateChildBodyInfo(breathing);
+
             }
         }
     }
@@ -58,6 +62,10 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 buttonView.setChecked(isChecked);
                 break;
             }else if(label.equalsIgnoreCase("তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে") && isLowTemparature){
+                buttonView.setChecked(isChecked);
+                break;
+            }
+            else if(label.equalsIgnoreCase("স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে (প্রতি মিনিটে ৬০ অথবা তার অধিক)") && breathing){
                 buttonView.setChecked(isChecked);
                 break;
             }

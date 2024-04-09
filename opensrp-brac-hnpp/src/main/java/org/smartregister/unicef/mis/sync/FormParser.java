@@ -635,6 +635,10 @@ public class FormParser {
                         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                         db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
+                    }else  if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("no") || status.equalsIgnoreCase("না"))){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"' ,identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
                     }
 
                 }
