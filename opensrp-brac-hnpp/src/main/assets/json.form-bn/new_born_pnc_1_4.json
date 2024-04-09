@@ -240,6 +240,23 @@
         }
       },
       {
+        "key": "birth_weight_warning_between",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটির জন্ম ওজন কম।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "birth_weight_warning_up",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -307,7 +324,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "শিশুটির ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text": "শিশুটির ওজন কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -363,7 +380,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "অপরিণত শিশু।দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন। ",
+        "text": "অপরিণত শিশু।পর্যবেক্ষণে রাখুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -413,7 +430,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text": " দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -690,6 +707,32 @@
             "ex-rules": {
               "rules-file": "newborn-pnc-1-4-relevance.yml"
             }
+          }
+        }
+      },
+      {
+        "key": "agreed_to_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "agreed_to_hospital",
+        "type": "spinner",
+        "hint": "শিশুর অভিভাবক হাসপাতালে যেতে সম্মত হয়েছে কিনা? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": ""
+        },
+        "relevance": {
+          "step1:kmc_hospital_calculation": {
+            "type": "numeric",
+            "ex": "equalTo(., \"1\")"
           }
         }
       },

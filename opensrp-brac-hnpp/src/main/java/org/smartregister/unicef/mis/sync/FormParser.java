@@ -629,9 +629,9 @@ public class FormParser {
                     }
 
                 }
-                if (details.containsKey("kmc_hospital_calculation") && !StringUtils.isEmpty(details.get("kmc_hospital_calculation"))) {
-                    String status = details.get("kmc_hospital_calculation");
-                    if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("1")){
+                if (details.containsKey("agreed_to_hospital") && !StringUtils.isEmpty(details.get("agreed_to_hospital"))) {
+                    String status = details.get("agreed_to_hospital");
+                    if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("হ্যাঁ"))){
                         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                         db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 

@@ -6,6 +6,13 @@ condition: "(!step1_weight.isEmpty() && step1_weight < 2500)"
 actions:
   - "isRelevant = true"
 ---
+name: step1_weight_warning_between
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_weight.isEmpty() && step1_weight < 2500 && step1_weight > 2000)"
+actions:
+  - "isRelevant = true"
+---
 name: step1_weight_warning_up
 description: weight_warning relevance
 priority: 1
