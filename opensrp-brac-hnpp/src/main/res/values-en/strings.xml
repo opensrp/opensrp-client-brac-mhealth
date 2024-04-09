@@ -582,6 +582,7 @@
     <string name="child_eccd_18">Child ECCD Followup(18 Month)</string>
     <string name="child_eccd_24">Child ECCD Followup(24 Month)</string>
     <string name="child_eccd_36">Child ECCD Followup(36 Month)</string>
+    <string name="imci_severe_0_2">ছোট শিশুর (০-২ মাস) মারাত্মক রোগ নিরূপণ</string>
     <string name="pnc_child_reg">Delivery Results-Child</string>
     <string name="child_reg_update">Child Registration Update</string>
     <string name="house_reg_update">House Registration Update</string>

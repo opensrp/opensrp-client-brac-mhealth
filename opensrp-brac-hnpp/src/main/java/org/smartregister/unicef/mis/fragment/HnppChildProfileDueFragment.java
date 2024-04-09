@@ -65,6 +65,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_KMC_HOME = 1337;
     private static final int TAG_KMC_HOSPITAL = 1338;
     private static final int TAG_SCANU_FOLLOWUP = 1339;
+    private static final int TAG_IMCI = 1340;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
     private static final int TAG_OPEN_CORONA = 88888;
@@ -309,6 +310,19 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             newBornView.setOnClickListener(this);
             otherServiceView.addView(newBornView);
         }
+        boolean isIMCI = FormApplicability.isIMCIVisible(dob);
+
+        if(isIMCI){
+            @SuppressLint("InflateParams") View newBornView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
+            ImageView fImg = newBornView.findViewById(R.id.image_view);
+            TextView fName =  newBornView.findViewById(R.id.patient_name_age);
+            newBornView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
+            fImg.setImageResource(R.drawable.imci_logo);
+            fName.setText(FormApplicability.getIMCITitle(dob));
+            newBornView.setTag(TAG_IMCI);
+            newBornView.setOnClickListener(this);
+            otherServiceView.addView(newBornView);
+        }
         String kmcForm = FormApplicability.getKMCForm(baseEntityId);
         if(!TextUtils.isEmpty(kmcForm)){
             if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME)) updateDueView(kmcForm,TAG_KMC_HOME,FormApplicability.getKMCHomeTitle(baseEntityId));
@@ -439,6 +453,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                     if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
                         activity.openScanuFollowup();
+                    }
+                    break;
+                case TAG_IMCI:
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
+                        activity.openIMCIActivity();
                     }
                     break;
                 case TAG_AEFI_CHILD:

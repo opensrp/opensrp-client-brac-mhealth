@@ -54,6 +54,7 @@ import org.smartregister.unicef.mis.fragment.ChildHistoryFragment;
 import org.smartregister.unicef.mis.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.mis.fragment.GMPFragment;
 import org.smartregister.unicef.mis.fragment.HnppChildProfileDueFragment;
+import org.smartregister.unicef.mis.imci.activity.ImciMainActivity;
 import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.mis.model.ReferralFollowUpModel;
@@ -681,6 +682,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     }
     public void openChildInfo(String eventType) {
         startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
+    }
+    public void openIMCIActivity(){
+        ImciMainActivity.startIMCIActivity(this,childBaseEntityId,ImciMainActivity.REQUEST_IMCI_ACTIVITY);
     }
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);

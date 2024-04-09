@@ -18,4 +18,7 @@
     <color name="tika_card_yellow_bg">#E3E5AA</color>
     <color name="light_green">#FF9800</color>
     <color name="quick_check_red">#EC5B47</color>
+    <color name="imci_red">#FFBCA7</color>
+    <color name="imci_yello">#FFFF00</color>
+    <color name="imci_green">#92D050</color>
 </resources>

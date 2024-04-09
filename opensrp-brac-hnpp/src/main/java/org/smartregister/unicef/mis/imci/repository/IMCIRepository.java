@@ -1,4 +1,4 @@
-package org.smartregister.unicef.mis.repository;
+package org.smartregister.unicef.mis.imci.repository;
 
 import android.content.ContentValues;
 import android.util.Log;

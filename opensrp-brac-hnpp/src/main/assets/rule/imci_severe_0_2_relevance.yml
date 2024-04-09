@@ -1,0 +1,8 @@
+
+---
+name: step1_able_to_feed
+description: 2-3 month
+priority: 3
+condition: "step1_unconscious.contains('no') || step1_unconscious.contains('না')"
+actions:
+  - "isRelevant = true"

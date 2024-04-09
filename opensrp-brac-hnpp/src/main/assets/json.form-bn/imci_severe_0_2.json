@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "IMCI SEVERE 0 to 2",
+    "title": "মারাত্মক রোগ",
     "fields": [
 
       {
@@ -76,7 +76,7 @@
         "text_color": "#3797ca",
         "text_size": "17px",
         "label_text_style": "bold",
-        "name": " জিজ্ঞাসা করুন "
+        "text": " জিজ্ঞাসা করুন "
       },
       {
         "key": "unconscious",
@@ -131,7 +131,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -163,7 +163,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -195,7 +195,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -227,12 +227,12 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
       {
-        "key": "bleeding",
+          "key": "bleeding",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "bleeding",
@@ -259,7 +259,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -291,7 +291,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -323,7 +323,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -336,11 +336,11 @@
         "text_color": "#3797ca",
         "text_size": "17px",
         "label_text_style": "bold",
-        "name": " লক্ষ করুন  ",
+        "text": " লক্ষ করুন  ",
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -372,7 +372,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -404,7 +404,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -436,7 +436,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -468,7 +468,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -500,7 +500,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -532,7 +532,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -564,12 +564,12 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
       {
-        "key": "low_body_temperature ",
+        "key": "low_body_temperature",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "low_body_temperature",
@@ -596,7 +596,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -628,7 +628,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -660,7 +660,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -692,7 +692,7 @@
         "relevance": {
           "step1:unconscious": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -722,9 +722,9 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:infant_move": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
           }
         }
       },
@@ -754,9 +754,25 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:infant_move": {
             "type": "string",
-            "ex": "regex(., \"না\")"
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_calculation_rule.yml"
+            }
           }
         }
       }

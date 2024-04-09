@@ -1,4 +1,4 @@
-package org.smartregister.unicef.mis.repository;
+package org.smartregister.unicef.mis.imci.repository;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,9 +24,6 @@ public class IMCIDataBaseHelper extends SQLiteOpenHelper {
 
     // ...
     public static synchronized IMCIDataBaseHelper getInstance(Context context) {
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
         if (sInstance == null) {
             sInstance = new IMCIDataBaseHelper(context.getApplicationContext());
         }

@@ -191,6 +191,13 @@ public class FormApplicability {
     public static String getNewBornTitle(String baseEntityId){
         return HnppConstants.getNewBornPncTitle(FormApplicability.getNewBornPNCCount(baseEntityId)+1)[0];
     }
+    public static String getIMCITitle(Date dob){
+        int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(dayPass<=60){
+            return "ছোট শিশুর (০-২ মাস) রোগ নিরূপণ ";
+        }
+        return "শিশুর (২-৫৯ মাস) রোগ নিরূপণ";
+    }
     public static String getKMCHomeTitle(String baseEntityId){
         return HnppConstants.getKMCHomeTitle(FormApplicability.getKMCHomeCount(baseEntityId)+1)[0];
     }
@@ -275,6 +282,13 @@ public class FormApplicability {
     public static boolean isEncVisible(Date dob){
         int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(dayPass <= 41){
+            return true;
+        }
+        return false;
+    }
+    public static boolean isIMCIVisible(Date dob){
+        int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+        if(dayPass <= 1825){
             return true;
         }
         return false;

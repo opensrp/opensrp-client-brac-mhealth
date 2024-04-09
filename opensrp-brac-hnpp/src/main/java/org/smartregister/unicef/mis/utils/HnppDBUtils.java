@@ -24,7 +24,7 @@ import org.smartregister.unicef.mis.model.ForumDetails;
 import org.smartregister.unicef.mis.model.TikaInfoModel;
 import org.smartregister.unicef.mis.model.VaacineInfo;
 import org.smartregister.unicef.mis.model.VisitInfo;
-import org.smartregister.unicef.mis.repository.IMCIDataBaseHelper;
+import org.smartregister.unicef.mis.imci.repository.IMCIDataBaseHelper;
 import org.smartregister.unicef.mis.repository.StockRepository;
 
 import org.smartregister.commonregistry.CommonPersonObject;
@@ -1782,7 +1782,7 @@ public class HnppDBUtils {
         return TextUtils.isEmpty(mName)?motherName:mName;
     }
     public static String getQuestionsByAssessmentType(){
-        String motherQuery = "SELECT QuestionNo FROM imci.AssessmentLogic where imci.AssessmentTypeId = ? ";
+        String motherQuery = "SELECT QuestionNo FROM AssessmentLogic where AssessmentTypeId = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(IMCIDataBaseHelper.getInstance(HnppApplication.getInstance()).getReadableDatabase(),motherQuery, new String[]{"1"});
 
         return valus.get(0).get("QuestionNo");

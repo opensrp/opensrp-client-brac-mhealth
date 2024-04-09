@@ -1,0 +1,119 @@
+---
+name: step1_unconscious_assessment
+description: assessment unconscious
+priority: 3
+condition: "step1_unconscious.contains('yes')"
+actions:
+  - "calculation = 'অচেতন/ঝিমুনি'"
+---
+name: step1_able_to_feed_assessment
+description: assessment unconscious
+priority: 3
+condition: "step1_able_to_feed.contains('no')"
+actions:
+  - "calculation = 'শিশু খাওয়া খেতে পারছে না'"
+---
+name: step1_vomiting_assessment
+description: assessment unconscious
+priority: 3
+condition: "step1_vomiting.contains('yes')"
+actions:
+  - "calculation = 'ক্রমাগত বমি'"
+---
+name: step1_bulging_fontanels_assessment
+description: assessment unconscious
+priority: 3
+condition: "step1_bulging_fontanels.contains('yes')"
+actions:
+  - "calculation = 'মাথার তালু স্ফীত হয়ে যাওয়া'"
+---
+name: step1_stop_breathing_assessment
+description: assessment unconscious
+priority: 3
+condition: "step1_stop_breathing.contains('yes')"
+actions:
+  - "calculation = 'ঘুমের ২০ সেকেন্ড বা তার বেশি সময়ের জন্য শ্বাস বন্ধ হয়'"
+---
+name: step1_central_cyanosis_assessment
+description: assessment central_cyanosis
+priority: 3
+condition: "step1_central_cyanosis.contains('yes')"
+actions:
+  - "calculation = 'শরীরের বিশেষ অংশ নীলবর্ণ ধারন'"
+---
+name: step1_bleeding_assessment
+description: assessment bleeding
+priority: 3
+condition: "step1_bleeding.contains('yes')"
+actions:
+  - "calculation = 'গুরুতর রক্তপাত'"
+---
+name: step1_weight_assessment
+description: assessment bleeding
+priority: 3
+condition: "step1_weight.contains('yes')"
+actions:
+  - "calculation = 'জন্ম ওজন <১৫০০ গ্রাম'"
+---
+name: step1_surgical_condition_assessment
+description: assessment surgical_condition
+priority: 3
+condition: "step1_surgical_condition.contains('yes')"
+actions:
+  - "calculation = 'এমন অস্ত্রোপচার যার জন্য হাসপাতালে থাকতে হয়েছিল'"
+---
+name: step1_malformation_assessment
+description: assessment bleeding
+priority: 3
+condition: "step1_malformation.contains('yes')"
+actions:
+  - "calculation = 'গুরুতর জন্মগত বিকলাঙ্গতা'"
+---
+name: step1_chest_indrawing_assessment
+description: assessment chest_indrawing
+priority: 3
+condition: "step1_chest_indrawing.contains('yes')"
+actions:
+  - "calculation = 'বুকের নীচের অংশ মারাÍক ডেবে যায়'"
+---
+name: step1_low_body_temperature_assessment
+description: assessment low_body_temperature
+priority: 3
+condition: "step1_low_body_temperature.contains('yes')"
+actions:
+  - "calculation = 'জ্বর (৩৭.৫০ সেন্টি* বা বেশী বা গরম অনুভুতি) অথবা শরীরে অল্প তাপমাত্রা (৩৫.৫০ সেন্টি* কম বা ঠান্ডা অনুভব হয়)'"
+---
+name: step1_difficulty_in_feeding_assessment
+description: assessment low_body_temperature
+priority: 3
+condition: "step1_difficulty_in_feeding.contains('yes')"
+actions:
+  - "calculation = 'ভালোভাবে খায় না'"
+---
+name: step1_infant_not_move_at_all_assessment
+description: assessment low_body_temperature
+priority: 3
+condition: "step1_infant_not_move_at_all.contains('no') || step1_infant_move_stimulated.contains('yes')"
+actions:
+  - "calculation = 'শিশুটি কি শুধু মাত্র উত্তেজিত করলে নড়াচড়া করে / একেবারেই নড়াচড়া করে না'"
+---
+name: step1_Umbilicus_red_assessment
+description: assessment Umbilicus_red
+priority: 3
+condition: "step1_Umbilicus_red.contains('yes')"
+actions:
+  - "calculation = 'নাভী লাল অথবা পুঁজ পড়ছে'"
+---
+name: step1_skin_pustules_assessment
+description: assessment skin_pustules
+priority: 3
+condition: "step1_skin_pustules.contains('yes')"
+actions:
+  - "calculation = 'চামড়ায় কিছু পূঁজ সহ দানা'"
+---
+name: step1_convulsion_assessment
+description: assessment unconscious
+priority: 3
+condition: "step1_convulsion.contains('yes')"
+actions:
+  - "calculation = 'খিচুনি অথবা খিঁচুনির ইতিহাস'"

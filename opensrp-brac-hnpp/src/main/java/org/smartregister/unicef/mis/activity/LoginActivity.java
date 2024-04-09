@@ -21,8 +21,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import org.smartregister.unicef.mis.BuildConfig;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
@@ -39,15 +37,13 @@ import org.smartregister.unicef.mis.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.mis.location.SaveDistrictTask;
 import org.smartregister.unicef.mis.presenter.LoginPresenter;
 import org.smartregister.unicef.mis.repository.DistrictListRepository;
-import org.smartregister.unicef.mis.repository.HnppChwRepository;
-import org.smartregister.unicef.mis.repository.IMCIDataBaseHelper;
+import org.smartregister.unicef.mis.imci.repository.IMCIDataBaseHelper;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.family.util.Constants;
 import org.smartregister.job.InValidateSyncDataServiceJob;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.task.SaveTeamLocationsTask;
-import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.util.LangUtils;
 import org.smartregister.util.Utils;
 import org.smartregister.view.activity.BaseLoginActivity;
@@ -351,9 +347,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Utils.startAsyncTask(new SaveTeamLocationsTask(), null);
             Utils.startAsyncTask(new SaveDistrictTask(), null);
             PullGuestMemberIdServiceJob.scheduleJobImmediately(PullGuestMemberIdServiceJob.TAG);
-
+            IMCIDataBaseHelper.getInstance(this);
         }
-
         getToFamilyList(remote);
         finish();
     }

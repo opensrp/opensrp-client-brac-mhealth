@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_margin ="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/next_button"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="লক্ষন ও শ্রেণীবিভাগ"
+                    android:textColor="@color/hnpp_accent"
+                    android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/tick_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/doctor_new" />
+
+                <TextView
+                    android:id="@+id/assesment_result_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/next_button"
+                    android:gravity="center|left"
+                    android:padding="10dp"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/assessment_result_tv"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/next_button"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/assessment_result_recycler_view"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/next_button"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:text="জরুরী চিকিৎসা "
+                    android:textColor="@color/hnpp_accent"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/treatment_result_tv"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@+id/next_button"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/treatment__result_recycler_view"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_marginBottom ="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:tint="@color/hnpp_accent" />
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/login_button_bg"
+            android:layout_margin ="10dp"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <ProgressBar
+            android:id="@+id/client_list_progress"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+
+</RelativeLayout>

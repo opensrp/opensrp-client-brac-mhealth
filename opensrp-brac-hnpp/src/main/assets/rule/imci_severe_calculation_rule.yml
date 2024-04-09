@@ -1,0 +1,26 @@
+---
+name: step1_cal_assessment_type_1
+description: assessment result type 1
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_unconscious.contains('yes') || step1_convulsion.contains('yes')
+  || step1_able_to_feed.contains('no')|| step1_vomiting.contains('yes')|| step1_bulging_fontanels.contains('yes')
+  || step1_stop_breathing.contains('yes')|| step1_central_cyanosis.contains('yes')|| step1_bleeding.contains('yes')
+  || step1_weight.contains('yes')|| step1_malformation.contains('yes')|| step1_surgical_condition.contains('yes'))?1:0"
+---
+name: step1_cal_assessment_type_2
+description: assessment result type 2
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_chest_indrawing.contains('yes') || step1_low_body_temperature.contains('yes')
+  || step1_difficulty_in_feeding.contains('yes')|| step1_infant_not_move_at_all.contains('no')|| step1_infant_move_stimulated.contains('yes')
+  )?1:0"
+---
+name: step1_cal_assessment_type_3
+description: assessment result type 3
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_Umbilicus_red.contains('yes') || step1_skin_pustules.contains('yes'))?1:0"
