@@ -87,6 +87,13 @@
         "type": "hidden"
       },
       {
+        "key": "mother_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "mother_id",
+        "type": "hidden"
+      },
+      {
         "key": "month_diff",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
