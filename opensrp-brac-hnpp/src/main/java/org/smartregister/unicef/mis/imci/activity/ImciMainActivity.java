@@ -48,14 +48,15 @@ import io.reactivex.schedulers.Schedulers;
 public class ImciMainActivity extends SecuredActivity {
     public static final String EXTRA_BASE_ENTITY_ID = "base_entity_id";
     public static final int REQUEST_IMCI_ACTIVITY = 1123;
-    private static final int REQUEST_IMCI_SEVERE_0_2 = 1234;
+    public static final int REQUEST_IMCI_SEVERE_0_2 = 1234;
+    public static final int REQUEST_IMCI_DIARRHEA_0_2 = 1235;
     public static void startIMCIActivity(Activity activity, String childBaseEntityId, int requestCode){
         Intent intent = new Intent(activity,ImciMainActivity.class);
         intent.putExtra(EXTRA_BASE_ENTITY_ID,childBaseEntityId);
         activity.startActivityForResult(intent,requestCode);
     }
-    LinearLayout severeLL;
-    ImageView severeCheckIm;
+    LinearLayout severeLL,diarrheaLL;
+    ImageView severeCheckIm,diarrheCheckIm;
     String childBaseEntityId;
     Button nextBtn;
     HashMap<Integer,String> jsonForms = new HashMap<>();
@@ -67,11 +68,19 @@ public class ImciMainActivity extends SecuredActivity {
         nextBtn = findViewById(R.id.next_button);
         nextBtn.setEnabled(false);
         severeLL = findViewById(R.id.severe_update_lay);
+        diarrheaLL = findViewById(R.id.Diarrhoea_update_lay);
         severeCheckIm = findViewById(R.id.severe_check_im);
+        diarrheCheckIm = findViewById(R.id.Diarrhoea_check_im);
         severeLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_SEVERE_0_2,REQUEST_IMCI_SEVERE_0_2);
+            }
+        });
+        diarrheaLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_DIARRHEA_0_2,REQUEST_IMCI_DIARRHEA_0_2);
             }
         });
         findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
@@ -87,7 +96,10 @@ public class ImciMainActivity extends SecuredActivity {
             JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
             if(jsonForms.get(REQUEST_IMCI_SEVERE_0_2)!=null && !jsonForms.get(REQUEST_IMCI_SEVERE_0_2).isEmpty()){
                 formStr = jsonForms.get(REQUEST_IMCI_SEVERE_0_2);
-            }else{
+            }else if(jsonForms.get(REQUEST_IMCI_DIARRHEA_0_2)!=null && !jsonForms.get(REQUEST_IMCI_DIARRHEA_0_2).isEmpty()){
+                formStr = jsonForms.get(REQUEST_IMCI_DIARRHEA_0_2);
+            }
+            else{
                 formStr = jsonForm.toString();
             }
             Intent intent = new Intent(ImciMainActivity.this, HnppAncJsonFormActivity.class);
@@ -122,40 +134,13 @@ public class ImciMainActivity extends SecuredActivity {
             updateUI(REQUEST_IMCI_SEVERE_0_2);
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             jsonForms.put(REQUEST_IMCI_SEVERE_0_2,jsonString);
-            IMCIAssessmentDialogFragment.getInstance(this).setJsonData(jsonString);
-//            AtomicInteger isSave = new AtomicInteger(2);
-//            showProgressDialog(getString(R.string.please_wait_message));
-//            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
-//            jsonForms.put(REQUEST_IMCI_SEVERE_0_2,jsonString);
-//            String formSubmissionId = JsonFormUtils.generateRandomUUIDString();
-//            String visitId = JsonFormUtils.generateRandomUUIDString();
-//            HnppConstants.appendLog("SAVE_VISIT", "save form>>childBaseEntityId:"+childBaseEntityId+":formSubmissionId:"+formSubmissionId);
-//
-//            processVisitFormAndSave(jsonString,formSubmissionId,visitId,REQUEST_IMCI_SEVERE_0_2)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<Integer>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onNext(Integer integer) {
-//                            isSave.set(integer);
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//                            hideProgressDialog();
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {
-//                            hideProgressDialog();
-//                            updateUI(REQUEST_IMCI_SEVERE_0_2);
-//                        }
-//                    });
+            IMCIAssessmentDialogFragment.getInstance(this).setJsonData(REQUEST_IMCI_SEVERE_0_2,jsonString);
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMCI_DIARRHEA_0_2){
+            updateUI(REQUEST_IMCI_DIARRHEA_0_2);
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            jsonForms.put(REQUEST_IMCI_DIARRHEA_0_2,jsonString);
+            IMCIAssessmentDialogFragment.getInstance(this).setJsonData(REQUEST_IMCI_DIARRHEA_0_2,jsonString);
         }
     }
     private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId,int requestCode){
@@ -200,6 +185,10 @@ public class ImciMainActivity extends SecuredActivity {
             case REQUEST_IMCI_SEVERE_0_2:
                 severeCheckIm.setImageResource(R.drawable.success);
                 severeCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_DIARRHEA_0_2:
+                diarrheCheckIm.setImageResource(R.drawable.success);
+                diarrheCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
                 break;
         }
         if(jsonForms.size()>=3){

@@ -2,6 +2,8 @@ package org.smartregister.unicef.mis.imci.fragment;
 
 import static org.smartregister.unicef.mis.fragment.MemberHistoryFragment.END_TIME;
 import static org.smartregister.unicef.mis.fragment.MemberHistoryFragment.START_TIME;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_DIARRHEA_0_2;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_SEVERE_0_2;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -55,6 +57,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
     TextView assesment_result_txt, assessment_result_tv,treatment_result_tv;
     Button next_button;
     String jsonData;
+    int requestType;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -63,8 +66,9 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         }
     }
 
-    public void setJsonData(String jsonData) {
+    public void setJsonData(int requestType,String jsonData) {
         this.jsonData = jsonData;
+        this.requestType = requestType;
     }
 
     public static IMCIAssessmentDialogFragment getInstance(Activity activity){
@@ -110,10 +114,20 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
     @Override
     public void initializePresenter() {
         presenter = new MemberHistoryPresenter(this);
-        processAssessment();
+        switch (requestType){
+            case REQUEST_IMCI_SEVERE_0_2:
+                processSevereAssessment();
+                break;
+            case REQUEST_IMCI_DIARRHEA_0_2:
+                processDiarrheaAssessment();
+                break;
+        }
 //        presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate,endVisitDate);
     }
-    private void processAssessment(){
+    private void processDiarrheaAssessment(){
+
+    }
+    private void processSevereAssessment(){
         try {
             Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
             JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
