@@ -6,13 +6,6 @@ condition: "step1_physical_condition.equals('সুস্থ') || step1_physical
 actions:
   - "isRelevant = true"
 ---
-name: step1_weight
-description: weight_warning relevance
-priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
-actions:
-  - "isRelevant = true"
----
 name: step1_kmc_start_date
 description: weight_warning relevance
 priority: 1
@@ -72,7 +65,7 @@ actions:
 name: step1_kmc_counseling
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))&& step1_pnc_count==1"
 actions:
   - "isRelevant = true"
 ---
