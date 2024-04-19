@@ -1094,6 +1094,53 @@ public class HnppConstants extends CoreConstants {
         }
         return DateTimeFormat.forPattern("dd-MM-yyyy").print(scheduleDate);
     }
+    public static String getScheduleNewPncDate(String dob,int noOfPnc){
+        DateTime ddDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(dob);
+        LocalDate deliveryDate = new LocalDate(ddDate);
+        LocalDate scheduleDate;
+        switch (noOfPnc){
+            case 1:
+                scheduleDate= deliveryDate.plusDays(0);
+                break;
+            case 2: scheduleDate= deliveryDate.plusDays(3);
+                break;
+            case 3: scheduleDate= deliveryDate.plusDays(7);
+                break;
+            case 4: scheduleDate= deliveryDate.plusDays(28);
+                break;
+            default:
+                scheduleDate= deliveryDate.plusDays(42);
+                break;
+        }
+        return DateTimeFormat.forPattern("dd-MM-yyyy").print(scheduleDate);
+    }
+    public static String getScheduleKMCHomeDate(String baseEntityId,int noOfPnc){
+        String identifiedDate = HnppDBUtils.getKMCIdentifiedDate(baseEntityId);
+        DateTime ddDate = null;
+        if(!TextUtils.isEmpty(identifiedDate)){
+            Date date = new Date(Long.parseLong(identifiedDate));
+            String dobFormate = HnppConstants.DDMMYY.format(date);
+            ddDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(dobFormate);
+        }
+        if(ddDate == null) return "";
+        LocalDate deliveryDate = new LocalDate(ddDate);
+        LocalDate scheduleDate;
+        switch (noOfPnc){
+            case 1:
+                scheduleDate= deliveryDate.plusDays(0);
+                break;
+            case 2: scheduleDate= deliveryDate.plusDays(3);
+                break;
+            case 3: scheduleDate= deliveryDate.plusDays(7);
+                break;
+            case 4: scheduleDate= deliveryDate.plusDays(42);
+                break;
+            default:
+                scheduleDate= deliveryDate.plusDays(42);
+                break;
+        }
+        return DateTimeFormat.forPattern("dd-MM-yyyy").print(scheduleDate);
+    }
     public static String getScheduleAncDate(String lmp, int noOfAnc){
         DateTime lmpDate = DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp);
 
@@ -1160,18 +1207,93 @@ public class HnppConstants extends CoreConstants {
                 return ancType;
             case 2:
                 ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_2);
-                ancType[1] = "ANC -2";
+                ancType[1] = "PNC -2";
                 return ancType;
             case 3:
                 ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_3);
-                ancType[1] = "ANC -3";
+                ancType[1] = "PNC -3";
                 return ancType;
             case 4:
                 ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc_4);
-                ancType[1] = "ANC -4";
+                ancType[1] = "PNC -4";
                 return ancType;
             default:
                 ancType[0]=HnppApplication.appContext.getString(R.string.newborn_pnc);
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
+    public static String[] getKMCHomeTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_home)+""+HnppApplication.appContext.getString(R.string.first_suffix);
+                ancType[1] = "KMC -1";
+                return ancType;
+            case 2:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_home)+""+HnppApplication.appContext.getString(R.string.second_suffix);
+                ancType[1] = "PNC -2";
+                return ancType;
+            case 3:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_home)+""+HnppApplication.appContext.getString(R.string.third_suffix);
+                ancType[1] = "PNC -3";
+                return ancType;
+            case 4:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_home)+""+HnppApplication.appContext.getString(R.string.fourth_suffix);
+                ancType[1] = "PNC -4";
+                return ancType;
+            default:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_home);
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
+    public static String[] getKMCHospitalTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_hospital)+""+HnppApplication.appContext.getString(R.string.first_suffix);
+                ancType[1] = "KMC -1";
+                return ancType;
+            case 2:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_hospital)+""+HnppApplication.appContext.getString(R.string.second_suffix);
+                ancType[1] = "PNC -2";
+                return ancType;
+            case 3:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_hospital)+""+HnppApplication.appContext.getString(R.string.third_suffix);
+                ancType[1] = "PNC -3";
+                return ancType;
+            case 4:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_hospital)+""+HnppApplication.appContext.getString(R.string.fourth_suffix);
+                ancType[1] = "PNC -4";
+                return ancType;
+            default:
+                ancType[0]=HnppApplication.appContext.getString(R.string.kmc_service_hospital);
+                ancType[1] = "PNC";
+                return ancType;
+        }
+    }
+    public static String[] getScanuTitle(int noOfPnc){
+        String[] ancType = new String[2];
+        switch (noOfPnc){
+            case 1:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.first_suffix);
+                ancType[1] = "KMC -1";
+                return ancType;
+            case 2:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.second_suffix);
+                ancType[1] = "PNC -2";
+                return ancType;
+            case 3:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.third_suffix);
+                ancType[1] = "PNC -3";
+                return ancType;
+            case 4:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup)+""+HnppApplication.appContext.getString(R.string.fourth_suffix);
+                ancType[1] = "PNC -4";
+                return ancType;
+            default:
+                ancType[0]=HnppApplication.appContext.getString(R.string.scanu_followup);
                 ancType[1] = "PNC";
                 return ancType;
         }
@@ -1656,6 +1778,9 @@ public class HnppConstants extends CoreConstants {
         public static final String GMP_SESSION_INFO = "gmp_session_info";
         public static final String CHILD_FOLLOWUP = "child_followup";
         public static final String NEW_BORN_PNC_1_4 = "new_born_pnc_1_4";
+        public static final String KMC_SERVICE_HOME = "kmc_service_home";
+        public static final String KMC_SERVICE_HOSPITAL = "kmc_service_hospital";
+        public static final String SCANU_FOLLOWUP = "scanu_service";
         public static final String AEFI_CHILD_ = "aefi_child";
         public static final String CHILD_DISEASE = "child_general_disease_survey";
         public static final String MEMBER_DISEASE = "general_disease_survey";
@@ -1739,6 +1864,9 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
         public static final String CHILD_FOLLOWUP = "Child Followup";
         public static final String NEW_BORN_PNC_1_4 = "New Born PNC 1-4";
+        public static final String KMC_SERVICE_HOME = "KMC Service Home";
+        public static final String KMC_SERVICE_HOSPITAL = "KMC Service Hospital";
+        public static final String SCANU_FOLLOWUP = "SCANU Followup";
         public static final String AEFI_CHILD = "AEFI Child";
         public static final String CHILD_DISEASE = "Child General Disease Survey";
         public static final String MEMBER_DISEASE = "General Disease Survey";
@@ -2078,6 +2206,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.REFERREL_FOLLOWUP,R.mipmap.ic_refer)
             .put(EVENT_TYPE.CHILD_FOLLOWUP,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.NEW_BORN_PNC_1_4,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.KMC_SERVICE_HOME,R.mipmap.kmc_icon)
+            .put(EVENT_TYPE.KMC_SERVICE_HOSPITAL,R.mipmap.kmc_icon)
+            .put(EVENT_TYPE.SCANU_FOLLOWUP,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.AEFI_CHILD,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_DISEASE,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.MEMBER_DISEASE,R.drawable.rowavatar_member)
@@ -2155,6 +2286,9 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.GMP_SESSION_INFO,HnppApplication.appContext.getString(R.string.session_info))
                 .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
                 .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
+                .put(EVENT_TYPE.KMC_SERVICE_HOME,HnppApplication.appContext.getString(R.string.kmc_service_home))
+                .put(EVENT_TYPE.KMC_SERVICE_HOSPITAL,HnppApplication.appContext.getString(R.string.kmc_service_hospital))
+                .put(EVENT_TYPE.SCANU_FOLLOWUP,HnppApplication.appContext.getString(R.string.scanu_followup))
                 .put(EVENT_TYPE.AEFI_CHILD, HnppApplication.appContext.getString(R.string.aifi_child))
                 .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
                 .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
@@ -2248,6 +2382,9 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
                 .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
                 .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc_1_4))
+                .put(EVENT_TYPE.KMC_SERVICE_HOME,HnppApplication.appContext.getString(R.string.kmc_service_home))
+                .put(EVENT_TYPE.KMC_SERVICE_HOSPITAL,HnppApplication.appContext.getString(R.string.kmc_service_hospital))
+                .put(EVENT_TYPE.SCANU_FOLLOWUP,HnppApplication.appContext.getString(R.string.scanu_followup))
                 .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
                 .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
                 .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
@@ -2343,6 +2480,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GMP_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
             .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
             .put(EVENT_TYPE.NEW_BORN_PNC_1_4,HnppApplication.appContext.getString(R.string.newborn_pnc))
+            .put(EVENT_TYPE.KMC_SERVICE_HOME,HnppApplication.appContext.getString(R.string.kmc_service_home))
+            .put(EVENT_TYPE.KMC_SERVICE_HOSPITAL,HnppApplication.appContext.getString(R.string.kmc_service_hospital))
+            .put(EVENT_TYPE.SCANU_FOLLOWUP,HnppApplication.appContext.getString(R.string.scanu_followup))
             .put(EVENT_TYPE.AEFI_CHILD,HnppApplication.appContext.getString(R.string.aefi_followup))
             .put(EVENT_TYPE.CHILD_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))
             .put(EVENT_TYPE.MEMBER_DISEASE, HnppApplication.appContext.getString(R.string.common_disease_info))

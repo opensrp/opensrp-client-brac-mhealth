@@ -163,7 +163,7 @@ public class CoreJsonFormUtils extends org.smartregister.family.util.JsonFormUti
 
     }
 
-    protected static Triple<Boolean, JSONObject, JSONArray> validateParameters(String jsonString) {
+    public static Triple<Boolean, JSONObject, JSONArray> validateParameters(String jsonString) {
 
         JSONObject jsonForm = toJSONObject(jsonString);
         JSONArray fields = fields(jsonForm);

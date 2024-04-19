@@ -3,8 +3,11 @@ package org.smartregister.unicef.mis.utils;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.SCANU_FOLLOWUP;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -80,6 +83,10 @@ public class FormApplicability {
         }
 
         return "";
+    }
+    public static String getKMCForm(String baseEntityId){
+        return HnppDBUtils.getKMCStatus(baseEntityId);
+
     }
 
     public static ArrayList<ReferralFollowUpModel> getReferralFollowUp(String baseEntityId){
@@ -175,8 +182,23 @@ public class FormApplicability {
     public static String getNewBornTitleForHistory(int count) {
         return HnppConstants.getNewBornPncTitle(count)[0];
     }
+    public static String getKmcHomeTitleForHistory(int count) {
+        return HnppConstants.getKMCHomeTitle(count)[0];
+    }
+    public static String getKmcHospitalTitleForHistory(int count) {
+        return HnppConstants.getKMCHospitalTitle(count)[0];
+    }
     public static String getNewBornTitle(String baseEntityId){
         return HnppConstants.getNewBornPncTitle(FormApplicability.getNewBornPNCCount(baseEntityId)+1)[0];
+    }
+    public static String getKMCHomeTitle(String baseEntityId){
+        return HnppConstants.getKMCHomeTitle(FormApplicability.getKMCHomeCount(baseEntityId)+1)[0];
+    }
+    public static String getScanuTitle(String baseEntityId){
+        return HnppConstants.getScanuTitle(FormApplicability.getScanuCount(baseEntityId)+1)[0];
+    }
+    public static String getKMCHospitalTitle(String baseEntityId){
+        return HnppConstants.getKMCHospitalTitle(FormApplicability.getKMCHospitalCount(baseEntityId)+1)[0];
     }
     public static String getANCTitle(String baseEntityId){
         return HnppConstants.getAncTitle(FormApplicability.getANCCount(baseEntityId)+1)[0];
@@ -493,15 +515,79 @@ public class FormApplicability {
 
     }
     public static int getNewBornPNCCount(String baseEntityId){
-        long maxVisitDate = getMaxVisitDate(baseEntityId);
+       // long maxVisitDate = getMaxVisitDate(baseEntityId);
         int ancCount = 0;
-        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+NEW_BORN_PNC_1_4+"' and visit_date>="+maxVisitDate;
+        String ancQuery = "select count(*) as new_pnc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+NEW_BORN_PNC_1_4+"'";
         List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
-        if( values.size() > 0 && values.get(0).get("anc_count")!= null){
-            ancCount = Integer.parseInt(values.get(0).get("anc_count"));
+        if( values.size() > 0 && values.get(0).get("new_pnc_count")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("new_pnc_count"));
         }
         return ancCount;
 
+    }
+    public static int getKMCHomeCount(String baseEntityId){
+        // long maxVisitDate = getMaxVisitDate(baseEntityId);
+        int ancCount = 0;
+        String ancQuery = "select count(*) as kmc_service from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+KMC_SERVICE_HOME+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("kmc_service")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("kmc_service"));
+        }
+        return ancCount;
+
+    }
+    public static int getKMCHospitalCount(String baseEntityId){
+        // long maxVisitDate = getMaxVisitDate(baseEntityId);
+        int ancCount = 0;
+        String ancQuery = "select count(*) as kmc_service from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+KMC_SERVICE_HOSPITAL+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("kmc_service")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("kmc_service"));
+        }
+        return ancCount;
+
+    }
+    public static int getScanuCount(String baseEntityId){
+        // long maxVisitDate = getMaxVisitDate(baseEntityId);
+        int ancCount = 0;
+        String ancQuery = "select count(*) as kmc_service from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+SCANU_FOLLOWUP+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("kmc_service")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("kmc_service"));
+        }
+        return ancCount;
+
+    }
+    public static int getNewPNCCount(String baseEntityId){
+        return getNewBornPNCCount(baseEntityId);
+//        String dobSql = "SELECT dob FROM ec_child where base_entity_id = ? ";
+//        List<Map<String, String>> valus = HnppDBUtils.readData(dobSql, new String[]{baseEntityId});
+//
+//        if( valus.size() > 0 && valus.get(0).get("dob")!= null){
+//            String dob = valus.get(0).get("dob");
+//            dob = dob.substring(0,dob.indexOf("T"));
+//            LocalDate dobDate = new LocalDate(dob);
+//            LocalDate today = new LocalDate(System.currentTimeMillis());//.isBefore(new LocalDate(System.currentTimeMillis())
+//            if(today.isBefore(dobDate.plusDays(0))){
+//                return 1;
+//            }else if(today.isBefore(dobDate.plusDays(3))){
+//                return 2;
+//            }else if(today.isBefore(dobDate.plusDays(7))){
+//                return 3;
+//            }else if(today.isBefore(dobDate.plusDays(42))){
+//                return 4;
+//            }else{
+//                return -1;
+//            }
+//        }
+//        return -1;
+
+    }
+    public static int getKMCServiceHomeCount(String baseEntityId){
+        return getKMCHomeCount(baseEntityId);
+    }
+    public static int getKMCServiceHospitalCount(String baseEntityId){
+        return getKMCHospitalCount(baseEntityId);
     }
     public static long getMaxVisitDate(String baseEntityId){
         long visitDate = 0;

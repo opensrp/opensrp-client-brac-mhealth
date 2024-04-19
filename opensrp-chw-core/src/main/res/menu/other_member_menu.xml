@@ -61,6 +61,11 @@
         android:enabled="true"
         android:title="@string/member_survey"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_scanu_followup"
+        android:enabled="true"
+        android:title="@string/scanu_followup"
+        app:showAsAction="never" />
 <!--    <item-->
 <!--        android:id="@+id/action_mm_survey"-->
 <!--        android:enabled="false"-->

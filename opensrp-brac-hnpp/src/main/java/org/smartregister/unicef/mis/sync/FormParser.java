@@ -77,6 +77,8 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_RE
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_SESSION_INFO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER_PROFILE_VISIT;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
@@ -87,6 +89,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PNC_RE
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.SCANU_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.SS_INFO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
@@ -224,7 +227,8 @@ public class FormParser {
                         if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(encounter_type)||
                         CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(encounter_type) ||
                         CHILD_ECCD_18_MONTH.equalsIgnoreCase(encounter_type)|| CHILD_ECCD_24_MONTH.equalsIgnoreCase(encounter_type)||
-                        CHILD_ECCD_36_MONTH.equalsIgnoreCase(encounter_type))
+                        CHILD_ECCD_36_MONTH.equalsIgnoreCase(encounter_type) || KMC_SERVICE_HOME.equalsIgnoreCase(encounter_type) ||
+                        KMC_SERVICE_HOSPITAL.equalsIgnoreCase(encounter_type))
                         {
                             updateChildReferral(base_entity_id,details,formSubmissionId,log);
                         }
@@ -594,6 +598,14 @@ public class FormParser {
                 }
                 break;
             case NEW_BORN_PNC_1_4:
+                if (details.containsKey("is_Referred") && !StringUtils.isEmpty(details.get("is_Referred"))) {
+                    String status = details.get("is_Referred");
+                    if(status.equalsIgnoreCase("Yes") || status.equalsIgnoreCase("হ্যাঁ")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set is_refered ='true' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
                 if (details.containsKey("is_risk") && !StringUtils.isEmpty(details.get("is_risk"))) {
                     String status = details.get("is_risk");
                     if(status.equalsIgnoreCase("1")){
@@ -602,10 +614,32 @@ public class FormParser {
 
                     }
                 }
-                if (details.containsKey("weight") && !StringUtils.isEmpty(details.get("weight"))) {
-                    String status = details.get("weight");
+                if (details.containsKey("birth_weight") && !StringUtils.isEmpty(details.get("birth_weight"))) {
+                    String status = details.get("birth_weight");
                         SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                         db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                }
+                if (details.containsKey("kmc_home_calculation") && !StringUtils.isEmpty(details.get("kmc_home_calculation"))) {
+                    String status = details.get("kmc_home_calculation");
+                    if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("1")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+
+                }
+                if (details.containsKey("agreed_to_hospital") && !StringUtils.isEmpty(details.get("agreed_to_hospital"))) {
+                    String status = details.get("agreed_to_hospital");
+                    if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("হ্যাঁ"))){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }else  if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("no") || status.equalsIgnoreCase("না"))){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"' ,identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
 
                 }
                     break;
@@ -2408,6 +2442,15 @@ public class FormParser {
                 break;
             case NEW_BORN_PNC_1_4:
                 form_name = HnppConstants.JSON_FORMS.NEW_BORN_PNC_1_4 + ".json";
+                break;
+            case KMC_SERVICE_HOME:
+                form_name = HnppConstants.JSON_FORMS.KMC_SERVICE_HOME+ ".json";
+                break;
+            case KMC_SERVICE_HOSPITAL:
+                form_name = HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL+ ".json";
+                break;
+            case SCANU_FOLLOWUP:
+                form_name = HnppConstants.JSON_FORMS.SCANU_FOLLOWUP+ ".json";
                 break;
             case AEFI_CHILD:
                 form_name = HnppConstants.JSON_FORMS.AEFI_CHILD_ + ".json";

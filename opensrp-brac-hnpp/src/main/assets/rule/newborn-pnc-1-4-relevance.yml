@@ -2,14 +2,35 @@
 name: step1_weight_warning_less
 description: weight_warning relevance
 priority: 1
-condition: "((!step1_weight.isEmpty() && step1_weight < 2500) || (!step1_birth_weight.isEmpty() && step1_birth_weight < 2500))"
+condition: "(!step1_weight.isEmpty() && step1_weight < 2500)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_birth_weight_warning_between
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight <= 2500 && step1_birth_weight >= 2000)"
 actions:
   - "isRelevant = true"
 ---
 name: step1_weight_warning_up
 description: weight_warning relevance
 priority: 1
-condition: "(!step1_weight.isEmpty() && step1_weight > 4500) || (!step1_birth_weight.isEmpty() && step1_birth_weight > 4500)"
+condition: "(!step1_weight.isEmpty() && step1_weight > 4500)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_birth_weight_warning_less
+description: weight_warning relevance
+priority: 1
+condition: " (!step1_birth_weight.isEmpty() && step1_birth_weight < 2000)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_birth_weight_warning_up
+description: weight_warning relevance
+priority: 1
+condition: " (!step1_birth_weight.isEmpty() && step1_birth_weight > 4500)"
 actions:
   - "isRelevant = true"
 ---
@@ -34,9 +55,37 @@ condition: "!step1_body_temparature.isEmpty() && (step1_body_temparature.equals(
 actions:
   - "isRelevant = true"
 ---
-name: step1_pre_term_warning
+name: step1_mother_ga_warning
 description: weight_warning relevance
 priority: 1
-condition: "!step1_birth_weight.isEmpty() && step1_birth_weight < 2500"
+condition: "step1_is_first_time.equals('Yes') && step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)')"
 actions:
   - "isRelevant = true"
+---
+name: step1_kmc_hospital_warning
+description: weight_warning relevance
+priority: 1
+condition: "(step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)) && (!step1_newborn_body_info.isEmpty() && !step1_newborn_body_info.contains('none'))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_kmc_home_warning
+description: weight_warning relevance
+priority: 1
+condition: "(step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (!step1_birth_weight.isEmpty() && step1_birth_weight > 2000 && step1_birth_weight < 2500)) && step1_newborn_body_info.contains('none')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_kmc_home_calculation
+description: weight_warning relevance
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (!step1_birth_weight.isEmpty() && step1_birth_weight > 2000 && step1_birth_weight < 2500)) && step1_newborn_body_info.contains('none')?1:0"
+---
+name: step1_kmc_hospital_calculation
+description: weight_warning relevance
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)) && (!step1_newborn_body_info.isEmpty() && !step1_newborn_body_info.contains('none'))?1:0"
