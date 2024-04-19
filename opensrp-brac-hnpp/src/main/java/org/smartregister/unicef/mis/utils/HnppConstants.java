@@ -1793,6 +1793,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_ECCD_36_MONTH = "child_eccd_36_months";
         public static final String IMCI_SEVERE_0_2 = "imci_severe_0_2";
         public static final String IMCI_DIARRHEA_0_2 = "imci_diarrhea_0_2";
+        public static final String IMCI_FEEDING_0_2 = "imci_feeding_0_2";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
         public static final String CHILD_INFO_7_24_MONTHS = "child_info_7_24_months";
         public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";
@@ -1863,6 +1864,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_ECCD_36_MONTH = "Child ECCD Followup 36 months";
         public static final String IMCI_SEVERE_0_2 = "IMCI SEVERE 0 to 2";
         public static final String IMCI_DIARRHEA_0_2 = "IMCI DIARRHEA 0 to 2";
+        public static final String IMCI_FEEDING_0_2 = "IMCI FEEDING 0 to 2";
         public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";
         public static final String CHILD_INFO_7_24_MONTHS = "Child Info 7-24 months";
         public static final String CHILD_INFO_25_MONTHS = "Child Info 25 Months";
@@ -2152,6 +2154,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,JSON_FORMS.CHILD_ECCD_36_MONTH)
             .put(EVENT_TYPE.IMCI_SEVERE_0_2,JSON_FORMS.IMCI_SEVERE_0_2)
             .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,JSON_FORMS.IMCI_DIARRHEA_0_2)
+            .put(EVENT_TYPE.IMCI_FEEDING_0_2,JSON_FORMS.IMCI_FEEDING_0_2)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,JSON_FORMS.CHILD_INFO_7_24_MONTHS)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,JSON_FORMS.CHILD_INFO_25_MONTHS)
             .build();
@@ -2227,6 +2230,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.IMCI_SEVERE_0_2,R.drawable.imci_logo)
             .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,R.drawable.imci_logo)
+            .put(EVENT_TYPE.IMCI_FEEDING_0_2,R.drawable.imci_logo)
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,R.drawable.rowavatar_child)
@@ -2308,7 +2312,8 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
                 .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
                 .put(EVENT_TYPE.IMCI_SEVERE_0_2,HnppApplication.appContext.getString(R.string.imci_severe_0_2))
-                .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_diarrhea_0_2))
+                .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
+                .put(EVENT_TYPE.IMCI_FEEDING_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
                 .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_child_reg))
@@ -2407,6 +2412,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
                 .put(EVENT_TYPE.IMCI_SEVERE_0_2,HnppApplication.appContext.getString(R.string.imci_severe_0_2))
                 .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_diarrhea_0_2))
+                .put(EVENT_TYPE.IMCI_FEEDING_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
                 .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.FORUM_ADO,HnppApplication.appContext.getString(R.string.girl_forum))
@@ -2507,6 +2513,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
             .put(EVENT_TYPE.IMCI_SEVERE_0_2,HnppApplication.appContext.getString(R.string.imci_severe_0_2))
             .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_diarrhea_0_2))
+            .put(EVENT_TYPE.IMCI_FEEDING_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
             .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
             .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_child_reg))

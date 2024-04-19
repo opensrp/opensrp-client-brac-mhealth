@@ -1,0 +1,906 @@
+{
+  "count": "1",
+  "encounter_type": "IMCI FEEDING 0 to 2",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "খাওয়ানোর সমস্যা",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IMCI FEEDING 0 to 2",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "imci_feeding_0_2"
+      },
+
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " জিজ্ঞাসা করুন "
+      },
+      {
+        "key": "infant_breastfed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "infant_breastfed",
+        "type": "native_radio",
+        "label": "ছোট শিশু কি বুকের দুধ খায়?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "drink_breast_milk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "drink_breast_milk",
+        "type": "native_radio",
+        "label": "২৪ ঘন্টায় ৮ বারের কম বুকের দুধ পান করে?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "other_food_drink",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "other_food_drink",
+        "type": "native_radio",
+        "label": "ছোট শিশু কি সাধারণত অন্য কোন খাবার বা তরল খাবার খায়?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "drink_how_long",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "drink_how_long",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "হ্যাঁ হলে, কত দিন ধরে? ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step3:other_food_drink": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " লক্ষ করুন  "
+      },
+
+      {
+        "key": "weight_less_than_2_kg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "weight_less_than_2_kg",
+        "type": "native_radio",
+        "label": "ওজন কি ২ কেজি থেকে কম?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "weight_proportion_zscore",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "weight_proportion_zscore",
+        "type": "native_radio",
+        "label": "বয়স অনুপাতে ওজন কি -২ Z স্কোর এর থেকে কম?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_feeding",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " বুকের দুধ খাওয়ানো নিরুপন করুন ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "breastfed_previous_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "breastfed_previous_hour",
+        "type": "native_radio",
+        "label": "ছোট শিশুকে কি গত ১ ঘন্টায় বুকের দুধ খাওয়ানো হয়েছে?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_yes",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "15px",
+        "label_text_style": "italic",
+        "text": " মাকে বলুন ছোট শিশু আবার কখন খেতে চায় সে পর্যন্ত তিনি অপেক্ষা  করতে পারেন কি না এবং তা আপনাকে বলতে পা্রেন কি না?",
+        "relevance": {
+          "step1:breastfed_previous_hour": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_no",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "15px",
+        "label_text_style": "italic",
+        "text": " মাকে বুকের দুধ খাওয়াতে বলুন, ৪ মিনিট ধরে ছোট শিশুকে দুধ খাওয়ানো দেখুন।",
+        "relevance": {
+          "step1:breastfed_previous_hour": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_chest",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " ১। ছোট শিশুকে কি ভালোভাবে বুকে লাগানো? ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "chin_touching_breast",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "chin_touching_breast",
+        "type": "native_radio",
+        "label": "থুত্নী স্তন স্পর্শ করেছে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "mouth_wide_open",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "mouth_wide_open",
+        "type": "native_radio",
+        "label": "বড় করে মুখ খোলা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Lower_lip_turned_outward",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Lower_lip_turned_outward",
+        "type": "native_radio",
+        "label": "নিচের ঠোঁট বাইরের দিকে উল্টে রয়েছে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "areola_mouth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "areola_mouth",
+        "type": "native_radio",
+        "label": "এরিওলা নিচের দিকের চেয়ে মুখের উপরের দিকে বেশী দৃশ্যমান",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_position",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " ২। ছোটো শিশু কি ভালো পজিশনে আছে?",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Straight_head_body",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Straight_head_body",
+        "type": "native_radio",
+        "label": "মাথা এবং শরীর সোজা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Body_close_mother",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Body_close_mother",
+        "type": "native_radio",
+        "label": "ছোট শিশু মায়ের গায়ের সাথে লেগে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "body_fully_supported",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "body_fully_supported",
+        "type": "native_radio",
+        "label": "পুরো শরীর আগলে রাখা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Facing_breast",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Facing_breast",
+        "type": "native_radio",
+        "label": "মুখ স্তনের দিকে ফিরানো",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "sucking_effectively",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "sucking_effectively",
+        "type": "native_radio",
+        "label": "ছোট শিশু কি ভাল ভাবে দুধ চুষে খায়?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Not_sucking_at_all",
+            "text": "একে বারেই দুধ চুষে না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Not_sucking_at_all"
+          },
+          {
+            "key": "Not_sucking_effectively",
+            "text": "ভাল ভাবে দুধ চুষে না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Not_sucking_effectively"
+          },
+          {
+            "key": "effectively",
+            "text": "ভাল ভাবে দুধ চুষে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "effectively"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Thrush",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Thrush",
+        "type": "native_radio",
+        "label": "মুখের ঘা অথবা সাদা দাগ (থ্রাস)",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_mother",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " ৩। মায়ের অবস্থা",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "mother_have_pain",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "mother_have_pain",
+        "type": "native_radio",
+        "label": "বুকের দুধ খাওয়ানর সময় মার কি ব্যথা হয়",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Nipples_Condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Nipples_Condition",
+        "type": "native_radio",
+        "label": "স্তনের বোটা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Flat_nipples",
+            "text": "চেপ্ট বোটা",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Flat_nipples"
+          },
+          {
+            "key": "Inverted_nipples",
+            "text": "বোটা ভিতরে ঢুকে গেছে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Inverted_nipples"
+          },
+          {
+            "key": "Sore_nipples",
+            "text": "বোঁটাতে ঘা আছে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Sore_nipples"
+          },
+          {
+            "key": "Engorged_breasts",
+            "text": "বুক ফোলা",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Engorged_breasts"
+          },
+          {
+            "key": "Breast_abscess",
+            "text": "ফোঁড়া আছে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Breast_abscess"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Breasts_Condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Breasts_Condition",
+        "type": "native_radio",
+        "label": "স্তনের অবস্থা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Engorged_breasts",
+            "text": "বুক ফোলা",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Engorged_breasts"
+          },
+          {
+            "key": "Breast_abscess",
+            "text": "ফোঁড়া আছে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Breast_abscess"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+
+
+      {
+        "key": "cal_assessment_type_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_1",
+        "type": "edit_text",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "edit_text",
+        "hint": "type:2>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "edit_text",
+        "hint": "type:3>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_calculation_rule.yml"
+            }
+          }
+        }
+      }
+
+    ]
+  }
+}

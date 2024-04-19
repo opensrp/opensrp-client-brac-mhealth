@@ -17,4 +17,28 @@ public class Utility {
             return value;
         }
     }
+    public enum ASSESSMENT_RESULT_TYPE_DIARRHEA {
+        ONE("পানি স্বল্পতা নাই"),
+        TWO("কিছু পানি স্বল্পতা"),
+        THREE("চরম পানি স্বল্পতা");
+        String value;
+        ASSESSMENT_RESULT_TYPE_DIARRHEA(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    public enum ASSESSMENT_RESULT_TYPE_FEEDING {
+        ONE("খাওয়ানোর সমস্যা নাই"),
+        TWO("খাওয়ানোর সমস্যা অথবা কম ওজন"),
+        THREE("বয়সের অনুপাতে খুব কম ওজন");
+        String value;
+        ASSESSMENT_RESULT_TYPE_FEEDING(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
 }

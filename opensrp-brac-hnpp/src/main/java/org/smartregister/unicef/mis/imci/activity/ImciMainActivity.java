@@ -50,12 +50,13 @@ public class ImciMainActivity extends SecuredActivity {
     public static final int REQUEST_IMCI_ACTIVITY = 1123;
     public static final int REQUEST_IMCI_SEVERE_0_2 = 1234;
     public static final int REQUEST_IMCI_DIARRHEA_0_2 = 1235;
+    public static final int REQUEST_IMCI_FEEDING_0_2 = 1236;
     public static void startIMCIActivity(Activity activity, String childBaseEntityId, int requestCode){
         Intent intent = new Intent(activity,ImciMainActivity.class);
         intent.putExtra(EXTRA_BASE_ENTITY_ID,childBaseEntityId);
         activity.startActivityForResult(intent,requestCode);
     }
-    LinearLayout severeLL,diarrheaLL;
+    LinearLayout severeLL,diarrheaLL,feedingLL;
     ImageView severeCheckIm,diarrheCheckIm;
     String childBaseEntityId;
     Button nextBtn;
@@ -69,6 +70,7 @@ public class ImciMainActivity extends SecuredActivity {
         nextBtn.setEnabled(false);
         severeLL = findViewById(R.id.severe_update_lay);
         diarrheaLL = findViewById(R.id.Diarrhoea_update_lay);
+        feedingLL = findViewById(R.id.Feeding_update_lay);
         severeCheckIm = findViewById(R.id.severe_check_im);
         diarrheCheckIm = findViewById(R.id.Diarrhoea_check_im);
         severeLL.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +83,12 @@ public class ImciMainActivity extends SecuredActivity {
             @Override
             public void onClick(View view) {
                 startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_DIARRHEA_0_2,REQUEST_IMCI_DIARRHEA_0_2);
+            }
+        });
+        feedingLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_FEEDING_0_2,REQUEST_IMCI_FEEDING_0_2);
             }
         });
         findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
@@ -98,6 +106,8 @@ public class ImciMainActivity extends SecuredActivity {
                 formStr = jsonForms.get(REQUEST_IMCI_SEVERE_0_2);
             }else if(jsonForms.get(REQUEST_IMCI_DIARRHEA_0_2)!=null && !jsonForms.get(REQUEST_IMCI_DIARRHEA_0_2).isEmpty()){
                 formStr = jsonForms.get(REQUEST_IMCI_DIARRHEA_0_2);
+            }else if(jsonForms.get(REQUEST_IMCI_FEEDING_0_2)!=null && !jsonForms.get(REQUEST_IMCI_FEEDING_0_2).isEmpty()){
+                formStr = jsonForms.get(REQUEST_IMCI_FEEDING_0_2);
             }
             else{
                 formStr = jsonForm.toString();
@@ -141,6 +151,12 @@ public class ImciMainActivity extends SecuredActivity {
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             jsonForms.put(REQUEST_IMCI_DIARRHEA_0_2,jsonString);
             IMCIAssessmentDialogFragment.getInstance(this).setJsonData(REQUEST_IMCI_DIARRHEA_0_2,jsonString);
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMCI_FEEDING_0_2){
+            updateUI(REQUEST_IMCI_FEEDING_0_2);
+            String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
+            jsonForms.put(REQUEST_IMCI_FEEDING_0_2,jsonString);
+            IMCIAssessmentDialogFragment.getInstance(this).setJsonData(REQUEST_IMCI_FEEDING_0_2,jsonString);
         }
     }
     private Observable<Integer> processVisitFormAndSave(String jsonString, String formSubmissionid, String visitId,int requestCode){

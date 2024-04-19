@@ -34,5 +34,5 @@ description: 'পানি স্বল্পতা নাই'
 priority: 1
 condition: "true"
 actions:
-  - "calculation = (step1_infant_move.contains('yes') && step1_sunken_eyes.contains('no')
+  - "calculation = (step1_infant_move.contains('yes')
   && step1_Pinch_the_skin.contains('normal') && step1_restless_irritable.contains('no'))?1:0"

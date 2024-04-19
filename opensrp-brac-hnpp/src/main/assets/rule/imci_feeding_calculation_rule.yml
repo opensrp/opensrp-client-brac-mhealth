@@ -1,0 +1,28 @@
+---
+name: step1_cal_assessment_type_1
+description: 'বয়সের অনুপাতে খুব কম ওজন'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_weight_less_than_2_kg.contains('yes') && step1_month_diff==7)?1:0"
+---
+name: step1_cal_assessment_type_2
+description: 'খাওয়ানোর সমস্যা অথবা কম ওজন'
+priority: 3
+condition: "true"
+  - "calculation = (!step1_sucking_effectively.contains('effectively')
+  || step1_Thrush.contains('yes') || step1_drink_breast_milk.contains('no') || step1_other_food_drink.contains('yes')
+  || step1_weight_less_than_2_kg.contains('yes') || step1_weight_proportion_zscore.contains('yes')
+  || (step1_chin_touching_breast.contains('no') || step1_mouth_wide_open.contains('no')|| step1_Lower_lip_turned_outward.contains('no')|| step1_areola_mouth.contains('no')
+  || (step1_Straight_head_body.contains('no') || step1_Body_close_mother.contains('no') || step1_body_fully_supported.contains('no') || step1_Facing_breast.contains('no'))))?1:0"
+---
+name: step1_cal_assessment_type_3
+description: 'খাওয়ানোর সমস্যা নাই'
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_sucking_effectively.contains('effectively')
+  && step1_Thrush.contains('no') && step1_drink_breast_milk.contains('yes') && step1_other_food_drink.contains('no')
+  && step1_weight_less_than_2_kg.contains('no') && step1_weight_proportion_zscore.contains('no')
+  && (step1_chin_touching_breast.contains('yes')&& step1_mouth_wide_open.contains('yes')&& step1_Lower_lip_turned_outward.contains('yes')&& step1_areola_mouth.contains('yes')
+  || (step1_Straight_head_body.contains('yes')&& step1_Body_close_mother.contains('yes')&& step1_body_fully_supported.contains('yes')&& step1_Facing_breast.contains('yes'))))?1:0"

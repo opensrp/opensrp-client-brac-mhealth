@@ -3,6 +3,7 @@ package org.smartregister.unicef.mis.imci.fragment;
 import static org.smartregister.unicef.mis.fragment.MemberHistoryFragment.END_TIME;
 import static org.smartregister.unicef.mis.fragment.MemberHistoryFragment.START_TIME;
 import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_DIARRHEA_0_2;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_FEEDING_0_2;
 import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_SEVERE_0_2;
 
 import android.annotation.SuppressLint;
@@ -121,11 +122,121 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             case REQUEST_IMCI_DIARRHEA_0_2:
                 processDiarrheaAssessment();
                 break;
+            case REQUEST_IMCI_FEEDING_0_2:
+                processFeedingAssessment();
+                break;
         }
 //        presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate,endVisitDate);
     }
+    private void processFeedingAssessment(){
+        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
+        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+        String type_1 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_1");
+        String type_2 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_2");
+        String type_3 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_3");
+        StringBuilder builder = new StringBuilder();
+        String assessmentResultTypeId = "";
+        if(type_1.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.THREE.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("বয়স ৭ দিন এবং ওজন ২ কেজি থেকে কম");
+        }else if(type_2.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("অস্থির, খিটখিটে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চোখ বসে গেছে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+        }
+    }
     private void processDiarrheaAssessment(){
+        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
+        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+        String type_1 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_1");
+        String type_2 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_2");
+        String type_3 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_3");
+        String type_4 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_4");
+        String type_5 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_5");
+        StringBuilder builder = new StringBuilder();
+        String assessmentResultTypeId = "";
+        if(type_1.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.THREE.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চোখ বসে গেছে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("শিশু কে নড়াচড়া করানোর চেষ্টা করলে শুধুমাত্র নড়াচড়া করতে পারে অথবা একবারেই নড়াচড়া করতে পারে না");
+        }else if(type_2.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.TWO.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("অস্থির, খিটখিটে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চোখ বসে গেছে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+        }else if(type_3.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.TWO.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("অস্থির, খিটখিটে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চোখ বসে গেছে");
+        }else if(type_4.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.TWO.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চোখ বসে গেছে");
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+        }else {
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.ONE.getValue();
+            builder.append("<br>");
+            builder.append(getString(R.string.right_arrow));
+            builder.append("কিছু অথবা চরম পানি স্বল্পতার কোন চিহ্ন নেই ");
+        }
+        if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
+        if(!assessmentResultTypeId.isEmpty()){
+            assesment_result_txt.setText(assessmentResultTypeId);
+            if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.TWO.getValue())){
+                assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_yello));
+            }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.THREE.getValue())){
+                assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_red));
+            }else{
+                assesment_result_txt.setText(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.ONE.getValue());
+                assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_green));
+            }
+        }
+        if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.THREE.getValue()) ||
+                assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.TWO.getValue())){
 
+            String treatmentBuilder = "</br>" +
+                    getString(R.string.right_arrow) +
+                    " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " মাকে বলুন, হাসপাতালে যাওয়ার পথে ছোট শিশুকে বারবার খাবার স্যলাইন (ORS) খাওয়াতে।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।";
+            treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+        }
     }
     private void processSevereAssessment(){
         try {
