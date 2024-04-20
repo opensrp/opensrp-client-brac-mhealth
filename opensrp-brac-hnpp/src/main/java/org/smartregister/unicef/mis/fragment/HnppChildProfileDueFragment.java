@@ -320,7 +320,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 HnppChildProfileActivity childProfileActivity = (HnppChildProfileActivity) mActivity;
                 childProfileActivity.updateScanuFollowupMenu(false);
             }
-            updateDueView(kmcForm,TAG_SCANU_FOLLOWUP,FormApplicability.getScanuTitle(baseEntityId)) ;
+            updateDueView(HnppConstants.EVENT_TYPE.SCANU_FOLLOWUP,TAG_SCANU_FOLLOWUP,FormApplicability.getScanuTitle(baseEntityId)) ;
         }
         eventType = FormApplicability.isDueChildEccd(dob);
         if(TextUtils.isEmpty(eventType))return;
