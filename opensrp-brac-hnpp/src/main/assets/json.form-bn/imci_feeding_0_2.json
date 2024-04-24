@@ -551,7 +551,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "Body_close_mother",
         "type": "native_radio",
-        "label": "ছোট শিশু মায়ের গায়ের সাথে লেগে",
+        "label": "ছোট শিশু কি মায়ের গায়ের সাথে লেগে আছে?",
         "text_color": "#000000",
         "options": [
           {
