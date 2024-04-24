@@ -57,7 +57,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
     private boolean isStart = true;
     private ProgressBar client_list_progress;
     long startVisitDate,endVisitDate;
-    TextView assesment_result_txt, assessment_result_tv,treatment_result_tv;
+    TextView assesment_result_txt, assessment_result_tv,treatment_result_tv,treatment_label_tv;
     Button next_button;
     String jsonData;
     int requestType;
@@ -98,6 +98,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         assessment_result_tv = view.findViewById(R.id.assessment_result_tv);
         treatment_result_tv = view.findViewById(R.id.treatment_result_tv);
         client_list_progress = view.findViewById(R.id.client_list_progress);
+        treatment_label_tv = view.findViewById(R.id.treatment_label_tv);
         next_button = view.findViewById(R.id.next_button);
         view.findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,6 +289,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                     getString(R.string.right_arrow) +
                     " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।";
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+            treatment_label_tv.setVisibility(View.VISIBLE);
         }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue())){
 
             String treatmentBuilder = "</br>" +
@@ -328,6 +330,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                     " বয়স অনুপাতে ওজন কম হলে ১৪ দিন পর ফলোআপ।";
 
                     treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+                    treatment_label_tv.setVisibility(View.VISIBLE);
         }else{
             String treatmentBuilder = "</br>" +
                     getString(R.string.right_arrow) +
@@ -336,6 +339,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                     getString(R.string.right_arrow) +
                     " ছোট শিশুকে ভালো ভাবে খাওয়ানোর জন্য মায়ের প্রশংসা করুন।";
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+            treatment_label_tv.setVisibility(View.VISIBLE);
         }
     }
     private void processDiarrheaAssessment(){
@@ -419,6 +423,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                     getString(R.string.right_arrow) +
                     " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।";
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+            treatment_label_tv.setVisibility(View.VISIBLE);
         }
     }
     String assessmentResultTypeId = "";
@@ -584,6 +589,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         getString(R.string.right_arrow) +
                         " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।";
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+                treatment_label_tv.setVisibility(View.VISIBLE);
             }
             if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_SEVERE.SIX.getValue())){
                 String treatmentBuilder = "</br>" +
@@ -595,7 +601,9 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         "<br>" +
                         getString(R.string.right_arrow) +
                         "  ছোট শিশুটিকে বাড়ীতে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।" ;
+
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+                treatment_label_tv.setVisibility(View.VISIBLE);
 
             }
         } catch (Exception e) {
