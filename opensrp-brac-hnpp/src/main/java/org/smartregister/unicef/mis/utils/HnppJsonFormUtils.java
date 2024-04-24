@@ -752,6 +752,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
+    public static void addPlaceOfRefer(JSONObject place_of_referral, String text) throws JSONException {
+        JSONArray placeJsonArray = place_of_referral.getJSONArray("options");
+        for(int i= 0; i< placeJsonArray.length(); i++){
+            JSONObject object =  placeJsonArray.getJSONObject(i);
+            if(object.getString("text").equalsIgnoreCase(text)){
+                object.put("value",true);
+            }
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static void addWhereWentGo(JSONObject place_of_referral, String place){

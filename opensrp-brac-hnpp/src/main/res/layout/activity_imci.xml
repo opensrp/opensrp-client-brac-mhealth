@@ -44,7 +44,7 @@
                 android:layout_alignParentRight="true"
                 android:background="@color/transparent"
                 android:enabled="false"
-                android:text="@string/next"
+                android:text="@string/save"
                 android:textColor="@color/record_weight_grey_bg_stk"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -116,6 +116,7 @@
                 android:src="@drawable/circle_background" />
 
             <TextView
+                android:id="@+id/Diarrhoea_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -154,6 +155,7 @@
                 android:src="@drawable/circle_background" />
 
             <TextView
+                android:id="@+id/Feeding_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

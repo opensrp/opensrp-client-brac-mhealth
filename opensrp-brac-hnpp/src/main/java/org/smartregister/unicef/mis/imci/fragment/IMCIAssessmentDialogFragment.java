@@ -36,10 +36,12 @@ import org.json.JSONObject;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.mis.activity.HnppFormViewActivity;
 import org.smartregister.unicef.mis.adapter.MemberHistoryAdapter;
 import org.smartregister.unicef.mis.contract.MemberHistoryContract;
 import org.smartregister.unicef.mis.imci.Utility;
+import org.smartregister.unicef.mis.imci.activity.ImciMainActivity;
 import org.smartregister.unicef.mis.presenter.MemberHistoryPresenter;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
@@ -59,6 +61,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
     Button next_button;
     String jsonData;
     int requestType;
+    boolean isReferred = false;
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -67,7 +70,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         }
     }
 
-    public void setJsonData(int requestType,String jsonData) {
+    public void setJsonData(int requestType, String jsonData) {
         this.jsonData = jsonData;
         this.requestType = requestType;
     }
@@ -95,12 +98,30 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         assessment_result_tv = view.findViewById(R.id.assessment_result_tv);
         treatment_result_tv = view.findViewById(R.id.treatment_result_tv);
         client_list_progress = view.findViewById(R.id.client_list_progress);
+        next_button = view.findViewById(R.id.next_button);
         view.findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+        next_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+                if(getActivity() instanceof ImciMainActivity){
+                    ImciMainActivity imciMainActivity = (ImciMainActivity) getActivity();
+                    if(isReferred){
+                        imciMainActivity.openRefereal(assessmentResultTypeId);
+                    }else if(requestType == REQUEST_IMCI_SEVERE_0_2){
+                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_DIARRHEA_0_2,REQUEST_IMCI_DIARRHEA_0_2);
+                    }else if(requestType == REQUEST_IMCI_DIARRHEA_0_2){
+                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_FEEDING_0_2,REQUEST_IMCI_FEEDING_0_2);
+                    }
+                }
+            }
+        });
+        if(isReferred) next_button.setText(getString(R.string.referrel));
         isStart = false;
         return view;
     }
@@ -134,24 +155,187 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String type_1 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_1");
         String type_2 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_2");
         String type_3 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_3");
+        String sucking_effectively = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"sucking_effectively");
+        String drink_breast_milk = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"drink_breast_milk");
+        String other_food_drink = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"other_food_drink");
+        String weight_less_than_2_kg = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"weight_less_than_2_kg");
+        String weight_proportion_zscore = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"weight_proportion_zscore");
+        String Thrush = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Thrush");
+
+        String chin_touching_breast = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"chin_touching_breast");
+        String mouth_wide_open = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"mouth_wide_open");
+        String Lower_lip_turned_outward = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Lower_lip_turned_outward");
+        String areola_mouth = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"areola_mouth");
+        String Straight_head_body = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Straight_head_body");
+        String Body_close_mother = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Body_close_mother");
+        String body_fully_supported = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"body_fully_supported");
+        String Facing_breast = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Facing_breast");
         StringBuilder builder = new StringBuilder();
-        String assessmentResultTypeId = "";
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.THREE.getValue();
             builder.append("<br>");
             builder.append(getString(R.string.right_arrow));
             builder.append("বয়স ৭ দিন এবং ওজন ২ কেজি থেকে কম");
-        }else if(type_2.equalsIgnoreCase("1")){
+        }
+        else if(type_2.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue();
-            builder.append("<br>");
-            builder.append(getString(R.string.right_arrow));
-            builder.append("অস্থির, খিটখিটে");
-            builder.append("<br>");
-            builder.append(getString(R.string.right_arrow));
-            builder.append("চোখ বসে গেছে");
-            builder.append("<br>");
-            builder.append(getString(R.string.right_arrow));
-            builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+            if(!TextUtils.isEmpty(sucking_effectively) && !sucking_effectively.contains("effectively")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("ভালভাবে দুধ চুষে না ");
+            }
+            if(!TextUtils.isEmpty(drink_breast_milk) && drink_breast_milk.equalsIgnoreCase("yes")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("২৪ ঘন্টার মধ্যে বুকের দুধ ৮ বারের চেয়ে কম খায় ");
+            }
+            if(!TextUtils.isEmpty(other_food_drink) && other_food_drink.equalsIgnoreCase("yes")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("অন্য খাবার বা তরল খাবার খায়");
+            }
+            if((!TextUtils.isEmpty(weight_less_than_2_kg) && weight_less_than_2_kg.equalsIgnoreCase("yes") )||
+                    (!TextUtils.isEmpty(weight_proportion_zscore) && weight_proportion_zscore.equalsIgnoreCase("yes") )){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("বয়স অনুপাতে ওজন কম ");
+            }
+            if(!TextUtils.isEmpty(Thrush) && Thrush.equalsIgnoreCase("yes")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("থ্রাশ (মুখে ঘা অথবা সাদা ঘা) ");
+            }
+            if((!TextUtils.isEmpty(chin_touching_breast) && chin_touching_breast.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(mouth_wide_open) && mouth_wide_open.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(Lower_lip_turned_outward) && Lower_lip_turned_outward.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(areola_mouth) && areola_mouth.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(Straight_head_body) && Straight_head_body.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(Body_close_mother) && Body_close_mother.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(body_fully_supported) && body_fully_supported.equalsIgnoreCase("no") )
+                    || (!TextUtils.isEmpty(Facing_breast) && Facing_breast.equalsIgnoreCase("no") )
+            )
+            {
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("ভালো পজিশন নয় বা ভালভাবে বুকে লাগানো হয় নি");
+            }
+        }
+        else if(type_3.equalsIgnoreCase("1")){
+            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.ONE.getValue();
+            if(!TextUtils.isEmpty(sucking_effectively) && sucking_effectively.contains("effectively")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("ভালভাবে দুধ চুষে");
+            }
+            if(!TextUtils.isEmpty(drink_breast_milk) && drink_breast_milk.equalsIgnoreCase("no")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("২৪ ঘন্টার মধ্যে বুকের দুধ ৮ বারের চেয়ে বেশি খায়");
+            }
+            if(!TextUtils.isEmpty(other_food_drink) && other_food_drink.equalsIgnoreCase("no")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("অন্য খাবার বা তরল খাবার খায় না");
+            }
+            if((!TextUtils.isEmpty(weight_less_than_2_kg) && weight_less_than_2_kg.equalsIgnoreCase("no") )&&
+                    (!TextUtils.isEmpty(weight_proportion_zscore) && weight_proportion_zscore.equalsIgnoreCase("no") )){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("বয়স অনুপাতে ওজন কম নয়");
+            }
+            if(!TextUtils.isEmpty(Thrush) && Thrush.equalsIgnoreCase("no")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("থ্রাশ (মুখে ঘা অথবা সাদা ঘা) নেই");
+            }
+            if(((!TextUtils.isEmpty(chin_touching_breast) && chin_touching_breast.equalsIgnoreCase("yes") )
+                    && (!TextUtils.isEmpty(mouth_wide_open) && mouth_wide_open.equalsIgnoreCase("yes") )
+                    && (!TextUtils.isEmpty(Lower_lip_turned_outward) && Lower_lip_turned_outward.equalsIgnoreCase("yes") )
+                    && (!TextUtils.isEmpty(areola_mouth) && areola_mouth.equalsIgnoreCase("yes") ))
+                    || ((!TextUtils.isEmpty(Straight_head_body) && Straight_head_body.equalsIgnoreCase("yes") )
+                    && (!TextUtils.isEmpty(Body_close_mother) && Body_close_mother.equalsIgnoreCase("yes") )
+                    && (!TextUtils.isEmpty(body_fully_supported) && body_fully_supported.equalsIgnoreCase("yes") )
+                    && (!TextUtils.isEmpty(Facing_breast) && Facing_breast.equalsIgnoreCase("yes") ))
+            )
+            {
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("ভালো পজিশন বা ভালভাবে বুকে লাগানো হয়েছে");
+            }
+        }
+
+        if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
+        if(!assessmentResultTypeId.isEmpty()){
+            assesment_result_txt.setText(assessmentResultTypeId);
+            if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue())){
+                assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_yello));
+            }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.THREE.getValue())){
+                assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_red));
+            }else{
+                assesment_result_txt.setText(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.ONE.getValue());
+                assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_green));
+            }
+        }
+        if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.THREE.getValue())){
+
+            String treatmentBuilder = "</br>" +
+                    getString(R.string.right_arrow) +
+                    " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " ক্যাংগারু মাদার কেয়ারের জন্য হাসপাতালে প্রেরন করুন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।";
+            treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+        }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue())){
+
+            String treatmentBuilder = "</br>" +
+                    getString(R.string.right_arrow) +
+                    " যদি ভালভাবে বুকে লাগানো না হয় অথবা ভালভাবে দুধ না চুষে, তাহলে মাকে ভাল পজিশন এবং ভাল ভাবে বুকে লাগানো সম্পর্কে শিখিয়ে দিন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " যদি ভালভাবে বুকে লাগাতে না পারে তবে বুকের দুধ কি ভাবে চেপে বের করে বাচ্চাকে খাওয়াতে হয় সে সম্পর্কে শিখিয়ে দিন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " ২৪ ঘন্টার মধ্যে বুকের দুধ ৮ বারের চেয়ে কম খাওয়ানো হলে, আরো বেশী বার খাওয়ানোর পরামর্শ দিন। দিনে ও রাতে ছোট শিশুটিকে যতবার এবং যতক্ষণ খেতে চায়, ততবার খাওয়াতে মা-কে পরামর্শ দিন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " যদি অন্য কোন খাবার বা তরল খাবার খায় তবে মাকে পরামর্শ দিন ঐ সব খাবারের পরিমান কমিয়ে মা যেন বার বার বুকের দুধ খাওয়ান এবং কাপ দিয়ে খাওয়ান।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " যদি বুকের দুধ একেবারেই না খায় - বুকের দুধ খাওয়ানো সম্ভব হলে পুনরায় বুকের দুধ চালুর পরামর্শ গ্রহণের জন্য হাসপাতালে রেফার করুন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " যদি বুকের দুধ একেবারেই না খায় - কি ভাবে বুকের দুধের পরিপূরক খাবার তৈরী করতে হয় সে ব্যাপারে মাকে পরামর্শ দিন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " কম জন্ম ওজনের ছোট শিশুকে কিভাবে খাওয়াতে হবে এবং শরীর গরম রাখতে হবে সে সম্পর্কে মাকে উপদেশ দিন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " থ্রাশ হয়ে থাকলে, বাড়ীতে থ্রাশের চিকিৎসা ব্যবস্থা মাকে বুঝিয়ে দিন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " ছোট শিশুটিকে বাড়ীতে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " খাওয়ানোর সমস্যা বা থ্রাশ দেখা দিলে দুই দিনের মধ্যেই ফলোআপ-এর জন্য আসুন।"+
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " বয়স অনুপাতে ওজন কম হলে ১৪ দিন পর ফলোআপ।";
+
+                    treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+        }else{
+            String treatmentBuilder = "</br>" +
+                    getString(R.string.right_arrow) +
+                    " ছোট শিশুটিকে বাড়ীতে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।" +
+                    "<br>" +
+                    getString(R.string.right_arrow) +
+                    " ছোট শিশুকে ভালো ভাবে খাওয়ানোর জন্য মায়ের প্রশংসা করুন।";
+            treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
         }
     }
     private void processDiarrheaAssessment(){
@@ -163,7 +347,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String type_4 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_4");
         String type_5 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_5");
         StringBuilder builder = new StringBuilder();
-        String assessmentResultTypeId = "";
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.THREE.getValue();
             builder.append("<br>");
@@ -238,6 +421,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
         }
     }
+    String assessmentResultTypeId = "";
     private void processSevereAssessment(){
         try {
             Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
@@ -262,9 +446,11 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             String umbilicusRed = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Umbilicus_red");
             String skinPustules = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"skin_pustules");
             StringBuilder builder = new StringBuilder();
-            String assessmentResultTypeId = "";
+
             if(!TextUtils.isEmpty(unconsciousValue) && unconsciousValue.equalsIgnoreCase("yes")){
                 assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.TWO.getValue();
+                next_button.setText(getString(R.string.referrel));
+                isReferred = true;
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("অচেতন/ঝিমুনি ");

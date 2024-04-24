@@ -209,7 +209,7 @@
         "text_color": "#3797ca",
         "text_size": "17px",
         "label_text_style": "bold",
-        "text": " লক্ষ করুন  "
+        "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  "
       },
 
       {
@@ -854,7 +854,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cal_assessment_type_1",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "type:1>>",
         "edit_type": "number",
         "read_only": true,
@@ -871,7 +871,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cal_assessment_type_2",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "type:2>>",
         "edit_type": "number",
         "read_only": true,
@@ -888,7 +888,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cal_assessment_type_3",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "type:3>>",
         "edit_type": "number",
         "read_only": true,

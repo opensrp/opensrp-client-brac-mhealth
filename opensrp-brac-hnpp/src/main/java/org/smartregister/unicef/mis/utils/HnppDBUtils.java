@@ -1288,7 +1288,23 @@ public class HnppDBUtils {
         }
         return birthWeight;
     }
-
+    public static String getDob(String baseEntityId){
+        String query = "select dob from ec_child where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String birthWeight="";
+        try {
+            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                birthWeight = cursor.getString(0);
+            }
+            if(cursor!=null)cursor.close();
+            return birthWeight;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return birthWeight;
+    }
     public static void populatePNCChildDetails(String baseEntityId, JSONObject jsonForm){
         String query = "select " +
                 "ec_child.first_name," +

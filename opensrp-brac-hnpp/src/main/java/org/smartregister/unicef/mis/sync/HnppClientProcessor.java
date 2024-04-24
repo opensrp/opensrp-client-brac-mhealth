@@ -181,6 +181,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
             case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
             case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
+            case HnppConstants.EVENT_TYPE.IMCI_CHILD_REFERRAL:
             case HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4:
@@ -210,6 +211,9 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
             case CoreConstants.EventType.REMOVE_MEMBER:
             case CoreConstants.EventType.REMOVE_CHILD:
+            case HnppConstants.EVENT_TYPE.IMCI_SEVERE_0_2:
+            case HnppConstants.EVENT_TYPE.IMCI_DIARRHEA_0_2:
+            case HnppConstants.EVENT_TYPE.IMCI_FEEDING_0_2:
                 if (eventClient.getEvent() == null) {
                     return;
                 }

@@ -238,6 +238,15 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return visit_ids;
     }
+    public ArrayList<Visit> getVisitByBaseEntityId(String baseEntityId, String eventType){
+        SQLiteDatabase database = getWritableDatabase();
+
+        String selection = BASE_ENTITY_ID+" = ?"+COLLATE_NOCASE+" and "+VISIT_TYPE+" = ? ";
+        String[] selectionArgs = new String[]{baseEntityId, eventType};
+        net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, VISIT_DATE + " DESC", null);
+        ArrayList<Visit> homeVisits = getVisits(cursor);
+        return homeVisits;
+    }
     public ArrayList<Visit> getVisitByVisitId(String visitId){
         SQLiteDatabase database = getWritableDatabase();
 

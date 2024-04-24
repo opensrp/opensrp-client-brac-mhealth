@@ -83,6 +83,7 @@ import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.unicef.mis.utils.ReferralData;
+import org.smartregister.unicef.mis.utils.RiskyModel;
 import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
@@ -180,7 +181,35 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         TextView message = dialog.findViewById(R.id.text_tv);
         titleTv.setText("যে কারনে ঝুঁকিপূর্ণ :");
-        message.setText("শিশুটির ওজন মারাত্মক কম: "+weight+" গ্রাম");
+        if(!TextUtils.isEmpty(weight) && Integer.parseInt(weight)<2000){
+            message.setText("শিশুটির ওজন মারাত্মক কম: "+weight+" গ্রাম");
+        }
+        ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(childBaseEntityId);
+        StringBuilder builder = new StringBuilder();
+        for (RiskyModel riskyModel:riskyModels) {
+            String[] fs= riskyModel.riskyKey.split(",");
+            if(fs.length>0){
+                for (String key:fs) {
+                    Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
+                    builder.append(HnppConstants.getRiskeyFactorMapping().get(key)==null?key:HnppConstants.getRiskeyFactorMapping().get(key));
+                    builder.append(":");
+                    builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue));
+                    builder.append("\n");
+                }
+            }else{
+                Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
+                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey));
+                builder.append(":");
+                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue));
+                builder.append("\n");
+            }
+
+        }
+        if(!TextUtils.isEmpty(builder.toString())){
+            message.append("\n");
+            message.append(builder.toString());
+        }
+
         Button ok_btn = dialog.findViewById(R.id.ok_btn);
         ok_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,7 +261,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         }else{
             findViewById(R.id.child_followup).setVisibility(View.GONE);
         }
-        if(!TextUtils.isEmpty(isRisk) && isRisk.equalsIgnoreCase("1")){
+        if(!TextUtils.isEmpty(isRisk) && (isRisk.equalsIgnoreCase("1") || isRisk.equalsIgnoreCase("true"))){
             findViewById(R.id.is_risk).setVisibility(View.VISIBLE);
         }
         aefiVaccine = Utils.getValue(commonPersonObject.getColumnmaps(), HnppConstants.KEY.AEFI_VACCINE, false);
@@ -684,7 +713,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
     }
     public void openIMCIActivity(){
-        ImciMainActivity.startIMCIActivity(this,childBaseEntityId,ImciMainActivity.REQUEST_IMCI_ACTIVITY);
+        String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
+        Date date = Utils.dobStringToDate(DOB);
+        String dobFormate = HnppConstants.DDMMYY.format(date);
+        ImciMainActivity.startIMCIActivity(this,childBaseEntityId,dobFormate,ImciMainActivity.REQUEST_IMCI_ACTIVITY);
     }
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
@@ -1019,6 +1051,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
             }
 
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == ImciMainActivity.REQUEST_IMCI_ACTIVITY){
+            fetchProfileData();
         }
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_AEFI_CHILD){
             AtomicInteger isSave = new AtomicInteger(2);

@@ -1760,6 +1760,7 @@ public class HnppConstants extends CoreConstants {
         public static final String  MEMBER_REFERRAL_PA = "hnpp_member_referral_pa";
         public static final String  WOMEN_REFERRAL = "hnpp_women_referral";
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
+        public static final String  IMCI_CHILD_REFERRAL = "imci_child_referral";
         public static final String  ELCO = "elco_register";
         public static final String  PNC_FORM = "pnc_home_visit";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
@@ -1826,7 +1827,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
         public static final String CHILD_REFERRAL = "Child Referral";
-
+        public static final String IMCI_CHILD_REFERRAL = "IMCI Child Referral";
 //        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
 //        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
         public static final String ANC_HOME_VISIT= "ANC Home Visit";
@@ -2228,6 +2229,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,R.drawable.rowavatar_child)
             .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,R.drawable.rowavatar_child)
+            .put(EVENT_TYPE.IMCI_CHILD_REFERRAL,R.drawable.imci_logo)
             .put(EVENT_TYPE.IMCI_SEVERE_0_2,R.drawable.imci_logo)
             .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,R.drawable.imci_logo)
             .put(EVENT_TYPE.IMCI_FEEDING_0_2,R.drawable.imci_logo)
@@ -2311,8 +2313,9 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_18))
                 .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
                 .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
+                .put(EVENT_TYPE.IMCI_CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
                 .put(EVENT_TYPE.IMCI_SEVERE_0_2,HnppApplication.appContext.getString(R.string.imci_severe_0_2))
-                .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
+                .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_diarrhea_0_2))
                 .put(EVENT_TYPE.IMCI_FEEDING_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
                 .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
                 .put(EVENT_TYPE.CHILD_INFO_25_MONTHS,HnppApplication.appContext.getString(R.string.child_info))
@@ -2410,6 +2413,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_18))
                 .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
                 .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
+                .put(EVENT_TYPE.IMCI_CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
                 .put(EVENT_TYPE.IMCI_SEVERE_0_2,HnppApplication.appContext.getString(R.string.imci_severe_0_2))
                 .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_diarrhea_0_2))
                 .put(EVENT_TYPE.IMCI_FEEDING_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
@@ -2511,6 +2515,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_ECCD_18_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_18))
             .put(EVENT_TYPE.CHILD_ECCD_24_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_24))
             .put(EVENT_TYPE.CHILD_ECCD_36_MONTH,HnppApplication.appContext.getString(R.string.child_eccd_36))
+            .put(EVENT_TYPE.IMCI_CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
             .put(EVENT_TYPE.IMCI_SEVERE_0_2,HnppApplication.appContext.getString(R.string.imci_severe_0_2))
             .put(EVENT_TYPE.IMCI_DIARRHEA_0_2,HnppApplication.appContext.getString(R.string.imci_diarrhea_0_2))
             .put(EVENT_TYPE.IMCI_FEEDING_0_2,HnppApplication.appContext.getString(R.string.imci_feeding_0_2))
@@ -2558,6 +2563,12 @@ public class HnppConstants extends CoreConstants {
                 .put("ultra_sound_result",HnppApplication.appContext.getString(R.string.ultra_sounf_scan))
                 .put("body_temp_fahrenheit",HnppApplication.appContext.getString(R.string.body_temp))
                 .put("Denger_Signs_During_PNC",HnppApplication.appContext.getString(R.string.denger_sign_pnc))
+                .put("cause_of_refer","রেফারেল এর কারণ")
+                .put("vsd_ci","সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগসঙ্কটাপন্ন অসুস্থতা (VSD-CI)")
+                .put("vsd_psbi","সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI)")
+                .put("neomonia","সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য)")
+                .put("fast_neomonia","খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য)")
+                .put("diseases_caused_by_streptococci","স্থানীয় ব্যাকটেরিয়াল সংক্রমণ")
                 .build();
         return riskeyFactorMapping;
     }

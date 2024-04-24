@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toLeftOf="@+id/next_button"
-                    android:gravity="center|left"
+                    android:gravity="center"
                     android:padding="10dp"
                     android:text=""
                     android:textStyle="bold"
@@ -99,18 +99,22 @@
         android:layout_marginBottom="10dp"
         android:src="@drawable/ic_arrow_back_white_24dp"
         android:tint="@color/hnpp_accent" />
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/login_button_bg"
-            android:layout_margin ="10dp"
-            android:text="@string/next"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/login_button_bg"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
         <ProgressBar
             android:id="@+id/client_list_progress"
             style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse"

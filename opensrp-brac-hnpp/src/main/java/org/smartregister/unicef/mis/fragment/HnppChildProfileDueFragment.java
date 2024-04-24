@@ -366,7 +366,11 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
         childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         Log.v("EVENT_TYPE","eventType>>"+eventType);
-        fImg.setImageResource(iconMapping.get(eventType));
+       try{
+           fImg.setImageResource(iconMapping.get(eventType));
+       }catch (Exception e){
+           e.printStackTrace();
+       }
         fName.setText(title);
         childInfo2View.setTag(tag);
         childInfo2View.setOnClickListener(this);
