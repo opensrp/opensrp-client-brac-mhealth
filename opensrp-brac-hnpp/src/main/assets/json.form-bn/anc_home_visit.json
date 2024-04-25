@@ -323,10 +323,6 @@
         "v_max": {
           "value": "400",
           "err": "400 এর কম হওয়া উচিত"
-        },
-        "v_min": {
-          "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
         }
       },
       {
@@ -357,10 +353,6 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
-        },
-        "v_min": {
-          "value": "1",
-          "err": "1 এর বেশি হওয়া উচিত"
         },
         "v_max": {
           "value": "400",

@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "Child ECCD Followup 10-12 months",
+    "title": "১০-১৫ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ",
     "fields": [
 
       {
@@ -233,13 +233,14 @@
           }
         }
       },
+
       {
-        "key": "pick_small_objects",
+        "key": "rattle_himself_to_hear",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "pick_small_objects",
+        "openmrs_entity_id": "rattle_himself_to_hear",
         "type": "spinner",
-        "hint": "আপনার শিশু কি আঙুল এবং বুড়ো আঙুল দিয়ে ছোট জিনিস তুলতে পারে?",
+        "hint": "আপনার শিশু কোন কিছু (আসবাবপত্র) ধরে হাটে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -254,10 +255,10 @@
         }
       },
       {
-        "key": "cal_pick_small_objects",
+        "key": "cal_rattle_himself_to_hear",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "cal_pick_small_objects",
+        "openmrs_entity_id": "cal_rattle_himself_to_hear",
         "type": "hidden",
         "edit_type": "number",
         "read_only": true,
@@ -269,6 +270,7 @@
           }
         }
       },
+
       {
         "key": "stretch_hands_picked_up",
         "openmrs_entity_parent": "",
@@ -342,12 +344,12 @@
         }
       },
       {
-        "key": "rattle_himself_to_hear",
+        "key": "pick_small_objects",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "rattle_himself_to_hear",
+        "openmrs_entity_id": "pick_small_objects",
         "type": "spinner",
-        "hint": "আপনার শিশু কি শব্দ শোনার ইচ্ছায় নিজেই ঝুনঝুনি বাজানোর চেষ্টা করে?",
+        "hint": "আপনার শিশু কি আঙুল দিয়ে ছোট জিনিস তুলতে পারে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -362,10 +364,10 @@
         }
       },
       {
-        "key": "cal_rattle_himself_to_hear",
+        "key": "cal_pick_small_objects",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "cal_rattle_himself_to_hear",
+        "openmrs_entity_id": "cal_pick_small_objects",
         "type": "hidden",
         "edit_type": "number",
         "read_only": true,
@@ -383,7 +385,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "half_hidden_toys",
         "type": "spinner",
-        "hint": "আপনার শিশু কি কোন খেলনা অর্ধেকটা লুকিয়ে রাখলে সেটা খোঁজে?",
+        "hint": "আপনার শিশু কি তাই-তাই বা টা-টা দিতে পারে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -419,7 +421,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "hide_and_seek",
         "type": "spinner",
-        "hint": "আপনার শিশু কি উকি-টুক্কার (আচঁলে বা হাতে মুখ ঢেকে/লুকিয়ে খেলা) এর মতো সামাজিক খেলা খেলে?",
+        "hint": "আপনার শিশু কি লুকোচুরি (আচঁলে বা হাতে মুখ ঢেকে/লুকিয়ে খেলা) এর মতো সামাজিক খেলা খেলে?",
         "values": [
           "হ্যাঁ",
           "না"

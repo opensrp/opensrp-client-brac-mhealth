@@ -628,10 +628,10 @@
     <string name="child_eccd_2_3">২-৩ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_eccd_4_6">৪-৬ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_eccd_7_9">৭-৯ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_10_12">১০-১২ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_18">১৮ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_24">২৪ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_36">৩৬ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_10_12">১০-১৫ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_18">১৬-১৮ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_24">১৯-২৪ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_36">২৫-৩৬ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_info">শিশু তথ্য</string>
     <string name="pnc_child_reg">প্রসবের ফলাফল-শিশু</string>
     <string name="child_reg_update">শিশু নিবন্ধন আপডেট</string>

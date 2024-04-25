@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "Child ECCD Followup 18 months",
+    "title": "১৬-১৮ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ",
     "fields": [
 
       {
@@ -347,7 +347,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "respond_gestures_seems",
         "type": "spinner",
-        "hint": "আপনার শিশু কি আপনার ইশারায় সাড়া দেয় বা শুধু নিজের মতো থাকে না?",
+        "hint": "আপনার শিশু কি আপনার ইশারায় সাড়া দেয়?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -383,7 +383,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "use_both_hands",
         "type": "spinner",
-        "hint": "আপনার শিশু কি দৈনন্দিন কাজের জন্য উভয় হাত ব্যবহার করে (কোন কিছু করার ক্ষেত্রে শুধুমাত্র যেকোনো এক হাত ব্যবহার করে না)? ",
+        "hint": "আপনার শিশু কি দৈনন্দিন কাজের জন্য উভয়/দুই হাতই ব্যবহার করে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -419,7 +419,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "sound_mama_dada",
         "type": "spinner",
-        "hint": "আপনার শিশু কি একটি শব্দ যেমন \"মামা\" বা \"দাদা\" বলতে পারে?",
+        "hint": "আপনার শিশু কি একটি অর্থবোধক শব্দ যেমন \"মা\" বা \"দাও\" বা \"পানি\" বলতে পারে?",
         "values": [
           "হ্যাঁ",
           "না"
