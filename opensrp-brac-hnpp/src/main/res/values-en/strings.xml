@@ -578,10 +578,10 @@
     <string name="child_eccd_2_3">Child ECCD Followup(2–3 Month)</string>
     <string name="child_eccd_4_6">Child ECCD Followup(4–6 Month)</string>
     <string name="child_eccd_7_9">Child ECCD Followup(7–9 Month)</string>
-    <string name="child_eccd_10_12">Child ECCD Followup(10–12 Month)</string>
-    <string name="child_eccd_18">Child ECCD Followup(18 Month)</string>
-    <string name="child_eccd_24">Child ECCD Followup(24 Month)</string>
-    <string name="child_eccd_36">Child ECCD Followup(36 Month)</string>
+    <string name="child_eccd_10_12">Child ECCD Followup(10–15 Month)</string>
+    <string name="child_eccd_18">Child ECCD Followup(16–18 Month)</string>
+    <string name="child_eccd_24">Child ECCD Followup(19–24 Month)</string>
+    <string name="child_eccd_36">Child ECCD Followup(25–36 Month)</string>
     <string name="pnc_child_reg">Delivery Results-Child</string>
     <string name="child_reg_update">Child Registration Update</string>
     <string name="house_reg_update">House Registration Update</string>

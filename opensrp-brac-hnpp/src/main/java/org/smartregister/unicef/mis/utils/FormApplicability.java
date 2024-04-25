@@ -59,27 +59,23 @@ public class FormApplicability {
             return null;
         }
         int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
-        Log.v("isDueChildEccd","isDueChildEccd>>>day:"+day);
 
-        if(day >= 60 && day <= 90){
+        double month = Math.ceil( (day/30.417));
+        Log.v("isDueChildEccd","isDueChildEccd>>>day:"+day+":month:"+month);
+        if(month >= 2 && month <= 3){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH;
-        }else if(day >= 91 && day <= 180){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH;
-        }else if(day >= 181 && day <= 270){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;
-        }else if(day >= 271 && day <= 360){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
-        } else if(day >= 361 && day <= 540){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
-        }else if(day >= 541 && day <= 720 ){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
-        }else if(day >= 1080){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;
-        }else if(day >= 720){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;
-        }
-        else if(day >= 540){
-            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;
+        }else if(month >= 4 && month <= 6){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH;//4-6
+        }else if(month >= 7 && month <= 9){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;//7-9
+        }else if(month >= 10 && month <= 12){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;//10-15 month
+        } else if(month >= 16 && month <= 18){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;//16-18
+        }else if(month >= 19 && month <= 24 ){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_24_MONTH;//19-24
+        }else if(month >= 25 && month <= 36){
+            return HnppConstants.EVENT_TYPE.CHILD_ECCD_36_MONTH;//25-36
         }
 
         return "";
