@@ -264,6 +264,7 @@
     <string name="which_vaccines_given_text">Which vaccines were given?</string>
     <string name="add_date_separately">+ Add date for each vaccine</string>
     <string name="label_immunization_records">Immunization &amp; Vitamin Service</string>
+    <string name="td_immunization_records">TD Immunization &amp; Vitamin Service</string>
     <string name="return_to_children_profile">Child info</string>
     <string name="immunization">Immunization</string>
     <string name="gmp">Growth Monitoring</string>

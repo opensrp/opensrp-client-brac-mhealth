@@ -237,7 +237,7 @@ public class FormApplicability {
         return "";
     }
     public static boolean isWomenImmunizationApplicable(CommonPersonObjectClient commonPersonObject){
-        if(getGender(commonPersonObject).trim().equalsIgnoreCase("F") && getAge(commonPersonObject)>=15){
+        if(getGender(commonPersonObject).trim().equalsIgnoreCase("F") && getAge(commonPersonObject)>=10){
             return true;
         }
         return false;

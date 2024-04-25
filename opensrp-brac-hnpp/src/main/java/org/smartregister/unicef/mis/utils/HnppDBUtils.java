@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -539,6 +540,7 @@ public class HnppDBUtils {
     }
 
 
+    @SuppressLint("Range")
     public static GuestMemberData getGuestMemberById(String baseEntityId){
         String query = "Select * FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
         GuestMemberData guestMemberData = null;
@@ -1827,5 +1829,40 @@ public class HnppDBUtils {
         String lmp = "SELECT session_info_received FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
         return valus.get(0).get("session_info_received");
+    }
+
+    public static OtherVaccineContentData getMemberInfo(String baseEntityId) {
+            String query = "select first_name,last_name,dob,birth_id,phone_number,mother_name_english,father_name_english,gender,unique_id,member_name_bengla,mother_name_bangla,father_name_bangla from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+            Cursor cursor = null;
+            try {
+                cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    OtherVaccineContentData memberInfo = new OtherVaccineContentData();
+                    memberInfo.firstName = cursor.getString(0);
+                    memberInfo.lastName = cursor.getString(1);
+                    memberInfo.dob = cursor.getString(2);
+                    memberInfo.brn = cursor.getString(3);
+                    memberInfo.mobile = cursor.getString(4);
+                    memberInfo.mothernameEn = cursor.getString(5);
+                    memberInfo.fatherNameEn = cursor.getString(6);
+                    memberInfo.gender = cursor.getString(7);
+                    memberInfo.vaccine_name = "HPV";
+                    if(TextUtils.isEmpty(memberInfo.brn)){
+                        memberInfo.brn = cursor.getString(8);
+                    }
+                    memberInfo.firstNameBN = cursor.getString(9);
+                    memberInfo.motherName = cursor.getString(10);
+                    memberInfo.fatherName = cursor.getString(11);
+                    return memberInfo;
+                }
+            } catch (Exception e) {
+                Timber.e(e);
+            } finally {
+                if (cursor != null)
+                    cursor.close();
+            }
+            return null;
+
     }
 }
