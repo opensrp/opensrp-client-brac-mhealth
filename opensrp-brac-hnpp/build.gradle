@@ -127,7 +127,7 @@ android {
 
         training{
             versionCode 18
-            versionName "1.2.1_training"
+            versionName "1.2.3_training"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -152,8 +152,8 @@ android {
 
         }
         production{
-            versionCode 21
-            versionName "1.1.5"
+            versionCode 22
+            versionName "1.1.6"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'

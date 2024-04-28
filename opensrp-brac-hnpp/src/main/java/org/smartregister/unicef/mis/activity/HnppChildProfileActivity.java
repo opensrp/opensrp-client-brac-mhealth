@@ -271,14 +271,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     @Override
     public void setProfileName(String fullName) {
         patientName = fullName;
-        textViewParentName.setText(fullName);
+        textViewChildName.setText(fullName);
     }
 
-    @Override
-    public void setParentName(String parentName) {
-
-        textViewGender.append(","+parentName);
-    }
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {

@@ -261,6 +261,7 @@
     <string name="which_vaccines_given_text">কোন টিকা দেওয়া হয়েছিল?</string>
     <string name="add_date_separately">+ প্রতিটি ভ্যাকসিনের জন্য তারিখ যুক্ত করুন</string>
     <string name="label_immunization_records">টিকাদান &amp; ভিটামিন সার্ভিস</string>
+    <string name="td_immunization_records">টিডি টিকাদান &amp; ভিটামিন সার্ভিস</string>
     <string name="return_to_children_profile">শিশু ইনফো</string>
     <string name="immunization">টিকাদান</string>
     <string name="gmp">গ্রোথ মনিটরিং</string>
@@ -590,10 +591,10 @@
     <string name="child_eccd_2_3">২-৩ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_eccd_4_6">৪-৬ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_eccd_7_9">৭-৯ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_10_12">১০-১২ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_18">১৮ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_24">২৪ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
-    <string name="child_eccd_36">৩৬ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_10_12">১০-১৫ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_18">১৬-১৮ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_24">১৯-২৪ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
+    <string name="child_eccd_36">২৫-৩৬ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="imci_severe_0_2">ছোট শিশুর (০-২ মাস) মারাত্মক রোগ নিরূপণ</string>
     <string name="imci_diarrhea_0_2">ছোট শিশুর (০-২ মাস) ডায়রিয়া রোগ নিরূপণ</string>
     <string name="imci_feeding_0_2">ছোট শিশুর (০-২ মাস) খাওয়ানোর সমস্যা নিরূপণ</string>

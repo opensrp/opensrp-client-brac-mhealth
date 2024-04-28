@@ -296,7 +296,7 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
     @Override
     public void setGender(String gender) {
         this.gender = gender;
-        textViewGender.setText(gender+""+textViewParentName.getText().toString());
+        textViewGender.setText(gender+","+textViewParentName.getText());
         updateTopBar();
     }
     protected void updateTopBar() {
@@ -311,7 +311,7 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
     public void setId(String id) {
         //if(!StringUtils.isEmpty(id)&&id.length()>=MEMBER_ID_SUFFIX)
 //        textViewId.setText("ID:"+id.substring(id.length() - MEMBER_ID_SUFFIX));
-        textViewId.setText("ID:"+id);
+        textViewId.setText(id);
 
     }
     @Override
