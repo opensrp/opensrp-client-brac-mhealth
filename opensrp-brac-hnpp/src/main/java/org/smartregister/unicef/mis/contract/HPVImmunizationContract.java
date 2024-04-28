@@ -30,6 +30,7 @@ public interface HPVImmunizationContract {
         void enrolSuccessfully(String message);
         void enrolFail(String message);
         void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData);
+        void onUpdateFromOnline();
     }
     interface Interactor{
         void fetchCenterList(String baseEntityId, HPVImmunizationContract.InteractorCallBack callBack);

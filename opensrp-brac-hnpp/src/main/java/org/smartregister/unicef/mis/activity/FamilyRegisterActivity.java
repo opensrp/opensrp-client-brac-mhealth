@@ -174,6 +174,29 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
             if(HnppConstants.isNeedToAutoSync()){
                 Log.v("AUTO_SYNC","isNeedToAutoSync>>>>>>>>>>>>>>>>");
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+                HnppConstants.postOtherVaccineData()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<String>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {}
+
+                            @Override
+                            public void onNext(String s) {
+                                Log.v("OTHER_VACCINE","onNext>>s:"+s);
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.v("OTHER_VACCINE",""+e);
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.v("OTHER_VACCINE","completed");
+                            }
+                        });
             }
         }catch (Exception e){
             e.printStackTrace();

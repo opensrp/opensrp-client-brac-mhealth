@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.interactor;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -112,10 +113,34 @@ public class HPVImmunizationInteractor implements HPVImmunizationContract.Intera
                 JSONObject jsonObject = getOtherVaccineInfo(memberInfo.brn,memberInfo.dob);
                 if(jsonObject!=null){
                     OtherVaccineContentData otherVaccineContentData1 = new Gson().fromJson(jsonObject.toString(), OtherVaccineContentData.class);
+                    if(!TextUtils.isEmpty(otherVaccineContentData1.vaccineDate)){
+                        //update offline
+                        HnppApplication.getOtherVaccineRepository().addOrUpdateVaccineDate(otherVaccineContentData1);
+                    }
                     appExecutors.mainThread().execute(() -> callBack.onUpdateOtherVaccine(otherVaccineContentData1));
 
                 }else{
                     appExecutors.mainThread().execute(() -> callBack.onUpdateOtherVaccine(null));
+
+                }
+            }
+
+
+        };
+        appExecutors.diskIO().execute(runnable);
+    }
+    public void fetchDataFromOffline(String baseEntityData, HPVImmunizationContract.InteractorCallBack callBack){
+        Runnable runnable = () -> {
+            OtherVaccineContentData memberInfo = HnppDBUtils.getMemberInfo(baseEntityData);
+            if(memberInfo == null){
+                appExecutors.mainThread().execute(() -> callBack.onUpdateOtherVaccine(null));
+            }else{
+
+                OtherVaccineContentData otherVaccineContentData1 = HnppApplication.getOtherVaccineRepository().getVaccineDate(memberInfo.brn,memberInfo.dob);
+                if(otherVaccineContentData1!=null){
+                    appExecutors.mainThread().execute(() -> callBack.onUpdateOtherVaccine(otherVaccineContentData1));
+                }else{
+                    appExecutors.mainThread().execute(callBack::onUpdateFromOnline);
 
                 }
             }

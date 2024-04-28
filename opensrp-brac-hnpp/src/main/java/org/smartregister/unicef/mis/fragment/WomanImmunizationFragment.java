@@ -183,7 +183,12 @@ public class WomanImmunizationFragment extends BaseProfileFragment implements HP
         hpvEnrollmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enrollment();
+                if(HnppConstants.isConnectedToInternet(getActivity())){
+                    enrollment();
+                }else{
+                    Toast.makeText(getActivity(),getString(R.string.no_internet_connectivity),Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         hpvVaccineGivenBtn.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +220,9 @@ public class WomanImmunizationFragment extends BaseProfileFragment implements HP
     HPVImmunizationInteractor interactor;
     private void updateHPVPanel(){
         interactor = new HPVImmunizationInteractor();
-        interactor.fetchOtherVaccineData(childDetails.entityId(), this);
+        interactor.fetchDataFromOffline(childDetails.entityId(), this);
+
+
     }
     @Override
     public void onUpdateList(ArrayList<HPVLocation> list) {
@@ -257,6 +264,15 @@ public class WomanImmunizationFragment extends BaseProfileFragment implements HP
 
         }
 
+    }
+
+    @Override
+    public void onUpdateFromOnline() {
+        if(HnppConstants.isConnectedToInternet(getActivity())){
+            interactor.fetchOtherVaccineData(childDetails.entityId(), this);
+        }else{
+            Toast.makeText(getActivity(),getString(R.string.no_internet_connectivity),Toast.LENGTH_LONG).show();
+        }
     }
 
     HPVLocation selectedHpvLocation = null;
@@ -329,13 +345,12 @@ public class WomanImmunizationFragment extends BaseProfileFragment implements HP
         if(content==null) return;
         String date = HnppConstants.YYMMDD.format(System.currentTimeMillis());
         content.date = date;
-        content.dob = content.dob.substring(0,content.dob.indexOf("T"));
         String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
         StringBuilder builder = new StringBuilder();
         String name = content.firstName;//+" "+content.lastName;
         builder.append(this.getString(R.string.name,name)+"\n");
-        builder.append(this.getString(R.string.father_name,content.fatherNameEn)+"\n");
-        builder.append(this.getString(R.string.mother_name,content.mothernameEn)+"\n");
+        builder.append(this.getString(R.string.father_name,content.fatherNameEn==null?"":content.fatherNameEn)+"\n");
+        builder.append(this.getString(R.string.mother_name,content.mothernameEn==null?"":content.mothernameEn)+"\n");
         builder.append(this.getString(R.string.dob, content.dob)+"\n");
         builder.append(this.getString(R.string.bid,content.brn));
         if(TextUtils.isEmpty(content.brn)){

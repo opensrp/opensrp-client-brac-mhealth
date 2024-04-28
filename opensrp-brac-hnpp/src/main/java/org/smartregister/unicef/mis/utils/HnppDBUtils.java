@@ -1843,6 +1843,7 @@ public class HnppDBUtils {
                     memberInfo.lastName = cursor.getString(1);
                     memberInfo.dob = cursor.getString(2);
                     memberInfo.brn = cursor.getString(3);
+                    memberInfo.dob = memberInfo.dob.substring(0,memberInfo.dob.indexOf("T"));
                     memberInfo.mobile = cursor.getString(4);
                     memberInfo.mothernameEn = cursor.getString(5);
                     memberInfo.fatherNameEn = cursor.getString(6);

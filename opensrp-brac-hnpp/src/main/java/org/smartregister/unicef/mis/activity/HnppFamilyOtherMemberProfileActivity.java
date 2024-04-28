@@ -458,7 +458,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         super.setProfileDetailThree(detailThree);
         if(!TextUtils.isEmpty(detailThree)) {
             //detailThree = detailThree.substring(detailThree.length() - MEMBER_ID_SUFFIX);
-            textViewDetails3.setText("ID: " + detailThree);
+            textViewDetails3.setText(detailThree);
         }
         if(!TextUtils.isEmpty(shrId)){
             textViewDetails3.setText("ID: " + shrId);

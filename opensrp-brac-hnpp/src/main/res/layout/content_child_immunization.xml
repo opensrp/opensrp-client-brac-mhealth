@@ -20,7 +20,7 @@
         android:padding="5dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="horizontal" >
         <Button
             android:id="@+id/hpvEnrollBtn"
