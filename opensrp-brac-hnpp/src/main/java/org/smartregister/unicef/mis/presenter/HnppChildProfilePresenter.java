@@ -69,8 +69,8 @@ public class HnppChildProfilePresenter implements CoreChildProfileContract.Prese
         String motherName = Utils.getValue(client.getColumnmaps(), HnppConstants.KEY.CHILD_MOTHER_NAME, true);
 
         motherName = HnppDBUtils.getMotherName(motherEntityId,relationId,motherName);
-        String parentName = view.get().getContext().getResources().getString(org.smartregister.chw.core.R.string.care_giver_initials,motherName);
-        getView().setParentName(parentName);
+        String motherNameTxt = view.get().getContext().getResources().getString(org.smartregister.chw.core.R.string.care_giver_initials,motherName);
+        getView().setMotherName(motherNameTxt);
         String firstName = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true);
         String lastName = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.LAST_NAME, true);
         String middleName = org.smartregister.family.util.Utils.getValue(client.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, true);

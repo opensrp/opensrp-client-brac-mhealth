@@ -214,12 +214,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
 
     }
-    @Override
-    public void setProfileName(String fullName) {
-        patientName = fullName;
-        textViewChildName.setText(fullName);
-    }
-
 
     @Override
     public void startFormActivity(JSONObject jsonForm) {
@@ -264,12 +258,6 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             this.startActivity(intent);
         }
     }
-
-    @Override
-    public void setAge(String age) {
-        textViewChildName.setText(age);
-    }
-
     @Override
     public void onClick(View view) {
         super.onClick(view);

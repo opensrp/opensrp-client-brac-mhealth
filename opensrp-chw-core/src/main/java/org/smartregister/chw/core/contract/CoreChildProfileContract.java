@@ -34,7 +34,7 @@ public interface CoreChildProfileContract {
 
         void setProfileImage(String baseEntityId);
 
-        void setParentName(String parentName);
+        void setMotherName(String parentName);
 
         void setGender(String gender);
 
