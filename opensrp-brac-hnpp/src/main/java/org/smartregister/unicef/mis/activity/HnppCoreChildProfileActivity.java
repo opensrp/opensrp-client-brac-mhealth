@@ -59,21 +59,21 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
     public Handler handler = new Handler();
 
     public RelativeLayout layoutFamilyHasRow;
-    protected TextView textViewParentName, textViewLastVisit, textViewMedicalHistory;
+    protected TextView textViewChildName, textViewLastVisit, textViewMedicalHistory;
     protected CircleImageView imageViewProfile;
     protected View recordVisitPanel;
     protected MemberObject memberObject;
     private boolean appBarTitleIsShown = true;
     private int appBarLayoutScrollRange = -1;
     protected TextView textViewTitle,textViewId;
-    protected TextView textViewChildName, textViewGender, textViewAddress, textViewRecord, textViewVisitNot, tvEdit;
+    protected TextView textViewChildAge, textViewGender, textViewAddress, textViewRecord, textViewVisitNot, tvEdit;
     private RelativeLayout layoutNotRecordView, layoutLastVisitRow, layoutMostDueOverdue;
     private RelativeLayout layoutRecordButtonDone;
     private LinearLayout layoutRecordView;
     private View viewLastVisitRow, viewMostDueRow, viewFamilyRow;
     private TextView textViewNotVisitMonth, textViewUndo, textViewNameDue, textViewFamilyHas;
     private ImageView imageViewCross;
-    protected String gender;
+    protected String gender,motherName;
     public static void startMe(Activity activity, String houseHoldId, boolean isComesFromFamily, MemberObject memberObject, Class<?> cls) {
         Intent intent = new Intent(activity, cls);
         intent.putExtra(HnppConstants.KEY.HOUSE_HOLD_ID,houseHoldId);
@@ -142,8 +142,8 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
     }
     @Override
     protected void setupViews() {
-        textViewParentName = findViewById(org.smartregister.chw.core.R.id.textview_parent_name);
-        textViewChildName = findViewById(org.smartregister.chw.core.R.id.textview_name_age);
+        textViewChildName = findViewById(org.smartregister.chw.core.R.id.textview_parent_name);
+        textViewChildAge = findViewById(org.smartregister.chw.core.R.id.textview_name_age);
         textViewGender = findViewById(org.smartregister.chw.core.R.id.textview_gender);
         textViewAddress = findViewById(org.smartregister.chw.core.R.id.textview_address);
         textViewId = findViewById(org.smartregister.chw.core.R.id.textview_id);
@@ -288,15 +288,15 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
     }
 
     @Override
-    public void setParentName(String parentName) {
-        textViewParentName.setText(parentName);
+    public void setMotherName(String motherName) {
+        this.motherName  = motherName;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void setGender(String gender) {
         this.gender = gender;
-        textViewGender.setText(gender+","+textViewParentName.getText());
+        textViewGender.setText(gender+","+motherName);
         updateTopBar();
     }
     protected void updateTopBar() {
@@ -328,7 +328,7 @@ public class HnppCoreChildProfileActivity extends BaseProfileActivity implements
 
     @Override
     public void setAge(String age) {
-        textViewChildName.append(", " + age);
+        textViewChildAge.setText(age);
     }
 
     @Override
