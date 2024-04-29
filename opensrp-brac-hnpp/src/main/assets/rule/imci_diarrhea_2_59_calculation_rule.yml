@@ -1,0 +1,29 @@
+---
+name: step1_cal_assessment_type_1
+description: 'মারাত্মক দীর্ঘ মেয়াদী ডায়রিয়া'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = step1_14_days_more.contains('yes') ?1:0"
+---
+name: step1_cal_assessment_type_2
+description: 'চরম পানি স্বল্পতা'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_child_lethargic.contains('yes') && (step1_sunken_eyes.contains('yes') || step1_Pinch_the_skin.contains('very_slowly'))
+  )?1:0"
+---
+name: step1_cal_assessment_type_3
+description: 'কিছু পানি স্বল্পতা'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_restless_and_irritable.contains('yes') && step1_drinking_eagerly.contains('yes'))?1:0"
+---
+name: step1_cal_assessment_type_4
+description: 'পানি স্বল্পতা নাই'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_look_wheezing.contains('no') || step1_has_cough_breathing.contains('no'))?1:0"

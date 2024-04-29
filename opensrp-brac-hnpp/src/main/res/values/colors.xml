@@ -21,4 +21,5 @@
     <color name="imci_red">#FFBCA7</color>
     <color name="imci_yello">#FFFF00</color>
     <color name="imci_green">#92D050</color>
+    <color name="black">#000000</color>
 </resources>

@@ -1,0 +1,378 @@
+{
+  "count": "1",
+  "encounter_type": "IMCI PNEUMONIA 2 to 59",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "নিউমোনিয়া",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IMCI PNEUMONIA 2 to 59",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "imci_pneumonia_2_59"
+      },
+
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " জিজ্ঞাসা করুন "
+      },
+      {
+        "key": "has_cough_breathing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "has_cough_breathing",
+        "type": "native_radio",
+        "label": "শিশুর কি কাশি অথবা শ্বাসকষ্ট আছে?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "cough_how_long",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cough_how_long",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "হ্যাঁ হলে, কত দিন ধরে? ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  ",
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "number_of_times_taking_breathe",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "number_of_times_taking_breathe",
+        "type": "native_radio",
+        "label": "এক মিনিটে কতবার শ্বাস-প্রশ্বাস গুনুন",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "above_50",
+            "text": "প্রতি মিনিটে ৫০ বা তার উর্দ্ধে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "above_50"
+          },
+          {
+            "key": "above_40",
+            "text": "প্রতি মিনিটে ৪০ বা তার উর্দ্ধে",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "above_40"
+          },
+          {
+            "key": "bellow_40",
+            "text": "প্রতি মিনিটে ৪০ এর কম",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "bellow_40"
+          }
+        ],
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "Look_chest_indrawing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Look_chest_indrawing",
+        "type": "native_radio",
+        "label": "বুকের নীচের অংশ ভিতরে ডেবে যায় কিনা\nলক্ষ্য করুন়",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "look_stidor",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "look_stidor",
+        "type": "native_radio",
+        "label": "স্ট্রাইডর আছে কি না লক্ষ্য করুন এবং শুনুন",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "look_wheezing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "look_wheezing",
+        "type": "native_radio",
+        "label": "হুইজিং আছে কি না লক্ষ্য করুন এবং শুনুন",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "oxygen_saturation_level",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "oxygen_saturation_level",
+        "type": "native_radio",
+        "label": "পালস অক্সিমিটারের সাহায্যে রক্তে অক্সিজেনের স্যাচুরেশন পরিমাপ করুন এবং দেখুন ৯২% এর কম কিনা?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step3:has_cough_breathing": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_1",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_pneumonia_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_pneumonia_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_pneumonia_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_4",
+        "type": "hidden",
+        "hint": "type:4>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_pneumonia_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
