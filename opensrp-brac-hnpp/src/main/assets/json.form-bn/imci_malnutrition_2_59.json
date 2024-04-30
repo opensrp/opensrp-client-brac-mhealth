@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "IMCI DIARRHEA 2 to 59",
+  "encounter_type": "IMCI MALNUTRITION 2 to 59",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -54,10 +54,10 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "IMCI DIARRHEA 2 to 59",
+        "openmrs_entity_id": "IMCI MALNUTRITION 2 to 59",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "imci_diarrhea_2_59"
+        "value": "imci_malnutrition_2_59"
       },
 
       {
@@ -71,20 +71,20 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "key": "label_ask",
+        "key": "label_look",
         "type": "label",
         "text_color": "#3797ca",
         "text_size": "17px",
         "label_text_style": "bold",
-        "text": " জিজ্ঞাসা করুন "
+        "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  "
       },
       {
-        "key": "have_diarrhea",
+        "key": "oedema_both_feet",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "have_diarrhea",
+        "openmrs_entity_id": "oedema_both_feet",
         "type": "native_radio",
-        "label": "শিশুর কি ডায়রিয়া আছে?",
+        "label": "উভয় পা ফুলেছে কিনা",
         "text_color": "#000000",
         "options": [
           {
@@ -100,143 +100,87 @@
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:have_fever": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "Measure_WFH",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Measure_WFH",
+        "type": "native_radio",
+        "label": "WFH (Z স্কোর) পরিমাপ করুন",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "less_minus_3",
+            "text": "-৩ Z এর কম",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "less_minus_3"
+          },
+          {
+            "key": "minus_2_3",
+            "text": "-২ থেকে -৩ Z",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "minus_2_3"
+          },
+          {
+            "key": "minus_2_grater",
+            "text": "-২ Z এর বেশি",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "minus_2_grater"
           }
         ]
       },
       {
-        "key": "14_days_more",
+        "key": "Measure_MUAC",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "14_days_more",
+        "openmrs_entity_id": "Measure_MUAC",
         "type": "native_radio",
-        "label": "হ্যাঁ হলে ১৪ দিন বা তার বেশি কিনা?",
+        "label": "মুয়াক পরিমাপ করুন (মিলিমিটার)",
         "text_color": "#000000",
         "options": [
           {
-            "key": "yes",
-            "text": "হ্যাঁ",
+            "key": "less_115_ml",
+            "text": "১১৫ মিলিমিটার এর কম",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
+            "openmrs_entity_id": "less_115_ml"
           },
           {
-            "key": "no",
-            "text": "না",
+            "key": "between_115_125",
+            "text": "১১৫ - ১২৫ থেকে মিলিমিটার এর মধ্যে",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "blood_stool",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "blood_stool",
-        "type": "native_radio",
-        "label": "মলে রক্ত আছে কি না ?",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
+            "openmrs_entity_id": "between_115_125"
           },
           {
-            "key": "no",
-            "text": "না",
+            "key": "grater_125_cm",
+            "text": "১২৫ সেন্টিমিটার বা তার বেশি",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": "no"
+            "openmrs_entity_id": "grater_125_cm"
           }
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
+        ]
       },
       {
+        "key": "any_medical_complications",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "label_look",
-        "type": "label",
-        "text_color": "#3797ca",
-        "text_size": "17px",
-        "label_text_style": "bold",
-        "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  ",
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "label_look",
-        "type": "label",
-        "text_color": "#000000",
-        "text_size": "17px",
-        "label_text_style": "bold",
-        "text": " শিশুর অবস্থা লক্ষ্য করুন",
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "child_lethargic",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "child_lethargic",
+        "openmrs_entity_id": "any_medical_complications",
         "type": "native_radio",
-        "label": "শিশু কি নেতিয়ে পড়েছে বা অজ্ঞান?",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "restless_and_irritable",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "restless_and_irritable",
-        "type": "native_radio",
-        "label": "শিশু কি অস্থির এবং খিটখিটে?",
+        "label": "স্বাস্থ্যগত কোন জটিলতা (সাধারণ বিপদ চিহ্ন/ তীব্র শ্রেণী বিভাগ/ নিউমোনিয়ার সাথে বুক ডেবে যাওয়া) আছে কিনা?",
         "text_color": "#000000",
         "options": [
           {
@@ -254,21 +198,15 @@
             "openmrs_entity_id": "no"
           }
 
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
+        ]
       },
       {
-        "key": "sunken_eyes",
+        "key": "Finish_nutrition_therapy",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "sunken_eyes",
+        "openmrs_entity_id": "Finish_nutrition_therapy",
         "type": "native_radio",
-        "label": "চোখ বসে গেছে কি না দেখুন",
+        "label": "পুষ্টি চিকিৎসা শেষ করতে পেরেছে?",
         "text_color": "#000000",
         "options": [
           {
@@ -286,38 +224,15 @@
             "openmrs_entity_id": "no"
           }
 
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
+        ]
       },
       {
+        "key": "breastfeeding_problem",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "label_look",
-        "type": "label",
-        "text_color": "#000000",
-        "text_size": "17px",
-        "label_text_style": "bold",
-        "text": " শিশুকে তরল খাবার দিয়ে দেখুন ",
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "drink_drinking_poorly",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "drink_drinking_poorly",
+        "openmrs_entity_id": "breastfeeding_problem",
         "type": "native_radio",
-        "label": "শিশু কি পান করতে পারে না বা কম পান করে?",
+        "label": "শিশুর বুকের দুধ খাওয়াতে কোন সমস্যা আছে কিনা?",
         "text_color": "#000000",
         "options": [
           {
@@ -335,85 +250,7 @@
             "openmrs_entity_id": "no"
           }
 
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "drinking_eagerly,",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "drinking_eagerly",
-        "type": "native_radio",
-        "label": "শিশু কি আগ্রহের সাথে পান করে এবং তৃর্ষ্ণাত?",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "Pinch_the_skin,",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "Pinch_the_skin",
-        "type": "native_radio",
-        "label": "পেটের চামড়া টেনে ধরে ছেড়ে দিলে স্বাভাবিক অবস্থায় ফিরে যায়:",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "normally",
-            "text": "স্বাভাবিক ভাবে",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "normally"
-          },
-          {
-            "key": "slowly",
-            "text": "ধীরে ধীরে",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "slowly"
-          },
-          {
-            "key": "very_slowly",
-            "text": "খুব ধীরে ধীরে ( ২ সেকেন্ডের বেশী সময় নেয়)",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "very_slowly"
-          }
-
-
-        ],
-        "relevance": {
-          "step1:have_diarrhea": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
+        ]
       },
       {
         "key": "cal_assessment_type_1",
@@ -427,7 +264,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_2_59_calculation_rule.yml"
+              "rules-file": "imci_fever_2_59_calculation_rule.yml"
             }
           }
         }
@@ -444,7 +281,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_2_59_calculation_rule.yml"
+              "rules-file": "imci_fever_2_59_calculation_rule.yml"
             }
           }
         }
@@ -461,7 +298,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_2_59_calculation_rule.yml"
+              "rules-file": "imci_fever_2_59_calculation_rule.yml"
             }
           }
         }
@@ -478,7 +315,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_2_59_calculation_rule.yml"
+              "rules-file": "imci_fever_2_59_calculation_rule.yml"
             }
           }
         }
@@ -495,7 +332,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_2_59_calculation_rule.yml"
+              "rules-file": "imci_fever_2_59_calculation_rule.yml"
             }
           }
         }

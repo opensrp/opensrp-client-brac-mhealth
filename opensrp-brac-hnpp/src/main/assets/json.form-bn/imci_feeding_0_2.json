@@ -194,7 +194,7 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step3:other_food_drink": {
+          "step1:other_food_drink": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }

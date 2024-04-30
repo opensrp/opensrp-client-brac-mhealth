@@ -116,7 +116,7 @@
           "err": "Enter a valid Number"
         },
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }
@@ -133,7 +133,7 @@
         "label_text_style": "bold",
         "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  ",
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }
@@ -171,7 +171,7 @@
           }
         ],
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }
@@ -203,7 +203,7 @@
 
         ],
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }
@@ -235,7 +235,7 @@
 
         ],
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }
@@ -267,7 +267,7 @@
 
         ],
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }
@@ -299,7 +299,7 @@
 
         ],
         "relevance": {
-          "step3:has_cough_breathing": {
+          "step1:has_cough_breathing": {
             "type": "string",
             "ex": "regex(., \"yes\")"
           }

@@ -4,7 +4,7 @@ description: 'মারাত্মক দীর্ঘ মেয়াদী ডা
 priority: 3
 condition: "true"
 actions:
-  - "calculation = step1_14_days_more.contains('yes') ?1:0"
+  - "calculation = (step1_14_days_more.contains('yes') && (step1_restless_and_irritable.contains('yes') && step1_drinking_eagerly.contains('yes')) ?1:0"
 ---
 name: step1_cal_assessment_type_2
 description: 'চরম পানি স্বল্পতা'
@@ -22,8 +22,20 @@ actions:
   - "calculation = (step1_restless_and_irritable.contains('yes') && step1_drinking_eagerly.contains('yes'))?1:0"
 ---
 name: step1_cal_assessment_type_4
+description: 'দীর্ঘ মেয়াদী ডায়রিয়া'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_restless_and_irritable.contains('yes') && step1_drinking_eagerly.contains('yes')
+   && (step1_Pinch_the_skin.contains('normally') && step1_drinking_eagerly.contains('no') && step1_drink_drinking_poorly.contains('no')
+         step1_sunken_eyes.contains('no') && step1_restless_and_irritable.contains('no')&& step1_child_lethargic.contains('no')
+         && step1_blood_stool.contains('no')))?1:0"
+---
+name: step1_cal_assessment_type_5
 description: 'পানি স্বল্পতা নাই'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_look_wheezing.contains('no') || step1_has_cough_breathing.contains('no'))?1:0"
+  - "calculation = (step1_Pinch_the_skin.contains('normally') && step1_drinking_eagerly.contains('no') && step1_drink_drinking_poorly.contains('no')
+   step1_sunken_eyes.contains('no') && step1_restless_and_irritable.contains('no')&& step1_child_lethargic.contains('no')
+   && step1_blood_stool.contains('no'))?1:0"
