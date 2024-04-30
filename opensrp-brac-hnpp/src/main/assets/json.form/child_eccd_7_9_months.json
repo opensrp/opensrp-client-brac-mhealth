@@ -460,7 +460,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "child_eccd_calculation_4_6.yml"
+              "rules-file": "child_eccd_calculation_7_9.yml"
             }
           }
         }
