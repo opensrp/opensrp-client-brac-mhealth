@@ -25,7 +25,6 @@ import org.smartregister.unicef.mis.model.ForumDetails;
 import org.smartregister.unicef.mis.model.TikaInfoModel;
 import org.smartregister.unicef.mis.model.VaacineInfo;
 import org.smartregister.unicef.mis.model.VisitInfo;
-import org.smartregister.unicef.mis.imci.repository.IMCIDataBaseHelper;
 import org.smartregister.unicef.mis.repository.StockRepository;
 
 import org.smartregister.commonregistry.CommonPersonObject;
@@ -1799,12 +1798,12 @@ public class HnppDBUtils {
         String mName = getMotherNameFromMemberTable(motherEntityId);
         return TextUtils.isEmpty(mName)?motherName:mName;
     }
-    public static String getQuestionsByAssessmentType(){
-        String motherQuery = "SELECT QuestionNo FROM AssessmentLogic where AssessmentTypeId = ? ";
-        List<Map<String, String>> valus = AbstractDao.readData(IMCIDataBaseHelper.getInstance(HnppApplication.getInstance()).getReadableDatabase(),motherQuery, new String[]{"1"});
-
-        return valus.get(0).get("QuestionNo");
-    }
+//    public static String getQuestionsByAssessmentType(){
+//        String motherQuery = "SELECT QuestionNo FROM AssessmentLogic where AssessmentTypeId = ? ";
+//        List<Map<String, String>> valus = AbstractDao.readData(IMCIDataBaseHelper.getInstance(HnppApplication.getInstance()).getReadableDatabase(),motherQuery, new String[]{"1"});
+//
+//        return valus.get(0).get("QuestionNo");
+//    }
     public static String getKMCStatus(String baseEntityId) {
         String motherQuery = "SELECT kmc_status FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});

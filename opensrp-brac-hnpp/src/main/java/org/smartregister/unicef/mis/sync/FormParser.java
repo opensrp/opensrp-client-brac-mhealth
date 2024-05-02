@@ -2241,6 +2241,24 @@ public class FormParser {
             case HnppConstants.EVENT_TYPE.IMCI_FEEDING_0_2:
                 form_name = HnppConstants.JSON_FORMS.IMCI_FEEDING_0_2 + ".json";
                 break;
+            case HnppConstants.EVENT_TYPE.IMCI_SEVERE_2_59:
+                form_name = HnppConstants.JSON_FORMS.IMCI_SEVERE_2_59 + ".json";
+                break;
+            case HnppConstants.EVENT_TYPE.IMCI_PNEUMONIA_2_59:
+                form_name = HnppConstants.JSON_FORMS.IMCI_PNEUMONIA_2_59 + ".json";
+                break;
+            case HnppConstants.EVENT_TYPE.IMCI_DIARRHEA_2_59:
+                form_name = HnppConstants.JSON_FORMS.IMCI_DIARRHEA_2_59 + ".json";
+                break;
+            case HnppConstants.EVENT_TYPE.IMCI_FEVER_2_59:
+                form_name = HnppConstants.JSON_FORMS.IMCI_FEVER_2_59 + ".json";
+                break;
+            case HnppConstants.EVENT_TYPE.IMCI_MALNUTRITION_2_59:
+                form_name = HnppConstants.JSON_FORMS.IMCI_MALNUTRITION_2_59 + ".json";
+                break;
+            case HnppConstants.EVENT_TYPE.IMCI_ANAEMIA_2_59:
+                form_name = HnppConstants.JSON_FORMS.IMCI_ANAEMIA_2_59 + ".json";
+                break;
             case PNC_REGISTRATION:
                 form_name = HnppConstants.JSON_FORMS.PNC_FORM+ ".json";
                 break;

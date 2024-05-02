@@ -640,6 +640,12 @@
     <string name="imci_severe_0_2">ছোট শিশুর (০-২ মাস) মারাত্মক রোগ নিরূপণ</string>
     <string name="imci_diarrhea_0_2">ছোট শিশুর (০-২ মাস) ডায়রিয়া রোগ নিরূপণ</string>
     <string name="imci_feeding_0_2">ছোট শিশুর (০-২ মাস) খাওয়ানোর সমস্যা নিরূপণ</string>
+    <string name="imci_severe_2_59">শিশুর (২-৫৯ মাস) বিপদচিহ্ন নিরূপণ </string>
+    <string name="imci_diarrhea_2_59">শিশুর (২-৫৯ মাস) ডায়রিয়া</string>
+    <string name="imci_pnemunea_2_59">শিশুর (২-৫৯ মাস) নিউমোনিয়া</string>
+    <string name="imci_fever_2_59">শিশুর (২-৫৯ মাস) জ্বর</string>
+    <string name="imci_malnutrition_2_59">শিশুর (২-৫৯ মাস) অপুষ্টি</string>
+    <string name="imci_anaemia_2_59">শিশুর (২-৫৯ মাস) রক্ত স্বল্পতা </string>
     <string name="child_eccd_10_12">১০-১৫ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_eccd_18">১৬-১৮ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>
     <string name="child_eccd_24">১৯-২৪ মাসের শিশুর বিলম্বিত বিকাশ সনাক্তকরন ফলোআপ</string>

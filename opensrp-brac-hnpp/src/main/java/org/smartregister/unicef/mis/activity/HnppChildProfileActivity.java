@@ -35,6 +35,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.growthmonitoring.domain.HeightWrapper;
@@ -84,6 +85,7 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.Utils;
 import org.smartregister.unicef.mis.utils.ReferralData;
 import org.smartregister.unicef.mis.utils.RiskyModel;
+import org.smartregister.util.DateUtil;
 import org.smartregister.util.JsonFormUtils;
 
 import java.util.ArrayList;
@@ -699,7 +701,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
         Date date = Utils.dobStringToDate(DOB);
         String dobFormate = HnppConstants.DDMMYY.format(date);
-        ImciMainActivity.startIMCIActivity(this,childBaseEntityId,dobFormate,ImciMainActivity.REQUEST_IMCI_ACTIVITY);
+        int dayPass = DateUtil.dayDifference(new LocalDate(date),new LocalDate(System.currentTimeMillis()));
+        if(dayPass>60){
+            ImciMainActivity.startIMCIActivity(this,childBaseEntityId,dobFormate,ImciMainActivity.REQUEST_IMCI_ACTIVITY,ImciMainActivity.IMCI_TYPE_2_59);
+        }else{
+            ImciMainActivity.startIMCIActivity(this,childBaseEntityId,dobFormate,ImciMainActivity.REQUEST_IMCI_ACTIVITY,ImciMainActivity.IMCI_TYPE_0_2);
+
+        }
     }
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
@@ -783,6 +791,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     private String getFamilyBaseId(){
         return ((HnppChildProfilePresenter)presenter).getFamilyID();
     }
+
+
+
     public void startAnyFormActivity(String formName, int requestCode) {
 
                 try {

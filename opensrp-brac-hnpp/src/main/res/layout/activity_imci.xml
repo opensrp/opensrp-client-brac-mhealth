@@ -26,6 +26,7 @@
                 android:tint="@color/white" />
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -33,6 +34,7 @@
                 android:layout_toRightOf="@+id/backBtn"
                 android:gravity="center"
                 android:padding="10dp"
+
                 android:text="শিশুর রোগ নিরূপণ "
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -51,119 +53,367 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <LinearLayout
-        android:id="@+id/severe_update_lay"
+        android:id="@+id/ll0_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="1dp"
-        android:background="@drawable/login_button_bg"
         android:gravity="center|left"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:weightSum="10">
-
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/severe_update_lay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
             android:gravity="center|left"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
 
-            <ImageView
-                android:id="@+id/severe_check_im"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:contentDescription="check"
-                android:src="@drawable/circle_background" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="মারাত্মক রোগ"
+                android:gravity="center|left"
+                android:orientation="horizontal">
 
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:textSize="20sp"  />
+                <ImageView
+                    android:id="@+id/severe_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="মারাত্মক রোগ"
+
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Diarrhoea_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
 
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/Diarrhoea_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/Diarrhoea_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="ডায়রিয়া"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Feeding_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
+
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/Feeding_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/Feeding_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="খাওয়ানোর সমস্যা"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/Diarrhoea_update_lay"
+        android:id="@+id/ll2_59"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="1dp"
-        android:background="@drawable/login_button_bg"
-
         android:gravity="center|left"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:weightSum="10">
-
+        android:visibility="gone"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/severe_2_59_update_lay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
             android:gravity="center|left"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
 
-            <ImageView
-                android:id="@+id/Diarrhoea_check_im"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:contentDescription="check"
-                android:src="@drawable/circle_background" />
-
-            <TextView
-                android:id="@+id/Diarrhoea_text"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="ডায়রিয়া"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:textSize="20sp"  />
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/severe_2_59_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="বিপদচিহ্ন"
+
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/Feeding_update_lay"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="1dp"
-        android:background="@drawable/login_button_bg"
-
-        android:gravity="center|left"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:weightSum="10">
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/pnumenia_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
+
             android:gravity="center|left"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
 
-            <ImageView
-                android:id="@+id/Feeding_check_im"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:contentDescription="check"
-                android:src="@drawable/circle_background" />
-
-            <TextView
-                android:id="@+id/Feeding_text"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="খাওয়ানোর সমস্যা"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:gravity="center|left"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/pnumenia_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/Feeding_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="নিউমোনিয়া"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Diarrhoea_2_59_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
+
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/Diarrhoea_2_59_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/Diarrhoea_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="পানি স্বল্পতা ও ডায়রিয়া"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fever_2_59_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
+
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/fever_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/fever_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="জ্বর"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/malnutrition_2_59_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
+
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/malnutrition_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/malnutrition_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="অপুষ্টি"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/anaemia_2_59_update_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/login_button_bg"
+
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/anaemia_check_im"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:contentDescription="check"
+                    android:src="@drawable/circle_background" />
+
+                <TextView
+                    android:id="@+id/anaemia_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="রক্ত স্বল্পতা"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"  />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

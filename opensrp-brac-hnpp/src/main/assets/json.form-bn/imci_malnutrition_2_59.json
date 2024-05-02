@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "নিউমোনিয়া",
+    "title": "রক্ত স্বল্পতা",
     "fields": [
 
       {
@@ -264,7 +264,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_fever_2_59_calculation_rule.yml"
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
             }
           }
         }
@@ -281,7 +281,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_fever_2_59_calculation_rule.yml"
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
             }
           }
         }
@@ -298,7 +298,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_fever_2_59_calculation_rule.yml"
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
             }
           }
         }
@@ -315,24 +315,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_fever_2_59_calculation_rule.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "cal_assessment_type_5",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "cal_assessment_type_5",
-        "type": "hidden",
-        "hint": "type:5>>",
-        "edit_type": "number",
-        "read_only": true,
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "imci_fever_2_59_calculation_rule.yml"
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
             }
           }
         }

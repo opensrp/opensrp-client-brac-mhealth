@@ -1,0 +1,34 @@
+---
+name: step1_cal_assessment_type_1
+description: 'জটিল মারাত্মক তীব্র অপুষ্টি'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_oedema_both_feet.contains('yes') || step1_any_medical_complications.contains('yes')
+  || step1_Finish_nutrition_therapy.contains('no')|| step1_breastfeeding_problem.contains('yes')
+  )?1:0"
+
+---
+name: step1_cal_assessment_type_2
+description: 'জটিলতাবিহীন মারাত্মক তীব্র অপুষ্টি'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_Measure_WFH.contains('less_minus_3') || step1_Measure_MUAC.contains('less_115_ml')
+  || step1_any_medical_complications.contains('no')|| step1_Finish_nutrition_therapy.contains('yes')|| step1_breastfeeding_problem.contains('no'))?1:0"
+---
+name: step1_cal_assessment_type_3
+description: 'মাঝারী তীব্র অপুষ্টি'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_Measure_WFH.contains('minus_2_3') || step1_Measure_MUAC.contains('between_115_125')
+  || step1_any_medical_complications.contains('no')|| step1_Finish_nutrition_therapy.contains('yes')|| step1_breastfeeding_problem.contains('no'))?1:0"
+---
+name: step1_cal_assessment_type_4
+description: 'তীব্র অপুষ্টি নেই'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_oedema_both_feet.contains('no') && step1_Measure_WFH.contains('minus_2_grater')
+  && step1_Measure_MUAC.contains('grater_125_cm'))?1:0"

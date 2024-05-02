@@ -1,0 +1,22 @@
+---
+name: step1_cal_assessment_type_1
+description: 'মারাত্মক রক্ত স্বল্পতা'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = step1_hand_is_faded.contains('Very_Faded') ?1:0"
+
+---
+name: step1_cal_assessment_type_2
+description: 'রক্ত স্বল্পতা'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = step1_hand_is_faded.contains('Medium_Faded') ?1:0"
+---
+name: step1_cal_assessment_type_3
+description: 'রক্ত স্বল্পতা নেই'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = step1_hand_is_faded.contains('Not_Faded') ?1:0"
