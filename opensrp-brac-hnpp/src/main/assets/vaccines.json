@@ -417,7 +417,7 @@
   {
     "name": "9 Months",
     "id": "Nine_Months",
-    "days_after_birth_due": 274,
+    "days_after_birth_due": 270,
     "vaccines": [
       {
         "name": "MR 1",
@@ -453,7 +453,7 @@
   {
     "name": "15 Months",
     "id": "Eighteen_Months",
-    "days_after_birth_due": 455,
+    "days_after_birth_due": 450,
     "vaccines": [
       {
         "name": "MR 2",
