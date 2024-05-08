@@ -1128,4 +1128,6 @@
     <string name="second_suffix">- 2nd</string>
     <string name="third_suffix">- 3rd</string>
     <string name="fourth_suffix">- 4th</string>
+    <string name="thanks">Thank You</string>
+    <string name="imci_report">Report</string>
 </resources>

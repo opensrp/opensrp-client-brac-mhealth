@@ -1,7 +1,5 @@
 package org.smartregister.unicef.mis.imci.fragment;
 
-import static org.smartregister.unicef.mis.fragment.MemberHistoryFragment.END_TIME;
-import static org.smartregister.unicef.mis.fragment.MemberHistoryFragment.START_TIME;
 import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_ANAEMIA_2_59;
 import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_DIARRHEA_0_2;
 import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_DIARRHEA_2_59;
@@ -24,7 +22,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,38 +39,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
-import org.smartregister.unicef.mis.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.mis.activity.HnppFormViewActivity;
 import org.smartregister.unicef.mis.adapter.MemberHistoryAdapter;
 import org.smartregister.unicef.mis.contract.MemberHistoryContract;
 import org.smartregister.unicef.mis.imci.Utility;
 import org.smartregister.unicef.mis.imci.activity.ImciMainActivity;
+import org.smartregister.unicef.mis.imci.adapter.IMCIReportAdapter;
 import org.smartregister.unicef.mis.imci.model.IMCIReport;
 import org.smartregister.unicef.mis.presenter.MemberHistoryPresenter;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppJsonFormUtils;
 import org.smartregister.unicef.mis.utils.MemberHistoryData;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-public class IMCIAssessmentDialogFragment extends DialogFragment implements MemberHistoryContract.View {
-    public static final String DIALOG_TAG = "MemberHistoryDialogFragment_DIALOG_TAG";
+public class IMCIAssessmentReportDialogFragment extends DialogFragment implements MemberHistoryContract.View {
+    public static final String DIALOG_TAG = "IMCIAssessmentReportDialogFragment";
     public static final String IS_GUEST_USER = "IS_GUEST_USER";
 
-    private RecyclerView assessmentResultRV,treatmentResultRV;
+    private RecyclerView assessmentResultRV;
     private String baseEntityId;
     private boolean isStart = true;
     private ProgressBar client_list_progress;
     long startVisitDate,endVisitDate;
     TextView assesment_result_txt, assessment_result_tv,treatment_result_tv,treatment_label_tv;
     Button next_button;
-    ImageView ruleImage;
     String jsonData;
     int requestType;
-    boolean isReferred = false;
-
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -81,13 +75,12 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         }
     }
 
-    public void setJsonData(int requestType, String jsonData) {
-        this.jsonData = jsonData;
-        this.requestType = requestType;
+    public void setBaseEntityId(String baseEntityId) {
+        this.baseEntityId = baseEntityId;
     }
 
-    public static IMCIAssessmentDialogFragment getInstance(Activity activity){
-        IMCIAssessmentDialogFragment memberHistoryFragment = new IMCIAssessmentDialogFragment();
+    public static IMCIAssessmentReportDialogFragment getInstance(Activity activity){
+        IMCIAssessmentReportDialogFragment memberHistoryFragment = new IMCIAssessmentReportDialogFragment();
        FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
         android.app.Fragment prev = activity.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
@@ -102,15 +95,9 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_assessment,null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_assessment_report,null);
         assessmentResultRV = view.findViewById(R.id.assessment_result_recycler_view);
-        treatmentResultRV = view.findViewById(R.id.treatment__result_recycler_view);
-        assesment_result_txt = view.findViewById(R.id.assesment_result_txt);
-        assessment_result_tv = view.findViewById(R.id.assessment_result_tv);
-        treatment_result_tv = view.findViewById(R.id.treatment_result_tv);
         client_list_progress = view.findViewById(R.id.client_list_progress);
-        treatment_label_tv = view.findViewById(R.id.treatment_label_tv);
-        ruleImage = view.findViewById(R.id.rule_image);
         next_button = view.findViewById(R.id.next_button);
         view.findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,29 +109,9 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             @Override
             public void onClick(View view) {
                 dismiss();
-                if(getActivity() instanceof ImciMainActivity){
-                    ImciMainActivity imciMainActivity = (ImciMainActivity) getActivity();
-                    if(isReferred){
-                        imciMainActivity.openRefereal(assessmentResultTypeId,requestType);
-                    }else if(requestType == REQUEST_IMCI_SEVERE_0_2){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_DIARRHEA_0_2,REQUEST_IMCI_DIARRHEA_0_2);
-                    }else if(requestType == REQUEST_IMCI_DIARRHEA_0_2){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_FEEDING_0_2,REQUEST_IMCI_FEEDING_0_2);
-                    }else if(requestType == REQUEST_IMCI_SEVERE_2_59){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_PNEUMONIA_2_59,REQUEST_IMCI_PNEUMONIA_2_59);
-                    }else if(requestType == REQUEST_IMCI_PNEUMONIA_2_59){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_DIARRHEA_2_59,REQUEST_IMCI_DIARRHEA_2_59);
-                    }else if(requestType == REQUEST_IMCI_DIARRHEA_2_59){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_FEVER_2_59,REQUEST_IMCI_FEVER_2_59);
-                    }else if(requestType == REQUEST_IMCI_FEVER_2_59){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_MALNUTRITION_2_59,REQUEST_IMCI_MALNUTRITION_2_59);
-                    }else if(requestType == REQUEST_IMCI_MALNUTRITION_2_59){
-                        imciMainActivity.startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_ANAEMIA_2_59,REQUEST_IMCI_ANAEMIA_2_59);
-                    }
-                }
             }
         });
-        if(isReferred) next_button.setText(getString(R.string.referrel));
+        next_button.setText(R.string.thanks);
         isStart = false;
         return view;
     }
@@ -152,7 +119,14 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializePresenter();
+        getAssessMentData();
+
+    }
+    private void getAssessMentData(){
+        ArrayList<IMCIReport> imciReports = HnppApplication.getImciReportRepository().getIMCIReportList(baseEntityId);
+        IMCIReportAdapter adapter = new IMCIReportAdapter(getActivity());
+        adapter.setData(imciReports);
+        assessmentResultRV.setAdapter(adapter);
     }
 
     @Override
@@ -186,23 +160,8 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 processAnemiaAssessment();
                 break;
         }
-        if(isReferred) next_button.setText(getString(R.string.referrel));
-        if(!TextUtils.isEmpty(assessmentResultTypeId)){
-            IMCIReport imciReport = new IMCIReport();
-            imciReport.setAssessmentTimeStamp(System.currentTimeMillis());
-            imciReport.setAssessmentResultType(assessmentResultTypeId);
-            imciReport.setAssessmentResult(builder.toString());
-            imciReport.setImciType(HnppConstants.getAssessmentTypeNameMapping().get(requestType));
-            if(getActivity() instanceof ImciMainActivity){
-                ImciMainActivity imciMainActivity = (ImciMainActivity)getActivity();
-                imciMainActivity.setImciReportHashMap(requestType,imciReport);
-            }
-        }
-
 //        presenter.fetchCurrentTimeLineHistoryData(baseEntityId,startVisitDate,endVisitDate);
     }
-    StringBuilder builder;
-    String assessmentResultTypeId = "";
     private void processDiarrhea2_59_Assessment(){
         Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
         JSONArray fields = (JSONArray)registrationFormParams.getRight();
@@ -221,7 +180,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String blood_stool = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"blood_stool");
         String drink_drinking_poorly = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"drink_drinking_poorly");
         String have_diarrhea = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"have_diarrhea");
-        builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.SIX.getValue();
             if(!TextUtils.isEmpty(fourteen_days_more) && fourteen_days_more.contains("yes")){
@@ -240,13 +199,11 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("নেতিয়ে পড়েছে বা অজ্ঞান");
-                isReferred = true;
             }
             if(!TextUtils.isEmpty(drink_drinking_poorly) && drink_drinking_poorly.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("পান করতে পারে না বা কম পান করে");
-                isReferred = true;
             }
             if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("yes")){
                 builder.append("<br>");
@@ -389,8 +346,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.FOUR.getValue())){
-                ruleImage.setVisibility(View.VISIBLE);
-                ruleImage.setImageResource(R.drawable.rule_kha);
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
                         "  পানি স্বল্পতার জন্য তরল খাবার, জিংক সাপ্লিমেন্টেশন ও স্বাভাবিক খাবার দিন [পদ্ধতি-খ]।" +
@@ -432,8 +387,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.ONE.getValue())){
-                ruleImage.setVisibility(View.VISIBLE);
-                ruleImage.setImageResource(R.drawable.rule_ka);
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
                         "  বাড়ীতে ডায়রিয়া চিকিৎসার জন্য তরল খাবার, জিংক সাপ্লিমেন্টেশন ও স্বাভাবিক খাবার দিন [পদ্ধতি-ক]।" +
@@ -450,9 +403,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
 
-
         }
-
     }
     private void processAnemiaAssessment(){
         Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
@@ -462,8 +413,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String type_3 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_3");
         String hand_is_faded = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"hand_is_faded");
 
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_ANEMIA.ONE.getValue();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_ANEMIA.THREE.getValue();
             if(!TextUtils.isEmpty(hand_is_faded) && hand_is_faded.contains("Very_Faded")){
@@ -545,8 +495,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String Measure_WFH = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Measure_WFH");
         String Measure_MUAC = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Measure_MUAC");
 
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_MALNUTRITION.ONE.getValue();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_MALNUTRITION.FOUR.getValue();
             if(!TextUtils.isEmpty(oedema_both_feet) && oedema_both_feet.contains("yes")){
@@ -688,8 +637,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String check_more_7_days = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"check_more_7_days");
         String fever_Bacterial = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"fever_Bacterial");
 
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.ONE.getValue();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.FIVE.getValue();
             if(!TextUtils.isEmpty(Stiff_neck) && Stiff_neck.contains("yes")){
@@ -854,21 +802,18 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String has_cough_breathing = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"has_cough_breathing");
         String look_wheezing = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"look_wheezing");
 
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.ONE.getValue();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.FOUR.getValue();
             if(!TextUtils.isEmpty(look_stidor) && look_stidor.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("শিশুর শান্ত অবস্থায় ষ্ট্রাইডর আছে");
-                isReferred = true;
             }
             if(!TextUtils.isEmpty(oxygen_saturation_level) && oxygen_saturation_level.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("অক্সিজেনের স্যাচুরেশন (SpO2) <৯২%");
-                isReferred = true;
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.THREE.getValue();
@@ -973,8 +918,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String lethargic_or_unconsciou = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"lethargic_or_unconscious");
         String convulsing_now = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"convulsing_now");
 
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DANGER_SIGN.ONE.getValue();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DANGER_SIGN.TWO.getValue();
             if(!TextUtils.isEmpty(drink_or_breastfeed) && drink_or_breastfeed.contains("no")){
@@ -996,13 +940,11 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("নেতিয়ে পড়েছে বা অজ্ঞান");
-                isReferred = true;
             }
             if(!TextUtils.isEmpty(convulsing_now) && convulsing_now.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("এখন খিঁচুনি আছে");
-                isReferred = true;
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DANGER_SIGN.ONE.getValue();
@@ -1084,8 +1026,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String Body_close_mother = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Body_close_mother");
         String body_fully_supported = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"body_fully_supported");
         String Facing_breast = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Facing_breast");
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.ONE.getValue();
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.THREE.getValue();
             builder.append("<br>");
@@ -1263,8 +1204,8 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String type_2 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_2");
         String type_3 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_3");
         String type_4 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_4");
-        builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.ONE.getValue();
+        String type_5 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_5");
+        StringBuilder builder = new StringBuilder();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.THREE.getValue();
             builder.append("<br>");
@@ -1340,10 +1281,11 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             treatment_label_tv.setVisibility(View.VISIBLE);
         }
     }
-
+    String assessmentResultTypeId = "";
     private void processSevereAssessment(){
         try {
             Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
+            JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
             JSONArray fields = (JSONArray)registrationFormParams.getRight();
             String unconsciousValue = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"unconscious");
             String convulsionValue = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"convulsion");
@@ -1363,12 +1305,11 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             String infantMoveStimulated = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"infant_move_stimulated");
             String umbilicusRed = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Umbilicus_red");
             String skinPustules = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"skin_pustules");
-            builder = new StringBuilder();
-            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.ONE.getValue();
+            StringBuilder builder = new StringBuilder();
+
             if(!TextUtils.isEmpty(unconsciousValue) && unconsciousValue.equalsIgnoreCase("yes")){
                 assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.TWO.getValue();
                 next_button.setText(getString(R.string.referrel));
-                isReferred = true;
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("অচেতন/ঝিমুনি ");

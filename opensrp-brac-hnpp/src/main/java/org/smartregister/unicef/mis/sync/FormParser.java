@@ -2191,6 +2191,7 @@ public class FormParser {
                         }
                         else if (value.contains(option.optString("key"))) {
                             option.put("value", "true");
+                            jsonObject.put(JsonFormUtils.VALUE,value);
                         }
                     }
                 }

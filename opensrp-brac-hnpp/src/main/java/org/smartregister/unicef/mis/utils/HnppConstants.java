@@ -1,5 +1,14 @@
 package org.smartregister.unicef.mis.utils;
 
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_ANAEMIA_2_59;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_DIARRHEA_0_2;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_DIARRHEA_2_59;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_FEEDING_0_2;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_FEVER_2_59;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_MALNUTRITION_2_59;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_PNEUMONIA_2_59;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_SEVERE_0_2;
+import static org.smartregister.unicef.mis.imci.activity.ImciMainActivity.REQUEST_IMCI_SEVERE_2_59;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.DISABILITY_ENABLE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.IS_URBAN;
 
@@ -2151,6 +2160,20 @@ public class HnppConstants extends CoreConstants {
                 .build();
         return vaccineNameMapping;
     }
+    public static Map<Integer,String> getAssessmentTypeNameMapping(){
+        Map<Integer,String> assessmentNameMapping = ImmutableMap.<Integer,String> builder()
+                .put(REQUEST_IMCI_SEVERE_0_2, "মারাত্মক রোগ")
+                .put(REQUEST_IMCI_DIARRHEA_0_2,"ডায়রিয়া")
+                .put(REQUEST_IMCI_FEEDING_0_2,"খাওয়ানোর সমস্যা ")
+                .put(REQUEST_IMCI_SEVERE_2_59,"বিপদচিহ্ন")
+                .put(REQUEST_IMCI_PNEUMONIA_2_59,"নিউমোনিয়া")
+                .put(REQUEST_IMCI_DIARRHEA_2_59,"পানি স্বল্পতা ও ডায়রিয়া")
+                .put(REQUEST_IMCI_FEVER_2_59,"জ্বর")
+                .put(REQUEST_IMCI_MALNUTRITION_2_59,"অপুষ্টি")
+                .put(REQUEST_IMCI_ANAEMIA_2_59,"রক্ত স্বল্পতা")
+                .build();
+        return assessmentNameMapping;
+    }
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
             .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
@@ -2611,6 +2634,17 @@ public class HnppConstants extends CoreConstants {
                 .put("neomonia","সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য)")
                 .put("fast_neomonia","খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য)")
                 .put("diseases_caused_by_streptococci","স্থানীয় ব্যাকটেরিয়াল সংক্রমণ")
+                .put("massive_pneumonia","মারাত্মক নিউমোনিয়া")
+                .put("pneumonia","নিউমোনিয়া")
+                .put("not_pneumonia","নিউমোনিয়া নাই (কাশি অথবা সর্দি)")
+                .put("massive_dehydration","চরম পানি স্বল্পতা")
+                .put("massive_long_term_diarrhea","মারাত্মক দীর্ঘ মেয়াদী ডায়রিয়া")
+                .put("few_dehydration","কিছু পানি স্বল্পতা")
+                .put("Dysentery","আমাশয়")
+                .put("no_dehydration","পানি স্বল্পতা নাই")
+                .put("long_term_diarrhea","দীর্ঘ মেয়াদী ডায়রিয়া")
+                .put("denger_sign","খুব মারাত্মক রোগ")
+                .put("no_infection","মারাত্মক রোগ অথবা স্থানীয় সংক্রমণ নেই")
                 .build();
         return riskeyFactorMapping;
     }

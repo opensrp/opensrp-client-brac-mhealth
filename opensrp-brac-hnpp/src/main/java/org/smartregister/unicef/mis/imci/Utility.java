@@ -41,4 +41,82 @@ public class Utility {
             return value;
         }
     }
+    public enum ASSESSMENT_RESULT_TYPE_DANGER_SIGN {
+        ONE("খুব মারাত্মক রোগ নেই"),
+        TWO("খুব মারাত্মক রোগ");
+        String value;
+        ASSESSMENT_RESULT_TYPE_DANGER_SIGN(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    public enum ASSESSMENT_RESULT_TYPE_PNEUMONIA {
+        ONE("স্বাভাবিক"),
+        TWO("নিউমোনিয়া নাই (কাশি অথবা সর্দি)"),
+        THREE("নিউমোনিয়া"),
+        FOUR("মারাত্মক নিউমোনিয়া");
+        String value;
+        ASSESSMENT_RESULT_TYPE_PNEUMONIA(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    public enum ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59 {
+        ONE("পানি স্বল্পতা নাই"),
+        TWO("আমাশয়"),
+        THREE("দীর্ঘ মেয়াদী ডায়রিয়া"),
+        FOUR("কিছু পানি স্বল্পতা"),
+        FIVE("চরম পানি স্বল্পতা"),
+        SIX("মারাত্মক দীর্ঘ মেয়াদী ডায়রিয়া");
+        String value;
+        ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    public enum ASSESSMENT_RESULT_TYPE_FEVER {
+        ONE("জ্বর নাই"),
+        TWO("জ্বর"),
+        THREE("জ্বর-ম্যালেরিয়া নয়"),
+        FOUR("ম্যালেরিয়া"),
+        FIVE("খুব মারাত্মক জ্বর জনিত রোগ");
+        String value;
+        ASSESSMENT_RESULT_TYPE_FEVER(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    public enum ASSESSMENT_RESULT_TYPE_MALNUTRITION {
+        ONE("তীব্র অপুষ্টি নেই"),
+        TWO("মাঝারী তীব্র অপুষ্টি"),
+        THREE("জটিলতাবিহীন মারাত্মক তীব্র অপুষ্টি"),
+        FOUR("জটিল মারাত্মক তীব্র অপুষ্টি");
+        String value;
+        ASSESSMENT_RESULT_TYPE_MALNUTRITION(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    public enum ASSESSMENT_RESULT_TYPE_ANEMIA {
+        ONE("রক্ত স্বল্পতা নেই"),
+        TWO("রক্ত স্বল্পতা"),
+        THREE("মারাত্মক রক্ত স্বল্পতা");
+        String value;
+        ASSESSMENT_RESULT_TYPE_ANEMIA(String s) {
+            this.value = s;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
 }

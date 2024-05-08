@@ -56,6 +56,8 @@ import org.smartregister.unicef.mis.fragment.ChildImmunizationFragment;
 import org.smartregister.unicef.mis.fragment.GMPFragment;
 import org.smartregister.unicef.mis.fragment.HnppChildProfileDueFragment;
 import org.smartregister.unicef.mis.imci.activity.ImciMainActivity;
+import org.smartregister.unicef.mis.imci.fragment.IMCIAssessmentDialogFragment;
+import org.smartregister.unicef.mis.imci.fragment.IMCIAssessmentReportDialogFragment;
 import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.listener.OnClickFloatingMenu;
 import org.smartregister.unicef.mis.model.ReferralFollowUpModel;
@@ -135,6 +137,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         ((HnppChildProfilePresenter) presenter()).getChildClient());
             }
         });
+        findViewById(R.id.imci_report_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IMCIAssessmentReportDialogFragment.getInstance(HnppChildProfileActivity.this).setBaseEntityId(childBaseEntityId);
+            }
+        });
         memberSurveyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,20 +197,21 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(childBaseEntityId);
         StringBuilder builder = new StringBuilder();
         for (RiskyModel riskyModel:riskyModels) {
-            String[] fs= riskyModel.riskyKey.split(",");
+            String[] fs= riskyModel.riskyValue.split(",");
             if(fs.length>0){
                 for (String key:fs) {
                     Log.v("RISK_FACTOR","key>>"+key+":value:"+riskyModel.riskyValue);
                     builder.append(HnppConstants.getRiskeyFactorMapping().get(key)==null?key:HnppConstants.getRiskeyFactorMapping().get(key));
-                    builder.append(":");
-                    builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue));
+                   // builder.append(":");
+                    //builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue));
+
                     builder.append("\n");
                 }
             }else{
                 Log.v("RISK_FACTOR","key>>"+riskyModel.riskyKey+":value:"+riskyModel.riskyValue);
                 builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey)==null?riskyModel.riskyKey:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyKey));
-                builder.append(":");
-                builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue));
+                //builder.append(":");
+                //builder.append(HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue)==null?riskyModel.riskyValue:HnppConstants.getRiskeyFactorMapping().get(riskyModel.riskyValue));
                 builder.append("\n");
             }
 

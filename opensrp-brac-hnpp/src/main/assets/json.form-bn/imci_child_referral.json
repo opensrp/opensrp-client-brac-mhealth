@@ -113,62 +113,7 @@
           "normal"
         ],
         "options":[
-          {
-            "key":"normal",
-            "text":"স্বাভাবিক",
-            "value":false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"normal"
-          },
-          {
-            "key":"vsd_ci",
-            "text":"সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগসঙ্কটাপন্ন অসুস্থতা (VSD-CI)",
-            "value":true,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"vsd_ci"
-          },
-          {
-            "key":"vsd_psbi",
-            "text":"সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI)",
-            "value":false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"vsd_psbi"
-          },
-          {
-            "key":"neomonia",
-            "text":"সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য)",
-            "value":false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"neomonia"
-          },
-          {
-            "key":"fast_neomonia",
-            "text":"খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য)",
-            "value":false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"fast_neomonia"
-          },
-          {
-            "key":"diseases_caused_by_streptococci",
-            "text":"স্থানীয় ব্যাকটেরিয়াল সংক্রমণ",
-            "value":false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"diseases_caused_by_streptococci"
-          },
-          {
-            "key":"no_infection",
-            "text":"মারাত্মক রোগ অথবা স্থানীয় সংক্রমণ নেই",
-            "value":false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id":"no_infection"
-          }
+
         ]
       },
       {

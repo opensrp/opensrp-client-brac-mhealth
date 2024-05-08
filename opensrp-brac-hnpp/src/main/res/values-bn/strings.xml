@@ -1160,4 +1160,6 @@
     <string name="second_suffix">- ২য়</string>
     <string name="third_suffix">- ৩য়</string>
     <string name="fourth_suffix">- ৪র্থ</string>
+    <string name="thanks">ধন্যবাদ</string>
+    <string name="imci_report">প্রতিবেদন</string>
 </resources>

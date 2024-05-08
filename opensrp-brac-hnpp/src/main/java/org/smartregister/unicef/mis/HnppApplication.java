@@ -38,6 +38,7 @@ import org.smartregister.unicef.mis.activity.HnppPncRegisterActivity;
 import org.smartregister.unicef.mis.activity.HnppPncRiskRegisterActivity;
 import org.smartregister.unicef.mis.activity.IYCFRegisterActivity;
 import org.smartregister.unicef.mis.activity.WomenServiceRegisterActivity;
+import org.smartregister.unicef.mis.imci.repository.IMCIReportRepository;
 import org.smartregister.unicef.mis.nativation.view.HnppNavigationTopView;
 import org.smartregister.unicef.mis.nativation.view.NavigationMenu;
 import org.smartregister.unicef.mis.listener.HnppNavigationListener;
@@ -114,6 +115,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private static IndicatorRepository indicatorRepository;
     private static NotificationRepository notificationRepository;
     private static PaymentHistoryRepository paymentHistoryRepository;
+    private static IMCIReportRepository imciReportRepository;
     private static StockRepository stockRepository;
     private static OtherVaccineRepository otherVaccineRepository;
     private static MicroPlanRepository microPlanRepository;
@@ -522,5 +524,11 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
             paymentHistoryRepository = new PaymentHistoryRepository(getInstance().getRepository());
         }
         return paymentHistoryRepository;
+    }
+    public static IMCIReportRepository getImciReportRepository() {
+        if ( imciReportRepository == null) {
+            imciReportRepository = new IMCIReportRepository(getInstance().getRepository());
+        }
+        return imciReportRepository;
     }
 }

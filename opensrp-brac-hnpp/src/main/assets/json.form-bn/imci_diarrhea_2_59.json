@@ -344,7 +344,7 @@
         }
       },
       {
-        "key": "drinking_eagerly,",
+        "key": "drinking_eagerly",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "drinking_eagerly",
@@ -488,6 +488,23 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cal_assessment_type_5",
+        "type": "hidden",
+        "hint": "type:5>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_diarrhea_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_6",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_6",
         "type": "hidden",
         "hint": "type:5>>",
         "edit_type": "number",

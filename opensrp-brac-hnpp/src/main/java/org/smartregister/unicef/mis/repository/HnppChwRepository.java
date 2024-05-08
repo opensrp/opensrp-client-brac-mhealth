@@ -34,6 +34,7 @@ import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.imci.repository.IMCIReportRepository;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 
@@ -142,6 +143,12 @@ public class HnppChwRepository extends Repository {
         }
         alterANCRegisterTable(database);
         alterChildTableKMC(database);
+        try{
+            IMCIReportRepository.createTable(database);
+        }catch (Exception e){
+
+        }
+
     }
 
     @Override
@@ -183,6 +190,13 @@ public class HnppChwRepository extends Repository {
                 case 7:
                     try{
                         alterChildTableKMC(db);
+                    }catch (Exception e){
+
+                    }
+                    break;
+                case 8:
+                    try{
+                        IMCIReportRepository.createTable(db);
                     }catch (Exception e){
 
                     }

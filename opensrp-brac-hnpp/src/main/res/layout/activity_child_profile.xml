@@ -96,13 +96,25 @@
 
                         <Button
                             android:id="@+id/update_profile_btn"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="30dp"
                             android:layout_below="@+id/imageview_profile"
                             android:background="@drawable/button_cliick"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="@string/profile_update" />
+
+                        <Button
+                            android:id="@+id/imci_report_btn"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="130dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/update_profile_btn"
+                            android:background="@drawable/green_click_button"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/imci_report"
+                            android:textColor="@color/white" />
 
                         <Button
                             android:id="@+id/child_followup_btn"

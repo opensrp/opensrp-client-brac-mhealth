@@ -86,6 +86,14 @@
                     android:layout_marginBottom ="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/rule_image"
+                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    />
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

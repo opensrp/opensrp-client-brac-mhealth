@@ -4,7 +4,7 @@ description: 'মারাত্মক দীর্ঘ মেয়াদী ডা
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_14_days_more.contains('yes') && (step1_restless_and_irritable.contains('yes') && step1_drinking_eagerly.contains('yes')) ?1:0"
+  - "calculation = (step1_14_days_more.contains('yes') && step1_restless_and_irritable.contains('yes') && step1_drinking_eagerly.contains('yes')) ?1:0"
 ---
 name: step1_cal_assessment_type_2
 description: 'চরম পানি স্বল্পতা'
@@ -32,6 +32,13 @@ actions:
          && step1_blood_stool.contains('no')))?1:0"
 ---
 name: step1_cal_assessment_type_5
+description: 'আমাশয়'
+priority: 3
+condition: "true"
+actions:
+  - "calculation = step1_blood_stool.contains('yes')?1:0"
+---
+name: step1_cal_assessment_type_6
 description: 'পানি স্বল্পতা নাই'
 priority: 3
 condition: "true"

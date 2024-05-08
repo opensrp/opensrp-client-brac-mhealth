@@ -28,6 +28,7 @@ import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.activity.HnppAncJsonFormActivity;
 import org.smartregister.unicef.mis.activity.HnppChildProfileActivity;
 import org.smartregister.unicef.mis.imci.fragment.IMCIAssessmentDialogFragment;
+import org.smartregister.unicef.mis.imci.model.IMCIReport;
 import org.smartregister.unicef.mis.presenter.HnppChildProfilePresenter;
 import org.smartregister.unicef.mis.service.HnppHomeVisitIntentService;
 import org.smartregister.unicef.mis.sync.FormParser;
@@ -62,7 +63,7 @@ public class ImciMainActivity extends SecuredActivity {
     public static final int REQUEST_IMCI_DIARRHEA_0_2 = 1235;
     public static final int REQUEST_IMCI_FEEDING_0_2 = 1236;
     public static final int REQUEST_IMCI_SEVERE_2_59 = 1237;
-    public static final int REQUEST_IMCI_PNEUMONIA_2_59 = 1237;
+    public static final int REQUEST_IMCI_PNEUMONIA_2_59 = 1242;
     public static final int REQUEST_IMCI_DIARRHEA_2_59 = 1238;
     public static final int REQUEST_IMCI_FEVER_2_59 = 1239;
     public static final int REQUEST_IMCI_MALNUTRITION_2_59 = 1240;
@@ -80,6 +81,7 @@ public class ImciMainActivity extends SecuredActivity {
     String childBaseEntityId;
     Button nextBtn;
     HashMap<Integer,String> jsonForms = new HashMap<>();
+
     String dobFormat;
     int imciType = IMCI_TYPE_0_2;
 
@@ -125,17 +127,7 @@ public class ImciMainActivity extends SecuredActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int count = 1;
-                for (Integer key : jsonForms.keySet()) {
-                     String json = jsonForms.get(key);
-                    Log.v("COUNT_JSON","count:"+count+":key:"+key);
-                    if(count==3){
-                        saveData(json,true);
-                    }else{
-                        saveData(json,false);
-                        count++;
-                    }
-                }
+               saveIMCIDataLocally(true);
             }
         });
         severeLL.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +193,39 @@ public class ImciMainActivity extends SecuredActivity {
         if(imciType == IMCI_TYPE_2_59)loadIMCIType2_59_PreviousData();
         else if(imciType == IMCI_TYPE_0_2) loadIMCIType0_2_PreviousData();
     }
+    HashMap<Integer, IMCIReport> imciReportHashMap = new HashMap<>();
+
+    public void setImciReportHashMap(int requestCode, IMCIReport report) {
+        this.imciReportHashMap.put(requestCode,report);
+    }
+
+    private void saveIMCIDataLocally(boolean isNeedToShowDialog) {
+        int count = 1;
+        for (Integer key : jsonForms.keySet()) {
+            String json = jsonForms.get(key);
+            Log.v("COUNT_JSON","count:"+count+":key:"+key);
+            if(imciType == IMCI_TYPE_0_2 && count==3){
+                saveData(json,isNeedToShowDialog);
+            }else if(imciType == IMCI_TYPE_2_59 && count==5){
+                saveData(json,isNeedToShowDialog);
+            }
+            else{
+                saveData(json,false);
+                count++;
+            }
+        }
+        if(imciReportHashMap!=null && imciReportHashMap.size()>0){
+            for (Integer key : imciReportHashMap.keySet()) {
+                IMCIReport imciReport = imciReportHashMap.get(key);
+                if(imciReport!=null){
+                    imciReport.setBaseEntityId(childBaseEntityId);
+                    HnppApplication.getImciReportRepository().addOrUpdate(imciReport);
+                }
+
+            }
+        }
+    }
+
     private void loadIMCIType0_2_PreviousData(){
         //disableTextColor();
         List<Visit> v = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitByBaseEntityId(childBaseEntityId, HnppConstants.EVENT_TYPE.IMCI_SEVERE_0_2);
@@ -273,8 +298,10 @@ public class ImciMainActivity extends SecuredActivity {
         }
     }
     String assessmentTypeId;
-    public void openRefereal(String assesmentTypeId) {
+    int requestTypeReferral;
+    public void openRefereal(String assesmentTypeId, int requestTypeReferral) {
         this.assessmentTypeId = assesmentTypeId;
+        this.requestTypeReferral = requestTypeReferral;
         startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_CHILD_REFERRAL,REQUEST_HOME_VISIT);
     }
     int requestCode;
@@ -285,6 +312,10 @@ public class ImciMainActivity extends SecuredActivity {
             this.requestCode = requestCode;
             if(requestCode == REQUEST_IMCI_FEEDING_0_2){
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormat);
+            }
+            if(requestCode == REQUEST_HOME_VISIT){
+                HnppJsonFormUtils.addCauseOfReferAssessment(jsonForm,assessmentTypeId,getReferralCause(),getEnglishKeys());
+
             }
             if(jsonForms.get(requestCode)!=null && !jsonForms.get(requestCode).isEmpty()){
                 formStr = jsonForms.get(requestCode);
@@ -322,6 +353,34 @@ public class ImciMainActivity extends SecuredActivity {
 
     }
 
+    private String getEnglishKeys() {
+        switch (requestTypeReferral){
+            case REQUEST_IMCI_SEVERE_0_2:
+                return "VSD-CI,VSD-PSBI,neomonia,fast_neomonia,diseases_caused_by_streptococci,no_infection";
+            case REQUEST_IMCI_SEVERE_2_59:
+                return "denger_sign";
+                case REQUEST_IMCI_DIARRHEA_2_59:
+                return "massive_dehydration,massive_long_term_diarrhea,few_dehydration,Dysentery,no_dehydration,long_term_diarrhea";
+            case REQUEST_IMCI_PNEUMONIA_2_59:
+                return "massive_pneumonia,pneumonia,not_pneumonia";
+        }
+        return "";
+    }
+
+    private String getReferralCause() {
+        switch (requestTypeReferral){
+            case REQUEST_IMCI_SEVERE_0_2:
+                return "সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগসঙ্কটাপন্ন অসুস্থতা (VSD-CI),সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI),সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য),খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য),স্থানীয় ব্যাকটেরিয়াল সংক্রমণ,মারাত্মক রোগ অথবা স্থানীয় সংক্রমণ নেই";
+            case REQUEST_IMCI_SEVERE_2_59:
+                return "খুব মারাত্মক রোগ";
+            case REQUEST_IMCI_DIARRHEA_2_59:
+                return "চরম পানি স্বল্পতা,মারাত্মক দীর্ঘ মেয়াদী ডায়রিয়া,কিছু পানি স্বল্পতা,আমাশয়,পানি স্বল্পতা নাই,দীর্ঘ মেয়াদী ডায়রিয়া";
+            case REQUEST_IMCI_PNEUMONIA_2_59:
+                return "মারাত্মক নিউমোনিয়া,নিউমোনিয়া,নিউমোনিয়া নাই (কাশি অথবা সর্দি)";
+
+        }
+        return "";
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(TextUtils.isEmpty(childBaseEntityId)){
@@ -332,14 +391,16 @@ public class ImciMainActivity extends SecuredActivity {
 
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             saveData(jsonString,true);
-            saveData(jsonForms.get(REQUEST_IMCI_SEVERE_0_2),false);
+            saveIMCIDataLocally(false);
 
         }
         if(resultCode == Activity.RESULT_OK && requestCode != REQUEST_HOME_VISIT){
             updateUI(requestCode);
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             jsonForms.put(requestCode,jsonString);
-            IMCIAssessmentDialogFragment.getInstance(this).setJsonData(requestCode,jsonString);
+            IMCIAssessmentDialogFragment imciAssessmentDialogFragment = IMCIAssessmentDialogFragment.getInstance(this);
+
+            imciAssessmentDialogFragment.setJsonData(requestCode,jsonString);
         }
     }
     boolean isProcessing = false;
@@ -440,6 +501,30 @@ public class ImciMainActivity extends SecuredActivity {
             case REQUEST_IMCI_FEEDING_0_2:
                 feedingCheckIm.setImageResource(R.drawable.success);
                 feedingCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_SEVERE_2_59:
+                dangerSignCheckIm.setImageResource(R.drawable.success);
+                dangerSignCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_DIARRHEA_2_59:
+                diarrhea2_59CheckIm.setImageResource(R.drawable.success);
+                diarrhea2_59CheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_PNEUMONIA_2_59:
+                pnumoniaCheckIm.setImageResource(R.drawable.success);
+                pnumoniaCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_FEVER_2_59:
+                feverCheckIm.setImageResource(R.drawable.success);
+                feverCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_MALNUTRITION_2_59:
+                malNutritionCheckIm.setImageResource(R.drawable.success);
+                malNutritionCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_ANAEMIA_2_59:
+                anaemiaCheckIm.setImageResource(R.drawable.success);
+                anaemiaCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
                 break;
         }
         if(imciType == IMCI_TYPE_0_2 && jsonForms.size()>=2){

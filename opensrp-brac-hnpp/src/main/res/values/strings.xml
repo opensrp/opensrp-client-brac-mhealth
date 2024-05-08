@@ -1209,4 +1209,7 @@
 
     </string-array>
     <string name="right_arrow"><![CDATA[<b><font color=#3797ca>\u2192</font></b>]]></string>
+    <string name="thanks">ধন্যবাদ</string>
+    <string name="imci_report">প্রতিবেদন</string>
+
 </resources>

@@ -752,6 +752,23 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 e.printStackTrace();
             }
     }
+    public static void addCauseOfReferAssessment(JSONObject jsonForm, String selectedValue, String text, String englishKeys) throws JSONException {
+        JSONObject stepOne = null;
+        try {
+
+            stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            try{
+                JSONObject place_of_referral = getFieldJSONObject(jsonArray, "cause_of_refer");
+                addCauseReferForAssessment(place_of_referral,selectedValue, text,englishKeys);
+            }catch (Exception e) {
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public static void addPlaceOfRefer(JSONObject place_of_referral, String text) throws JSONException {
         JSONArray placeJsonArray = place_of_referral.getJSONArray("options");
         for(int i= 0; i< placeJsonArray.length(); i++){
@@ -762,6 +779,41 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
 
+    private static void addCauseReferForAssessment(JSONObject jsonObject, String selected, String place, String englishKeys){
+
+        try {
+            JSONArray option_array = jsonObject.getJSONArray("options");
+            String[] strs = place.split(",");
+            String[] englishKeysArr = englishKeys.split(",");
+            if(strs.length == 0){
+                JSONObject item = new JSONObject();
+                item.put("key",englishKeys);
+                item.put("text",place);
+                item.put("value",true);
+                item.put("openmrs_entity","concept");
+                item.put("openmrs_entity_id",englishKeys);
+                option_array.put(item);
+            }else{
+                for(int i =0; i<strs.length;i++){
+                    JSONObject item = new JSONObject();
+                    item.put("key",englishKeysArr[i]);
+                    item.put("text",strs[i]);
+                    if(strs[i].equalsIgnoreCase(selected)){
+                        item.put("value",true);
+                    }
+                    else{
+                        item.put("value",false);
+                    }
+                    item.put("openmrs_entity","concept");
+                    item.put("openmrs_entity_id",englishKeysArr[i]);
+                    option_array.put(item);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static void addWhereWentGo(JSONObject place_of_referral, String place){
 
@@ -796,7 +848,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
-
     public static String getSSNameFromForm(JSONObject jsonForm){
         JSONArray field = fields(jsonForm, STEP1);
         JSONObject ss_name = getFieldJSONObject(field, "ss_name");
@@ -1767,7 +1818,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         return value;
     }
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String processAEFIValueWithChoiceIdsForEdit(JSONObject jsonObject, String value) {
         try {
             //spinner
