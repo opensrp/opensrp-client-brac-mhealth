@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.imci.model.IMCIReport;
 import org.smartregister.unicef.mis.location.CampModel;
 import org.smartregister.unicef.mis.model.PaymentHistory;
@@ -20,6 +21,8 @@ import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.util.DateTimeTypeConverter;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by mahmud on 11/23/18.
@@ -116,7 +119,23 @@ public class IMCIReportRepository extends BaseRepository {
         }
         return isExist;
     }
+    public int getIMCIReportCount(String baseEntityId){
 
+        android.database.Cursor cursor = null;
+        int count=0;
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT count(*) FROM " + getLocationTableName()+" where "+BASE_ENTITY_ID+" ='"+baseEntityId+"' order by "+ASSESSMENT_TIMESTAMP+" ASC", null);
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                count = cursor.getInt(0);
+            }
+            if(cursor!=null)cursor.close();
+            return count;
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        return count;
+    }
     public ArrayList<IMCIReport> getIMCIReportList(String baseEntityId) {
         Cursor cursor = null;
         ArrayList<IMCIReport> imciReportList = new ArrayList<>();

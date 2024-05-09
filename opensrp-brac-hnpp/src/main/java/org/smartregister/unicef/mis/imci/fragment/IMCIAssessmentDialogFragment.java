@@ -516,6 +516,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                        "<br>" +
                         getString(R.string.right_arrow) +
                         " ১৪ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।" ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
@@ -952,6 +953,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।"+
+                        "<br>" +
                         getString(R.string.right_arrow) +
                         " শিশুটিকে গরম রাখুন।" +
                         "<br>" +
@@ -1053,6 +1055,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।"+
+                        "<br>" +
                         getString(R.string.right_arrow) +
                         " শিশুটিকে গরম রাখুন।" +
                         "<br>" +

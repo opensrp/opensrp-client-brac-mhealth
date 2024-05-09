@@ -266,6 +266,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 aefiImageBtn.setVisibility(View.VISIBLE);
             }
         }
+        int count = HnppApplication.getImciReportRepository().getIMCIReportCount(childBaseEntityId);
+        if(count>0){
+            findViewById(R.id.imci_report_btn).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.imci_report_btn).setVisibility(View.GONE);
+        }
         ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
         if(referralData!=null){
             findViewById(R.id.child_followup).setVisibility(View.VISIBLE);

@@ -114,6 +114,7 @@
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:text="@string/imci_report"
+                            android:visibility="gone"
                             android:textColor="@color/white" />
 
                         <Button
