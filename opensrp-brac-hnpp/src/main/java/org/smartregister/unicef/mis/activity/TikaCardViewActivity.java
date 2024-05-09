@@ -177,10 +177,10 @@ public class TikaCardViewActivity extends SecuredActivity {
         LocalDate fourTeenWeekV = tenWeekV.plusDays(28);
 //        String f = DateTimeFormat.forPattern("yyyy-MM-dd").print(fourTeenWeekV);
         //((TextView) findViewById(R.id.fourteenWeekDate)).setText(f);
-        LocalDate nineMonthV = sixweek.plusDays(274);
+        LocalDate nineMonthV = sixweek.plusDays(270);
         String n = DateTimeFormat.forPattern("yyyy-MM-dd").print(nineMonthV);
         ((TextView) findViewById(R.id.nineMonthDate)).setText(n);
-        LocalDate eighteenMonthV = sixweek.plusDays(455);
+        LocalDate eighteenMonthV = sixweek.plusDays(450);
         String e = DateTimeFormat.forPattern("yyyy-MM-dd").print(eighteenMonthV);
         ((TextView) findViewById(R.id.eighteenMonthDate)).setText(e);
     }

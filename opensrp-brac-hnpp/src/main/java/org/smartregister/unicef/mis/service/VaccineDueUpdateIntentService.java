@@ -414,7 +414,7 @@ public class VaccineDueUpdateIntentService extends IntentService {
                 }
             case "MR 1":
                 DateTime dobDate = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime(dobString);
-                LocalDate tWeekV = new LocalDate(dobDate).plusDays(274);
+                LocalDate tWeekV = new LocalDate(dobDate).plusDays(270);
                 return DateTimeFormat.forPattern("yyyy-MM-dd").print(tWeekV);
             case "MR 2":
                 Vaccine vc = ImmunizationLibrary.getInstance().vaccineRepository().getVaccineByName(baseEntityId,"mr_1");

@@ -68,7 +68,7 @@ public class FormApplicability {
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_4_6_MONTH;//4-6
         }else if(month >= 7 && month <= 9){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_7_9_MONTH;//7-9
-        }else if(month >= 10 && month <= 12){
+        }else if(month >= 10 && month <= 15){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;//10-15 month
         } else if(month >= 16 && month <= 18){
             return HnppConstants.EVENT_TYPE.CHILD_ECCD_18_MONTH;//16-18
@@ -260,7 +260,7 @@ public class FormApplicability {
         return "";
     }
     public static boolean isWomenImmunizationApplicable(CommonPersonObjectClient commonPersonObject){
-        if(getGender(commonPersonObject).trim().equalsIgnoreCase("F") && getAge(commonPersonObject)>=15){
+        if(getGender(commonPersonObject).trim().equalsIgnoreCase("F") && getAge(commonPersonObject)>=10){
             return true;
         }
         return false;

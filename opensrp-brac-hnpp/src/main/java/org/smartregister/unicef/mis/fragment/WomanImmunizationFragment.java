@@ -2,18 +2,30 @@ package org.smartregister.unicef.mis.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
@@ -43,7 +55,18 @@ import org.smartregister.immunization.util.VaccinatorUtils;
 import org.smartregister.immunization.view.ServiceGroup;
 import org.smartregister.immunization.view.VaccineGroup;
 import org.smartregister.service.AlertService;
+import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.activity.QRScannerActivity;
+import org.smartregister.unicef.mis.contract.HPVImmunizationContract;
+import org.smartregister.unicef.mis.interactor.HPVImmunizationInteractor;
+import org.smartregister.unicef.mis.location.HALocation;
+import org.smartregister.unicef.mis.location.HPVLocation;
+import org.smartregister.unicef.mis.model.GlobalLocationModel;
+import org.smartregister.unicef.mis.utils.FormApplicability;
+import org.smartregister.unicef.mis.utils.HnppConstants;
+import org.smartregister.unicef.mis.utils.HnppDBUtils;
+import org.smartregister.unicef.mis.utils.OtherVaccineContentData;
 import org.smartregister.view.fragment.BaseProfileFragment;
 
 import java.util.ArrayList;
@@ -56,7 +79,43 @@ import java.util.Map;
 import java.util.Random;
 import static org.smartregister.util.Utils.getName;
 
-public class WomanImmunizationFragment extends BaseProfileFragment {
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class WomanImmunizationFragment extends BaseProfileFragment implements HPVImmunizationContract.InteractorCallBack {
+    private CommonPersonObjectClient childDetails;
+    private static final String TAG = WomanImmunizationFragment.class.getCanonicalName();
+    private static final String DIALOG_TAG = "DIALOG_TAAAGGG";
+    private static final String EXTRA_CHILD_DETAILS = "child_details";
+
+    private ArrayList<VaccineGroup> vaccineGroups;
+    private ArrayList<ServiceGroup> serviceGroups;
+
+    private static final ArrayList<String> COMBINED_VACCINES;
+    private static final HashMap<String, String> COMBINED_VACCINES_MAP;
+
+    private static final boolean isChildActive = true;
+
+    //    ChildWomanImmunizationFragment cia;
+    LinearLayout vaccine_group_canvas_ll,service_group_canvas_ll,hpvPanel;
+    Button hpvEnrollmentBtn,hpvVaccineGivenBtn;
+    Activity mActivity;
+    TextView tdPanel;
+    CardView tdCardView;
+    static {
+        COMBINED_VACCINES = new ArrayList<>();
+        COMBINED_VACCINES_MAP = new HashMap<>();
+        COMBINED_VACCINES.add("Measles 1");
+        COMBINED_VACCINES_MAP.put("Measles 1", "Measles 1 / MR 1");
+        COMBINED_VACCINES.add("MR 1");
+        COMBINED_VACCINES_MAP.put("MR 1", "Measles 1 / MR 1");
+        COMBINED_VACCINES.add("Measles 2");
+        COMBINED_VACCINES_MAP.put("Measles 2", "Measles 2 / MR 2");
+        COMBINED_VACCINES.add("MR 2");
+        COMBINED_VACCINES_MAP.put("MR 2", "Measles 2 / MR 2");
+    }
     public void setChildDetails(CommonPersonObjectClient childDetails){
         this.childDetails = childDetails;
 
@@ -83,7 +142,6 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     protected void onCreation() {
         //Overriden
     }
-    Activity mActivity;
 
     @Override
     public void onAttach(Context context) {
@@ -108,47 +166,371 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
         startServices();
     }
 
-//    ChildWomanImmunizationFragment cia;
-    LinearLayout vaccine_group_canvas_ll,service_group_canvas_ll;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View fragmentView = inflater.inflate(R.layout.immunization_activity_main, container, false);
         fragmentView.findViewById(R.id.showTikaCardBtn).setVisibility(View.GONE);
+        tdPanel = fragmentView.findViewById(R.id.tdTxt);
+        tdCardView = fragmentView.findViewById(R.id.tdCard);
+        tdPanel.setText(getString(R.string.td_immunization_records));
         vaccine_group_canvas_ll = fragmentView.findViewById(R.id.vaccine_group_canvas_ll);
         service_group_canvas_ll = fragmentView.findViewById(R.id.service_group_canvas_ll);
 //        cia = new WomanImmunizationFragment(fragmentView,getActivity());
+        hpvEnrollmentBtn = fragmentView.findViewById(R.id.hpvEnrollBtn);
+        hpvPanel = fragmentView.findViewById(R.id.hpv_panel);
+        hpvVaccineGivenBtn = fragmentView.findViewById(R.id.hpvVaccineBtn);
+        hpvEnrollmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(HnppConstants.isConnectedToInternet(getActivity())){
+                    enrollment();
+                }else{
+                    Toast.makeText(getActivity(),getString(R.string.no_internet_connectivity),Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        hpvVaccineGivenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendHPVVaccine();
+            }
+        });
         return fragmentView;
     }
-    // Data
-//    private CommonPersonObjectClient childDetails = Utils.dummyDetatils();
-    private CommonPersonObjectClient childDetails;
-    private static final String TAG = WomanImmunizationFragment.class.getCanonicalName();
-    private static final String DIALOG_TAG = "DIALOG_TAAAGGG";
-    private static final String EXTRA_CHILD_DETAILS = "child_details";
 
-    private ArrayList<VaccineGroup> vaccineGroups;
-    private ArrayList<ServiceGroup> serviceGroups;
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int age = FormApplicability.getAge(childDetails);
+        Log.v(TAG,"onViewCreated>>>age:"+age);
+        if(age>=10 && age <=15){
+            updateHPVPanel();
+            tdPanel.setVisibility(View.GONE);
+            tdCardView.setVisibility(View.GONE);
+        }
+        if(age>=15){
+            tdPanel.setVisibility(View.VISIBLE);
+            tdCardView.setVisibility(View.VISIBLE);
+        }
 
-    private static final ArrayList<String> COMBINED_VACCINES;
-    private static final HashMap<String, String> COMBINED_VACCINES_MAP;
+    }
+    ArrayList<HPVLocation> centerList = new ArrayList<>();
+    HPVImmunizationInteractor interactor;
+    private void updateHPVPanel(){
+        interactor = new HPVImmunizationInteractor();
+        interactor.fetchDataFromOffline(childDetails.entityId(), this);
 
-    private static final boolean isChildActive = true;
 
-    static {
-        COMBINED_VACCINES = new ArrayList<>();
-        COMBINED_VACCINES_MAP = new HashMap<>();
-        COMBINED_VACCINES.add("Measles 1");
-        COMBINED_VACCINES_MAP.put("Measles 1", "Measles 1 / MR 1");
-        COMBINED_VACCINES.add("MR 1");
-        COMBINED_VACCINES_MAP.put("MR 1", "Measles 1 / MR 1");
-        COMBINED_VACCINES.add("Measles 2");
-        COMBINED_VACCINES_MAP.put("Measles 2", "Measles 2 / MR 2");
-        COMBINED_VACCINES.add("MR 2");
-        COMBINED_VACCINES_MAP.put("MR 2", "Measles 2 / MR 2");
+    }
+    @Override
+    public void onUpdateList(ArrayList<HPVLocation> list) {
+        centerList = list;
+
     }
 
+    @Override
+    public void enrolSuccessfully(String message) {
+        hideProgressDialog();
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+        hpvEnrollmentBtn.setVisibility(View.GONE);
+        hpvVaccineGivenBtn.setVisibility(View.VISIBLE);
 
+    }
+
+    @Override
+    public void enrolFail(String message) {
+        hideProgressDialog();
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onUpdateOtherVaccine(OtherVaccineContentData otherVaccineContentData) {
+        if(otherVaccineContentData==null){
+            hpvPanel.setVisibility(View.VISIBLE);
+            hpvEnrollmentBtn.setVisibility(View.VISIBLE);
+            hpvVaccineGivenBtn.setVisibility(View.GONE);
+            interactor.fetchCenterList(childDetails.entityId(),this);
+        }else{
+            hpvPanel.setVisibility(View.VISIBLE);
+            hpvEnrollmentBtn.setVisibility(View.GONE);
+            hpvVaccineGivenBtn.setVisibility(View.VISIBLE);
+            if(otherVaccineContentData.vaccineDate!=null){
+                hpvVaccineGivenBtn.setText("✓ HPV given date:"+otherVaccineContentData.vaccineDate);
+                hpvVaccineGivenBtn.setEnabled(false);
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onUpdateFromOnline() {
+        if(HnppConstants.isConnectedToInternet(getActivity())){
+            interactor.fetchOtherVaccineData(childDetails.entityId(), this);
+        }else{
+            Toast.makeText(getActivity(),getString(R.string.no_internet_connectivity),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    HPVLocation selectedHpvLocation = null;
+    private void enrollment(){
+        String blockId =  HnppDBUtils.getBlocksIdFromMember(childDetails.entityId());
+        HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
+        StringBuilder builder = new StringBuilder();
+        if(selectedLocation!=null){
+            builder.append(this.getString(R.string.division)+" : "+selectedLocation.division.name+"("+selectedLocation.division.code+")");
+            builder.append("\n");
+            builder.append(this.getString(R.string.district)+" : "+selectedLocation.district.name+"("+selectedLocation.district.code+")");
+            builder.append("\n");
+            builder.append(this.getString(R.string.upazila)+" : "+selectedLocation.upazila.name+"("+selectedLocation.upazila.code+")");
+            builder.append("\n");
+            builder.append(this.getString(R.string.paurosova)+" : "+selectedLocation.paurasava.name+"("+selectedLocation.paurasava.code+")");
+            builder.append("\n");
+            builder.append(this.getString(R.string.union_zone)+" : "+selectedLocation.union.name+"("+selectedLocation.union.code+")");
+            builder.append("\n");
+            builder.append(this.getString(R.string.old_ward)+" : "+selectedLocation.old_ward.name+"("+selectedLocation.old_ward.code+")");
+            builder.append("\n");
+            builder.append(this.getString(R.string.new_ward)+" : "+selectedLocation.ward.name+"("+selectedLocation.ward.code+")");
+            builder.append("\n");
+
+        }
+        Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_hpv_enrolment);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        Spinner centerSpinner = dialog.findViewById(R.id.block_spinner);
+        textViewTitle.setText(builder.toString());
+        ArrayAdapter<HPVLocation> centerAdapter =  new ArrayAdapter<HPVLocation>(getActivity(), android.R.layout.simple_spinner_item, centerList);
+        centerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        centerSpinner.setAdapter(centerAdapter);
+        centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position == -1) return;
+                selectedHpvLocation = centerList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                showProgressDialog("Enrollment kora hocce");
+                if(HnppConstants.isConnectedToInternet(getActivity()) && selectedHpvLocation!=null){
+                    interactor.postEnrolmentData(childDetails.entityId(),selectedHpvLocation,WomanImmunizationFragment.this);
+                }else{
+                   //
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    private void sendHPVVaccine() {
+        OtherVaccineContentData content = HnppDBUtils.getMemberInfo(childDetails.entityId());
+        if(content==null) return;
+        String date = HnppConstants.YYMMDD.format(System.currentTimeMillis());
+        content.date = date;
+        String buttonName= getString(R.string.other_vaccine_button,content.vaccine_name);
+        StringBuilder builder = new StringBuilder();
+        String name = content.firstName;//+" "+content.lastName;
+        builder.append(this.getString(R.string.name,name)+"\n");
+        builder.append(this.getString(R.string.father_name,content.fatherNameEn==null?"":content.fatherNameEn)+"\n");
+        builder.append(this.getString(R.string.mother_name,content.mothernameEn==null?"":content.mothernameEn)+"\n");
+        builder.append(this.getString(R.string.dob, content.dob)+"\n");
+        builder.append(this.getString(R.string.bid,content.brn));
+        if(TextUtils.isEmpty(content.brn)){
+            Toast.makeText(getActivity(),"BRN not found",Toast.LENGTH_LONG).show();
+            return;
+        }
+        Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_qrscan);
+        TextView textViewTitle = dialog.findViewById(R.id.text_tv);
+        TextView titleTxt = dialog.findViewById(R.id.title_tv);
+        titleTxt.setText(buttonName);
+        TextView vaccineDateTxt = dialog.findViewById(R.id.vaccine_date_tv);
+        vaccineDateTxt.setText(content.date);
+        dialog.findViewById(R.id.date_picker).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(vaccineDateTxt);
+            }
+        });
+        textViewTitle.setText(builder.toString());
+        dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.ok_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                content.date = vaccineDateTxt.getText().toString();
+                if(HnppConstants.isConnectedToInternet(getActivity())){
+                    sendOtherVaccineInfo(content);
+                }else{
+                    saveOtherVaccineInfo(content);
+                }
+            }
+        });
+        dialog.show();
+    }
+    private void sendOtherVaccineInfo(OtherVaccineContentData contentData){
+        showProgressDialog("saving....");
+        HnppConstants.sendOtherVaccineSingleData(contentData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e1){
+
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("OTHER_VACCINE","completed");
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                        try{
+                            HnppConstants.showOneButtonDialog(getActivity(), "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                                @Override
+                                public void run() {
+                                   hpvVaccineGivenBtn.setEnabled(false);
+                                    interactor.fetchOtherVaccineData(childDetails.entityId(), WomanImmunizationFragment.this);
+                                }
+                            });
+                        }catch (Exception e){
+
+                        }
+
+                    }
+                });
+        //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
+
+    }
+    private void saveOtherVaccineInfo(OtherVaccineContentData contentData){
+        showProgressDialog("saving....");
+        HnppConstants.saveOtherVaccineData(contentData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {}
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.v("OTHER_VACCINE","onNext>>s:"+s);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("OTHER_VACCINE",""+e);
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e1){
+
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.v("OTHER_VACCINE","completed");
+                        try{
+                            hideProgressDialog();
+                        }catch (Exception e){
+
+                        }
+                        try{
+                            HnppConstants.showOneButtonDialog(getActivity(), "টিকা প্রদানের তথ্য সফল ভাবে হালনাগাদ করা হয়েছে", "", new Runnable() {
+                                @Override
+                                public void run() {
+                                    hpvVaccineGivenBtn.setEnabled(false);
+                                }
+                            });
+                        }catch (Exception e){
+
+                        }
+
+                    }
+                });
+        //OtherVaccineJob.scheduleJobImmediately(OtherVaccineJob.TAG);
+
+    }
+    private ProgressDialog dialog;
+
+    private void showProgressDialog(String text) {
+        if (dialog == null) {
+            dialog = new ProgressDialog(getActivity());
+            dialog.setMessage(text);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+    }
+
+    private void hideProgressDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
+    private void showDatePicker(TextView vaccineDateTxt) {
+        String[] yyMMdd = vaccineDateTxt.getText().toString().split("-");
+        DatePickerDialog fromDialog = new DatePickerDialog(getActivity(), R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int yr, int mnt, int dayOfMonth) {
+
+                String fromDate = yr + "-" + HnppConstants.addZeroForMonth((mnt+1)+"")+"-"+HnppConstants.addZeroForMonth(dayOfMonth+"");
+                vaccineDateTxt.setText(fromDate);
+            }
+        },Integer.parseInt(yyMMdd[0]),Integer.parseInt(yyMMdd[1]),Integer.parseInt(yyMMdd[2]));
+        fromDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        fromDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 259200000L);
+        fromDialog.show();
+    }
 
     private boolean isDataOk() {
         return childDetails != null && childDetails.getDetails() != null;
@@ -166,69 +548,6 @@ public class WomanImmunizationFragment extends BaseProfileFragment {
     }
 
     long timeDiff = 0l;
-
-
-//    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
-//
-//        Map<String, List<ServiceType>> foundServiceTypeMap = new LinkedHashMap<>();
-//        if (serviceGroups == null) {
-//            for (String type : serviceTypeMap.keySet()) {
-//                if (foundServiceTypeMap.containsKey(type)) {
-//                    continue;
-//                }
-//
-//                for (ServiceRecord serviceRecord : serviceRecordList) {
-//                    if (serviceRecord.getSyncStatus().equals(RecurringServiceTypeRepository.TYPE_Unsynced)) {
-//                        if (serviceRecord.getType().equals(type)) {
-//                            foundServiceTypeMap.put(type, serviceTypeMap.get(type));
-//                            break;
-//                        }
-//                    }
-//                }
-//
-//                if (foundServiceTypeMap.containsKey(type)) {
-//                    continue;
-//                }
-//
-//                for (Alert a : alerts) {
-//                    if (StringUtils.containsIgnoreCase(a.scheduleName(), type)
-//                            || StringUtils.containsIgnoreCase(a.visitCode(), type)) {
-//                        foundServiceTypeMap.put(type, serviceTypeMap.get(type));
-//                        break;
-//                    }
-//                }
-//
-//            }
-//
-//            if (foundServiceTypeMap.isEmpty()) {
-//                return;
-//            }
-//
-//
-//            serviceGroups = new ArrayList<>();
-//            LinearLayout serviceGroupCanvasLL = (LinearLayout) view.findViewById(R.id.service_group_canvas_ll);
-//
-//            ServiceGroup curGroup = new ServiceGroup(mActivity);
-//            curGroup.setChildActive(isChildActive);
-//            curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
-//            curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
-//                @Override
-//                public void onClick(ServiceGroup serviceGroup, ServiceWrapper
-//                        serviceWrapper) {
-//                    addServiceDialogFragment(serviceWrapper, serviceGroup);
-//                }
-//            });
-//            curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
-//                @Override
-//                public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-//                    addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
-//                }
-//            });
-//            serviceGroupCanvasLL.addView(curGroup);
-//            serviceGroups.add(curGroup);
-//        }
-//
-//    }
 
     private void updateVaccinationViews(List<Vaccine> vaccineList, List<Alert> alerts) {
 

@@ -304,6 +304,7 @@
     <string name="which_vaccines_given_text">কোন টিকা দেওয়া হয়েছিল?</string>
     <string name="add_date_separately">+ প্রতিটি ভ্যাকসিনের জন্য তারিখ যুক্ত করুন</string>
     <string name="label_immunization_records">টিকাদান &amp; ভিটামিন সার্ভিস</string>
+    <string name="td_immunization_records">টিডি টিকাদান &amp; ভিটামিন সার্ভিস</string>
     <string name="return_to_children_profile">শিশু ইনফো</string>
     <string name="immunization">টিকাদান</string>
     <string name="gmp">গ্রোথ মনিটরিং</string>

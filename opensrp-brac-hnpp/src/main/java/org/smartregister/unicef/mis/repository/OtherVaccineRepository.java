@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.repository;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.util.Log;
 
@@ -99,17 +100,40 @@ public class OtherVaccineRepository extends BaseRepository {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public  void addOrUpdateVaccineDate(OtherVaccineContentData otherVaccineContentData){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(VACCINE_NAME, "HPV");
+        contentValues.put(VACCINE_DATE, otherVaccineContentData.vaccineDate);
+        contentValues.put(BRN, otherVaccineContentData.brn);
+        String dob = otherVaccineContentData.dob.substring(0,otherVaccineContentData.dob.indexOf("T"));
+        otherVaccineContentData.dob = dob;
+        contentValues.put(DOB, dob);
+        contentValues.put(IS_SYNC, 1);
+        Log.v("HPV_VACCINATION","contentValues value:"+contentValues);
+        SQLiteDatabase database = getWritableDatabase();
+        try{
+            if(findUnique(database,otherVaccineContentData)){
+            long inserted = database.insert(getTableName(), null, contentValues);
+            Log.v("HPV_VACCINATION","inserted:"+inserted);
+            }else{
+                String selection = BRN+" = '"+otherVaccineContentData.brn+"' and "+DOB+" ='"+otherVaccineContentData.dob+"'";
 
-
-//        getWritableDatabase().execSQL("update "+getLocationTableName()+" set achievemnt_count = achievemnt_count +1,"+DAY+" = "+day+" , "+MONTH+" = "+month+" , "+YEAR+" = "+year+" where "+INDICATOR_NAME+" = '"+targetName+"'");
+                database.update(getTableName(),contentValues,selection,null);
+                Log.v("HPV_VACCINATION","updated value:"+contentValues);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     public void updateOtherVaccineStatus(OtherVaccineContentData otherVaccineContentData){
         getWritableDatabase().execSQL("update "+getTableName()+" set is_sync = 1 where "+VACCINE_NAME+" = '"+otherVaccineContentData.vaccine_name+"' and "+BRN+" ='"+otherVaccineContentData.brn+"'");
     }
+
     public boolean findUnique(SQLiteDatabase db, OtherVaccineContentData otherVaccineContentData) {
         SQLiteDatabase database = (db == null) ? getReadableDatabase() : db;
         String selection = VACCINE_NAME + " = ? " + COLLATE_NOCASE + " and " + VACCINE_DATE + " = ? " + COLLATE_NOCASE+" and "+BRN+" = ?"+COLLATE_NOCASE+" and "+DOB+" = ?"+COLLATE_NOCASE;
-        String[] selectionArgs = new String[]{otherVaccineContentData.vaccine_name, otherVaccineContentData.date,otherVaccineContentData.brn,otherVaccineContentData.dob};
+        String[] selectionArgs = new String[]{"HPV", otherVaccineContentData.vaccineDate,otherVaccineContentData.brn,otherVaccineContentData.dob};
         Cursor cursor = database.query(getTableName(), null, selection, selectionArgs, null, null, null, null);
         if(cursor!=null && cursor.getCount() > 0){
             cursor.close();
@@ -183,7 +207,33 @@ public class OtherVaccineRepository extends BaseRepository {
         Log.v("OtherVaccineContentData","locations>>>"+otherVaccineContentData.size());
         return otherVaccineContentData;
     }
+    public OtherVaccineContentData getVaccineDate( String brn, String dob){
+        Cursor cursor = null;
+        OtherVaccineContentData otherVaccineContentData = null;
+        try{
+            String sql = "select "+VACCINE_DATE+" from "+getTableName()+" where "+BRN+" = '"+brn+"' and "+DOB+" = '"+dob+"'";
+            cursor = getReadableDatabase().rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                otherVaccineContentData = readVaccineDate(cursor);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return otherVaccineContentData;
+    }
+    @SuppressLint("Range")
+    private OtherVaccineContentData readVaccineDate(Cursor cursor){
+        OtherVaccineContentData otherVaccineContentData = new OtherVaccineContentData();
 
+         String vaccineDate = cursor.getString(cursor.getColumnIndex(VACCINE_DATE));
+        otherVaccineContentData.vaccineDate = vaccineDate;
+        return otherVaccineContentData;
+    }
+    @SuppressLint("Range")
     protected OtherVaccineContentData readCursor(Cursor cursor) {
 //        String vaccineName = cursor.getString(cursor.getColumnIndex(VACCINE_NAME));
 //        String vaccineDate = cursor.getString(cursor.getColumnIndex(VACCINE_DATE));

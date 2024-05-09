@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -226,59 +227,59 @@ public class HnppDBUtils {
         return infoModel;
 
     }
-    public static TikaInfoModel getTikaDetails(String baseEntityId){
-        String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
-                " ec_family_member.dob,ec_family_member.gender, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
-                " ec_family.block_name,ec_family.village,ec_family.holding_no,ec_family.ward_name,ec_family.union_zone from ec_family_member "+
-                " inner join ec_family on ec_family.id  = ec_family_member.relational_id " +
-                " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
-        Cursor cursor = null;
-        TikaInfoModel infoModel = null;
-        try {
-            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
-                cursor.moveToFirst();
-                infoModel = new TikaInfoModel();
-                infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
-                infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
-                infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
-                infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
-                String dob = (cursor.getString(cursor.getColumnIndex("dob")));
-                //2023-03-11T06:00:00.000+06:00
-                infoModel.dob = dob.substring(0,dob.indexOf("T"));
-                infoModel.birthYear = dob.substring(0,4);
-                infoModel.birthMonth = dob.substring(5,7);
-                infoModel.birthDay = dob.substring(8,10);
-                infoModel.brid = (cursor.getString(cursor.getColumnIndex("birth_id")));
-                infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("shr_id")));
-                if(TextUtils.isEmpty(infoModel.registrationNo)){
-                    infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("unique_id")));
-                }
-                long lastInteractedDate = cursor.getLong(cursor.getColumnIndex("last_interacted_with"));
-                Date regdate = new Date(lastInteractedDate);
-                String registrationDate = AbstractDao.getDobDateFormat().format(regdate);
-                infoModel.registrationDate = registrationDate;
-                infoModel.centerName = (cursor.getString(cursor.getColumnIndex("camp_type")));
-                infoModel.subBlock = (cursor.getString(cursor.getColumnIndex("block_name")));
-                infoModel.village = (cursor.getString(cursor.getColumnIndex("village")));
-                infoModel.houseHoldNo = (cursor.getString(cursor.getColumnIndex("holding_no")));
-                infoModel.wardNo = (cursor.getString(cursor.getColumnIndex("ward_name")));
-                infoModel.union = (cursor.getString(cursor.getColumnIndex("union_zone")));
-                infoModel.genderEnglish = (cursor.getString(cursor.getColumnIndex("gender")));
-                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
-
-
-            }
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        finally {
-            if(cursor !=null) cursor.close();
-        }
-        return infoModel;
-
-    }
+//    public static TikaInfoModel getTikaDetails(String baseEntityId){
+//        String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
+//                " ec_family_member.dob,ec_family_member.gender, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
+//                " ec_family.block_name,ec_family.village,ec_family.holding_no,ec_family.ward_name,ec_family.union_zone from ec_family_member "+
+//                " inner join ec_family on ec_family.id  = ec_family_member.relational_id " +
+//                " where ec_family_member.base_entity_id ='"+baseEntityId+"' ";
+//        Cursor cursor = null;
+//        TikaInfoModel infoModel = null;
+//        try {
+//            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//            if(cursor !=null && cursor.getCount() >0){
+//                cursor.moveToFirst();
+//                infoModel = new TikaInfoModel();
+//                infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
+//                infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
+//                infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
+//                infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
+//                String dob = (cursor.getString(cursor.getColumnIndex("dob")));
+//                //2023-03-11T06:00:00.000+06:00
+//                infoModel.dob = dob.substring(0,dob.indexOf("T"));
+//                infoModel.birthYear = dob.substring(0,4);
+//                infoModel.birthMonth = dob.substring(5,7);
+//                infoModel.birthDay = dob.substring(8,10);
+//                infoModel.brid = (cursor.getString(cursor.getColumnIndex("birth_id")));
+//                infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("shr_id")));
+//                if(TextUtils.isEmpty(infoModel.registrationNo)){
+//                    infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("unique_id")));
+//                }
+//                long lastInteractedDate = cursor.getLong(cursor.getColumnIndex("last_interacted_with"));
+//                Date regdate = new Date(lastInteractedDate);
+//                String registrationDate = AbstractDao.getDobDateFormat().format(regdate);
+//                infoModel.registrationDate = registrationDate;
+//                infoModel.centerName = (cursor.getString(cursor.getColumnIndex("camp_type")));
+//                infoModel.subBlock = (cursor.getString(cursor.getColumnIndex("block_name")));
+//                infoModel.village = (cursor.getString(cursor.getColumnIndex("village")));
+//                infoModel.houseHoldNo = (cursor.getString(cursor.getColumnIndex("holding_no")));
+//                infoModel.wardNo = (cursor.getString(cursor.getColumnIndex("ward_name")));
+//                infoModel.union = (cursor.getString(cursor.getColumnIndex("union_zone")));
+//                infoModel.genderEnglish = (cursor.getString(cursor.getColumnIndex("gender")));
+//                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
+//
+//
+//            }
+//
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
+//        finally {
+//            if(cursor !=null) cursor.close();
+//        }
+//        return infoModel;
+//
+//    }
     public static TikaInfoModel getTikaDetailsFromClient(String baseEntityId){
         String query = "select json from client where baseEntityId ='"+baseEntityId+"' ";
         Cursor cursor = null;
@@ -539,6 +540,7 @@ public class HnppDBUtils {
     }
 
 
+    @SuppressLint("Range")
     public static GuestMemberData getGuestMemberById(String baseEntityId){
         String query = "Select * FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
         GuestMemberData guestMemberData = null;
@@ -1845,5 +1847,41 @@ public class HnppDBUtils {
         String lmp = "SELECT session_info_received FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
         return valus.get(0).get("session_info_received");
+    }
+
+    public static OtherVaccineContentData getMemberInfo(String baseEntityId) {
+            String query = "select first_name,last_name,dob,birth_id,phone_number,mother_name_english,father_name_english,gender,unique_id,member_name_bengla,mother_name_bangla,father_name_bangla from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+            Cursor cursor = null;
+            try {
+                cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    OtherVaccineContentData memberInfo = new OtherVaccineContentData();
+                    memberInfo.firstName = cursor.getString(0);
+                    memberInfo.lastName = cursor.getString(1);
+                    memberInfo.dob = cursor.getString(2);
+                    memberInfo.brn = cursor.getString(3);
+                    memberInfo.dob = memberInfo.dob.substring(0,memberInfo.dob.indexOf("T"));
+                    memberInfo.mobile = cursor.getString(4);
+                    memberInfo.mothernameEn = cursor.getString(5);
+                    memberInfo.fatherNameEn = cursor.getString(6);
+                    memberInfo.gender = cursor.getString(7);
+                    memberInfo.vaccine_name = "HPV";
+                    if(TextUtils.isEmpty(memberInfo.brn)){
+                        memberInfo.brn = cursor.getString(8);
+                    }
+                    memberInfo.firstNameBN = cursor.getString(9);
+                    memberInfo.motherName = cursor.getString(10);
+                    memberInfo.fatherName = cursor.getString(11);
+                    return memberInfo;
+                }
+            } catch (Exception e) {
+                Timber.e(e);
+            } finally {
+                if (cursor != null)
+                    cursor.close();
+            }
+            return null;
+
     }
 }
