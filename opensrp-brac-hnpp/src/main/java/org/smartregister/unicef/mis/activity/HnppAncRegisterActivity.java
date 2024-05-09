@@ -29,6 +29,7 @@ import org.smartregister.unicef.mis.fragment.HnppAncRegisterFragment;
 import org.smartregister.unicef.mis.listener.HnppFamilyBottomNavListener;
 import org.smartregister.unicef.mis.location.HALocation;
 import org.smartregister.unicef.mis.location.HALocationHelper;
+import org.smartregister.unicef.mis.model.HNPPANCRegisterModel;
 import org.smartregister.unicef.mis.nativation.view.NavigationMenu;
 import org.smartregister.unicef.mis.repository.HnppVisitLogRepository;
 import org.smartregister.unicef.mis.sync.FormParser;
@@ -160,7 +161,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
     @Override
     protected void initializePresenter() {
-        presenter = new BaseAncRegisterPresenter(this, new BaseAncRegisterModel(), new BaseAncRegisterInteractor());
+        presenter = new BaseAncRegisterPresenter(this, new HNPPANCRegisterModel(), new BaseAncRegisterInteractor());
     }
 
     @Override
