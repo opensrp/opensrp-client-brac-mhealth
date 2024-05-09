@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "রক্ত স্বল্পতা",
+    "title": "অপুষ্টি",
     "fields": [
 
       {
@@ -102,13 +102,7 @@
             "openmrs_entity_id": "no"
           }
 
-        ],
-        "relevance": {
-          "step1:have_fever": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
+        ]
       },
       {
         "key": "Measure_WFH",

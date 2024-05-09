@@ -1381,12 +1381,14 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("খিচুনি অথবা খিঁচুনির ইতিহাস ");
+                isReferred = true;
             }
             if(!TextUtils.isEmpty(feedingProblem) && feedingProblem.equalsIgnoreCase("no")){
                 assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.TWO.getValue();
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("শিশু খাওয়া খেতে পারছে না");
+                isReferred = true;
             }
             if(!TextUtils.isEmpty(vomiting) && vomiting.equalsIgnoreCase("yes")){
                 assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.TWO.getValue();

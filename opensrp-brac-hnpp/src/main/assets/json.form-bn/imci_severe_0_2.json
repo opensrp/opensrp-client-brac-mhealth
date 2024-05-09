@@ -161,9 +161,9 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:able_to_feed": {
             "type": "string",
-            "ex": "regex(., \"no\")"
+            "ex": "regex(., \"yes\")"
           }
         }
       },
@@ -193,7 +193,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -225,7 +225,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -257,7 +257,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -289,7 +289,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -321,7 +321,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -338,7 +338,7 @@
         "label_text_style": "bold",
         "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  ",
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -370,7 +370,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -402,7 +402,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -434,7 +434,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -466,7 +466,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -498,7 +498,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -530,7 +530,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -562,7 +562,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -594,7 +594,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -626,7 +626,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -658,7 +658,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
@@ -690,7 +690,7 @@
 
         ],
         "relevance": {
-          "step1:unconscious": {
+          "step1:convulsion": {
             "type": "string",
             "ex": "regex(., \"no\")"
           }
