@@ -52,6 +52,16 @@ public class FormApplicability {
         return !HnppApplication.getHNPPInstance().getHnppVisitLogRepository().isDoneWihinChildInfoLogic(baseEntityId, eventType);
 
     }
+    public static boolean isKMCEnable(Date dob){
+        int day = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
+
+        double month = Math.ceil( (day/30.417));
+        Log.v("FORM_APPLICABILITY","isKMCEnable>>day:"+day);
+        if(month<=6){
+            return true;
+        }
+        return false;
+    }
     public static String isDueChildEccd(Date dob){
         if(!HnppConstants.isDisabilityEnable()) return null;
 

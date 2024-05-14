@@ -537,6 +537,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             case R.id.action_scanu_followup:
                 showScanuFollowUpDialog(HnppChildProfileActivity.this);
                 return true;
+            case R.id.action_kmc_home:
+                openKMCHome();
+                return true;
+            case R.id.action_kmc_hospital:
+                openKMCHospital();
+                return true;
             default:
                 break;
         }
@@ -564,6 +570,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     }
     public void updateScanuFollowupMenu(boolean isVisible){
         this.menu.findItem(R.id.action_scanu_followup).setVisible(isVisible);
+    }
+    public void updateKMCFollowupMenu(boolean isVisible){
+        this.menu.findItem(R.id.action_kmc_home).setVisible(isVisible);
+        this.menu.findItem(R.id.action_kmc_hospital).setVisible(isVisible);
     }
 
     @Override

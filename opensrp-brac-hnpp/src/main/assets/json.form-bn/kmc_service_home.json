@@ -127,6 +127,379 @@
         "hint": "সেবা গ্রহণের তারিখ"
       },
       {
+        "key": "service_provider",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_provider",
+        "type": "spinner",
+        "hint": "সেবা প্রদানকারী",
+        "values": [
+          "ডাক্তার",
+          "নার্স",
+          "মিডওয়াইফ",
+          "এফ.ডাব্লিউ.ভি.",
+          "সিএসবিএ",
+          "অন্যান্য_কেউ"
+        ],
+        "openmrs_choice_ids": {
+          "ডাক্তার": "Doctor",
+          "নার্স": "Nurse",
+          "মিডওয়াইফ": "Midwife",
+          "এফ.ডাব্লিউ.ভি.": "FWV",
+          "সিএসবিএ": "CSBA",
+          "অন্যান্য_কেউ": "Others"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select Service provider"
+        }
+      },
+      {
+        "key": "mother_ga",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "mother_ga",
+        "type": "spinner",
+        "hint": "শিশু জন্মের সময় মায়ের গর্ভকাল",
+        "values": [
+          "৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)",
+          "৩৭ সপ্তাহ বা তার বেশি (পরিণত শিশু)"
+        ],
+        "openmrs_choice_ids": {
+          "৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)":"below_36_week",
+          "৩৭ সপ্তাহ বা তার বেশি (পরিণত শিশু)": "above_37_week"
+        }
+      },
+      {
+        "key": "mother_ga_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "অপরিণত শিশু।পর্যবেক্ষণে রাখুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "body_temparature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "body_temparature",
+        "type": "spinner",
+        "hint": "শরীরের তাপমাত্রা",
+        "values": [
+          "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে",
+          "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
+          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
+        ],
+        "openmrs_choice_ids": {
+          "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে": "normal",
+          "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে": "high_temparature",
+          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
+        }
+      },
+      {
+        "key": "is_risk_temparature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_risk_temparature",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "temparature_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "breating_rate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "breating_rate",
+        "type": "spinner",
+        "hint": "শ্বাসের হার (প্রতি মিনিটে)",
+        "values": [
+          "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)",
+          "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি"
+        ],
+        "openmrs_choice_ids": {
+          "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)": "normal_breating",
+          "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি": "Rapid_breathing"
+        }
+      },
+      {
+        "key": "breating_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:breating_rate": {
+            "type": "string",
+            "ex": "equalTo(.,  \"শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি\")"
+          }
+        }
+      },
+      {
+        "key": "new_born_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "new_born_info",
+        "type": "check_box",
+        "label": "নবজাতকের অত্যাবশ্যকীয় সেবার তথ্য",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "head_body_covered",
+            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোছানো এবং মোড়ানো হয়েছিল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "head_body_covered"
+          },
+          {
+            "key": "skin_to_skin_contact",
+            "text": "নবজাতক জন্মের পর পর তাকে মায়ের ত্বকের সংস্পর্শে  রাখা হয়েছিল ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "skin_to_skin_contact"
+          },
+          {
+            "key": "delay_cord_cutting",
+            "text": "বিলম্বিত নাড়ি কাটা (১ থেকে ৩ মিনিটের মধ্যে)",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "delay_cord_cutting"
+          },
+          {
+            "key": "chlorohexadin",
+            "text": "নাড়ি কাঁটার পর ৭.১% ক্লোরহেক্সিডিন ব্যাবহার  করা হয়েছিল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chlorohexadin"
+          },
+          {
+            "key": "newborn_breastfeed",
+            "text": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "newborn_breastfeed"
+          },
+          {
+            "key": "Delayed_bathing_after_birth",
+            "text": "বিলম্বিত গোসলের উপদেশ দেয়া হয়েছিল (জন্মের ৭২ ঘণ্টা পর)",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Delayed_bathing_after_birth"
+          },
+          {
+            "key": "Delayed_bathing",
+            "text": "বিলম্বিত গোসল করানো হয়েছিল (৭২ ঘণ্টা পর)",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Delayed_bathing"
+          },
+          {
+            "key": "Counselling_on_Newborn_danger",
+            "text": "নবজাতকের বিপদচিহ্ন সংক্রান্ত কাউন্সিলিং প্রদান করা হয়েছে",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Counselling_on_Newborn_danger"
+          }
+        ],
+        "v_required": {
+          "value": true,
+          "err": " নির্বাচন করুন"
+        },
+        "relevance": {
+          "step1:pnc_count": {
+            "type": "string",
+            "ex": "equalTo(.,  \"1\")"
+          }
+        }
+      },
+      {
+        "key": "newborn_body_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "newborn_body_info",
+        "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label": "নবজাতকের বিপদচিহ্ন",
+        "exclusive": [
+          "none"
+        ],
+        "options": [
+          {
+            "key": "lethargic_or_restricted_movement",
+            "text": "নেতিয়ে পড়া",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "lethargic_or_restricted_movement"
+          },
+          {
+            "key": "unable_to_breastfed",
+            "text": "নবজাতক কে মায়ের দুধ খাওয়াতে অক্ষম অথবা নবজাতক স্তন্যপানে অক্ষম",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "unable_to_breastfed"
+          },
+          {
+            "key": "fast_breathing",
+            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fast_breathing"
+          },
+          {
+            "key": "chest_in_drawing",
+            "text": "বুকের খাঁচা ডেবে যাওয়া",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chest_in_drawing"
+          },
+          {
+            "key": "convulsion",
+            "text": "খিচুনী হয়েছে ",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "convulsion"
+          },
+          {
+            "key": "high_temperature",
+            "text": "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "high_temperature"
+          },
+          {
+            "key": "low_temperature",
+            "text": "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "low_temperature"
+          },
+          {
+            "key": "redness_around_umbilicus",
+            "text": "নাভি পাকা ও চারপাশে লালভাব",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "redness_around_umbilicus"
+          },
+          {
+            "key": "none",
+            "text": "বিপদচিহ্ন নেই",
+            "value": false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "none"
+          }
+        ]
+      },
+      {
+        "key": "kmc_hospital_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "নবজাতককে অতি দ্রুত কেএমসি সেবার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "birth_defect",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_defect",
+        "type": "spinner",
+        "hint": "নবজাতকের দৃশ্যমান জন্মগত ত্রুটি আছে",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": ""
+        },
+        "relevance": {
+          "step1:is_first_time": {
+            "type": "numeric",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
+      },
+      {
+        "key": "notice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "notice",
+        "type": "edit_text",
+        "read_only": true,
+        "text_color": "#CF0800",
+        "hint": "নবজাতকের বয়স  ৪২ দিন হলে প্রসব পরবর্তী সেবা এবং টিকা গ্রহনের জন্য ক়মিউনিটি ক্লিনিক বা ইউনিয়ন স্বাস্থ্য ও পরিবার ক়ল্যাণ কেন্দ্র অথবা উচ্চতর স্বাস্থ্য কেন্দ্রে যান।",
+        "relevance": {
+          "step1:month_diff": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"7\")"
+          }
+        }
+      },
+
+      {
         "key": "kmc_start_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -202,6 +575,55 @@
         },
         "read_only": true,
         "hint": "জন্ম ওজন (গ্রাম)"
+      },
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "v_required": {
+          "value": "true",
+          "err": "ওজন (গ্রাম) লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "6001",
+          "err": "6001 এর কম হওয়া উচিত"
+        },
+        "v_min": {
+          "value": "500",
+          "err": "500 এর বেশী হওয়া উচিত"
+        },
+
+        "hint": "বর্তমান ওজন (গ্রাম)",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "weight_warning_less",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটির ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
       },
       {
         "key": "physical_condition",
@@ -345,55 +767,7 @@
           }
         }
       },
-      {
-        "key": "weight",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "weight",
-        "type": "edit_text",
-        "v_required": {
-          "value": "true",
-          "err": "ওজন (গ্রাম) লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
-        },
-        "v_max": {
-          "value": "6001",
-          "err": "6001 এর কম হওয়া উচিত"
-        },
-        "v_min": {
-          "value": "500",
-          "err": "500 এর বেশী হওয়া উচিত"
-        },
 
-        "hint": "বর্তমান ওজন (গ্রাম)",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "weight_warning_less",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটির ওজন মারাত্মক কম। শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
       {
         "key": "body_temparature",
         "openmrs_entity_parent": "",

@@ -322,6 +322,17 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             }
             updateDueView(HnppConstants.EVENT_TYPE.SCANU_FOLLOWUP,TAG_SCANU_FOLLOWUP,FormApplicability.getScanuTitle(baseEntityId)) ;
         }
+        if(FormApplicability.isKMCEnable(dob)){
+            if(mActivity instanceof HnppChildProfileActivity){
+                HnppChildProfileActivity childProfileActivity = (HnppChildProfileActivity) mActivity;
+                childProfileActivity.updateKMCFollowupMenu(true);
+            }
+        }else{
+            if(mActivity instanceof HnppChildProfileActivity){
+                HnppChildProfileActivity childProfileActivity = (HnppChildProfileActivity) mActivity;
+                childProfileActivity.updateKMCFollowupMenu(false);
+            }
+        }
         eventType = FormApplicability.isDueChildEccd(dob);
         if(TextUtils.isEmpty(eventType))return;
         if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.CHILD_ECCD_2_3_MONTH)){

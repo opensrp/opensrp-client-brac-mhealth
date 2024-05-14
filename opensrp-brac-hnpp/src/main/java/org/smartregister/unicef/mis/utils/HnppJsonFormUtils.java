@@ -1758,7 +1758,6 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         return value;
     }
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String processAEFIValueWithChoiceIdsForEdit(JSONObject jsonObject, String value) {
         try {
             //spinner
