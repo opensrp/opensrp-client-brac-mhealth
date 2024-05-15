@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.activity.GlobalSearchMemberProfileActivity;
 import org.smartregister.unicef.mis.activity.GuestMemberProfileActivity;
 import org.smartregister.unicef.mis.utils.FormApplicability;
 import org.smartregister.unicef.mis.utils.GuestMemberData;
@@ -134,11 +135,24 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
 
                         }
 
+                    }else if (getActivity() != null && getActivity() instanceof GlobalSearchMemberProfileActivity) {
+                        GlobalSearchMemberProfileActivity activity = (GlobalSearchMemberProfileActivity) getActivity();
+                    String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
+                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
+                        activity.openAncRegisterForm();
+                    }else{
+                        activity.openHomeVisitSingleForm(guestEventTypeFormNameMapping.get(eventType));
+
                     }
+
+                }
                     break;
                 case TAG_OPEN_DELIVERY:
                     if (getActivity() != null && getActivity() instanceof GuestMemberProfileActivity) {
                         GuestMemberProfileActivity activity = (GuestMemberProfileActivity) getActivity();
+                        activity.openPregnancyRegisterForm();
+                    }else  if (getActivity() != null && getActivity() instanceof GlobalSearchMemberProfileActivity) {
+                        GlobalSearchMemberProfileActivity activity = (GlobalSearchMemberProfileActivity) getActivity();
                         activity.openPregnancyRegisterForm();
                     }
                     break;
