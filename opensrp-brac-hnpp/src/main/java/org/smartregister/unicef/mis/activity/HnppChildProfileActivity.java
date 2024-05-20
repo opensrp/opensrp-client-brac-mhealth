@@ -971,6 +971,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                     }
                     intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
                     intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
+                    intent.putExtra("BASE_ENTITY_ID",childBaseEntityId);
                     startActivityForResult(intent, requestCode);
 
                 }catch (Exception e){

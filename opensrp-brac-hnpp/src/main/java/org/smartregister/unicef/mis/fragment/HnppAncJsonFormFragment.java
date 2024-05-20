@@ -1,8 +1,15 @@
 package org.smartregister.unicef.mis.fragment;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,8 +22,13 @@ import android.widget.LinearLayout;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.customviews.MaterialSpinner;
 import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
+
+import net.sqlcipher.database.SQLiteDatabase;
+
+import org.apache.commons.lang3.StringUtils;
 import org.smartregister.Context;
 import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +43,12 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         jsonFormFragment.setArguments(bundle);
         return jsonFormFragment;
     }
+    String baseEntityId;
+
+    public void setBaseEntityId(String baseEntityId) {
+        this.baseEntityId = baseEntityId;
+    }
+
     public Context context() {
         return HnppApplication.getInstance().getContext();
     }
@@ -53,6 +71,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
 
             }
         }
+
     }
     public void updateChildBodyInfo(boolean isChecked) {
         for (int i = 0; i < viewList.size(); i++) {
@@ -102,10 +121,56 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                     }
                 }
             }
+            if(v instanceof MaterialEditText) {
+                if (((MaterialEditText) v).getFloatingLabelText() != null && (((MaterialEditText) v).getFloatingLabelText().toString()).equals("কেএমসি স্বাস্থ্যকেন্দ্রে")) {
+                    ((MaterialEditText) v).addTextChangedListener(textWatcherKMCHospital);
+                }
+            }
         }
 
-    }
 
+    }
+    boolean isKMCHospital = false;
+    TextWatcher textWatcherKMCHospital = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            isKMCHospital = false;
+            if(!StringUtils.isEmpty(s)){
+                Log.v("KMC_SERVICE","isKMCHospital>>>"+s+":baseEntityId:"+baseEntityId);
+                if(s.toString().equalsIgnoreCase("1")){
+                    isKMCHospital = true;
+                }
+            }
+           if(isKMCHospital){
+               showReferToHospitalPopup();
+           }
+
+        }
+    };
+    private void showReferToHospitalPopup(){
+        new AlertDialog.Builder(getActivity()).setMessage("নবজাতককে স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ ক়রুন ")
+                .setTitle("স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ").setCancelable(false)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                        //SQLiteDatabase database = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        //database.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"',identified_date ='"+System.currentTimeMillis()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                        getActivity().finish();
+
+                    }
+                }).show();
+    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

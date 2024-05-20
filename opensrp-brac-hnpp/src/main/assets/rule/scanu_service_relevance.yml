@@ -198,7 +198,7 @@ actions:
 name: step1_waking_warning
 description: weight_warning relevance
 priority: 1
-condition: "(step1_skin_color.equals('ঝিমুনি') || step1_skin_color.equals('নেতিয়ে পড়া'))"
+condition: "(step1_skin_color.equals('ঝিমুনি') || step1_skin_color.equals('নেতিয়ে পড়া')|| step1_skin_color.equals('অজ্ঞান'))"
 actions:
   - "isRelevant = true"
 ---
@@ -212,13 +212,13 @@ actions:
 name: step1_stimulation_warning
 description: weight_warning relevance
 priority: 1
-condition: "step1_stimulation.equals('না')"
+condition: "step1_stimulation.equals('হ্যাঁ')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_convulsions_warning
 description: weight_warning relevance
 priority: 1
-condition: "step1_convulsions.equals('না')"
+condition: "step1_convulsions.equals('হ্যাঁ')"
 actions:
   - "isRelevant = true"

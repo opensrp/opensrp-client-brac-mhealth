@@ -597,6 +597,23 @@ public class FormParser {
                     db.execSQL("UPDATE ec_child set has_aefi='"+status+"',aefi_vaccines ='"+vaccineS+"' where base_entity_id='"+log.getBaseEntityId()+"'");
                 }
                 break;
+            case KMC_SERVICE_HOME:
+            {
+                SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+            }
+
+                break;
+            case KMC_SERVICE_HOSPITAL:
+            {
+                SQLiteDatabase database = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                database.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+            }
+
+                break;
+
             case NEW_BORN_PNC_1_4:
                 if (details.containsKey("is_Referred") && !StringUtils.isEmpty(details.get("is_Referred"))) {
                     String status = details.get("is_Referred");
@@ -620,28 +637,28 @@ public class FormParser {
                         db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
                 }
-                if (details.containsKey("kmc_home_calculation") && !StringUtils.isEmpty(details.get("kmc_home_calculation"))) {
-                    String status = details.get("kmc_home_calculation");
-                    if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("1")){
-                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+//                if (details.containsKey("kmc_home_calculation") && !StringUtils.isEmpty(details.get("kmc_home_calculation"))) {
+//                    String status = details.get("kmc_home_calculation");
+//                    if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("1")){
+//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+//                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
-                    }
+//                    }
 
-                }
-                if (details.containsKey("agreed_to_hospital") && !StringUtils.isEmpty(details.get("agreed_to_hospital"))) {
-                    String status = details.get("agreed_to_hospital");
-                    if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("হ্যাঁ"))){
-                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"' where base_entity_id='"+log.getBaseEntityId()+"'");
-
-                    }else  if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("no") || status.equalsIgnoreCase("না"))){
-                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"' ,identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
-
-                    }
-
-                }
+//                }
+//                if (details.containsKey("agreed_to_hospital") && !StringUtils.isEmpty(details.get("agreed_to_hospital"))) {
+//                    String status = details.get("agreed_to_hospital");
+//                    if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("হ্যাঁ"))){
+//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+//                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+//
+//                    }else  if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("no") || status.equalsIgnoreCase("না"))){
+//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+//                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"' ,identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+//
+//                    }
+//
+//                }
                     break;
             case HnppConstants.EventType.REMOVE_MEMBER: {
                 if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {

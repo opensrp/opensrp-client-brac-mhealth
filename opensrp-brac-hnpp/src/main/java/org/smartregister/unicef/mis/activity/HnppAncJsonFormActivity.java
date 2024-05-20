@@ -2,6 +2,7 @@ package org.smartregister.unicef.mis.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.fragment.HnppAncJsonFormFragment;
@@ -11,7 +12,9 @@ public class HnppAncJsonFormActivity extends FamilyWizardFormActivity {
     @Override
     public void initializeFormFragment() {
         boolean isNeedToShowSaveButton = getIntent().getBooleanExtra("IS_NEED_SAVE",true);
+        String baseEntityId = getIntent().getStringExtra("BASE_ENTITY_ID");
         HnppAncJsonFormFragment jsonWizardFormFragment = HnppAncJsonFormFragment.getFormFragment("step1",isNeedToShowSaveButton);
+        if(!TextUtils.isEmpty(baseEntityId))jsonWizardFormFragment.setBaseEntityId(baseEntityId);
         this.getSupportFragmentManager().beginTransaction().add(com.vijay.jsonwizard.R.id.container, jsonWizardFormFragment).commit();
     }
     @Override

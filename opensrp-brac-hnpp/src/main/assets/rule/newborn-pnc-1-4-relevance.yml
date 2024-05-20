@@ -44,7 +44,7 @@ actions:
 name: step1_is_risk_temparature
 description: weight_warning relevance
 priority: 1
-condition: "!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
+condition: "(!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')))"
 actions:
   - "isRelevant = true"
 ---
@@ -68,6 +68,13 @@ priority: 1
 condition: "(step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)) && (!step1_newborn_body_info.isEmpty() && !step1_newborn_body_info.contains('none'))"
 actions:
   - "isRelevant = true"
+---
+name: step1_is_kmc_hospital
+description: weight_warning relevance
+priority: 1
+condition: "true"
+actions:
+  - "calculation = ((step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)) && (!step1_newborn_body_info.isEmpty() && !step1_newborn_body_info.contains('none')))?1:0"
 ---
 name: step1_kmc_home_warning
 description: weight_warning relevance
