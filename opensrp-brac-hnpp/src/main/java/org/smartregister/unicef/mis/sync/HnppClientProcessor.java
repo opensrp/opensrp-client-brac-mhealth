@@ -186,6 +186,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4:
             case HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME:
             case HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL:
+            case HnppConstants.EVENT_TYPE.KMC_HOME_FOLLOWUP:
+            case HnppConstants.EVENT_TYPE.KMC_HOSPITAL_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.SCANU_FOLLOWUP:
             case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
             case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:

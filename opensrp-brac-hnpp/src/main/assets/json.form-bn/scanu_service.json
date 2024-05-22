@@ -147,6 +147,27 @@
         }
       },
       {
+        "key": "death_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_date",
+        "type": "date_picker",
+        "hint": "মৃত্যুর তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "min_date": "",
+        "v_required": {
+          "value": "true",
+          "err": "মৃত্যুর তারিখ"
+        },
+        "relevance": {
+          "step1:physical_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত\")"
+          }
+        }
+      },
+      {
         "key": "physical_death",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

@@ -1,7 +1,5 @@
 package org.smartregister.unicef.mis.fragment;
 
-import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;

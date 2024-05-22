@@ -109,10 +109,10 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "remove_reason",
         "type": "spinner",
-        "hint": "সদস্য বাতিল করার কারণ",
+        "hint": "শিশু বাতিল করার কারণ",
         "v_required": {
           "value": "true",
-          "err": "সদস্য বাতিল করার কারণ নির্বাচন করুন"
+          "err": "শিশু বাতিল করার কারণ নির্বাচন করুন"
         },
         "values": [
           "স্থানান্তর",
@@ -133,7 +133,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "removed_other",
         "type": "spinner",
-        "hint": "অন্যান্য কারণে খানা বাদ",
+        "hint": "অন্যান্য কারণে সদস্য বাদ",
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"

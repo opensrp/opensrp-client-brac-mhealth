@@ -548,10 +548,10 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         }
         return super.onOptionsItemSelected(item);
     }
+    boolean isComesFromDeath = false;
     protected void removeIndividualProfile() {
-        Timber.d("Remove member action is not required in HF");
         IndividualProfileRemoveActivity.startIndividualProfileActivity(HnppChildProfileActivity.this,
-                commonPersonObject, "", "", "", FamilyRegisterActivity.class.getCanonicalName());
+                commonPersonObject, "", isComesFromDeath, FamilyRegisterActivity.class.getCanonicalName());
     }
     Menu menu;
     @Override
@@ -574,6 +574,37 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void updateKMCFollowupMenu(boolean isVisible){
         this.menu.findItem(R.id.action_kmc_home).setVisible(isVisible);
         this.menu.findItem(R.id.action_kmc_hospital).setVisible(isVisible);
+    }
+    Dialog removeChildDialog;
+    public void showDeathRegistrationPopUp(){
+        if(removeChildDialog!=null) return;
+        isComesFromDeath = true;
+        removeChildDialog = new Dialog(this);
+        removeChildDialog.setCancelable(false);
+        removeChildDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        removeChildDialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = removeChildDialog.findViewById(R.id.title_tv);
+        titleTv.setText(R.string.meg_death_reg);
+        titleTv.setTextColor(getResources().getColor(R.color.red));
+        Button ok_btn = removeChildDialog.findViewById(R.id.ok_btn);
+        ok_btn.setText(R.string.okay);
+        Button close_btn = removeChildDialog.findViewById(R.id.close_btn);
+        close_btn.setVisibility(View.VISIBLE);
+        close_btn.setText(R.string.later_fillup);
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeChildDialog.dismiss();
+                finish();
+            }
+        });
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeChild();
+            }
+        });
+        if(!removeChildDialog.isShowing())removeChildDialog.show();
     }
 
     @Override
@@ -660,8 +691,14 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     public void openKMCHome() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.KMC_SERVICE_HOME,REQUEST_HOME_VISIT);
     }
+    public void openKMCHomeFollowUp() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.KMC_HOME_FOLLOWUP,REQUEST_HOME_VISIT);
+    }
     public void openKMCHospital() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL,REQUEST_HOME_VISIT);
+    }
+    public void openKMCHospitalFollowup() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.KMC_HOSPITAL_FOLLOWUP,REQUEST_HOME_VISIT);
     }
     public void openScanuFollowup() {
         startAnyFormActivity(HnppConstants.JSON_FORMS.SCANU_FOLLOWUP,REQUEST_HOME_VISIT);
@@ -674,6 +711,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
     }
     public void openChildInfo(String eventType) {
         startAnyFormActivity(HnppConstants.eventTypeFormNameMapping.get(eventType),REQUEST_HOME_VISIT);
+    }
+    public void removeChild() {
+        removeIndividualProfile();
     }
     public void openCoronaIndividualForm(){
         Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
@@ -815,17 +855,22 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_id", HnppDBUtils.getMotherId(childBaseEntityId));
                     }
 
-                    else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOME.equalsIgnoreCase(formName)){
+                    else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOME.equalsIgnoreCase(formName) ||
+                            HnppConstants.JSON_FORMS.KMC_HOME_FOLLOWUP.equalsIgnoreCase(formName)){
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                         Date date = Utils.dobStringToDate(DOB);
                         String dobFormate = HnppConstants.DDMMYY.format(date);
-                        int newPncCount = FormApplicability.getKMCServiceHomeCount(childBaseEntityId);
+                        int newPncCount = FormApplicability.getKMCHomeFollowupCount(childBaseEntityId);
                         if(newPncCount<=0){
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","Yes");
                         }else{
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
                         }
-                        HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getScheduleKMCHomeDate(childBaseEntityId,newPncCount+1));
+                        try{
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getScheduleKMCHomeDate(childBaseEntityId,newPncCount+1));
+                        }catch (Exception e){
+
+                        }
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);
@@ -836,7 +881,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         if(referralData!=null) {
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm, "is_referred", getString(R.string.yes));
                         }
-                    } else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL.equalsIgnoreCase(formName)){
+                    } else if(HnppConstants.JSON_FORMS.KMC_SERVICE_HOSPITAL.equalsIgnoreCase(formName)||
+                            HnppConstants.JSON_FORMS.KMC_HOSPITAL_FOLLOWUP.equalsIgnoreCase(formName)){
                         String DOB = ((HnppChildProfilePresenter) presenter).getDateOfBirth();
                         Date date = Utils.dobStringToDate(DOB);
                         String dobFormate = HnppConstants.DDMMYY.format(date);
@@ -846,7 +892,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         }else{
                             HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_first_time","No");
                         }
+                        try{
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", HnppConstants.getScheduleKMCHomeDate(childBaseEntityId,newPncCount+1));
+                        }catch (Exception e){
 
+                        }
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);

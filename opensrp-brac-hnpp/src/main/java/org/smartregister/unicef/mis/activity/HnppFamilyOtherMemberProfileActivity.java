@@ -401,9 +401,8 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
      }
 
      protected void removeIndividualProfile() {
-        Timber.d("Remove member action is not required in HF");
         IndividualProfileRemoveActivity.startIndividualProfileActivity(HnppFamilyOtherMemberProfileActivity.this,
-                commonPersonObject, familyBaseEntityId, familyHead, primaryCaregiver, FamilyRegisterActivity.class.getCanonicalName());
+                commonPersonObject, familyBaseEntityId, false, FamilyRegisterActivity.class.getCanonicalName());
     }
 
     @Override

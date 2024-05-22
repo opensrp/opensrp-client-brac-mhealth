@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "KMC Service Hospital",
+  "encounter_type": "KMC Home Followup",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,16 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "স্বাস্থ্যকেন্দ্রে কেএমসি সেবা",
+    "title": "বাড়িতে কেএমসি সেবার ফলোআপ",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "KMC Service Hospital",
+        "openmrs_entity_id": "KMC Home Followup",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "kmc_service_hospital"
+        "value": "kmc_home_followup"
       },
       {
         "key": "dob",
@@ -73,12 +73,20 @@
         "type": "hidden"
       },
       {
+        "key": "is_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "is_referred",
+        "type": "hidden"
+      },
+      {
         "key": "pnc_count",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "pnc_count",
-        "type": "hidden",
-        "read_only": true
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "কেএমসি ফলোআপ নম্বর"
       },
       {
         "key": "relational_id",
@@ -103,298 +111,21 @@
       },
 
       {
-        "key": "place_of_service_taken",
+        "key": "schedule_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "place_of_service_taken",
-        "type": "spinner",
-        "hint": "সেবা গ্রহনের স্থান",
-        "values": [
-          "মেডিকেল কলেজ হাসপাতাল",
-          "সদর হাসপাতাল",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-          "মা ও শিশু কল্যাণ কেন্দ্র",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-          "কমিউনিটি ক্লিনিক",
-          "বেসরকারী ক্লিনিক/হাসপাতাল",
-          "এনজিও ক্লিনিক",
-          "চা বাগান ফেসিলিটি",
-          "বাড়িতে",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
-          "সদর হাসপাতাল": "District_Hospital",
-          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
-          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
-          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
-          "কমিউনিটি ক্লিনিক": "Community Clinic",
-          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
-          "এনজিও ক্লিনিক": "Non-governmental_Organization",
-          "চা বাগান ফেসিলিটি": "Tea_Garden_Facility",
-          "বাড়িতে": "Home",
-          "অন্যান্য": "Others"
-        },
-        "v_required": {
-          "value": true,
-          "err": "Select Place of service"
-        }
-      },
-      {
-        "key": "service_provider",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "service_provider",
-        "type": "spinner",
-        "hint": "সেবা প্রদানকারী",
-        "values": [
-          "ডাক্তার",
-          "নার্স",
-          "মিডওয়াইফ",
-          "এফ.ডাব্লিউ.ভি.",
-          "সিএসবিএ",
-          "অন্যান্য_কেউ"
-        ],
-        "openmrs_choice_ids": {
-          "ডাক্তার": "Doctor",
-          "নার্স": "Nurse",
-          "মিডওয়াইফ": "Midwife",
-          "এফ.ডাব্লিউ.ভি.": "FWV",
-          "সিএসবিএ": "CSBA",
-          "অন্যান্য_কেউ": "Others"
-        },
-        "v_required": {
-          "value": true,
-          "err": "Select Service provider"
-        }
-      },
-      {
-        "key": "birth_weight",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "birth_weight",
+        "openmrs_entity_id": "schedule_date",
         "type": "edit_text",
-        "v_required": {
-          "value": "true",
-          "err": "ওজন (গ্রাম) লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
-        },
-        "v_max": {
-          "value": "6001",
-          "err": "6001 এর কম হওয়া উচিত"
-        },
-        "v_min": {
-          "value": "500",
-          "err": "500 এর বেশী হওয়া উচিত"
-        },
-
-        "hint": "জন্ম ওজন (গ্রাম)",
-        "relevance": {
-          "step1:is_first_time": {
-            "type": "string",
-            "ex": "equalTo(., \"Yes\")"
-          }
-        }
+        "read_only": true,
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
       },
       {
-        "key": "mother_ga",
+        "key": "service_taken_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "mother_ga",
-        "type": "spinner",
-        "hint": "শিশু জন্মের সময় মায়ের গর্ভকাল",
-        "values": [
-          "৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)",
-          "৩৭ সপ্তাহ বা তার বেশি (পরিণত শিশু)"
-        ],
-        "openmrs_choice_ids": {
-          "৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)":"below_36_week",
-          "৩৭ সপ্তাহ বা তার বেশি (পরিণত শিশু)": "above_37_week"
-        }
-      },
-      {
-        "key": "mother_ga_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "অপরিণত শিশু।পর্যবেক্ষণে রাখুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "new_born_info",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "new_born_info",
-        "type": "check_box",
-        "label": "নবজাতকের অত্যাবশ্যকীয় সেবার তথ্য",
-        "label_text_style": "bold",
-        "text_color": "#3495bf",
-        "text_size": "25px",
-        "exclusive": [
-          "chk_none"
-        ],
-        "options": [
-          {
-            "key": "head_body_covered",
-            "text": "নবজাতক জন্মের সাথে সাথে তাকে মোছানো এবং মোড়ানো হয়েছিল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "head_body_covered"
-          },
-          {
-            "key": "skin_to_skin_contact",
-            "text": "নবজাতক জন্মের পর পর তাকে মায়ের ত্বকের সংস্পর্শে  রাখা হয়েছিল ",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "skin_to_skin_contact"
-          },
-          {
-            "key": "delay_cord_cutting",
-            "text": "বিলম্বিত নাড়ি কাটা (১ থেকে ৩ মিনিটের মধ্যে)",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "delay_cord_cutting"
-          },
-          {
-            "key": "chlorohexadin",
-            "text": "নাড়ি কাঁটার পর ৭.১% ক্লোরহেক্সিডিন ব্যাবহার  করা হয়েছিল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "chlorohexadin"
-          },
-          {
-            "key": "newborn_breastfeed",
-            "text": "প্রসবের ১ ঘন্টার মধ্যে নবজাতককে বুকের দুধ খাওয়ানো হয়েছিল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "newborn_breastfeed"
-          },
-          {
-            "key": "Delayed_bathing_after_birth",
-            "text": "বিলম্বিত গোসলের উপদেশ দেয়া হয়েছিল (জন্মের ৭২ ঘণ্টা পর)",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Delayed_bathing_after_birth"
-          },
-          {
-            "key": "Delayed_bathing",
-            "text": "বিলম্বিত গোসল করানো হয়েছিল (৭২ ঘণ্টা পর)",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Delayed_bathing"
-          },
-          {
-            "key": "Counselling_on_Newborn_danger",
-            "text": "নবজাতকের বিপদচিহ্ন সংক্রান্ত কাউন্সিলিং প্রদান করা হয়েছে",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "Counselling_on_Newborn_danger"
-          }
-        ],
-        "v_required": {
-          "value": true,
-          "err": " নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "newborn_body_info",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "newborn_body_info",
-        "type": "check_box",
-        "label_text_style": "bold",
-        "text_color": "#3495bf",
-        "text_size": "25px",
-        "label": "নবজাতকের বিপদচিহ্ন",
-        "exclusive": [
-          "none"
-        ],
-        "options": [
-          {
-            "key": "lethargic_or_restricted_movement",
-            "text": "নেতিয়ে পড়া",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "lethargic_or_restricted_movement"
-          },
-          {
-            "key": "unable_to_breastfed",
-            "text": "নবজাতক কে মায়ের দুধ খাওয়াতে অক্ষম অথবা নবজাতক স্তন্যপানে অক্ষম",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "unable_to_breastfed"
-          },
-          {
-            "key": "fast_breathing",
-            "text": "স্বাভাবিক এর থেকে দ্রুত নিঃশ্বাস নিচ্ছে (প্রতি মিনিটে ৬০ অথবা তার অধিক)",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "fast_breathing"
-          },
-          {
-            "key": "chest_in_drawing",
-            "text": "বুকের খাঁচা ডেবে যাওয়া",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "chest_in_drawing"
-          },
-          {
-            "key": "convulsion",
-            "text": "খিচুনী হয়েছে ",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "convulsion"
-          },
-          {
-            "key": "high_temperature",
-            "text": "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "high_temperature"
-          },
-          {
-            "key": "low_temperature",
-            "text": "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "low_temperature"
-          },
-          {
-            "key": "redness_around_umbilicus",
-            "text": "নাভি পাকা ও চারপাশে লালভাব",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "redness_around_umbilicus"
-          },
-          {
-            "key": "none",
-            "text": "বিপদচিহ্ন নেই",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "none"
-          }
-        ]
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "বাড়িতে পরিদর্শনের তারিখ"
       },
       {
         "key": "physical_condition",
@@ -451,6 +182,7 @@
           }
         }
       },
+
       {
         "key": "physical_death",
         "openmrs_entity_parent": "",
@@ -464,6 +196,98 @@
           "step1:physical_condition": {
             "type": "string",
             "ex": "equalTo(., \"মৃত\")"
+          }
+        }
+      },
+      {
+        "key": "birth_defect",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_defect",
+        "type": "spinner",
+        "hint": "কে ম সি প্রদানের সময় মা/ সেবাদানকারী কে এম সি বাইন্ডার ব্যবহার করেছিল কি ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "kmc_service_at_visit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_service_at_visit",
+        "type": "spinner",
+        "hint": "পরিদর্শনের সময় শিশুকে কি কে এম সি দেওয়া হচ্ছিলো ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "kmc_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_hour",
+        "type": "edit_text",
+        "hint": "বাড়িতে প্রতিদিন কত ঘণ্টা কে এম সি দেওয়া হচ্ছে ? ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "25",
+          "err": "24 এর সমান বা 24 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "only_breast_feeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "only_breast_feeding",
+        "type": "spinner",
+        "hint": "নবজাতককে শুধুমাত্র মায়ের বুকের দুধ খাওয়ানো হচ্ছে ? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
           }
         }
       },
@@ -499,21 +323,6 @@
           }
         }
       },
-      {
-        "key": "is_risk",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_risk",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-
       {
         "key": "weight_warning_less",
         "openmrs_entity_parent": "",
@@ -576,7 +385,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
+        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -623,29 +432,6 @@
           "step1:breating_rate": {
             "type": "string",
             "ex": "equalTo(.,  \"শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি\")"
-          }
-        }
-      },
-      {
-        "key": "only_breast_feeding",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "only_breast_feeding",
-        "type": "spinner",
-        "hint": "নবজাতককে শুধুমাত্র মায়ের বুকের দুধ খাওয়ানো হচ্ছে ? ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
           }
         }
       },
@@ -769,6 +555,7 @@
           "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
           "অন্যান্য":"Others_Health_Facility"
         },
+
         "relevance": {
           "step1:is_Referred": {
             "type": "string",

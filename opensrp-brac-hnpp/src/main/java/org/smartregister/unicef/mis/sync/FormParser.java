@@ -77,6 +77,8 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_RE
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_SESSION_INFO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_HOME_FOLLOWUP;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_HOSPITAL_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER_DISEASE;
@@ -598,20 +600,65 @@ public class FormParser {
                 }
                 break;
             case KMC_SERVICE_HOME:
+                if (details.containsKey("birth_weight") && !StringUtils.isEmpty(details.get("birth_weight"))) {
+                    String status = details.get("birth_weight");
+                    if(!TextUtils.isEmpty(status)){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+
+                }
             {
                 SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
                 db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
             }
+                if (details.containsKey("physical_condition") && !StringUtils.isEmpty(details.get("physical_condition"))) {
+                    String status = details.get("physical_condition");
+                    if(status.equalsIgnoreCase("death") || status.equalsIgnoreCase("মৃত")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ CoreConstants.EventType.REMOVE_CHILD +"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
 
                 break;
             case KMC_SERVICE_HOSPITAL:
+                if (details.containsKey("birth_weight") && !StringUtils.isEmpty(details.get("birth_weight"))) {
+                    String status = details.get("birth_weight");
+                    if(!TextUtils.isEmpty(status)){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+
+                }
             {
                 SQLiteDatabase database = HnppApplication.getInstance().getRepository().getReadableDatabase();
                 database.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
-
             }
+                if (details.containsKey("physical_condition") && !StringUtils.isEmpty(details.get("physical_condition"))) {
+                    String status = details.get("physical_condition");
+                    if(status.equalsIgnoreCase("death") || status.equalsIgnoreCase("মৃত")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ CoreConstants.EventType.REMOVE_CHILD +"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
+                    }
+                }
+
+                break;
+            case KMC_HOME_FOLLOWUP:
+            case KMC_HOSPITAL_FOLLOWUP:
+            case SCANU_FOLLOWUP:
+                if (details.containsKey("physical_condition") && !StringUtils.isEmpty(details.get("physical_condition"))) {
+                    String status = details.get("physical_condition");
+                    if(status.equalsIgnoreCase("death") || status.equalsIgnoreCase("মৃত")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set kmc_status='"+ CoreConstants.EventType.REMOVE_CHILD +"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
                 break;
 
             case NEW_BORN_PNC_1_4:

@@ -16,12 +16,14 @@ import timber.log.Timber;
 public class IndividualProfileRemoveActivity extends SecuredActivity {
 
     protected IndividualProfileRemoveFragment individualProfileRemoveFragment;
-    public static void startIndividualProfileActivity(Activity activity, CommonPersonObjectClient commonPersonObjectClient, String familyBaseEntityId, String familyHead, String primaryCareGiver, String viewRegisterClass) {
+    boolean isComesFromDeath = false;
+    public static void startIndividualProfileActivity(Activity activity, CommonPersonObjectClient commonPersonObjectClient, String familyBaseEntityId, boolean isComesFromDeath, String viewRegisterClass) {
         Intent intent = new Intent(activity, IndividualProfileRemoveActivity.class);
         intent.putExtra(HnppConstants.INTENT_KEY.CHILD_COMMON_PERSON, commonPersonObjectClient);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_BASE_ENTITY_ID, familyBaseEntityId);
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.FAMILY_HEAD, "");
         intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.PRIMARY_CAREGIVER, "");
+        intent.putExtra("is_comes_death", isComesFromDeath);
         intent.putExtra(HnppConstants.INTENT_KEY.VIEW_REGISTER_CLASS, viewRegisterClass);
         activity.startActivityForResult(intent, HnppConstants.ProfileActivityResults.CHANGE_COMPLETED);
     }
@@ -31,6 +33,7 @@ public class IndividualProfileRemoveActivity extends SecuredActivity {
         findViewById(org.smartregister.chw.core.R.id.detail_toolbar).setVisibility(View.GONE);
         findViewById(org.smartregister.chw.core.R.id.close).setVisibility(View.GONE);
         findViewById(org.smartregister.chw.core.R.id.tvDetails).setVisibility(View.GONE);
+        isComesFromDeath = getIntent().getBooleanExtra("is_comes_death",false);
         setRemoveMemberFragment();
         startFragment();
     }
@@ -52,6 +55,7 @@ public class IndividualProfileRemoveActivity extends SecuredActivity {
     }
     protected void setRemoveMemberFragment() {
         this.individualProfileRemoveFragment = IndividualProfileRemoveFragment.newInstance(getIntent().getExtras());
+        this.individualProfileRemoveFragment.setComesFromDeathRegistration(isComesFromDeath);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

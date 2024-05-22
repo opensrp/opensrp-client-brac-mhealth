@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.activity.HnppChildProfileActivity;
@@ -64,6 +65,7 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
     private static final int TAG_CHILD_ECCD_36_month = 1236;
     private static final int TAG_KMC_HOME = 1337;
     private static final int TAG_KMC_HOSPITAL = 1338;
+    private static final int TAG_REMOVE = 13389;
     private static final int TAG_SCANU_FOLLOWUP = 1339;
     private static final int TAG_ENC= 333;
     private static final int TAG_CHILD_DUE= 444;
@@ -313,6 +315,13 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if(!TextUtils.isEmpty(kmcForm)){
             if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME)) updateDueView(kmcForm,TAG_KMC_HOME,FormApplicability.getKMCHomeTitle(baseEntityId));
             else if(kmcForm.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL)) updateDueView(kmcForm,TAG_KMC_HOSPITAL,FormApplicability.getKMCHospitalTitle(baseEntityId));
+            else if(kmcForm.equalsIgnoreCase(CoreConstants.EventType.REMOVE_CHILD)){
+              //  updateDueView(kmcForm,TAG_REMOVE,getString(R.string.death_form));
+                if(mActivity instanceof HnppChildProfileActivity){
+                    HnppChildProfileActivity childProfileActivity = (HnppChildProfileActivity) mActivity;
+                    childProfileActivity.showDeathRegistrationPopUp();
+                }
+            }
         }
         int scanuCount = FormApplicability.getScanuCount(baseEntityId);
         if(scanuCount>=1){
@@ -437,13 +446,20 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
                 case TAG_KMC_HOME:
                     if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
-                        activity.openKMCHome();
+                        activity.openKMCHomeFollowUp();
                     }
                     break;
+                case TAG_REMOVE:
+                    if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
+                        HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
+                        activity.removeChild();
+                    }
+                    break;
+
                 case TAG_KMC_HOSPITAL:
                     if (mActivity != null && mActivity instanceof HnppChildProfileActivity) {
                         HnppChildProfileActivity activity = (HnppChildProfileActivity) mActivity;
-                        activity.openKMCHospital();
+                        activity.openKMCHospitalFollowup();
                     }
                     break;
                 case TAG_SCANU_FOLLOWUP:

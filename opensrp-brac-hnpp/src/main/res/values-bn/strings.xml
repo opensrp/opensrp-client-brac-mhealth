@@ -582,8 +582,10 @@
     <string name="vitamin_service">ভিটামিন সার্ভিস</string>
     <string name="child_followup">শিশু ফলোআপ</string>
     <string name="newborn_pnc_1_4">নবজাতক পি এন সি ১-৪</string>
-    <string name="kmc_service_home">বাড়িতে কেএমসি সেবার ফলোআপ</string>
-    <string name="kmc_service_hospital">স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_service_home">বাড়িতে কেএমসি সেবা</string>
+    <string name="kmc_home_followup">বাড়িতে কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_service_hospital">স্বাস্থ্যকেন্দ্রে কেএমসি সেবা</string>
+    <string name="kmc_hospital_followup">স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ</string>
     <string name="scanu_followup">স্কানু শিশুর ফলোআপ</string>
     <string name="aifi_child">এ ই এফ আই ফলোআপ</string>
     <string name="common_disease_info">সাধারণ রোগের তথ্য</string>
@@ -1151,4 +1153,7 @@
     <string name="second_suffix">- ২য়</string>
     <string name="third_suffix">- ৩য়</string>
     <string name="fourth_suffix">- ৪র্থ</string>
+    <string name="death_form">মৃত্যু নিবন্ধন</string>
+    <string name="meg_death_reg">শিশুটির মৃত্যু নিবন্ধন ফরমটি পূরণ করুন</string>
+    <string name="later_fillup">পরে পূরণ করবো</string>
 </resources>

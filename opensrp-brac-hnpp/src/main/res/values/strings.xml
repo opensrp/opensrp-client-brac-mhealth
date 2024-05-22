@@ -629,8 +629,10 @@
     <string name="vitamin_service">ভিটামিন সার্ভিস</string>
     <string name="child_followup">শিশু ফলোআপ</string>
     <string name="newborn_pnc_1_4">নবজাতক পি এন সি ১-৪</string>
-    <string name="kmc_service_home">বাড়িতে কেএমসি সেবার ফলোআপ</string>
-    <string name="kmc_service_hospital">স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_service_home">বাড়িতে কেএমসি সেবা</string>
+    <string name="kmc_home_followup">বাড়িতে কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_service_hospital">স্বাস্থ্যকেন্দ্রে কেএমসি সেবা</string>
+    <string name="kmc_hospital_followup">স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ</string>
     <string name="scanu_followup">SCANU Followup</string>
     <string name="aifi_child">এ ই এফ আই ফলোআপ</string>
     <string name="common_disease_info">সাধারণ রোগের তথ্য</string>
@@ -1194,6 +1196,9 @@
     <string name="id_type">আইডি টাইপ</string>
     <string name="registration_korun">রেজিস্ট্রেশন করুন</string>
     <string name="no_member_found">এই আইডি দিয়ে কোনো সদস্য পাওয়া যায়নি </string>
+    <string name="death_form">মৃত্যু নিবন্ধন</string>
+    <string name="meg_death_reg">শিশুটির মৃত্যু নিবন্ধন ফরমটি পূরণ করুন</string>
+    <string name="later_fillup">পরে পূরণ করবো</string>
     <string-array name="edema_value">
         <item>না</item>
         <item>হ্যাঁ (উভয় পা ফোলা)</item>
