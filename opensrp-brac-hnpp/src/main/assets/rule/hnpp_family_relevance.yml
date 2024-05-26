@@ -5,3 +5,10 @@ priority: 1
 condition: "!step1_ss_name.contains('স্বাস্থ্য সেবিকার নামঃ')"
 actions:
   - "isRelevant = true"
+---
+name: step1_ss_name
+description: after ss name select
+priority: 1
+condition: "!step1_sk_name.contains('স্বাস্থ্য কর্মীর নামঃ')"
+actions:
+  - "isRelevant = true"

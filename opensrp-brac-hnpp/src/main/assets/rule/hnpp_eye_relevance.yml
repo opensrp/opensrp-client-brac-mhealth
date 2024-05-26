@@ -2,48 +2,48 @@
 name: step1_power
 description: present_condition
 priority: 1
-condition: "(step1_exam_result.equalsIgnoreCase('প্রেসবায়োপিয়া'))"
+condition: "(step1_exam_result.contains('presbiopia'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_is_need_glasses
 description: present condition
 priority: 1
-condition: "(!step1_exam_result.equalsIgnoreCase('সমস্যা নেই'))"
+condition: "(step1_exam_result.contains('presbiopia') || step1_exam_result.contains('cataract')|| step1_exam_result.contains('hyperopia'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_glasses_type_presbiopia
 description: present condition
 priority: 1
-condition: "(step1_exam_result.equalsIgnoreCase('প্রেসবায়োপিয়া') && step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
+condition: "(step1_exam_result.contains('presbiopia') && step1_is_need_glasses.contains('yes'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_glasses_type_all
 description: present condition
 priority: 1
-condition: "(!step1_exam_result.equalsIgnoreCase('প্রেসবায়োপিয়া')&& step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
+condition: "(!step1_exam_result.contains('presbiopia')&& step1_is_need_glasses.contains('yes'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_first_glass_user
 description: present condition
 priority: 1
-condition: "(step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
+condition: "(step1_is_need_glasses.contains('yes'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_glasses_sell
 description: present condition
 priority: 1
-condition: "(step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
+condition: "(step1_is_need_glasses.contains('yes'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_first_glass_user
 description: present condition
 priority: 1
-condition: "(step1_exam_result.equalsIgnoreCase('প্রেসবায়োপিয়া')&& step1_is_need_glasses.equalsIgnoreCase('হ্যাঁ'))"
+condition: "(step1_exam_result.contains('presbiopia')&& step1_is_need_glasses.contains('yes'))"
 actions:
   - "isRelevant = true"

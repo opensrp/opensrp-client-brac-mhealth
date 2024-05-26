@@ -38,17 +38,17 @@
                 android:textSize="24sp" />
 
 
-                <ImageView
-                    android:id="@+id/refreshIndicatorsIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="5dp"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentRight="true"
-                    android:clickable="true"
-                    android:contentDescription="Refresh indicators"
-                    android:focusable="true"
-                    app:srcCompat="@mipmap/sidemenu_sync" />
+        <ImageView
+            android:id="@+id/refreshIndicatorsIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:contentDescription="Refresh indicators"
+            android:focusable="true"
+            android:padding="5dp"
+            app:srcCompat="@mipmap/sidemenu_sync" />
 
 
     </RelativeLayout>

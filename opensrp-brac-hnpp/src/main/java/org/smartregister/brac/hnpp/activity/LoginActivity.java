@@ -208,6 +208,9 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if(BuildConfig.DEBUG){
 //            userNameText.setText("01313049998");
 //            passwordText.setText("9998");
+            //  PA user
+            userNameText.setText("01787699880");
+            passwordText.setText("9880");
         }
     }
     @Override
@@ -494,19 +497,18 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         if(isConnected){
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
-            HHVisitDurationFetchJob.scheduleJobImmediately(HHVisitDurationFetchJob.TAG);
-
             HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-            PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             if(!HnppConstants.isPALogin()){
-                SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
                 MigrationFetchJob.scheduleJobImmediately(MigrationFetchJob.TAG);
+                HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
+                VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+                VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+                HHVisitDurationFetchJob.scheduleJobImmediately(HHVisitDurationFetchJob.TAG);
+                PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             }
-            HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-            VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
-            VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+
             if(HnppConstants.isPALogin() && SSLocationHelper.getInstance().getSsModels().size()==0){
-                startActivity(new Intent(this, SkSelectionActivity.class));
+                startActivity(new Intent(this, PANewHomeActivity.class));
             }
 
         }

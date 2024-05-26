@@ -36,13 +36,13 @@ actions:
 name: step1_suger_confirm_hospital
 description: if suger_test_hospital = 'হ্যাঁ' or suger_confirm_hospital = 'হ্যাঁ'
 priority: 1
-condition: "step1_suger_test_hospital.equalsIgnoreCase('হ্যাঁ') || step1_suger_confirm_hospital.equalsIgnoreCase('হ্যাঁ')"
+condition: "step1_suger_test_hospital.contains('yes') || step1_suger_confirm_hospital.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_pressure_confirm_hospital
 description: if pressure_test_hospital = 'হ্যাঁ' or pressure_confirm_hospital = 'হ্যাঁ'
 priority: 1
-condition: "step1_pressure_test_hospital.equalsIgnoreCase('হ্যাঁ') || step1_pressure_confirm_hospital.equalsIgnoreCase('হ্যাঁ')"
+condition: "step1_pressure_test_hospital.contains('yes') || step1_pressure_confirm_hospital.contains('yes')"
 actions:
   - "isRelevant = true"

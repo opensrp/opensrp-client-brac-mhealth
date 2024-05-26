@@ -85,6 +85,7 @@ import static org.smartregister.chw.anc.util.NCUtils.getSyncHelper;
 public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static final String METADATA = "metadata";
     public static final String SS_NAME = "ss_name";
+    public static final String SK_NAME = "sk_name";
     public static final String SIMPRINTS_ENABLE = "simprints_enable";
     public static final String VILLAGE_NAME = "village_name";
     public static final String ENCOUNTER_TYPE = "encounter_type";
@@ -541,6 +542,56 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         return null;
     }
+    public static synchronized Visit savePAVisit(String encounterType,final Map<String, String> jsonString,String baseEntityId,String formSubmissionId,String visitId) throws Exception {
+        Log.v("SAVE_VISIT","saveVisit>>");
+
+
+        AllSharedPreferences allSharedPreferences = AncLibrary.getInstance().context().allSharedPreferences();
+
+        //String derivedEncounterType = StringUtils.isBlank(parentEventType) ? encounterType : "";
+        //Event baseEvent = org.smartregister.chw.anc.util.JsonFormUtils.processVisitJsonForm(allSharedPreferences, memberID, derivedEncounterType, jsonString, getTableName());
+        //
+        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString.get("First"));
+        JSONObject jsonForm = (JSONObject)registrationFormParams.getMiddle();
+        JSONArray fields = (JSONArray)registrationFormParams.getRight();
+        HnppJsonFormUtils.dobFromEstimatedAge(fields);
+        Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, "metadata"), formTag(allSharedPreferences), baseEntityId,encounterType,getTableName());
+
+
+        if (baseEvent != null) {
+            baseEvent.setFormSubmissionId(formSubmissionId);
+            try{
+                Map<String,String> villageIds = new HashMap<>();
+                villageIds.put("village_id",HnppDBUtils.getVillageIdByBaseEntityId(baseEvent.getBaseEntityId()));
+                baseEvent.setIdentifiers(villageIds);
+            }catch (Exception e){
+
+            }
+
+            org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
+            String visitID ="";
+            if(!TextUtils.isEmpty(baseEvent.getEventId())){
+                visitID = baseEvent.getEventId();
+            }else{
+                visitID = visitId;
+            }
+            HnppConstants.appendLog("SAVE_VISIT","saveVisit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
+
+            Visit visit = NCUtils.eventToVisit(baseEvent, visitID);
+            visit.setPreProcessedJson(new Gson().toJson(baseEvent));
+            if( visitRepository().getVisitByFormSubmissionID(formSubmissionId)==null){
+                visitRepository().addVisit(visit);
+                HnppConstants.appendLog("SAVE_VISIT","added to visit>>>baseEntityId:"+baseEvent.getBaseEntityId()+":formSubmissionId:"+baseEvent.getFormSubmissionId()+":baseEvent:"+baseEvent.getEntityType());
+
+                return visit;
+            }else{
+                Visit emptyVisit = new Visit();
+                emptyVisit.setVisitId("0");
+                return null;
+            }
+        }
+        return null;
+    }
     public static Event processVisitJsonForm(AllSharedPreferences allSharedPreferences, String entityId, String encounterType, Map<String, String> jsonStrings, String tableName) {
 
         // aggregate all the fields into 1 payload
@@ -586,53 +637,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static String getEncounterType(String formEncounterType) {
         switch (formEncounterType){
-            case HnppConstants.EVENT_TYPE.ELCO:
-                return HnppConstants.EVENT_TYPE.ELCO;
-            case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
-                return HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
-            case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
-                return HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
-            case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
-                return HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
-            case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-                return HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
-            case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-                return HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
-            case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
-                return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-            case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-                return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
-                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
-            case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
-                return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
-            case  HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
-                return HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
-            case  HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP:
-                return HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP;
-            case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
-                return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
-            case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
-                return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
-            case  HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
-                return HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
-            case  HnppConstants.EVENT_TYPE.EYE_TEST:
-                return HnppConstants.EVENT_TYPE.EYE_TEST;
-            case  HnppConstants.EVENT_TYPE.BLOOD_GROUP:
-                return HnppConstants.EVENT_TYPE.BLOOD_GROUP;
-            case  HnppConstants.EventType.REMOVE_MEMBER:
-                return HnppConstants.EventType.REMOVE_MEMBER;
-            case  HnppConstants.EventType.REMOVE_CHILD:
-                return HnppConstants.EventType.REMOVE_CHILD;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_7_24_MONTHS;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_25_MONTHS;
-            case  HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12:
-                return HnppConstants.EVENT_TYPE.CHILD_INFO_EBF12;
-                default:
-                    return org.smartregister.chw.anc.util.Constants.EVENT_TYPE.ANC_HOME_VISIT;
+            default: return formEncounterType;
         }
 
     }
@@ -1196,6 +1201,20 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
+    public static JSONObject updateFormWithSKName(JSONObject form, ArrayList<String> skNames) throws Exception{
+
+        JSONArray jsonArray = new JSONArray();
+        for(String name : skNames){
+            jsonArray.put(name);
+        }
+        JSONArray field = fields(form, STEP1);
+        JSONObject spinner = getFieldJSONObject(field, SK_NAME);
+
+        spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        return form;
+
+
+    }
     public static JSONObject updateFormWithSSName(JSONObject form, ArrayList<SSModel> ssLocationForms,String defaultValue) throws Exception{
 
         JSONArray jsonArray = new JSONArray();
@@ -1597,7 +1616,18 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
 
-
+    public static void dobFromEstimatedAge(JSONArray fields) {
+        try {
+                String ageString = getFieldValue(fields, "estimated_age");
+                if (StringUtils.isNotBlank(ageString) && NumberUtils.isNumber(ageString)) {
+                    int age = Integer.valueOf(ageString);
+                    JSONObject dobJSONObject = getFieldJSONObject(fields, "dob");
+                    dobJSONObject.put("value", getDobWithToday(age));
+                }
+        } catch (JSONException var9) {
+            Timber.e(var9);
+        }
+    }
 
 
     public static void dobEstimatedUpdateFromAge(JSONArray fields) {

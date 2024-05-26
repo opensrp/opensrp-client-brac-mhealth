@@ -947,6 +947,9 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_FORM_AFTER_48_HOUR_OOC = "hnpp_pnc_registration_after48_hour_ooc";
         public static final String WOMEN_PACKAGE = "hnpp_women_package";
         public static final String EYE_TEST = "eye_test";
+        public static final String PA_VB = "pa_vb";
+        public static final String PA_EYE_TEST = "pa_eye_test";
+        public static final String PA_NCD = "pa_ncd";
         public static final String BLOOD_TEST = "blood_test";
         public static final String GIRL_PACKAGE = "hnpp_adolescent_package";
         public static final String NCD_PACKAGE = "hnpp_ncd_package";
@@ -1085,6 +1088,11 @@ public class HnppConstants extends CoreConstants {
         public static final String PNC_PACKAGE = "PNC package";
         public static final String GUEST_MEMBER_REGISTRATION = "OOC Member Registration";
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
+
+        public static final String PA_VB = "VB";
+        public static final String PA_NCD = "PA NCD";
+        public static final String PA_EYE_TEST = "PA EYE TEST";
+
     }
 
     public static final class SURVEY_KEY {
@@ -1417,6 +1425,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.NCD_PACKAGE, R.drawable.ic_muac)
             .put(EVENT_TYPE.BLOOD_GROUP, R.drawable.ic_blood)
             .put(EVENT_TYPE.EYE_TEST, R.drawable.ic_eye)
+            .put(EVENT_TYPE.PA_VB, R.drawable.ic_eye)
+            .put(EVENT_TYPE.PA_EYE_TEST, R.drawable.ic_eye)
+            .put(EVENT_TYPE.PA_NCD, R.drawable.ic_sugar_blood_level)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, R.mipmap.ic_anc_pink)
 
@@ -1486,7 +1497,10 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী কাউন্সেলিং")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
-            .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.EYE_TEST, "ভিশন বাংলাদেশ")
+            .put(EVENT_TYPE.PA_VB, "ভিশন বাংলাদেশ")
+            .put(EVENT_TYPE.PA_EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_NCD, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
@@ -1543,6 +1557,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM, "অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE, "অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_VB, "ভিশন বাংলাদেশ")
+            .put(EVENT_TYPE.PA_EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_NCD, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN, "সেবা গ্রহীতার সংখ্যা")
             .put(EVENT_TYPE.MARKED_PRESBYOPIA, "চিহ্নিত প্রেসবায়োপিয়া")
             .put(EVENT_TYPE.PRESBYOPIA_CORRECTION, "প্রেসবায়োপিয়া কারেকশন")
@@ -1584,6 +1601,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_VB, "ভিশন বাংলাদেশ")
+            .put(EVENT_TYPE.PA_EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_NCD, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.GLASS, "মোট চশমা")
             .put(EVENT_TYPE.SUN_GLASS, "সানগ্লাস")
             .put(EVENT_TYPE.SV_1, "SV- 1.00")
@@ -1640,6 +1660,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_VB, "ভিশন বাংলাদেশ")
+            .put(EVENT_TYPE.PA_EYE_TEST, "চক্ষু পরীক্ষা")
+            .put(EVENT_TYPE.PA_NCD, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, "গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
 

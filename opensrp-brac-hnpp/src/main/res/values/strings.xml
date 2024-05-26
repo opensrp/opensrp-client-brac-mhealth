@@ -52,6 +52,7 @@
     <string name="guest_member">বহিরাগত সদস্য</string>
     <string name="menu_simprints">আঙুলের ছাপ দ্বারা সদস্য খুঁজি</string>
     <string name="unique_id_form_field">খানা নাম্বার</string>
+    <string name="sk_name_form_field">স্বাস্থ্য কর্মীর নামঃ</string>
     <string name="ss_name_form_field">স্বাস্থ্য সেবিকার নামঃ</string>
     <string name="ss_year">বছর নির্বাচন করুন</string>
     <string name="ss_month">মাস নির্বাচন করুন</string>
@@ -394,4 +395,6 @@
     <string name="update_last_visit_date">পরিদর্শনের তারিখ আপডেট</string>
     <string name="update_last_visit_date_progress_msg">পরিদর্শনের তারিখ আপডেট করা হচ্ছে …</string>
     <string name="update_last_visit_succ_msg">পরিদর্শনের তারিখ আপডেট হয়েছে</string>
+    <string name="previous_history">পূর্বের ইতিহাস</string>
+    <string name="pa_vb">ভিশন বাংলাদেশ</string>
 </resources>
