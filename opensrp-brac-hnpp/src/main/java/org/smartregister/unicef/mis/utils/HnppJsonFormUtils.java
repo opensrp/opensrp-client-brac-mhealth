@@ -891,6 +891,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             jsonArray.put("নবজাতকের মৃত্যু (জন্মের ৪২ দিনের মধ্যে)");
             JSONArray field = fields(form, STEP1);
             JSONObject spinner = getFieldJSONObject(field, "remove_reason");
+            spinner.put("hint","শিশুর মৃত্যু নিবন্ধন ফর্ম");
             spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,"");
             spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
         }catch (Exception e){
