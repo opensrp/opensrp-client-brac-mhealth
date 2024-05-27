@@ -541,7 +541,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                 openKMCHome();
                 return true;
             case R.id.action_kmc_hospital:
-                openKMCHospital();
+                openKMCHomeFollowUp();
                 return true;
             default:
                 break;

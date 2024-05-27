@@ -113,32 +113,19 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
-        "hint": "সেবা গ্রহণের তারিখ"
-      },
-
-      {
-        "key": "kmc_start_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "kmc_start_date",
-        "type": "date_picker",
-        "hint": "বাড়িতে কেএমসি শুরুর তারিখ",
-        "expanded": false,
-        "max_date": "today",
-        "min_date": "",
+        "hint": "বাড়ি পরিদর্শনের তারিখ",
         "v_required": {
           "value": "true",
-          "err": "শুরুর তারিখ"
+          "err": "পরিদর্শনের তারিখ"
         }
       },
       {
-        "key": "kmc_start_time",
+        "key": "service_taken_time",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "kmc_start_time",
+        "openmrs_entity_id": "service_taken_time",
         "type": "time_picker",
-        "hint": "বাড়িতে কেএমসি শুরুর সময়",
-        "expanded": false,
+        "hint": "বাড়ি পরিদর্শনের সময়",
         "v_required": {
           "value": "true",
           "err": "শুরুর তারিখ"
@@ -183,23 +170,6 @@
         "openmrs_choice_ids": {
           "৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)":"below_36_week",
           "৩৭ সপ্তাহ বা তার বেশি (পরিণত শিশু)": "above_37_week"
-        }
-      },
-      {
-        "key": "mother_ga_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "অপরিণত শিশু।পর্যবেক্ষণে রাখুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
         }
       },
       {
@@ -278,6 +248,101 @@
           "err": " নির্বাচন করুন"
         }
       },
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "weight",
+        "type": "edit_text",
+        "v_required": {
+          "value": "true",
+          "err": "ওজন (গ্রাম) লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "6001",
+          "err": "6001 এর কম হওয়া উচিত"
+        },
+        "v_min": {
+          "value": "500",
+          "err": "500 এর বেশী হওয়া উচিত"
+        },
+
+        "hint": "বর্তমান ওজন (গ্রাম)",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "body_temparature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "body_temparature",
+        "type": "spinner",
+        "hint": "শরীরের তাপমাত্রা",
+        "values": [
+          "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে",
+          "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
+          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
+        ],
+        "openmrs_choice_ids": {
+          "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে": "normal",
+          "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে": "high_temparature",
+          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_risk_temparature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_risk_temparature",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "breating_rate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "breating_rate",
+        "type": "spinner",
+        "hint": "শ্বাসের হার (প্রতি মিনিটে)",
+        "values": [
+          "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)",
+          "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি"
+        ],
+        "openmrs_choice_ids": {
+          "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)": "normal_breating",
+          "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি": "Rapid_breathing"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+
       {
         "key": "newborn_body_info",
         "openmrs_entity_parent": "",
@@ -367,12 +432,12 @@
         ]
       },
       {
-        "key": "kmc_hospital_warning",
+        "key": "kmc_danger_warning",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "নবজাতককে অতি দ্রুত কেএমসি সেবার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন ",
+        "text": "শিশুকে ত্বকের স্পর্শে সঠিক তাপমাত্রা বজায় রেখে মায়ের বুকের দুধ খাওয়াতে খাওয়াতে অতি দ্রুত নিকটস্থ স্বাস্থ্য কেন্দ্রে নিতে সহায়তা করুন ",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -384,14 +449,11 @@
         }
       },
       {
-        "key": "is_kmc_hospital",
+        "key": "is_refer",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_kmc_hospital",
-        "hint": "কেএমসি স্বাস্থ্যকেন্দ্রে",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "is_refer",
         "type": "hidden",
-        "edit_type": "number",
-        "read_only": true,
         "calculation": {
           "rules-engine": {
             "ex-rules": {
@@ -401,84 +463,43 @@
         }
       },
       {
-        "key": "physical_condition",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "physical_condition",
-        "type": "spinner",
-        "hint": " শারীরিক অবস্থা",
-        "values": [
-          "সুস্থ",
-          "অসুস্থ",
-          "মৃত"
-        ],
-        "openmrs_choice_ids": {
-          "সুস্থ": "healthy",
-          "অসুস্থ": "sick",
-          "মৃত": "death"
-        }
-      },
-      {
-        "key": "physical_sick",
+        "key": "kmc_home_warning",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "শিশুকে নিকটস্থ স্বাস্থ্য কেন্দ্রে রেফার ক়রুন",
+        "text": "শিশুটিকে কে এম সি সেবার জন্য নিকটস্থ স্বাস্থ কেন্দ্রে রেফার করুন।",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
-          "step1:physical_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"অসুস্থ\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
           }
         }
       },
       {
-        "key": "death_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "death_date",
-        "type": "date_picker",
-        "hint": "মৃত্যুর তারিখ",
-        "expanded": false,
-        "max_date": "today",
-        "min_date": "",
-        "v_required": {
-          "value": "true",
-          "err": "মৃত্যুর তারিখ"
-        },
-        "relevance": {
-          "step1:physical_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"মৃত\")"
-          }
-        }
-      },
-
-      {
-        "key": "physical_death",
+        "key": "kmc_home_calculation",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "মৃত্যু নিবন্ধন ফর্ম টি পুরন ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:physical_condition": {
-            "type": "string",
-            "ex": "equalTo(., \"মৃত\")"
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
           }
         }
       },
       {
-        "key": "only_breast_feeding",
+        "key": "agreed_to_go_hospital",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "only_breast_feeding",
+        "openmrs_entity_id": "agreed_to_go_hospital",
         "type": "spinner",
-        "hint": "নবজাতককে শুধুমাত্র মায়ের বুকের দুধ খাওয়ানো হচ্ছে ? ",
+        "hint": " নবজাতকের পরিবার কি স্বাস্থ্যকেন্দ্রে নিতে সম্মত",
         "values": [
           "হ্যাঁ",
           "না"
@@ -488,171 +509,41 @@
           "না": "No"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "weight",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "weight",
-        "type": "edit_text",
-        "v_required": {
-          "value": "true",
-          "err": "ওজন (গ্রাম) লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
-        },
-        "v_max": {
-          "value": "6001",
-          "err": "6001 এর কম হওয়া উচিত"
-        },
-        "v_min": {
-          "value": "500",
-          "err": "500 এর বেশী হওয়া উচিত"
-        },
-
-        "hint": "বর্তমান ওজন (গ্রাম)",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "weight_warning_less",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটির ওজন কম। শিশুটিকে দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "weight_less_birth",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুর ওজন তার জন্ম ওজনের় চেয়ে় ক়ম।শিশুটিকে দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "body_temparature",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "body_temparature",
-        "type": "spinner",
-        "hint": "শরীরের তাপমাত্রা",
-        "values": [
-          "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে",
-          "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
-          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
-        ],
-        "openmrs_choice_ids": {
-          "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে": "normal",
-          "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে": "high_temparature",
-          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "is_risk_temparature",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_risk_temparature",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "temparature_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": " দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "breating_rate",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "breating_rate",
-        "type": "spinner",
-        "hint": "শ্বাসের হার (প্রতি মিনিটে)",
-        "values": [
-          "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)",
-          "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি"
-        ],
-        "openmrs_choice_ids": {
-          "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)": "normal_breating",
-          "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি": "Rapid_breathing"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "breating_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:breating_rate": {
+          "step1:kmc_home_calculation": {
             "type": "string",
-            "ex": "equalTo(.,  \"শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি\")"
+            "ex": "regex(., \"1\")"
+          }
+        }
+      },
+      {
+        "key": "agreed_to_go_hospital_yes",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " শিশুকে ত্বকের স্পর্শে সঠিক তাপমাত্রা বজায় রেখে মায়ের বুকের দুধ খাওয়াতে খাওয়াতে স্বাস্থ্য কেন্দ্রে নিতে সহায়তা করুন  ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:agreed_to_go_hospital": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "agreed_to_go_hospital_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": " মা ও পরিবারের সদস্যদের কেএমসি বিষয়ক কাউন্সেলিং করুন  ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:agreed_to_go_hospital": {
+            "type": "string",
+            "ex": "regex(., \"না\")"
           }
         }
       },
@@ -672,10 +563,71 @@
           "না": "No"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
+          }
+        }
+      },
+      {
+        "key": "kmc_start_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_start_date",
+        "type": "date_picker",
+        "hint": "বাড়িতে কে এম সি শুরুর তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "min_date": "",
+        "v_required": {
+          "value": "true",
+          "err": "শুরুর তারিখ"
+        },
+        "relevance": {
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
+          }
+        }
+      },
+      {
+        "key": "kmc_start_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_start_time",
+        "type": "time_picker",
+        "hint": "বাড়িতে কেএমসি শুরুর সময়",
+        "expanded": false,
+        "v_required": {
+          "value": "true",
+          "err": "শুরুর তারিখ"
+        },
+        "relevance": {
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
+          }
+        }
+      },
+      {
+        "key": "only_breast_feeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "only_breast_feeding",
+        "type": "spinner",
+        "hint": "নবজাতককে শুধুমাত্র মায়ের বুকের দুধ খাওয়ানো হচ্ছে ? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
           }
         }
       },
@@ -730,6 +682,23 @@
           }
         ],
         "relevance": {
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
+          }
+        }
+      },
+
+      {
+        "key": "kmc_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুকে নিকটস্থ স্বাস্থ্য কেন্দ্রে রেফার ক়রুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
           "rules-engine": {
             "ex-rules": {
               "rules-file": "kmc_service_relevance.yml"
@@ -751,13 +720,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
         }
       },
       {

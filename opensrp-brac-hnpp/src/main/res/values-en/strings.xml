@@ -571,9 +571,9 @@
     <string name="child_followup">Child Followup</string>
     <string name="newborn_pnc_1_4">Newborn Pnc 1–4</string>
     <string name="kmc_service_home">KMC Service Home</string>
-    <string name="kmc_home_followup">KMC HomeFollowup</string>
+    <string name="kmc_home_followup">KMC Followup</string>
     <string name="kmc_service_hospital">KMC Service Hospital</string>
-    <string name="kmc_hospital_followup">KMC Hospital Followup</string>
+    <string name="kmc_hospital_followup">KMC Followup</string>
     <string name="scanu_followup">SCANU Followup</string>
     <string name="aifi_child">aifi followup</string>
     <string name="common_disease_info">Common Disease Info</string>

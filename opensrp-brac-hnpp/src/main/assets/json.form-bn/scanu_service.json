@@ -110,7 +110,7 @@
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
         "max_date": "today",
-        "hint": "সেবা গ্রহনের তারিখ"
+        "hint": "ফলোআপের তারিখ "
       },
       {
         "key": "physical_condition",
@@ -247,23 +247,6 @@
         }
       },
       {
-        "key": "weight_warning_up",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটির জন্ম ওজন অত্যধিক বেশি। পর্যবেক্ষণে রাখুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "body_temparature",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -302,23 +285,7 @@
           }
         }
       },
-      {
-        "key": "temparature_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
+
       {
         "key": "breating_rate",
         "openmrs_entity_parent": "",
@@ -343,22 +310,6 @@
         }
       },
       {
-        "key": "breating_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:breating_rate": {
-            "type": "string",
-            "ex": "equalTo(.,  \"শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি\")"
-          }
-        }
-      },
-      {
         "key": "child_food_source",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -374,7 +325,7 @@
         "options": [
           {
             "key": "breast_feeding",
-            "text": "মাতৃ দুগ্ধ",
+            "text": "মায়ের বুকের দুধ",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -436,14 +387,6 @@
             "openmrs_entity_id": "normal"
           },
           {
-            "key": "food_problem",
-            "text": "খাবারে অরুচি ও হজমে সমস্যা",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "food_problem"
-          },
-          {
             "key": "breast_feeding_problem",
             "text": "বুকের দুধ টানতে না পারা",
             "value": false,
@@ -494,23 +437,6 @@
         }
       },
       {
-        "key": "skin_color_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "waking_stage",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -529,23 +455,6 @@
           "নেতিয়ে পড়া": "droop",
           "অজ্ঞান": "unconsciousness"
         },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "waking_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -578,23 +487,6 @@
         }
       },
       {
-        "key": "stimulation_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "convulsions",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -609,23 +501,6 @@
           "হ্যাঁ": "Yes",
           "না": "No"
         },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "convulsions_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -679,7 +554,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "kmc_service",
         "type": "spinner",
-        "hint": "কেঙ্গারু মাদার কেয়ার(কেএমসি) সেবা নেয়া হয়েছে কি?",
+        "hint": "কেঙ্গারু মাদার কেয়ার (কেএমসি) সেবা চলমান রয়েছে?",
         "values": [
           "হ্যাঁ",
           "না"
@@ -713,6 +588,23 @@
           "rules-engine": {
             "ex-rules": {
               "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "scanu_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটিকে নিকটস্থ স্বাস্থ কেন্দ্রে রেফার করুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "scanu_service_relevance.yml"
             }
           }
         }

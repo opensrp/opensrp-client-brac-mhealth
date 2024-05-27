@@ -156,6 +156,13 @@ actions:
 name: step1_weight_warning_less
 description: weight_warning relevance
 priority: 1
+condition: "(!step1_weight.isEmpty() && step1_weight > 499 && step1_weight < 2500)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_weight_less
+description: weight_warning relevance
+priority: 1
 condition: "(!step1_weight.isEmpty() && step1_weight < 2500)"
 actions:
   - "isRelevant = true"
@@ -181,38 +188,12 @@ condition: "!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('
 actions:
   - "isRelevant = true"
 ---
-name: step1_temparature_warning
+name: step1_scanu_warning
 description: weight_warning relevance
 priority: 1
-condition: "!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
-actions:
-  - "isRelevant = true"
----
-name: step1_skin_color_warning
-description: weight_warning relevance
-priority: 1
-condition: "(step1_skin_color.equals('হলদে') || step1_skin_color.equals('নীলচে'))"
-actions:
-  - "isRelevant = true"
----
-name: step1_waking_warning
-description: weight_warning relevance
-priority: 1
-condition: "(step1_skin_color.equals('ঝিমুনি') || step1_skin_color.equals('নেতিয়ে পড়া')|| step1_skin_color.equals('অজ্ঞান'))"
-actions:
-  - "isRelevant = true"
----
-name: step1_stimulation
-description: weight_warning relevance
-priority: 1
-condition: "step1_waking_stage.equals('অজ্ঞান')"
-actions:
-  - "isRelevant = true"
----
-name: step1_stimulation_warning
-description: weight_warning relevance
-priority: 1
-condition: "step1_stimulation.equals('হ্যাঁ')"
+condition: "step1_convulsions.equals('হ্যাঁ') || step1_stimulation.equals('না') || step1_waking_stage.equals('অজ্ঞান') || step1_waking_stage.equals('ঝিমুনি') || step1_waking_stage.equals('নেতিয়ে পড়া')
+            || step1_skin_color.equals('হলদে') || step1_skin_color.equals('নীলচে') || (!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')))
+            || step1_breating_rate.equals('শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি')"
 actions:
   - "isRelevant = true"
 ---

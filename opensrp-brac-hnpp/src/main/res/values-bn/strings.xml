@@ -583,9 +583,9 @@
     <string name="child_followup">শিশু ফলোআপ</string>
     <string name="newborn_pnc_1_4">নবজাতক পি এন সি ১-৪</string>
     <string name="kmc_service_home">বাড়িতে কেএমসি সেবা</string>
-    <string name="kmc_home_followup">বাড়িতে কেএমসি সেবার ফলোআপ</string>
-    <string name="kmc_service_hospital">স্বাস্থ্যকেন্দ্রে কেএমসি সেবা</string>
-    <string name="kmc_hospital_followup">স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_home_followup">কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_service_hospital">কেএমসি সেবার ফলোআপ</string>
+    <string name="kmc_hospital_followup">কেএমসি সেবার ফলোআপ</string>
     <string name="scanu_followup">স্কানু শিশুর ফলোআপ</string>
     <string name="aifi_child">এ ই এফ আই ফলোআপ</string>
     <string name="common_disease_info">সাধারণ রোগের তথ্য</string>

@@ -139,6 +139,13 @@ condition: "(!step1_weight.isEmpty() && step1_weight < step1_birth_weight)"
 actions:
   - "isRelevant = true"
 ---
+name: step1_weight_birth
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_weight.isEmpty() && step1_weight < step1_birth_weight && step1_pnc_count>=3)"
+actions:
+  - "isRelevant = true"
+---
 name: step1_weight_warning_up
 description: weight_warning relevance
 priority: 1
@@ -171,6 +178,22 @@ name: step1_mother_ga_warning
 description: weight_warning relevance
 priority: 1
 condition: "step1_is_first_time.equals('Yes') && step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_weight_warning_kmc
+description: weight_warning_kmc relevance
+priority: 1
+condition: "!step1_weight.isEmpty() && step1_weight > 500 && step1_weight < 2499"
+actions:
+  - "isRelevant = true"
+---
+name: step1_kmc_warning
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight > 500 && step1_birth_weight < 2000) || step1_physical_condition.equals('অসুস্থ')
+              || step1_breating_rate.equals(শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি)) || (!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))
+              || )"
 actions:
   - "isRelevant = true"
 ---
