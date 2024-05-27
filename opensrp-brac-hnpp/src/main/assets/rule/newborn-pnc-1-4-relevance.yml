@@ -51,14 +51,14 @@ actions:
 name: step1_is_risk_temparature
 description: weight_warning relevance
 priority: 1
-condition: "(!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')))"
+condition: "(!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_temparature_warning
 description: weight_warning relevance
 priority: 1
-condition: "!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
+condition: "!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
 actions:
   - "isRelevant = true"
 ---

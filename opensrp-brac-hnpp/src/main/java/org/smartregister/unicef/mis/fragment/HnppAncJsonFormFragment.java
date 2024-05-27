@@ -56,12 +56,13 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         super.onItemSelected(parent, view, position, id);
         if(parent instanceof MaterialSpinner){
             if (((MaterialSpinner) parent).getHint() != null && (((MaterialSpinner) parent).getHint().toString()).equals("শরীরের তাপমাত্রা")) {
-                isHighTemparature = position == 1;
-                updateChildBodyInfo(isHighTemparature);
-
-            }else if (((MaterialSpinner) parent).getHint() != null && (((MaterialSpinner) parent).getHint().toString()).equals("শরীরের তাপমাত্রা")) {
-                isLowTemparature = position == 2;
-                updateChildBodyInfo(isLowTemparature);
+                if(position==1){
+                    isHighTemparature = true;
+                    updateChildBodyInfo(isHighTemparature);
+                }else if(position == 2){
+                    isLowTemparature = true;
+                    updateChildBodyInfo(isLowTemparature);
+                }
 
             }else if (((MaterialSpinner) parent).getHint() != null && (((MaterialSpinner) parent).getHint().toString()).equals("শ্বাসের হার (প্রতি মিনিটে)")) {
                 breathing = position == 1;
@@ -78,7 +79,8 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
             if (label.equalsIgnoreCase("তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে") && isHighTemparature){
                 buttonView.setChecked(isChecked);
                 break;
-            }else if(label.equalsIgnoreCase("তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে") && isLowTemparature){
+            }
+            else if(label.equalsIgnoreCase("তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে") && isLowTemparature){
                 buttonView.setChecked(isChecked);
                 break;
             }

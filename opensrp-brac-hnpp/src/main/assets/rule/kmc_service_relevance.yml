@@ -2,70 +2,71 @@
 name: step1_birth_defect
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
 actions:
   - "isRelevant = true"
----
-name: step1_kmc_start_date
-description: weight_warning relevance
-priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_first_time.equals('Yes')"
-actions:
-  - "isRelevant = true"
----
-name: step1_kmc_start_time
-description: weight_warning relevance
-priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_first_time.equals('Yes')"
-actions:
-  - "isRelevant = true"
+
 ---
 name: step1_followup_hospital
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_kmc_service_at_visit
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_kmc_hour
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_kmc_eight_hour
+description: weight_warning relevance
+priority: 1
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) "
 actions:
   - "isRelevant = true"
 ---
 name: step1_only_breast_feeding
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) "
 actions:
   - "isRelevant = true"
 ---
 name: step1_body_temparature
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) "
 actions:
   - "isRelevant = true"
 ---
 name: step1_breating_rate
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_kmc_counseling
 description: weight_warning relevance
 priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))&& step1_pnc_count==1"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0')"
+actions:
+  - "isRelevant = true"
+---
+name: step1_only_breast_feeding
+description: weight_warning relevance
+priority: 1
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0')"
 actions:
   - "isRelevant = true"
 ---
@@ -79,16 +80,16 @@ actions:
 name: step1_is_Referred
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
 actions:
   - "isRelevant = true"
 ---
-name: step1_is_Referred
+name: step1_need_reffered
 description: weight_warning relevance
 priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "step1_agreed_to_go_hospital.equals('না')"
 actions:
-  - "isRelevant = true"
+  - "isRelevant = false"
 ---
 name: step1_hospital_followup
 description: weight_warning relevance
@@ -163,14 +164,7 @@ actions:
 name: step1_is_risk_temparature
 description: weight_warning relevance
 priority: 1
-condition: "!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
-actions:
-  - "isRelevant = true"
----
-name: step1_temparature_warning
-description: weight_warning relevance
-priority: 1
-condition: "!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
+condition: "!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))"
 actions:
   - "isRelevant = true"
 ---
@@ -184,16 +178,17 @@ actions:
 name: step1_weight_warning_kmc
 description: weight_warning_kmc relevance
 priority: 1
-condition: "!step1_weight.isEmpty() && step1_weight > 500 && step1_weight < 2499"
+condition: "!step1_weight.isEmpty() && step1_weight >= 500 && step1_weight <= 2499"
 actions:
   - "isRelevant = true"
 ---
 name: step1_kmc_warning
 description: weight_warning relevance
 priority: 1
-condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight > 500 && step1_birth_weight < 2000) || step1_physical_condition.equals('অসুস্থ')
-              || step1_breating_rate.equals(শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি)) || (!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে'))
-              || )"
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight > 500 && step1_birth_weight < 2000)
+              || step1_breating_rate.equals('শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি)')
+              || step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')
+              || step1_body_temparature.equals('তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')"
 actions:
   - "isRelevant = true"
 ---

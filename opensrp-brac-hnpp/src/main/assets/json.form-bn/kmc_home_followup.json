@@ -130,8 +130,9 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "schedule_date",
-        "type": "edit_text",
-        "read_only": true,
+        "type": "date_picker",
+        "max_date": "today",
+        "min_date": "",
         "hint": "ফলোআপের তারিখ"
       },
       {
@@ -349,7 +350,22 @@
           "মৃত": "death"
         }
       },
-
+      {
+        "key": "physical_sick",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুকে নিকটস্থ স্বাস্থ্য কেন্দ্রে রেফার ক়রুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:physical_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"অসুস্থ\")"
+          }
+        }
+      },
       {
         "key": "death_date",
         "openmrs_entity_parent": "",
@@ -465,12 +481,12 @@
         "values": [
           "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে",
           "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
-          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
+          "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
         ],
         "openmrs_choice_ids": {
           "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে": "normal",
           "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে": "high_temparature",
-          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
+          "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
         },
         "relevance": {
           "rules-engine": {
@@ -582,7 +598,7 @@
           },
           {
             "key": "low_temperature",
-            "text": "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে",
+            "text": "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -604,7 +620,14 @@
             "openmrs_entity": "concept",
             "openmrs_entity_id": "none"
           }
-        ]
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
       },
       {
         "key": "kmc_danger_warning",
@@ -612,38 +635,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "শিশুকে ত্বকের স্পর্শে সঠিক তাপমাত্রা বজায় রেখে মায়ের বুকের দুধ খাওয়াতে খাওয়াতে অতি দ্রুত নিকটস্থ স্বাস্থ্য কেন্দ্রে নিতে সহায়তা করুন ",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "is_refer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "is_refer",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_home_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটিকে কে এম সি সেবার জন্য নিকটস্থ স্বাস্থ কেন্দ্রে রেফার করুন।",
+        "text": "নবজাতককে অতি দ্রুত নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার করুন।",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
@@ -670,14 +662,15 @@
           "না": "No"
         },
         "relevance": {
-          "step1:is_refer": {
-            "type": "string",
-            "ex": "regex(., \"0\")"
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
           }
         }
       },
       {
-        "key": "brest_feeding_no",
+        "key": "only_breast_feeding_no",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -826,7 +819,7 @@
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
-          "step1:kmc_service_at_visit": {
+          "step1:kmc_eight_hour": {
             "type": "string",
             "ex": "regex(., \"না\")"
           }
@@ -882,23 +875,6 @@
             "openmrs_entity_id": "child_vaccination_schedule"
           }
         ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুকে নিকটস্থ স্বাস্থ্য কেন্দ্রে রেফার ক়রুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {

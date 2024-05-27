@@ -271,14 +271,7 @@
           "err": "500 এর বেশী হওয়া উচিত"
         },
 
-        "hint": "বর্তমান ওজন (গ্রাম)",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
+        "hint": "বর্তমান ওজন (গ্রাম)"
       },
       {
         "key": "body_temparature",
@@ -290,19 +283,12 @@
         "values": [
           "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে",
           "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে",
-          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
+          "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে"
         ],
         "openmrs_choice_ids": {
           "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে": "normal",
           "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে": "high_temparature",
-          "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
+          "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
         }
       },
       {
@@ -333,16 +319,8 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)": "normal_breating",
           "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি": "Rapid_breathing"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
         }
       },
-
       {
         "key": "newborn_body_info",
         "openmrs_entity_parent": "",
@@ -407,7 +385,7 @@
           },
           {
             "key": "low_temperature",
-            "text": "তাপমাত্রা ক়ম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে",
+            "text": "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে",
             "value": false,
             "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
@@ -632,6 +610,22 @@
         }
       },
       {
+        "key": "only_breast_feeding_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "৬ মাস বয়স পর্যন্ত শুধুমাত্র মায়ের বুকের দুধ খাওয়াতে পরামর্শ দিন ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:only_breast_feeding": {
+            "type": "string",
+            "ex": "regex(., \"না\")"
+          }
+        }
+      },
+      {
         "key": "counseling",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -688,7 +682,6 @@
           }
         }
       },
-
       {
         "key": "kmc_warning",
         "openmrs_entity_parent": "",
@@ -707,10 +700,10 @@
         }
       },
       {
-        "key": "is_Referred",
+        "key": "need_reffered",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_Referred",
+        "openmrs_entity_id": "need_reffered",
         "type": "spinner",
         "hint": "রেফার করা হয়েছে?",
         "values": [
@@ -763,7 +756,7 @@
         },
 
         "relevance": {
-          "step1:is_Referred": {
+          "step1:need_reffered": {
             "type": "string",
             "ex": "regex(., \"হ্যাঁ\")"
           }
