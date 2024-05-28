@@ -464,14 +464,14 @@
             "text": "ছানি +  ডিসিআর ডিসিটি",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": "chani"
+            "openmrs_entity_id": "chanianddcrdct"
           },
           {
             "key": "chaniterizium",
             "text": "ছানি + টেরিজিয়াম বা মাংস বৃদ্ধি",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
-            "openmrs_entity_id": "dct"
+            "openmrs_entity_id": "chaniterizium"
           },
           {
             "key": "dcr",

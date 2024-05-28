@@ -54,7 +54,9 @@ import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
+import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
+import org.smartregister.repository.EventClientRepository;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.SecuredActivity;
@@ -84,9 +86,17 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         findViewById(R.id.eye_test_view).setOnClickListener(this);
         findViewById(R.id.history_forum).setOnClickListener(this);
         findViewById(R.id.refreshIndicatorsIcon).setOnClickListener(this);
+        findViewById(R.id.unsync_count_txt).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         appExecutors = new AppExecutors();
         updateSpinner();
+        updateUnSyncCount();
+    }
+    private void updateUnSyncCount(){
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        //int cc = eventClientRepository.getUnSyncClientsCount();
+        int ec = eventClientRepository.getUnSyncEventsCount();
+        ((TextView)findViewById(R.id.unsync_count_txt)).setText(ec+"");
     }
 
     @Override
@@ -95,6 +105,8 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(HnppConstants.ACTION_LOCATION_UPDATE);
         registerReceiver(locationUpdateBroadcastReceiver, intentFilter);
+        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(PANewHomeActivity.this);
+
     }
 
     private void updateData(){
@@ -137,6 +149,7 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
     private void hideProgressDialog(){
         if(dialog !=null && dialog.isShowing()){
             dialog.dismiss();
+            dialog = null;
         }
     }
 
@@ -149,6 +162,9 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.history_forum:
+                startActivity(new Intent(this,PANewHistoryActivity.class));
+                break;
             case R.id.vb_view:
                 startAnyForm(HnppConstants.JSON_FORMS.PA_VB,REQUEST_HOME_VISIT);
 
@@ -160,8 +176,9 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
                 startAnyForm(HnppConstants.JSON_FORMS.PA_EYE_TEST,REQUEST_HOME_VISIT);
                 break;
             case R.id.refreshIndicatorsIcon:
+            case R.id.unsync_count_txt:
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-                Toast.makeText(this,R.string.syncing,Toast.LENGTH_SHORT).show();
+                PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
                 break;
         }
     }
@@ -224,6 +241,7 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
                         @Override
                         public void onComplete() {
                             Log.d("visitCalledCompleted","true");
+                            updateUnSyncCount();
                             if(isSave.get() == 1){
                                 hideProgressDialog();
                                 showServiceDoneDialog(1);
@@ -256,6 +274,25 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
             public void onClick(View v) {
                 serviceDialog.dismiss();
                 serviceDialog = null;
+            }
+        });
+        serviceDialog.show();
+
+    }
+    private void showDataSyncDialog(){
+        Dialog serviceDialog = new Dialog(this);
+        serviceDialog.setCancelable(false);
+        serviceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        serviceDialog.setContentView(R.layout.dialog_with_one_button);
+        TextView titleTv = serviceDialog.findViewById(R.id.title_tv);
+        titleTv.setText("আপনার ডিভাইস এ আনসিঙ্ক ডাটা আছে। ডাটা সিঙ্ক করুন ");
+        Button ok_btn = serviceDialog.findViewById(R.id.ok_btn);
+
+        ok_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceDialog.dismiss();
+                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
             }
         });
         serviceDialog.show();
@@ -321,6 +358,10 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         hideProgressDialog();
+        updateUnSyncCount();
+        if(isFromBackPress){
+            finish();
+        }
     }
     private class LocationBroadcastReceiver extends BroadcastReceiver {
         @Override
@@ -332,5 +373,17 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
 
         }
     }
+    boolean isFromBackPress = false;
+    @Override
+    public void onBackPressed() {
+        EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
+        int ec = eventClientRepository.getUnSyncEventsCount();
+        if(ec==0){
+            super.onBackPressed();
+        }else{
+            isFromBackPress = true;
+           showDataSyncDialog();
+        }
 
+    }
 }

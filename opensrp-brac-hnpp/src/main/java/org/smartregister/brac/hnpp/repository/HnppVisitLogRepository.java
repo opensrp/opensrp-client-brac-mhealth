@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.repository;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.text.TextUtils;
 import android.util.Log;
@@ -226,6 +227,15 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return visit_ids;
     }
+    public ArrayList<Visit> getPAVisit(){
+        SQLiteDatabase database = getWritableDatabase();
+
+        String selection = VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? or "+VISIT_TYPE+" = ? ";
+        String[] selectionArgs = new String[]{HnppConstants.EVENT_TYPE.PA_EYE_TEST,HnppConstants.EVENT_TYPE.PA_NCD,HnppConstants.EVENT_TYPE.PA_VB};
+        net.sqlcipher.Cursor cursor = database.query("visits", null, selection, selectionArgs, null, null, VISIT_DATE + " DESC", null);
+        ArrayList<Visit> homeVisits = getVisits(cursor);
+        return homeVisits;
+    }
     public ArrayList<Visit> getVisitByVisitId(String visitId){
         SQLiteDatabase database = getWritableDatabase();
 
@@ -323,6 +333,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return list;
     }
+    @SuppressLint("Range")
     private ArrayList<Visit> getVisits(Cursor cursor) {
         ArrayList<Visit> visitLogs = new ArrayList<>();
         try {
@@ -333,6 +344,7 @@ public class HnppVisitLogRepository extends BaseRepository {
                     visitLog.setBaseEntityId(cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)));
                     visitLog.setJson(cursor.getString(cursor.getColumnIndex("visit_json")));
                     visitLog.setVisitType(cursor.getString(cursor.getColumnIndex(VISIT_TYPE)));
+                    visitLog.setDate(new Date(cursor.getLong(cursor.getColumnIndex(VISIT_DATE))));
                     visitLogs.add(visitLog);
                     cursor.moveToNext();
                 }

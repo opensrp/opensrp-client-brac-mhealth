@@ -2029,8 +2029,25 @@ public class FormParser {
                                 }
                             }
                         }
+                        else if(option.optString("key").equalsIgnoreCase("yes")){
+                            if(!TextUtils.isEmpty(value)){
+                                option.put("value", "true");
+                                jsonObject.put(JsonFormUtils.VALUE,value);
+                                break;
+                            }
+
+                        }
+                        else if(option.optString("key").equalsIgnoreCase("no")){
+                            if(!TextUtils.isEmpty(value)){
+                                option.put("value", "true");
+                                jsonObject.put(JsonFormUtils.VALUE,value);
+                                break;
+                            }
+
+                        }
                         else if (value.contains(option.optString("key"))) {
                             option.put("value", "true");
+                            jsonObject.put(JsonFormUtils.VALUE,value);
                         }
                     }
                 }
@@ -2158,6 +2175,15 @@ public class FormParser {
                 break;
             case HnppConstants.EventType.REMOVE_CHILD:
                 form_name = "family_details_remove_child.json";
+                break;
+            case HnppConstants.EVENT_TYPE.PA_VB:
+                form_name = HnppConstants.JSON_FORMS.PA_VB+".json";
+                break;
+            case HnppConstants.EVENT_TYPE.PA_EYE_TEST:
+                form_name = HnppConstants.JSON_FORMS.PA_EYE_TEST+".json";
+                break;
+            case HnppConstants.EVENT_TYPE.PA_NCD:
+                form_name = HnppConstants.JSON_FORMS.PA_NCD+".json";
                 break;
                 default:
                     break;

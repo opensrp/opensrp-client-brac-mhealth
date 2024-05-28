@@ -209,8 +209,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 //            userNameText.setText("01313049998");
 //            passwordText.setText("9998");
             //  PA user
-            userNameText.setText("01787699880");
-            passwordText.setText("9880");
+//            userNameText.setText("01787699880");
+//            passwordText.setText("9880");
         }
     }
     @Override
@@ -490,9 +490,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Utils.startAsyncTask(new SaveDistrictTask(), null);
 
         }
-        Intent intent = new Intent(this, FamilyRegisterActivity.class);
-        intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
-        startActivity(intent);
+
         boolean isConnected = HnppConstants.isConnectedToInternet(this);
         if(isConnected){
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
@@ -507,15 +505,17 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                 PullHouseholdIdsServiceJob.scheduleJobImmediately(PullHouseholdIdsServiceJob.TAG);
             }
 
-            if(HnppConstants.isPALogin() && SSLocationHelper.getInstance().getSsModels().size()==0){
-                startActivity(new Intent(this, PANewHomeActivity.class));
-            }
-
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
-
+        if(HnppConstants.isPALogin()){
+            startActivity(new Intent(this, PANewHomeActivity.class));
+        }else{
+            Intent intent = new Intent(this, FamilyRegisterActivity.class);
+            intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
+            startActivity(intent);
+        }
     }
 
 }

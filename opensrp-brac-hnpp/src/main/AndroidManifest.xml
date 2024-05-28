@@ -317,6 +317,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
+            android:name=".activity.PANewHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
             android:name=".activity.AdultMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
