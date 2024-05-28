@@ -102,6 +102,8 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
         ArrayList<VisitLog> visitLogs = visitLogRepository.getAllVisitLog(baseEntityId);
         int count = FormApplicability.getNewBornPNCCount(baseEntityId)+1;
         int kmcHomeCount = FormApplicability.getKMCHomeCount(baseEntityId)+1;
+        int kmcHomeFollowupCount = FormApplicability.getKMCHomeFollowUpCount(baseEntityId)+1;
+        int kmcHospitalFollowupCount = FormApplicability.getKMCHospitalFollowupCount(baseEntityId)+1;
         int kmcHospitalCount = FormApplicability.getKMCServiceHospitalCount(baseEntityId)+1;
         for(VisitLog visitLog : visitLogs){
             MemberHistoryData historyData = new MemberHistoryData();
@@ -113,10 +115,16 @@ public class ChildHistoryInteractor implements MemberHistoryContract.Interactor 
                 historyData.setTitle(FormApplicability.getNewBornTitleForHistory(count));
             }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOME)){
                 kmcHomeCount --;
-                historyData.setTitle(FormApplicability.getKmcHomeTitleForHistory(kmcHomeCount));
+                historyData.setTitle(FormApplicability.getKmcHomeServiceTitleForHistory(kmcHomeCount));
+            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_HOME_FOLLOWUP)){
+                kmcHomeFollowupCount --;
+                historyData.setTitle(FormApplicability.getKmcHomeFollowupTitleForHistory(kmcHomeFollowupCount));
             }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_SERVICE_HOSPITAL)){
                 kmcHospitalCount --;
-                historyData.setTitle(FormApplicability.getKmcHospitalTitleForHistory(kmcHospitalCount));
+                historyData.setTitle(FormApplicability.getKmcHospitalServiceTitleForHistory(kmcHospitalCount));
+            }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.KMC_HOSPITAL_FOLLOWUP)){
+                kmcHospitalFollowupCount --;
+                historyData.setTitle(FormApplicability.getKmcHospitalFollowupTitleForHistory(kmcHospitalFollowupCount));
             }
             else{
                 historyData.setTitle(HnppConstants.getVisitEventTypeMapping().get(eventType));

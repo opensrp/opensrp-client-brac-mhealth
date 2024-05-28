@@ -352,4 +352,6 @@
     <string name="general_disease">General Disease</string>
     <string name="member_survey">Member survey</string>
     <string name="scanu_followup">স্কানু শিশুর ফলোআপ</string>
+    <string name="kmc_service_home">বাড়িতে কেএমসি সেবা</string>
+    <string name="kmc_service_hospital">কেএমসি সেবার ফলোআপ</string>
 </resources>

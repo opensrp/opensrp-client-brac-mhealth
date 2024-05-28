@@ -50,6 +50,8 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
     protected CommonPersonObjectClient pc;
     protected String memberName;
     protected String baseEntityId;
+    private boolean isComesFromDeathRegistration;
+
     public static IndividualProfileRemoveFragment newInstance(Bundle bundle) {
         Bundle args = bundle;
         IndividualProfileRemoveFragment fragment = new IndividualProfileRemoveFragment();
@@ -59,6 +61,11 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
         fragment.setArguments(args);
         return fragment;
     }
+
+    public void setComesFromDeathRegistration(boolean comesFromDeathRegistration) {
+        isComesFromDeathRegistration = comesFromDeathRegistration;
+    }
+
     @Override
     public void initializeAdapter(Set<View> visibleColumns, String familyHead, String primaryCaregiver) {
         setRemoveMemberProvider(visibleColumns, familyHead, primaryCaregiver);
@@ -205,6 +212,9 @@ public class IndividualProfileRemoveFragment extends BaseFamilyProfileMemberFrag
         // Intent intent = new Intent(getContext(), Utils.metadata().familyMemberFormActivity);
         ///setting gender data to  hidden gender field
         HnppJsonFormUtils.addGender(jsonObject,pc.getDetails().get("gender"));
+        if(isComesFromDeathRegistration){
+            HnppJsonFormUtils.updateRemoveReason(jsonObject);
+        }
         Intent intent = new Intent(getActivity(), IndividualProfileRemoveJsonFormActivity.class);
         try{
             JSONArray divJsonArray = new JSONArray();

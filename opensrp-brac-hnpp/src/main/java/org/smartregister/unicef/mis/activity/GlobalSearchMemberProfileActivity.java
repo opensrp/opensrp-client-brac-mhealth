@@ -317,41 +317,38 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
 
     }
     public void openAncRegisterForm(){
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(GlobalSearchMemberProfileActivity.this,  client.getBaseEntityId(), guestMemberData.getPhoneNo(),
-                        HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),latitude,longitude);
+                        HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),0,0);
 
-            }
-        });
+//            }
+//        });
 
     }
     public void openPregnancyRegisterForm(){
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(GlobalSearchMemberProfileActivity.this, client.getBaseEntityId(), guestMemberData.getPhoneNo(),
-                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),latitude,longitude);
+                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),0,0);
 
-            }
-        });
+//            }
+//        });
 
     }
     public void openHomeVisitSingleForm(String formName){
-        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
-            @Override
-            public void onPost(double latitude, double longitude) {
-                startAnyFormActivity(formName,REQUEST_HOME_VISIT,latitude,longitude);
-            }
-        });
+//        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
+//            @Override
+//            public void onPost(double latitude, double longitude) {
+                startAnyFormActivity(formName,REQUEST_HOME_VISIT,0,0);
+//            }
+//        });
 
     }
     public void startAnyFormActivity(String formName, int requestCode, double latitude, double longitude) {
-        if(!HnppApplication.getStockRepository().isAvailableStock(HnppConstants.formNameEventTypeMapping.get(formName))){
-            HnppConstants.showOneButtonDialog(this,getString(R.string.dialog_stock_sell_end),"");
-            return;
-        }
+
 
         try {
             JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
