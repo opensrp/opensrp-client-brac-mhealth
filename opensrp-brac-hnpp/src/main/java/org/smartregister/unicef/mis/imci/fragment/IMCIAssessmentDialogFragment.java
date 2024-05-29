@@ -382,10 +382,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         " মাকে বলুন, হাসপাতালে যাওয়ার পথে ছোট শিশুকে বারবার খাবার স্যলাইন (ORS) খাওয়াতে।" +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।"+
-                        "<br>" +
-                        getString(R.string.right_arrow) +
-                        " যদি শিশুটির বয়স ২ বছর বা তার বেশী হয় এবং রোগীর এলাকায় কলেরার প্রাদুর্ভাব থাকে, তাহলে কলেরার জন্য এ্যান্টিবায়োটিক দিন।" ;
+                        " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।";
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.FOUR.getValue())){
@@ -402,7 +399,13 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         " মাকে বলুন, হাসপাতালে যাওয়ার পথে ছোট শিশুকে বারবার খাবার স্যলাইন (ORS) খাওয়াতে।"+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।" ;
+                        " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।" +
+                        "<br>" +
+                        getString(R.string.right_arrow) +
+                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        "<br>" +
+                        getString(R.string.right_arrow) +
+                        " অবস্থার উন্নতি না হলে, ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।" ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.THREE.getValue())){
@@ -418,17 +421,20 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         " ১৪ দিনের জন্য মাল্টিভিটামিন/মিনারেল (জিংক সমৃদ্ধ) ভিটামিন ‘এ’ দিন ।"+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" ;
+                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        "<br>" +
+                        getString(R.string.right_arrow) +
+                        " ৫ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।" ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.TWO.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  সিপ্রোফ্লক্সাসিন ৩ দিনের জন্য দিন।" +
+                        "  অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।";
+                        " ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।";
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.ONE.getValue())){
@@ -510,9 +516,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
                         "  আয়রণ অথবা মাল্টিপল মাইক্রোনিউট্রিয়েন্ট দিন।" +
-                        "<br>" +
-                        getString(R.string.right_arrow) +
-                        " শিশুটির বয়স ১ বছর বা বেশী হলে এবং বিগত ৬ মাস কোন ডোজ না খেয়ে থাকলে মেবেন্ডাজোল বা আলবেন্ডাজল দিন।" +
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
@@ -657,9 +660,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else{
-                String treatmentBuilder = "</br>" +
-                        getString(R.string.right_arrow) +
-                        " যথাযথ এ্যান্টিবায়েটিক এর প্রথম ডোজ দিন।" +
+                String treatmentBuilder =
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।" +
@@ -780,15 +781,10 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
             if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEVER.FIVE.getValue())){
 
-                String treatmentBuilder = "</br>" +
-                        getString(R.string.right_arrow) +
-                        " যথাযথ এ্যান্টিবায়োটিকের প্রথম ডোজ দিন।" +
+                String treatmentBuilder =
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " রক্তে গ্লুকোজের স্বল্পতা রোধের জন্য যথাযথ খাবার নিশ্চিত করুন।" +
-                        "<br>" +
-                        getString(R.string.right_arrow) +
-                        " অধিক জ্বর (৩৮. ৫ সেন্টি/ ১০১.৫ ফাঃ অথবা অধিক) এর জন্য এক ডোজ প্যারাসিটামল দিন।" +
                         "<br>" +
                         getString(R.string.right_arrow) +
                         " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।";
@@ -800,13 +796,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                         getString(R.string.right_arrow) +
                         " মুখে খাওয়ার এ্যান্টিম্যালেরিয়াল দিয়ে চিকিৎসা করতে হাসপাতালে রেফার করুন।" +
                         "<br>" +
-                        getString(R.string.right_arrow) +
-                        " অধিক জ্বর (৩৮. ৫ সেন্টি/ ১০১.৫ ফাঃ অথবা অধিক) এর জন্য এক ডোজ প্যারাসিটামল দিন।" +
-                        "<br>" +
-                        getString(R.string.right_arrow) +
-                        "ব্যাকটেরিয়াল কারনে জ্বরের জন্য যথাযথ এ্যান্টিবায়োটিক দিন।" +
-                        "<br>" +
-
                         getString(R.string.right_arrow) +
                         "অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
                         "<br>" +
@@ -821,12 +810,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEVER.THREE.getValue())
                     || assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEVER.TWO.getValue())){
 
-                String treatmentBuilder = "</br>" +
-                        getString(R.string.right_arrow) +
-                        " অধিক জ্বর (৩৮. ৫ সেন্টি/ ১০১.৫ ফাঃ অথবা অধিক) এর জন্য এক ডোজ প্যারাসিটামল দিন।" +
-                        "<br>" +
-                        getString(R.string.right_arrow) +
-                        "ব্যাকটেরিয়াল কারনে জ্বরের জন্য যথাযথ এন্টিবায়োটিক দিন।" +
+                String treatmentBuilder =
                         "<br>" +
                         getString(R.string.right_arrow) +
                         "অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
@@ -941,24 +925,45 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 assesment_result_txt.setText(Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.ONE.getValue());
                 assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_green));
             }
+                if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.FOUR.getValue())) {
+                    String treatmentBuilder =
+                            "<br>" +
+                            getString(R.string.right_arrow) +
+                            " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" ;
+                    treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+                    treatment_label_tv.setVisibility(View.VISIBLE);
+                }
+                else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.THREE.getValue())){
 
-            if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.TWO.getValue())){
+                    String treatmentBuilder = "</br>" +
+                            getString(R.string.right_arrow) +
+                            " গলা প্রশমিত করুন, কাশি উপশমে নিরাপদ ব্যবস্থা (Safe remedy) নিন।" +
+                            "<br>" +
+                            getString(R.string.right_arrow) +
+                            " যদি ১৪ দিনের বেশী কাশি থাকে অথবা বারে বারে হুইজিং থাকে তা হলে সম্ভাব্য যক্ষ্মা অথবা হাঁপানি নিরূপণের জন্য রেফার করুন। " +
+                            "<br>" +
+                            getString(R.string.right_arrow) +
+                            " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                            "<br>" +
+                            getString(R.string.right_arrow) +
+                            " ২ দিনের ফলো-আপে আসুন।" ;
+                    treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
+                    treatment_label_tv.setVisibility(View.VISIBLE);
+                }
+               else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_PNEUMONIA.TWO.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " দ্রুত নিরুপণ সম্পূর্ন করুন।" +
+                        " গলা প্রশমিত করুন, কাশি উপশমে নিরাপদ ব্যবস্থা (safe remedy) নিন।" +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " তাৎক্ষনিক প্রি-রেফারেল চিকিৎসা দিন।" +
+                        " যদি ১৪ দিনের বেশী কাশি থাকে অথবা বারে বারে হুইজিং থাকে তা হলে সম্ভাব্য যক্ষ্মা অথবা হাঁপানি নিরূপণের জন্য রেফার করুন। " +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।"+
+                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " শিশুটিকে গরম রাখুন।" +
-                        "<br>" +
-                        getString(R.string.right_arrow) +
-                        " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" ;
+                        " শিশুটির অবস্থা যদি উন্নতি না হলে ৫ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।"  ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -1066,6 +1071,8 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             }
         }
     }
+
+
     private void processFeedingAssessment(){
         Triple<Boolean, JSONObject, JSONArray> registrationFormParams = HnppJsonFormUtils.validateParameters(jsonData);
         JSONArray fields = (JSONArray)registrationFormParams.getRight();
