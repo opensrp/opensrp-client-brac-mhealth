@@ -622,6 +622,15 @@ public class FormParser {
 
                     }
                 }
+                if(details.containsKey("mother_ga") && !StringUtils.isEmpty(details.get("mother_ga"))){
+
+                    String pck = details.get("mother_ga");
+                    if(!TextUtils.isEmpty(pck) && (pck.equalsIgnoreCase("৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)") || pck.equalsIgnoreCase("below_36_week"))){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set is_immature='yes',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
 
                 break;
             case KMC_SERVICE_HOSPITAL:
@@ -1262,6 +1271,7 @@ public class FormParser {
                 }
             }
         }
+
     }
     private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate){
         boolean isAncHomeVisitRisk = false;

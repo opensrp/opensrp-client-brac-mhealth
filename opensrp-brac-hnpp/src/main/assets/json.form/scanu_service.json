@@ -572,23 +572,6 @@
         }
       },
       {
-        "key": "scanu_kmc_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "কে এম সি সেবা চালিয়ে যেতে পরামর্শ দিন ",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
         "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

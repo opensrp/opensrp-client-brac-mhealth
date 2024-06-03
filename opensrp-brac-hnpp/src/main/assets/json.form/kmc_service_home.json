@@ -114,8 +114,6 @@
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
         "hint": "বাড়ি পরিদর্শনের তারিখ",
-        "max_date": "today",
-        "min_date": "today-5y",
         "v_required": {
           "value": "true",
           "err": "পরিদর্শনের তারিখ"
@@ -273,14 +271,7 @@
           "err": "500 এর বেশী হওয়া উচিত"
         },
 
-        "hint": "বর্তমান ওজন (গ্রাম)",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
+        "hint": "বর্তমান ওজন (গ্রাম)"
       },
       {
         "key": "body_temparature",
@@ -298,13 +289,6 @@
           "স্বাভাবিক তাপমাত্রা - ৩৬.৫ সে. বা ৯৭.৭ ফারেনহাইট থেকে ৩৭.৫o সে. বা ৯৯. ৫ ফারেনহাইট এর মধ্যে": "normal",
           "তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে": "high_temparature",
           "তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে": "low_temparature"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
         }
       },
       {
@@ -335,13 +319,6 @@
         "openmrs_choice_ids": {
           "স্বাভাবিক (মিনিটে ৩০-৫৯ বার)": "normal_breating",
           "শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি": "Rapid_breathing"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
         }
       },
       {
@@ -430,14 +407,7 @@
             "openmrs_entity": "concept",
             "openmrs_entity_id": "none"
           }
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
+        ]
       },
       {
         "key": "kmc_danger_warning",
@@ -571,10 +541,9 @@
           "না": "No"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
           }
         }
       },
@@ -587,16 +556,15 @@
         "hint": "বাড়িতে কে এম সি শুরুর তারিখ",
         "expanded": false,
         "max_date": "today",
-        "min_date": "today-5y",
+        "min_date": "",
         "v_required": {
           "value": "true",
           "err": "শুরুর তারিখ"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
           }
         }
       },
@@ -613,10 +581,9 @@
           "err": "শুরুর তারিখ"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
           }
         }
       },
@@ -636,10 +603,9 @@
           "না": "No"
         },
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
           }
         }
       },
@@ -710,10 +676,9 @@
           }
         ],
         "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
+          "step1:is_refer": {
+            "type": "string",
+            "ex": "regex(., \"0\")"
           }
         }
       },
@@ -748,13 +713,6 @@
         "openmrs_choice_ids": {
           "হ্যাঁ": "Yes",
           "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
         }
       },
       {

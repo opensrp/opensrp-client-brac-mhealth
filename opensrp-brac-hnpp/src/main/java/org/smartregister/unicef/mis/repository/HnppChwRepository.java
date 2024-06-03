@@ -122,6 +122,12 @@ public class HnppChwRepository extends Repository {
         }
         alterANCRegisterTable(database);
         alterChildTableKMC(database);
+        try{
+            alterChildTableIMMATURED(database);
+        }catch (Exception e){
+
+        }
+
     }
 
     @Override
@@ -167,6 +173,13 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
+                case 8:
+                    try{
+                        alterChildTableIMMATURED(db);
+                    }catch (Exception e){
+
+                    }
+                    break;
                 default:
                     break;
             }
@@ -190,6 +203,9 @@ public class HnppChwRepository extends Repository {
     private void alterChildTableKMC(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_child ADD COLUMN kmc_status VARCHAR;");
         db.execSQL("ALTER TABLE ec_child ADD COLUMN identified_date VARCHAR;");
+    }
+    private void alterChildTableIMMATURED(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN is_immature VARCHAR;");
     }
 
 }

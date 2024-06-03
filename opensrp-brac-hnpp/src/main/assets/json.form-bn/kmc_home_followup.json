@@ -132,7 +132,7 @@
         "openmrs_entity_id": "schedule_date",
         "type": "date_picker",
         "max_date": "today",
-        "min_date": "",
+        "min_date": "today-5y",
         "hint": "ফলোআপের তারিখ"
       },
       {
@@ -144,7 +144,7 @@
         "hint": "বাড়িতে কে এম সি শুরুর তারিখ",
         "expanded": false,
         "max_date": "today",
-        "min_date": "",
+        "min_date": "today-5y",
         "v_required": {
           "value": "true",
           "err": "শুরুর তারিখ"
@@ -184,7 +184,7 @@
         "hint": "স্বাস্থ্যকেন্দ্রে কেএমসি শুরুর তারিখ",
         "expanded": false,
         "max_date": "today",
-        "min_date": "",
+        "min_date": "today-5y",
         "v_required": {
           "value": "true",
           "err": "শুরুর তারিখ"
@@ -327,6 +327,12 @@
             "openmrs_entity_id": "Counselling_on_Newborn_danger"
           }
         ],
+        "relevance": {
+          "step1:pnc_count": {
+            "type": "string",
+            "ex": "regex(., \"1\")"
+          }
+        },
         "v_required": {
           "value": true,
           "err": " নির্বাচন করুন"
@@ -375,7 +381,7 @@
         "hint": "মৃত্যুর তারিখ",
         "expanded": false,
         "max_date": "today",
-        "min_date": "",
+        "min_date": "today-5y",
         "v_required": {
           "value": "true",
           "err": "মৃত্যুর তারিখ"

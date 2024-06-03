@@ -871,6 +871,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                         }catch (Exception e){
 
                         }
+                        boolean isImmature = FormApplicability.isImmature(childBaseEntityId);
+                        if(isImmature){
+                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"mother_ga", "৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)");
+                        }
+
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormate);
                         HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", (newPncCount+1)+"");
                         String birthWeight = HnppDBUtils.getBirthWeight(childBaseEntityId);

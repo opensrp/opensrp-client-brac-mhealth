@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "KMC Service Home",
+  "encounter_type": "KMC Home Followup",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,16 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "বাড়িতে কেএমসি সেবা",
+    "title": "বাড়িতে কেএমসি সেবার ফলোআপ",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "KMC Service Home",
+        "openmrs_entity_id": "KMC Home Followup",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "kmc_service_home"
+        "value": "kmc_home_followup"
       },
       {
         "key": "dob",
@@ -84,7 +84,9 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "pnc_count",
-        "type": "hidden"
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "কেএমসি ফলোআপ নম্বর"
       },
       {
         "key": "relational_id",
@@ -108,29 +110,109 @@
         }
       },
       {
-        "key": "service_taken_date",
+        "key": "kmc_service_place",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "service_taken_date",
-        "type": "date_picker",
-        "hint": "বাড়ি পরিদর্শনের তারিখ",
-        "max_date": "today",
-        "min_date": "today-5y",
-        "v_required": {
-          "value": "true",
-          "err": "পরিদর্শনের তারিখ"
+        "openmrs_entity_id": "kmc_service_place",
+        "type": "spinner",
+        "hint": "কেএমসি সেবা গ্রহণের স্থান",
+        "values": [
+          "বাড়িতে",
+          "স্বাস্থ্যকেন্দ্রে"
+        ],
+        "openmrs_choice_ids": {
+          "বাড়িতে": "home",
+          "স্বাস্থ্যকেন্দ্রে": "hospital"
         }
       },
       {
-        "key": "service_taken_time",
+        "key": "schedule_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "service_taken_time",
-        "type": "time_picker",
-        "hint": "বাড়ি পরিদর্শনের সময়",
+        "openmrs_entity_id": "schedule_date",
+        "type": "date_picker",
+        "max_date": "today",
+        "min_date": "",
+        "hint": "ফলোআপের তারিখ"
+      },
+      {
+        "key": "kmc_start_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_start_date",
+        "type": "date_picker",
+        "hint": "বাড়িতে কে এম সি শুরুর তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "min_date": "",
         "v_required": {
           "value": "true",
           "err": "শুরুর তারিখ"
+        },
+        "relevance": {
+          "step1:kmc_service_place": {
+            "type": "string",
+            "ex": "regex(., \"বাড়িতে\")"
+          }
+        }
+      },
+      {
+        "key": "kmc_start_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_start_time",
+        "type": "time_picker",
+        "hint": "বাড়িতে কেএমসি শুরুর সময়",
+        "expanded": false,
+        "v_required": {
+          "value": "true",
+          "err": "শুরুর তারিখ"
+        },
+        "relevance": {
+          "step1:kmc_service_place": {
+            "type": "string",
+            "ex": "regex(., \"বাড়িতে\")"
+          }
+        }
+      },
+      {
+        "key": "hospital_kmc_start_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "hospital_kmc_start_date",
+        "type": "date_picker",
+        "hint": "স্বাস্থ্যকেন্দ্রে কেএমসি শুরুর তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "min_date": "",
+        "v_required": {
+          "value": "true",
+          "err": "শুরুর তারিখ"
+        },
+        "relevance": {
+          "step1:kmc_service_place": {
+            "type": "string",
+            "ex": "regex(., \"স্বাস্থ্যকেন্দ্রে\")"
+          }
+        }
+      },
+      {
+        "key": "hospital_kmc_start_time",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "hospital_kmc_start_time",
+        "type": "time_picker",
+        "hint": "স্বাস্থ্যকেন্দ্রে কেএমসি শুরুর সময়",
+        "expanded": false,
+        "v_required": {
+          "value": "true",
+          "err": "শুরুর তারিখ"
+        },
+        "relevance": {
+          "step1:kmc_service_place": {
+            "type": "string",
+            "ex": "regex(., \"স্বাস্থ্যকেন্দ্রে\")"
+          }
         }
       },
       {
@@ -251,6 +333,79 @@
         }
       },
       {
+        "key": "physical_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "physical_condition",
+        "type": "spinner",
+        "hint": " শারীরিক অবস্থা",
+        "values": [
+          "সুস্থ",
+          "অসুস্থ",
+          "মৃত"
+        ],
+        "openmrs_choice_ids": {
+          "সুস্থ": "healthy",
+          "অসুস্থ": "sick",
+          "মৃত": "death"
+        }
+      },
+      {
+        "key": "physical_sick",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুকে নিকটস্থ স্বাস্থ্য কেন্দ্রে রেফার ক়রুন",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:physical_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"অসুস্থ\")"
+          }
+        }
+      },
+      {
+        "key": "death_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "death_date",
+        "type": "date_picker",
+        "hint": "মৃত্যুর তারিখ",
+        "expanded": false,
+        "max_date": "today",
+        "min_date": "",
+        "v_required": {
+          "value": "true",
+          "err": "মৃত্যুর তারিখ"
+        },
+        "relevance": {
+          "step1:physical_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত\")"
+          }
+        }
+      },
+
+      {
+        "key": "physical_death",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "মৃত্যু নিবন্ধন ফর্ম টি পুরন ক়রুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:physical_condition": {
+            "type": "string",
+            "ex": "equalTo(., \"মৃত\")"
+          }
+        }
+      },
+
+      {
         "key": "weight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -274,6 +429,40 @@
         },
 
         "hint": "বর্তমান ওজন (গ্রাম)",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "weight_warning_kmc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "কে এম সি সেবা চালিয়ে যেতে পরামর্শ দিন ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "weight_birth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটিকে নিকটস্থ স্বাস্থ কেন্দ্রে রেফার করুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
@@ -321,6 +510,7 @@
           }
         }
       },
+
       {
         "key": "breating_rate",
         "openmrs_entity_parent": "",
@@ -445,177 +635,13 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "শিশুকে ত্বকের স্পর্শে সঠিক তাপমাত্রা বজায় রেখে মায়ের বুকের দুধ খাওয়াতে খাওয়াতে অতি দ্রুত নিকটস্থ স্বাস্থ্য কেন্দ্রে নিতে সহায়তা করুন ",
+        "text": "নবজাতককে অতি দ্রুত নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার করুন।",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
               "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "is_refer",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "is_refer",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_home_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটিকে কে এম সি সেবার জন্য নিকটস্থ স্বাস্থ কেন্দ্রে রেফার করুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_home_calculation",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "newborn-pnc-1-4-relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "agreed_to_go_hospital",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "agreed_to_go_hospital",
-        "type": "spinner",
-        "hint": " নবজাতকের পরিবার কি স্বাস্থ্যকেন্দ্রে নিতে সম্মত",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "step1:kmc_home_calculation": {
-            "type": "string",
-            "ex": "regex(., \"1\")"
-          }
-        }
-      },
-      {
-        "key": "agreed_to_go_hospital_yes",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": " শিশুকে ত্বকের স্পর্শে সঠিক তাপমাত্রা বজায় রেখে মায়ের বুকের দুধ খাওয়াতে খাওয়াতে স্বাস্থ্য কেন্দ্রে নিতে সহায়তা করুন  ",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:agreed_to_go_hospital": {
-            "type": "string",
-            "ex": "regex(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "agreed_to_go_hospital_no",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": " মা ও পরিবারের সদস্যদের কেএমসি বিষয়ক কাউন্সেলিং করুন  ",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:agreed_to_go_hospital": {
-            "type": "string",
-            "ex": "regex(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "kmc_counseling",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "kmc_counseling",
-        "type": "spinner",
-        "hint": " কেএমসি শুরুর পূর্বে  মা ও পরিবারের সদস্যদের কেএমসি বিষয়ক কাউন্সেলিং করা হয়েছে ",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_start_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "kmc_start_date",
-        "type": "date_picker",
-        "hint": "বাড়িতে কে এম সি শুরুর তারিখ",
-        "expanded": false,
-        "max_date": "today",
-        "min_date": "today-5y",
-        "v_required": {
-          "value": "true",
-          "err": "শুরুর তারিখ"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_start_time",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "kmc_start_time",
-        "type": "time_picker",
-        "hint": "বাড়িতে কেএমসি শুরুর সময়",
-        "expanded": false,
-        "v_required": {
-          "value": "true",
-          "err": "শুরুর তারিখ"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
@@ -649,11 +675,151 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "৬ মাস বয়স পর্যন্ত শুধুমাত্র মায়ের বুকের দুধ খাওয়াতে পরামর্শ দিন ",
+        "text": "৬ মাস বয়স পর্যন্ত শুধুমাত্র মায়ের বুকের দুধ খাওয়াতে পরামর্শ দিন ",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
           "step1:only_breast_feeding": {
+            "type": "string",
+            "ex": "regex(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "birth_defect",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_defect",
+        "type": "spinner",
+        "hint": "কে ম সি প্রদানের সময় মা/ সেবাদানকারী কে এম সি বাইন্ডার ব্যবহার করেছিল কি ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "birth_defect_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "কে এম সি বাইন্ডার ব্যবহার করে পরামর্শ দিন ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:birth_defect": {
+            "type": "string",
+            "ex": "regex(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "kmc_service_at_visit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_service_at_visit",
+        "type": "spinner",
+        "hint": "পরিদর্শনের সময় শিশুকে কি কে এম সি দেওয়া হচ্ছিলো ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "kmc_service_at_visit_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "যত বেশী সময় সম্ভব কে এম সি সেবা দিতে পরামর্শ দিন  ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:kmc_service_at_visit": {
+            "type": "string",
+            "ex": "regex(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "kmc_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_hour",
+        "type": "edit_text",
+        "hint": "বাড়িতে প্রতিদিন কত ঘণ্টা কে এম সি দেওয়া হচ্ছে ? ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "25",
+          "err": "24 এর সমান বা 24 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "kmc_eight_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_eight_hour",
+        "type": "spinner",
+        "hint": "বাড়িতে কি প্রতিদিন কমপক্ষে ৮ ঘণ্টা কে এম সি দেওয়া হচ্ছে ?  ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "kmc_eight_hour_no",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "প্রতিদিন কমপক্ষে ৮ ঘণ্টা কে এম সি সেবা দিতে পরামর্শ দিন ",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:kmc_eight_hour": {
             "type": "string",
             "ex": "regex(., \"না\")"
           }
@@ -718,27 +884,10 @@
         }
       },
       {
-        "key": "kmc_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুকে নিকটস্থ স্বাস্থ্য কেন্দ্রে রেফার ক়রুন",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "kmc_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "need_reffered",
+        "key": "is_Referred",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "need_reffered",
+        "openmrs_entity_id": "is_Referred",
         "type": "spinner",
         "hint": "রেফার করা হয়েছে?",
         "values": [
@@ -798,7 +947,7 @@
         },
 
         "relevance": {
-          "step1:need_reffered": {
+          "step1:is_Referred": {
             "type": "string",
             "ex": "regex(., \"হ্যাঁ\")"
           }

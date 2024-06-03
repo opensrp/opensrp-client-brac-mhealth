@@ -188,12 +188,20 @@ condition: "!step1_body_temparature.isEmpty() &&(step1_body_temparature.equals('
 actions:
   - "isRelevant = true"
 ---
+name: step1_scanu_kmc_warning
+description: weight_warning relevance
+priority: 1
+condition: "step1_kmc_service.equals('না')"
+actions:
+  - "isRelevant = true"
+---
 name: step1_scanu_warning
 description: weight_warning relevance
 priority: 1
 condition: "step1_convulsions.equals('হ্যাঁ') || step1_stimulation.equals('না') || step1_waking_stage.equals('অজ্ঞান') || step1_waking_stage.equals('ঝিমুনি') || step1_waking_stage.equals('নেতিয়ে পড়া')
             || step1_skin_color.equals('হলদে') || step1_skin_color.equals('নীলচে') || (!step1_body_temparature.isEmpty() && (step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')||step1_body_temparature.equals('তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')))
-            || step1_breating_rate.equals('শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি')"
+            || step1_breating_rate.equals('শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি')
+            || step1_food_habit.contains('breast_feeding_problem')|| step1_food_habit.contains('none')"
 actions:
   - "isRelevant = true"
 ---

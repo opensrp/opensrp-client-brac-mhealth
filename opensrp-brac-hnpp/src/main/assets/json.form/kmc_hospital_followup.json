@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "SCANU Followup",
+  "encounter_type": "KMC Hospital Followup",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,16 +47,16 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "স্কানু শিশুর ফলোআপ",
+    "title": "স্বাস্থ্যকেন্দ্রে কেএমসি সেবার ফলোআপ",
     "fields": [
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "SCANU Followup",
+        "openmrs_entity_id": "KMC Hospital Followup",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "scanu_service"
+        "value": "kmc_hospital_followup"
       },
       {
         "key": "dob",
@@ -79,19 +79,27 @@
         "openmrs_entity_id": "pnc_count",
         "type": "edit_text",
         "read_only": true,
-        "hint": "স্কানু শিশুর ক়মিউনিটি ফলোআপ নম্বর "
+        "hint": "কেএমসি ফলোআপ নম্বর"
       },
       {
-        "key": "hospital_discharge_date",
+        "key": "relational_id",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "hospital_discharge_date",
-        "type": "date_picker",
-        "max_date": "today",
-        "hint": "হাসপাতাল থেকে ডিসচার্জের তারিখ",
-        "v_required": {
-          "value": "true",
-          "err": "তারিখ লিখুন"
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_iycf_package_calculation.yml"
+            }
+          }
         }
       },
       {
@@ -99,7 +107,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "schedule_date",
-        "type": "hidden",
+        "type": "edit_text",
         "read_only": true,
         "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
       },
@@ -110,7 +118,120 @@
         "openmrs_entity_id": "service_taken_date",
         "type": "date_picker",
         "max_date": "today",
-        "hint": "ফলোআপের তারিখ "
+        "hint": "সেবা গ্রহনের তারিখ"
+      },
+      {
+        "key": "release_date_hospital",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "release_date_hospital",
+        "type": "date_picker",
+        "max_date": "today",
+        "hint": "হাসপাতাল থেকে ছাড়পত্র প্রদানের তারিখ",
+        "relevance": {
+          "step1:pnc_count": {
+            "type": "string",
+            "ex": "equalTo(., \"1\")"
+          }
+        }
+      },
+      {
+        "key": "release_weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "release_weight",
+        "type": "edit_text",
+        "v_required": {
+          "value": "true",
+          "err": "ওজন (গ্রাম) লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "6001",
+          "err": "6001 এর কম হওয়া উচিত"
+        },
+        "v_min": {
+          "value": "500",
+          "err": "500 এর বেশী হওয়া উচিত"
+        },
+
+        "hint": "হাসপাতাল থেকে ছাড়পত্র প্রদানের সময় ওজন (গ্রাম)",
+        "relevance": {
+          "step1:pnc_count": {
+            "type": "string",
+            "ex": "equalTo(., \"1\")"
+          }
+        }
+      },
+
+      {
+        "key": "place_of_service_taken",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_service_taken",
+        "type": "spinner",
+        "hint": "সেবা গ্রহনের স্থান",
+        "values": [
+          "মেডিকেল কলেজ হাসপাতাল",
+          "সদর হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "কমিউনিটি ক্লিনিক",
+          "বেসরকারী ক্লিনিক/হাসপাতাল",
+          "এনজিও ক্লিনিক",
+          "চা বাগান ফেসিলিটি",
+          "বাড়িতে",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "মেডিকেল কলেজ হাসপাতাল": "Medical_College_and_Hospital",
+          "সদর হাসপাতাল": "District_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স": "Upazila_Health_Complex",
+          "মা ও শিশু কল্যাণ কেন্দ্র": "MCWC",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র": "Union_Health_and_Family_Welfare_Center",
+          "কমিউনিটি ক্লিনিক": "Community Clinic",
+          "বেসরকারী ক্লিনিক/হাসপাতাল": "Private_Clinic_and_Hospital",
+          "এনজিও ক্লিনিক": "Non-governmental_Organization",
+          "চা বাগান ফেসিলিটি": "Tea_Garden_Facility",
+          "বাড়িতে": "Home",
+          "অন্যান্য": "Others"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select Place of service"
+        }
+      },
+      {
+        "key": "service_provider",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_provider",
+        "type": "spinner",
+        "hint": "সেবা প্রদানকারী",
+        "values": [
+          "ডাক্তার",
+          "নার্স",
+          "মিডওয়াইফ",
+          "এফ.ডাব্লিউ.ভি.",
+          "সিএসবিএ",
+          "অন্যান্য_কেউ"
+        ],
+        "openmrs_choice_ids": {
+          "ডাক্তার": "Doctor",
+          "নার্স": "Nurse",
+          "মিডওয়াইফ": "Midwife",
+          "এফ.ডাব্লিউ.ভি.": "FWV",
+          "সিএসবিএ": "CSBA",
+          "অন্যান্য_কেউ": "Others"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Select Service provider"
+        }
       },
       {
         "key": "physical_condition",
@@ -206,11 +327,11 @@
           "err": "500 এর বেশী হওয়া উচিত"
         },
 
-        "hint": "ওজন (গ্রাম)",
+        "hint": "বর্তমান ওজন (গ্রাম)",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
@@ -224,7 +345,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
             }
           }
         }
@@ -235,13 +356,13 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "toaster_notes",
-        "text": "কে এম সি সেবা নিশ্চিত করুন",
+        "text": "শিশুটির ওজন কম। শিশুটিকে দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
         "text_color": "#CF0800",
         "toaster_type": "info",
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
@@ -266,7 +387,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
@@ -280,12 +401,28 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
             }
           }
         }
       },
-
+      {
+        "key": "temparature_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "শিশুটিকে খুব দ্রুত নিকটস্থ হাসপাতালে নিয়ে যান।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "newborn-pnc-1-4-relevance.yml"
+            }
+          }
+        }
+      },
       {
         "key": "breating_rate",
         "openmrs_entity_parent": "",
@@ -304,324 +441,150 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
       },
       {
-        "key": "child_food_source",
+        "key": "breating_warning",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "দ্রুত চিকিৎসার জন্য নিকটস্থ স্বাস্থ্যকেন্দ্রে রেফার ক়রুন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:breating_rate": {
+            "type": "string",
+            "ex": "equalTo(.,  \"শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি\")"
+          }
+        }
+      },
+      {
+        "key": "birth_defect",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "child_food_source",
+        "openmrs_entity_id": "birth_defect",
+        "type": "spinner",
+        "hint": "কে ম সি প্রদানের সময় মা/ সেবাদানকারী কে এম সি বাইন্ডার ব্যবহার করেছিল কি ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "kmc_service_at_visit",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "kmc_service_at_visit",
+        "type": "spinner",
+        "hint": "পরিদর্শনের সময় শিশুকে কি কে এম সি দেওয়া হচ্ছিলো ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "only_breast_feeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "only_breast_feeding",
+        "type": "spinner",
+        "hint": "নবজাতককে শুধুমাত্র মায়ের বুকের দুধ খাওয়ানো হচ্ছে ? ",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "kmc_service_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "counseling",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "counseling",
         "type": "check_box",
+        "label": "কাউন্সেলিং",
         "label_text_style": "bold",
         "text_color": "#3495bf",
         "text_size": "25px",
-        "label": " শিশুর খাদ্যের উৎস",
         "exclusive": [
-          "none"
+          "chk_none"
         ],
         "options": [
           {
-            "key": "breast_feeding",
-            "text": "মায়ের বুকের দুধ",
+            "key": "hand_wash",
+            "text": "প্রতিবার নবজাতককে স্পর্শ করার আগে ও পরে হাত ধোয়া ",
             "value": false,
-            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "hand_wash"
+          },
+          {
+            "key": "breast_feeding",
+            "text": "শুধুমাত্র মায়ের বুকের দুধ খাওয়ানো ",
+            "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "breast_feeding"
           },
           {
-            "key": "animal_milk",
-            "text": "প্রানিজ দুধ",
+            "key": "pnc_service",
+            "text": "মায়ের প্রসব পরবর্তী সেবা ও পুষ্টি",
             "value": false,
-            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "animal_milk"
+            "openmrs_entity_id": "pnc_service"
           },
           {
-            "key": "industrial_milk",
-            "text": "শিল্পজাত দুধ",
+            "key": "child_development",
+            "text": "শিশুর প্রারম্ভিক বিকাশ ও যত্ন ",
             "value": false,
-            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "industrial_milk"
+            "openmrs_entity_id": "child_development"
           },
           {
-            "key": "none",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "none"
-          }
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "food_habit",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "food_habit",
-        "type": "check_box",
-        "label_text_style": "bold",
-        "text_color": "#3495bf",
-        "text_size": "25px",
-        "label": " খাদ্যাভ্যাস",
-        "exclusive": [
-          "none"
-        ],
-        "options": [
-          {
-            "key": "normal",
-            "text": "স্বাভাবিক",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "normal"
-          },
-          {
-            "key": "breast_feeding_problem",
-            "text": "বুকের দুধ টানতে না পারা",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "breast_feeding_problem"
-          },
-          {
-            "key": "none",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "none"
-          }
-        ],
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "skin_color",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "skin_color",
-        "type": "spinner",
-        "hint": " গায়ের রঙ",
-        "values": [
-          "স্বাভাবিক",
-          "হলদে",
-          "নীলচে"
-        ],
-        "openmrs_choice_ids": {
-          "স্বাভাবিক": "normal",
-          "হলদে": "yellow",
-          "নীলচে": "blue"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "waking_stage",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "waking_stage",
-        "type": "spinner",
-        "hint": "শিশুর জাগ্রত অবস্থা",
-        "values": [
-          "স্বাভাবিক",
-          "ঝিমুনি",
-          "নেতিয়ে পড়া",
-          "অজ্ঞান"
-        ],
-        "openmrs_choice_ids": {
-          "স্বাভাবিক": "normal",
-          "ঝিমুনি": "dozing",
-          "নেতিয়ে পড়া": "droop",
-          "অজ্ঞান": "unconsciousness"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "stimulation",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "stimulation",
-        "type": "spinner",
-        "hint": " শিশু স্টিমুলেশনে সাড়া দিয়েছে কি ?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "convulsions",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "convulsions",
-        "type": "spinner",
-        "hint": " খিঁচুনি / খিঁচুনির ইতিহাস আছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "counseling_guardian",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "counseling_guardian",
-        "type": "check_box",
-        "label_text_style": "bold",
-        "text_color": "#3495bf",
-        "text_size": "25px",
-        "label": " শিশুর অভিভাবক কে কাউন্সিলিং",
-        "exclusive": [
-          "none"
-        ],
-        "options": [
-          {
-            "key": "only_breast_feeding",
-            "text": "শুধুমাত্র মাতৃদুগ্ধ পান",
-            "value": false,
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "only_breast_feeding"
-          },
-          {
-            "key": "vaccination_time",
+            "key": "child_vaccination_schedule",
             "text": "শিশুর টিকাদানের সময়সূচি সম্পর্কে",
             "value": false,
-            "openmrs_entity_parent": "",
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "vaccination_time"
+            "openmrs_entity_id": "child_vaccination_schedule"
           }
         ],
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "kmc_service",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "kmc_service",
-        "type": "spinner",
-        "hint": "কেঙ্গারু মাদার কেয়ার (কেএমসি) সেবা চলমান রয়েছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "scanu_kmc_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "কে এম সি সেবা চালিয়ে যেতে পরামর্শ দিন ",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "relational_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "relational_id",
-        "type": "hidden"
-      },
-      {
-        "key": "month_diff",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "hidden",
-        "calculation": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_iycf_package_calculation.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "scanu_warning",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "শিশুটিকে নিকটস্থ স্বাস্থ কেন্দ্রে রেফার করুন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
@@ -644,7 +607,7 @@
         "relevance": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "scanu_service_relevance.yml"
+              "rules-file": "kmc_service_relevance.yml"
             }
           }
         }
