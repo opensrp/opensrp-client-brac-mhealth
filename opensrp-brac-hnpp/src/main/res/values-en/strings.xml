@@ -1130,4 +1130,5 @@
     <string name="death_form">Death Registration</string>
     <string name="meg_death_reg">শিশুটির মৃত্যু নিবন্ধন ফরমটি পূরণ করুন</string>
     <string name="later_fillup">পরে পূরণ করবো</string>
+    <string name="tika_info_comfirm">Please confirm vaccine information</string>
 </resources>

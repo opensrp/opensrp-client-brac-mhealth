@@ -1199,6 +1199,7 @@
     <string name="death_form">মৃত্যু নিবন্ধন</string>
     <string name="meg_death_reg">শিশুটির মৃত্যু নিবন্ধন ফরমটি পূরণ করুন</string>
     <string name="later_fillup">পরে পূরণ করবো</string>
+    <string name="tika_info_comfirm">টিকার তথ্যগুলো সঠিক কিনা নিশ্চিত করুন</string>
     <string-array name="edema_value">
         <item>না</item>
         <item>হ্যাঁ (উভয় পা ফোলা)</item>

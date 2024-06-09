@@ -100,6 +100,7 @@ import timber.log.Timber;
 
 import static org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
+import static org.smartregister.unicef.mis.utils.HnppConstants.showDialogWithAction;
 
 public class HnppChildProfileActivity extends HnppCoreChildProfileActivity implements WeightActionListener, HeightActionListener, MUACActionListener, VaccinationActionListener, ServiceActionListener {
     private static final int REQUEST_AEFI_CHILD = 55551;
@@ -1320,31 +1321,74 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
-        childImmunizationFragment.onVaccinateToday(arrayList,view);
-        handler.postDelayed(() -> {
-            childImmunizationFragment.updateImmunizationView();
-            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-            },1000);
-        HnppConstants.isViewRefresh = true;
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(arrayList!=null && arrayList.size()>0){
+            StringBuilder builder = new StringBuilder();
+            for (VaccineWrapper vaccineWrapper: arrayList){
+                builder.append(vaccineWrapper.getName());
+                builder.append("\n --------------\n");
+                builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                builder.append("\n --------------\n");
+            }
+            showDialogWithAction(HnppChildProfileActivity.this, getString(R.string.tika_info_comfirm), builder.toString()
+                    ,new Runnable() {
+                        @Override
+                        public void run() {
+                            childImmunizationFragment.onVaccinateToday(arrayList,view);
+                            handler.postDelayed(() -> {
+                                childImmunizationFragment.updateImmunizationView();
+                                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+                            },1000);
+                            HnppConstants.isViewRefresh = true;
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            updateMissedScheduleIcon();
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
         }
-        updateMissedScheduleIcon();
+
+
 
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
-        childImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        handler.postDelayed(() -> {
-            childImmunizationFragment.updateImmunizationView();
-            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+        if(arrayList!=null && arrayList.size()>0){
+            StringBuilder builder = new StringBuilder();
+            for (VaccineWrapper vaccineWrapper: arrayList){
+                builder.append(vaccineWrapper.getName());
+                builder.append("\n --------------\n");
+                builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                builder.append("\n --------------\n");
+            }
+            showDialogWithAction(HnppChildProfileActivity.this, getString(R.string.tika_info_comfirm), builder.toString()
+                    ,new Runnable() {
+                        @Override
+                        public void run() {
+                            childImmunizationFragment.onVaccinateEarlier(arrayList,view);
+                            handler.postDelayed(() -> {
+                                childImmunizationFragment.updateImmunizationView();
+                                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
 
-        },1000);
-        HnppConstants.isViewRefresh = true;
-        registerVaccineBroadcast();
+                            },1000);
+                            HnppConstants.isViewRefresh = true;
+                            registerVaccineBroadcast();
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+        }
+
     }
 
     @Override
