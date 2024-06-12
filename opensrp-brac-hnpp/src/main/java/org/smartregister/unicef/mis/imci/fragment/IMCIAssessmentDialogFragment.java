@@ -988,16 +988,19 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("পান করতে অথবা বুকের দুধ খেতে পারে");
+                isReferred = true;
             }
             if(!TextUtils.isEmpty(vomit_everything) && vomit_everything.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("সব খাবার বমি করে ফেলে দেয়");
+                isReferred = true;
             }
             if(!TextUtils.isEmpty(had_convulsions) && had_convulsions.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("খিচুনি হয়েছিল");
+                isReferred = true;
             }
             if(!TextUtils.isEmpty(lethargic_or_unconsciou) && lethargic_or_unconsciou.contains("yes")){
                 builder.append("<br>");

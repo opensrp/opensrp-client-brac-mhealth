@@ -109,7 +109,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "14_days_more",
         "type": "native_radio",
-        "label": "হ্যাঁ হলে ১৪ দিন বা তার বেশি কিনা?",
+        "label": "১৪ দিন বা তার বেশি কিনা?",
         "text_color": "#000000",
         "options": [
           {

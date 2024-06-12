@@ -790,6 +790,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 item.put("key",englishKeys);
                 item.put("text",place);
                 item.put("value",true);
+                item.put("read_only",true);
                 item.put("openmrs_entity","concept");
                 item.put("openmrs_entity_id",englishKeys);
                 option_array.put(item);
@@ -800,6 +801,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                     item.put("text",strs[i]);
                     if(strs[i].equalsIgnoreCase(selected)){
                         item.put("value",true);
+                        item.put("read_only",true);
                     }
                     else{
                         item.put("value",false);
