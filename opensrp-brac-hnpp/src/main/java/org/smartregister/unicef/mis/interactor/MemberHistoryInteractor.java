@@ -132,8 +132,10 @@ public class MemberHistoryInteractor implements MemberHistoryContract.Interactor
 
             try{
 
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
+                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
                     historyData.setImageSource(R.mipmap.ic_facility);
+                }else if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
+                    historyData.setImageSource(R.mipmap.ic_home_icon);
                 }else{
                     historyData.setImageSource(HnppConstants.iconMapping.get(eventType));
                 }
