@@ -175,7 +175,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case MuacIntentService.EVENT_TYPE_OUT_OF_CATCHMENT:
                 processMUAC(eventClient, getMuacTable(),eventType.equals(MuacIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 break;
-            case CoreConstants.EventType.ANC_HOME_VISIT:
+            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
             case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:

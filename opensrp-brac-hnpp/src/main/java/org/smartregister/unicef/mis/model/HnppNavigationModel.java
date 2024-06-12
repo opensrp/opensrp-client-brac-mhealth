@@ -15,7 +15,7 @@ public class HnppNavigationModel implements org.smartregister.chw.core.model.Nav
     @Override
     public List<NavigationOption> getNavigationItems() {
         if (navigationOptions.size() == 0) {
-            navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_all_families, CoreConstants.DrawerMenu.ALL_FAMILIES, 0));
+           // navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_all_families, CoreConstants.DrawerMenu.ALL_FAMILIES, 0));
             navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_all_member, CoreConstants.DrawerMenu.ALL_MEMBER, 0));
             if(HnppConstants.isPALogin()){
                 NavigationOption optionElco = new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_adult, CoreConstants.DrawerMenu.ADULT, 0);

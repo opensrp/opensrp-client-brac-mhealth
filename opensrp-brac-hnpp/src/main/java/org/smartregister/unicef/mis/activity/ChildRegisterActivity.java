@@ -43,12 +43,12 @@ public class ChildRegisterActivity extends BaseRegisterActivity implements CoreC
 
     @Override
     public void switchToBaseFragment() {
-        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        Intent intent = new Intent(this, HnppAllMemberRegisterActivity.class);
         startActivity(intent);
         finish();
     }
     public void backToHomeScreen() {
-        Intent intent = new Intent(this, FamilyRegisterActivity.class);
+        Intent intent = new Intent(this, HnppAllMemberRegisterActivity.class);
         intent.putExtra(HnppConstants.KEY_NEED_TO_OPEN,true);
         startActivity(intent);
         finish();
@@ -100,7 +100,7 @@ public class ChildRegisterActivity extends BaseRegisterActivity implements CoreC
         if (bottomNavigationView != null) {
             bottomNavigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
             bottomNavigationView.getMenu().removeItem(org.smartregister.chw.core.R.id.action_clients);
-            bottomNavigationView.getMenu().removeItem(org.smartregister.chw.core.R.id.action_register);
+//            bottomNavigationView.getMenu().removeItem(org.smartregister.chw.core.R.id.action_register);
             bottomNavigationView.getMenu().removeItem(org.smartregister.chw.core.R.id.action_search);
             bottomNavigationView.getMenu().removeItem(org.smartregister.chw.core.R.id.action_library);
 
@@ -116,8 +116,8 @@ public class ChildRegisterActivity extends BaseRegisterActivity implements CoreC
         if (!BuildConfig.SUPPORT_QR) {
             bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_scan_qr);
         }
-        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_register);
-        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_job_aids);
+//        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_register);
+//        bottomNavigationView.getMenu().removeItem(org.smartregister.family.R.id.action_job_aids);
         bottomNavigationView.setOnNavigationItemSelectedListener(new HnppFamilyBottomNavListener(this, bottomNavigationView));
     }
 

@@ -162,11 +162,7 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
             hnppFamilyRegisterFragment.setMigrationSearchContentData(globalSearchContentData);
 
         }
-
-
     }
-
-
     @Override
     protected void onResumption() {
         try{

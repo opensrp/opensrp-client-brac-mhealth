@@ -463,15 +463,16 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             childImmunizationFragment.setChildDetails(commonPersonObject);
             growthFragment = GMPFragment.newInstance(this.getIntent().getExtras());
             growthFragment.setChildDetails(commonPersonObject);
-            adapter.addFragment(childImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
+           // adapter.addFragment(childImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
+
+         adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
             adapter.addFragment(growthFragment, this.getString(R.string.gmp).toUpperCase());
-            adapter.addFragment(profileMemberFragment, this.getString(R.string.due).toUpperCase());
 //            adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
             adapter.addFragment(memberHistoryFragment, this.getString(R.string.activity).toUpperCase());
             if(HnppConstants.isPALogin()){
                 viewPager.setOffscreenPageLimit(2);
             }else{
-                viewPager.setOffscreenPageLimit(4);
+                viewPager.setOffscreenPageLimit(3);
             }
 
         viewPager.setAdapter(adapter);

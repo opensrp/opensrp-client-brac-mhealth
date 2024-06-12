@@ -1799,8 +1799,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  DANGER_SIGNS = "anc_hv_danger_signs";
 
         public static final String  ANC_FORM = "anc_registration";
-        public static final String  ANC_VISIT_FORM = "anc_home_visit";
-        public static final String  ANC_VISIT_FORM_FACILITY = "anc_home_visit_facility";
+        public static final String  ANC_VISIT_FORM = "chcp_anc_home_visit";
+        public static final String  ANC_VISIT_FORM_FACILITY = "anc_home_visit";
         public static final String  ANC_VISIT_FORM_OOC = "hnpp_anc_home_visit_ooc";
 //        public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
 //        public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
@@ -1848,7 +1848,7 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_INFO_25_MONTHS = "child_info_25_months";
         public static final String CORONA_INDIVIDUAL = "corona_individual";
         public static final String SS_FORM = "ss_form";
-        public static final String GUEST_MEMBER_FORM = "guest_member_register";
+        public static final String GUEST_MEMBER_FORM = "chcp_member_register";
         public static final String GUEST_MEMBER_DETAILS_FORM = "guest_member_details_register";
 
     }
@@ -1878,8 +1878,8 @@ public class HnppConstants extends CoreConstants {
 
 //        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
 //        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
-        public static final String ANC_HOME_VISIT= "ANC Home Visit";
-        public static final String ANC_HOME_VISIT_FACILITY= "Facility_AncService";
+        public static final String ANC_HOME_VISIT= "Facility_AncService";
+        public static final String ANC_HOME_VISIT_FACILITY= "ANC Home Visit";
         public static final String ANC_HOME_VISIT_OOC= "ANC Home Visit OOC";
         public static final String ANC_REGISTRATION = "ANC Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";

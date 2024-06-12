@@ -1,0 +1,1057 @@
+{
+  "count": "1",
+  "encounter_type": "Facility_AncService",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "গর্ভকালীন সেবা",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Facility_AncService",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "chcp_anc_home_visit"
+      },
+      {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
+        "key": "add_to_stock",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "add_to_stock",
+        "type": "hidden",
+        "value": "0"
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "lmp",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "lmp",
+        "type": "hidden"
+      },
+      {
+        "key": "anc_count",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "anc_count",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "এ এন সি সেবা নং"
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "edd",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "সম্ভাব্য প্রসবের তারিখ"
+      },
+      {
+        "key": "schedule_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "schedule_date",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "সেবা গ্রহণের নির্ধারিত তারিখ"
+      },
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ",
+        "max_date": "today"
+      },
+      {
+        "key": "health_service_given",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "health_service_given",
+        "type": "spinner",
+        "hint": "স্বাস্থ্য সেবা দেওয়া হয়েছে ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "Height",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Height",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "উচ্চতা(ইঞ্চি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_min": {
+          "value": "45",
+          "err": "45 এর বেশি হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "84",
+          "err": "84 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "height_machine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "height_machine",
+        "type": "native_radio",
+        "label": "উচ্চতা পরিমাপ করা সম্ভব হচ্ছেনা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "wasted",
+            "text": "যন্ত্রপাতি নষ্ট",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "wasted"
+          },
+          {
+            "key": "no_supply_equipment",
+            "text": "যন্ত্রপাতির সরবরাহ নেই",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no_supply_equipment"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "Weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Weight",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "ওজন(কেজি)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_min": {
+          "value": "30",
+          "err": "30 এর বেশি হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "150",
+          "err": "150 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "weight_machine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "weight_machine",
+        "type": "native_radio",
+        "label": "পরিমাপ করা সম্ভব হচ্ছেনা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "wasted",
+            "text": "যন্ত্রপাতি নষ্ট",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "wasted"
+          },
+          {
+            "key": "no_supply_equipment",
+            "text": "যন্ত্রপাতির সরবরাহ নেই",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no_supply_equipment"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "Clinical_Anemia",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Clinical_Anemia",
+        "type": "native_radio",
+        "label": "রক্তসল্পতা আছে?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "Systolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Systolic",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "সিস্টোলিক (mmHg)",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "1 এর বেশি হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "diastolic",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "diastolic",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "ডায়াস্টোলিক (mmHg) ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "1 এর বেশি হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "pulse",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pulse",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "ডায়াস্টোলিক (mmHg) ",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "1 এর বেশি হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "blood_glucose",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "blood_glucose",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Blood Sugar",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "v_min": {
+          "value": "1",
+          "err": "1 এর বেশি হওয়া উচিত"
+        },
+        "v_max": {
+          "value": "400",
+          "err": "400 এর কম হওয়া উচিত"
+        },
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "blood_machine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "blood_machine",
+        "type": "native_radio",
+        "label": "রক্তচাপের অবস্থা পরিমাপ করা সম্ভব হচ্ছেনা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "wasted",
+            "text": "যন্ত্রপাতি নষ্ট",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "wasted"
+          },
+          {
+            "key": "no_supply_equipment",
+            "text": "যন্ত্রপাতির সরবরাহ নেই",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no_supply_equipment"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "name": " প্রস্রাবে সুগার ",
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "blood_sugar_exist",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "blood_sugar_exist",
+        "type": "native_radio",
+        "label": "উপস্থিতি",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          },
+          {
+            "key": "cannot_measure",
+            "text": "পরিমাপ করা হয় নি",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "cannot_measure"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "blood_sugar_machine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "blood_sugar_machine",
+        "type": "native_radio",
+        "label": "পরিমাপ করা সম্ভব হচ্ছেনা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "wasted",
+            "text": "যন্ত্রপাতি নষ্ট",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "wasted"
+          },
+          {
+            "key": "no_supply_equipment",
+            "text": "যন্ত্রপাতির সরবরাহ নেই",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no_supply_equipment"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "name": " প্রস্রাবে এলবুমিন ",
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "urine_albumin_exist",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "urine_albumin_exist",
+        "type": "native_radio",
+        "label": "উপস্থিতি",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          },
+          {
+            "key": "cannot_measure",
+            "text": "পরিমাপ করা হয় নি",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "cannot_measure"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "urine_albumin_machine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "urine_albumin_machine",
+        "type": "native_radio",
+        "label": "পরিমাপ করা সম্ভব হচ্ছেনা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "wasted",
+            "text": "যন্ত্রপাতি নষ্ট",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "wasted"
+          },
+          {
+            "key": "no_supply_equipment",
+            "text": "যন্ত্রপাতির সরবরাহ নেই",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no_supply_equipment"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "have_danger_signs_pregnancy",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "have_danger_signs_pregnancy",
+        "type": "native_radio",
+        "label": "গর্ভকালীন বিপদচিহ্ন আছে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "HaveEdema",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "HaveEdema",
+        "type": "native_radio",
+        "label": "ইডেমা আছে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "jaundice_exam",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "jaundice_exam",
+        "type": "native_radio",
+        "label": "জন্ডিস আছে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "tetanusVaccineGiven",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "tetanusVaccineGiven",
+        "type": "native_radio",
+        "label": "টিটি টিকা দেওয়া হয়েছে",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          },
+          {
+            "key": "not_know",
+            "text": "জানা নেই",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "not_know"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "LastTetanusVaccine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "LastTetanusVaccine",
+        "type": "native_radio",
+        "label": "সর্বশেষ টিটি টিকা",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "tt1",
+            "text": "টিটি ১",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "tt1"
+          },
+          {
+            "key": "tt2",
+            "text": "টিটি ২",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "tt2"
+          },
+          {
+            "key": "tt3",
+            "text": "টিটি ৩",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "tt3"
+          },
+          {
+            "key": "tt4",
+            "text": "টিটি ৪",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "tt4"
+          },
+          {
+            "key": "tt5",
+            "text": "টিটি ৫",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "tt5"
+          }
+        ],
+        "relevance": {
+          "step1:health_service_given": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "is_education_provided",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_education_provided",
+        "type": "spinner",
+        "hint": "স্বাস্থ্য শিক্ষা দেওয়া হয়েছে ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key":"health_education_anc",
+        "openmrs_entity_parent":"",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id":"health_education_anc",
+        "type":"check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label":"প্রসব পূর্ব স্বাস্থ্য শিক্ষা",
+        "exclusive":[
+          "other"
+        ],
+        "options":[
+          {
+            "key":"anc_nutrition",
+            "text":"গর্ভকালীন পুষ্টি",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"anc_nutrition"
+          },
+          {
+            "key":"anc_danger",
+            "text":"গর্ভকালীন বিপদ",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"anc_danger"
+          },
+          {
+            "key":"delivery_at_hospital",
+            "text":"স্বাস্থ্যকেন্দ্রে প্রসব",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"delivery_at_hospital"
+          },
+          {
+            "key":"other",
+            "text":"অন্যান্য স্বাস্থ্য শিক্ষা ",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"other"
+          }
+        ],
+        "relevance": {
+          "step1:is_education_provided": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      },
+      {
+        "key": "refer_anc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "refer_anc",
+        "type": "spinner",
+        "hint": "রেফার করা হয়েছে?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key":"place_of_refer_anc",
+        "openmrs_entity_parent":"",
+        "openmrs_entity":"concept",
+        "openmrs_entity_id":"place_of_refer_anc",
+        "type":"spinner",
+        "hint":"রেফারের স্থান",
+        "values":[
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+          "মা ও শিশু কল্যাণ কেন্দ্র",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+          "সদর হাসপাতাল",
+          "মেডিকেল কলেজ হাসপাতাল",
+          "বিশেষায়িত হাসপাতাল",
+          "অন্যান্য",
+          "রেফার করা হয়নি"
+        ],
+        "openmrs_choice_ids":{
+          "ইউনিয়ন উপস্বাস্থ্য কেন্দ্র":"Union_Sub_Center",
+          "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র":"Union_Family_Welfare_Center",
+          "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র":"Union_Health_and_Family_Welfare_Center",
+          "মা ও শিশু কল্যাণ কেন্দ্র":"Metarnal_and_Child_Wellfare_Center",
+          "১০ শয্যা বিশিষ্ট হাসপাতাল":"10_Bed_Hospital",
+          "২০ শয্যা বিশিষ্ট হাসপাতাল":"20_Beds_Hospital",
+          "উপজেলা স্বাস্থ্য কমপ্লেক্স":"Upazila_Health_Complex",
+          "সদর হাসপাতাল":"District_Hospital",
+          "মেডিকেল কলেজ হাসপাতাল":"Medical_College_and_Hospital",
+          "বিশেষায়িত হাসপাতাল":"Specialized_Hospital",
+          "অন্যান্য":"Others_Health_Facility",
+          "রেফার করা হয়নি":"Not_referred"
+        },
+        "relevance": {
+          "step1:is_Referred": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key":"cause_of_refer_anc",
+        "openmrs_entity_parent":"",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id":"cause_of_refer_anc",
+        "type":"check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label":"প্রসব পূর্ব রেফারের কারন ",
+        "exclusive":[
+          "other"
+        ],
+        "options":[
+          {
+            "key":"weightless",
+            "text":"ওজন কম",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"weightless"
+          },
+          {
+            "key":"high_blood_pressure",
+            "text":"উচ্চ রক্তচাপ",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"high_blood_pressure"
+          },
+          {
+            "key":"anemia",
+            "text":"রক্তস্বল্পতা",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"anemia"
+          },
+          {
+            "key":"sugar_in_urine",
+            "text":"প্রসাবে সুগার",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"sugar_in_urine"
+          },
+          {
+            "key":"sugar_in_albumin",
+            "text":"প্রসাবে এলবুমিন",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"sugar_in_albumin"
+          },
+          {
+            "key":"Bleeding_Through_Birth_Canal",
+            "text":"যোনিপথে রক্তক্ষরণ",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Bleeding_Through_Birth_Canal"
+          },
+          {
+            "key":"Convulsion",
+            "text":"খিঁচুনি",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"Convulsion"
+          },
+          {
+            "key":"high_temparature",
+            "text":"উচ্চ তাপমাত্রা ১০২ ডিগ্রি বা তদুর্ধ",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"high_temparature"
+          },
+          {
+            "key":"weakness",
+            "text":"দুর্বলতা, চোখে ঝাপসা দেখা ",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"weakness"
+          },
+          {
+            "key":"delay_delivery",
+            "text":"প্রলম্বিত প্রসব/ বাচ্চা আগে বের হওয়া",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"delay_delivery"
+          },
+          {
+            "key":"edema",
+            "text":"ইডেমা",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"edema"
+          },
+          {
+            "key":"jondish",
+            "text":"জন্ডিস",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"jondish"
+          },
+          {
+            "key":"other",
+            "text":"অন্যান্য",
+            "value":false,
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id":"other"
+          }
+        ],
+        "relevance": {
+          "step1:is_Referred": {
+            "type": "string",
+            "ex": "regex(., \"হ্যাঁ\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+
+      }
+
+    ]
+  }
+}

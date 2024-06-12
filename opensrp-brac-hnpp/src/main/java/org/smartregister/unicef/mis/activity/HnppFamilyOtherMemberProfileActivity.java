@@ -500,12 +500,10 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 //        adapter.addFragment(memberOtherServiceFragment, this.getString(R.string.other_service).toUpperCase());
 
         if(FormApplicability.isWomenImmunizationApplicable(commonPersonObject)){
-            adapter.addFragment(womanImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
-            if(!HnppConstants.isPALogin()){
-                viewPager.setOffscreenPageLimit(3);
-            }else{
+            //adapter.addFragment(womanImmunizationFragment, this.getString(R.string.immunization).toUpperCase());
+
                 viewPager.setOffscreenPageLimit(2);
-            }
+
         }else{
             if(!HnppConstants.isPALogin()){
                 viewPager.setOffscreenPageLimit(2);
