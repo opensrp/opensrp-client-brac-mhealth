@@ -106,7 +106,7 @@ public class CoreConstants {
         public static final String OBS_ILLNESS = "observation_illness";
         public static final String FAMILY_REGISTER = "family_register";
         public static final String FAMILY_MEMBER_REGISTER = "family_member_register";
-        public static final String FAMILY_MEMBER_DETAILS_REGISTER = "family_member_details_register";
+        public static final String FAMILY_MEMBER_DETAILS_REGISTER = "chcp_member_register";
         public static final String CHILD_REGISTER = "child_enrollment";
         public static final String CHILD_DETAILS_REGISTER = "child_details_enrollment";
         public static final String DEFAULT_CHILD_REGISTER = "hnpp_default_child_enrollment";
