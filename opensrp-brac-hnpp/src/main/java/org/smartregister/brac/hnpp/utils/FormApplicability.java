@@ -3,6 +3,8 @@ package org.smartregister.brac.hnpp.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Hours;
@@ -16,7 +18,9 @@ import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.HHVisitDurationModel;
 import org.smartregister.brac.hnpp.model.ReferralFollowUpModel;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.dao.AbstractDao;
+import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.Utils;
 import org.smartregister.util.DateUtil;
@@ -112,10 +116,35 @@ public class FormApplicability {
 //        return isDoneToday;
     }
 
+    public static int getANCCount(String baseEntityId){
+        long maxVisitDate = getMaxVisitDate(baseEntityId);
+        int ancCount = 0;
+        String ancQuery = "select count(*) as anc_count from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ CoreConstants.EventType.ANC_HOME_VISIT +"' and visit_date>="+maxVisitDate;
+        Log.v("HOME_VISIT","getANCCount>>ancQuery:"+ancQuery);
+        List<Map<String, String>> values = AbstractDao.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("anc_count")!= null){
+            ancCount = Integer.parseInt(values.get(0).get("anc_count"));
+        }
+        return ancCount;
+
+    }
+
+    public static long getMaxVisitDate(String baseEntityId){
+        long visitDate = 0;
+        String ancQuery = "select max(visit_date) as max_visit_date from ec_visit_log where base_entity_id ='"+baseEntityId+"' and visit_type ='"+ CoreConstants.EventType.ANC_REGISTRATION +"' ";
+        List<Map<String, String>> values = AbstractDao.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("max_visit_date")!= null){
+            visitDate = Long.parseLong(values.get(0).get("max_visit_date"));
+        }
+        return visitDate;
+
+    }
+
     public static String getDueFormForMarriedWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);
+        int dayPass = 0;
             if(!TextUtils.isEmpty(lmp)){
-                int dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
+                dayPass = Days.daysBetween(DateTimeFormat.forPattern("dd-MM-yyyy").parseDateTime(lmp), new DateTime()).getDays();
                 int pncDay = getDayPassPregnancyOutcome(baseEntityId);
                 if(pncDay != -1&&!isClosedPregnancyOutCome(baseEntityId)){
                     if(pncDay<=41){
@@ -123,12 +152,12 @@ public class FormApplicability {
                         return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
                                 HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
                     }else{
-                        return HnppConstants.EVENT_TYPE.ELCO;
+                        return ancOrElco(baseEntityId,dayPass);
                     }
                 }
                 if(isClosedANC(baseEntityId)){
                     if(isElco(age) && isDueElcoVisit(baseEntityId)){
-                        return HnppConstants.EVENT_TYPE.ELCO;
+                        return ancOrElco(baseEntityId,dayPass);
                     }
                 }
                 else{
@@ -138,10 +167,39 @@ public class FormApplicability {
             }
 
         if(isElco(age)&& isDueElcoVisit(baseEntityId)){
-            return HnppConstants.EVENT_TYPE.ELCO;
+            return ancOrElco(baseEntityId,dayPass);
         }
         return "";
     }
+
+    static String ancOrElco(String baseEntityId,int dayPass){
+        long ancVisitDate;
+        long pocVisitDate;
+        ancVisitDate = getVisitDate(CoreConstants.EventType.ANC_REGISTRATION,baseEntityId);
+        pocVisitDate = getVisitDate(CoreConstants.EventType.PREGNANCY_OUTCOME,baseEntityId);
+
+        if(ancVisitDate > pocVisitDate){
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String query = "UPDATE ec_anc_register SET is_closed = 0 WHERE ec_anc_register.base_entity_id = '"+baseEntityId+"'";
+            database.execSQL(query);
+
+            return getANCEvent(dayPass);
+        }else {
+            return  HnppConstants.EVENT_TYPE.ELCO;
+        }
+    }
+
+    private static long getVisitDate(String visitType, String baseEntityId) {
+        String visitDateQuery = "SELECT visit_date FROM visits where base_entity_id = '"+baseEntityId+"' and visit_type = '"+visitType+"' order by visit_date desc";
+
+        List<Map<String, String>> valus = AbstractDao.readData(visitDateQuery, new String[]{});
+
+        if(valus.size() > 0){
+           return Long.parseLong(valus.get(0).get("visit_date"));
+        }
+        return 0;
+    }
+
     public static String getGuestMemberDueFormForWomen(String baseEntityId, int age){
         String lmp = getLmp(baseEntityId);
         if(!TextUtils.isEmpty(lmp)){
