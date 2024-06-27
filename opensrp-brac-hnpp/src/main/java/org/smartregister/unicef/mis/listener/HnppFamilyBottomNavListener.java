@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import org.smartregister.unicef.mis.activity.NewDashBoardActivity;
 import org.smartregister.unicef.mis.activity.QRScannerActivity;
+import org.smartregister.unicef.mis.activity.ReferralMemberRegisterActivity;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 public class HnppFamilyBottomNavListener extends org.smartregister.family.listener.FamilyBottomNavigationListener {
@@ -30,11 +31,13 @@ public class HnppFamilyBottomNavListener extends org.smartregister.family.listen
             return false;
 
         }else if (item.getItemId() == org.smartregister.family.R.id.action_job_aids) {
-            bottomNavigationView.setSelectedItemId(org.smartregister.family.R.id.action_family);
-            Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
-//            Intent intent = new Intent(baseRegisterActivity, GrowthReportActivity.class);
+           // bottomNavigationView.setSelectedItemId(org.smartregister.family.R.id.action_job_aids);
+            Intent intent = new Intent(baseRegisterActivity, ReferralMemberRegisterActivity.class);
+//            Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             baseRegisterActivity.startActivity(intent);
-            return false;
+            return true;
         }else if(item.getItemId() == org.smartregister.family.R.id.action_scan_qr){
             baseRegisterActivity.startActivity(new Intent(baseRegisterActivity, QRScannerActivity.class));
         }

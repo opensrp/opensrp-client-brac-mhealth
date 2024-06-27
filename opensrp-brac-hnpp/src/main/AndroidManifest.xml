@@ -290,6 +290,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />
         <activity
+            android:name=".activity.ReferralMemberRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
             android:name="org.smartregister.unicef.mis.activity.AdultMemberRegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar" />

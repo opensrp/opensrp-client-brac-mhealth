@@ -1,0 +1,207 @@
+{
+  "count": "1",
+  "encounter_type": "Facility_ANC_Registration",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "গর্ভবতী রেজিস্ট্রেশন",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Facility_ANC_Registration",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "chcp_anc_registration"
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "block_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_name",
+        "type": "hidden"
+      },
+      {
+        "key": "block_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "block_id",
+        "type": "hidden"
+      },
+      {
+        "key": "provider_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "provider_id",
+        "type": "hidden"
+      },
+      {
+        "key": "service_taken_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "service_taken_date",
+        "type": "date_picker",
+        "hint": "সেবা গ্রহণের তারিখ",
+        "max_date": "today"
+      },
+      {
+        "key": "last_menstrual_period",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "last_menstrual_period",
+        "type": "date_picker",
+        "hint": "শেষ মাসিকের তারিখ",
+        "expanded": false,
+        "min_date": "today-308d",
+        "max_date": "today-42d",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "edd",
+        "type": "edit_text",
+        "hint": "সম্ভাব্য প্রসবের তারিখ",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "no_prev_preg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_prev_preg",
+        "type": "edit_text",
+        "edit_type": "number",
+        "hint": "মোট গর্ভ সংখ্যা",
+        "v_required": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "সংখ্যাটি 0 এর চেয়ে সমান বা বড় হতে হবে"
+        }
+      },
+      {
+        "key": "no_surv_children",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "no_surv_children",
+        "type": "edit_text",
+        "edit_type": "number",
+        "hint": "মোট জীবিত প্রসবকৃত সন্তান সংখ্যা",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_member_registration_relevance.yml"
+            }
+          }
+        },
+        "v_required": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_min": {
+          "value": "0",
+          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+        },
+        "v_max": {
+          "value": "20",
+          "err": "সংখ্যাটি 20 এর সমান বা কম হতে হবে"
+        }
+      },
+
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ]
+  }
+}

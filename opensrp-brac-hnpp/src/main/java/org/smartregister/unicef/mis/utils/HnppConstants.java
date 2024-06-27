@@ -1798,7 +1798,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  IMMUNIZATION = "hv_immunization";
         public static final String  DANGER_SIGNS = "anc_hv_danger_signs";
 
-        public static final String  ANC_FORM = "anc_registration";
+        public static final String  ANC_FORM = "chcp_anc_registration";
+        public static final String  ANC_FORM_FACILITY  = "anc_registration";
         public static final String  ANC_VISIT_FORM = "chcp_anc_home_visit";
         public static final String  ANC_VISIT_FORM_FACILITY = "anc_home_visit";
         public static final String  ANC_VISIT_FORM_OOC = "hnpp_anc_home_visit_ooc";
@@ -1811,7 +1812,9 @@ public class HnppConstants extends CoreConstants {
         public static final String  WOMEN_REFERRAL = "hnpp_women_referral";
         public static final String  CHILD_REFERRAL = "hnpp_child_referral";
         public static final String  ELCO = "elco_register";
-        public static final String  PNC_FORM = "pnc_home_visit";
+        public static final String  PNC_FORM = "chcp_pnc_home_visit";
+        public static final String  FP_FORM = "chcp_family_planning";
+        public static final String  PNC_FORM_FACILITY = "pnc_home_visit";
         public static final String  PNC_FORM_OOC = "hnpp_pnc_registration_ooc";
         public static final String  WOMEN_PACKAGE = "hnpp_women_package";
         public static final String  EYE_TEST = "eye_test";
@@ -1879,11 +1882,14 @@ public class HnppConstants extends CoreConstants {
 //        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
 //        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
         public static final String ANC_HOME_VISIT= "Facility_AncService";
+        public static final String ANC_REGISTRATION_FACILITY= "ANC Registration";
         public static final String ANC_HOME_VISIT_FACILITY= "ANC Home Visit";
         public static final String ANC_HOME_VISIT_OOC= "ANC Home Visit OOC";
-        public static final String ANC_REGISTRATION = "ANC Registration";
+        public static final String ANC_REGISTRATION = "Facility_ANC_Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
-        public static final String PNC_REGISTRATION = "PNC Home Visit";
+        public static final String PNC_REGISTRATION = "Facility_PNCService";
+        public static final String FP_SERVICE = "Facility_FPService";
+        public static final String PNC_REGISTRATION_FACILITY = "PNC Home Visit";
         public static final String PNC_REGISTRATION_OOC = "PNC Home Visit OOC";
         public static final String WOMEN_PACKAGE = "Women package";
         public static final String GIRL_PACKAGE = "Adolescent package";
@@ -2188,10 +2194,12 @@ public class HnppConstants extends CoreConstants {
     }
     public static final Map<String,String> eventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
+            .put(EVENT_TYPE.ANC_REGISTRATION_FACILITY,JSON_FORMS.ANC_FORM_FACILITY)
             .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
             .put(EVENT_TYPE.ANC_HOME_VISIT_FACILITY,JSON_FORMS.ANC_VISIT_FORM_FACILITY)
             .put(EVENT_TYPE.ELCO,JSON_FORMS.ELCO)
             .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
+            .put(EVENT_TYPE.FP_SERVICE,JSON_FORMS.FP_FORM)
             .put(EVENT_TYPE.PNC_REGISTRATION_OOC,JSON_FORMS.PNC_FORM_OOC)
             .put(EVENT_TYPE.CHILD_ECCD_2_3_MONTH,JSON_FORMS.CHILD_ECCD_2_3_MONTH)
             .put(EVENT_TYPE.CHILD_ECCD_4_6_MONTH,JSON_FORMS.CHILD_ECCD_4_6_MONTH)
@@ -2230,6 +2238,7 @@ public class HnppConstants extends CoreConstants {
 //            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,R.mipmap.ic_anc_pink)
 //            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ANC_REGISTRATION,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC_REGISTRATION_FACILITY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ELCO,R.drawable.ic_elco)
             .put(EventType.REMOVE_FAMILY,R.drawable.ic_remove)
@@ -2248,6 +2257,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.EYE_TEST,R.drawable.ic_eye)
             .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
             .put(EVENT_TYPE.ANC_HOME_VISIT,R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.FP_SERVICE,R.drawable.ic_familiar)
             .put(EVENT_TYPE.ANC_HOME_VISIT_FACILITY,R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.ENC_REGISTRATION,R.mipmap.ic_child)
             .put("Member referral",R.mipmap.ic_refer)
@@ -2305,6 +2315,7 @@ public class HnppConstants extends CoreConstants {
     public static Map<String,String> getVisitEventTypeMapping(){
         Map<String,String> visitEventTypeMapping = ImmutableMap.<String,String> builder()
                 .put(EVENT_TYPE.ANC_REGISTRATION, HnppApplication.appContext.getString(R.string.pregnancy_reg))
+                .put(EVENT_TYPE.ANC_REGISTRATION_FACILITY, HnppApplication.appContext.getString(R.string.pregnancy_reg))
 //            .put(EVENT_TYPE.ANC_GENERAL_DISEASE,"শারীরিক সমস্যা")
 //            .put(EVENT_TYPE.ANC_PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
                 .put(EVENT_TYPE.ELCO,HnppApplication.appContext.getString(R.string.elco_visit))
@@ -2318,7 +2329,7 @@ public class HnppConstants extends CoreConstants {
                 .put("Member referral",HnppApplication.appContext.getString(R.string.referrel))
                 .put(EVENT_TYPE.GMP_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
 //            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
-
+                .put(EVENT_TYPE.FP_SERVICE,HnppApplication.appContext.getString(R.string.fp_service))
                 .put( EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.pregnancy_outcome))
                 .put( EVENT_TYPE.PREGNANCY_OUTCOME_OOC,HnppApplication.appContext.getString(R.string.pregnancy_outcome))
                 .put( JSON_FORMS.PNC_FORM,HnppApplication.appContext.getString(R.string.before_preg_service))
@@ -2402,6 +2413,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.IYCF_PACKAGE,HnppApplication.appContext.getString(R.string.iycf_package))
             .put(EVENT_TYPE.NCD_PACKAGE,HnppApplication.appContext.getString(R.string.ncd_package))
             .put(EVENT_TYPE.ANC_SERVICE,HnppApplication.appContext.getString(R.string.anc_service2))
+            .put(EVENT_TYPE.FP_SERVICE,HnppApplication.appContext.getString(R.string.fp_service))
             .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_service_within_48))
             .put(EVENT_TYPE.ANC_PACKAGE,HnppApplication.appContext.getString(R.string.anc_package))
             .put(EVENT_TYPE.PNC_PACKAGE,HnppApplication.appContext.getString(R.string.pnc_within_48))
@@ -2435,7 +2447,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg))
                 .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
                 .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.preg_service_visit))
-
+                .put(EVENT_TYPE.FP_SERVICE,HnppApplication.appContext.getString(R.string.fp_service))
                 .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
                 .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
                 .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
@@ -2524,7 +2536,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BLOOD_GROUP,HnppApplication.appContext.getString(R.string.blood_group))
             .put(EVENT_TYPE.EYE_TEST,HnppApplication.appContext.getString(R.string.eye_test))
             .put(EVENT_TYPE.IYCF_PACKAGE, HnppApplication.appContext.getString(R.string.child_package_iyocf))
-            .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.pregnancy_service_visit))
+            .put(EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.pregnancy_service_visit))
             .put( EVENT_TYPE.PNC_REGISTRATION,HnppApplication.appContext.getString(R.string.pnc_only))
             .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))

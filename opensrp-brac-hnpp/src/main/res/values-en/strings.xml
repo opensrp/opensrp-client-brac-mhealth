@@ -39,6 +39,7 @@
     <string name="menu_anc_risk_clients">Risk and Urgent</string>
     <string name="menu_pnc_clients">List of maternity mothers</string>
     <string name="menu_ado_clients">Adolescent list</string>
+    <string name="menu_referral_clients">Referred List</string>
     <string name="menu_women_clients">Women Services List</string>
     <string name="menu_iycf_clients">IYCF Services List</string>
     <string name="menu_child_clients">Child List</string>
@@ -551,7 +552,7 @@
     <string name="elco_visit">Enabled couple visit</string>
     <string name="anc_service">ANC</string>
     <string name="anc_service2">ANC</string>
-
+    <string name="fp_service">Family Planning Service</string>
     <string name="referrel">Referral</string>
     <string name="pregnancy_outcome">Pregnancy Outcome</string>
     <string name="before_preg_service">Postpartum Care</string>

@@ -58,22 +58,22 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_member_survey"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/member_survey"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_kmc_home"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/kmc_service_home"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_kmc_hospital"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/kmc_service_hospital"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_scanu_followup"
-        android:enabled="true"
+        android:enabled="false"
         android:title="@string/scanu_followup"
         app:showAsAction="never" />
 <!--    <item-->

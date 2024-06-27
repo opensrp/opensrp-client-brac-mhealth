@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -120,6 +121,7 @@ public class HnppAllMemberRegisterFragment extends HnppBaseChildRegisterFragment
         super.filter(searchFilterString, joinTableString, mainConditionString, qrCode);
 
     }
+    @SuppressLint("StaticFieldLeak")
     @Override
     public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
         switch (id) {

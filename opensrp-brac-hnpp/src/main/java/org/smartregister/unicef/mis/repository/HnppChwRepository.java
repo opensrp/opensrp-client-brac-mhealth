@@ -127,7 +127,11 @@ public class HnppChwRepository extends Repository {
         }catch (Exception e){
 
         }
+        try{
+            alterMemberTableWithReferral(database);
+        }catch (Exception e){
 
+        }
     }
 
     @Override
@@ -180,6 +184,12 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
+                case 9:
+                    try{
+                        alterMemberTableWithReferral(db);
+                    }catch (Exception e){
+
+                    }
                 default:
                     break;
             }
@@ -207,5 +217,7 @@ public class HnppChwRepository extends Repository {
     private void alterChildTableIMMATURED(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_immature VARCHAR;");
     }
-
+    private void alterMemberTableWithReferral(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_family_member ADD COLUMN is_refered VARCHAR;");
+    }
 }

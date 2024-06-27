@@ -1015,6 +1015,13 @@
           "json_mapping": {
             "field": "weight_date"
           }
+        },
+        {
+          "column_name": "is_refered",
+          "type": "Client",
+          "json_mapping": {
+            "field": "is_refered"
+          }
         }
       ]
     },

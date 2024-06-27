@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import org.smartregister.unicef.mis.activity.NewDashBoardActivity;
 import org.smartregister.family.R;
 import org.smartregister.listener.BottomNavigationListener;
+import org.smartregister.unicef.mis.activity.ReferralMemberRegisterActivity;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 public class HnppBottomNavigationListener extends BottomNavigationListener {
@@ -33,8 +34,8 @@ public class HnppBottomNavigationListener extends BottomNavigationListener {
             return false;
         }
         else if (item.getItemId() == R.id.action_job_aids) {
-            Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
-//            Intent intent = new Intent(baseRegisterActivity, GrowthReportActivity.class);
+            Intent intent = new Intent(baseRegisterActivity, ReferralMemberRegisterActivity.class);
+            //Intent intent = new Intent(baseRegisterActivity, NewDashBoardActivity.class);
             baseRegisterActivity.startActivity(intent);
             return false;
         }

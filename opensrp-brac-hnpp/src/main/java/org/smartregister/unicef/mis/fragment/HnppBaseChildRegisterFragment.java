@@ -10,6 +10,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -693,7 +694,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         }
     }
     protected String visitType ="";
-
+    protected String referred ="";
     @Override
     public void countExecute() {
 //        StringBuilder customFilter = new StringBuilder();
@@ -804,6 +805,9 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         }
         String query = "";
         try {
+            if(!TextUtils.isEmpty(referred)){
+                customFilter.append(referred);
+            }
             sqb.addCondition(customFilter.toString());
             query = sqb.orderbyCondition(Sortqueries);
             query = sqb.Endquery(sqb.addlimitandOffset(query, clientAdapter.getCurrentlimit(), clientAdapter.getCurrentoffset()));

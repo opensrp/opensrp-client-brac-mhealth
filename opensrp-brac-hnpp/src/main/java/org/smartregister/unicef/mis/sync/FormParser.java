@@ -54,6 +54,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.AEFI_C
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_DISEASE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CHILD_ECCD_10_12_MONTH;
@@ -72,6 +73,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.CORONA
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ELCO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.EYE_TEST;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.FP_SERVICE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_SESSION_INFO;
@@ -87,6 +89,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.MEMBER
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_OOC;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME_OOC;
@@ -165,7 +168,7 @@ public class FormParser {
                         processReferral(encounter_type,log,details,formSubmissionId);
                         try{
                             processIndicator(base_entity_id,encounter_type,log,details,formSubmissionId);
-                            processSimprintsVerification(log,details);
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -522,45 +525,6 @@ public class FormParser {
                     }
 
                 }
-//                if(details.containsKey("no_anc_at_pregnant")&&!StringUtils.isEmpty(details.get("no_anc_at_pregnant"))) {
-//                    String value = details.get("no_anc_at_pregnant");
-//                    HnppApplication.getIndicatorRepository().updateValue("no_anc_at_pregnant",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-//
-//                }
-//
-//                if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
-//                    String value = details.get("breastfeeding_time");
-//                    HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-//
-//                }
-//                if(details.containsKey("delivery_method_c_section")&&!StringUtils.isEmpty(details.get("delivery_method_c_section"))) {
-//                    String value = details.get("delivery_method_c_section");
-//                    HnppApplication.getIndicatorRepository().updateValue("delivery_method_c_section",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-//
-//                }
-//                if(details.containsKey("delivery_method_general")&&!StringUtils.isEmpty(details.get("delivery_method_general"))) {
-//                    String value = details.get("delivery_method_general");
-//                    HnppApplication.getIndicatorRepository().updateValue("delivery_method_general",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-//
-//                }
-//                if(details.containsKey("breastfeeding_time")&&!StringUtils.isEmpty(details.get("breastfeeding_time"))) {
-//                    String value = details.get("breastfeeding_time");
-//                    HnppApplication.getIndicatorRepository().updateValue("breastfeeding_time",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-//
-//                }
-//                if(details.containsKey("preg_outcome")&&!StringUtils.isEmpty(details.get("preg_outcome"))) {
-//                    String value = details.get("preg_outcome");
-//                    HnppApplication.getIndicatorRepository().updateValue("preg_outcome",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId());
-//
-//                }
-//                if(details.containsKey("delivery_place")&&!StringUtils.isEmpty(details.get("delivery_place"))) {
-//                    String value = details.get("delivery_place");
-//                    Log.v("TARGET_FETCH","delivery_place>>"+value);
-//                    if(!value.equalsIgnoreCase("home") || !value.equalsIgnoreCase("বাড়ি")){
-//                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.INSTITUTIONALIZES_DELIVERY,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getBlockName(),log.getBaseEntityId(),formSubmissionId);
-//                    }
-//
-//                }
                 break;
             case CHILD_FOLLOWUP:
                 String bfValue ="",efValue="";
@@ -693,28 +657,6 @@ public class FormParser {
                         db.execSQL("UPDATE ec_child set birth_weight='"+status+"' where base_entity_id='"+log.getBaseEntityId()+"'");
 
                 }
-//                if (details.containsKey("kmc_home_calculation") && !StringUtils.isEmpty(details.get("kmc_home_calculation"))) {
-//                    String status = details.get("kmc_home_calculation");
-//                    if(!TextUtils.isEmpty(status) && status.equalsIgnoreCase("1")){
-//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-//                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
-
-//                    }
-
-//                }
-//                if (details.containsKey("agreed_to_hospital") && !StringUtils.isEmpty(details.get("agreed_to_hospital"))) {
-//                    String status = details.get("agreed_to_hospital");
-//                    if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("yes") || status.equalsIgnoreCase("হ্যাঁ"))){
-//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-//                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOSPITAL+"' where base_entity_id='"+log.getBaseEntityId()+"'");
-//
-//                    }else  if(!TextUtils.isEmpty(status) && (status.equalsIgnoreCase("no") || status.equalsIgnoreCase("না"))){
-//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-//                        db.execSQL("UPDATE ec_child set kmc_status='"+ KMC_SERVICE_HOME+"' ,identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
-//
-//                    }
-//
-//                }
                     break;
             case HnppConstants.EventType.REMOVE_MEMBER: {
                 if (details.containsKey("cause_of_death") && !StringUtils.isEmpty(details.get("cause_of_death"))) {
@@ -779,6 +721,29 @@ public class FormParser {
 
                 }
                 break;
+            case ANC_HOME_VISIT:
+            case ANC_HOME_VISIT_FACILITY:
+            case PNC_REGISTRATION:
+            case PNC_REGISTRATION_FACILITY:
+            case FP_SERVICE:
+                if (details.containsKey("is_Referred") && !StringUtils.isEmpty(details.get("is_Referred"))) {
+                    String status = details.get("is_Referred");
+                    Log.v("REFERRED_LIST","status:"+status);
+                    if(status.equalsIgnoreCase("Yes") || status.equalsIgnoreCase("হ্যাঁ")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_family_member set is_refered ='true' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
+                if (details.containsKey("refer_anc") && !StringUtils.isEmpty(details.get("refer_anc"))) {
+                    String status = details.get("refer_anc");
+                    Log.v("REFERRED_LIST","status:"+status);
+                    if(status.equalsIgnoreCase("Yes") || status.equalsIgnoreCase("হ্যাঁ")){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_family_member set is_refered ='true' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
         }
 
     }
@@ -2448,12 +2413,16 @@ public class FormParser {
     public static JSONObject loadFormFromAsset(String encounter_type) {
         String form_name = "";
         switch (encounter_type) {
+
 //            case ANC_PREGNANCY_HISTORY:
 //                form_name = HnppConstants.JSON_FORMS.PREGNANCY_HISTORY + ".json";
 //                break;
 //            case ANC_GENERAL_DISEASE:
 //                form_name = HnppConstants.JSON_FORMS.GENERAL_DISEASE + ".json";
 //                break;
+            case FP_SERVICE:
+                form_name = HnppConstants.JSON_FORMS.FP_FORM + ".json";
+                break;
             case ANC_HOME_VISIT:
                 form_name = HnppConstants.JSON_FORMS.ANC_VISIT_FORM + ".json";
                 break;
@@ -2470,6 +2439,9 @@ public class FormParser {
                 form_name = HnppConstants.JSON_FORMS.CHILD_REFERRAL + ".json";
                 break;
             case PNC_REGISTRATION:
+                form_name = HnppConstants.JSON_FORMS.PNC_FORM+ ".json";
+                break;
+            case PNC_REGISTRATION_FACILITY:
                 form_name = HnppConstants.JSON_FORMS.PNC_FORM+ ".json";
                 break;
             case PNC_REGISTRATION_OOC:
@@ -2565,6 +2537,9 @@ public class FormParser {
                 break;
             case ANC_REGISTRATION:
                 form_name = HnppConstants.JSON_FORMS.ANC_FORM + ".json";
+                break;
+            case ANC_REGISTRATION_FACILITY:
+                form_name = HnppConstants.JSON_FORMS.ANC_FORM_FACILITY + ".json";
                 break;
             case PREGNANCY_OUTCOME:
                 form_name = HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME + ".json";

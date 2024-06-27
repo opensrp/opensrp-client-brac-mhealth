@@ -38,6 +38,7 @@
     <string name="menu_anc_risk_clients">ঝুঁকিপূর্ণ ও জরুরী</string>
     <string name="menu_pnc_clients">প্রসূতি মায়ের তালিকা</string>
     <string name="menu_ado_clients">কিশোরী তালিকা</string>
+    <string name="menu_referral_clients">রেফার তালিকা</string>
     <string name="menu_women_clients">নারী সেবা তালিকা</string>
     <string name="menu_iycf_clients">আই ওয়াই সি এফ সেবা তালিকা</string>
     <string name="menu_child_clients">শিশু তালিকা</string>
@@ -563,6 +564,7 @@
     <string name="pregnancy_reg">গর্ভবতী রেজিস্ট্রেশন</string>
     <string name="elco_visit">সক্ষম দম্পতি পরিদর্শন</string>
     <string name="anc_service">গর্ভবতী পরিচর্যা</string>
+    <string name="fp_service">পরিবার পরিকল্পনা সেবা</string>
     <string name="anc_service2">গর্ভবতী পরিচর্যা</string>
     <string name="referrel">রেফারেল</string>
     <string name="pregnancy_outcome">প্রসবের ফলাফল</string>
