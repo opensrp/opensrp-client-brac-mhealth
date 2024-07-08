@@ -43,7 +43,7 @@ public class HALocationFetchIntentService extends IntentService {
     @Override
     protected void onHandleIntent( Intent intent) {
         JSONArray jsonObjectLocation = getLocationList();
-        if(jsonObjectLocation == null || jsonObjectLocation.length()==0){
+        if(jsonObjectLocation !=null && jsonObjectLocation.length()==0){
             broadcastStatus("Need to location update");
             return;
         }
@@ -52,6 +52,10 @@ public class HALocationFetchIntentService extends IntentService {
             for(int i=0;i<jsonObjectLocation.length();i++){
                 try {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
+//                    if(object!=null && object.has("msg")){
+//                        broadcastStatus("area not found");
+//                        return;
+//                    }
                     SSModel ssModel =  new Gson().fromJson(object.toString(), SSModel.class);
                     if(ssModel != null){
                         if(!TextUtils.isEmpty(ssModel.user_id)){

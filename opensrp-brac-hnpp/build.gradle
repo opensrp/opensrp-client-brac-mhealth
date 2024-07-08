@@ -212,7 +212,7 @@ dependencies {
 //        exclude group: 'com.android.support', module: 'appcompat-v7'
 //    }
     //from branch weight_vs_height
-    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.1-gmp-weight-height-SNAPSHOT@aar') {
+    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.2-gmp-weight-height-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'design'

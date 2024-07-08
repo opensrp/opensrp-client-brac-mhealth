@@ -410,6 +410,12 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
 //                                    finish();
 //                                }
 //                            });
+//                            String locationUpdateStr = intent.getStringExtra("PUT_EXTRA");
+//                            if(locationUpdateStr!=null && locationUpdateStr.equalsIgnoreCase("area not found")){
+//                                HnppConstants.showDialog(FamilyRegisterActivity.this,"Health Worker Area Assignment not found, Please update your HRIS","");
+//                                finish();
+//                                return;
+//                            }
                             startActivity(new Intent(FamilyRegisterActivity.this,UpdateLocationActivity.class));
                         }
                         if(intent != null && intent.getAction().equalsIgnoreCase(HnppConstants.ACTION_STOCK_COME)){

@@ -104,7 +104,7 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.MEMBER_ID_SUFFIX;
 public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity  implements FamilyOtherMemberProfileExtendedContract.View, VaccinationActionListener, ServiceActionListener {
     public static final int REQUEST_HOME_VISIT = 5555;
     public static final String IS_COMES_IDENTITY = "is_comes";
-
+    public static final String IS_COMES_GLOBAL_SEARCH= "is_comes_global";
     private CustomFontTextView textViewDetails3;
     private String familyBaseEntityId;
 
@@ -126,6 +126,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
     private RelativeLayout layoutFamilyHasRow;
     private Button memberSurveyBtn;
     private Button addChildBtn;
+    private boolean isComesFromGlobalSearch;
 
     public boolean isNeedToVerify() {
         return verificationNeeded && !isVerified;
@@ -375,7 +376,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         }
 
         setupMenuOptions(menu);
-        return true;
+        return !isComesFromGlobalSearch;
     }
     protected void startPncRegister() {
        // HnppPncRegisterActivity.startHnppPncRegisterActivity(HnppFamilyOtherMemberProfileActivity.this, baseEntityId);
@@ -1213,6 +1214,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
         primaryCaregiver = getIntent().getStringExtra(Constants.INTENT_KEY.PRIMARY_CAREGIVER);
         String villageTown = getIntent().getStringExtra(Constants.INTENT_KEY.VILLAGE_TOWN);
         familyName = getIntent().getStringExtra(Constants.INTENT_KEY.FAMILY_NAME);
+        isComesFromGlobalSearch = getIntent().getBooleanExtra(IS_COMES_GLOBAL_SEARCH,false);
         PhoneNumber = commonPersonObject.getColumnmaps().get(CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER);
         shrId =commonPersonObject.getColumnmaps().get(HnppConstants.KEY.SHR_ID);
         presenter = getFamilyOtherMemberActivityPresenter(familyBaseEntityId, baseEntityId, familyHead, primaryCaregiver, villageTown, familyName);

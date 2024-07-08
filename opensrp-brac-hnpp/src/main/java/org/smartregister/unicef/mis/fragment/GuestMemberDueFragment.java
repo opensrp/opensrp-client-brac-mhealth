@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,10 @@ import org.smartregister.unicef.mis.activity.GuestMemberProfileActivity;
 import org.smartregister.unicef.mis.utils.FormApplicability;
 import org.smartregister.unicef.mis.utils.GuestMemberData;
 import org.smartregister.unicef.mis.utils.HnppConstants;
+import org.smartregister.unicef.mis.utils.HnppDBUtils;
+import org.smartregister.unicef.mis.utils.MemberProfileDueData;
 
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.guestEventTypeFormNameMapping;
 
 public class GuestMemberDueFragment extends Fragment implements View.OnClickListener {
@@ -83,17 +87,45 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                 int age =  FormApplicability.getAge(guestMemberData.getDob());
                 if(FormApplicability.isElco(age)){
                     String eventType = FormApplicability.getGuestMemberDueFormForWomen(guestMemberData.getBaseEntityId(),age);
-                    if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
-                        nameanc1View.setText(HnppConstants.getVisitEventTypeMapping().get(eventType));
-                        imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
+                    Log.v("GUEST_MEMBER","Event Type:"+eventType);
+                    if(!eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),eventType) && !TextUtils.isEmpty(eventType)){
+                        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)){
+                            nameanc1View.setText(FormApplicability.getANCTitle(guestMemberData.getBaseEntityId()));
+                            imageanc1View.setImageResource(R.mipmap.ic_anc_pink);
+//                            memberProfileDueData.setEventType(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT);
+//                            String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
+//                            int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
+//                            String date = HnppConstants.getScheduleAncDate(lmpDate,noOfAnc);
+//                            memberProfileDueData.setSubTitle(context.getString(R.string.schedule_date)+date);
+
+                        }else{
+                            nameanc1View.setText(FormApplicability.getPncTitle(guestMemberData.getBaseEntityId()));
+                            try{
+                                imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
+                            }catch (Exception e){
+
+                            }
+//                            String deliveryDate = FormApplicability.getDeliveryDate(baseEntityId);
+//                            int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
+//                            String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
+//                            memberProfileDueData.setSubTitle(context.getString(R.string.schedule_date)+date);
+                        }
                         anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
 
                         otherServiceView.addView(anc1View);
+
                     }
-//                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
+                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO)// && FormApplicability.isPregnant(baseEntityId)
+                    ){
+                        imageanc1View.setImageResource(HnppConstants.iconMapping.get(ANC_REGISTRATION));
+                        nameanc1View.setText(HnppConstants.getVisitEventTypeMapping().get(ANC_REGISTRATION));
+                        anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,ANC_REGISTRATION);
+                        otherServiceView.addView(anc1View);
+                    }
+//                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
 
                     if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT)
-                            ){
+                    ){
                         @SuppressLint("InflateParams") View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                         ImageView image = ancRegistration.findViewById(R.id.image_view);
                         TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
@@ -103,6 +135,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                         ancRegistration.setTag(TAG_OPEN_DELIVERY);
                         ancRegistration.setOnClickListener(this);
                         otherServiceView.addView(ancRegistration);
+
                     }
                 }
 
@@ -128,7 +161,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                     if (getActivity() != null && getActivity() instanceof GuestMemberProfileActivity) {
                         GuestMemberProfileActivity activity = (GuestMemberProfileActivity) getActivity();
                         String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                        if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
+                        if(eventType.equalsIgnoreCase(ANC_REGISTRATION)){
                             activity.openAncRegisterForm();
                         }else{
                                 activity.openHomeVisitSingleForm(guestEventTypeFormNameMapping.get(eventType));
@@ -138,7 +171,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                     }else if (getActivity() != null && getActivity() instanceof GlobalSearchMemberProfileActivity) {
                         GlobalSearchMemberProfileActivity activity = (GlobalSearchMemberProfileActivity) getActivity();
                     String eventType = (String) v.getTag(org.smartregister.family.R.id.VIEW_ID);
-                    if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_REGISTRATION)){
+                    if(eventType.equalsIgnoreCase(ANC_REGISTRATION)){
                         activity.openAncRegisterForm();
                     }else{
                         activity.openHomeVisitSingleForm(guestEventTypeFormNameMapping.get(eventType));

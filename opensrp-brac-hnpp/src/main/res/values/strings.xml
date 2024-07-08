@@ -1205,4 +1205,5 @@
         <item>হ্যাঁ (উভয় পা ফোলা)</item>
 
     </string-array>
+    <string name="without_id">আই ডি নেই</string>
 </resources>

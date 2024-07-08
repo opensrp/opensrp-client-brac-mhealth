@@ -159,12 +159,12 @@ public class FormApplicability {
 //                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
 //                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
                 }else{
-                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                    return HnppConstants.EVENT_TYPE.ELCO;
                 }
             }
             if(isClosedANC(baseEntityId)){
                 if(isElco(age)){
-                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                    return HnppConstants.EVENT_TYPE.ELCO;
                 }
             }
             else{
@@ -174,7 +174,7 @@ public class FormApplicability {
         }
 
         if(isElco(age)){
-            return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+            return HnppConstants.EVENT_TYPE.ELCO;
         }
         return "";
     }

@@ -12,6 +12,11 @@
         <item>EPI No</item>
         <item>System ID</item>
     </string-array>
+    <string-array name="member_id_type">
+        <item>Select</item>
+        <item>NID</item>
+        <item>BRID</item>
+    </string-array>
     <string name="member_import">Member Import</string>
     <string name="report">GMP Report</string>
     <string name="due_visit">Date of last visit \n %1$s \n Number: %2$s</string>
@@ -1086,11 +1091,11 @@
     <string name="montly_session">Monthly session count</string>
     <string name="action">Action</string>
     <string name="saturday">Saturday</string>
-    <string name="difference_date">\"দুই ডেট এর ব্যবধান ২৮ দিন হতে হবে \"</string>
-    <string name="gmp_measure">অপুষ্টির সনাক্তকরণ</string>
-    <string name="session_info">সেশন এর তথ্য</string>
-    <string name="pustir_obosta">পুষ্টির অবস্থা</string>
-    <string name="session_info_not_found">সেশনের তথ্য পাওয়া যায়নি</string>
+    <string name="difference_date">The interval between two dates should be 28 days</string>
+    <string name="gmp_measure">Detection of malnutrition</string>
+    <string name="session_info">Session Info</string>
+    <string name="pustir_obosta">Nutritional status</string>
+    <string name="session_info_not_found">Session information not found</string>
     <string name="previous_weight_vs_height">Previous Weight vs Height</string>
     <string-array name="report_segment">
         <item>MUAC</item>
@@ -1128,7 +1133,8 @@
     <string name="third_suffix">- 3rd</string>
     <string name="fourth_suffix">- 4th</string>
     <string name="death_form">Death Registration</string>
-    <string name="meg_death_reg">শিশুটির মৃত্যু নিবন্ধন ফরমটি পূরণ করুন</string>
-    <string name="later_fillup">পরে পূরণ করবো</string>
+    <string name="meg_death_reg">Complete the Child Death Registration form</string>
+    <string name="later_fillup">I will fill it later</string>
     <string name="tika_info_comfirm">Please confirm vaccine information</string>
+    <string name="without_id">WithOut ID</string>
 </resources>

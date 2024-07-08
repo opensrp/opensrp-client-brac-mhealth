@@ -1297,7 +1297,18 @@ public class WomanImmunizationFragment extends BaseProfileFragment implements HP
             RecurringServiceUtils.updateServiceGroupViews(view, wrappers, serviceRecordList, alertList, true);
         }
     }
+    public void updateImmunizationView(){
+        if (vaccineGroups != null) {
+            vaccine_group_canvas_ll.removeAllViews();
+            vaccineGroups = null;
+        }
 
+        if (serviceGroups != null) {
+            service_group_canvas_ll.removeAllViews();
+            serviceGroups = null;
+        }
+        updateViews();
+    }
 
 }
 
