@@ -388,35 +388,7 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
-      {
-        "key": "regular_medicine",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "regular_medicine",
-        "type": "native_radio",
-        "label": "নিয়মিত কোন ঔষধ সেবন করছেন?",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-        ],
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
+
       {
         "key": "weight",
         "openmrs_entity_parent": "",
@@ -779,6 +751,35 @@
               "rules-file": "hnpp_ncd_package_relevance.yml"
             }
           }
+        }
+      },
+      {
+        "key": "regular_medicine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "regular_medicine",
+        "type": "native_radio",
+        "label": "নিয়মিত কোন ঔষধ সেবন করছেন?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
         }
       },
       {

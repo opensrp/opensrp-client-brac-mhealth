@@ -397,4 +397,5 @@
     <string name="update_last_visit_succ_msg">পরিদর্শনের তারিখ আপডেট হয়েছে</string>
     <string name="previous_history">পূর্বের ইতিহাস</string>
     <string name="pa_vb">ভিশন বাংলাদেশ</string>
+    <string name="last_sync">Last Sync: %1$s</string>
 </resources>

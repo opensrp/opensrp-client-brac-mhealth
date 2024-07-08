@@ -75,13 +75,14 @@
                 android:layout_height="50dp"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
     <com.vijay.jsonwizard.views.CustomTextView
         android:id="@+id/count_tv"
-        android:padding="10dp"
-        android:text="No of client :"
-        android:layout_below="@+id/search_bar_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar_view"
+        android:padding="10dp"
+        android:text="No of client :" />
     <HorizontalScrollView
         android:layout_below="@+id/count_tv"
         android:layout_width="match_parent"

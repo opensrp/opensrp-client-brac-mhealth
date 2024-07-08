@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -37,6 +39,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.SkSelectionAdapter;
@@ -57,12 +60,17 @@ import org.smartregister.family.util.Constants;
 import org.smartregister.job.PullUniqueIdsServiceJob;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.repository.EventClientRepository;
+import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.FormUtils;
 import org.smartregister.util.JsonFormUtils;
 import org.smartregister.view.activity.SecuredActivity;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -77,6 +85,7 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
 
     private BroadcastReceiver locationUpdateBroadcastReceiver;
     private AppExecutors appExecutors;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreation() {
         setContentView(R.layout.activity_pa_services);
@@ -91,12 +100,17 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         appExecutors = new AppExecutors();
         updateSpinner();
         updateUnSyncCount();
+        ((TextView) findViewById(R.id.login_build_text_view)).setText("Version " + getVersion() + ", Built on: " + getBuildDate());
+
     }
+    @SuppressLint("SetTextI18n")
     private void updateUnSyncCount(){
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
         //int cc = eventClientRepository.getUnSyncClientsCount();
         int ec = eventClientRepository.getUnSyncEventsCount();
         ((TextView)findViewById(R.id.unsync_count_txt)).setText(ec+"");
+        ((TextView) findViewById(R.id.last_sync_text_view)).setText(getString(R.string.last_sync,getLastSyncDateTime()));
+
     }
 
     @Override
@@ -108,7 +122,28 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(PANewHomeActivity.this);
 
     }
+    private String getVersion()  {
+        PackageInfo pInfo = null;
+        try {
+            pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
 
+    }
+    public String getLastServerVersion(){
+        return String.valueOf(ECSyncHelper.getInstance(this).getLastSyncTimeStamp());
+    }
+    private String getLastSyncDateTime(){
+        long lastSync = ECSyncHelper.getInstance(this).getLastCheckTimeStamp();
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa, MMM d", Locale.getDefault());
+        return MessageFormat.format(" {0}", sdf.format(lastSync));
+    }
+    public String getBuildDate() {
+        return new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(new Date(BuildConfig.BUILD_TIMESTAMP));
+    }
     private void updateData(){
         hideProgressDialog();
         updateSpinner();

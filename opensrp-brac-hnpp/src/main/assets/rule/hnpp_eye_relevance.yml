@@ -13,6 +13,13 @@ condition: "(step1_exam_result.contains('presbiopia') || step1_exam_result.conta
 actions:
   - "isRelevant = true"
 ---
+name: step1_place_of_referral
+description: present condition
+priority: 1
+condition: "(step1_exam_result.contains('other_problem') || step1_exam_result.contains('cataract')|| step1_exam_result.contains('hyperopia'))"
+actions:
+  - "isRelevant = true"
+---
 name: step1_glasses_type_presbiopia
 description: present condition
 priority: 1

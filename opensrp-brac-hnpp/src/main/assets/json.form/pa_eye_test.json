@@ -294,7 +294,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "exam_result",
         "type": "native_radio",
-        "label": "পরীক্ষার ফলাফল",
+        "label": "চোখ পরীক্ষার ফলাফল",
         "text_color": "#000000",
         "options": [
           {
@@ -306,7 +306,7 @@
           },
           {
             "key": "cataract",
-            "text": "ক্যাটারাক্ট",
+            "text": "ছানি",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "cataract"
@@ -538,6 +538,61 @@
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_eye_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "None"
+        ],
+        "options": [
+          {
+            "key": "vision_center",
+            "text": "ভিশন সেন্টার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "vision_center"
+          },
+          {
+            "key": "psp_camp",
+            "text": "পিএসপি ক্যাম্প",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "psp_camp"
+          },
+          {
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hospital"
+          },
+          {
+            "key": "govt_hospital",
+            "text": "সরকারি/বেসরকারি বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "govt_hospital"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
           }
         ],
         "relevance": {

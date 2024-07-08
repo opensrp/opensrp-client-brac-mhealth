@@ -127,7 +127,7 @@ android {
         }
         pa_training{
             versionCode 3
-            versionName "2.0.1"
+            versionName "2.0.1_new"
             dimension = 'baseDimension'
             applicationIdSuffix ".patraining"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
