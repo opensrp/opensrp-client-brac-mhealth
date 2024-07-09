@@ -5,7 +5,7 @@ priority: 3
 condition: "true"
 actions:
   - "calculation = (step1_Pinch_the_skin.contains('slowly') && step1_sunken_eyes.contains('yes')
-  && (step1_infant_move_stimulated.contains('yes')|| step1_infant_not_move_at_all.contains('no')))?1:0"
+  || (step1_infant_move_stimulated.contains('yes')|| step1_infant_not_move_at_all.contains('no')))?1:0"
 ---
 name: step1_cal_assessment_type_2
 description: 'কিছু পানি স্বল্পতা'

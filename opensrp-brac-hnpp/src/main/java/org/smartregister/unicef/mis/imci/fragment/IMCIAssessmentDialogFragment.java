@@ -1274,19 +1274,31 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String type_2 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_2");
         String type_3 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_3");
         String type_4 = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"cal_assessment_type_4");
+        String infant_move_stimulated = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"infant_move_stimulated");
+        String infant_not_move_at_all = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"infant_not_move_at_all");
+        String Pinch_the_skin = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Pinch_the_skin");
+        String sunken_eyes = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"sunken_eyes");
         builder = new StringBuilder();
         assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.ONE.getValue();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.THREE.getValue();
-            builder.append("<br>");
-            builder.append(getString(R.string.right_arrow));
-            builder.append("চোখ বসে গেছে");
-            builder.append("<br>");
-            builder.append(getString(R.string.right_arrow));
-            builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
-            builder.append("<br>");
-            builder.append(getString(R.string.right_arrow));
-            builder.append("শিশু কে নড়াচড়া করানোর চেষ্টা করলে শুধুমাত্র নড়াচড়া করতে পারে অথবা একবারেই নড়াচড়া করতে পারে না");
+            if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("yes")){
+                builder.append("<br>");
+                builder.append(getString(R.string.right_arrow));
+                builder.append("চোখ বসে গেছে");
+                builder.append("<br>");
+            }
+            if(!TextUtils.isEmpty(Pinch_the_skin) && Pinch_the_skin.contains("slowly")){
+                builder.append(getString(R.string.right_arrow));
+                builder.append("চামড়া টেনে ধরে ছেড়ে দিতে হবে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+                builder.append("<br>");
+            }
+            if((!TextUtils.isEmpty(infant_move_stimulated) && infant_move_stimulated.contains("yes")) ||
+                    (!TextUtils.isEmpty(infant_not_move_at_all) && infant_not_move_at_all.contains("no"))){
+                builder.append(getString(R.string.right_arrow));
+                builder.append("শিশু কে নড়াচড়া করানোর চেষ্টা করলে শুধুমাত্র নড়াচড়া করতে পারে অথবা একবারেই নড়াচড়া করতে পারে না");
+            }
+
         }else if(type_2.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.TWO.getValue();
             builder.append("<br>");
