@@ -196,7 +196,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             String blockId =  HnppDBUtils.getBlocksIdFromMember(baseEntityId);
 
             HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
-            event.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+            if(selectedLocation!=null){
+                event.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+            }else{
+                Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(baseEntityId);
+                event.setIdentifiers(identifiers);
+            }
 
             addMetaData(context, event, date);
             JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
@@ -508,7 +513,12 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         Log.v("SAVE_VISIT","blockId>>>"+blockId);
         HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
-        baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+        if(selectedLocation!=null){
+            baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+        }else{
+            Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(memberID);
+            baseEvent.setIdentifiers(identifiers);
+        }
         baseEvent.setFormSubmissionId(formSubmissionId);
         org.smartregister.chw.anc.util.JsonFormUtils.tagEvent(allSharedPreferences, baseEvent);
         String visitID ="";
@@ -1011,7 +1021,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         try {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-            updateFormField(jsonArray,"height",height);
+            updateFormField(jsonArray,"Height",height);
 
         } catch (JSONException e) {
             e.printStackTrace();

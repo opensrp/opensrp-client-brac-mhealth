@@ -626,6 +626,15 @@ public class FormParser {
 
                     }
                 }
+                if(details.containsKey("mother_ga") && !StringUtils.isEmpty(details.get("mother_ga"))){
+
+                    String pck = details.get("mother_ga");
+                    if(!TextUtils.isEmpty(pck) && (pck.equalsIgnoreCase("৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)") || pck.equalsIgnoreCase("below_36_week"))){
+                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+                        db.execSQL("UPDATE ec_child set is_immature='yes',identified_date ='"+log.getVisitDate()+"' where base_entity_id='"+log.getBaseEntityId()+"'");
+
+                    }
+                }
 
                 break;
             case KMC_SERVICE_HOSPITAL:
@@ -1134,6 +1143,7 @@ public class FormParser {
                 }
             }
         }
+
     }
     private static void updateChildRisk(String eventType, String baseEntityId,HashMap<String,String>details, long visitDate ){
         if(details.containsKey("cause_of_refer") && !StringUtils.isEmpty(details.get("cause_of_refer"))) {
@@ -1197,7 +1207,7 @@ public class FormParser {
             String fhr = details.get("Hemoglobin_result");
             Log.v("ANC_RISK","Hemoglobin_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr)){
-                int iFHR = Integer.parseInt(fhr);
+                float iFHR = Float.parseFloat(fhr);
                 if(iFHR<10 || iFHR>=15.5){
                     isAncHomeVisitRisk = true;
                     String ancCount = details.get("anc_count");

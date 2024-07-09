@@ -1,8 +1,10 @@
 package org.smartregister.unicef.mis.activity;
 
+import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
 import static org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+import static org.smartregister.unicef.mis.utils.HnppConstants.showDialogWithAction;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -58,6 +60,7 @@ import org.smartregister.unicef.mis.fragment.GMPFragment;
 import org.smartregister.unicef.mis.fragment.GuestMemberDueFragment;
 import org.smartregister.unicef.mis.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.mis.fragment.WomanImmunizationFragment;
+import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.listener.OnPostDataWithGps;
 import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.presenter.GuestMemberProfilePresenter;
@@ -321,7 +324,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
 //            @Override
 //            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(GlobalSearchMemberProfileActivity.this,  client.getBaseEntityId(), guestMemberData.getPhoneNo(),
-                        HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),0,0);
+                        HnppConstants.JSON_FORMS.ANC_FORM, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.GLOBAL_SEARCH,textViewName.getText().toString(),0,0);
 
 //            }
 //        });
@@ -332,7 +335,7 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
 //            @Override
 //            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(GlobalSearchMemberProfileActivity.this, client.getBaseEntityId(), guestMemberData.getPhoneNo(),
-                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),0,0);
+                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.GLOBAL_SEARCH,textViewName.getText().toString(),0,0);
 
 //            }
 //        });
@@ -342,12 +345,12 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
 //        HnppConstants.getGPSLocation(this, new OnPostDataWithGps() {
 //            @Override
 //            public void onPost(double latitude, double longitude) {
-                startAnyFormActivity(formName,REQUEST_HOME_VISIT,0,0);
+                startAnyFormActivity(formName,REQUEST_HOME_VISIT);
 //            }
 //        });
 
     }
-    public void startAnyFormActivity(String formName, int requestCode, double latitude, double longitude) {
+    public void startAnyFormActivity(String formName, int requestCode) {
 
 
         try {
@@ -355,16 +358,20 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
             HnppJsonFormUtils.addEDDField(formName,jsonForm, client.getBaseEntityId());
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
             try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude, client.getBaseEntityId());
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try{
                 HnppJsonFormUtils.addAddToStockValue(jsonForm);
             }catch (Exception e){
                 e.printStackTrace();
             }
             jsonForm.put(JsonFormUtils.ENTITY_ID,  client.getBaseEntityId());
+            try{
+                String dobFormate =guestMemberData.getDob();// HnppConstants.DDMMYY.format(guestMemberData.getDob());
+                JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+                updateFormField(jsonArray,"dob",dobFormate);
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM) ){
 
@@ -373,31 +380,31 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
              else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
                  HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
              }
-            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
+            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
                 if (guestMemberData.getGender().equalsIgnoreCase("F")) {
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_women","true");
                 }
             }
-//            if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.GIRL_PACKAGE)){
-//                //HnppJsonFormUtils.addMaritalStatus(jsonForm,maritalStatus);
-//            }
-//            else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM_OOC) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) || formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
-              //  HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
-//            } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
-                //HnppJsonFormUtils.addLastPnc(jsonForm,baseEntityId,false);
-//            }
+             else if(HnppConstants.JSON_FORMS.CHILD_FOLLOWUP.equalsIgnoreCase(formName)){
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
 
-//           if(formName.contains("anc"))
+             }
+            if(HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP.equalsIgnoreCase(formName)){
+                String sessionInfo = HnppDBUtils.getSessionInfo(guestMemberData.getBaseEntityId());
+                if(sessionInfo.equalsIgnoreCase("কমিউনিটি") || sessionInfo.equalsIgnoreCase("Community")) {
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"session_info","Community");
+                }
+                if(sessionInfo.equalsIgnoreCase("স্বাস্থ্য কেন্দ্রে") || sessionInfo.equalsIgnoreCase("Health Care Facility")){                            HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"session_info","Community");
+                    HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"session_info","Facility");
+                }
+            }
             HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
             String height = visitLogRepository.getHeight( client.getBaseEntityId());
             if(!TextUtils.isEmpty(height)){
                 HnppJsonFormUtils.addHeight(jsonForm,height);
 
             }
-
             intent = new Intent(this, HnppAncJsonFormActivity.class);
-//           else
-//               intent = new Intent(this, org.smartregister.family.util.Utils.metadata().familyMemberFormActivity);
             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
             Form form = new Form();
@@ -687,45 +694,92 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
 
     @Override
     public void onGiveToday(ServiceWrapper serviceWrapper, View view) {
-        childImmunizationFragment.onGiveToday(serviceWrapper,view);
+        if(childImmunizationFragment !=null)childImmunizationFragment.onGiveToday(serviceWrapper,view);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onGiveToday(serviceWrapper,view);
     }
 
     @Override
     public void onGiveEarlier(ServiceWrapper serviceWrapper, View view) {
-        childImmunizationFragment.onGiveEarlier(serviceWrapper,view);
+        if(childImmunizationFragment !=null)childImmunizationFragment.onGiveEarlier(serviceWrapper,view);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onGiveEarlier(serviceWrapper,view);
     }
 
     @Override
     public void onUndoService(ServiceWrapper serviceWrapper, View view) {
-        childImmunizationFragment.onUndoService(serviceWrapper,view);
+        if(childImmunizationFragment !=null)childImmunizationFragment.onUndoService(serviceWrapper,view);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoService(serviceWrapper,view);
     }
 
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
-        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
-        if(childImmunizationFragment !=null){
-            childImmunizationFragment.onVaccinateToday(arrayList,view);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    childImmunizationFragment.updateImmunizationView();
+
+            if(arrayList!=null && arrayList.size()>0){
+                StringBuilder builder = new StringBuilder();
+                for (VaccineWrapper vaccineWrapper: arrayList){
+                    builder.append(vaccineWrapper.getName());
+                    builder.append("\n --------------\n");
+                    builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                    builder.append("\n --------------\n");
                 }
-            },1000);
-        }
+                showDialogWithAction(this, getString(R.string.tika_info_comfirm), builder.toString()
+                        ,new Runnable() {
+                            @Override
+                            public void run() {
+                                if(childImmunizationFragment !=null)childImmunizationFragment.onVaccinateToday(arrayList,view);
+                                if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
+                                handler.postDelayed(() -> {
+                                    if(childImmunizationFragment !=null) childImmunizationFragment.updateImmunizationView();
+                                    if(womanImmunizationFragment !=null) womanImmunizationFragment.updateImmunizationView();
+                                    VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+                                },1000);
+                                HnppConstants.isViewRefresh = true;
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        });
+            }
 
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
-        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        if(childImmunizationFragment !=null) {
-            childImmunizationFragment.onVaccinateEarlier(arrayList, view);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    childImmunizationFragment.updateImmunizationView();
+
+            if(arrayList!=null && arrayList.size()>0){
+                StringBuilder builder = new StringBuilder();
+                for (VaccineWrapper vaccineWrapper: arrayList){
+                    builder.append(vaccineWrapper.getName());
+                    builder.append("\n --------------\n");
+                    builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                    builder.append("\n --------------\n");
                 }
-            }, 1000);
+                showDialogWithAction(this, getString(R.string.tika_info_comfirm), builder.toString()
+                        ,new Runnable() {
+                            @Override
+                            public void run() {
+                                if(childImmunizationFragment!=null) childImmunizationFragment.onVaccinateEarlier(arrayList,view);
+                                if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
+                                handler.postDelayed(() -> {
+                                    if(childImmunizationFragment!=null) childImmunizationFragment.updateImmunizationView();
+                                    if(womanImmunizationFragment!=null) womanImmunizationFragment.updateImmunizationView();
+                                    VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+
+                                },1000);
+                                HnppConstants.isViewRefresh = true;
+                            }
+                        }, new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        });
         }
     }
 
@@ -742,5 +796,11 @@ public class GlobalSearchMemberProfileActivity extends BaseProfileActivity imple
             },1000);
         }
 
+    }
+    public void openGMPRefereal() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.GMP_REFERREL_FOLLOWUP,REQUEST_HOME_VISIT);
+    }
+    public void openGMPSessionPlan() {
+        startAnyFormActivity(HnppConstants.JSON_FORMS.GMP_SESSION_INFO,REQUEST_HOME_VISIT);
     }
 }

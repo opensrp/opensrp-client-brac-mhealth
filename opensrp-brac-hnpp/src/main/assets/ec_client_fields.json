@@ -1655,6 +1655,14 @@
           }
         },
         {
+          "column_name": "is_immature",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.is_immature"
+
+          }
+        },
+        {
           "column_name": "chlorohexadin",
           "type": "Client",
           "json_mapping": {

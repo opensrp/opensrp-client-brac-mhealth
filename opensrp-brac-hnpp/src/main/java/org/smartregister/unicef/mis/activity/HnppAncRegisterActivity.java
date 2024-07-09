@@ -22,6 +22,7 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.family.util.Utils;
+import org.smartregister.growthmonitoring.GrowthMonitoringLibrary;
 import org.smartregister.unicef.mis.BuildConfig;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
@@ -65,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -75,6 +77,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
+import static org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity.IS_COMES_GLOBAL_SEARCH;
 import static org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity.IS_COMES_IDENTITY;
 import static org.smartregister.unicef.mis.utils.HnppJsonFormUtils.BLOCK_ID;
 
@@ -381,12 +384,27 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
 
     }
     private void openProfile(){
-        CommonRepository commonRepository = Utils.context().commonrepository(Utils.metadata().familyMemberRegister.tableName);
+        CommonRepository commonRepository;
+        if(!TextUtils.isEmpty(familyName)&&familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+            commonRepository = Utils.context().commonrepository("ec_guest_member");
+        }else{
+            commonRepository = Utils.context().commonrepository("ec_family_member");
+        }
+
         final CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(baseEntityId);
         final CommonPersonObjectClient client =
                 new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), "");
         client.setColumnmaps(commonPersonObject.getColumnmaps());
-            Intent intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
+            Intent intent;
+        if(!TextUtils.isEmpty(familyName)&&familyName.equalsIgnoreCase(HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION)){
+            intent= new Intent(this, GuestMemberProfileActivity.class);
+        }else{
+            intent = new Intent(this, HnppFamilyOtherMemberProfileActivity.class);
+            if(!TextUtils.isEmpty(familyName)&&familyName.equalsIgnoreCase(HnppConstants.GLOBAL_SEARCH)){
+                intent.putExtra(IS_COMES_GLOBAL_SEARCH,true);
+            }
+        }
+
             intent.putExtra(IS_COMES_IDENTITY,false);
             intent.putExtra(org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID, client.getCaseId());
             intent.putExtra(CoreConstants.INTENT_KEY.CHILD_COMMON_PERSON, client);
@@ -467,7 +485,12 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         String blockId = org.smartregister.util.JsonFormUtils.getFieldValue(fields,BLOCK_ID);
         Log.v("saveRegistration","saveRegistration>>>blockId:"+blockId);
         HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByBlock(blockId);
-        baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+        if(selectedLocation!=null){
+            baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
+        }else{
+            Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(baseEntityId);
+            baseEvent.setIdentifiers(identifiers);
+        }
         String visitID ="";
         if(!TextUtils.isEmpty(baseEvent.getEventId())){
             visitID = baseEvent.getEventId();

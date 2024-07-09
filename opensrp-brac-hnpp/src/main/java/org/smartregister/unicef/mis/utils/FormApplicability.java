@@ -159,12 +159,12 @@ public class FormApplicability {
 //                    return getHourPassPregnancyOutcome(baseEntityId) > 48 ?
 //                            HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC : HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC;
                 }else{
-                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                    return HnppConstants.EVENT_TYPE.ELCO;
                 }
             }
             if(isClosedANC(baseEntityId)){
                 if(isElco(age)){
-                    return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+                    return HnppConstants.EVENT_TYPE.ELCO;
                 }
             }
             else{
@@ -174,7 +174,7 @@ public class FormApplicability {
         }
 
         if(isElco(age)){
-            return HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
+            return HnppConstants.EVENT_TYPE.ELCO;
         }
         return "";
     }
@@ -552,6 +552,15 @@ public class FormApplicability {
         }
         return ancCount;
 
+    }
+    public static boolean isImmature(String baseEntityId){
+        boolean isImmature = false;
+        String ancQuery = "select is_immature from ec_child where base_entity_id ='"+baseEntityId+"'";
+        List<Map<String, String>> values = HnppDBUtils.readData(ancQuery, null);
+        if( values.size() > 0 && values.get(0).get("is_immature")!= null){
+            isImmature = values.get(0).get("is_immature").equalsIgnoreCase("yes");
+        }
+        return isImmature;
     }
     public static int getKMCHomeFollowUpCount(String baseEntityId){
         // long maxVisitDate = getMaxVisitDate(baseEntityId);

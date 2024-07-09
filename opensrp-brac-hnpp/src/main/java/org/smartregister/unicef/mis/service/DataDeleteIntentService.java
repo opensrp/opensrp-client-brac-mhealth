@@ -200,16 +200,16 @@ public class DataDeleteIntentService extends IntentService {
             Log.v("DATA_DELETE","q:"+q);
             db.execSQL(q);
         }
-//        if(!TextUtils.isEmpty(builderVisits.toString())){
-//            String v = "delete from visits where "+builderVisits.toString();
-//            Log.v("DATA_DELETE","v:"+v);
-//            db.execSQL(v);
-//        }
-//        if(!TextUtils.isEmpty(builderVisitLog.toString())){
-//            String l = "delete from ec_visit_log where "+builderVisitLog.toString();
-//            Log.v("DATA_DELETE","l:"+l);
-//            db.execSQL(l);
-//        }
+        if(!TextUtils.isEmpty(builderVisits.toString())){
+            String v = "delete from visits where "+builderVisits.toString();
+            Log.v("DATA_DELETE","v:"+v);
+            db.execSQL(v);
+        }
+        if(!TextUtils.isEmpty(builderVisitLog.toString())){
+            String l = "delete from ec_visit_log where "+builderVisitLog.toString();
+            Log.v("DATA_DELETE","l:"+l);
+            db.execSQL(l);
+        }
 //        if(!TextUtils.isEmpty(builderTargetAchievment.toString())){
 //            String t = "delete from target_table where "+builderTargetAchievment.toString();
 //            Log.v("DATA_DELETE","t:"+t);

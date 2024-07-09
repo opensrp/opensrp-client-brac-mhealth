@@ -11,6 +11,11 @@
         <item>BRID</item>
         <item>System ID</item>
     </string-array>
+    <string-array name="member_id_type">
+        <item>সিলেক্ট করুন</item>
+        <item>NID</item>
+        <item>BRID</item>
+    </string-array>
     <string name="member_import">সদস্য ইম্পোর্ট</string>
     <string name="report">GMP রিপোর্ট</string>
     <string name="due_visit">সর্বশেষ সেবা গ্রহণের তারিখ \n %1$s \n সংখ্যা: %2$s</string>
@@ -1167,4 +1172,6 @@
     <string name="death_form">মৃত্যু নিবন্ধন</string>
     <string name="meg_death_reg">শিশুটির মৃত্যু নিবন্ধন ফরমটি পূরণ করুন</string>
     <string name="later_fillup">পরে পূরণ করবো</string>
+    <string name="tika_info_comfirm">টিকার তথ্যগুলো সঠিক কিনা নিশ্চিত করুন</string>
+    <string name="without_id">আই ডি নেই</string>
 </resources>

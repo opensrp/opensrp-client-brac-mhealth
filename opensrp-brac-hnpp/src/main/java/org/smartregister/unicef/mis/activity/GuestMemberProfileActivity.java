@@ -45,6 +45,7 @@ import org.smartregister.unicef.mis.fragment.GMPFragment;
 import org.smartregister.unicef.mis.fragment.GuestMemberDueFragment;
 import org.smartregister.unicef.mis.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.mis.fragment.WomanImmunizationFragment;
+import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.listener.OnPostDataWithGps;
 import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.presenter.GuestMemberProfilePresenter;
@@ -78,6 +79,7 @@ import io.reactivex.schedulers.Schedulers;
 import static org.smartregister.unicef.mis.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
 import static org.smartregister.chw.core.utils.CoreJsonFormUtils.REQUEST_CODE_GET_JSON;
 import static org.smartregister.family.util.Constants.INTENT_KEY.BASE_ENTITY_ID;
+import static org.smartregister.unicef.mis.utils.HnppConstants.showDialogWithAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -323,7 +325,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 //            @Override
 //            public void onPost(double latitude, double longitude) {
                 HnppAncRegisterActivity.startHnppAncRegisterActivity(GuestMemberProfileActivity.this, baseEntityId, guestMemberData.getPhoneNo(),
-                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME_OOC, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),0,0);
+                        HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME, null, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION, HnppConstants.EVENT_TYPE.GUEST_MEMBER_REGISTRATION,textViewName.getText().toString(),0,0);
 //
 //            }
 //        });
@@ -346,11 +348,6 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             HnppJsonFormUtils.addRelationalIdAsGuest(jsonForm);
             try{
-                HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude,baseEntityId);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try{
                 HnppJsonFormUtils.addAddToStockValue(jsonForm);
             }catch (Exception e){
                 e.printStackTrace();
@@ -359,9 +356,23 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             Intent intent;
              if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM) ){
 
-                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", (FormApplicability.getANCCount(baseEntityId)+1)+"");
+                 String lmpDate = HnppDBUtils.getLmpDate(baseEntityId);
+                 int noOfAnc = (FormApplicability.getANCCount(baseEntityId)+1);
+                 String date = HnppConstants.getScheduleAncDate(lmpDate,noOfAnc);
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"lmp", lmpDate);
+                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getANCTitle(baseEntityId));
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"anc_count", noOfAnc+"");
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
             }
-             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_OOC)){
+             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)){
+                 String deliveryDate = FormApplicability.getDeliveryDate(baseEntityId);
+                 int pncCount = (FormApplicability.getPNCCount(baseEntityId)+1);
+                 String date = HnppConstants.getSchedulePncDate(deliveryDate,pncCount);
+                 HnppJsonFormUtils.changeFormTitle(jsonForm,FormApplicability.getPncTitle(baseEntityId));
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"delivery_date", deliveryDate+"");
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"pnc_count", pncCount+"");
+                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"schedule_date", date);
                  HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"service_taken_date", HnppConstants.getTodayDate());
              }
             if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.BLOOD_TEST)){
@@ -379,12 +390,17 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 //            }
 
 //           if(formName.contains("anc"))
-            HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            String height = visitLogRepository.getHeight(baseEntityId);
-            if(!TextUtils.isEmpty(height)){
-                HnppJsonFormUtils.addHeight(jsonForm,height);
+            try{
+                HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
+                String height = visitLogRepository.getHeight(baseEntityId);
+                if(!TextUtils.isEmpty(height)){
+                    HnppJsonFormUtils.addHeight(jsonForm,height);
+
+                }
+            }catch (Exception e){
 
             }
+
 
             intent = new Intent(this, HnppAncJsonFormActivity.class);
 //           else
@@ -402,11 +418,10 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
             }
             intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, form);
             intent.putExtra(org.smartregister.family.util.Constants.WizardFormActivity.EnableOnCloseDialog, true);
-            if (this != null) {
-                this.startActivityForResult(intent, requestCode);
-            }
+            this.startActivityForResult(intent, requestCode);
 
         }catch (Exception e){
+            e.printStackTrace();
 
         }
 
@@ -578,7 +593,7 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                             public void run() {
                                 hideProgressDialog();
 //                        memberHistoryFragment.onActivityResult(0,0,null);
-                                mViewPager.setCurrentItem(1,true);
+                                mViewPager.setCurrentItem(2,true);
                                 if(memberDueFragment !=null){
                                     memberDueFragment.updateStaticView();
                                 }
@@ -684,51 +699,105 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
 
     @Override
     public void onGiveToday(ServiceWrapper serviceWrapper, View view) {
-        childImmunizationFragment.onGiveToday(serviceWrapper,view);
+        if(childImmunizationFragment !=null)childImmunizationFragment.onGiveToday(serviceWrapper,view);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onGiveToday(serviceWrapper,view);
     }
 
     @Override
     public void onGiveEarlier(ServiceWrapper serviceWrapper, View view) {
-        childImmunizationFragment.onGiveEarlier(serviceWrapper,view);
+        if(childImmunizationFragment !=null)childImmunizationFragment.onGiveEarlier(serviceWrapper,view);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onGiveEarlier(serviceWrapper,view);
     }
 
     @Override
     public void onUndoService(ServiceWrapper serviceWrapper, View view) {
-        childImmunizationFragment.onUndoService(serviceWrapper,view);
+        if(childImmunizationFragment !=null)childImmunizationFragment.onUndoService(serviceWrapper,view);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoService(serviceWrapper,view);
     }
 
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
-        childImmunizationFragment.onVaccinateToday(arrayList,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
+        if(arrayList!=null && arrayList.size()>0){
+            StringBuilder builder = new StringBuilder();
+            for (VaccineWrapper vaccineWrapper: arrayList){
+                builder.append(vaccineWrapper.getName());
+                builder.append("\n --------------\n");
+                builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                builder.append("\n --------------\n");
             }
-        },1000);
+            showDialogWithAction(this, getString(R.string.tika_info_comfirm), builder.toString()
+                    ,new Runnable() {
+                        @Override
+                        public void run() {
+                            if(childImmunizationFragment !=null)childImmunizationFragment.onVaccinateToday(arrayList,view);
+                            if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
+                            handler.postDelayed(() -> {
+                                if(childImmunizationFragment !=null) childImmunizationFragment.updateImmunizationView();
+                                if(womanImmunizationFragment !=null) womanImmunizationFragment.updateImmunizationView();
+                                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+                            },1000);
+                            HnppConstants.isViewRefresh = true;
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+        }
 
 
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
-        childImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
+        if(arrayList!=null && arrayList.size()>0){
+            StringBuilder builder = new StringBuilder();
+            for (VaccineWrapper vaccineWrapper: arrayList){
+                builder.append(vaccineWrapper.getName());
+                builder.append("\n --------------\n");
+                builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                builder.append("\n --------------\n");
             }
-        },1000);
+            showDialogWithAction(this, getString(R.string.tika_info_comfirm), builder.toString()
+                    ,new Runnable() {
+                        @Override
+                        public void run() {
+                            if(childImmunizationFragment!=null) childImmunizationFragment.onVaccinateEarlier(arrayList,view);
+                            if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
+                            handler.postDelayed(() -> {
+                                if(childImmunizationFragment!=null) childImmunizationFragment.updateImmunizationView();
+                                if(womanImmunizationFragment!=null) womanImmunizationFragment.updateImmunizationView();
+                                VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+
+                            },1000);
+                            HnppConstants.isViewRefresh = true;
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+        }
     }
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
-        childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                childImmunizationFragment.updateImmunizationView();
-            }
-        },1000);
+        if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+        if(childImmunizationFragment!=null){
+            childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    childImmunizationFragment.updateImmunizationView();
+                }
+            },1000);
+        }
     }
 }

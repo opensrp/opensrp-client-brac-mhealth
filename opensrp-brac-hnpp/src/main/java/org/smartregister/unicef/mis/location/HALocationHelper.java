@@ -4,6 +4,7 @@ package org.smartregister.unicef.mis.location;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.USER_ID;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import org.smartregister.CoreLibrary;
 import org.smartregister.clientandeventmodel.Address;
@@ -12,8 +13,11 @@ import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class HALocationHelper {
@@ -40,26 +44,44 @@ public class HALocationHelper {
     }
     @SuppressLint("DefaultLocale")
     public String generateIdForOCA(){
-        int householdCount = HnppDBUtils.getOCACount();
-        String householdCountFourDigit = String.format("%04d", householdCount+1);
-        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
-        userId = String.format("%05d", Integer.parseInt(userId));
         long time = System.currentTimeMillis();
-        String random3digit = String.format("%03d", time % 1000);
-        return  "2"+userId+""+random3digit+""+householdCountFourDigit;
+        Log.v("DEFAULT_ID","OCA HHID:"+time);
+        return time+"";
+//        int householdCount = HnppDBUtils.getOCACount();
+//        String householdCountFourDigit = String.format("%04d", householdCount+1);
+//        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
+//        userId = String.format("%05d", Integer.parseInt(userId));
+//        long time = System.currentTimeMillis();
+//        String random3digit = String.format("%03d", time % 1000);
+//        return  "2"+userId+""+random3digit+""+householdCountFourDigit;
     }
     @SuppressLint("DefaultLocale")
     public String generateHouseHoldId(){
-        int householdCount = HnppDBUtils.getHouseHoldCount();
-        String householdCountFourDigit = String.format("%04d", householdCount+1);
-        String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
-        userId = String.format("%05d", Integer.parseInt(userId));
-        long time = System.currentTimeMillis();
-        String random3digit = String.format("%03d", time % 1000);
-        return  "1"+userId+""+random3digit+""+householdCountFourDigit;
+        //int householdCount = HnppDBUtils.getHouseHoldCount();
+       // String householdCountFourDigit = String.format("%04d", householdCount+1);
+       // String userId = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(USER_ID);
+       // userId = String.format("%05d", Integer.parseInt(userId));
+        long time = System.currentTimeMillis();//1712187690535
+
+//        String newId = "1"+getFormattedTimestamp();
+//        Log.v("DEFAULT_ID","time:"+time+":display:"+newId+":newIdLength:"+newId.length()+":random:"+getFormattedTimestamp());
+//        String random3digit = String.format("%03d", time % 1000);
+//        String finalId = "1"+userId+""+random3digit+""+householdCountFourDigit;
+        Log.v("DEFAULT_ID","HHID:"+time);
+        return  time+"";
 //        return  "1"+HALocation.division.code+""+ HALocation.district.code+""+ HALocation.upazila.code+""
 //                + HALocation.union.code+""+ HALocation.ward.code+""
 //                + HALocation.block.code+""+generatedRandomId();
+    }
+
+    public static Long getFormattedTimestamp() {
+        // Get the current time
+        Date now = new Date();
+
+        // Format the timestamp
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault());
+        String formattedTimestamp = formatter.format(now);
+        return Long.parseLong(formattedTimestamp)/1000;
     }
     public Address getSSAddress(HALocation HALocation){
         Address address = new Address();

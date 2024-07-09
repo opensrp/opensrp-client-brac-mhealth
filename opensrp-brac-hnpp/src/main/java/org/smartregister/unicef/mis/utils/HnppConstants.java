@@ -125,7 +125,7 @@ public class HnppConstants extends CoreConstants {
     public static final String KEY_IS_SAME_MONTH = "is_same_month";
     public static final String KEY_NEED_TO_OPEN = "need_to_open_drawer";
     public static HashMap<String,Boolean> GMPMessage = new HashMap<>();
-
+    public static final String GLOBAL_SEARCH = "global_search";
     public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
     public static SimpleDateFormat HHMM = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM",Locale.getDefault());
@@ -2266,7 +2266,7 @@ public class HnppConstants extends CoreConstants {
     public static final Map<String,String> guestEventTypeFormNameMapping = ImmutableMap.<String,String> builder()
             .put(EVENT_TYPE.ANC_REGISTRATION,JSON_FORMS.ANC_FORM)
             .put(EVENT_TYPE.ANC_HOME_VISIT,JSON_FORMS.ANC_VISIT_FORM)
-            .put(EVENT_TYPE.PNC_REGISTRATION_OOC,JSON_FORMS.PNC_FORM_OOC)
+            .put(EVENT_TYPE.PNC_REGISTRATION,JSON_FORMS.PNC_FORM)
 
             .build();
     public static final Map<String,Integer> iconMapping = ImmutableMap.<String,Integer> builder()

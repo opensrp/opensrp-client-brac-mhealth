@@ -87,7 +87,7 @@ public class AddCenterDetailsActivity extends SecuredActivity implements View.On
         zeroElevenFeMaleTxt.setText(microPlanEpiData.microPlanTypeData.zeroElevenChildFeMale+"");
         twelveTwentyMaleTxt.setText(microPlanEpiData.microPlanTypeData.twelveTwentyThreeChildMale+"");
         twelveTwentyFemaleTxt.setText(microPlanEpiData.microPlanTypeData.twelveTwentyThreeChildFeMale+"");
-        fifteenMaleTxt.setText(microPlanEpiData.microPlanTypeData.fifteenFortyNineWomenMale+"");
+        //fifteenMaleTxt.setText(microPlanEpiData.microPlanTypeData.fifteenFortyNineWomenMale+"");
         fifteenFemaleTxt.setText(microPlanEpiData.microPlanTypeData.fifteenFortyNineWomenFeMale+"");
     }
 

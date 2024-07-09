@@ -80,15 +80,7 @@ public class HnppDBUtils {
         return c.getType(column_index) == Cursor.FIELD_TYPE_NULL ? null : c.getString(column_index);
     }
 
-    @Nullable
-    protected static String getCursorValue(Cursor c, String column_name) {
-        return c.getType(c.getColumnIndex(column_name)) == Cursor.FIELD_TYPE_NULL ? null : c.getString(c.getColumnIndex(column_name));
-    }
 
-    @Nullable
-    protected static Long getCursorLongValue(Cursor c, String column_name) {
-        return c.getType(c.getColumnIndex(column_name)) == Cursor.FIELD_TYPE_NULL ? null : c.getLong(c.getColumnIndex(column_name));
-    }
     public static String[] getWeightFromBaseEntityId(String baseEntityId){
         String query = "select weight,weight_date from ec_family_member where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
@@ -180,53 +172,54 @@ public class HnppDBUtils {
         }
         return vaacineInfos;
     }
-    public static TikaInfoModel getTikaDetailsForGuestProfike(String baseEntityId){
-        String query = "Select * FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
-
-        Cursor cursor = null;
-        TikaInfoModel infoModel = new TikaInfoModel();
-        try {
-            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
-                cursor.moveToFirst();
-                infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
-                infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
-                infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
-                infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
-                String dob = (cursor.getString(cursor.getColumnIndex("dob")));
-                //2023-03-11T06:00:00.000+06:00
-                infoModel.dob = dob.substring(0,dob.indexOf("T"));
-                infoModel.birthYear = dob.substring(0,4);
-                infoModel.birthMonth = dob.substring(5,7);
-                infoModel.birthDay = dob.substring(8,10);
-                infoModel.brid = (cursor.getString(cursor.getColumnIndex("birth_id")));
-                infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("shr_id")));
-                if(TextUtils.isEmpty(infoModel.registrationNo)){
-                    infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("unique_id")));
-                }
-                long lastInteractedDate = cursor.getLong(cursor.getColumnIndex("last_interacted_with"));
-                Date regdate = new Date(lastInteractedDate);
-                String registrationDate = AbstractDao.getDobDateFormat().format(regdate);
-                infoModel.registrationDate = registrationDate;
-                infoModel.division = (cursor.getString(cursor.getColumnIndex("division_per")));
-                infoModel.district = (cursor.getString(cursor.getColumnIndex("district_per")));
-                infoModel.divisionId = (cursor.getString(cursor.getColumnIndex("division_id")));
-                infoModel.districtId = (cursor.getString(cursor.getColumnIndex("district_id")));
-                infoModel.upazilla = (cursor.getString(cursor.getColumnIndex("upazila_per")));
-                infoModel.genderEnglish = (cursor.getString(cursor.getColumnIndex("gender")));
-                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
-
-            }
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        finally {
-            if(cursor !=null) cursor.close();
-        }
-        return infoModel;
-
-    }
+//    @SuppressLint("Range")
+//    public static TikaInfoModel getTikaDetailsForGuestProfike(String baseEntityId){
+//        String query = "Select * FROM ec_guest_member WHERE  date_removed is null and base_entity_id ='"+baseEntityId+"'";
+//
+//        Cursor cursor = null;
+//        TikaInfoModel infoModel = new TikaInfoModel();
+//        try {
+//            cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+//            if(cursor !=null && cursor.getCount() >0){
+//                cursor.moveToFirst();
+//                infoModel.baseEntityId = (cursor.getString(cursor.getColumnIndex("base_entity_id")));
+//                infoModel.name = (cursor.getString(cursor.getColumnIndex("first_name")))+" "+(cursor.getString(cursor.getColumnIndex("last_name")));
+//                infoModel.motherName = (cursor.getString(cursor.getColumnIndex("mother_name_english")));
+//                infoModel.fatherName = (cursor.getString(cursor.getColumnIndex("father_name_english")));
+//                String dob = (cursor.getString(cursor.getColumnIndex("dob")));
+//                //2023-03-11T06:00:00.000+06:00
+//                infoModel.dob = dob.substring(0,dob.indexOf("T"));
+//                infoModel.birthYear = dob.substring(0,4);
+//                infoModel.birthMonth = dob.substring(5,7);
+//                infoModel.birthDay = dob.substring(8,10);
+//                infoModel.brid = (cursor.getString(cursor.getColumnIndex("birth_id")));
+//                infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("shr_id")));
+//                if(TextUtils.isEmpty(infoModel.registrationNo)){
+//                    infoModel.registrationNo = (cursor.getString(cursor.getColumnIndex("unique_id")));
+//                }
+//                long lastInteractedDate = cursor.getLong(cursor.getColumnIndex("last_interacted_with"));
+//                Date regdate = new Date(lastInteractedDate);
+//                String registrationDate = AbstractDao.getDobDateFormat().format(regdate);
+//                infoModel.registrationDate = registrationDate;
+//                infoModel.division = (cursor.getString(cursor.getColumnIndex("division_per")));
+//                infoModel.district = (cursor.getString(cursor.getColumnIndex("district_per")));
+//                infoModel.divisionId = (cursor.getString(cursor.getColumnIndex("division_id")));
+//                infoModel.districtId = (cursor.getString(cursor.getColumnIndex("district_id")));
+//                infoModel.upazilla = (cursor.getString(cursor.getColumnIndex("upazila_per")));
+//                infoModel.genderEnglish = (cursor.getString(cursor.getColumnIndex("gender")));
+//                infoModel.gender = HnppConstants.getGender(infoModel.genderEnglish);
+//
+//            }
+//
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
+//        finally {
+//            if(cursor !=null) cursor.close();
+//        }
+//        return infoModel;
+//
+//    }
 //    public static TikaInfoModel getTikaDetails(String baseEntityId){
 //        String query = "select ec_family_member.base_entity_id,ec_family_member.first_name,ec_family_member.last_name, ec_family_member.mother_name_english,ec_family_member.father_name_english, "+
 //                " ec_family_member.dob,ec_family_member.gender, ec_family_member.birth_id,ec_family_member.shr_id,ec_family_member.unique_id,ec_family_member.last_interacted_with,ec_family_member.camp_type,"+
@@ -280,7 +273,8 @@ public class HnppDBUtils {
 //        return infoModel;
 //
 //    }
-    public static TikaInfoModel getTikaDetailsFromClient(String baseEntityId){
+@SuppressLint("Range")
+public static TikaInfoModel getTikaDetailsFromClient(String baseEntityId){
         String query = "select json from client where baseEntityId ='"+baseEntityId+"' ";
         Cursor cursor = null;
         TikaInfoModel infoModel = null;
@@ -1808,67 +1802,67 @@ public class HnppDBUtils {
         String motherQuery = "SELECT kmc_status FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
 
-        return valus.get(0).get("kmc_status");
+        return valus.size()>0?valus.get(0).get("kmc_status"):"";
     }
     public static String getScanuFollowup(String baseEntityId) {
         String motherQuery = "SELECT kmc_status FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
 
-        return valus.get(0).get("kmc_status");
+        return valus.size()>0?valus.get(0).get("kmc_status"):"";
     }
     public static String getKMCIdentifiedDate(String baseEntityId) {
         String motherQuery = "SELECT identified_date FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
 
-        return valus.get(0).get("identified_date");
+        return valus.size()>0?valus.get(0).get("identified_date"):"";
     }
     public static String getMotherId(String baseEntityId) {
         String motherQuery = "SELECT mother_id FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(motherQuery, new String[]{baseEntityId});
 
-        return valus.get(0).get("mother_id");
+        return valus.size()>0?valus.get(0).get("mother_id"):"";
     }
     public static String getLmpDate(String baseEntityId) {
         String lmp = "SELECT last_menstrual_period FROM ec_anc_register where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
-        return valus.get(0).get("last_menstrual_period");
+        return valus.size()>0?valus.get(0).get("last_menstrual_period"):"";
     }
     public static String getWeight(String baseEntityId) {
         String lmp = "SELECT weight FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
-        return valus.get(0).get("weight");
+        return valus.size()>0?valus.get(0).get("weight"):"";
     }
     public static String getBloodGroup(String baseEntityId) {
         String lmp = "SELECT blood_group FROM ec_family_member where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
-        return valus.get(0).get("blood_group");
+        return valus.size()>0?valus.get(0).get("blood_group"):"";
     }
     public static String getDueVaccineDate(String baseEntityId) {
         String lmp = "SELECT due_vaccine_date FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
-        return valus.get(0).get("due_vaccine_date");
+        return valus.size()>0?valus.get(0).get("due_vaccine_date"):"";
     }
     public static Map<String, String> getMotherName(String baseEntityId) {
         String mem = "SELECT first_name,last_name,member_name_bengla,phone_number FROM ec_family_member where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(mem, new String[]{baseEntityId});
 
-        return valus.get(0);
+        return valus.size()>0?valus.get(0):new HashMap<>();
     }
 
     public static String getaefiVaccines(String baseEntityId) {
         String lmp = "SELECT aefi_vaccines FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
 
-        return valus.get(0).get("aefi_vaccines");
+        return valus.size()>0?valus.get(0).get("aefi_vaccines"):"";
     }
     public static String getSessionInfo(String baseEntityId) {
         String lmp = "SELECT session_info_received FROM ec_child where base_entity_id = ? ";
         List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
-        return valus.get(0).get("session_info_received");
+        return valus.size()>0?valus.get(0).get("session_info_received"):"";
     }
 
     public static OtherVaccineContentData getMemberInfo(String baseEntityId) {

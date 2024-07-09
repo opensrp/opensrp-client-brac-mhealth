@@ -126,8 +126,8 @@ android {
 
 
         training{
-            versionCode 19
-            versionName "1.2.6_imci"
+            versionCode 22
+            versionName "1.2.10_training"
             dimension = 'baseDimension'
             applicationIdSuffix ".training"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
@@ -152,8 +152,8 @@ android {
 
         }
         production{
-            versionCode 24
-            versionName "1.1.8"
+            versionCode 28
+            versionName "1.1.12"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
@@ -212,7 +212,7 @@ dependencies {
 //        exclude group: 'com.android.support', module: 'appcompat-v7'
 //    }
     //from branch weight_vs_height
-    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.1-gmp-weight-height-SNAPSHOT@aar') {
+    api ('org.smartregister:opensrp-client-growth-monitoring:1.2.2-gmp-weight-height-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'design'

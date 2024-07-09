@@ -7,6 +7,55 @@ actions:
   - "isRelevant = true"
 
 ---
+name: step1_kmc_counseling
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight > 1900 && step1_birth_weight < 2500) || ((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0'))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_kmc_start_time
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight > 1900 && step1_birth_weight < 2500) || ((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0'))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_kmc_start_date
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight > 1900 && step1_birth_weight < 2500) || ((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0'))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_newborn_body_info
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)|| step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)')|| ((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_month_diff>=1)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_weight
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)|| step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || ((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_month_diff>=1)"
+actions:
+  - "isRelevant = true"
+---
+name: step1_body_temparature
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)|| step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') ||((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_breating_rate
+description: weight_warning relevance
+priority: 1
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)|| step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)')||((step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')))"
+actions:
+  - "isRelevant = true"
+---
 name: step1_followup_hospital
 description: weight_warning relevance
 priority: 1
@@ -38,42 +87,14 @@ actions:
 name: step1_only_breast_feeding
 description: weight_warning relevance
 priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) "
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)|| step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0')"
 actions:
   - "isRelevant = true"
 ---
-name: step1_body_temparature
+name: step1_counseling
 description: weight_warning relevance
 priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) "
-actions:
-  - "isRelevant = true"
----
-name: step1_breating_rate
-description: weight_warning relevance
-priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ'))"
-actions:
-  - "isRelevant = true"
----
-name: step1_kmc_counseling
-description: weight_warning relevance
-priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0')"
-actions:
-  - "isRelevant = true"
----
-name: step1_only_breast_feeding
-description: weight_warning relevance
-priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0')"
-actions:
-  - "isRelevant = true"
----
-name: step1_newborn_body_info
-description: weight_warning relevance
-priority: 1
-condition: "step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')"
+condition: "(!step1_birth_weight.isEmpty() && step1_birth_weight < 2500)|| step1_mother_ga.equals('৩৬ সপ্তাহ বা তার কম (অপরিণত শিশু)') || (step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_is_refer.equals('0')"
 actions:
   - "isRelevant = true"
 ---
@@ -87,9 +108,14 @@ actions:
 name: step1_need_reffered
 description: weight_warning relevance
 priority: 1
-condition: "step1_agreed_to_go_hospital.equals('না')"
+condition: "step1_agreed_to_go_hospital.equals('হ্যা')
+              ||(!step1_birth_weight.isEmpty() && step1_birth_weight > 500 && step1_birth_weight < 2000)
+              || step1_breating_rate.equals('শ্বাসকষ্ট ও দ্রুত শ্বাস-প্রশ্বাস(মিনিটে ৫৯ বার এর বেশি)')
+              || step1_body_temparature.equals('তাপমাত্রা বেশি/জ্বর -৩৭.৫oসে বা ৯৯.৫ ফারেনহাইট এর উপরে')
+              || step1_body_temparature.equals('তাপমাত্রা কম - ৩৬.৫o সে বা ৯৭.৭ ফারেনহাইট এর নিচে')
+              || (!step1_newborn_body_info.isEmpty() && !step1_newborn_body_info.contains('none'))"
 actions:
-  - "isRelevant = false"
+  - "isRelevant = true"
 ---
 name: step1_hospital_followup
 description: weight_warning relevance
@@ -116,13 +142,6 @@ name: step1_notice
 description: weight_warning relevance
 priority: 1
 condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_month_diff>=7"
-actions:
-  - "isRelevant = true"
----
-name: step1_weight
-description: weight_warning relevance
-priority: 1
-condition: "(step1_physical_condition.equals('সুস্থ') || step1_physical_condition.equals('অসুস্থ')) && step1_month_diff>=1"
 actions:
   - "isRelevant = true"
 ---
