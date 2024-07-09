@@ -109,7 +109,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "7_days_more",
         "type": "native_radio",
-        "label": "এটি কি 7 দিনের বেশি?(যাচাই করুন)",
+        "label": "জ্বর কি ৭ দিনের বেশি (সময় যাচাই করুন)",
         "text_color": "#000000",
         "options": [
           {
@@ -166,15 +166,30 @@
         }
       },
       {
+        "key": "stay_at_malaria_location",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "key": "label_look",
-        "type": "label",
-        "text_color": "#3797ca",
-        "text_size": "17px",
-        "label_text_style": "bold",
-        "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  ",
+        "openmrs_entity_id": "stay_at_malaria_location",
+        "type": "native_radio",
+        "label": "ম্যালেরিয়া ঝুঁকিপূর্ণ এলাকায় বসবাস/ভ্রমন(৩০ দিনের মধ্যে)",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "হ্যাঁ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "না",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
         "relevance": {
           "step1:have_fever": {
             "type": "string",
@@ -206,6 +221,24 @@
             "openmrs_entity_id": "rdt_negetive"
           }
         ],
+        "relevance": {
+          "step1:stay_at_malaria_location": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " লক্ষ্য করুন, শুনুন, অনুভব করুন  ",
         "relevance": {
           "step1:have_fever": {
             "type": "string",

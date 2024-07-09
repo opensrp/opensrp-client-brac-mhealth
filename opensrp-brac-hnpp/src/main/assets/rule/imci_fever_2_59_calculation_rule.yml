@@ -18,15 +18,15 @@ description: 'জ্বর-ম্যালেরিয়া নয়'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_have_fever.contains('yes') || step1_7_days_more.contains('yes') || step1_7_days_more.contains('no')|| step1_check_more_7_days.contains('yes')|| step1_check_more_7_days.contains('no')
-  || step1_Rapid_Diagnostic_Test.contains('rdt_negetive') || step1_fever_Bacterial.contains('yes'))?1:0"
+  - "calculation = (step1_Rapid_Diagnostic_Test.contains('rdt_negetive'))?1:0"
 ---
 name: step1_cal_assessment_type_4
 description: 'জ্বর'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_Stiff_neck.contains('no')|| step1_fever_Bacterial.contains('no'))?1:0"
+  - "calculation = ((step1_stay_at_malaria_location.contains('no')|| step1_fever_Bacterial.contains('no'))
+  && (step1_Runny_nose.contains('yes') || step1_fever_Bacterial.contains('yes')))?1:0"
 ---
 name: step1_cal_assessment_type_5
 description: 'জ্বর নাই'

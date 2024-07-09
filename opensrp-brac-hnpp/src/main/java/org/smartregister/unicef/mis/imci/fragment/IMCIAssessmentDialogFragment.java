@@ -691,7 +691,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         String fever_Bacterial = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"fever_Bacterial");
 
         builder = new StringBuilder();
-        assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.ONE.getValue();
         if(type_1.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.FIVE.getValue();
             if(!TextUtils.isEmpty(Stiff_neck) && Stiff_neck.contains("yes")){
@@ -709,42 +708,42 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
         }
         else  if(type_3.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.THREE.getValue();
-            if(!TextUtils.isEmpty(have_fever) && have_fever.contains("yes")){
-                builder.append("<br>");
-                builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বর আছে");
-            }
-            if(!TextUtils.isEmpty(seven_days_more) && seven_days_more.contains("yes")){
-                builder.append("<br>");
-                builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বর ৭ দিনের বেশি");
-            }
-            if(!TextUtils.isEmpty(seven_days_more) && seven_days_more.contains("no")){
-                builder.append("<br>");
-                builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বর ৭ দিনের বেশি নয়");
-            }
-            if(!TextUtils.isEmpty(check_more_7_days) && check_more_7_days.contains("yes")){
-                builder.append("<br>");
-                builder.append(getString(R.string.right_arrow));
-                builder.append("প্রতিদিনই জ্বর হয়");
-            }
-            if(!TextUtils.isEmpty(check_more_7_days) && check_more_7_days.contains("no")){
-                builder.append("<br>");
-                builder.append(getString(R.string.right_arrow));
-                builder.append("প্রতিদিনই জ্বর হয় না");
-            }
+//            if(!TextUtils.isEmpty(have_fever) && have_fever.contains("yes")){
+//                builder.append("<br>");
+//                builder.append(getString(R.string.right_arrow));
+//                builder.append("জ্বর আছে");
+//            }
+//            if(!TextUtils.isEmpty(seven_days_more) && seven_days_more.contains("yes")){
+//                builder.append("<br>");
+//                builder.append(getString(R.string.right_arrow));
+//                builder.append("জ্বর ৭ দিনের বেশি");
+//            }
+//            if(!TextUtils.isEmpty(seven_days_more) && seven_days_more.contains("no")){
+//                builder.append("<br>");
+//                builder.append(getString(R.string.right_arrow));
+//                builder.append("জ্বর ৭ দিনের বেশি নয়");
+//            }
+//            if(!TextUtils.isEmpty(check_more_7_days) && check_more_7_days.contains("yes")){
+//                builder.append("<br>");
+//                builder.append(getString(R.string.right_arrow));
+//                builder.append("প্রতিদিনই জ্বর হয়");
+//            }
+//            if(!TextUtils.isEmpty(check_more_7_days) && check_more_7_days.contains("no")){
+//                builder.append("<br>");
+//                builder.append(getString(R.string.right_arrow));
+//                builder.append("প্রতিদিনই জ্বর হয় না");
+//            }
             if(!TextUtils.isEmpty(Rapid_Diagnostic_Test) && Rapid_Diagnostic_Test.contains("rdt_negative")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 builder.append("RDT / ম্যালেরিয়া নেগেটিভ");
             }
-
-            if(!TextUtils.isEmpty(fever_Bacterial) && fever_Bacterial.contains("yes")){
-                builder.append("<br>");
-                builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বরের অন্য কোন কারণ আছে");
-            }
+//
+//            if(!TextUtils.isEmpty(fever_Bacterial) && fever_Bacterial.contains("yes")){
+//                builder.append("<br>");
+//                builder.append(getString(R.string.right_arrow));
+//                builder.append("জ্বরের অন্য কোন কারণ আছে");
+//            }
         }
         else  if(type_4.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.TWO.getValue();
@@ -756,7 +755,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(fever_Bacterial) && fever_Bacterial.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বরের অন্য কোন কারণ নাই");
+                builder.append("ম্যালেরিয়া ঝুঁকিপূর্ণ এলাকায় বসবাস/ভ্রমন(৩০ দিনের মধ্যে) যায়নি");
             }
         }
         else  if(type_5.equalsIgnoreCase("1")) {
@@ -768,14 +767,13 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
-        if(!assessmentResultTypeId.isEmpty()){
+        if(!TextUtils.isEmpty(assessmentResultTypeId)){
             assesment_result_txt.setText(assessmentResultTypeId);
             if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEVER.FIVE.getValue())){
                 assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_red));
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEVER.FOUR.getValue())){
                 assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_yello));
             }else{
-                assesment_result_txt.setText(Utility.ASSESSMENT_RESULT_TYPE_FEVER.ONE.getValue());
                 assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_green));
             }
 
