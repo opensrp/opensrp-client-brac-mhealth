@@ -488,7 +488,7 @@ public class HnppAncRegisterActivity extends BaseAncRegisterActivity {
         if(selectedLocation!=null){
             baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         }else{
-            Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(baseEntityId,"Child Registration");
+            Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(baseEntityId);
             baseEvent.setIdentifiers(identifiers);
         }
         String visitID ="";

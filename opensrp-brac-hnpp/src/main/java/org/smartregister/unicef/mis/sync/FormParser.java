@@ -1319,7 +1319,7 @@ public class FormParser {
             String fhr = details.get("Hemoglobin_result");
             Log.v("ANC_RISK","Hemoglobin_result>>"+fhr);
             if(!TextUtils.isEmpty(fhr)){
-                int iFHR = Integer.parseInt(fhr);
+                float iFHR = Float.parseFloat(fhr);
                 if(iFHR<10 || iFHR>=15.5){
                     isAncHomeVisitRisk = true;
                     String ancCount = details.get("anc_count");

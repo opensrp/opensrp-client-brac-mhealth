@@ -199,7 +199,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             if(selectedLocation!=null){
                 event.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
             }else{
-                Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(baseEntityId,"Child Registration");
+                Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(baseEntityId);
                 event.setIdentifiers(identifiers);
             }
 
@@ -516,7 +516,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         if(selectedLocation!=null){
             baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifier(selectedLocation));
         }else{
-            Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(memberID,"Child Registration");
+            Map<String,String> identifiers  = GrowthMonitoringLibrary.getInstance().weightRepository().getAddressIdentifier(memberID);
             baseEvent.setIdentifiers(identifiers);
         }
         baseEvent.setFormSubmissionId(formSubmissionId);
