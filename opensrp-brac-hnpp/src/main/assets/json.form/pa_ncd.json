@@ -81,6 +81,31 @@
         "type": "hidden"
       },
       {
+        "key": "camp_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "camp_type",
+        "type": "native_radio",
+        "label": "ক্যাম্পের ধরণঃ ",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "combined",
+            "text": "কম্বাইন্ড",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "combined"
+          },
+          {
+            "key": "single",
+            "text": "সিংগেল",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "single"
+          }
+        ]
+      },
+      {
         "key": "sk_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -409,8 +434,12 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "0",
-          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+          "value": "30",
+          "err": "30 এর সমান বা 30 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "160",
+          "err": "সংখ্যাটি ১৬০ এর সমান বা কম হতে হবে"
         }
       },
       {
@@ -433,8 +462,12 @@
           "err": "প্রশ্নের উত্তর দিন"
         },
         "v_min": {
-          "value": "0",
-          "err": "সংখ্যাটি 0 এর সমান বা বড় হতে হবে"
+          "value": "100",
+          "err": "100 এর সমান বা 100 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "230",
+          "err": "সংখ্যাটি 230 এর সমান বা কম হতে হবে"
         }
       },
       {
@@ -496,6 +529,14 @@
           "value": "[0-9]*",
           "err": "দশমিক অনুমোদিত নয়"
         },
+        "v_min": {
+          "value": "50",
+          "err": "50 এর সমান বা 50 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "220",
+          "err": "সংখ্যাটি 220 এর সমান বা কম হতে হবে"
+        },
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
@@ -536,6 +577,14 @@
         "v_required": {
           "value": true,
           "err": "প্রশ্নের উত্তর দিন"
+        },
+        "v_min": {
+          "value": "20",
+          "err": "20 এর সমান বা 20 এর বেশি হতে হবে"
+        },
+        "v_max": {
+          "value": "120",
+          "err": "সংখ্যাটি 120 এর সমান বা কম হতে হবে"
         }
       },
       {
@@ -628,7 +677,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "fasting_blood_sugar",
-        "type": "edit_text",
+        "type": "hiden",
         "hint": "ফাস্টিং",
         "v_numeric": {
           "value": "true",
@@ -672,11 +721,11 @@
         },
         "v_min": {
           "value": "3",
-          "err": " 3 এর সমান বা 5 এর বেশি হতে হবে"
+          "err": " 3 এর সমান বা 3 এর বেশি হতে হবে"
         },
         "v_max": {
-          "value": "20",
-          "err": " 20 এর সমান বা 20 এর কম হওয়া উচিত"
+          "value": "30",
+          "err": " 30 এর সমান বা 30 এর কম হওয়া উচিত"
         }
       },
       {
@@ -784,7 +833,7 @@
       },
       {
         "key": "refer_reason",
-        "type": "label",
+        "type": "hidden",
         "text":"রেফারেল এর কারণ: ক্লায়েন্ট উচ্চরক্তচাপ বা ডায়াবেটিকস এর ঝুঁকিতে আছে",
         "has_bg": true,
         "left_padding": "20dp",
@@ -800,7 +849,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_refer_reason",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "অন্যান্য কারণ "
       },
       {
@@ -815,20 +864,6 @@
         ],
         "options": [
           {
-            "key": "brac_maternity_center",
-            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "brac_maternity_center"
-          },
-          {
-            "key": "union_health_center",
-            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_health_center"
-          },
-          {
             "key": "upozzila_health_complex",
             "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
             "value": false,
@@ -836,53 +871,19 @@
             "openmrs_entity_id": "upozzila_health_complex"
           },
           {
-            "key": "union_family_kollan_center",
-            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_family_kollan_center"
-          },
-          {
-            "key": "union_health_and_family_kollan_center",
-            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_health_and_family_kollan_center"
-          },
-          {
-            "key": "mother_child_kollan_center",
-            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "mother_child_kollan_center"
-          },
-          {
             "key": "center_hospital",
-            "text": "সদর হাসপাতাল",
+            "text": "জেলা সদর হাসপাতাল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "center_hospital"
           },
+
           {
             "key": "medical_collage_hospital",
             "text": "মেডিকেল কলেজ হাসপাতাল",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "medical_collage_hospital"
-          },
-          {
-            "key": "private_clinic",
-            "text": "বেসরকারি ক্লিনিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "private_clinic"
-          },
-          {
-            "key": "spacial_hospital",
-            "text": "বিশেষায়িত হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "spacial_hospital"
           },
           {
             "key": "other_option",

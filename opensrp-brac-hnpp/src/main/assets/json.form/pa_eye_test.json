@@ -82,6 +82,31 @@
         "type": "hidden"
       },
       {
+        "key": "camp_type",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "camp_type",
+        "type": "native_radio",
+        "label": "ক্যাম্পের ধরণঃ ",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "combined",
+            "text": "কম্বাইন্ড",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "combined"
+          },
+          {
+            "key": "single",
+            "text": "সিংগেল",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "single"
+          }
+        ]
+      },
+      {
         "key": "sk_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -460,7 +485,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "glasses_type_all",
-        "type": "native_radio",
+        "type": "hidden",
         "label": "চশমার ধরণ",
         "text_color": "#000000",
         "options": [
@@ -490,7 +515,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "glasses_sell",
         "type": "native_radio",
-        "label": "চশমা বিক্রয়",
+        "label": "ফ্রেমের ধরন",
         "text_color": "#000000",
         "options": [
           {
@@ -556,7 +581,7 @@
         "type": "check_box",
         "label": "রেফারের স্থান",
         "exclusive": [
-          "None"
+          "other_option"
         ],
         "options": [
           {
