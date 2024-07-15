@@ -348,11 +348,11 @@ public class FamilyProfileActivity extends CoreFamilyProfileActivity {
                     String encounterType = form.getString(JsonFormUtils.ENCOUNTER_TYPE);
                     if (encounterType.equals(HnppConstants.EventType.CHILD_REGISTRATION)) {
                         generatedString = HnppJsonFormUtils.getValuesFromChildRegistrationForm(form);
-                        title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                        title = String.format(getString(R.string.dialog_confirm_save_child),fullName,generatedString[0],generatedString[2]);
 
                     }else {
                         generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                         title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                         title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2]);
 
                     }
 

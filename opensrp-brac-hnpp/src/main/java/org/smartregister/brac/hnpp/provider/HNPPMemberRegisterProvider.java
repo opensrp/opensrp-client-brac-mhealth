@@ -160,7 +160,8 @@ public class HNPPMemberRegisterProvider extends CoreMemberRegisterProvider {
         } else if (gender_key.equalsIgnoreCase("F")) {
             gender = "নারী";
         }
-        String relationAge = context.getString(R.string.relation_with_member_and_head,relation_with_household_head) + "<br>বয়সঃ " + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context)+", "+gender;
+
+        String relationAge = "<br>বয়সঃ " + org.smartregister.family.util.Utils.getTranslatedDate(dobString, this.context)+", "+gender;
 
         if(!TextUtils.isEmpty(guId)){
             if(guId.equalsIgnoreCase(HnppConstants.TEST_GU_ID)){

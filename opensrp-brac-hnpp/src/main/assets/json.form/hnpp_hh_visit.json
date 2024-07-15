@@ -186,11 +186,282 @@
         }
       },
       {
+        "key": "financial_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "hh_financial_status",
+        "type": "edit_text",
+        "hint": "খানার আর্থিক অবস্থাঃ",
+        "openmrs_data_type": "text",
+        "v_numeric": {
+          "value": "true",
+          "err": "অবশ্যই সংখ্যা হতে হবে"
+        },
+        "v_max": {
+          "value": "500000",
+          "err": "সর্বোচ্চ ৫০০০০০ হতে হবে"
+        },
+        "v_min": {
+          "value": "0",
+          "err": ""
+        },
+        "v_required": {
+          "value": "true",
+          "err": " আর্থিক অবস্থা নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "is_affected_member",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_affected_member",
+        "type": "spinner",
+        "hint": "খানায় প্রতিবন্ধি এমন কেউ কি আছে( যার দেখতে, শুনতে,হাঁটতে, ওঠা-নামা করতে, নিজে নিজে কিছু করত্\u200C,স্মরণ করতে অথবা মনোজোগ দিতে অথবা মানুষকে বোঝাতে অথবা মানুষের কথা বুঝতে অনেক বেশি অসুবিধা হই কিংবা একদমই পারেনা?) \nক। দেখতে, শুনতে অসুবিধা হয় \nখ। হাঁটতে, ওঠা-নামা করতে, নিজে নিজে কিছু করতে অসুবিধা হয়\nগ। স্মরণ করতে অথবা মনোজোগ দিতে অথবা মানুষকে বোঝাতে অথবা মানুষের কথা বুঝতে সমস্যা হয়",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "corona_affected_members",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "corona_affected_members",
+        "type": "check_box",
+        "label": "হ্যাঁ হলে, খাানার সদস্যএর  নাম",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_nobody"
+        ],
+        "options": [
+
+        ],
+        "relevance": {
+          "step1:is_affected_member": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "corona_affected_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "corona_affected_id",
+        "hint": "আক্রান্ত সদস্য",
+        "type": "hidden",
+        "hidden": true,
+        "exclusive": [
+          "chk_nobody"
+        ],
+        "options": [
+
+        ]
+      },
+      {
+        "key": "is_disease_patient",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_disease_patient",
+        "type": "check_box",
+        "label": "এই খানায় কি নিম্নোক্ত লক্ষনের আক্রান্ত কোন ব্যাক্তি আছে ?",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "fever",
+            "text": "১।জ্বর বা তাপমাত্রা ১০০ ডিগ্রি সে. এর চেয়ে বেশি.",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fever"
+          },
+          {
+            "key": "disentry",
+            "text": "২।পাতলা পায়খানা বা বমি আছে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "disentry"
+          },
+          {
+            "key": "headache_fever",
+            "text": "৩।জ্বরের সাথে অতিরিক্ত মাথা ব্যাথা আছে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "headache_fever"
+          },
+          {
+            "key": "resh_in_body",
+            "text": "৪।শরীরে পানির মত ফুসকুড়ি বা লাল লাল গোঁটা আছে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "resh_in_body"
+          },
+          {
+            "key": "Cough_or_phlegm",
+            "text": "৫।অতিরিক্ত কাশি বা কফ আসে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Cough_or_phlegm"
+          },
+          {
+            "key": "lower_part_chest_sink",
+            "text": "৬। বুকের নিচের অংশ ভিতরে ডেবে যায় কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "lower_part_chest_sink"
+          },
+          {
+            "key": "Is_breathing_too_fast",
+            "text": "৭। অতি দ্রুত শ্বাসপ্রশ্বাস নিচ্ছে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Is_breathing_too_fast"
+          },
+          {
+            "key": "fever_convulsions",
+            "text": "৮।জ্বরের সাাথে খিচুনি আছে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "fever_convulsions"
+          },
+          {
+            "key": "itching",
+            "text": "৯।চুল্কানি আছে কিনা , থাকলে রাতে বাড়ে কিনা বা পরিবারের অন্যান্য সদস্যের আছে কিনা।",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "itching"
+          },
+          {
+            "key": "Cough_more_2_weeks",
+            "text": "১০। ২ সপ্তাহের বেশি কাশি আছে কিনা।",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Cough_more_2_weeks"
+          },
+          {
+            "key": "Rapid_weight_loss",
+            "text": "১১। দ্রুত ওজন কমে যাচ্ছে কিনা।",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Rapid_weight_loss"
+          },
+          {
+            "key": "Slight_fever_after_evening",
+            "text": "১২। সন্ধ্যার পর অল্পমাত্রায় জ্বর আসে কিনা এবং জ্বর ঘাম দিয়ে ছেড়ে যায় কিনা।",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Slight_fever_after_evening"
+          },
+          {
+            "key": "Have_eye_problems",
+            "text": "১৩।চোখের সমস্যা আছে কিনা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "Have_eye_problems"
+          },
+          {
+            "key": "chk_none",
+            "text": "১৪।অন্যান্য ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "chk_none"
+          }
+        ]
+      },
+      {
+        "key": "disease_patients",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "disease_patients",
+        "type": "check_box",
+        "label": "হ্যাঁ হলে, খাানার সদস্যএর  নাম",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_nobody"
+        ],
+        "options": [
+
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "disease_patients_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "disease_patients_id",
+        "hint": "আক্রান্ত সদস্য",
+        "type": "hidden",
+        "hidden": true,
+        "exclusive": [
+          "chk_nobody"
+        ],
+        "options": [
+
+        ]
+      },
+      {
+        "key": "new_hh_created",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "new_hh_created",
+        "type": "spinner",
+        "hint": "এইখানা ভেঙে নতুন কোন খানা হয়েছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      },
+
+
+      {
         "key": "has_latrine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "has_latrine",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "খানায় স্যানিটারি ল্যাট্রিন আছে কিনা?",
         "values": [
           "হ্যাঁ",
@@ -206,38 +477,11 @@
         }
       },
       {
-        "key": "financial_status",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "financial_status",
-        "type": "spinner",
-        "hint": "খানার আর্থিক অবস্থাঃ",
-        "openmrs_data_type": "text",
-        "values": [
-          "মাসিক আয় ৬০০০ টাকার কম",
-          "মাসিক আয় ৭০০০ টাকার কম",
-          "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে",
-          "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে"
-
-        ],
-        "openmrs_choice_ids": {
-          "মাসিক আয় ৬০০০ টাকার কম": "less_than_6K",
-          "মাসিক আয় ৭০০০ টাকার কম": "less_than_7K",
-          "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে": "7K_to_12K",
-          "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে": "more_than_12K"
-
-        },
-        "v_required": {
-          "value": "true",
-          "err": " আর্থিক অবস্থা নির্বাচন করুন"
-        }
-      },
-      {
         "key": "list_of_assets",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "list_of_assets",
-        "type": "check_box",
+        "type": "hidden",
         "label": "সম্পদের তালিকা",
         "exclusive": [
           "chk_none"
@@ -290,7 +534,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "floor_material",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "মেঝে কি দিয়ে তৈরি",
         "values": [
           "সিমেন্ট",
@@ -313,7 +557,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "wall_material",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "দেয়াল কি দিয়ে তৈরি",
         "values": [
           "ইট",
@@ -338,7 +582,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "roof_material",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "ছাদ কি দিয়ে তৈরি",
         "values": [
           "ইট",
@@ -362,7 +606,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "homestead_land",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "বসত জমির পরিমাণ কত শতাংশ",
         "v_numeric": {
           "value": "true",
@@ -374,109 +618,13 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "cultivable_land",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "চাষের যোগ্য জমির পরিমাণ কত শতাংশ",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
         }
       },
-      {
-        "key": "is_affected_member",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "is_affected_member",
-        "type": "spinner",
-        "hint": "খানায় কেউ কি করোনা আক্রান্ত/উপসর্গ আছে?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "corona_affected_members",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "corona_affected_members",
-        "type": "check_box",
-        "label": "করোনা আক্রান্ত/উপসর্গ আছে এমন সদস্য নির্বাচন করুন:",
-        "label_text_style": "normal",
-        "text_color": "#C0C0C0",
-        "exclusive": [
-          "chk_nobody"
-        ],
-        "options": [
-
-        ],
-        "relevance": {
-          "step1:is_affected_member": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "corona_affected_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "corona_affected_id",
-        "hint": "আক্রান্ত সদস্য",
-        "type": "check_box",
-        "hidden": true,
-        "exclusive": [
-          "chk_nobody"
-        ],
-        "options": [
-
-        ]
-      },
-      {
-        "key": "new_hh_created",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "new_hh_created",
-        "type": "spinner",
-        "hint": "এইখানা ভেঙে নতুন কোন খানা হয়েছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        }
-      },
-      {
-        "key": "latitude",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "latitude",
-        "type": "edit_text",
-        "read_only": true,
-        "hint": "অক্ষাংশ"
-      },
-      {
-        "key": "longitude",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "longitude",
-        "type": "edit_text",
-        "read_only": true,
-        "hint": "দ্রাঘিমা"
-      }
-    ,
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

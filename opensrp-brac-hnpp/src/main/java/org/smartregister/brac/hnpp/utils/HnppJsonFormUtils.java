@@ -1035,7 +1035,45 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
 
     }
-    public static void addAddToStockValue(JSONObject jsonForm){
+
+    public static void addJsonKeyValue(JSONObject jsonForm, String key, String value) {
+        try {
+            JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            updateFormField(jsonArray, key, value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void addIdTypeAtForm(JSONObject jsonForm, String nId, String brid) throws JSONException{
+        JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+        JSONArray field = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+        JSONObject idAvailObject = getFieldJSONObject(field, "id_avail");
+        JSONObject national_idObject = getFieldJSONObject(field, "national_id");
+        JSONObject birth_idObject = getFieldJSONObject(field, "birth_id");
+        String idTypeValue = null;
+        if(!TextUtils.isEmpty(nId) && !TextUtils.isEmpty(brid)){
+            idTypeValue = "[\"chk_national_id\",\"chk_birth_id\"]";
+            national_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,nId );
+            birth_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,brid );
+        }else if(!TextUtils.isEmpty(nId) && TextUtils.isEmpty(brid)){
+            idTypeValue = "[\"chk_national_id\"]";
+            national_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,nId );
+        }else if(TextUtils.isEmpty(nId) && !TextUtils.isEmpty(brid)){
+            idTypeValue = "[\"chk_birth_id\"]";
+            birth_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,brid );
+        }
+        String value = processValueWithChoiceIdsForEdit(idAvailObject,idTypeValue);
+        if(StringUtils.isEmpty(value)){
+            idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+        }else{
+            idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+        }
+    }
+
+    public static void addAddToStockValue(JSONObject jsonForm) {
         try {
             JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
@@ -1448,8 +1486,9 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONArray field = fields(form, STEP1);
         JSONObject corona_members = getFieldJSONObject(field, "corona_affected_members");
        // JSONObject corona_members_id = getFieldJSONObject(field, "corona_affected_id");
-
+        JSONObject disease_patients = getFieldJSONObject(field, "disease_patients");
         JSONArray jsonArrayCoronaMember = corona_members.getJSONArray("options");
+        JSONArray disease_patients_array = disease_patients.getJSONArray("options");
        // JSONArray jsonArrayCoronaMemberIds = corona_members_id.getJSONArray("options");
         for(String[] optionList : motherNameList){
             String name = optionList[0];
@@ -1464,15 +1503,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             itemWithIds.put("openmrs_entity_id",name.replace(" ","_")+"#"+ids);
 
             jsonArrayCoronaMember.put(itemWithIds);
-//            jsonArrayCoronaMember.put(item);
-//
-//            JSONObject itemId = new JSONObject();
-//            itemId.put("key",ids);
-//            itemId.put("text",ids);
-//            itemId.put("value",false);
-//            itemId.put("openmrs_entity","concept");
-//            itemId.put("openmrs_entity_id",ids);
-           // jsonArrayCoronaMemberIds.put(itemId);
+
+            JSONObject diseaseItemWithIds = new JSONObject();
+            diseaseItemWithIds.put("key",name.replace(" ","_")+"#"+ids+"-disease");
+            diseaseItemWithIds.put("text",name);
+            diseaseItemWithIds.put("value",false);
+            diseaseItemWithIds.put("openmrs_entity","concept");
+            diseaseItemWithIds.put("openmrs_entity_id",name.replace(" ","_")+"#"+ids+"-disease");
+
+            disease_patients_array.put(diseaseItemWithIds);
         }
 
         return form;

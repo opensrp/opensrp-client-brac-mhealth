@@ -570,6 +570,7 @@ public class FormParser {
                     }
 
                 }
+                updateMobileBloodNID(details,baseEntityId);
 
                 break;
             case PNC_REGISTRATION_AFTER_48_hour:
@@ -736,6 +737,23 @@ public class FormParser {
                 break;
         }
 
+    }
+
+    private static void updateMobileBloodNID(HashMap<String, String> details, String baseEntityId) {
+        String bloodGroup = "", mobileNo = "", nid = "", brid = "";
+        if(details.containsKey("blood_group") && !TextUtils.isEmpty(details.get("blood_group"))){
+            bloodGroup = details.get("blood_group");
+        }
+        if(details.containsKey("phone_number") && !TextUtils.isEmpty(details.get("phone_number"))){
+            mobileNo = details.get("phone_number");
+        }
+        if(details.containsKey("national_id") && !TextUtils.isEmpty(details.get("national_id"))){
+            nid = details.get("national_id");
+        }
+        if(details.containsKey("birth_id") && !TextUtils.isEmpty(details.get("birth_id"))){
+            brid = details.get("birth_id");
+        }
+        HnppDBUtils.updateBloodGroupMobileNID(baseEntityId,bloodGroup,mobileNo,nid,brid);
     }
 
     private static void processReferral(String encounter_type, VisitLog log, HashMap<String,String>details, String formSubmissionId) {
@@ -2317,14 +2335,15 @@ public class FormParser {
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
-                    " object_id  = ?  ", new String[]{baseEntityId});
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.FAMILY_MEMBER), values,
+//                    " object_id  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private static void processRemoveChild(String baseEntityId, long eventDate, String dod) {
 
 
@@ -2346,8 +2365,8 @@ public class FormParser {
                     DBConstants.KEY.BASE_ENTITY_ID + " = ?  ", new String[]{baseEntityId});
 
             // clean fts table
-            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
-                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
+//            CoreChwApplication.getInstance().getRepository().getWritableDatabase().update(CommonFtsObject.searchTableName(CoreConstants.TABLE_NAME.CHILD), values,
+//                    CommonFtsObject.idColumn + "  = ?  ", new String[]{baseEntityId});
 
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.CHILD).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 

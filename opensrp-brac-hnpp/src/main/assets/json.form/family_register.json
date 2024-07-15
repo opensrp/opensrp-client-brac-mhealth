@@ -1,5 +1,5 @@
 {
-  "count": "2",
+  "count": "1",
   "encounter_type": "Family Registration",
   "entity_id": "",
   "relational_id": "",
@@ -53,7 +53,6 @@
   },
   "step1": {
     "title": "খানা নিবন্ধন",
-    "next": "step2",
     "fields": [
       {
         "key": "module_id",
@@ -245,11 +244,15 @@
         },
         "v_regex": {
           "value": "(5[0]|[1-4][0-9]|[1-9])|\s*",
-          "err": "সদস্য সংখ্যা অবশ্যই ১-৫০ এর মধ্যে হবে এবং প্রথমে ০ দিয়ে শুরু করা যাবে না"
+          "err": "সদস্য সংখ্যা অবশ্যই ১-২৫ এর মধ্যে হবে এবং প্রথমে ০ দিয়ে শুরু করা যাবে না"
+        },
+        "v_max": {
+          "value": "25",
+          "err": "সর্বোচ্চ 25 হতে হবে"
         },
         "v_max_length": {
           "value": "2",
-          "err": "সর্বোচ্চ 50 হতে হবে",
+          "err": "সর্বোচ্চ ২৫ হতে হবে",
           "is_fixed_size":true
         },
         "v_min_length": {
@@ -257,34 +260,6 @@
           "err": "সর্বনিম্ন 1 হতে হবে"
         }
       },
-      {
-        "key": "has_latrine",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Has_Latrine",
-        "type": "spinner",
-        "hint": "খানায় স্যানিটারি ল্যাট্রিন আছে কিনা?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "স্যানিটারি ল্যাট্রিন নির্বাচন করুন"
-        }
-      }
-
-    ]
-  },
-  "step2": {
-    "title": "খানা নিবন্ধন",
-    "previous": "step1",
-    "fields": [
-
       {
         "key": "occupation",
         "openmrs_entity_parent": "",
@@ -342,28 +317,54 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "hh_financial_status",
-        "type": "spinner",
+        "type": "edit_text",
         "hint": "খানার আর্থিক অবস্থাঃ",
         "openmrs_data_type": "text",
-        "values": [
-          "মাসিক আয় ৬০০০ টাকার কম",
-          "মাসিক আয় ৭০০০ টাকার কম",
-          "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে",
-          "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে"
-
-        ],
-        "openmrs_choice_ids": {
-          "মাসিক আয় ৬০০০ টাকার কম": "less_than_6K",
-          "মাসিক আয় ৭০০০ টাকার কম": "less_than_7K",
-          "মাসিক আয় ৭০০১ - ১২০০০ টাকার মধ্যে": "7K_to_12K",
-          "মাসিক আয় ১২০০০ টাকার ঊর্ধ্বে": "more_than_12K"
-
+        "v_numeric": {
+          "value": "true",
+          "err": "অবশ্যই সংখ্যা হতে হবে"
+        },
+        "v_max": {
+          "value": "500000",
+          "err": "সর্বোচ্চ ৫০০০০০ হতে হবে"
+        },
+        "v_min": {
+          "value": "0",
+          "err": ""
         },
         "v_required": {
           "value": "true",
           "err": " আর্থিক অবস্থা নির্বাচন করুন"
         }
+      }
+    ]
+  },
+  "step2": {
+    "title": "খানা নিবন্ধন",
+    "previous": "step1",
+    "fields": [
+
+      {
+        "key": "has_latrine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Has_Latrine",
+        "type": "hidden",
+        "hint": "খানায় স্যানিটারি ল্যাট্রিন আছে কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "স্যানিটারি ল্যাট্রিন নির্বাচন করুন"
+        }
       },
+
       {
         "key": "list_of_assets",
         "openmrs_entity_parent": "",

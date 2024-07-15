@@ -59,6 +59,103 @@
         "value": "elco_register"
       },
       {
+        "key": "last_lmp_weeks",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "last_lmp_weeks",
+        "type": "edit_text",
+        "hint": "কয় সপ্তাহ আগে মাসিক হয়েছিল?",
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "[0-9]*",
+          "err": "দশমিক অনুমোদিত নয়"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "LMP required"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "pregnancy_test_taken",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pregnancy_test_taken",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "গর্ভবতী পরীক্ষা কি করেছেন?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:last_lmp_weeks": {
+            "type": "numeric",
+            "ex": "greaterThanEqualTo(., \"7\")"
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "আপনি গর্ভবতী কিনা তা জানা প্রয়োজন, এ ক্ষেত্রে আপনি ব্রাকের স্বাস্থ্য সেবিকার সহায়তা নিতে পারেন।",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "step1:pregnancy_test_taken": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "pregnancy_test_result",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "pregnancy_test_result",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "পরীক্ষার ফলাফল কি?",
+        "values": [
+          "গর্ভবতী",
+          "গর্ভবতী নয়"
+        ],
+        "openmrs_choice_ids": {
+          "গর্ভবতী": "pregnant",
+          "গর্ভবতী নয়": "not-pregnant"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:pregnancy_test_taken": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
         "key": "familyplanning_method_known",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -111,297 +208,6 @@
         },
         "relevance": {
           "step1:familyplanning_method_known": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "reasons_for_not_using_the_family_planning_system",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "reasons_for_not_using_the_family_planning_system",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যবহার না করার কারন",
-        "values": [
-          "স্বামী বিদেশ",
-          "মাসিক বন্ধ",
-          "জটিলতা হয়েছিল",
-          "উত্তীর্ন",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "স্বামী বিদেশ": "husband_is_abroad",
-          "মাসিক বন্ধ": "closed_monthly",
-          "জটিলতা হয়েছিল": "conplications",
-          "উত্তীর্ন": "passed",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "কারন নির্বাচন করুন"
-        },
-        "relevance": {
-          "step1:familyplanning_method_known": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "distribution_location",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "distribution_location",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
-        "values": [
-          "ব্র্যাক স্বাস্থ্য সেবিকা",
-          "সরকারী",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "ব্র্যাক স্বাস্থ্য সেবিকা":"brac_health_worker",
-          "সরকারী": "official",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "পদ্ধতি কোথা থেকে সংগ্রহ করেছেন নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_elco_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "distribution_location_other",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "distribution_location_other",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
-        "values": [
-          "সরকারী",
-          "অন্যান্য"
-        ],
-        "openmrs_choice_ids": {
-          "সরকারী": "official",
-          "অন্যান্য": "other"
-        },
-        "v_required": {
-          "value": true,
-          "err": "পদ্ধতি কোথা থেকে সংগ্রহ করেছেন নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_elco_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "complications_known",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "complications_known",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পদ্ধতি ব্যবহারের সময় কোন জটিলতা হয়েছিল?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:familyplanning_method_known": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "type_of_complications",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "type_of_complications",
-        "openmrs_data_type": "text",
-        "type": "check_box",
-        "label": "কি ধরণের জটিলতা হয়েছিল?",
-        "exclusive": [
-          "noIdentifier"
-        ],
-        "options": [
-          {
-            "key": "bleeding",
-            "text": "অতিরিক্ত রক্তক্ষরণ",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "bleeding"
-          },
-          {
-            "key": "closed_monthly",
-            "text": "মাসিক বন্ধ",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "closed_monthly"
-          },
-          {
-            "key": "cramps",
-            "text": "তলপেটে ব্যথা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "cramps"
-          },
-          {
-            "key": "nausea",
-            "text": "মাথা ঘোরা/ বমি বমি ভাব",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "nausea"
-          },
-          {
-            "key": "irregular_menses",
-            "text": "অনিয়মিত মাসিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "irregular_menses"
-          },
-          {
-            "key": "tender_breasts",
-            "text": "স্তনে ব্যথা",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "tender_breasts"
-          },
-          {
-            "key": "lactose_deficiency",
-            "text": "বুকের দুধ কমে যাওয়া",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "lactose_deficiency"
-          },
-          {
-            "key": "dyspnoea",
-            "text": "বুকে ব্যথা ও শ্বাসকষ্ট",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "dyspnoea"
-          },
-          {
-            "key": "other_option",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "other_option"
-          }
-        ],
-        "relevance": {
-          "step1:complications_known": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "familyplanning_referral",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "familyplanning_referral",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পরিবার পরিকল্পনা পদ্ধতি গ্রহণের কারণে জটিলতার জন্য রেফার করা হয়েছিলো?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_elco_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "familyplanning_referral_location",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "familyplanning_referral_location",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "কোথায় রেফার করা হয়েছিলো?",
-        "values": [
-          "উপজেলা স্বাস্থ্য কেন্দ্র",
-          "এফডব্লিউসি",
-          "এমসিডব্লিউসি",
-          "এনজিও ক্লিনিক",
-          "মেডিকেল কলেজ হাসপাতাল",
-          "জেলা হাসপাতাল"
-        ],
-        "openmrs_choice_ids": {
-          "উপজেলা স্বাস্থ্য কেন্দ্র": "upazila_health_center",
-          "এফডব্লিউসি":"FWCE",
-          "এমসিডব্লিউসি": "MCWCE",
-          "এনজিও ক্লিনিক": "NGO_Clinic",
-          "মেডিকেল কলেজ হাসপাতাল": "medical_college_hospital",
-          "জেলা হাসপাতাল": "zilla_hospital"
-        },
-        "v_required": {
-          "value": true,
-          "err": "রেফার এর ঠিকানা নির্বাচন করুন "
-        },
-        "relevance": {
-          "step1:familyplanning_referral": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
-        "key": "refer_place_visit",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "refer_place_visit",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "রেফারকৃত স্থানে গিয়েছিলেন?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:familyplanning_referral": {
             "type": "string",
             "ex": "equalTo(., \"হ্যাঁ\")"
           }
@@ -501,7 +307,6 @@
           }
         }
       },
-
       {
         "key": "permanent_process",
         "openmrs_entity_parent": "",
@@ -527,103 +332,6 @@
         }
       },
       {
-        "key": "last_lmp_weeks",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "last_lmp_weeks",
-        "type": "edit_text",
-        "hint": "কয় সপ্তাহ আগে মাসিক হয়েছিল?",
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি অবশ্যই পূর্ণসংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "[0-9]*",
-          "err": "দশমিক অনুমোদিত নয়"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "LMP required"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_elco_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "pregnancy_test_taken",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pregnancy_test_taken",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "গর্ভবতী পরীক্ষা কি করেছেন?",
-        "values": [
-          "হ্যাঁ",
-          "না"
-        ],
-        "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:last_lmp_weeks": {
-            "type": "numeric",
-            "ex": "greaterThanEqualTo(., \"7\")"
-          }
-        }
-      },
-      {
-        "key": "advice_toaster_1",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "toaster_notes",
-        "text": "আপনি গর্ভবতী কিনা তা জানা প্রয়োজন, এ ক্ষেত্রে আপনি ব্রাকের স্বাস্থ্য সেবিকার সহায়তা নিতে পারেন।",
-        "text_color": "#CF0800",
-        "toaster_type": "info",
-        "relevance": {
-          "step1:pregnancy_test_taken": {
-            "type": "string",
-            "ex": "equalTo(., \"না\")"
-          }
-        }
-      },
-      {
-        "key": "pregnancy_test_result",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "pregnancy_test_result",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "পরীক্ষার ফলাফল কি?",
-        "values": [
-          "গর্ভবতী",
-          "গর্ভবতী নয়"
-        ],
-        "openmrs_choice_ids": {
-          "গর্ভবতী": "pregnant",
-          "গর্ভবতী নয়": "not-pregnant"
-        },
-        "v_required": {
-          "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
-        },
-        "relevance": {
-          "step1:pregnancy_test_taken": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
-        }
-      },
-      {
         "key": "latitude",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -640,8 +348,210 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      }
-    ,
+      },
+
+
+      {
+        "key": "reasons_for_not_using_the_family_planning_system",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "reasons_for_not_using_the_family_planning_system",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "পরিবার পরিকল্পনা পদ্ধতি ব্যবহার না করার কারন",
+        "values": [
+          "স্বামী বিদেশ",
+          "মাসিক বন্ধ",
+          "জটিলতা হয়েছিল",
+          "উত্তীর্ন",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "স্বামী বিদেশ": "husband_is_abroad",
+          "মাসিক বন্ধ": "closed_monthly",
+          "জটিলতা হয়েছিল": "conplications",
+          "উত্তীর্ন": "passed",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "কারন নির্বাচন করুন"
+        },
+        "relevance": {
+          "step1:familyplanning_method_known": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        }
+      },
+      {
+        "key": "distribution_location",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "distribution_location",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
+        "values": [
+          "ব্র্যাক স্বাস্থ্য সেবিকা",
+          "সরকারী",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "ব্র্যাক স্বাস্থ্য সেবিকা":"brac_health_worker",
+          "সরকারী": "official",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "পদ্ধতি কোথা থেকে সংগ্রহ করেছেন নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "distribution_location_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "distribution_location_other",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "পদ্ধতিটি কোথা থেকে গ্রহণ করা হয়েছিল",
+        "values": [
+          "সরকারী",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "সরকারী": "official",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "পদ্ধতি কোথা থেকে সংগ্রহ করেছেন নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_elco_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "complications_known",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "complications_known",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "পদ্ধতি ব্যবহারের সময় কোন জটিলতা হয়েছিল?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:familyplanning_method_known": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "type_of_complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "type_of_complications",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "label": "কি ধরণের জটিলতা হয়েছিল?",
+        "exclusive": [
+          "noIdentifier"
+        ],
+        "options": [
+          {
+            "key": "bleeding",
+            "text": "অতিরিক্ত রক্তক্ষরণ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "bleeding"
+          },
+          {
+            "key": "closed_monthly",
+            "text": "মাসিক বন্ধ",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "closed_monthly"
+          },
+          {
+            "key": "cramps",
+            "text": "তলপেটে ব্যথা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "cramps"
+          },
+          {
+            "key": "nausea",
+            "text": "মাথা ঘোরা/ বমি বমি ভাব",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "nausea"
+          },
+          {
+            "key": "irregular_menses",
+            "text": "অনিয়মিত মাসিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "irregular_menses"
+          },
+          {
+            "key": "tender_breasts",
+            "text": "স্তনে ব্যথা",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "tender_breasts"
+          },
+          {
+            "key": "lactose_deficiency",
+            "text": "বুকের দুধ কমে যাওয়া",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "lactose_deficiency"
+          },
+          {
+            "key": "dyspnoea",
+            "text": "বুকে ব্যথা ও শ্বাসকষ্ট",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "dyspnoea"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ],
+        "relevance": {
+          "step1:complications_known": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        }
+      },
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

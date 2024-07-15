@@ -218,6 +218,17 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return nameCount;
     }
+    public static void updateBloodGroupMobileNID(String base_entity_id, String bloodGroup, String mobileNo, String nid, String brid){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set blood_group = '"+bloodGroup+"',phone_number = '"+mobileNo+"',national_id = '"+nid+"',birth_id ='"+brid+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
     public static void updateBloodGroup(String base_entity_id, String value){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
@@ -1133,6 +1144,77 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return motherName;
     }
+    public static String[] getEddLmpAndHeight(String baseEntityId){
+        String query = "select edd,height,last_menstrual_period from ec_anc_register where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String[] data= new String[3];
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                data[0] = cursor.getString(0);
+                data[1] = cursor.getString(1);
+                data[2] = cursor.getString(2);
+            }
+
+            return data;
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return data;
+    }
+    public static String[] getWeightFromBaseEntityId(String baseEntityId){
+        String query = "select weight,weight_date,national_id,birth_id,phone_number,blood_group from ec_family_member where base_entity_id = '"+baseEntityId+"'";
+        Cursor cursor = null;
+        String[] weight = new String[6];
+
+        weight[0] = "0";
+        weight[1] = "0";
+        weight[2] = "";
+        weight[3] = "";
+        weight[4] = "";
+        weight[5] = "";
+
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() >0){
+                cursor.moveToFirst();
+                weight[0] = cursor.getString(0);
+                if(weight[0] == null){
+                    weight[0] = "0";
+                }
+                weight[1] = cursor.getLong(1)+"";
+                weight[2] = cursor.getString(2);
+                weight[3] = cursor.getString(3);
+                weight[4] = cursor.getString(4);
+                weight[5] = cursor.getString(5);
+            }
+
+            return weight;
+        } catch (Exception e) {
+            Timber.e(e);
+
+        }
+        finally {
+            if(cursor !=null) cursor.close();
+        }
+        return weight;
+    }
+    public static void updateMemberWeight(String base_entity_id, String weight, long weightDate){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set "+HnppConstants.KEY.MEMBER_WEIGHT+" = '"+weight+"' , "+HnppConstants.KEY.WEIGHT_DATE+" = '"+weightDate+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
     public static String getFamilyIdFromBaseEntityId(String baseEntityId){
         String query = "select relational_id from ec_family_member where base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
@@ -1300,4 +1382,9 @@ public class HnppDBUtils extends CoreChildUtils {
         return TextUtils.isEmpty(mName)?motherName:mName;
     }
 
+    public static String getDob(String baseEntityId) {
+        String lmp = "SELECT dob FROM ec_family_member where base_entity_id = ? ";
+        List<Map<String, String>> valus = AbstractDao.readData(lmp, new String[]{baseEntityId});
+        return valus.size()>0?valus.get(0).get("dob"):"";
+    }
 }

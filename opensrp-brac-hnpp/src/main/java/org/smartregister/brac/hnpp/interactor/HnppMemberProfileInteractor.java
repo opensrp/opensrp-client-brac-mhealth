@@ -90,6 +90,16 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                                 memberProfileDueData2.setFrom(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION);
                             }
                             memberProfileDueDataArrayList.add(memberProfileDueData2);
+                        }else if(FormApplicability.isOnlyANCDue(baseEntityId)){
+                            MemberProfileDueData memberProfileDueData2 = new MemberProfileDueData();
+                            memberProfileDueData2.setImageSource(R.mipmap.ic_anc_pink);
+                            memberProfileDueData2.setType(TAG_OPEN_ANC1);
+                            memberProfileDueData.setEventType(eventType);
+                            memberProfileDueData2.setTitle(HnppConstants.visitEventTypeMapping.get(eventType));
+                            if (eventType.equals(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)) {
+                                memberProfileDueData2.setFrom(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION);
+                            }
+                            memberProfileDueDataArrayList.add(memberProfileDueData2);
                         }
                         break;
                 }

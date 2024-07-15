@@ -1078,6 +1078,9 @@ public class HnppConstants extends CoreConstants {
         public static final String DATE_CREATED = "date_created";
 
         public static final String BIRTH_WEIGHT = "birth_weight";
+        public static final String MEMBER_WEIGHT = "weight";
+        public static final String WEIGHT_DATE = "weight_date";
+        public static final String WOMAN_WEIGHT = "woman_weight";
     }
 
     public static class IDENTIFIER {

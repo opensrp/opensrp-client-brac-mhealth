@@ -232,6 +232,29 @@
         }
       },
       {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "age_calculated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "age_calculated",
+        "hint": "বয়স",
+        "type": "edit_text",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "latitude",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

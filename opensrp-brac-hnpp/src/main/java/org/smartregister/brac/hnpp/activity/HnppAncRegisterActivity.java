@@ -32,12 +32,14 @@ import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.listener.HnppFamilyBottomNavListener;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
+import org.smartregister.brac.hnpp.presenter.HnppChildProfilePresenter;
 import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.service.HnppHomeVisitIntentService;
 import org.smartregister.brac.hnpp.sync.FormParser;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.brac.hnpp.utils.MemberTypeEnum;
 import org.smartregister.chw.anc.AncLibrary;
@@ -90,6 +92,7 @@ import timber.log.Timber;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.FIELDS;
 import static com.vijay.jsonwizard.constants.JsonFormConstants.STEP1;
 import static org.smartregister.chw.anc.util.Constants.TABLES.EC_CHILD;
+import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 
 
 public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
@@ -200,10 +203,7 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
 
         try {
             visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
-            ANCRegister ancRegister = null;
-            if (form_name != null && form_name.equals(HnppConstants.JSON_FORMS.ANC_FORM)) {
-                ancRegister = visitLogRepository.getLastANCRegister(getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID));
-            }
+
             try{
                 HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
             }catch (Exception e){
@@ -220,11 +220,21 @@ public class HnppAncRegisterActivity extends CoreAncRegisterActivity {
             form.setWizard(false);
             Intent intent = new Intent(this, HnppAncJsonFormActivity.class);
 
+
             JSONObject stepOne = jsonForm.getJSONObject(JsonFormUtils.STEP1);
             JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
-            updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
-            updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
-            updateFormField(jsonArray, "temp_name", motherName+" এর বাবু");
+            if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_FORM)){
+                String DOB = HnppDBUtils.getDob(baseEntityId);
+                Date date = Utils.dobStringToDate(DOB);
+                String dobFormate = HnppConstants.DDMMYY.format(date);
+                updateFormField(jsonArray,"dob",dobFormate);
+            }
+            if(form_name.equalsIgnoreCase(HnppConstants.JSON_FORMS.PREGNANCY_OUTCOME)){
+                updateFormField(jsonArray, DBConstants.KEY.UNIQUE_ID, unique_id);
+                updateFormField(jsonArray, DBConstants.KEY.TEMP_UNIQUE_ID, unique_id);
+                updateFormField(jsonArray, "temp_name", motherName+" এর বাবু");
+            }
+
             updateMinDate(jsonArray);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAM_NAME, familyName);
             updateFormField(jsonArray, CoreConstants.JsonAssets.FAMILY_MEMBER.PHONE_NUMBER, phone_number);

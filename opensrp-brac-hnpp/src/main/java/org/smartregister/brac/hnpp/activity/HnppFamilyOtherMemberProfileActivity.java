@@ -30,6 +30,7 @@ import com.simprints.libsimprints.Tier;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -321,6 +322,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setProfileDetailThree(String detailThree) {
         super.setProfileDetailThree(detailThree);
@@ -430,7 +432,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>formName:"+formName);
 
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
+//            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             try{
                 HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
             }catch (Exception e){
@@ -449,7 +451,27 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC1_FORM) ||
                     formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC2_FORM) ||
                     formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC3_FORM)){
+                String[] eddAndHeight = HnppDBUtils.getEddLmpAndHeight(baseEntityId);
+                HnppJsonFormUtils.addJsonKeyValue(jsonForm,"edd",eddAndHeight[0]);
+                HnppJsonFormUtils.addJsonKeyValue(jsonForm,"height", eddAndHeight[1]);
                 HnppJsonFormUtils.addLastAnc(jsonForm,baseEntityId,false);
+                try{
+                    HnppJsonFormUtils.addAddToStockValue(jsonForm);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                if(weights.length>0){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                    //national_id,birth_id,phone_number,blood_group
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"national_id",weights[2]+"");
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"birth_id",weights[3]+"");
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"phone_number",weights[4]+"");
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"blood_group",weights[5]+"");
+                    HnppJsonFormUtils.addIdTypeAtForm(jsonForm,weights[2],weights[3]);
+                }
             } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)||
                formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
                     ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)  ){
@@ -462,6 +484,12 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","true");
                 }else{
                     HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"is_valid_lmp","false");
+                }
+                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                if(weights.length>0){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
+                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
                 }
 
             }
@@ -602,6 +630,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             checkedItem = checkedItem+","+text;
         }
     }
+    @SuppressLint("SetTextI18n")
     private void disagreeDialog(){
         Dialog dialog = new Dialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -708,6 +737,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
         dialog.show();
 
     }
+    @SuppressLint("SetTextI18n")
     private void showVerifyDialog(){
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -915,6 +945,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                                 @Override
                                 public void onComplete() {
                                     Log.d("visitCalledCompleted","true");
+                                    FormApplicability.clearSetOnlyANCDue(baseEntityId);
                                     if(isSave.get() == 1){
                                         hideProgressDialog();
                                         showServiceDoneDialog(1);
@@ -981,7 +1012,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
 
                     String fullName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
                     generatedString = HnppJsonFormUtils.getValuesFromRegistrationForm(form);
-                    title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2],generatedString[1]);
+                    title = String.format(getString(R.string.dialog_confirm_save),fullName,generatedString[0],generatedString[2]);
 
                     HnppConstants.showSaveFormConfirmationDialog(this, title, new OnDialogOptionSelect() {
                         @Override
@@ -1048,6 +1079,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                FormApplicability.setOnlyANCDue(baseEntityId);
                 if(FormApplicability.isFirstTimeAnc(baseEntityId)){
                     openHomeVisitForm();
                 }else {

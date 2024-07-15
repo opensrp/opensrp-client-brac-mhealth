@@ -215,7 +215,6 @@
           }
         }
       },
-
       {
         "key": "no_still_born",
         "openmrs_entity_parent": "",
@@ -249,7 +248,6 @@
           }
         }
       },
-
       {
         "key": "no_miscarriage",
         "openmrs_entity_parent": "",
@@ -283,7 +281,6 @@
           "err": "দশমিক অনুমোদিত নয়"
         }
       },
-
       {
         "key": "no_born_alive_died",
         "openmrs_entity_parent": "",
@@ -346,7 +343,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "is_tt_completed",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "আপনার কি টিটি টিকা ডোজ সম্পূর্ণ করা আছে?",
         "values": [
           "হ্যাঁ",
@@ -733,12 +730,29 @@
           }
         }
       },
-
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      },
 
 
       {
         "key": "baby_label",
-        "type": "label",
+        "type": "hidden",
         "text": "নবজাতকের তথ্য",
         "has_bg": true,
         "left_padding": "20dp",
@@ -808,7 +822,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "openmrs_data_type": "text",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "নাম",
         "expanded": false,
         "edit_type": "name",
@@ -854,7 +868,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "gender",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "লিঙ্গ",
         "values": [
           "পুরুষ",
@@ -887,7 +901,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Relation_with_HOH",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "খানা প্রধান এই সদস্যের কি হয়?",
         "values": [
           "মা/আম্মা",
@@ -930,7 +944,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight_taken",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "জন্মকালীন ওজন নেওয়া হয়েছে?",
         "values": [
           "হ্যাঁ",
@@ -961,7 +975,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "birth_weight",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "জন্মকালীন ওজন(কেজি)",
         "v_numeric": {
           "value": "true",
@@ -1014,7 +1028,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "chlorohexadin",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "নাভিতে ৭.১% ক্লোরোহেক্সিডিন দেয়া হয়েছে কিনা?",
         "values": [
           "হ্যাঁ",
@@ -1040,13 +1054,12 @@
           }
         }
       },
-
       {
         "key": "breastfeeding_time_in_hour",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "breastfeeding_time_in_hour",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "প্রসবের কতক্ষনের মধ্যে মায়ের দুধ খাওয়ানো হয়েছে? (ঘন্টা)",
         "values": [
           "১ ঘন্টা",
@@ -1118,13 +1131,12 @@
           }
         }
       },
-
       {
         "key": "head_body_covered",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "head_body_covered",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "শিশুর মাথা সহ শরীর মোড়ানো হয়েছে কিনা ?",
         "values": [
           "হ্যাঁ",
@@ -1155,7 +1167,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "physically_challenged",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "শিশুর জন্ম গত ক্রুটি আছে কিনা?",
         "values": [
           "হ্যাঁ",
@@ -1186,7 +1198,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "which_problem",
-        "type": "check_box",
+        "type": "hidden",
         "label": "কোন ক্রুটি আছে?",
         "label_text_style": "bold",
         "text_color": "#000000",
@@ -1242,7 +1254,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "problem_other",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "লিখুন",
         "relevance": {
           "step1:which_problem": {
@@ -1256,145 +1268,6 @@
           }
         }
       },
-
-      {
-        "key": "refer_reason",
-        "type": "label",
-        "text":"রেফারেল এর কারণ: প্রসবের ফলাফল সংক্রান্ত সমস্যা",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": ""
-      },
-      {
-        "key": "other_refer_reason",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_refer_reason",
-        "type": "edit_text",
-        "hint": "অন্যান্য কারণ "
-      },
-      {
-        "key": "place_of_referral",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "place_of_referral",
-        "type": "check_box",
-        "label": "রেফারের স্থান",
-        "exclusive": [
-          "None"
-        ],
-        "options": [
-          {
-            "key": "brac_maternity_center",
-            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "brac_maternity_center"
-          },
-          {
-            "key": "union_health_center",
-            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_health_center"
-          },
-          {
-            "key": "upozzila_health_complex",
-            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "upozzila_health_complex"
-          },
-          {
-            "key": "union_family_kollan_center",
-            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_family_kollan_center"
-          },
-          {
-            "key": "union_health_and_family_kollan_center",
-            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_health_and_family_kollan_center"
-          },
-          {
-            "key": "mother_child_kollan_center",
-            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "mother_child_kollan_center"
-          },
-          {
-            "key": "center_hospital",
-            "text": "সদর হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "center_hospital"
-          },
-          {
-            "key": "medical_collage_hospital",
-            "text": "মেডিকেল কলেজ হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "medical_collage_hospital"
-          },
-          {
-            "key": "private_clinic",
-            "text": "বেসরকারি ক্লিনিক",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "private_clinic"
-          },
-          {
-            "key": "spacial_hospital",
-            "text": "বিশেষায়িত হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "spacial_hospital"
-          },
-          {
-            "key": "other_option",
-            "text": "অন্যান্য",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "other_option"
-          }
-        ]
-      },
-      {
-        "key": "advice",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "advice",
-        "type": "edit_text",
-        "hint": "উপদেশ"
-      },
-      {
-        "key": "latitude",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "latitude",
-        "type": "edit_text",
-        "read_only": true,
-        "hint": "অক্ষাংশ"
-      },
-      {
-        "key": "longitude",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "longitude",
-        "type": "edit_text",
-        "read_only": true,
-        "hint": "দ্রাঘিমা"
-      }
-    ,
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

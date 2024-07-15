@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,7 @@ import org.smartregister.brac.hnpp.repository.HnppVisitLogRepository;
 import org.smartregister.brac.hnpp.utils.ANCRegister;
 import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
+import org.smartregister.brac.hnpp.utils.HnppDBUtils;
 import org.smartregister.brac.hnpp.utils.HnppHomeVisitActionHelper;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.contract.BaseAncHomeVisitContract;
@@ -82,6 +84,21 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     }
                     try{
                         HnppJsonFormUtils.updateLatitudeLongitude(jsonPayload,latitude,longitude);
+                    }catch (Exception e){
+
+                    }
+                    try{
+                        String[] weights = HnppDBUtils.getWeightFromBaseEntityId(memberObject.getBaseEntityId());
+                        if(weights.length>0){
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"previous_weight",weights[0]);
+                            int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"month_diff",monthDiff+"");
+                            //national_id,birth_id,phone_number,blood_group
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"national_id",weights[2]+"");
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"birth_id",weights[3]+"");
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"phone_number",weights[4]+"");
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"blood_group",weights[5]+"");
+                        }
                     }catch (Exception e){
 
                     }

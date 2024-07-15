@@ -1,5 +1,5 @@
 {
-  "count": "2",
+  "count": "1",
   "encounter_type": "Family Details",
   "entity_id": "",
   "relational_id": "",
@@ -53,7 +53,6 @@
   },
   "step1": {
     "title": "খানা নিবন্ধন",
-    "next": "step2",
     "fields": [
       {
         "key": "module_id",
@@ -221,6 +220,7 @@
           "value": "true",
           "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
         },
+
         "v_regex": {
           "value": "0|(01[1-9][0-9]{8})|\s*",
           "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
@@ -248,24 +248,106 @@
         },
         "v_regex": {
           "value": "(5[0]|[1-4][0-9]|[1-9])|\s*",
-          "err": "সদস্য সংখ্যা অবশ্যই ১-৫০ এর মধ্যে হবে এবং প্রথমে ০ দিয়ে শুরু করা যাবে না"
+          "err": "সদস্য সংখ্যা অবশ্যই ১-২৫ এর মধ্যে হবে এবং প্রথমে ০ দিয়ে শুরু করা যাবে না"
         },
         "v_max_length": {
           "value": "2",
-          "err": "সর্বোচ্চ 50 হতে হবে",
+          "err": "সর্বোচ্চ ২৫ হতে হবে",
           "is_fixed_size":true
         },
         "v_min_length": {
           "value": "1",
           "err": "সর্বনিম্ন 1 হতে হবে"
+        },
+        "v_max": {
+          "value": "25",
+          "err": "সর্বোচ্চ ২৫ হতে হবে"
         }
       },
+      {
+        "key": "occupation",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "hh_occupation",
+        "type": "spinner",
+        "hint": "খানা প্রধানের পেশাঃ",
+        "values": [
+          "কৃষি কাজ",
+          "গার্মেন্টস কর্মী",
+          "চাকুরি",
+          "প্রযুক্তিগত কর্মী (যেমন: ড্রাইভার/ ইলেকট্রিশিয়ান/ওয়েল্ডিং/মেকানিকস/রং মিস্ত্রি/রাজমিস্ত্রি)",
+          "দিন মজুর",
+          "বিক্রেতা/দোকানদার/সবজি বা মাছ বিক্রেতা/খুচরা বিক্রেতা/মোবাইল কার্ড বিক্রেতা",
+          "ব্যবসায়ী",
+          "বৈদেশিক কাজ/ কর্মী",
+          "স্ব-নিযুক্ত",
+          "বেকার",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "কৃষি কাজ": "farmer",
+          "গার্মেন্টস কর্মী": "textile",
+          "চাকুরি": "service",
+          "প্রযুক্তিগত কর্মী (যেমন: ড্রাইভার/ ইলেকট্রিশিয়ান/ওয়েল্ডিং/মেকানিকস/রং মিস্ত্রি/রাজমিস্ত্রি)": "technician",
+          "দিন মজুর": "labour",
+          "বিক্রেতা/দোকানদার/সবজি বা মাছ বিক্রেতা/খুচরা বিক্রেতা/মোবাইল কার্ড বিক্রেতা": "shopkeeper",
+          "ব্যবসায়ী": "businessman",
+          "বৈদেশিক কাজ/ কর্মী": "expatriate",
+          "স্ব-নিযুক্ত": "selfemployed",
+          "বেকার":"unemployed",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": "true",
+          "err": " পেশা নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "occupation_other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "hh_occupation_other",
+        "type": "edit_text",
+        "hint": "লিখুন",
+        "relevance": {
+          "step2:occupation": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "financial_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "hh_financial_status",
+        "type": "edit_text",
+        "hint": "খানার আর্থিক অবস্থাঃ",
+        "openmrs_data_type": "text",
+        "v_numeric": {
+          "value": "true",
+          "err": "অবশ্যই সংখ্যা হতে হবে"
+        },
+        "v_max": {
+          "value": "500000",
+          "err": "সর্বোচ্চ 25 হতে হবে"
+        },
+        "v_min": {
+          "value": "0",
+          "err": ""
+        },
+        "v_required": {
+          "value": "true",
+          "err": " আর্থিক অবস্থা নির্বাচন করুন"
+        }
+      },
+
       {
         "key": "has_latrine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Has_Latrine",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "খানায় স্যানিটারি ল্যাট্রিন আছে কিনা?",
         "values": [
           "হ্যাঁ",
@@ -280,7 +362,6 @@
           "err": "স্যানিটারি ল্যাট্রিন নির্বাচন করুন"
         }
       }
-
     ]
   },
   "step2": {

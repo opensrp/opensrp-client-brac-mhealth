@@ -319,7 +319,12 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                                 && FormApplicability.isFirstTimeAnc(baseEntityId)){
                             activity.openHomeVisitForm();
                         }else {
-                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                            if(FormApplicability.isFirstTimeAnc(baseEntityId)){
+                                activity.openHomeVisitForm();
+                            }else {
+                                activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
+                            }
+
                         }
                     }
                     break;

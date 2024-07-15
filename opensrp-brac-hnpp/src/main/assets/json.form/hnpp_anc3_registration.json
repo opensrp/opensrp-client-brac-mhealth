@@ -74,6 +74,137 @@
         "type": "hidden"
       },
       {
+        "key": "phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "phone_number",
+        "type": "edit_text",
+        "hint": "মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        }
+      },
+      {
+        "key": "id_avail",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "id_avail",
+        "type": "check_box",
+        "label": "আপনার কোন পরিচয় পত্রটি আছে?",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "chk_national_id",
+            "text": "জাতীয় পরিচয় পত্র",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_national_id"
+          },
+          {
+            "key": "chk_birth_id",
+            "text": "BRID",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_birth_id"
+          },
+          {
+            "key": "chk_none",
+            "text": "কোনটিই নেই",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_none"
+          }
+        ],
+        "v_required": {
+          "value": true,
+          "err": "পরিচয়পত্র নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "national_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "national_id",
+        "type": "edit_text",
+        "hint": "জাতীয় পরিচয় পত্র",
+        "v_required": {
+          "value": "true",
+          "err": "জাতীয় পরিচয় পত্র আইডি লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{10})|([0-9]{13})|([0-9]{17})|\\s*",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_national_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "birth_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "birth_id",
+        "type": "exit_text",
+        "hint": "জন্ম নিবন্ধন সনদ",
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{16})|([0-9]{17})|\\s*",
+          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "জন্ম নিবন্ধন সনদ আইডি লিখুন"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_birth_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "edd",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -1220,7 +1351,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "blood_sugar_test_condition",
         "openmrs_data_type": "",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "কোন অবস্থায় পরীক্ষা করছেন?",
         "values": [
           "ফাস্টিং",
@@ -1240,7 +1371,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "fasting_blood_sugar",
-        "type": "edit_text",
+        "type": "hidden",
         "hint": "ফাস্টিং",
         "v_numeric": {
           "value": "true",
@@ -1281,6 +1412,23 @@
               "rules-file": "hnpp_advice_relevance.yml"
             }
           }
+        }
+      },
+      {
+        "key": "glucometer_ok",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "glucometer_ok",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "গ্লুকোমিটার ঠিক আছে ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
         }
       },
       {
@@ -1529,51 +1677,41 @@
           "err": "প্রশ্নের উত্তর দিন"
         }
       },
+
       {
-        "key": "has_other_complication",
+        "key": "blood_group",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "has_other_complication",
-        "openmrs_data_type": "",
-        "type": "spinner",
-        "hint": "অন্যান্য উপসর্গ / অসুবিধা / জটিলতা আছে কিনা ?",
+        "openmrs_entity_id": "blood_group",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "hint": "সদস্যের রক্তের  গ্রূপ কোনটি সনাক্ত হয়েছে?",
         "values": [
-          "হ্যাঁ",
-          "না"
+          "A+",
+          "A-",
+          "B+",
+          "B-",
+          "O+",
+          "O-",
+          "AB+",
+          "AB-",
+          "রক্তের গ্রুপ জানা নেই"
         ],
         "openmrs_choice_ids": {
-          "হ্যাঁ": "Yes",
-          "না": "No"
-        }
-      },
-      {
-        "key": "other_complication",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_complication",
-        "type": "edit_text",
-        "hint": "লিখুন ",
-        "relevance": {
-          "step1:has_other_complication": {
-            "type": "string",
-            "ex": "equalTo(., \"হ্যাঁ\")"
-          }
+          "A+": "A+",
+          "A-": "A-",
+          "B+": "B+",
+          "B-": "B-",
+          "O+": "O+",
+          "O-": "O-",
+          "AB+": "AB+",
+          "AB-": "AB-",
+          "রক্তের গ্রুপ জানা নেই": "Do Not Know Blood Group"
         },
         "v_required": {
           "value": true,
-          "err": "প্রশ্নের উত্তর দিন"
+          "err": "রক্ত গ্রুপ নির্বাচন করুন"
         }
-      },
-      {
-        "key": "corona_note",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "label",
-        "text": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য জানতে এখানে চাপ দিন",
-        "text_size": "25sp",
-        "label_info_title": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য",
-        "label_info_text": " -> গর্ভবতী ও প্রসূতি মা প্রয়োজন না হলে ঘর থেকে বের হবেন না। একান্ত প্রয়োজন না হলে লোক সমাগম বেশী এমন স্থান যেমন মার্কেট,বাজার ইত্যাদি এড়িয়ে চলবেন।\n -> বাহির হতে ঘরে ফেরার পর গর্ভবতীসহ বাড়ির সবাইকে বারবার যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> পরিহিত কাপড় প্রতিদিন ধুয়ে ফেলতে হবে।\n -> গর্ভবতী ও প্রসূতি মা বাড়িতে গবাদি পশু ( গরু, ছাগল, ভেড়া ইত্যাদি)ও হাসঁ-মুরগীর  যত্ন করলে অবশ্যই  যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> হাঁচি-কাশির শিষ্টাচার মেনে চলবেন। টিস্যু, রুমাল  ব্যবহার করবেন অথবা কনুই এর ভাঁজে হাঁচি-কাশি দিবেন। ব্যবহৃত টিস্যু ঢাকনাযুক্ত ডাস্টবিনে ফেলুন এবং ব্যবহৃত রুমাল বা কাপড় সাবান দিয়ে ধুয়ে ফেলবেন।\n -> জ্বর, হাঁচি -কাশিতে আক্রান্ত ব্যক্তির সংষ্পর্শ এড়িয়ে চলুন। এমনকি পরিবারের কেউ সর্দি জ্বরে আক্রান্ত হলে গর্ভবতী মা তার সংষ্পর্শে আসবেন না।\n -> নিয়মিত আয়রণ ও ক্যালসিয়াম ট্যাবলেট খাবেন।\n-> খাবার বিশেষ করে মাছ, মাংস ও ডিম ভালোভাবে সিদ্ধ করে খেতে হবে এবং কাঁচা দুধ খাওয়া যাবেনা।\n -> খাওয়ার পূর্বে ফলমূল এবং রান্নার পূর্বে শাক-সব্জি ভালোভাবে ধুয়ে খেতে হবে। এসময় প্রচুর পানি পান করবেন ও ভিটামিন  ’সি’ সমৃদ্ধ খাবার যেমন: লেবু,আমলকি, পেয়ারা,কাঁচামরিচ,আমড়া ইত্যাদি বেশী খাবেন ।\n -> করোনা পজিটিভ মা অবশ্যই নবজাতক ও শিশুকে নিচের নিয়ম মেনে বুকের দুধ খাওয়াতে পারবেন:\n\t * নবজাতক ও শিশুর সংষ্পর্শে আসার আগে ও পরে স্বাস্থ্যবিধি অনুসারে হাত ধুয়ে নিতে হবে\n\t * বুকের দুধ খাওয়ানোর আগে ও পরে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে নিতে হবে ও অবশ্যই মাস্ক ব্যবহার করতে হবে।\n\t * করোনা ভাইরাস পজিটিভ মা যদি বেশী অসুস্থ হয় তবে সেক্ষেত্রে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে বুকের দুধ চেপে বের করে নবজাতক ও শিশুকে খাওয়াতে পারবেন।\n"
       },
       {
         "key": "refer_reason",
@@ -1589,14 +1727,6 @@
         "openmrs_entity_id": ""
       },
       {
-        "key": "other_refer_reason",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_refer_reason",
-        "type": "edit_text",
-        "hint": "অন্যান্য কারণ "
-      },
-      {
         "key": "place_of_referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -1608,18 +1738,18 @@
         ],
         "options": [
           {
-            "key": "brac_maternity_center",
-            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "brac_maternity_center"
+            "openmrs_entity_id": "medical_collage_hospital"
           },
           {
-            "key": "union_health_center",
-            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "key": "govt_hospital",
+            "text": "সরকারী হাসপাতাল",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_health_center"
+            "openmrs_entity_id": "govt_hospital"
           },
           {
             "key": "upozzila_health_complex",
@@ -1629,53 +1759,26 @@
             "openmrs_entity_id": "upozzila_health_complex"
           },
           {
-            "key": "union_family_kollan_center",
-            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_family_kollan_center"
-          },
-          {
-            "key": "union_health_and_family_kollan_center",
-            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "union_health_and_family_kollan_center"
-          },
-          {
-            "key": "mother_child_kollan_center",
-            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "mother_child_kollan_center"
-          },
-          {
-            "key": "center_hospital",
-            "text": "সদর হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "center_hospital"
-          },
-          {
-            "key": "medical_collage_hospital",
-            "text": "মেডিকেল কলেজ হাসপাতাল",
-            "value": false,
-            "openmrs_entity": "concept",
-            "openmrs_entity_id": "medical_collage_hospital"
-          },
-          {
             "key": "private_clinic",
-            "text": "বেসরকারি ক্লিনিক",
+            "text": "বেসরকারি হাসপাতাল/ক্লিনিক",
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "private_clinic"
           },
+
           {
-            "key": "spacial_hospital",
-            "text": "বিশেষায়িত হাসপাতাল",
+            "key": "govt_dhfp_kollan_center",
+            "text": "স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
             "value": false,
             "openmrs_entity": "concept",
-            "openmrs_entity_id": "spacial_hospital"
+            "openmrs_entity_id": "govt_dhfp_kollan_center"
+          },
+          {
+            "key": "coommunity_clinic",
+            "text": "কমিউনিটি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "coommunity_clinic"
           },
           {
             "key": "other_option",
@@ -1686,14 +1789,7 @@
           }
         ]
       },
-      {
-        "key": "advice",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "advice",
-        "type": "edit_text",
-        "hint": "উপদেশ"
-      },
+
       {
         "key": "latitude",
         "openmrs_entity_parent": "",
@@ -1711,8 +1807,61 @@
         "type": "edit_text",
         "read_only": true,
         "hint": "দ্রাঘিমা"
-      }
-    ,
+      },
+      {
+        "key": "has_other_complication",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "has_other_complication",
+        "openmrs_data_type": "",
+        "type": "hidden",
+        "hint": "অন্যান্য উপসর্গ / অসুবিধা / জটিলতা আছে কিনা ?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        }
+      },
+      {
+        "key": "other_complication",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_complication",
+        "type": "hidden",
+        "hint": "লিখুন ",
+        "relevance": {
+          "step1:has_other_complication": {
+            "type": "string",
+            "ex": "equalTo(., \"হ্যাঁ\")"
+          }
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "corona_note",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "text": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য জানতে এখানে চাপ দিন",
+        "text_size": "25sp",
+        "label_info_title": "করোনা কালীন গর্ভবতী পরিচর্যা সংক্রান্ত তথ্য",
+        "label_info_text": " -> গর্ভবতী ও প্রসূতি মা প্রয়োজন না হলে ঘর থেকে বের হবেন না। একান্ত প্রয়োজন না হলে লোক সমাগম বেশী এমন স্থান যেমন মার্কেট,বাজার ইত্যাদি এড়িয়ে চলবেন।\n -> বাহির হতে ঘরে ফেরার পর গর্ভবতীসহ বাড়ির সবাইকে বারবার যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> পরিহিত কাপড় প্রতিদিন ধুয়ে ফেলতে হবে।\n -> গর্ভবতী ও প্রসূতি মা বাড়িতে গবাদি পশু ( গরু, ছাগল, ভেড়া ইত্যাদি)ও হাসঁ-মুরগীর  যত্ন করলে অবশ্যই  যেকোন সাবান দিয়ে ভালো করে (২০ সেকেন্ড যাবত) হাত ধুতে হবে।\n -> হাঁচি-কাশির শিষ্টাচার মেনে চলবেন। টিস্যু, রুমাল  ব্যবহার করবেন অথবা কনুই এর ভাঁজে হাঁচি-কাশি দিবেন। ব্যবহৃত টিস্যু ঢাকনাযুক্ত ডাস্টবিনে ফেলুন এবং ব্যবহৃত রুমাল বা কাপড় সাবান দিয়ে ধুয়ে ফেলবেন।\n -> জ্বর, হাঁচি -কাশিতে আক্রান্ত ব্যক্তির সংষ্পর্শ এড়িয়ে চলুন। এমনকি পরিবারের কেউ সর্দি জ্বরে আক্রান্ত হলে গর্ভবতী মা তার সংষ্পর্শে আসবেন না।\n -> নিয়মিত আয়রণ ও ক্যালসিয়াম ট্যাবলেট খাবেন।\n-> খাবার বিশেষ করে মাছ, মাংস ও ডিম ভালোভাবে সিদ্ধ করে খেতে হবে এবং কাঁচা দুধ খাওয়া যাবেনা।\n -> খাওয়ার পূর্বে ফলমূল এবং রান্নার পূর্বে শাক-সব্জি ভালোভাবে ধুয়ে খেতে হবে। এসময় প্রচুর পানি পান করবেন ও ভিটামিন  ’সি’ সমৃদ্ধ খাবার যেমন: লেবু,আমলকি, পেয়ারা,কাঁচামরিচ,আমড়া ইত্যাদি বেশী খাবেন ।\n -> করোনা পজিটিভ মা অবশ্যই নবজাতক ও শিশুকে নিচের নিয়ম মেনে বুকের দুধ খাওয়াতে পারবেন:\n\t * নবজাতক ও শিশুর সংষ্পর্শে আসার আগে ও পরে স্বাস্থ্যবিধি অনুসারে হাত ধুয়ে নিতে হবে\n\t * বুকের দুধ খাওয়ানোর আগে ও পরে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে নিতে হবে ও অবশ্যই মাস্ক ব্যবহার করতে হবে।\n\t * করোনা ভাইরাস পজিটিভ মা যদি বেশী অসুস্থ হয় তবে সেক্ষেত্রে স\u200C্বাস্থ্যবিধিমতে হাত ধুয়ে বুকের দুধ চেপে বের করে নবজাতক ও শিশুকে খাওয়াতে পারবেন।\n"
+      },
+      {
+        "key": "advice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advice",
+        "type": "hidden",
+        "hint": "উপদেশ"
+      },
       {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

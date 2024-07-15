@@ -103,7 +103,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Relation_with_HOH",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "খানা প্রধান এই সদস্যের কি হয়?",
         "values": [
           "খানা প্রধান",
@@ -163,186 +163,6 @@
         "v_regex": {
           "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
           "err": "একটি বৈধ নাম লিখুন"
-        }
-      },
-      {
-        "key": "mother_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "mother_name",
-        "type": "spinner",
-        "hint": "এই সদস্যের মাতার নাম",
-        "values": [
-          "মাতা রেজিস্টার্ড নয়"
-        ],
-        "openmrs_choice_ids": {
-        },
-        "v_required": {
-          "value": false,
-          "err": "মান নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "Mother_Guardian_First_Name_english",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "motherNameEnglish",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "edit_type": "name",
-        "hint": "মাতার নাম (ইংরেজীতে)",
-        "v_regex": {
-          "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        },
-        "v_required": {
-          "value": false,
-          "err": "মান নির্বাচন করুন"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "hnpp_family_member_relevance.yml"
-            }
-          }
-        }
-      },
-      {
-        "key": "phone_number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Mobile_Number",
-        "type": "edit_text",
-        "hint": "মোবাইল নম্বর",
-        "v_required": {
-          "value": true,
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "0|(01[1-9][0-9]{8})|\s*",
-          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_max_length": {
-          "value": "11",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
-          "is_fixed_size":true
-        },
-        "v_min_length": {
-          "value": "1",
-          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
-        }
-      },
-      {
-        "key": "id_avail",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "idtype",
-        "type": "check_box",
-        "label": "আপনার কোন পরিচয় পত্রটি আছে?",
-        "label_text_style": "normal",
-        "text_color": "#C0C0C0",
-        "exclusive": [
-          "chk_none"
-        ],
-        "options": [
-          {
-            "key": "chk_national_id",
-            "text": "জাতীয় পরিচয় পত্র",
-            "value": false,
-            "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "chk_national_id"
-          },
-          {
-            "key": "chk_birth_id",
-            "text": "BRID",
-            "value": false,
-            "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "chk_birth_id"
-          },
-          {
-            "key": "chk_none",
-            "text": "কোনটিই নেই",
-            "value": false,
-            "openmrs_entity": "person_attribute",
-            "openmrs_entity_id": "chk_none"
-          }
-        ],
-        "v_required": {
-          "value": true,
-          "err": "পরিচয়পত্র নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "national_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "nationalId",
-        "type": "edit_text",
-        "hint": "জাতীয় পরিচয় পত্র",
-        "v_required": {
-          "value": "true",
-          "err": "জাতীয় পরিচয় পত্র আইডি লিখুন"
-        },
-        "v_numeric": {
-          "value": "true",
-          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "([0-9]{10})|([0-9]{13})|([0-9]{17})|\\s*",
-          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
-        },
-        "relevance": {
-          "step1:id_avail": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "chk_national_id"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      {
-        "key": "birth_id",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "birthRegistrationID",
-        "type": "edit_text",
-        "hint": "জন্ম নিবন্ধন সনদ",
-        "v_numeric": {
-          "value": "true",
-          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_regex": {
-          "value": "([0-9]{16})|([0-9]{17})|\\s*",
-          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "জন্ম নিবন্ধন সনদ আইডি লিখুন"
-        },
-        "relevance": {
-          "step1:id_avail": {
-            "ex-checkbox": [
-              {
-                "or": [
-                  "chk_birth_id"
-                ]
-              }
-            ]
-          }
         }
       },
       {
@@ -499,12 +319,192 @@
 
 
       {
+        "key": "mother_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "mother_name",
+        "type": "hidden",
+        "hint": "এই সদস্যের মাতার নাম",
+        "values": [
+          "মাতা রেজিস্টার্ড নয়"
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": false,
+          "err": "মান নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_member_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Mother_Guardian_First_Name_english",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "motherNameEnglish",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "edit_type": "name",
+        "hint": "মাতার নাম (ইংরেজীতে)",
+        "v_regex": {
+          "value": "^$|^[a-zA-Z][A-Za-z\\.\\- ]*",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
+        "v_required": {
+          "value": false,
+          "err": "মান নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_family_member_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Mobile_Number",
+        "type": "hidden",
+        "hint": "মোবাইল নম্বর",
+        "v_required": {
+          "value": true,
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "0|(01[1-9][0-9]{8})|\s*",
+          "err": "সংখ্যাটি অবশ্যই 011, 012, 013, 014, 015, 016,017,018 বা 019 দিয়ে শুরু হওয়া উচিত এবং মোট 11 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_max_length": {
+          "value": "11",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন",
+          "is_fixed_size":true
+        },
+        "v_min_length": {
+          "value": "1",
+          "err": "11 অঙ্কের মোবাইল নম্বর লিখুন"
+        }
+      },
+      {
+        "key": "id_avail",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "idtype",
+        "type": "hidden",
+        "label": "আপনার কোন পরিচয় পত্রটি আছে?",
+        "label_text_style": "normal",
+        "text_color": "#C0C0C0",
+        "exclusive": [
+          "chk_none"
+        ],
+        "options": [
+          {
+            "key": "chk_national_id",
+            "text": "জাতীয় পরিচয় পত্র",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_national_id"
+          },
+          {
+            "key": "chk_birth_id",
+            "text": "BRID",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_birth_id"
+          },
+          {
+            "key": "chk_none",
+            "text": "কোনটিই নেই",
+            "value": false,
+            "openmrs_entity": "person_attribute",
+            "openmrs_entity_id": "chk_none"
+          }
+        ],
+        "v_required": {
+          "value": true,
+          "err": "পরিচয়পত্র নির্বাচন করুন"
+        }
+      },
+      {
+        "key": "national_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "nationalId",
+        "type": "hidden",
+        "hint": "জাতীয় পরিচয় পত্র",
+        "v_required": {
+          "value": "true",
+          "err": "জাতীয় পরিচয় পত্র আইডি লিখুন"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{10})|([0-9]{13})|([0-9]{17})|\\s*",
+          "err": "মোট 10/13/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_national_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "key": "birth_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "birthRegistrationID",
+        "type": "hidden",
+        "hint": "জন্ম নিবন্ধন সনদ",
+        "v_numeric": {
+          "value": "true",
+          "err": "মোট 17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_regex": {
+          "value": "([0-9]{16})|([0-9]{17})|\\s*",
+          "err": "মোট 16/17 সংখ্যা হওয়া আবশ্যক"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "জন্ম নিবন্ধন সনদ আইডি লিখুন"
+        },
+        "relevance": {
+          "step1:id_avail": {
+            "ex-checkbox": [
+              {
+                "or": [
+                  "chk_birth_id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
         "key": "blood_group",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "Blood_Group",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "রক্তের গ্রুপ",
         "values": [
           "A+",
@@ -563,7 +563,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "difficulty_seeing_hearing",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "আপনার কি দেখতে, শুনতে অসুবিধা হয় - এমনকি চশমা পরেও/ কানে যন্ত্র দিয়েও?",
         "values": [
           "না- কোনো অসুবিধা হয় না",
@@ -588,7 +588,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "difficulty_walking_up_down",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "আপনার কি হাঁটতে, ওঠা-নামা করতে, নিজে নিজে কিছু করতে যেমন: গোসল করতে অথবা পোশাক পড়তে অসুবিধা হয়?",
         "values": [
           "না- কোনো অসুবিধা হয় না",
@@ -613,7 +613,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "trouble_remembering_concentrating",
         "openmrs_data_type": "text",
-        "type": "spinner",
+        "type": "hidden",
         "hint": "আপনার কি কোনো কিছু স্মরণ করতে অথবা মনোযোগ দিতে অথবা সাধারণত যেভাবে কথা বলেন, তা দিয়ে মানুষকে বোঝাতে অথবা মানুষের কথা বুঝতে সমস্যা হয়?",
         "values": [
           "না- কোনো অসুবিধা হয় না",

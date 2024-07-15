@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.location.SSLocationHelper;
 import org.smartregister.brac.hnpp.location.SSModel;
@@ -213,7 +214,7 @@ public class FormApplicability {
         }
         return false;
     }
-    private static int getMonthsDifference(LocalDate date1, LocalDate date2) {
+    public static int getMonthsDifference(LocalDate date1, LocalDate date2) {
         return Months.monthsBetween(
                 date1.withDayOfMonth(1),
                 date2.withDayOfMonth(1)).getMonths();
@@ -415,5 +416,19 @@ public class FormApplicability {
             count = values.get(0).get("count");
         }
         return count;
+    }
+
+    public static boolean isOnlyANCDue(String baseEntityId) {
+       String isOnlyAnc = CoreLibrary.getInstance().context().allSharedPreferences().getPreference("IS_ONLY_ANC_"+baseEntityId+"");
+       if(!TextUtils.isEmpty(isOnlyAnc)){
+           return isOnlyAnc.equalsIgnoreCase("1");
+       }
+       return false;
+    }
+    public static void setOnlyANCDue(String baseEntityId) {
+        CoreLibrary.getInstance().context().allSharedPreferences().savePreference("IS_ONLY_ANC_"+baseEntityId,"1");
+    }
+    public static void clearSetOnlyANCDue(String baseEntityId) {
+        CoreLibrary.getInstance().context().allSharedPreferences().savePreference("IS_ONLY_ANC_"+baseEntityId,"0");
     }
 }
