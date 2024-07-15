@@ -1387,7 +1387,6 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             String umbilicusRed = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"Umbilicus_red");
             String skinPustules = org.smartregister.util.JsonFormUtils.getFieldValue(fields,"skin_pustules");
             builder = new StringBuilder();
-            assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.ONE.getValue();
             if(!TextUtils.isEmpty(unconsciousValue) && unconsciousValue.equalsIgnoreCase("yes")){
                 assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_SEVERE.TWO.getValue();
                 next_button.setText(getString(R.string.referrel));
