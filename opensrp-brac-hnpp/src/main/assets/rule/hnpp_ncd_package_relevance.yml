@@ -33,6 +33,27 @@ condition: "step1_random_blood_sugar >= 11.1"
 actions:
   - "isRelevant = true"
 ---
+name: step1_label_refer_diabetis
+description: if random_blood_sugar >= 11.1
+priority: 1
+condition: "step1_random_blood_sugar >= 11.1"
+actions:
+  - "isRelevant = true"
+---
+name: step1_label_refer_high_blood
+description: if random_blood_sugar >= 11.1
+priority: 1
+condition: "step1_blood_pressure_systolic > 140 || step1_blood_pressure_diastolic > 90"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral
+description: if random_blood_sugar >= 11.1
+priority: 1
+condition: "step1_blood_pressure_systolic > 140 || step1_blood_pressure_diastolic > 90 || step1_random_blood_sugar >= 11.1"
+actions:
+  - "isRelevant = true"
+---
 name: step1_suger_confirm_hospital
 description: if suger_test_hospital = 'হ্যাঁ' or suger_confirm_hospital = 'হ্যাঁ'
 priority: 1

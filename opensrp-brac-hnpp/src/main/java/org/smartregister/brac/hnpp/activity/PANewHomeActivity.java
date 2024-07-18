@@ -94,14 +94,19 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         findViewById(R.id.ncd_view).setOnClickListener(this);
         findViewById(R.id.eye_test_view).setOnClickListener(this);
         findViewById(R.id.history_forum).setOnClickListener(this);
+        findViewById(R.id.sync_text_txt).setOnClickListener(this);
         findViewById(R.id.refreshIndicatorsIcon).setOnClickListener(this);
         findViewById(R.id.unsync_count_txt).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
+        findViewById(R.id.dashboard).setOnClickListener(this);
         appExecutors = new AppExecutors();
         updateSpinner();
         updateUnSyncCount();
         ((TextView) findViewById(R.id.login_build_text_view)).setText("Version " + getVersion() + ", Built on: " + getBuildDate());
-
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        String firstName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
+        ((TextView) findViewById(R.id.user_name_txt)).setText(firstName+"\n"+userName);
+        ((TextView) findViewById(R.id.username_text_view)).setText(firstName+"\n"+userName);
     }
     @SuppressLint("SetTextI18n")
     private void updateUnSyncCount(){
@@ -210,10 +215,14 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
             case R.id.eye_test_view:
                 startAnyForm(HnppConstants.JSON_FORMS.PA_EYE_TEST,REQUEST_HOME_VISIT);
                 break;
+            case R.id.sync_text_txt:
             case R.id.refreshIndicatorsIcon:
             case R.id.unsync_count_txt:
                 HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
                 PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
+                break;
+            case R.id.dashboard:
+                startActivity(new Intent(this,NewDashBoardActivity.class));
                 break;
         }
     }

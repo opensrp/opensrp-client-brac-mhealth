@@ -14,6 +14,8 @@ import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.ForumHistoryAdapter;
 import org.smartregister.brac.hnpp.adapter.PAHistoryAdapter;
+import org.smartregister.brac.hnpp.location.SSLocationHelper;
+import org.smartregister.brac.hnpp.location.SSModel;
 import org.smartregister.brac.hnpp.model.ForumDetails;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppDBUtils;
@@ -57,8 +59,14 @@ public class PANewHistoryActivity extends SecuredActivity {
 
             JSONObject jsonForm = HnppJsonFormUtils.getVisitFormWithData(content.getJson(),PANewHistoryActivity.this);
             Intent intent = new Intent(PANewHistoryActivity.this, HnppFormViewActivity.class);
-            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
             makeReadOnlyFields(jsonForm);
+
+            try{
+                HnppJsonFormUtils.updateFormWithSKSSVillageName(jsonForm);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
             Form form = new Form();
             form.setWizard(false);
             if(!HnppConstants.isReleaseBuild()){

@@ -12,13 +12,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_below="@+id/topbar"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/topbar"
         android:padding="10dp"
         android:scrollbars="vertical"
-        android:visibility="visible" />
+        android:visibility="visible"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
     <ProgressBar
         android:id="@+id/progress_bar"
         android:visibility="gone"

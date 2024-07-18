@@ -1244,6 +1244,31 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
+    public static JSONObject updateFormWithSKSSVillageName(JSONObject form) throws Exception{
+
+        JSONArray ssjsonArray = new JSONArray();
+        JSONArray skjsonArray = new JSONArray();
+        JSONArray villagejsonArray = new JSONArray();
+
+        JSONArray field = fields(form, STEP1);
+        JSONObject spinnerSSName = getFieldJSONObject(field, SS_NAME);
+        JSONObject spinnerSKName = getFieldJSONObject(field, SK_NAME);
+        JSONObject spinnerVillageName = getFieldJSONObject(field, VILLAGE_NAME);
+        String selectedSSName = spinnerSSName.getString("value");
+        String selectedSKName = spinnerSKName.getString("value");
+        String selectedVillageName = spinnerVillageName.getString("value");
+        Log.v("SS_NAME","selectedSSName>>>"+selectedSSName+":selectedSKName:"+selectedSKName+":"+selectedVillageName);
+        ssjsonArray.put(selectedSSName);
+        skjsonArray.put(selectedSKName);
+        villagejsonArray.put(selectedVillageName);
+
+        spinnerSSName.put(org.smartregister.family.util.JsonFormUtils.VALUES,ssjsonArray);
+        spinnerSKName.put(org.smartregister.family.util.JsonFormUtils.VALUES,skjsonArray);
+        spinnerVillageName.put(org.smartregister.family.util.JsonFormUtils.VALUES,villagejsonArray);
+
+        return form;
+    }
+
     public static JSONObject updateFormWithSSNameAndSelf(JSONObject form, ArrayList<SSModel> ssLocationForms) throws Exception{
 
         JSONArray jsonArray = new JSONArray();

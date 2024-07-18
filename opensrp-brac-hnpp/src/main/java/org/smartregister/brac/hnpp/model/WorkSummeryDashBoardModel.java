@@ -147,7 +147,10 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
 
     //for PA from to month
     public DashBoardData getEyeTestCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.EYE_TEST,ssName,fromMonth,toMonth);
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PA_EYE_TEST,ssName,fromMonth,toMonth);
+    }
+    public DashBoardData getVisionBangladeshCount(String ssName, long fromMonth, long toMonth){
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PA_VB,ssName,fromMonth,toMonth);
     }
     public DashBoardData getBloodGroupingCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.BLOOD_GROUP,ssName,fromMonth,toMonth);
@@ -238,7 +241,7 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_NCD,ssName,fromMonth,toMonth);
     }
     public DashBoardData getNcdServiceCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.NCD_PACKAGE,ssName,fromMonth,toMonth);
+        return getVisitTypeCount(HnppConstants.EVENT_TYPE.PA_NCD,ssName,fromMonth,toMonth);
     }
     public DashBoardData getWomenForumCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_WOMEN,ssName,fromMonth,toMonth);

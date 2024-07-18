@@ -51,10 +51,11 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
 
         if(HnppConstants.isPALogin()){
             addToDashBoardList(model.getEyeTestCount("",fromMonth,toMonth));
-            addToDashBoardList(model.getBloodGroupingCount("",fromMonth,toMonth));
+            addToDashBoardList(model.getVisionBangladeshCount("",fromMonth,toMonth));
+           // addToDashBoardList(model.getBloodGroupingCount("",fromMonth,toMonth));
             addToDashBoardList(model.getNcdServiceCount("",fromMonth,toMonth));
-            addToDashBoardList(model.getAdultForumCount("",fromMonth,toMonth));
-            addToDashBoardList(model.getTotalGlassCount(fromMonth,toMonth));
+            //addToDashBoardList(model.getAdultForumCount("",fromMonth,toMonth));
+            //addToDashBoardList(model.getTotalGlassCount(fromMonth,toMonth));
         }else{
             addToDashBoardList(model.getHHCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getMemberCount(ssName,fromMonth,toMonth));

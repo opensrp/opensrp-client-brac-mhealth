@@ -398,4 +398,6 @@
     <string name="previous_history">পূর্বের ইতিহাস</string>
     <string name="pa_vb">ভিশন বাংলাদেশ</string>
     <string name="last_sync">Last Sync: %1$s</string>
+    <string name="sync_txt">সিঙ্ক</string>
+    <string name="dashboard">ড্যাশবোর্ড</string>
 </resources>

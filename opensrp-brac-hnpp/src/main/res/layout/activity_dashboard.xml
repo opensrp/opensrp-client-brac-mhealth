@@ -91,22 +91,23 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#d9d9d9"/>
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:theme="@style/TabLayout_Theme"
             app:layout_collapseMode="pin"
             app:tabGravity="center"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="2dp"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:tabPaddingEnd="0dp"
             app:tabSelectedTextColor="@color/colorPrimary"
             app:tabTextAppearance="@style/TabTextStyle"
-            app:tabTextColor="@color/black"/>
+            app:tabTextColor="@color/black" />
     </RelativeLayout>
 
 </RelativeLayout>

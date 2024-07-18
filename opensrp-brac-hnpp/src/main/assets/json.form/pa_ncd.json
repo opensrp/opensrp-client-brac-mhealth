@@ -227,23 +227,6 @@
         "type": "hidden"
       },
       {
-        "key": "guardian_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "guardian_name",
-        "type": "edit_text",
-        "hint": "অভিভাবকের নাম",
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "রোগীর নাম লিখুন"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        }
-      },
-      {
         "key": "address",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -677,7 +660,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "fasting_blood_sugar",
-        "type": "hiden",
+        "type": "hidden",
         "hint": "ফাস্টিং",
         "v_numeric": {
           "value": "true",
@@ -832,25 +815,40 @@
         }
       },
       {
-        "key": "refer_reason",
-        "type": "hidden",
-        "text":"রেফারেল এর কারণ: ক্লায়েন্ট উচ্চরক্তচাপ বা ডায়াবেটিকস এর ঝুঁকিতে আছে",
-        "has_bg": true,
-        "left_padding": "20dp",
-        "right_padding": "20dp",
-        "text_size": "25sp",
-        "text_color": "#000000",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": ""
+        "openmrs_entity_id": "",
+        "key": "label_refer_diabetis",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " রেফারেল এর কারণ: ক্লায়েন্ট ডায়াবেটিকস এর ঝুঁকিতে আছে",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
       },
       {
-        "key": "other_refer_reason",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_refer_reason",
-        "type": "hidden",
-        "hint": "অন্যান্য কারণ "
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_refer_high_blood",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " রেফারেল এর কারণ: ক্লায়েন্ট উচ্চরক্তচাপ এর ঝুঁকিতে আছে",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
       },
       {
         "key": "place_of_referral",
@@ -892,7 +890,14 @@
             "openmrs_entity": "concept",
             "openmrs_entity_id": "other_option"
           }
-        ]
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_ncd_package_relevance.yml"
+            }
+          }
+        }
       },
       {
         "key": "advice",

@@ -126,8 +126,8 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"http://mhealth.brac.net:8080/opensrp/"'
         }
         pa_training{
-            versionCode 3
-            versionName "2.0.1_new"
+            versionCode 4
+            versionName "2.0.2_new"
             dimension = 'baseDimension'
             applicationIdSuffix ".patraining"
             buildConfigField "boolean", 'IS_TRAINING', 'true'
