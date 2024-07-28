@@ -166,7 +166,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "patient_name",
         "type": "edit_text",
-        "hint": "রোগীর নাম",
+        "hint": "সেবা গ্রহীতার নাম",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -882,6 +882,13 @@
             "value": false,
             "openmrs_entity": "concept",
             "openmrs_entity_id": "medical_collage_hospital"
+          },
+          {
+            "key": "govt_hospital",
+            "text": "সরকারি/বেসরকারি বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "govt_hospital"
           },
           {
             "key": "other_option",

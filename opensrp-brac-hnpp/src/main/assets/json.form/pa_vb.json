@@ -141,7 +141,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "patient_name",
         "type": "edit_text",
-        "hint": "রোগীর নাম",
+        "hint": "সেবা গ্রহীতার নাম",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -200,23 +200,6 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "dob",
         "type": "hidden"
-      },
-      {
-        "key": "guardian_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "guardian_name",
-        "type": "edit_text",
-        "hint": "অভিভাবকের নাম",
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "রোগীর নাম লিখুন"
-        },
-        "v_regex": {
-          "value": "^[a-zA-Z][A-Za-z\\.\\- ]*",
-          "err": "একটি বৈধ নাম লিখুন"
-        }
       },
       {
         "key": "address",
