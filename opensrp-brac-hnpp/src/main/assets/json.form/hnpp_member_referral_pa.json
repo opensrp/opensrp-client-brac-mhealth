@@ -1,0 +1,331 @@
+{
+  "count": "1",
+  "encounter_type": "Member Referral",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "রেফারেল",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Member Referral",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "hnpp_member_referral_pa"
+      },
+      {
+        "key": "cause_of_referral_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_referral_all",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফারেল এর কারণ",
+        "values": [
+          "চোখে সমস্যা",
+          "ডায়াবেটিস",
+          "উচ্চ রক্তচাপ",
+          "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা",
+          "চোখে ক্যাটারেক্ট (ছানি) সমস্যা",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "চোখে সমস্যা": "problems_eyes",
+          "ডায়াবেটিস": "diabetes",
+          "উচ্চ রক্তচাপ": "high_blood_pressure",
+          "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা": "problems_with_birth_control",
+          "চোখে ক্যাটারেক্ট (ছানি) সমস্যা": "cataract_problem",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "other_refer_reason",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_refer_reason",
+        "type": "edit_text",
+        "hint": "অন্যান্য কারণ ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_eye_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "চোখে সমস্যা  : \n ১.দিনে দুই থেকে তিনবার নিরাপদ পানি দিয়ে চোখ পরিষ্কার করা\n ২.চোখে আঘাত লাগতে পারে এমন কাজে চশমা ব্যবহার করা\n৩.বিরতিহীন ভাবে চোখের কাজ না করা ও কাছ থেকে টিভি না দেখা\n৪.সবুজ শাকসবজি হলুদ ফলমূল নিয়মিত খাওয়া\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_diabetis_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "ডায়াবেটিস   : \n ১.সর্বপ্রকার মিষ্টি জাতীয় খাবার বর্জন করা\n ২.শর্করা জাতীয় খাবার ও মাটির নিচের সবজি কম খাওয়া\n ৩.আশ জাতীয় খাবার ও টক জাতীয় খাবার বেশি খাওয়া\n ৪.আলগা লবণ খাওয়া যাবে না\n ৫.মদপান ধূমপান তামাক পরিহার করা\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_pressure_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "উচ্চ রক্তচাপ   : \n ১.পাতে আলগা লবণ খাওয়া যাবেনা\n ২.লবণাক্ত খাবার এড়িয়ে চলা\n ৩.30 মিনিট করে সপ্তাহে অন্তত 5 দিন হাটা\n ৪.ওজন নিয়ন্ত্রণে রাখা\n ৫.ধূমপান মদপান তামাক সেবন বর্জন করা\n ৬.তেল চর্বি জাতীয় খাবার কম খাওয়া\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice_toaster_birth_control_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "toaster_notes",
+        "text": "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা: \n ১.অস্থায়ী পদ্ধতির ক্ষেত্রে ডাক্তারের পরামর্শ  নেয়া ছাড়া আপাতত এই পদ্ধতি বন্ধ রাখা।\n",
+        "text_color": "#CF0800",
+        "toaster_type": "info",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "check_box",
+        "label": "রেফারের স্থান",
+        "exclusive": [
+          "None"
+        ],
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "options": [
+          {
+            "key": "brac_maternity_center",
+            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "brac_maternity_center"
+          },
+          {
+            "key": "union_health_center",
+            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_center"
+          },
+          {
+            "key": "upozzila_health_complex",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "upozzila_health_complex"
+          },
+          {
+            "key": "union_family_kollan_center",
+            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_family_kollan_center"
+          },
+          {
+            "key": "union_health_and_family_kollan_center",
+            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_and_family_kollan_center"
+          },
+          {
+            "key": "mother_child_kollan_center",
+            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mother_child_kollan_center"
+          },
+          {
+            "key": "center_hospital",
+            "text": "সদর হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "center_hospital"
+          },
+          {
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hospital"
+          },
+          {
+            "key": "private_clinic",
+            "text": "বেসরকারি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "private_clinic"
+          },
+          {
+            "key": "spacial_hospital",
+            "text": "বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "spacial_hospital"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ]
+      },
+      {
+        "key": "other_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_place",
+        "type": "edit_text",
+        "hint": "লিখুন",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "advice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advice",
+        "type": "edit_text",
+        "hint": "উপদেশ"
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+      },
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "20dp"
+      }
+    ]
+  }
+}

@@ -1,0 +1,358 @@
+{
+  "count": "1",
+  "encounter_type": "Member Referral Followup",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "রেফারেল ফলোআপ",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Member Referral Followup",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "hnpp_member_referral_followup"
+      },
+      {
+        "key": "caused_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "caused_referred",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফারেল এর কারণ",
+        "values": [
+          "গর্ভাবস্থার সমস্যা",
+          "প্রসবে সমস্যা",
+          "প্রসব পরবর্তী সমস্যা",
+          "শিশু বিষয়ক সমস্যা",
+          "চোখে সমস্যা",
+          "ডায়াবেটিস",
+          "উচ্চ রক্তচাপ",
+          "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা",
+          "চোখে ক্যাটারেক্ট (ছানি) সমস্যা",
+          "অন্যান্য"
+        ],
+        "openmrs_choice_ids": {
+          "গর্ভাবস্থার সমস্যা": "pregnancy_problems",
+          "প্রসবে সমস্যা": "delivery_problems",
+          "প্রসব পরবর্তী সমস্যা": "pnc_problem",
+          "শিশু বিষয়ক সমস্যা": "child_problems",
+          "চোখে সমস্যা": "problems_eyes",
+          "ডায়াবেটিস": "diabetes",
+          "উচ্চ রক্তচাপ": "high_blood_pressure",
+          "জন্মবিরতিকরণ পদ্ধতি সংক্রান্ত সমস্যা": "problems_with_birth_control",
+          "চোখে ক্যাটারেক্ট (ছানি) সমস্যা": "cataract_problem",
+          "অন্যান্য": "other"
+        },
+        "v_required": {
+          "value": false,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "place_referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_referred",
+        "type": "edit_text",
+        "hint": "কোথায় রেফার করা হয়েছিল ?",
+        "read_only": true,
+        "v_required": {
+          "value": false,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "went_to_referred_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "went_to_referred_place",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "রেফারকৃত স্বাস্থ্যসেবাকেন্দ্রে গিয়েছিলো কিনা?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "is_operation_done",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_operation_done",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "অপারেশন হয়েছে কি?",
+        "values": [
+          "হ্যাঁ",
+          "না"
+        ],
+        "openmrs_choice_ids": {
+          "হ্যাঁ": "Yes",
+          "না": "No"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_problem_solved",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_problem_solved",
+        "openmrs_data_type": "",
+        "type": "spinner",
+        "hint": "সমস্যা দূর হয়েছে কি?",
+        "values": [
+          "সপূর্ণ ভালো হয়েছে",
+          "কিছুটা উন্নতি হয়েছে",
+          "কোনো উন্নতি হয় নি",
+          "অবস্থার অবনতি হয়েছে"
+        ],
+        "openmrs_choice_ids": {
+          "সপূর্ণ ভালো হয়েছে": "completely_good",
+          "কিছুটা উন্নতি হয়েছে": "improved",
+          "কোনো উন্নতি হয় নি": "not_improved",
+          "অবস্থার অবনতি হয়েছে": "deteriorated"
+        },
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "hnpp_refer_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "place_of_referral",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "place_of_referral",
+        "type": "check_box",
+        "label": "কোথায় গিয়েছিলো?",
+        "relevance": {
+          "step1:went_to_referred_place": {
+            "type": "string",
+            "ex": "equalTo(., \"না\")"
+          }
+        },
+        "exclusive": [
+          "not_going"
+        ],
+        "options": [
+          {
+            "key": "not_going",
+            "text": "কোথাও যায় নি",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "not_going"
+          },
+          {
+            "key": "brac_maternity_center",
+            "text": "ব্র্যাক ম্যাটারনিটি সেন্টার",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "brac_maternity_center"
+          },
+          {
+            "key": "union_health_center",
+            "text": "ইউনিয়ন উপ-স্বাস্থ্য কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_center"
+          },
+          {
+            "key": "upozzila_health_complex",
+            "text": "উপজেলা স্বাস্থ্য কমপ্লেক্স",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "upozzila_health_complex"
+          },
+          {
+            "key": "union_family_kollan_center",
+            "text": "ইউনিয়ন পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_family_kollan_center"
+          },
+          {
+            "key": "union_health_and_family_kollan_center",
+            "text": "ইউনিয়ন স্বাস্থ্য ও পরিবার কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "union_health_and_family_kollan_center"
+          },
+          {
+            "key": "mother_child_kollan_center",
+            "text": "মা ও শিশু কল্যাণ কেন্দ্র",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "mother_child_kollan_center"
+          },
+          {
+            "key": "center_hospital",
+            "text": "সদর হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "center_hospital"
+          },
+          {
+            "key": "medical_collage_hospital",
+            "text": "মেডিকেল কলেজ হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "medical_collage_hospital"
+          },
+          {
+            "key": "private_clinic",
+            "text": "বেসরকারি ক্লিনিক",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "private_clinic"
+          },
+          {
+            "key": "spacial_hospital",
+            "text": "বিশেষায়িত হাসপাতাল",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "spacial_hospital"
+          },
+          {
+            "key": "other_option",
+            "text": "অন্যান্য",
+            "value": false,
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "other_option"
+          }
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "প্রশ্নের উত্তর দিন"
+        }
+      },
+      {
+        "key": "other_place",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "other_place",
+        "type": "edit_text",
+        "hint": "লিখুন",
+        "v_required": {
+          "value": true,
+          "err": "প্রশ্নের উত্তর দিন"
+        },
+        "relevance": {
+          "step1:place_of_referral": {
+            "type": "string",
+            "ex": "equalTo(., \"অন্যান্য\")"
+          }
+        }
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "অক্ষাংশ"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "edit_text",
+        "read_only": true,
+        "hint": "দ্রাঘিমা"
+      }
+    ,
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "section",
+        "type": "section_label",
+        "section_background": "#3797ca",
+        "text_color": "#FFFFFF",
+        "text_size": "22px",
+        "label_text_style": "bold",
+        "name": "                    সব তথ্য পূরণ করা হলে জমা দিন"
+      },
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "20dp"
+      }
+    ]
+  }
+}
