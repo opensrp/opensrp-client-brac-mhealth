@@ -229,6 +229,17 @@ public class HnppDBUtils extends CoreChildUtils {
 
         }
     }
+    public static void updateWeight(String base_entity_id, String value, long weightDate){
+        try{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+            String sql = "update ec_family_member set weight = '"+value+"',weight_date='"+weightDate+"' where " +
+                    "base_entity_id = '"+base_entity_id+"' ;";
+            database.execSQL(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+    }
     public static void updateBloodGroup(String base_entity_id, String value){
         try{
             SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();

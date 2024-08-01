@@ -151,118 +151,6 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
         presenter.fetchData(commonPersonObjectClient,baseEntityId);
     }
 
-    ///old
-   /* String eventType = "";
-    View anc1View;
-    private void addStaticView(){
-        loadingProgressBar.setVisibility(View.VISIBLE);
-            if(otherServiceView.getVisibility() == View.VISIBLE){
-                    otherServiceView.removeAllViews();
-             }
-            String gender = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "gender", false);
-            String maritalStatus  = org.smartregister.util.Utils.getValue(commonPersonObjectClient.getColumnmaps(), "marital_status", false);
-            otherServiceView.setVisibility(View.VISIBLE);
-            if(gender.equalsIgnoreCase("F") && maritalStatus.equalsIgnoreCase("Married")){
-                //if women
-
-                anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-                ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
-                TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
-                anc1View.setTag(TAG_OPEN_ANC1);
-                anc1View.setOnClickListener(this);
-                eventType = FormApplicability.getDueFormForMarriedWomen(baseEntityId,FormApplicability.getAge(commonPersonObjectClient));
-                if(FormApplicability.isDueAnyForm(baseEntityId,eventType) && !TextUtils.isEmpty(eventType)){
-                    nameanc1View.setText(HnppConstants.visitEventTypeMapping.get(eventType));
-                    imageanc1View.setImageResource(HnppConstants.iconMapping.get(eventType));
-                    anc1View.setTag(org.smartregister.family.R.id.VIEW_ID,eventType);
-
-                    otherServiceView.addView(anc1View);
-                }
-                if(mActivity instanceof HnppFamilyOtherMemberProfileActivity){
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            HnppFamilyOtherMemberProfileActivity aaa = (HnppFamilyOtherMemberProfileActivity) mActivity;
-                            try{
-                                aaa.updatePregnancyOutcomeVisible(eventType);
-                                aaa.updateAncRegisterVisible(eventType);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        }
-                    },500);
-
-
-                }
-                if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ELCO) && FormApplicability.isPregnant(baseEntityId)){
-                   View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-                        ImageView image = ancRegistration.findViewById(R.id.image_view);
-                        TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
-                        ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                        image.setImageResource(R.drawable.childrow_family);
-                        name.setText("গর্ভবতী রেজিস্ট্রেশন");
-                        ancRegistration.setTag(TAG_OPEN_ANC_REGISTRATION);
-                        ancRegistration.setOnClickListener(this);
-                        otherServiceView.addView(ancRegistration);
-                }
-            }
-
-
-
-
-        View familyView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-        ImageView image = familyView.findViewById(R.id.image_view);
-        TextView name =  familyView.findViewById(R.id.patient_name_age);
-        familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-        image.setImageResource(R.drawable.childrow_family);
-        name.setText("পরিবারের অন্যান্য সদস্য সেবা (বাকি)");
-        familyView.setTag(TAG_OPEN_FAMILY);
-        familyView.setOnClickListener(this);
-        otherServiceView.addView(familyView);
-        {
-            View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due, null);
-            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imageReferel.setImageResource(R.mipmap.ic_refer);
-            nameReferel.setText("রেফারেল");
-            referelView.setTag(TAG_OPEN_REFEREAL);
-            referelView.setOnClickListener(this);
-            otherServiceView.addView(referelView);
-        }
-        ArrayList<ReferralFollowUpModel> getList = FormApplicability.getReferralFollowUp(baseEntityId);
-
-        for(ReferralFollowUpModel referralFollowUpModel : getList){
-
-            View referrelFollowUp = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-            ImageView imgFollowup = referrelFollowUp.findViewById(R.id.image_view);
-            TextView nReferel =  referrelFollowUp.findViewById(R.id.patient_name_age);
-            TextView lastVisitRow = referrelFollowUp.findViewById(R.id.last_visit);
-            lastVisitRow.setVisibility(View.VISIBLE);
-            referrelFollowUp.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imgFollowup.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-            nReferel.setText(eventTypeMapping.get(HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP));
-            lastVisitRow.setText(referralFollowUpModel.getReferralReason());
-            referrelFollowUp.setTag(referralFollowUpModel);
-            referrelFollowUp.setOnClickListener(this);
-            otherServiceView.addView(referrelFollowUp);
-
-        }
-        if(FormApplicability.isDueCoronaForm(baseEntityId)){
-            View referelView = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
-            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-            TextView nameReferel =  referelView.findViewById(R.id.patient_name_age);
-            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imageReferel.setImageResource(R.drawable.ic_virus);
-            nameReferel.setText("করোনা তথ্য");
-            referelView.setTag(TAG_OPEN_CORONA);
-            referelView.setOnClickListener(this);
-            otherServiceView.addView(referelView);
-        }
-        loadingProgressBar.setVisibility(View.GONE);
-
-    }*/
-
     private HnppMemberProfileDueAdapter.OnClickAdapter onClickAdapter = (position, content) -> startFormActivity(content);
 
     private void startFormActivity(MemberProfileDueData content) {
@@ -319,12 +207,7 @@ public class HnppMemberProfileDueFragment extends Fragment implements View.OnCli
                                 && FormApplicability.isFirstTimeAnc(baseEntityId)){
                             activity.openHomeVisitForm();
                         }else {
-                            if(FormApplicability.isFirstTimeAnc(baseEntityId)){
-                                activity.openHomeVisitForm();
-                            }else {
-                                activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
-                            }
-
+                            activity.openHomeVisitSingleForm(eventTypeFormNameMapping.get(eventType));
                         }
                     }
                     break;

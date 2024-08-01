@@ -95,6 +95,7 @@ public class HnppChwRepository extends Repository {
         upgradeToVersion43(database);
         upgradeToVersion44(database);
         upgradeToVersion45(database);
+        upgradeToVersion46(database);
     }
 
     @Override
@@ -207,6 +208,9 @@ public class HnppChwRepository extends Repository {
                 case 45:
                     upgradeToVersion45(db);
                     break;
+                case 46:
+                    upgradeToVersion46(db);
+                    break;
                 default:
                     break;
             }
@@ -231,6 +235,20 @@ public class HnppChwRepository extends Repository {
 
     private void upgradeToVersion45(SQLiteDatabase db) {
         HouseHoldVisitInfoRepository.createTable(db);
+        try{
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date VARCHAR;");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void upgradeToVersion46(SQLiteDatabase db) {
+        try{
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight VARCHAR;");
+            db.execSQL("ALTER TABLE ec_family_member ADD COLUMN weight_date LONG;");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     private void upgradeToVersion41(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion41");

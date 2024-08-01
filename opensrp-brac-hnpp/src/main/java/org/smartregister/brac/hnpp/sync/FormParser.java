@@ -222,6 +222,14 @@ public class FormParser {
                             }
 
                         }
+                        if(PREGNANT_WOMAN_DIETARY_DIVERSITY.equalsIgnoreCase(encounter_type)){
+                            if(details.containsKey("woman_weight")&&!StringUtils.isEmpty(details.get("woman_weight"))){
+                                String weight = details.get("woman_weight");
+                                if(!TextUtils.isEmpty(weight)){
+                                    HnppDBUtils.updateWeight(base_entity_id,weight,log.getVisitDate());
+                                }
+                            }
+                        }
                         if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
                                 || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
                             /*if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
@@ -581,6 +589,7 @@ public class FormParser {
                     HnppApplication.getIndicatorRepository().updateValue("number_of_pnc",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
+                updateMobileBloodNID(details,baseEntityId);
                 break;
 
             case WOMEN_REFERRAL:

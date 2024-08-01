@@ -434,6 +434,24 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
 //            HnppJsonFormUtils.addEDDField(formName,jsonForm,baseEntityId);
             try{
+                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
+                if(weights.length>0){
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"weight",weights[0]);
+                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                    //national_id,birth_id,phone_number,blood_group
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"national_id",weights[2]+"");
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"birth_id",weights[3]+"");
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"phone_number",weights[4]+"");
+                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"blood_group",weights[5]+"");
+                    HnppJsonFormUtils.addIdTypeAtForm(jsonForm,weights[2],weights[3]);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+
+            }
+
+            try{
                 HnppJsonFormUtils.updateLatitudeLongitude(jsonForm,latitude,longitude);
             }catch (Exception e){
                 e.printStackTrace();
@@ -460,18 +478,7 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
-                if(weights.length>0){
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"previous_weight",weights[0]);
-                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
-                    //national_id,birth_id,phone_number,blood_group
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"national_id",weights[2]+"");
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"birth_id",weights[3]+"");
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"phone_number",weights[4]+"");
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"blood_group",weights[5]+"");
-                    HnppJsonFormUtils.addIdTypeAtForm(jsonForm,weights[2],weights[3]);
-                }
+
             } else if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM)||
                formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_AFTER_48_HOUR)
                     ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.PNC_FORM_BEFORE_48_HOUR)  ){

@@ -90,7 +90,7 @@ public class HnppAncHomeVisitInteractor extends BaseAncHomeVisitInteractor {
                     try{
                         String[] weights = HnppDBUtils.getWeightFromBaseEntityId(memberObject.getBaseEntityId());
                         if(weights.length>0){
-                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"previous_weight",weights[0]);
+                            HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"weight",weights[0]);
                             int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
                             HnppJsonFormUtils.addJsonKeyValue(jsonPayload,"month_diff",monthDiff+"");
                             //national_id,birth_id,phone_number,blood_group
