@@ -84,8 +84,8 @@ public class HnppJobCreator implements JobCreator {
                 return new NotificationGeneratorJob();
             case DataDeleteJob.TAG:
                 return new DataDeleteJob();
-            case MobileDataDeleteJob.TAG:
-                return new MobileDataDeleteJob();
+//            case MobileDataDeleteJob.TAG:
+//                return new MobileDataDeleteJob();
             case SurveyHistoryJob.TAG:
                 return new SurveyHistoryJob();
             case ZScoreRefreshServiceJob.TAG:

@@ -39,7 +39,7 @@ public class HnppPncCloseDateIntent extends CoreChwPncCloseDateIntent {
     private void closeAncAfterEDD(){
         try {
             SQLiteDatabase database = HnppApplication.getInstance().getRepository().getWritableDatabase();
-            String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE cast(julianday(datetime('now')) - julianday(datetime(substr(edd, 7,4)  || '-' || substr(edd, 4,2) || '-' || substr(edd, 1,2))) as integer)+42 >= 1";
+            String sql = "UPDATE ec_anc_register SET is_closed = 1 WHERE cast(julianday(datetime('now')) - julianday(datetime(substr(edd, 7,4)  || '-' || substr(edd, 4,2) || '-' || substr(edd, 1,2))) as integer)+90 >= 1";
             Log.v("ANC_CLOSE","closeAncAfterEDD>>"+sql);
             database.execSQL(sql);
         } catch (Exception e) {
