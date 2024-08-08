@@ -190,6 +190,32 @@ public class HnppDBUtils extends CoreChildUtils {
         }
         return nameCount;
     }
+    public static ArrayList<String> getMobileDataDeletedBaseEntityIds(){
+        ArrayList<String> ids = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        int lastYear = calendar.get(Calendar.YEAR)-1;
+        String lastYearDate = lastYear+"-01-01";
+        String query = "select baseEntityId from event where eventDate<'"+lastYearDate+"' and (eventType !='Family Registration' or eventType !='Child Registration' or eventType !='Family Member Registration' or eventType !='Update Family Member Registration' or eventType !='OOC Member Registration')";
+        Log.v("DATA_DELETE","query:"+query);
+        Cursor cursor = null;
+        try{
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            if(cursor !=null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    ids.add(cursor.getString(0));
+                    cursor.moveToNext();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if(cursor!=null) cursor.close();
+        }
+        return ids;
+
+    }
     public static StringBuilder getEddThisMonth(){
         String query = "select ec_family_member.first_name, edd,STRFTIME('%Y', datetime('now')) as nowYear,STRFTIME('%m', datetime('now')) as nowMonth,substr(edd, 7, 4) as year,substr(edd, 4, 2) as month from ec_anc_register " +
                 "inner join ec_family_member on ec_family_member.base_entity_id = ec_anc_register.base_entity_id " +
@@ -306,30 +332,6 @@ public class HnppDBUtils extends CoreChildUtils {
             }
         }
         return guestMemberData;
-
-    }
-    public static String getChildFollowUpFormName(String baseEntityId){
-        String query = "select ((( julianday('now') - julianday(dob))/365) *12) as age from ec_family_member where base_entity_id ='"+baseEntityId+"'";
-        Cursor cursor = null;
-        int month = 0;
-        try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
-                cursor.moveToFirst();
-                month = cursor.getInt(0);
-            }
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        finally {
-            if(cursor!=null)cursor.close();
-        }
-        if(month>= 18 && month <= 36) return HnppConstants.EVENT_TYPE.CHILD_VISIT_18_36;
-        if(month>= 6 && month < 24) return HnppConstants.EVENT_TYPE.CHILD_VISIT_7_24;
-        if(month>= 0 && month < 6) return HnppConstants.EVENT_TYPE.CHILD_VISIT_0_6;
-
-        return "";
 
     }
 
@@ -482,21 +484,6 @@ public class HnppDBUtils extends CoreChildUtils {
         }
     }
 
-    public static ArrayList<ForumDetails> getPreviousForum(){
-        String query = "select * from ec_visit_log where event_type ='"+HnppConstants.EVENT_TYPE.FORUM_CHILD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_ADO+"'" +
-                " OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_NCD+"' OR event_type = '"+HnppConstants.EVENT_TYPE.FORUM_WOMEN+"' OR event_type ='"+HnppConstants.EVENT_TYPE.FORUM_ADULT+"' order by visit_date desc";
-
-        List<Map<String, String>> valus = AbstractDao.readData(query, null);
-        ArrayList<ForumDetails> visitIds = new ArrayList<>();
-        for(Map<String, String> valu : valus){
-            ForumDetails forumDetails = JsonFormUtils.gson.fromJson(valu.get("visit_json"),ForumDetails.class);
-            if(forumDetails!=null)visitIds.add(forumDetails);
-
-        }
-        return visitIds;
-
-    }
-
     public static CommonPersonObjectClient createFromBaseEntity(String baseEntityId){
         CommonPersonObjectClient pClient = null;
         String query = "Select ec_family_member.id as _id , ec_family_member.first_name , ec_family_member.last_name , ec_family_member.middle_name , ec_family_member.phone_number , ec_family_member.relational_id as relationalid , ec_family_member.entity_type , ec_family.village_town as village_name , ec_family_member.unique_id , ec_family_member.gender , ec_family_member.dob , ec_family.unique_id as house_hold_id , ec_family.first_name as house_hold_name , ec_family.module_id FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.date_removed is null and ec_family_member.base_entity_id ='"+baseEntityId+"'";
@@ -572,27 +559,7 @@ public class HnppDBUtils extends CoreChildUtils {
         return pClient;
 
     }
-    public static String getIsCorona(String baseEntityId){
-        String query = "select ec_family_member.is_corona from ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id where ec_family_member.base_entity_id = '"+baseEntityId+"'" +
-                " and (strftime('%d',datetime('now')) - strftime('%d',datetime(last_home_visit/1000,'unixepoch','localtime'))) <= 14";
-        Log.v("IS_CORONA","query:"+query);
-        Cursor cursor = null;
-        String isCorona="";
-        try {
-            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-            if(cursor !=null && cursor.getCount() >0){
-                cursor.moveToFirst();
-                isCorona = cursor.getString(0);
 
-            }
-            if(cursor!=null)cursor.close();
-
-            return isCorona;
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        return isCorona;
-    }
     public static String getVillageIdByBaseEntityId(String baseEntityId){
      String query ="Select ec_family.village_id FROM ec_family_member LEFT JOIN ec_family ON  ec_family_member.relational_id = ec_family.id COLLATE NOCASE  WHERE  ec_family_member.base_entity_id = '"+baseEntityId+"'";
         Cursor cursor = null;
@@ -951,19 +918,11 @@ public class HnppDBUtils extends CoreChildUtils {
                                 }else{
                                     profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(eventType));
                                 }
-                                if(FormApplicability.isDueCoronaForm(profileDueInfo.getBaseEntityId())){
-                                    profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
-
-                                }
                                 profileDueInfoArrayList.add(profileDueInfo);
                             //}
 
 
                         }else{
-                            if(FormApplicability.isDueCoronaForm(profileDueInfo.getBaseEntityId())){
-                                profileDueInfo.setEventType(HnppConstants.visitEventTypeMapping.get(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL));
-
-                            }
                             profileDueInfoArrayList.add(profileDueInfo);
                         }
 
@@ -1194,15 +1153,12 @@ public class HnppDBUtils extends CoreChildUtils {
             cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
             if(cursor !=null && cursor.getCount() >0){
                 cursor.moveToFirst();
-                weight[0] = cursor.getString(0);
-                if(weight[0] == null){
-                    weight[0] = "0";
-                }
+                weight[0] = cursor.getString(0)==null?"0":cursor.getString(0);
                 weight[1] = cursor.getLong(1)+"";
-                weight[2] = cursor.getString(2);
-                weight[3] = cursor.getString(3);
-                weight[4] = cursor.getString(4);
-                weight[5] = cursor.getString(5);
+                weight[2] = cursor.getString(2)==null?"":cursor.getString(2);
+                weight[3] = cursor.getString(3)==null?"":cursor.getString(3);
+                weight[4] = cursor.getString(4)==null?"":cursor.getString(4);
+                weight[5] = cursor.getString(5)==null?"":cursor.getString(5);
             }
 
             return weight;

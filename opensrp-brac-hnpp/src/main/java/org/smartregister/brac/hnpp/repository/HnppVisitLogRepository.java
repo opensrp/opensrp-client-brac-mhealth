@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.repository;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.text.TextUtils;
 import android.util.Log;
@@ -114,7 +115,7 @@ public class HnppVisitLogRepository extends BaseRepository {
             values.put("list_of_assets",newValue);
         }
     }
-
+    @SuppressLint("Range")
     public HashMap<String, String>  tableHasColumn(HashMap<String, String> details) {
         HashMap<String, String> existColumn = new HashMap<>();
         SQLiteDatabase db = getWritableDatabase();
@@ -123,7 +124,7 @@ public class HnppVisitLogRepository extends BaseRepository {
             int cursorCount = cursor.getCount();
             for (int i = 1; i < cursorCount; i++ ) {
                 cursor.moveToPosition(i);
-                String storedSqlColumnName = cursor.getString(cursor.getColumnIndex("name"));
+               String storedSqlColumnName = cursor.getString(cursor.getColumnIndex("name"));
                 try{
                     String value = details.get(storedSqlColumnName);
                     if(!TextUtils.isEmpty(value)){
@@ -332,6 +333,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         }
         return list;
     }
+    @SuppressLint("Range")
     private ArrayList<Visit> getVisits(Cursor cursor) {
         ArrayList<Visit> visitLogs = new ArrayList<>();
         try {
@@ -356,6 +358,7 @@ public class HnppVisitLogRepository extends BaseRepository {
         return visitLogs;
 
     }
+    @SuppressLint("Range")
     private ArrayList<VisitLog> getAllVisitLog(Cursor cursor) {
         ArrayList<VisitLog> visitLogs = new ArrayList<>();
         try {
@@ -670,7 +673,7 @@ public class HnppVisitLogRepository extends BaseRepository {
     }
     public ArrayList<VisitLog> getAllVisitLogForFamily(String familyId) {
         SQLiteDatabase database = getReadableDatabase();
-        String selection = FAMILY_ID + " = ? " + COLLATE_NOCASE+" and ("+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_ADULT+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_WOMEN+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_NCD+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_ADO+"' and "+VISIT_TYPE+"!='"+HnppConstants.EVENT_TYPE.FORUM_CHILD+"')";
+        String selection = FAMILY_ID + " = ? ";
         String[] selectionArgs = new String[]{familyId};
         try{
             net.sqlcipher.Cursor cursor = database.query(VISIT_LOG_TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null,   " rowid DESC");

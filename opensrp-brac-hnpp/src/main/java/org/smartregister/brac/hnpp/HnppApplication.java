@@ -11,10 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.smartregister.AllConstants;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
-import org.smartregister.brac.hnpp.activity.AdoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.AdultMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.AdultRiskRegisterActivity;
-import org.smartregister.brac.hnpp.activity.ForumActivity;
 import org.smartregister.brac.hnpp.activity.GuestMemberActivity;
 import org.smartregister.brac.hnpp.activity.HNPPJsonFormActivity;
 import org.smartregister.brac.hnpp.activity.HNPPMemberJsonFormActivity;
@@ -26,10 +24,8 @@ import org.smartregister.brac.hnpp.activity.HnppElcoMemberRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppElcoRiskRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRegisterActivity;
 import org.smartregister.brac.hnpp.activity.HnppPncRiskRegisterActivity;
-import org.smartregister.brac.hnpp.activity.IYCFRegisterActivity;
 import org.smartregister.brac.hnpp.activity.SSInfoActivity;
 import org.smartregister.brac.hnpp.activity.SimprintsIdentityActivity;
-import org.smartregister.brac.hnpp.activity.WomenServiceRegisterActivity;
 import org.smartregister.brac.hnpp.custom_view.HnppNavigationTopView;
 import org.smartregister.brac.hnpp.listener.HnppNavigationListener;
 import org.smartregister.brac.hnpp.presenter.HnppNavigationPresenter;
@@ -250,7 +246,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.PNC_REGISTER_ACTIVITY, HnppPncRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.REFERRALS_REGISTER_ACTIVITY, ReferralRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.MALARIA_REGISTER_ACTIVITY, FamilyRegisterActivity.class);
-        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.FORUM_ACTIVITY, ForumActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.GUEST_MEMBER_ACTIVITY, GuestMemberActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ANC_RISK_REGISTER_ACTIVITY, HnppAncRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.PNC_RISK_REGISTER_ACTIVITY, HnppPncRiskRegisterActivity.class);
@@ -260,9 +255,6 @@ public class HnppApplication extends CoreChwApplication implements CoreApplicati
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.SIMPRINTS_REGISTER_ACTIVITY, SimprintsIdentityActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADULT_RISK_REGISTER_ACTIVITY, AdultRiskRegisterActivity.class);
         registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADULT_REGISTER_ACTIVITY, AdultMemberRegisterActivity.class);
-        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.ADO_REGISTER_ACTIVITY, AdoMemberRegisterActivity.class);
-        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.WOMEN_REGISTER_ACTIVITY, WomenServiceRegisterActivity.class);
-        registeredActivities.put(CoreConstants.REGISTERED_ACTIVITIES.IYCF_REGISTER_ACTIVITY, IYCFRegisterActivity.class);
 
         return registeredActivities;
     }

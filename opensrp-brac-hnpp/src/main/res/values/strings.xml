@@ -504,5 +504,6 @@
     <string name="no_member_found">সদস্য পাওয়া যায়নি</string>
     <string name="member_import">সদস্য ইম্পোর্ট</string>
     <string name="member_no_import">সদস্য ইম্পোর্ট নেই</string>
+    <string name="deleted_successfully">ডিলিট করা শেষ হয়েছে</string>
 
 </resources>

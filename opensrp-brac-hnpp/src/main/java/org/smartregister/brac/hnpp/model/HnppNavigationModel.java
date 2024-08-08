@@ -38,23 +38,12 @@ public class HnppNavigationModel implements org.smartregister.chw.core.model.Nav
                 optionPnc.setNavigationSubModel(new NavigationSubModel(R.string.menu_anc_risk_clients,0,CoreConstants.DrawerMenu.PNC_RISK));
                 navigationOptions.add(optionPnc);
 
-                NavigationOption optionWomen = new NavigationOption(R.drawable.ic_women_un, R.drawable.ic_women_s, R.string.menu_women_clients, CoreConstants.DrawerMenu.WOMEN, 0);
-                navigationOptions.add(optionWomen);
-
-                NavigationOption optionAdo = new NavigationOption(R.drawable.ic_adolescent_un, R.drawable.ic_adolescent_s, R.string.menu_ado_clients, CoreConstants.DrawerMenu.ADO, 0);
-                navigationOptions.add(optionAdo);
-
                 NavigationOption optionChild = new NavigationOption(R.mipmap.sidemenu_children, R.mipmap.sidemenu_children_active, R.string.menu_child_clients, CoreConstants.DrawerMenu.CHILD_CLIENTS, 0);
                 optionChild.setNeedToExpand(true);
                 optionChild.setNavigationSubModel(new NavigationSubModel(R.string.menu_anc_risk_clients,0,CoreConstants.DrawerMenu.CHILD_RISK));
                 navigationOptions.add(optionChild);
 
-                NavigationOption iycfAdo = new NavigationOption(R.mipmap.sidemenu_children, R.mipmap.sidemenu_children_active, R.string.menu_iycf_clients, CoreConstants.DrawerMenu.IYCF, 0);
-                navigationOptions.add(iycfAdo);
             }
-
-
-            navigationOptions.add(new NavigationOption(R.drawable.ic_forum_un, R.drawable.ic_forum, R.string.menu_forum, CoreConstants.DrawerMenu.FORUM, -1));
 
             navigationOptions.add(new NavigationOption(R.mipmap.sidemenu_families, R.mipmap.sidemenu_families_active, R.string.menu_guest_member, CoreConstants.DrawerMenu.GUEST_MEMBER, -1));
 

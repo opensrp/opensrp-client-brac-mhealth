@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -79,7 +80,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
         otherServiceView.setVisibility(View.VISIBLE);
         if(!HnppConstants.isPALogin()){
             if(guestMemberData.getGender().equalsIgnoreCase("F")){
-                View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                @SuppressLint("InflateParams") View anc1View = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView imageanc1View = anc1View.findViewById(R.id.image_view);
                 TextView nameanc1View =  anc1View.findViewById(R.id.patient_name_age);
                 anc1View.setTag(TAG_OPEN_ANC1);
@@ -96,7 +97,7 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                     }
                     if(eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC1_REGISTRATION)
                             || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) || eventType.equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC3_REGISTRATION)){
-                        View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                        @SuppressLint("InflateParams") View ancRegistration = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                         ImageView image = ancRegistration.findViewById(R.id.image_view);
                         TextView name =  ancRegistration.findViewById(R.id.patient_name_age);
                         ancRegistration.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -127,32 +128,6 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
             otherServiceDataList.add(otherServiceData3);
         }
 
-        if(FormApplicability.isWomenPackageApplicable(guestMemberData.getBaseEntityId(),age,guestMemberData.getGender().equalsIgnoreCase("F"))&&
-                FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
-            OtherServiceData otherServiceData = new OtherServiceData();
-            otherServiceData.setImageSource(R.drawable.ic_women);
-            otherServiceData.setTitle("নারী কাউন্সেলিং");
-            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
-            otherServiceDataList.add(otherServiceData);
-        }
-
-        if(FormApplicability.isAdolescentApplicable(age,guestMemberData.getGender().equalsIgnoreCase("F"))&&
-                FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
-            OtherServiceData otherServiceData2 = new OtherServiceData();
-            otherServiceData2.setImageSource(R.drawable.ic_adolescent);
-            otherServiceData2.setTitle("কিশোরী কাউন্সেলিং");
-            otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
-            otherServiceDataList.add(otherServiceData2);
-        }
-
-        if(FormApplicability.isIycfApplicable(FormApplicability.getDay(guestMemberData.getDob())) && FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
-            OtherServiceData otherServiceData4 = new OtherServiceData();
-            otherServiceData4.setImageSource(R.drawable.ic_child);
-            otherServiceData4.setTitle("শিশু কাউন্সেলিং");
-            otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
-            otherServiceDataList.add(otherServiceData4);
-        }
-
         if(FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
                 OtherServiceData otherServiceData = new OtherServiceData();
                 otherServiceData.setImageSource(R.drawable.ic_eye);
@@ -160,18 +135,10 @@ public class GuestMemberDueFragment extends Fragment implements View.OnClickList
                 otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
                 otherServiceDataList.add(otherServiceData);
         }
-        if(HnppConstants.isPALogin()){
-            if( FormApplicability.isDueAnyForm(guestMemberData.getBaseEntityId(),HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
-                OtherServiceData otherServiceData = new OtherServiceData();
-                otherServiceData.setImageSource(R.drawable.ic_blood);
-                otherServiceData.setTitle("রক্ত পরীক্ষা");
-                otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD);
-                otherServiceDataList.add(otherServiceData);
-            }
-        }
+
         if(otherServiceDataList.size()>0){
             for(OtherServiceData otherServiceData : otherServiceDataList){
-                View serviceLayout = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
+                @SuppressLint("InflateParams") View serviceLayout = LayoutInflater.from(getContext()).inflate(R.layout.view_member_due,null);
                 ImageView imgFollowup = serviceLayout.findViewById(R.id.image_view);
                 TextView nReferel =  serviceLayout.findViewById(R.id.patient_name_age);
                 TextView lastVisitRow = serviceLayout.findViewById(R.id.last_visit);

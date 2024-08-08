@@ -55,29 +55,31 @@
             android:gravity="center_vertical"
             android:background="@drawable/spinner_resource"
             android:orientation="horizontal">
+
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/month_text"
-                android:text="সেপ্টেম্বর"
-                android:gravity="center"
-                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="সেপ্টেম্বর"
                 android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:textSize="25dp" />
+
             <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/year_text"
-                android:text="২০১৭"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_toRightOf="@+id/month_text"
-                android:layout_marginRight="5dp"
-                android:layout_centerVertical="true"
-                android:textSize="18sp"
-                android:textColor="@color/white"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@+id/month_text"
+                android:gravity="center_vertical"
+                android:text="২০১৭"
+                android:textColor="@color/white"
+                android:textSize="25dp" />
             <ImageView
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

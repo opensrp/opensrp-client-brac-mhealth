@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.task;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class UpdateWomenServiceTask extends AsyncTask<Void, Void, Void> {
+    @SuppressLint("StaticFieldLeak")
     private final Context context;
     private final RegisterViewHolder viewHolder;
     private final String baseEntityId;
@@ -32,11 +34,11 @@ public class UpdateWomenServiceTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-            String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.WOMEN_PACKAGE);
-            if(returnValue.length>0){
-                lastVisit = returnValue[1];
-                totalServiceCount =  returnValue[0];
-            }
+//            String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.WOMEN_PACKAGE);
+//            if(returnValue.length>0){
+//                lastVisit = returnValue[1];
+//                totalServiceCount =  returnValue[0];
+//            }
             return null;
     }
 

@@ -44,10 +44,12 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
+import org.smartregister.brac.hnpp.job.DataDeleteJob;
 import org.smartregister.brac.hnpp.job.HHVisitDurationFetchJob;
 import org.smartregister.brac.hnpp.job.HnppPncCloseJob;
 import org.smartregister.brac.hnpp.job.HnppSyncIntentServiceJob;
 import org.smartregister.brac.hnpp.job.MigrationFetchJob;
+import org.smartregister.brac.hnpp.job.MobileDataDeleteJob;
 import org.smartregister.brac.hnpp.job.NotificationGeneratorJob;
 import org.smartregister.brac.hnpp.job.PullGuestMemberIdServiceJob;
 import org.smartregister.brac.hnpp.job.PullHouseholdIdsServiceJob;
@@ -190,6 +192,36 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
                         Log.v("NEXT_DELETE_COMPLETE","completed");
                     }
                 });
+        if(HnppConstants.isNeedToDeleteMobileData()){
+            showProgressDialog("পুরাতন ডাটা ডিলিট করা হচ্ছে ");
+            HnppConstants.deleteMobileData()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {}
+
+                        @Override
+                        public void onNext(Boolean bool) {
+                            Log.v("NEXT_DELETE_LOG",""+bool);
+                            hideProgressDialog();
+                            if(bool){
+
+                                Toast.makeText(LoginActivity.this,getString(R.string.deleted_successfully),Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.v("DATA_DELETE",""+e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Log.v("NEXT_DELETE_COMPLETE","completed");
+                        }
+                    });
+        }
 
 
     }
@@ -206,10 +238,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         mActivity = this;
         HnppConstants.updateAppBackgroundOnResume(findViewById(R.id.login_layout));
         if(!BuildConfig.DEBUG)isDeviceVerifyiedCheck();
-        if(BuildConfig.DEBUG){
-            userNameText.setText("01313049998");
-            passwordText.setText("9998");
-        }
+//        if(BuildConfig.DEBUG){
+//            userNameText.setText("01313049998");
+//            passwordText.setText("9998");
+//        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -356,7 +388,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                showProgressDialog();
+                showProgressDialog("ডিভাইস টি রেজিস্টার কিনা চেক করা হচ্ছে");
             }
 
             @Override
@@ -458,10 +490,10 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
         }
     }
     private ProgressDialog dialog;
-    private void showProgressDialog(){
+    private void showProgressDialog(String text){
         if(dialog == null){
             dialog = new ProgressDialog(this);
-            dialog.setMessage("ডিভাইস টি রেজিস্টার কিনা চেক করা হচ্ছে");
+            dialog.setMessage(text);
             dialog.setCancelable(false);
             dialog.show();
         }

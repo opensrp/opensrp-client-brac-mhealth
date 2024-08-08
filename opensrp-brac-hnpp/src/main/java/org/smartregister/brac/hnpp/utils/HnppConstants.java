@@ -43,6 +43,8 @@ import android.widget.TextView;
 
 import com.google.common.collect.ImmutableMap;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -72,6 +74,7 @@ import org.smartregister.brac.hnpp.task.GenerateGPSTask;
 import org.smartregister.chw.anc.domain.Visit;
 import org.smartregister.chw.anc.util.Constants;
 import org.smartregister.chw.core.activity.CoreFamilyProfileActivity;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.utils.CoreConstants;
 import org.smartregister.chw.core.utils.Utils;
 import org.smartregister.clientandeventmodel.Address;
@@ -122,6 +125,7 @@ public class HnppConstants extends CoreConstants {
     public static final long INVALID_CALL_DEFAULT_TIME = 30 * 60 * 1000;//30 mint
     public static final long EDD_DEFAULT_TIME = 6 * 60 * 60 * 1000;//6 hr
     public static final long SURVEY_HISTORY_DEFAULT_TIME = 12 * 60 * 60 * 1000;//6 hr
+    public static final long MOBILE_DATA_DEFAULT_TIME = 2592000000L;//30*24 * 60 * 60 * 1000;//30day
     public static final String TEST_GU_ID = "test";
     public static final float VERIFY_THRESHOLD = 20;
     public static final String MODULE_ID_TRAINING = "TRAINING";
@@ -177,7 +181,82 @@ public class HnppConstants extends CoreConstants {
         );
 
     }
+    public static  Observable<Boolean>  deleteMobileData() {
 
+        return  Observable.create(e->{
+                    try {
+
+                            SQLiteDatabase db = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+                            ArrayList<String> deletedBaseEntityIds = HnppDBUtils.getMobileDataDeletedBaseEntityIds();
+                            Log.v("DATA_DELETE","deletedBaseEntityIds>>>"+deletedBaseEntityIds.size()+"");
+                            StringBuilder builder = new StringBuilder();
+                            for(int i=0;i<deletedBaseEntityIds.size();i++){
+                                if(builder.toString().isEmpty()){
+                                    builder.append(" baseEntityId = '"+deletedBaseEntityIds.get(i)+"'");
+                                }else{
+                                    builder.append(" OR ");
+                                    builder.append(" baseEntityId = '"+deletedBaseEntityIds.get(i)+"'");
+                                }
+                                if ((i + 1) % 10 == 0) {
+                                    Log.v("DATA_DELETE","position:"+i);
+                                    deleteData(db,builder.toString());
+                                    builder = new StringBuilder();
+
+                                }
+                            }
+                            if(builder.length()>0) deleteData(db,builder.toString());
+
+                        e.onNext(true);//error
+                        e.onComplete();
+                    } catch (Exception ex) {
+                        Log.v("DATA_DELETE","Exception>>>");
+                        ex.printStackTrace();
+                        e.onNext(false);//error
+                        e.onComplete();
+                    }
+
+                }
+        );
+
+    }
+    private static void deleteData(SQLiteDatabase db, String condition){
+        if(!TextUtils.isEmpty(condition)){
+            String q = "delete from event where "+condition;
+            Log.v("DATA_DELETE","q:"+q);
+            db.execSQL(q);
+        }
+        condition = condition.replace("baseEntityId","base_entity_id");
+        if(!TextUtils.isEmpty(condition)){
+            String v = "delete from visits where "+condition;
+            Log.v("DATA_DELETE","v:"+v);
+            db.execSQL(v);
+        }
+        if(!TextUtils.isEmpty(condition)){
+            String l = "delete from ec_visit_log where "+condition;
+            Log.v("DATA_DELETE","l:"+l);
+            db.execSQL(l);
+        }
+        if(!TextUtils.isEmpty(condition)){
+            String t = "delete from target_table where "+condition;
+            Log.v("DATA_DELETE","t:"+t);
+            db.execSQL(t);
+        }
+        if(!TextUtils.isEmpty(condition)){
+            String s = "delete from stock_table where "+condition;
+            Log.v("DATA_DELETE","s:"+s);
+            db.execSQL(s);
+        }
+        if(!TextUtils.isEmpty(condition)){
+            String s = "delete from ec_anc_register where "+condition;
+            Log.v("DATA_DELETE","s:"+s);
+            db.execSQL(s);
+        }
+        if(!TextUtils.isEmpty(condition)){
+            String s = "delete from ec_pregnancy_outcome where "+condition;
+            Log.v("DATA_DELETE","s:"+s);
+            db.execSQL(s);
+        }
+    }
     static boolean deleteDirectory(File path) {
         if (path.exists()) {
             File[] files = path.listFiles();
@@ -675,7 +754,23 @@ public class HnppConstants extends CoreConstants {
         }
         return false;
     }
+    public static boolean isNeedToDeleteMobileData() {
+        String lastTimeStr = org.smartregister.Context.getInstance().allSharedPreferences().getPreference("MOBILE_DELETE");
+        Calendar calendar = Calendar.getInstance();
+        Log.v("DATA_DELETE","isNeedToDeleteMobileData>>>"+lastTimeStr+":"+calendar.get(Calendar.YEAR)+"");
 
+        if (TextUtils.isEmpty(lastTimeStr)) {
+
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("MOBILE_DELETE", calendar.get(Calendar.YEAR) + "");
+            return true;
+        }
+        if (!lastTimeStr.equalsIgnoreCase(calendar.get(Calendar.YEAR)+"")) {
+            org.smartregister.Context.getInstance().allSharedPreferences().savePreference("MOBILE_DELETE", calendar.get(Calendar.YEAR) + "");
+
+            return true;
+        }
+        return false;
+    }
     public static void showSaveFormConfirmationDialog(Context context, String title, OnDialogOptionSelect onDialogOptionSelect) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -773,6 +868,7 @@ public class HnppConstants extends CoreConstants {
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     public static void showButtonWithImageDialog(Context context, int type, String message, Runnable runnable) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1213,7 +1309,6 @@ public class HnppConstants extends CoreConstants {
         public static final String HH_MEMBER_DUE = "HH Member Due";
         public static final String HH_CHILD_DUE = "HH Child Due";
         public static final String MEMBER_DUE_ADD = "Member Due Add";
-        public static final String MEMBER_EACH_DUE_ADD = "Member Each Due Add";
 
         public static final String MEMBER_REFERRAL = "Member Referral";
         public static final String WOMEN_REFERRAL = "Women Referral";
@@ -1234,13 +1329,8 @@ public class HnppConstants extends CoreConstants {
 
         public static final String PNC_REGISTRATION_BEFORE_48_hour_OOC = "PNC Visit Within 48_hr OOC";
         public static final String PNC_REGISTRATION_AFTER_48_hour_OOC = "PNC Visit After 48_hr OOC";
-        public static final String WOMEN_PACKAGE = "Women package";
-        public static final String GIRL_PACKAGE = "Adolescent package";
         public static final String NCD_PACKAGE = "NCD package";//pa
         public static final String EYE_TEST = "Eye test";//pa
-        public static final String BLOOD_GROUP = "Blood group";//pa
-        public static final String IYCF_PACKAGE = "IYCF package";
-        public static final String ENC_REGISTRATION = "ENC Registration";
         public static final String HOME_VISIT_FAMILY = "HH visit";
         public static final String VACCINATION = "Vaccination";
         public static final String SERVICES = "Recurring Service";
@@ -1254,22 +1344,13 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_FOLLOWUP = "Child Followup";*/
         public static final String PNC_CHILD_REGISTRATION = "PNC Child Registration";
         public static final String UPDATE_CHILD_REGISTRATION = "Update Child Registration";
-        public static final String FORUM_CHILD = "Child Forum";
-        public static final String FORUM_ADO = "Adolescent Forum";
-        public static final String FORUM_WOMEN = "WOMEN Forum";
-        public static final String FORUM_NCD = "NCD Forum";
-        public static final String FORUM_ADULT = "ADULT Forum";
-        public static final String CORONA_INDIVIDUAL = "corona individual";
+//        public static final String CORONA_INDIVIDUAL = "corona individual";
         public static final String SS_INFO = "SS Form";
         //for target
         public static final String METHOD_USER = "Methods Users";
         public static final String ADO_METHOD_USER = "Adolescent Methods Users";
         public static final String PREGNANCY_IDENTIFIED = "Pregnancy Identified";
         public static final String INSTITUTIONALIZES_DELIVERY = "Institutionalized Delivery";
-        public static final String PREGNANCY_VISIT = "Pregnant Visit";
-        public static final String CHILD_VISIT_0_6 = "Child Visit(0-6 months)";
-        public static final String CHILD_VISIT_7_24 = "Child Visit(7-24 months)";
-        public static final String CHILD_VISIT_18_36 = "Child Visit(18-36 months)";
 
         public static final String CHILD_FOLLOW_UP_0_3_MONTHS = "Child Followup 0-3 months";
         public static final String CHILD_FOLLOW_UP_3_6_MONTHS = "Child Followup 3-6 months";
@@ -1280,16 +1361,9 @@ public class HnppConstants extends CoreConstants {
         public static final String CHILD_FOLLOW_UP_3_4_YEARS = "Child Followup 3-4 years";
         public static final String CHILD_FOLLOW_UP_4_5_YEARS = "Child Followup 4-5 years";
 
-        public static final String CHILD_IMMUNIZATION_0_59 = "Immunization(0-59 months)";
-        public static final String AVG_ATTEND_ADO_FORUM = "Avg. Attendance (Adolescent Forum)";
-        public static final String AVG_ATTEND_NCD_FORUM = "Avg. Attendance (NCD Forum)";
-        public static final String AVG_ATTEND_ADULT_FORUM = "Avg Attendance (Adult Forum)";
-        public static final String AVG_ATTEND_IYCF_FORUM = "Avg Attendance (IYCF Forum)";
-        public static final String AVG_ATTEND_WOMEN_FORUM = "Avg Attendance (Women Forum)";
+//        public static final String CHILD_IMMUNIZATION_0_59 = "Immunization(0-59 months)";
 
         //for PA target
-        public static final String ADULT_FORUM_ATTENDANCE = "Avg. Attendance (Adult Forum)";
-        public static final String ADULT_FORUM_SERVICE_TAKEN = "Adult Forum Service Taken";
         public static final String MARKED_PRESBYOPIA = "Marked as presbyopia";
         public static final String PRESBYOPIA_CORRECTION = "Presbyopia correction";
         public static final String ESTIMATE_DIABETES = "Estimate diabetes";
@@ -1520,9 +1594,9 @@ public class HnppConstants extends CoreConstants {
     public static String getStringFormatedDate(String year, String month, String day) {
         return year + "-" + HnppConstants.addZeroForMonth(month) + "-" + HnppConstants.addZeroForDay(day);
     }
-
+    @SuppressLint("SimpleDateFormat")
     public static long getLongFromDateFormat(String dateTime) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         long milliseconds = 0;
         try {
             Date d = format.parse(dateTime);
@@ -1532,7 +1606,7 @@ public class HnppConstants extends CoreConstants {
         }
         return milliseconds;
     }
-
+    @SuppressLint("SimpleDateFormat")
     public static String getDateFormateFromLong(long dateTime) {
         Date date = new Date(dateTime);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -1544,7 +1618,7 @@ public class HnppConstants extends CoreConstants {
         }
         return dateString;
     }
-
+    @SuppressLint("SimpleDateFormat")
     public static String getDateWithHHMMFormateFromLong(long dateTime) {
         Date date = new Date(dateTime);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
@@ -1556,7 +1630,7 @@ public class HnppConstants extends CoreConstants {
         }
         return dateString;
     }
-
+    @SuppressLint("SimpleDateFormat")
     public static String getDDMMYYYYFormateFromLong(long dateTime) {
         Date date = new Date(dateTime);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
@@ -1612,9 +1686,6 @@ public class HnppConstants extends CoreConstants {
             .put(JSON_FORMS.PNC_FORM_AFTER_48_HOUR, EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour)
             .put(JSON_FORMS.PNC_FORM_BEFORE_48_HOUR, EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour)
             .put(JSON_FORMS.NCD_PACKAGE, EVENT_TYPE.NCD_PACKAGE)
-            .put(JSON_FORMS.IYCF_PACKAGE, EVENT_TYPE.IYCF_PACKAGE)
-            .put(JSON_FORMS.WOMEN_PACKAGE, EVENT_TYPE.WOMEN_PACKAGE)
-            .put(JSON_FORMS.GIRL_PACKAGE, EVENT_TYPE.GIRL_PACKAGE)
             .build();
     public static final Map<String, String> guestEventTypeFormNameMapping = ImmutableMap.<String, String>builder()
             .put(EVENT_TYPE.ANC_REGISTRATION, JSON_FORMS.ANC_FORM)
@@ -1658,15 +1729,9 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.MEMBER_REFERRAL, R.mipmap.ic_refer)
             .put(EVENT_TYPE.WOMEN_REFERRAL, R.mipmap.ic_refer)
             .put(EVENT_TYPE.CHILD_REFERRAL, R.mipmap.ic_refer)
-            .put(EVENT_TYPE.WOMEN_PACKAGE, R.drawable.ic_women)
-            .put(EVENT_TYPE.GIRL_PACKAGE, R.drawable.ic_adolescent)
             .put(EVENT_TYPE.NCD_PACKAGE, R.drawable.ic_muac)
-            .put(EVENT_TYPE.BLOOD_GROUP, R.drawable.ic_blood)
             .put(EVENT_TYPE.EYE_TEST, R.drawable.ic_eye)
-            .put(EVENT_TYPE.IYCF_PACKAGE, R.drawable.child_girl_infant)
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, R.mipmap.ic_anc_pink)
-
-            .put(EVENT_TYPE.ENC_REGISTRATION, R.mipmap.ic_child)
             .put("Member referral", R.mipmap.ic_refer)
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, R.mipmap.ic_icon_home)
             .put(EventType.CHILD_HOME_VISIT, R.mipmap.ic_icon_home)
@@ -1691,12 +1756,6 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_CHILD_REGISTRATION, R.drawable.rowavatar_child)
             .put(EVENT_TYPE.UPDATE_CHILD_REGISTRATION, R.drawable.rowavatar_child)
             .put("Update Family Registration", R.mipmap.ic_icon_home)
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL, R.drawable.ic_virus)
-            .put(EVENT_TYPE.FORUM_ADULT, R.drawable.ic_familiar)
-            .put(EVENT_TYPE.FORUM_WOMEN, R.drawable.ic_women)
-            .put(EVENT_TYPE.FORUM_ADO, R.drawable.ic_adolescent)
-            .put(EVENT_TYPE.FORUM_CHILD, R.drawable.ic_child)
-            .put(EVENT_TYPE.FORUM_NCD, R.drawable.ic_sugar_blood_level)
             .put("ANC", R.mipmap.ic_anc_pink)
             .put("pnc", R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.GLASS, R.drawable.ic_glasses)
@@ -1740,13 +1799,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC, "পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(Constants.EVENT_TYPE.PNC_HOME_VISIT, "প্রসবোত্তর পরিচর্যা ভিজিট(পিএনসি)")
-            .put(EVENT_TYPE.WOMEN_PACKAGE, "নারী কাউন্সেলিং")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী কাউন্সেলিং")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
             .put(EVENT_TYPE.SERVICES, "ভিটামিন সার্ভিস")
@@ -1772,13 +1826,7 @@ public class HnppConstants extends CoreConstants {
             .put(EventType.REMOVE_FAMILY, "খানা বাতিল")
             .put(EventType.REMOVE_MEMBER, "সদস্যকে বাতিল")
             .put(EventType.REMOVE_CHILD, "শিশু বাতিল")
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL, "করোনা তথ্য")
             .put(EVENT_TYPE.SS_INFO, "স্বাস্থ্য সেবিকা তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO, "কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN, "নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD, "শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD, "সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT, "অ্যাডাল্ট ফোরাম")
             .build();
 
     //for dashboard poridorshon
@@ -1790,10 +1838,6 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ADO_METHOD_USER, "পদ্ধতি ব্যবহারকারী (কিশোরী)")
             .put(EVENT_TYPE.PREGNANCY_IDENTIFIED, "গর্ভবতী চিহ্নিত")
             .put(EVENT_TYPE.INSTITUTIONALIZES_DELIVERY, "প্রাতিষ্ঠানিক প্রসব সংখ্যা")
-            .put(EVENT_TYPE.CHILD_VISIT_0_6, "০-৬ মাস বয়সী শিশু পরিদর্শন")
-            .put(EVENT_TYPE.CHILD_VISIT_7_24, "৭-২৪ মাস বয়সী শিশু প্রদর্শন")
-            .put(EVENT_TYPE.CHILD_VISIT_18_36, "১৮-৩৬ মাস বয়সী শিশু পরিদর্শন")
-
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ ০-৩ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ ৩-৬ মাস")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS, "শিশু ফলোআপ ৭-১১ মাস")
@@ -1802,28 +1846,15 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS, "শিশু ফলোআপ ২-৩ বছর")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ ৩-৪ বছর")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ ৪-৫ বছর")
-
-            .put(EVENT_TYPE.CHILD_IMMUNIZATION_0_59, "০-৫৯ মাস বয়সী শিশুর টিকা")
-            .put(EVENT_TYPE.FORUM_ADO, "কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN, "নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD, "শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD, "সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT, "অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
             .put(EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY, "গর্ভবতী মহিলাদের খাদ্যতালিকাগত বৈচিত্র্য")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী কাউন্সেলিং")
-            .put(EVENT_TYPE.WOMEN_PACKAGE, "নারী কাউন্সেলিং")
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
             .put(EVENT_TYPE.ANC_SERVICE, "গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.ANC_PACKAGE, "গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_PACKAGE, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, "প্রসব-পরবর্তী সেবা")
-            .put(EVENT_TYPE.AVG_ATTEND_ADULT_FORUM, "অংশগ্রহণকারী সংখ্যা")
-            .put(EVENT_TYPE.ADULT_FORUM_ATTENDANCE, "অংশগ্রহণকারী সংখ্যা")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
-            .put(EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN, "সেবা গ্রহীতার সংখ্যা")
             .put(EVENT_TYPE.MARKED_PRESBYOPIA, "চিহ্নিত প্রেসবায়োপিয়া")
             .put(EVENT_TYPE.PRESBYOPIA_CORRECTION, "প্রেসবায়োপিয়া কারেকশন")
             .put(EVENT_TYPE.ESTIMATE_DIABETES, "সম্ভাব্য ডায়াবেটিস")
@@ -1848,11 +1879,7 @@ public class HnppConstants extends CoreConstants {
             .put(HnppConstants.EventType.CHILD_REGISTRATION, "শিশু রেজিস্ট্রেশন")
             .put(EVENT_TYPE.ANC_REGISTRATION, "গর্ভবতী রেজিস্ট্রেশন")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, "গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
-
             .put(EVENT_TYPE.PREGNANCY_OUTCOME, "প্রসব")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
-            //.put(EVENT_TYPE.CHILD_FOLLOWUP, "শিশু ফলোআপ")
-
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS, "শিশু ফলোআপ")
@@ -1861,19 +1888,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_2_3_YEARS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS, "শিশু ফলোআপ")
             .put(EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS, "শিশু ফলোআপ")
-
-            /*.put(EVENT_TYPE.CHILD_INFO_EBF12, "শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_7_24_MONTHS, "শিশু তথ্য")
-            .put(EVENT_TYPE.CHILD_INFO_25_MONTHS, "শিশু তথ্য")*/
-            .put(EVENT_TYPE.FORUM_ADO, "কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN, "নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD, "শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD, "সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT, "অ্যাডাল্ট ফোরাম")
-            .put(EVENT_TYPE.WOMEN_PACKAGE, "নারী কাউন্সেলিং")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী কাউন্সেলিং")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
             .put(EVENT_TYPE.GLASS, "মোট চশমা")
             .put(EVENT_TYPE.SUN_GLASS, "সানগ্লাস")
@@ -1889,9 +1904,6 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.BF_3, "BF- 3.00")
             .put(EVENT_TYPE.GLUCOMETER_STRIP, EVENT_TYPE.GLUCOMETER_STRIP)
             .put(EVENT_TYPE.READING_GLASS, "Reading glass")
-
-
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put("familyplanning_method_known", "পরিবার পরিকল্পনা পদ্ধতি ব্যবহারকারী")
             .put(EVENT_TYPE.ANC_SERVICE, "গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
@@ -1930,12 +1942,8 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.ELCO, "সক্ষম দম্পতি পরিদর্শন")
             .put(EVENT_TYPE.ANC_REGISTRATION, "গর্ভবতী রেজিস্ট্রেশন")
             .put(EVENT_TYPE.UPDATE_ANC_REGISTRATION, "গর্ভবতী রেজিস্ট্রেশন আপডেট")
-            .put(EVENT_TYPE.WOMEN_PACKAGE, "নারী কাউন্সেলিং")
-            .put(EVENT_TYPE.GIRL_PACKAGE, "কিশোরী কাউন্সেলিং")
             .put(EVENT_TYPE.NCD_PACKAGE, "অসংক্রামক রোগের সেবা")
-            .put(EVENT_TYPE.BLOOD_GROUP, "ব্লাড গ্রুপ")
             .put(EVENT_TYPE.EYE_TEST, "চক্ষু পরীক্ষা")
-            .put(EVENT_TYPE.IYCF_PACKAGE, "শিশু কাউন্সেলিং")
             .put(Constants.EVENT_TYPE.ANC_HOME_VISIT, "গর্ভবতী পরিচর্যা ভিজিট(এএনসি)")
 
 
@@ -1943,7 +1951,6 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
             .put(EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour_OOC, "পি.এন.সি. (প্রথম ৪৮ ঘন্টা পর)")
             .put(EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour_OOC, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
-            .put(EVENT_TYPE.ENC_REGISTRATION, "নবজাতকের সেবা")
             .put(EVENT_TYPE.HOME_VISIT_FAMILY, "খানা পরিদর্শন")
             .put(EventType.CHILD_HOME_VISIT, "শিশু হোম ভিজিট")
             .put(EVENT_TYPE.VACCINATION, "ভ্যাকসিনেশন")
@@ -1969,13 +1976,7 @@ public class HnppConstants extends CoreConstants {
             .put(EventType.REMOVE_FAMILY, "খানা বাতিল")
             .put(EventType.REMOVE_MEMBER, "সদস্যকে বাতিল")
             .put(EventType.REMOVE_CHILD, "শিশু বাতিল")
-            .put(EVENT_TYPE.CORONA_INDIVIDUAL, "করোনা তথ্য")
             .put(EVENT_TYPE.SS_INFO, "স্বাস্থ্য সেবিকা তথ্য")
-            .put(EVENT_TYPE.FORUM_ADO, "কিশোরী ফোরাম")
-            .put(EVENT_TYPE.FORUM_WOMEN, "নারী ফোরাম")
-            .put(EVENT_TYPE.FORUM_CHILD, "শিশু ফোরাম")
-            .put(EVENT_TYPE.FORUM_NCD, "সাধারণ ফোরাম")
-            .put(EVENT_TYPE.FORUM_ADULT, "অ্যাডাল্ট ফোরাম")
             .put(EVENT_TYPE.ANC_SERVICE, "গর্ভবতী সেবা")
             .put(EVENT_TYPE.PNC_SERVICE, "পি.এন.সি.(প্রথম ৪৮ ঘন্টার মধ্য)")
 

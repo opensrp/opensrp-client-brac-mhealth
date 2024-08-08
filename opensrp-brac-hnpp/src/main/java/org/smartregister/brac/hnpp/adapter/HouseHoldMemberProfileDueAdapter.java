@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -42,6 +43,7 @@ public class HouseHoldMemberProfileDueAdapter extends RecyclerView.Adapter<House
     }
 
 
+    @SuppressLint("InflateParams")
     @NonNull
     @Override
     public HouseHoldMemberProfileDueHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -56,8 +58,6 @@ public class HouseHoldMemberProfileDueAdapter extends RecyclerView.Adapter<House
         if(Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC1_REGISTRATION) ||
                 Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC2_REGISTRATION) ||
                 Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.ANC3_REGISTRATION) ||
-                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.WOMEN_PACKAGE) ||
-                Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.GIRL_PACKAGE) ||
                 Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.EYE_TEST) ||
                 Objects.equals(content.getEventType(), HnppConstants.EVENT_TYPE.NCD_PACKAGE)){
             viewHolder.noNeedBt.setVisibility(View.VISIBLE);

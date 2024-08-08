@@ -5,6 +5,7 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;
 import static org.smartregister.chw.anc.util.JsonFormUtils.updateFormField;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -322,6 +323,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         return super.getMainCondition();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onViewClicked(View view) {
         super.onViewClicked(view);
@@ -350,6 +352,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
     View encView;
 
+    @SuppressLint("InflateParams")
     public void updateChildDueEntry(int type, String serviceName, String dueDate) {
         if (getActivity() == null || getActivity().isFinishing() || otherServiceView == null || TextUtils.isEmpty(serviceName))
             return;
@@ -398,47 +401,13 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             otherServiceView.removeAllViews();
         }
         otherServiceView.setVisibility(View.VISIBLE);
-        String dobString = Utils.getValue(commonPersonObjectClient.getColumnmaps(), DBConstants.KEY.DOB, false);
-        Date dob = Utils.dobStringToDate(dobString);
         long day = FormApplicability.getDay(commonPersonObjectClient);
-        boolean isEnc = FormApplicability.isEncVisible(dob);
-        if (isEnc) {
-            ChildService childService = new ChildService();
-            if (FormApplicability.isDueAnyForm(childBaseEntityId, HnppConstants.EVENT_TYPE.ENC_REGISTRATION)) {
-                View encView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
-                ImageView image1 = encView.findViewById(R.id.image_view);
-                TextView name1 = encView.findViewById(R.id.patient_name_age);
-                encView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                image1.setImageResource(R.mipmap.ic_child);
-                name1.setText("নবজাতকের সেবা");
-                encView.setTag(TAG_ENC);
-                encView.setOnClickListener(this);
-                otherServiceView.addView(encView);
-
-                childService.setTag(TAG_ENC);
-                childService.setEventType(HnppConstants.EVENT_TYPE.ENC_REGISTRATION);
-                childService.setView(encView);
-                serviceList.add(childService);
-            }
-
-        }
-
-/*
-        View familyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
-        ImageView image = familyView.findViewById(R.id.image_view);
-        TextView name =  familyView.findViewById(R.id.patient_name_age);
-        familyView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-        image.setImageResource(R.drawable.childrow_family);
-        name.setText("ফেমেলির অন্যান্য সদস্য সেবা (বাকি)");
-        familyView.setTag(TAG_OPEN_FAMILY);
-        familyView.setOnClickListener(this);
-        otherServiceView.addView(familyView);*/
 
         {
             ChildService childService = new ChildService();
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
             ImageView fImg = view.findViewById(R.id.image_view);
-            TextView name =  view.findViewById(R.id.patient_name_age);
+           TextView name =  view.findViewById(R.id.patient_name_age);
 
             AppCompatButton noNeedButton = view.findViewById(R.id.noNeedBt);
             noNeedButton.setText(getActivity().getString(R.string.no_immunization_info));
@@ -461,7 +430,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
         }
         {
             ChildService childService = new ChildService();
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
+            @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due,null);
             ImageView fImg = view.findViewById(R.id.image_view);
             TextView name =  view.findViewById(R.id.patient_name_age);
             view.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -479,7 +448,7 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
 
         {
             ChildService childService = new ChildService();
-            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
+            @SuppressLint("InflateParams") View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
             ImageView imageReferel = referelView.findViewById(R.id.image_view);
             TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
             referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
@@ -703,23 +672,6 @@ public class HouseHoldChildProfileDueFragment extends BaseFamilyProfileDueFragme
             serviceList.add(childService);
         }
 
-        if (FormApplicability.isDueCoronaForm(childBaseEntityId)) {
-            ChildService childService = new ChildService();
-            View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_hh_member_due, null);
-            ImageView imageReferel = referelView.findViewById(R.id.image_view);
-            TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-            referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-            imageReferel.setImageResource(R.drawable.ic_virus);
-            nameReferel.setText("করোনা তথ্য");
-            referelView.setTag(TAG_OPEN_CORONA);
-            referelView.setOnClickListener(this);
-            otherServiceView.addView(referelView);
-
-            childService.setTag(TAG_OPEN_CORONA);
-            childService.setEventType(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL);
-            childService.setView(referelView);
-            serviceList.add(childService);
-        }
 
 
         if (FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.EYE_TEST)) {

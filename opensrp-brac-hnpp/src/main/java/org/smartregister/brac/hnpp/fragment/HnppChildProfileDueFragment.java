@@ -452,19 +452,6 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
 
         }
 
-            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
-                View referelView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due, null);
-                ImageView imageReferel = referelView.findViewById(R.id.image_view);
-                TextView nameReferel = referelView.findViewById(R.id.patient_name_age);
-                referelView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
-                imageReferel.setImageResource(R.drawable.ic_virus);
-                nameReferel.setText("করোনা তথ্য");
-                referelView.setTag(TAG_OPEN_CORONA);
-                referelView.setOnClickListener(this);
-                otherServiceView.addView(referelView);
-            }
-
-
 
     }
 

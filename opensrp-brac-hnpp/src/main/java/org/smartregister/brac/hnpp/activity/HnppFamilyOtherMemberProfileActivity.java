@@ -436,9 +436,9 @@ public class HnppFamilyOtherMemberProfileActivity extends CoreFamilyOtherMemberP
             try{
                 String[] weights = HnppDBUtils.getWeightFromBaseEntityId(baseEntityId);
                 if(weights.length>0){
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"weight",weights[0]);
-                    int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
-                    HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
+                    //HnppJsonFormUtils.addJsonKeyValue(jsonForm,"weight",weights[0]);
+                    //int monthDiff = FormApplicability.getMonthsDifference(new LocalDate(weights[1]),new LocalDate(System.currentTimeMillis()));
+                    //HnppJsonFormUtils.addJsonKeyValue(jsonForm,"month_diff",monthDiff+"");
                     //national_id,birth_id,phone_number,blood_group
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"national_id",weights[2]+"");
                     HnppJsonFormUtils.addJsonKeyValue(jsonForm,"birth_id",weights[3]+"");

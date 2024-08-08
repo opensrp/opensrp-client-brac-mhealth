@@ -1,66 +1,66 @@
-package org.smartregister.brac.hnpp.task;
-
-import android.content.Context;
-import android.os.AsyncTask;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-
-import org.smartregister.brac.hnpp.utils.HnppConstants;
-import org.smartregister.chw.core.R;
-import org.smartregister.chw.core.dao.VisitDao;
-import org.smartregister.chw.core.holders.RegisterViewHolder;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-public class UpdateAdoServiceTask extends AsyncTask<Void, Void, Void> {
-    private final Context context;
-    private final RegisterViewHolder viewHolder;
-    private final String baseEntityId;
-    String lastVisit,totalServiceCount;
-
-    public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-
-    public UpdateAdoServiceTask(Context context, RegisterViewHolder viewHolder, String baseEntityId) {
-        this.context = context;
-        this.viewHolder = viewHolder;
-        this.baseEntityId = baseEntityId;
-    }
-
-    @Override
-    protected Void doInBackground(Void... params) {
-
-            String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.GIRL_PACKAGE);
-            if(returnValue.length>0){
-                lastVisit = returnValue[1];
-                totalServiceCount =  returnValue[0];
-            }
-            return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void param) {
-        setVisitButtonOverdueStatus(context, viewHolder.dueButton, lastVisit+"",totalServiceCount);
-
-
-    }
-
-
-    private void setVisitButtonOverdueStatus(Context context, Button dueButton, String lastVisitDays, String totalServiceCount) {
-        viewHolder.dueButton.setVisibility(View.VISIBLE);
-        if (TextUtils.isEmpty(lastVisitDays)|| lastVisitDays.equalsIgnoreCase("null")) {
-            dueButton.setText(context.getString(R.string.due_visit, "--","--"));
-        } else {
-            Date d = new Date(Long.parseLong(lastVisitDays));
-            lastVisitDays = DDMMYY.format(d);
-            dueButton.setText(context.getString(R.string.due_visit, lastVisitDays,totalServiceCount));
-        }
-
-        dueButton.setBackgroundResource(R.drawable.blue_btn_selector);
-    }
-
-
-}
-
+//package org.smartregister.brac.hnpp.task;
+//
+//import android.content.Context;
+//import android.os.AsyncTask;
+//import android.text.TextUtils;
+//import android.view.View;
+//import android.widget.Button;
+//
+//import org.smartregister.brac.hnpp.utils.HnppConstants;
+//import org.smartregister.chw.core.R;
+//import org.smartregister.chw.core.dao.VisitDao;
+//import org.smartregister.chw.core.holders.RegisterViewHolder;
+//
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.Locale;
+//
+//public class UpdateAdoServiceTask extends AsyncTask<Void, Void, Void> {
+//    private final Context context;
+//    private final RegisterViewHolder viewHolder;
+//    private final String baseEntityId;
+//    String lastVisit,totalServiceCount;
+//
+//    public static SimpleDateFormat DDMMYY = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+//
+//    public UpdateAdoServiceTask(Context context, RegisterViewHolder viewHolder, String baseEntityId) {
+//        this.context = context;
+//        this.viewHolder = viewHolder;
+//        this.baseEntityId = baseEntityId;
+//    }
+//
+//    @Override
+//    protected Void doInBackground(Void... params) {
+//
+//            String[] returnValue = VisitDao.getVisitInfo(baseEntityId, HnppConstants.EVENT_TYPE.GIRL_PACKAGE);
+//            if(returnValue.length>0){
+//                lastVisit = returnValue[1];
+//                totalServiceCount =  returnValue[0];
+//            }
+//            return null;
+//    }
+//
+//    @Override
+//    protected void onPostExecute(Void param) {
+//        setVisitButtonOverdueStatus(context, viewHolder.dueButton, lastVisit+"",totalServiceCount);
+//
+//
+//    }
+//
+//
+//    private void setVisitButtonOverdueStatus(Context context, Button dueButton, String lastVisitDays, String totalServiceCount) {
+//        viewHolder.dueButton.setVisibility(View.VISIBLE);
+//        if (TextUtils.isEmpty(lastVisitDays)|| lastVisitDays.equalsIgnoreCase("null")) {
+//            dueButton.setText(context.getString(R.string.due_visit, "--","--"));
+//        } else {
+//            Date d = new Date(Long.parseLong(lastVisitDays));
+//            lastVisitDays = DDMMYY.format(d);
+//            dueButton.setText(context.getString(R.string.due_visit, lastVisitDays,totalServiceCount));
+//        }
+//
+//        dueButton.setBackgroundResource(R.drawable.blue_btn_selector);
+//    }
+//
+//
+//}
+//

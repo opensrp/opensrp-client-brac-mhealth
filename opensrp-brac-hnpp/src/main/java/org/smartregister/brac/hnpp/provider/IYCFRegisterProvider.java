@@ -3,7 +3,6 @@ package org.smartregister.brac.hnpp.provider;
 import android.content.Context;
 import android.view.View;
 
-import org.smartregister.brac.hnpp.task.UpdateIYCFServiceTask;
 import org.smartregister.chw.core.holders.RegisterViewHolder;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
@@ -18,6 +17,6 @@ public class IYCFRegisterProvider extends HnppChildRegisterProvider {
 
     @Override
     protected void populateLastColumn(CommonPersonObjectClient pc, RegisterViewHolder viewHolder) {
-        Utils.startAsyncTask(new UpdateIYCFServiceTask(context, viewHolder, pc.entityId()), null);
+//        Utils.startAsyncTask(new UpdateIYCFServiceTask(context, viewHolder, pc.entityId()), null);
     }
 }

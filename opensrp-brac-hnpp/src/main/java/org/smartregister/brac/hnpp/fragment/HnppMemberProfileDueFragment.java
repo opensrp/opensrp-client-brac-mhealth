@@ -52,7 +52,6 @@ import java.util.Set;
 
 import timber.log.Timber;
 
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeFormNameMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.eventTypeMapping;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.iconMapping;

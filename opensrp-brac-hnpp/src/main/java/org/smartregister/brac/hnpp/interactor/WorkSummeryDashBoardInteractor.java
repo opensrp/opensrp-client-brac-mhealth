@@ -50,12 +50,11 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
         dashBoardDataArrayList.clear();
 
         if(HnppConstants.isPALogin()){
-            addToDashBoardList(model.getEyeTestCount("",fromMonth,toMonth));
-            addToDashBoardList(model.getBloodGroupingCount("",fromMonth,toMonth));
+
             addToDashBoardList(model.getNcdServiceCount("",fromMonth,toMonth));
-            addToDashBoardList(model.getAdultForumCount("",fromMonth,toMonth));
-            addToDashBoardList(model.getTotalGlassCount(fromMonth,toMonth));
+
         }else{
+
             addToDashBoardList(model.getHHCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getMemberCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getHHVisitCount(ssName,fromMonth,toMonth));
@@ -70,22 +69,12 @@ public class WorkSummeryDashBoardInteractor implements DashBoardContract.Interac
             addToDashBoardList(model.getAnc3Count(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getAncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getDeliveryCount(ssName,fromMonth,toMonth));
-
-            addToDashBoardList(model.getEncCount(ssName,fromMonth,toMonth));
-           // addToDashBoardList(model.getChildFollowUpCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getNcdForumCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getNcdServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getWomenForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getWomenServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getAdoForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getAdoServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getChildForumCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getChildServiceCount(ssName,fromMonth,toMonth));
-            addToDashBoardList(model.getAdultForumCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getPncCount(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getPncAfter48Count(ssName,fromMonth,toMonth));
             addToDashBoardList(model.getPncBefore48Count(ssName,fromMonth,toMonth));
-
+            addToDashBoardList(model.getEyeTestCount("",fromMonth,toMonth));
+            addToDashBoardList(model.getTotalGlassCount(fromMonth,toMonth));
             if(indicatorModel!=null){
                 addToDashBoardList(indicatorModel.getAnotherSource(ssName,fromMonth,toMonth));
                 addToDashBoardList(indicatorModel.get4PlusAnc(ssName,fromMonth,toMonth));

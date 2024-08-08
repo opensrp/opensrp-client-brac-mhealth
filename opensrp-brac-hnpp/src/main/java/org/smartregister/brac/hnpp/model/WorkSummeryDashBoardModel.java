@@ -149,9 +149,6 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getEyeTestCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.EYE_TEST,ssName,fromMonth,toMonth);
     }
-    public DashBoardData getBloodGroupingCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.BLOOD_GROUP,ssName,fromMonth,toMonth);
-    }
     public DashBoardData getTotalGlassCount(long fromMonth, long toMonth){
         String query;
         String mainCondition = " where "+IndicatorRepository.INDICATOR_NAME+" ='glasses_sell'";
@@ -228,39 +225,11 @@ public class WorkSummeryDashBoardModel implements DashBoardContract.Model {
     public DashBoardData getPncCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount("pnc",ssName,fromMonth,toMonth);
     }
-    public DashBoardData getEncCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.ENC_REGISTRATION,ssName,fromMonth,toMonth);
-    }
-    /*public DashBoardData getChildFollowUpCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP,ssName,fromMonth,toMonth);
-    }*/
-    public DashBoardData getNcdForumCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_NCD,ssName,fromMonth,toMonth);
-    }
+
     public DashBoardData getNcdServiceCount(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.NCD_PACKAGE,ssName,fromMonth,toMonth);
     }
-    public DashBoardData getWomenForumCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_WOMEN,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getWomenServiceCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getAdoForumCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_ADO,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getAdoServiceCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.GIRL_PACKAGE,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getChildForumCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_CHILD,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getChildServiceCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.IYCF_PACKAGE,ssName,fromMonth,toMonth);
-    }
-    public DashBoardData getAdultForumCount(String ssName, long fromMonth, long toMonth){
-        return getVisitTypeCount(HnppConstants.EVENT_TYPE.FORUM_ADULT,ssName,fromMonth,toMonth);
-    }
+
     public DashBoardData getPncBefore48Count(String ssName, long fromMonth, long toMonth){
         return getVisitTypeCount(HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour,ssName,fromMonth,toMonth);
     }

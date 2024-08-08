@@ -66,13 +66,6 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
             otherServiceDataList.add(otherServiceData);
         }
-        if( FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.BLOOD_GROUP)){
-            OtherServiceData otherServiceData = new OtherServiceData();
-            otherServiceData.setImageSource(R.drawable.ic_blood);
-            otherServiceData.setTitle("রক্ত পরীক্ষা");
-            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_BLOOD);
-            otherServiceDataList.add(otherServiceData);
-        }
         {
             OtherServiceData otherServiceData = new OtherServiceData();
             otherServiceData.setImageSource(R.mipmap.ic_refer);
@@ -112,22 +105,6 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceData3.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_NCD);
             otherServiceDataList.add(otherServiceData3);
         }
-
-        if(FormApplicability.isWomenPackageApplicable(commonPersonObjectClient.getCaseId(),age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)){
-            OtherServiceData otherServiceData = new OtherServiceData();
-            otherServiceData.setImageSource(R.drawable.ic_women);
-            otherServiceData.setTitle("নারী কাউন্সেলিং");
-            otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
-            otherServiceDataList.add(otherServiceData);
-        }
-
-        if(FormApplicability.isAdolescentApplicable(age,gender.equalsIgnoreCase("F"))&& FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.GIRL_PACKAGE)){
-            OtherServiceData otherServiceData2 = new OtherServiceData();
-            otherServiceData2.setImageSource(R.drawable.ic_adolescent);
-            otherServiceData2.setTitle("কিশোরী কাউন্সেলিং");
-            otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
-            otherServiceDataList.add(otherServiceData2);
-        }
         if(FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.EYE_TEST)){
             OtherServiceData otherServiceDataEye = new OtherServiceData();
             otherServiceDataEye.setImageSource(R.drawable.ic_eye);
@@ -135,13 +112,6 @@ public class MemberOtherServiceInteractor implements OtherServiceContract.Intera
             otherServiceDataEye.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_EYE);
             otherServiceDataList.add(otherServiceDataEye);
         }
-       /* if(FormApplicability.isIycfApplicable(day) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(),HnppConstants.EVENT_TYPE.IYCF_PACKAGE)){
-            OtherServiceData otherServiceData4 = new OtherServiceData();
-            otherServiceData4.setImageSource(R.drawable.ic_child);
-            otherServiceData4.setTitle("শিশু কাউন্সেলিং");
-            otherServiceData4.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_IYCF);
-            otherServiceDataList.add(otherServiceData4);
-        }*/
         return otherServiceDataList;
     }
 }

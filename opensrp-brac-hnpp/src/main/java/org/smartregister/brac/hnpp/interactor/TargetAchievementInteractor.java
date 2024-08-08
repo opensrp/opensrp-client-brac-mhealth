@@ -94,15 +94,10 @@ public class TargetAchievementInteractor implements DashBoardContract.TargetInte
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS)));
 
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59)));
-
         return visitTypeList;
     }
     private ArrayList<TargetVsAchievementData> getInitialTargetAchievementForPA(){
         ArrayList<TargetVsAchievementData> visitTypeList = new ArrayList<>();
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.FORUM_ADULT,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.FORUM_ADULT)));
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE)));
-        visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.MARKED_PRESBYOPIA)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.PRESBYOPIA_CORRECTION)));
         visitTypeList.add(new TargetVsAchievementData(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES,HnppConstants.targetTypeMapping.get(HnppConstants.EVENT_TYPE.ESTIMATE_DIABETES)));

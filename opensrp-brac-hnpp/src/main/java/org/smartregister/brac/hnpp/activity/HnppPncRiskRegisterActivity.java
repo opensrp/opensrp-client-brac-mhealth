@@ -1,6 +1,5 @@
 package org.smartregister.brac.hnpp.activity;
 
-import org.smartregister.brac.hnpp.fragment.HnppRiskAncRegisterFragment;
 import org.smartregister.brac.hnpp.fragment.HnppRiskPncRegisterFragment;
 import org.smartregister.chw.anc.interactor.BaseAncRegisterInteractor;
 import org.smartregister.chw.anc.model.BaseAncRegisterModel;

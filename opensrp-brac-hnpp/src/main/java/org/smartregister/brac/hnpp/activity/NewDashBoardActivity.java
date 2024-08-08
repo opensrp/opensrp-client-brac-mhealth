@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,6 @@ import org.smartregister.brac.hnpp.fragment.BaseDashBoardFragment;
 import org.smartregister.brac.hnpp.fragment.CountSummeryDashBoardFragment;
 import org.smartregister.brac.hnpp.fragment.DailyServiceTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.DailyTargetAchievementFragment;
-import org.smartregister.brac.hnpp.fragment.ForumTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.MonthlyServiceTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.MonthlyTargetAchievementFragment;
 import org.smartregister.brac.hnpp.fragment.SSInfoDashBoardFragment;
@@ -48,31 +48,6 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
     }
 
     private void loadCountSummeryFragment(int position){
-        if(HnppConstants.isPALogin()){
-            switch (position){
-                case 0:
-                    dashBoardFragment = new DailyTargetAchievementFragment();
-                    break;
-                case 1:
-                    dashBoardFragment = new MonthlyTargetAchievementFragment();
-                    break;
-                case 2:
-                    dashBoardFragment = new ForumTargetAchievementFragment();
-                    break;
-                case 3:
-                    dashBoardFragment = new StockDashBoardFragment();
-                    break;
-                case 4:
-                    dashBoardFragment = new CountSummeryDashBoardFragment();
-                    break;
-                case 5:
-                    dashBoardFragment = new WorkSummeryDashBoardFragment();
-                    break;
-                case 6:
-                    dashBoardFragment = new SSInfoDashBoardFragment();
-                    break;
-            }
-        }else {
             switch (position){
 
                 case 0:
@@ -87,24 +62,19 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
                 case 3:
                     dashBoardFragment = new MonthlyServiceTargetAchievementFragment();
                     break;
-
                 case 4:
-                    dashBoardFragment = new ForumTargetAchievementFragment();
-                    break;
-                case 5:
                     dashBoardFragment = new StockDashBoardFragment();
                     break;
-                case 6:
+                case 5:
                     dashBoardFragment = new CountSummeryDashBoardFragment();
                     break;
-                case 7:
+                case 6:
                     dashBoardFragment = new WorkSummeryDashBoardFragment();
                     break;
-                case 8:
+                case 7:
                     dashBoardFragment = new SSInfoDashBoardFragment();
                     break;
             }
-        }
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -184,6 +154,7 @@ public class NewDashBoardActivity extends SecuredActivity implements View.OnClic
        if(titleText!=null) titleText.setText(title);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()){

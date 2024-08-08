@@ -70,6 +70,8 @@ public class HnppJobCreator implements JobCreator {
                 return new VisitLogServiceJob();
             case HnppPncCloseJob.TAG:
                 return new HnppPncCloseJob();
+//            case HnppAncCloseJob.TAG:
+//                return new HnppAncCloseJob();
             case TargetFetchJob.TAG:
                 return new TargetFetchJob();
             case StockFetchJob.TAG:
@@ -82,6 +84,8 @@ public class HnppJobCreator implements JobCreator {
                 return new NotificationGeneratorJob();
             case DataDeleteJob.TAG:
                 return new DataDeleteJob();
+            case MobileDataDeleteJob.TAG:
+                return new MobileDataDeleteJob();
             case SurveyHistoryJob.TAG:
                 return new SurveyHistoryJob();
             case ZScoreRefreshServiceJob.TAG:

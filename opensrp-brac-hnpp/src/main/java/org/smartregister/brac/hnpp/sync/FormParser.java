@@ -58,7 +58,6 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC3_RE
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_0_3_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_12_18_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_19_24_MONTHS;
@@ -67,14 +66,10 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_F
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_6_MONTHS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_7_11_MONTHS;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ELCO;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.EYE_TEST;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.MEMBER_REFERRAL;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.NCD_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
@@ -86,7 +81,6 @@ import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNAN
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.SS_INFO;
-import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
 import static org.smartregister.brac.hnpp.utils.HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
 import static org.smartregister.chw.anc.util.NCUtils.eventToVisit;
 import static org.smartregister.util.JsonFormUtils.gson;
@@ -100,14 +94,11 @@ public class FormParser {
         ArrayList<String> visit_ids = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitIds();
         for (int i = 0; i < visit_ids.size(); i++) {
             List<Visit> v = AncLibrary.getInstance().visitRepository().getVisitsByVisitId(visit_ids.get(i));
-            //getANCRegistrationVisitsFromEvent(v);
             for (Visit visit : v) {
                 processVisitLog(visit);
 
             }
         }
-        processImmunization();
-        //processAlreadySubmittedDataForStock();
         processInstitutionalDeliveryForTarget();
     }
 
@@ -135,13 +126,8 @@ public class FormParser {
 
 
     public static void processVisitLog(Visit visit){
-        String status = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(EventFetchIntentService.EVENT_FETCH_STATUS);
-
         String formSubmissionId = visit.getFormSubmissionId();
-        if(isForumEvent(visit.getVisitType())){
-            saveForumData(visit,formSubmissionId);
-
-        }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
+        if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
             saveSSFormData(visit);
         }else if(visit.getVisitType().equalsIgnoreCase(HOUSE_HOLD_VISIT)){
             HnppApplication.getHNPPInstance().getHnppVisitLogRepository().updateLastHomeVisitTime(visit.getBaseEntityId(),String.valueOf(visit.getDate().getTime()));
@@ -213,15 +199,6 @@ public class FormParser {
                             }
                             updateElcoRisk(base_entity_id,details);
                         }
-                        if(BLOOD_GROUP.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("blood_group_name")&&!StringUtils.isEmpty(details.get("blood_group_name"))){
-                                String bloodGroup = details.get("blood_group_name");
-                                if(!TextUtils.isEmpty(bloodGroup)){
-                                    HnppDBUtils.updateBloodGroup(base_entity_id,bloodGroup);
-                                }
-                            }
-
-                        }
                         if(PREGNANT_WOMAN_DIETARY_DIVERSITY.equalsIgnoreCase(encounter_type)){
                             if(details.containsKey("woman_weight")&&!StringUtils.isEmpty(details.get("woman_weight"))){
                                 String weight = details.get("woman_weight");
@@ -232,25 +209,7 @@ public class FormParser {
                         }
                         if(ANC1_REGISTRATION.equalsIgnoreCase(encounter_type) || ANC2_REGISTRATION.equalsIgnoreCase(encounter_type)
                                 || ANC3_REGISTRATION.equalsIgnoreCase(encounter_type) || CoreConstants.EventType.ANC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
-                            /*if(details.containsKey("brac_anc") && !StringUtils.isEmpty(details.get("brac_anc"))){
-                                String ancValue = details.get("brac_anc");
-                                String prevalue = FamilyLibrary.getInstance().context().allSharedPreferences().getPreference(base_entity_id+"_BRAC_ANC");
-                                if(!TextUtils.isEmpty(prevalue)){
-                                    try{
-                                        int lastValue = Integer.parseInt(prevalue);
-                                        int ancValueInt = Integer.parseInt(ancValue);
-                                        if(ancValueInt >= lastValue){
 
-                                            FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",(ancValueInt+1)+"");
-                                        }
-                                    }catch (NumberFormatException ne){
-
-                                    }
-
-                                }else{
-                                    FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_ANC",1+"");
-                                }
-                            }*/
                             updateAncHomeVisitRisk(encounter_type,base_entity_id,details);
                         }
 
@@ -295,9 +254,6 @@ public class FormParser {
                             FamilyLibrary.getInstance().context().allSharedPreferences().savePreference(base_entity_id+"_BRAC_PNC",0+"");*/
                             updateAncRegistrationRisk(base_entity_id,details);
                         }
-                        if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
-                            updateIYCFRisk(base_entity_id,details);
-                        }
                         if(HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE.equalsIgnoreCase(encounter_type)){
                             updatePhysicalProblemRisk(base_entity_id,details);
                         }
@@ -328,6 +284,7 @@ public class FormParser {
                             if(NCD_PACKAGE.equalsIgnoreCase(encounter_type)){
                                 updateNcdDiabeticsTarget(log,details,formSubmissionId);
                                 updateNcdBpTarget(log,details,formSubmissionId);
+                                updateMobileBloodNID(details,base_entity_id);
                             }
 
                             if(isNeedToAddStockTable(encounter_type,details)){
@@ -337,14 +294,15 @@ public class FormParser {
 
                             if(EYE_TEST.equalsIgnoreCase(encounter_type)){
                                 processEyeTest(details,log,formSubmissionId);
+                                updateMobileBloodNID(details,base_entity_id);
                             }
 
                             if (HOME_VISIT_FAMILY.equalsIgnoreCase(encounter_type)){
                                 processHHVisitForm(details,log);
                             }
-                            if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
-                                HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
-                            }
+//                            if(HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL.equalsIgnoreCase(encounter_type)){
+//                                HnppDBUtils.updateCoronaFamilyMember(base_entity_id,"false");
+//                            }
                         }
 
 
@@ -729,18 +687,6 @@ public class FormParser {
                 if(details.containsKey("member_count")&&!StringUtils.isEmpty(details.get("member_count"))) {
                     String value = details.get("member_count");
                     HnppApplication.getIndicatorRepository().updateValue("member_count",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
-
-                }
-                break;
-            case CORONA_INDIVIDUAL:
-                if(details.containsKey("corona_test_result")&&!StringUtils.isEmpty(details.get("corona_test_result"))) {
-                    String value = details.get("corona_test_result");
-                    HnppApplication.getIndicatorRepository().updateValue("corona_test_result",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
-
-                }
-                if(details.containsKey("isolation")&&!StringUtils.isEmpty(details.get("isolation"))) {
-                    String value = details.get("isolation");
-                    HnppApplication.getIndicatorRepository().updateValue("isolation",value,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",log.getSsName(),log.getBaseEntityId());
 
                 }
                 break;
@@ -1511,192 +1457,7 @@ public class FormParser {
         }
 
     }
-    private static void updateIYCFRisk(String baseEntityId,HashMap<String,String>details){
-        if(details.containsKey("head_balance") && !StringUtils.isEmpty(details.get("head_balance"))){
-            String head_balance = details.get("head_balance");
-            if(!TextUtils.isEmpty(head_balance) && head_balance.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = head_balance;
-                riskyModel.riskyKey = "head_balance";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
 
-            }
-        }
-        if(details.containsKey("can_sit") && !StringUtils.isEmpty(details.get("can_sit"))){
-            String can_sit = details.get("can_sit");
-            if(!TextUtils.isEmpty(can_sit) && can_sit.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_sit;
-                riskyModel.riskyKey = "can_sit";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_sound") && !StringUtils.isEmpty(details.get("can_sound"))){
-            String can_sound = details.get("can_sound");
-            if(!TextUtils.isEmpty(can_sound) && can_sound.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_sound;
-                riskyModel.riskyKey = "can_sound";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_crap") && !StringUtils.isEmpty(details.get("can_crap"))){
-            String can_crap = details.get("can_crap");
-            if(!TextUtils.isEmpty(can_crap) && can_crap.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_crap;
-                riskyModel.riskyKey = "can_crap";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_sound_baba_maa") && !StringUtils.isEmpty(details.get("can_sound_baba_maa"))){
-            String can_sound_baba_maa = details.get("can_sound_baba_maa");
-            if(!TextUtils.isEmpty(can_sound_baba_maa) && can_sound_baba_maa.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_sound_baba_maa;
-                riskyModel.riskyKey = "can_sound_baba_maa";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_catch") && !StringUtils.isEmpty(details.get("can_catch"))){
-            String can_catch = details.get("can_catch");
-            if(!TextUtils.isEmpty(can_catch) && can_catch.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_catch;
-                riskyModel.riskyKey = "can_catch";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_make_word") && !StringUtils.isEmpty(details.get("can_make_word"))){
-            String can_make_word = details.get("can_make_word");
-            if(!TextUtils.isEmpty(can_make_word) && can_make_word.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_make_word;
-                riskyModel.riskyKey = "can_make_word";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_walk") && !StringUtils.isEmpty(details.get("can_walk"))){
-            String can_walk = details.get("can_walk");
-            if(!TextUtils.isEmpty(can_walk) && can_walk.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_walk;
-                riskyModel.riskyKey = "can_walk";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_two_sound") && !StringUtils.isEmpty(details.get("can_two_sound"))){
-            String can_two_sound = details.get("can_two_sound");
-            if(!TextUtils.isEmpty(can_two_sound) && can_two_sound.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_two_sound;
-                riskyModel.riskyKey = "can_two_sound";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_one_walk") && !StringUtils.isEmpty(details.get("can_one_walk"))){
-            String can_one_walk = details.get("can_one_walk");
-            if(!TextUtils.isEmpty(can_one_walk) && can_one_walk.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_one_walk;
-                riskyModel.riskyKey = "can_one_walk";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_run") && !StringUtils.isEmpty(details.get("can_run"))){
-            String can_run = details.get("can_run");
-            if(!TextUtils.isEmpty(can_run) && can_run.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_run;
-                riskyModel.riskyKey = "can_run";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        if(details.containsKey("can_make_sentance") && !StringUtils.isEmpty(details.get("can_make_sentance"))){
-            String can_make_sentance = details.get("can_make_sentance");
-            if(!TextUtils.isEmpty(can_make_sentance) && can_make_sentance.equalsIgnoreCase("no")){
-                RiskyModel riskyModel = new RiskyModel();
-                riskyModel.riskyValue = can_make_sentance;
-                riskyModel.riskyKey = "can_make_sentance";
-                riskyModel.eventType = IYCF_PACKAGE;
-                riskyModel.baseEntityId = baseEntityId;
-                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-                HnppDBUtils.updateIsRiskChild(baseEntityId,"true");
-                return;
-
-            }
-        }
-        HnppDBUtils.updateIsRiskChild(baseEntityId,"false");
-
-
-    }
-    private static boolean isForumEvent(String eventType){
-        switch (eventType) {
-            case HnppConstants.EVENT_TYPE.FORUM_CHILD:
-            case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
-            case HnppConstants.EVENT_TYPE.FORUM_ADO:
-            case HnppConstants.EVENT_TYPE.FORUM_NCD:
-            case HnppConstants.EVENT_TYPE.FORUM_ADULT:
-                return true;
-            default:
-                return false;
-        }
-
-    }
     private static   void saveSSFormData(Visit visit)
     {
         try{
@@ -1842,201 +1603,6 @@ public class FormParser {
         }
     }
 
-    private static synchronized void saveForumData(Visit visit,String formSubmissionId) {
-        switch (visit.getVisitType()){
-            case HnppConstants.EVENT_TYPE.FORUM_CHILD:
-            case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
-            case HnppConstants.EVENT_TYPE.FORUM_ADO:
-            case HnppConstants.EVENT_TYPE.FORUM_NCD:
-            case HnppConstants.EVENT_TYPE.FORUM_ADULT:
-                if (visit.getJson() != null) {
-                    Event baseEvent = gson.fromJson(visit.getJson(), Event.class);
-                    List<Obs> obsList = baseEvent.getObs();
-                    ForumDetails forumDetails = new ForumDetails();
-                    for(Obs obs:obsList){
-                        try{
-                            String key = obs.getFormSubmissionField();
-
-                            if(key.equalsIgnoreCase("forumType")){
-                                forumDetails.forumType = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("forumName")){
-                                forumDetails.forumName = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("place")){
-                                String jsonFromMap = gson.toJson(obs.getValue());
-                                forumDetails.place = gson.fromJson(jsonFromMap, HHMemberProperty.class);
-                            }
-                            if(key.equalsIgnoreCase("participants")){
-                                String jsonFromMap = gson.toJson(obs.getValue());
-                                forumDetails.participants = gson.fromJson(jsonFromMap,  new TypeToken<ArrayList<HHMemberProperty>>() {
-                                }.getType());
-                            }
-                            if(key.equalsIgnoreCase("noOfParticipant")){
-                                forumDetails.noOfParticipant = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("forumDate")){
-                                forumDetails.forumDate = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("ssName")){
-                                forumDetails.ssName = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("villageName")){
-                                forumDetails.villageName =  (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("clusterName")){
-                                forumDetails.clusterName =  (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("noOfAdoTakeFiveFood")){
-                                forumDetails.noOfAdoTakeFiveFood = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("noOfServiceTaken")){
-                                forumDetails.noOfServiceTaken = (String) obs.getValue();
-                            }
-                            if(key.equalsIgnoreCase("sIndex")){
-                                double d =  (Double) obs.getValue();
-                                forumDetails.sIndex = (int)d;
-                            }
-                            if(key.equalsIgnoreCase("vIndex")){
-                                double d =  (Double) obs.getValue();
-                                forumDetails.vIndex =  (int) d;
-                            }
-                            if(key.equalsIgnoreCase("cIndex")){
-                                double d =  (Double) obs.getValue();
-                                forumDetails.cIndex =  (int) d;
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-
-                    }
-                    if(!TextUtils.isEmpty(forumDetails.forumName)){
-                        VisitLog log = new VisitLog();
-                        log.setVisitId(visit.getVisitId());
-                        log.setVisitType(visit.getVisitType());
-                        log.setBaseEntityId(visit.getBaseEntityId());
-                        log.setVisitDate(visit.getDate().getTime());
-                        log.setEventType(visit.getVisitType());
-                        log.setVisitJson(gson.toJson(forumDetails));
-                        log.setFamilyId(forumDetails.place.getBaseEntityId());
-
-                        String ssName = forumDetails.ssName;
-                        log.setSsName(ssName);
-                        long inserted = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                        if(inserted != -1){
-                            try{
-                                LocalDate localDate = new LocalDate(visit.getDate().getTime());
-                                HnppApplication.getTargetRepository().updateValue(visit.getVisitType(),localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),formSubmissionId);
-                                if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_CHILD)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_IYCF_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
-
-                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_WOMEN)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_WOMEN_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
-
-                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADO)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADO_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
-
-                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_NCD)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_NCD_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
-
-                                }else if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.FORUM_ADULT)){
-                                    HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_SERVICE_TAKEN,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfServiceTaken),formSubmissionId);
-
-                                    if(HnppConstants.isPALogin()){
-                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.ADULT_FORUM_ATTENDANCE,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
-
-                                    }else{
-                                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.AVG_ATTEND_ADULT_FORUM,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),Integer.parseInt(forumDetails.noOfParticipant),formSubmissionId);
-
-                                    }
-                                }
-                            }catch (NumberFormatException e){
-
-                            }
-
-                        }
-
-                    }
-
-                }
-                break;
-            default:
-                break;
-
-
-        }
-
-    }
-    private static void processImmunization(){
-        List<Visit> v = getImmunizationVisitsFromEvent();
-        for(Visit visit : v){
-            String eventJson = visit.getJson();
-            String formSubmissionId = visit.getFormSubmissionId();
-            if(!StringUtils.isEmpty(eventJson)){
-                try{
-                    Event baseEvent = gson.fromJson(eventJson, Event.class);
-                    String base_entity_id = baseEvent.getBaseEntityId();
-                    VisitLog log = new VisitLog();
-                    log.setVisitId(visit.getVisitId());
-                    log.setVisitType(visit.getVisitType());
-                    log.setBaseEntityId(base_entity_id);
-
-                    log.setVisitDate(visit.getDate().getTime());
-                    log.setEventType(visit.getVisitType());
-                    log.setVisitJson(eventJson);
-                    String ssName = HnppDBUtils.getSSName(base_entity_id);
-                    Log.v("IMMUNIZATION_ADD","ssname:"+ssName);
-                    log.setSsName(ssName);
-                    log.setFamilyId(HnppDBUtils.getFamilyIdFromBaseEntityId(base_entity_id));
-                    long rowId = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().add(log);
-                    if(rowId != -1){
-                        LocalDate localDate = new LocalDate(log.getVisitDate());
-                        Log.v("IMMUNIZATION_ADD","update:"+ssName);
-                        HnppApplication.getTargetRepository().updateValue(HnppConstants.EVENT_TYPE.CHILD_IMMUNIZATION_0_59,localDate.getDayOfMonth()+"",localDate.getMonthOfYear()+"",localDate.getYear()+"",ssName,visit.getBaseEntityId(),formSubmissionId);
-                        updateBcg(baseEvent,log);
-                    }
-
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    private static List<Visit> getImmunizationVisitsFromEvent() {
-        List<Visit> v = new ArrayList<>();
-        String query = "SELECT event.baseEntityId,event.eventId, event.json,event.eventType FROM event WHERE (event.eventType = 'Vaccination' OR event.eventType = 'Recurring Service') AND event.eventId NOT IN (Select ec_visit_log.visit_id from ec_visit_log)";
-        Cursor cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
-        try{
-            if(cursor !=null && cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    String baseEntityId = cursor.getString(0);
-                    String eventId = cursor.getString(1);
-                    String json = cursor.getString(2);
-                    String eventType = cursor.getString(3);
-                    Event baseEvent = gson.fromJson(json, Event.class);
-
-                    try {
-                        Visit visit = NCUtils.eventToVisit(baseEvent, eventId);
-                        v.add(visit);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    cursor.moveToNext();
-                }
-                cursor.close();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            if(cursor !=null) cursor.close();
-        }
-
-        return v;
-    }
     public static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(JsonFormUtils.KEY),false);
@@ -2177,18 +1743,6 @@ public class FormParser {
             case NCD_PACKAGE:
                 form_name = HnppConstants.JSON_FORMS.NCD_PACKAGE + ".json";
                 break;
-            case WOMEN_PACKAGE:
-                form_name = HnppConstants.JSON_FORMS.WOMEN_PACKAGE + ".json";
-                break;
-            case GIRL_PACKAGE:
-                form_name = HnppConstants.JSON_FORMS.GIRL_PACKAGE + ".json";
-                break;
-            case IYCF_PACKAGE:
-                form_name = HnppConstants.JSON_FORMS.IYCF_PACKAGE + ".json";
-                break;
-            case ENC_REGISTRATION:
-                form_name = HnppConstants.JSON_FORMS.ENC_REGISTRATION + ".json";
-                break;
             case HOME_VISIT_FAMILY:
                 form_name = HnppConstants.JSON_FORMS.HOME_VISIT_FAMILY + ".json";
                 break;
@@ -2230,17 +1784,6 @@ public class FormParser {
             case CHILD_FOLLOW_UP_4_5_YEARS:
                 form_name = HnppConstants.JSON_FORMS.CHILD_FOLLOW_UP_4_5_YEARS + ".json";
                 break;
-
-           /* case CHILD_INFO_EBF12:
-            case "Child Info EBF 1&2":
-                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_EBF12 + ".json";
-                break;
-            case CHILD_INFO_7_24_MONTHS:
-                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_7_24_MONTHS + ".json";
-                break;
-            case CHILD_INFO_25_MONTHS:
-                form_name = HnppConstants.JSON_FORMS.CHILD_INFO_25_MONTHS + ".json";
-                break;*/
             case ANC_REGISTRATION:
                 form_name = HnppConstants.JSON_FORMS.ANC_FORM + ".json";
                 break;
@@ -2254,14 +1797,8 @@ public class FormParser {
             case SS_INFO:
                 form_name = HnppConstants.JSON_FORMS.SS_FORM + ".json";
                 break;
-            case CORONA_INDIVIDUAL:
-                form_name = HnppConstants.JSON_FORMS.CORONA_INDIVIDUAL + ".json";
-                break;
             case EYE_TEST:
                 form_name = HnppConstants.JSON_FORMS.EYE_TEST + ".json";
-                break;
-            case BLOOD_GROUP:
-                form_name = HnppConstants.JSON_FORMS.BLOOD_TEST + ".json";
                 break;
             case HnppConstants.EventType.REMOVE_MEMBER:
                 form_name = "family_details_remove_member.json";

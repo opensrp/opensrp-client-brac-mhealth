@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.sync;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
@@ -142,7 +143,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         }
         return weightTable;
     }
-
+    //as per new requirment form reduce some event need to remove
     protected void processEvents(ClientClassification clientClassification, Table vaccineTable, Table serviceTable, EventClient eventClient, Event event, String eventType) throws Exception {
         Log.v("PROCESS_EVENT","processEvents2>>"+eventType);
         switch (eventType) {
@@ -186,29 +187,16 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_3_4_YEARS:
             case HnppConstants.EVENT_TYPE.CHILD_FOLLOW_UP_4_5_YEARS:
             case HnppConstants.EVENT_TYPE.PREGNANT_WOMAN_DIETARY_DIVERSITY:
-
-            case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-            case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-            case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
-            case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-
+                case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
             case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
             case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
-            case HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
             case HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY:
             case HnppConstants.EVENT_TYPE.HOUSE_HOLD_VISIT:
 
-            case HnppConstants.EVENT_TYPE.FORUM_CHILD:
-            case HnppConstants.EVENT_TYPE.FORUM_WOMEN:
-            case HnppConstants.EVENT_TYPE.FORUM_ADO:
-            case HnppConstants.EVENT_TYPE.FORUM_NCD:
-            case HnppConstants.EVENT_TYPE.FORUM_ADULT:
-            case HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
             case HnppConstants.EVENT_TYPE.SS_INFO:
             case HnppConstants.EVENT_TYPE.ANC_REGISTRATION:
                 case HnppConstants.EVENT_TYPE.PREGNANCY_OUTCOME:
             case HnppConstants.EVENT_TYPE.EYE_TEST:
-            case HnppConstants.EVENT_TYPE.BLOOD_GROUP:
             case CoreConstants.EventType.REMOVE_MEMBER:
             case CoreConstants.EventType.REMOVE_CHILD:
                 if (eventClient.getEvent() == null) {
@@ -222,6 +210,19 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                     return;
                 }
                 processRemoveFamily(eventClient.getClient().getBaseEntityId(), event.getEventDate().toDate());
+                break;
+                //ignore below event type as per form reduce CR
+            case "corona individual":
+            case "Child Forum":
+            case "Adolescent Forum":
+            case "WOMEN Forum":
+            case "NCD Forum":
+            case "ADULT Forum":
+            case "Blood group":
+            case "IYCF package":
+            case "Women package":
+            case "Adolescent package":
+            case "ENC Registration":
                 break;
 //            case CoreConstants.EventType.REMOVE_MEMBER:
 //                if (eventClient.getClient() == null) {
@@ -312,6 +313,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
     }
 
     // possible to delegate
+    @SuppressLint("SimpleDateFormat")
     protected Boolean processVaccine(EventClient vaccine, Table vaccineTable, boolean outOfCatchment) {
 
         try {
@@ -645,7 +647,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             Timber.e(e);
         }
     }
-
+    @SuppressLint("SimpleDateFormat")
     /**
      * Update the family members
      *
@@ -690,7 +692,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
         }
     }
-
+    @SuppressLint("SimpleDateFormat")
     protected void processRemoveMember(String baseEntityId, Date eventDate) {
 
         Date myEventDate = eventDate;
@@ -720,7 +722,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 
         }
     }
-
+    @SuppressLint("SimpleDateFormat")
     protected void processRemoveChild(String baseEntityId, Date eventDate) {
 
         Date myEventDate = eventDate;
@@ -776,7 +778,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
         }
         return null;
     }
-
+    @SuppressLint("SimpleDateFormat")
     private Date getDate(String eventDateStr) {
         Date date = null;
         if (StringUtils.isNotBlank(eventDateStr)) {

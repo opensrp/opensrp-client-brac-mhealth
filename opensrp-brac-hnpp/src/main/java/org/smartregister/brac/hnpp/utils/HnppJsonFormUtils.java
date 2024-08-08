@@ -696,15 +696,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
                 return HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
             case HnppConstants.EVENT_TYPE.CHILD_REFERRAL:
                 return HnppConstants.EVENT_TYPE.CHILD_REFERRAL;
-            case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-                return HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
-            case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-                return HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
             case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
                 return HnppConstants.EVENT_TYPE.NCD_PACKAGE;
-            case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-                return HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-
             case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour:
                 return HnppConstants.EVENT_TYPE.PNC_REGISTRATION_AFTER_48_hour;
             case  HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
@@ -746,14 +739,8 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
             case  HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP:
                 return HnppConstants.EVENT_TYPE.REFERREL_FOLLOWUP;
-            case  HnppConstants.EVENT_TYPE.ENC_REGISTRATION:
-                return HnppConstants.EVENT_TYPE.ENC_REGISTRATION;
-            case  HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL:
-                return HnppConstants.EVENT_TYPE.CORONA_INDIVIDUAL;
             case  HnppConstants.EVENT_TYPE.EYE_TEST:
                 return HnppConstants.EVENT_TYPE.EYE_TEST;
-            case  HnppConstants.EVENT_TYPE.BLOOD_GROUP:
-                return HnppConstants.EVENT_TYPE.BLOOD_GROUP;
             case  HnppConstants.EventType.REMOVE_MEMBER:
                 return HnppConstants.EventType.REMOVE_MEMBER;
             case  HnppConstants.EventType.REMOVE_CHILD:
@@ -1065,12 +1052,15 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             idTypeValue = "[\"chk_birth_id\"]";
             birth_idObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,brid );
         }
-        String value = processValueWithChoiceIdsForEdit(idAvailObject,idTypeValue);
-        if(StringUtils.isEmpty(value)){
-            idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
-        }else{
-            idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+        if(!TextUtils.isEmpty(idTypeValue)){
+            String value = processValueWithChoiceIdsForEdit(idAvailObject,idTypeValue);
+            if(StringUtils.isEmpty(value)){
+                idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray());
+            }else{
+                idAvailObject.put(org.smartregister.family.util.JsonFormUtils.VALUE,new JSONArray(value));
+            }
         }
+
     }
 
     public static void addAddToStockValue(JSONObject jsonForm) {

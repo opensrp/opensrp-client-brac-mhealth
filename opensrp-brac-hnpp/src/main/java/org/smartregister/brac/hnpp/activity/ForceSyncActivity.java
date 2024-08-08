@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -200,24 +201,12 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
        return  Observable.create(e->{
            Cursor cursor = null;
            ArrayList<ForceSyncModel> forceSyncModelArrayList = new ArrayList<>();
-           ForceSyncModel forceSyncModel = new ForceSyncModel();
-           forceSyncModel.eventType = HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
-           forceSyncModel.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel.eventType);
-           forceSyncModelArrayList.add(forceSyncModel);
-           ForceSyncModel forceSyncModel1 = new ForceSyncModel();
-           forceSyncModel1.eventType = HnppConstants.EVENT_TYPE.WOMEN_PACKAGE;
-           forceSyncModel1.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel1.eventType);
-           forceSyncModelArrayList.add(forceSyncModel1);
 
            ForceSyncModel forceSyncModel2 = new ForceSyncModel();
            forceSyncModel2.eventType = HnppConstants.EVENT_TYPE.NCD_PACKAGE;
            forceSyncModel2.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel2.eventType);
            forceSyncModelArrayList.add(forceSyncModel2);
 
-           ForceSyncModel forceSyncModel3 = new ForceSyncModel();
-           forceSyncModel3.eventType = HnppConstants.EVENT_TYPE.GIRL_PACKAGE;
-           forceSyncModel3.title = HnppConstants.workSummeryTypeMapping.get(forceSyncModel3.eventType);
-           forceSyncModelArrayList.add(forceSyncModel3);
 
            ForceSyncModel forceSyncModel4 = new ForceSyncModel();
            forceSyncModel4.eventType = HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour;
@@ -249,7 +238,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
           e.onComplete();
        });
     }
-
+    @SuppressLint("SdCardPath")
     private void dumpDatabase(){
         //AppExecutors appExecutors = new AppExecutors();
         ((Button)findViewById(R.id.dump_btn)).setText("ডাটাবেস ডাম্প নেওয়া হচ্ছে ");
@@ -434,7 +423,8 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 //
 //
 //    }
-    private void showInvalidCountDialog(int cc, int ec,boolean isFromServerCheck ){
+    @SuppressLint("SetTextI18n")
+    private void showInvalidCountDialog(int cc, int ec, boolean isFromServerCheck ){
         Dialog dialog = new Dialog(this);
         dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -492,6 +482,7 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void getServerResponse(){
         org.smartregister.util.Utils.startAsyncTask(new AsyncTask() {
 

@@ -141,13 +141,6 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                 memberProfileDueDataArrayList.add(memberProfileDueData);
 
             }
-            if (FormApplicability.isDueCoronaForm(baseEntityId)) {
-                MemberProfileDueData memberProfileDueData = new MemberProfileDueData();
-                memberProfileDueData.setImageSource(R.drawable.ic_virus);
-                memberProfileDueData.setTitle("করোনা তথ্য");
-                memberProfileDueData.setType(TAG_OPEN_CORONA);
-                memberProfileDueDataArrayList.add(memberProfileDueData);
-            }
 
             if (context instanceof HouseHoldMemberDueFragment) {
 
@@ -164,23 +157,6 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
                     memberProfileDueDataArrayList.add(otherServiceData3);
                 }
 
-                if (FormApplicability.isWomenPackageApplicable(commonPersonObjectClient.getCaseId(), age, gender.equalsIgnoreCase("F")) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.WOMEN_PACKAGE)) {
-                    MemberProfileDueData otherServiceData = new MemberProfileDueData();
-                    otherServiceData.setImageSource(R.drawable.ic_women);
-                    otherServiceData.setTitle("নারী কাউন্সেলিং");
-                    otherServiceData.setEventType(HnppConstants.EVENT_TYPE.WOMEN_PACKAGE);
-                    otherServiceData.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_WOMEN_PACKAGE);
-                    memberProfileDueDataArrayList.add(otherServiceData);
-                }
-
-                if (FormApplicability.isAdolescentApplicable(age, gender.equalsIgnoreCase("F")) && FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.GIRL_PACKAGE)) {
-                    MemberProfileDueData otherServiceData2 = new MemberProfileDueData();
-                    otherServiceData2.setImageSource(R.drawable.ic_adolescent);
-                    otherServiceData2.setTitle("কিশোরী কাউন্সেলিং");
-                    otherServiceData2.setEventType(HnppConstants.EVENT_TYPE.GIRL_PACKAGE);
-                    otherServiceData2.setType(HnppConstants.OTHER_SERVICE_TYPE.TYPE_GIRL_PACKAGE);
-                    memberProfileDueDataArrayList.add(otherServiceData2);
-                }
                 if (FormApplicability.isDueAnyForm(commonPersonObjectClient.getCaseId(), HnppConstants.EVENT_TYPE.EYE_TEST)) {
                     MemberProfileDueData otherServiceDataEye = new MemberProfileDueData();
                     otherServiceDataEye.setImageSource(R.drawable.ic_eye);

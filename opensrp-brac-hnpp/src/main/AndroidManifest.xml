@@ -429,6 +429,9 @@
         <service android:name=".service.StockFetchIntentService" />
         <service android:name=".service.VisitLogIntentService" />
         <service android:name=".service.HnppPncCloseDateIntent" />
+        <service android:name=".service.MobileDataDeleteIntentService" />
+<!--        <service android:name=".service.HnppAncCloseDateIntent"-->
+<!--            tools:ignore="Instantiatable" />-->
         <service android:name=".service.GuestMemberIdIntentService" />
         <service android:name=".service.DataDeleteIntentService" />
         <service android:name=".service.EventFetchIntentService" />

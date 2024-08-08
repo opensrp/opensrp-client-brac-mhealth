@@ -83,27 +83,27 @@ public class NavigationInteractor implements NavigationContract.Interactor {
             }
             tableName = "ec_family_member";
         }
-        else if(tableName.equalsIgnoreCase("ado") ){
-
-                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.AdoFilterWithTableName());
-
-
-            tableName = "ec_family_member";
-        }
-        else if(tableName.equalsIgnoreCase("women") ){
-
-            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.WomenFilterWithTableName());
-
-
-            tableName = "ec_family_member";
-        }
-        else if(tableName.equalsIgnoreCase("iycf") ){
-
-            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.IycfFilterWithTableName());
-
-
-            tableName = CoreConstants.TABLE_NAME.CHILD;
-        }
+//        else if(tableName.equalsIgnoreCase("ado") ){
+//
+//                mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.AdoFilterWithTableName());
+//
+//
+//            tableName = "ec_family_member";
+//        }
+//        else if(tableName.equalsIgnoreCase("women") ){
+//
+//            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.WomenFilterWithTableName());
+//
+//
+//            tableName = "ec_family_member";
+//        }
+//        else if(tableName.equalsIgnoreCase("iycf") ){
+//
+//            mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.IycfFilterWithTableName());
+//
+//
+//            tableName = CoreConstants.TABLE_NAME.CHILD;
+//        }
         else if (tableName.equalsIgnoreCase(CoreConstants.TABLE_NAME.CHILD) ||  tableName.equalsIgnoreCase("child_risk")) {
             if(tableName.equalsIgnoreCase("child_risk")){
                 mainCondition = String.format(" where %s is null AND %s", DBConstants.KEY.DATE_REMOVED, ChildDBConstants.riskChildAgeLimitFilter());
