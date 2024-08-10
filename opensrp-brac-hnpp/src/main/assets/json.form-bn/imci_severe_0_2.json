@@ -59,7 +59,27 @@
         "type": "hidden",
         "value": "imci_severe_0_2"
       },
-
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
       {
         "key": "relational_id",
         "openmrs_entity_parent": "",
@@ -109,7 +129,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "able_to_feed",
         "type": "native_radio",
-        "label": "ছোট শিশু কি একেবারেই খাওয়া খেতে পারছে না?",
+        "label": "শিশুটি কি খাওয়া খেতে পারছে?",
         "text_color": "#000000",
         "options": [
           {
@@ -761,17 +781,86 @@
         }
       },
       {
-        "key": "cal_assessment_type",
+        "key": "cal_assessment_type_1",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "cal_assessment_type",
+        "openmrs_entity_id": "cal_assessment_type_1",
         "type": "hidden",
+        "hint": "type:1>>",
         "edit_type": "number",
         "read_only": true,
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_severe_calculation_rule.yml"
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "hidden",
+        "hint": "type:2>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "hidden",
+        "hint": "type:3>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_4",
+        "type": "hidden",
+        "hint": "type:4>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_5",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_5",
+        "type": "hidden",
+        "hint": "type:5>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
             }
           }
         }

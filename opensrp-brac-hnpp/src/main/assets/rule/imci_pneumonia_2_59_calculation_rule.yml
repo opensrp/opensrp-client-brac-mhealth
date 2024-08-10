@@ -4,14 +4,15 @@ description: 'মারাত্মক নিউমোনিয়া'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_look_stidor.contains('yes') || step1_oxygen_saturation_level.contains('yes') )?1:0"
+  - "calculation = step1_oxygen_saturation_level.contains('yes') ?1:0"
 ---
 name: step1_cal_assessment_type_2
 description: 'নিউমোনিয়া'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_Look_chest_indrawing.contains('yes') || step1_number_of_times_taking_breathe.contains('above_50')
+  - "calculation = (step1_Look_chest_indrawing.contains('yes') || (step1_month_diff<365 && step1_number_of_times_taking_breathe.contains('above_50'))
+  || (step1_month_diff>=365 && step1_number_of_times_taking_breathe.contains('above_40'))
   )?1:0"
 ---
 name: step1_cal_assessment_type_3
@@ -19,8 +20,7 @@ description: 'নিউমোনিয়া নাই (কাশি অথবা �
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_look_wheezing.contains('yes') || step1_number_of_times_taking_breathe.contains('above_40')
-  || step1_number_of_times_taking_breathe.contains('bellow_40') || step1_has_cough_breathing.contains('yes') || step1_look_stidor.contains('no')
+  - "calculation = (step1_number_of_times_taking_breathe.contains('bellow_40') || step1_has_cough_breathing.contains('yes') || step1_look_stidor.contains('no')
   )?1:0"
 ---
 name: step1_cal_assessment_type_4
@@ -28,4 +28,11 @@ description: 'স্বাভাবিক'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = (step1_look_wheezing.contains('no') || step1_has_cough_breathing.contains('no'))?1:0"
+  - "calculation = step1_has_cough_breathing.contains('no')?1:0"
+---
+name: step1_month_diff
+description: Calculated month difference
+priority: 1
+condition: "step1_dob != ''"
+actions:
+  - "calculation =  helper.formatDate(step1_dob,'d')"

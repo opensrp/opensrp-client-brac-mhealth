@@ -1,0 +1,41 @@
+---
+name: step1_cal_assessment_type_1
+description: "VSD-PSBI"
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_unconscious.contains('yes') || step1_convulsion.contains('yes')
+  || step1_able_to_feed.contains('no')|| step1_vomiting.contains('yes')|| step1_bulging_fontanels.contains('yes')
+  || step1_stop_breathing.contains('yes')|| step1_central_cyanosis.contains('yes')|| step1_bleeding.contains('yes')
+  || step1_chest_indrawing.contains('yes') || step1_low_body_temperature.contains('yes')
+  || step1_difficulty_in_feeding.contains('yes')|| step1_infant_not_move_at_all.contains('no')
+  || step1_infant_move_stimulated.contains('yes')
+  || step1_weight.contains('yes')|| step1_malformation.contains('yes')|| step1_surgical_condition.contains('yes'))?1:0"
+---
+name: step1_cal_assessment_type_2
+description: "সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য)"
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_calm_state_breathing.contains('yes') && step1_month_diff<7)?1:0"
+---
+name: step1_cal_assessment_type_3
+description: "খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য)"
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_calm_state_breathing.contains('yes') && step1_month_diff>=7)?1:0"
+---
+name: step1_cal_assessment_type_4
+description: "স্থানীয় ব্যাকটেরিয়াল সংক্রমণ"
+priority: 3
+condition: "true"
+actions:
+  - "calculation = (step1_Umbilicus_red.contains('yes') || step1_skin_pustules.contains('yes'))?1:0"
+---
+name: step1_month_diff
+description: Calculated month difference
+priority: 1
+condition: "step1_dob != ''"
+actions:
+  - "calculation =  helper.formatDate(step1_dob,'d')"

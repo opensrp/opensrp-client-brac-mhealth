@@ -2,7 +2,7 @@ package org.smartregister.unicef.mis.imci;
 
 public class Utility {
     public enum ASSESSMENT_RESULT_TYPE_SEVERE {
-        TWO("সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগসঙ্কটাপন্ন অসুস্থতা (VSD-CI)"),
+        TWO("সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI)"),
         THREE("সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI)"),
         FOUR("সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য)"),
         FIVE("খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য)"),
@@ -53,7 +53,7 @@ public class Utility {
     }
     public enum ASSESSMENT_RESULT_TYPE_PNEUMONIA {
         ONE("স্বাভাবিক"),
-        TWO("নিউমোনিয়া নাই (কাশি অথবা সর্দি)"),
+        TWO("কাশি অথবা সর্দি"),
         THREE("নিউমোনিয়া"),
         FOUR("মারাত্মক নিউমোনিয়া");
         String value;
@@ -80,7 +80,7 @@ public class Utility {
         }
     }
     public enum ASSESSMENT_RESULT_TYPE_FEVER {
-        ONE("জ্বর নাই"),
+        ONE("জ্বর নেই"),
         TWO("জ্বর"),
         THREE("জ্বর-ম্যালেরিয়া নয়"),
         FOUR("ম্যালেরিয়া"),

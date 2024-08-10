@@ -68,6 +68,27 @@
         "type": "hidden"
       },
       {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_pneumonia_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -184,70 +205,6 @@
         "openmrs_entity_id": "Look_chest_indrawing",
         "type": "native_radio",
         "label": "বুকের নীচের অংশ ভিতরে ডেবে যায় কিনা\nলক্ষ্য করুন়",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-
-        ],
-        "relevance": {
-          "step1:has_cough_breathing": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "look_stidor",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "look_stidor",
-        "type": "native_radio",
-        "label": "স্ট্রাইডর আছে কি না লক্ষ্য করুন এবং শুনুন",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-
-        ],
-        "relevance": {
-          "step1:has_cough_breathing": {
-            "type": "string",
-            "ex": "regex(., \"yes\")"
-          }
-        }
-      },
-      {
-        "key": "look_wheezing",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "look_wheezing",
-        "type": "native_radio",
-        "label": "হুইজিং আছে কি না লক্ষ্য করুন এবং শুনুন",
         "text_color": "#000000",
         "options": [
           {

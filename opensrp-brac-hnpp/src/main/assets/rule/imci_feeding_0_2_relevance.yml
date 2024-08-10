@@ -2,139 +2,139 @@
 name: step1_drink_breast_milk
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Breasts_Condition
 description: 2-3 month
 priority: 3
-condition: "step1_mother_have_pain.contains('yes') && step1_drink_breast_milk.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_mother_have_pain.contains('yes') && step1_drink_breast_milk.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Nipples_Condition
 description: 2-3 month
 priority: 3
-condition: "step1_mother_have_pain.contains('yes') && step1_drink_breast_milk.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_mother_have_pain.contains('yes') && step1_drink_breast_milk.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_mother_have_pain
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_label_ask_mother
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Thrush
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_sucking_effectively
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Facing_breast
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_body_fully_supported
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Body_close_mother
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Straight_head_body
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_label_ask_position
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_areola_mouth
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_Lower_lip_turned_outward
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_mouth_wide_open
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_chin_touching_breast
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_label_ask_chest
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_breastfed_previous_hour
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_label_ask_feeding
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"
 ---
 name: step1_label_ask_feeding
 description: 2-3 month
 priority: 3
-condition: "step1_infant_breastfed.contains('yes') && step1_other_food_drink.contains('no')"
+condition: "step1_infant_breastfed.contains('yes')"
 actions:
   - "isRelevant = true"

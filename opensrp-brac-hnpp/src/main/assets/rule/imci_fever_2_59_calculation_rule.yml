@@ -25,8 +25,7 @@ description: 'জ্বর'
 priority: 3
 condition: "true"
 actions:
-  - "calculation = ((step1_stay_at_malaria_location.contains('no')|| step1_fever_Bacterial.contains('no'))
-  && (step1_Runny_nose.contains('yes') || step1_fever_Bacterial.contains('yes')))?1:0"
+  - "calculation = step1_Stiff_neck.contains('no')?1:0"
 ---
 name: step1_cal_assessment_type_5
 description: 'জ্বর নাই'

@@ -68,6 +68,8 @@ public class ImciMainActivity extends SecuredActivity {
     public static final int REQUEST_IMCI_FEVER_2_59 = 1239;
     public static final int REQUEST_IMCI_MALNUTRITION_2_59 = 1240;
     public static final int REQUEST_IMCI_ANAEMIA_2_59 = 1241;
+    public static final int REQUEST_IMCI_OTHER_2_59 = 1243;
+    public static final int REQUEST_IMCI_OTHER_0_2 = 1244;
     public static void startIMCIActivity(Activity activity, String childBaseEntityId,String dobFormat, int requestCode, int imciType){
         Intent intent = new Intent(activity,ImciMainActivity.class);
         intent.putExtra(EXTRA_BASE_ENTITY_ID,childBaseEntityId);
@@ -75,8 +77,8 @@ public class ImciMainActivity extends SecuredActivity {
         intent.putExtra(EXTRA_IMCI_TYPE,imciType);
         activity.startActivityForResult(intent,requestCode);
     }
-    LinearLayout severeLL,diarrheaLL,feedingLL,dangerSignLL,pnumoniaLL,diarrhea2_59LL,feverLL,malNutritionLL,anaemiaLL;
-    ImageView severeCheckIm,diarrheCheckIm,feedingCheckIm,dangerSignCheckIm,pnumoniaCheckIm,diarrhea2_59CheckIm,feverCheckIm,malNutritionCheckIm,anaemiaCheckIm;
+    LinearLayout severeLL,diarrheaLL,feedingLL,dangerSignLL,pnumoniaLL,diarrhea2_59LL,feverLL,malNutritionLL,anaemiaLL,otherLl0_2,otherLL2_59;
+    ImageView severeCheckIm,diarrheCheckIm,feedingCheckIm,dangerSignCheckIm,pnumoniaCheckIm,diarrhea2_59CheckIm,feverCheckIm,malNutritionCheckIm,anaemiaCheckIm,other0_2CheckIM,other2_59CheckIm;
     TextView diarrheaTxt,feedingTxt,titleTxt;
     String childBaseEntityId;
     Button nextBtn;
@@ -118,12 +120,15 @@ public class ImciMainActivity extends SecuredActivity {
         dangerSignCheckIm = findViewById(R.id.severe_2_59_check_im);
         pnumoniaCheckIm = findViewById(R.id.pnumenia_check_im);
         diarrhea2_59CheckIm = findViewById(R.id.Diarrhoea_2_59_check_im);
-
+        otherLl0_2 = findViewById(R.id.other_update_lay);
+        otherLL2_59 = findViewById(R.id.other_2_59_update_lay);
         feverCheckIm = findViewById(R.id.fever_check_im);
         malNutritionCheckIm  = findViewById(R.id.malnutrition_check_im);
         anaemiaCheckIm = findViewById(R.id.anaemia_check_im);
         diarrheaTxt = findViewById(R.id.Diarrhoea_text);
         feedingTxt = findViewById(R.id.Feeding_text);
+        other0_2CheckIM = findViewById(R.id.other_check_im);
+        other2_59CheckIm = findViewById(R.id.other_2_59_check_im);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,6 +195,18 @@ public class ImciMainActivity extends SecuredActivity {
                 startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_ANAEMIA_2_59,REQUEST_IMCI_ANAEMIA_2_59);
             }
         });
+        otherLl0_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_OTHER_0_2,REQUEST_IMCI_OTHER_0_2);
+            }
+        });
+        otherLL2_59.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAnyFormActivity(HnppConstants.JSON_FORMS.IMCI_OTHER_2_59,REQUEST_IMCI_OTHER_2_59);
+            }
+        });
         if(imciType == IMCI_TYPE_2_59)loadIMCIType2_59_PreviousData();
         else if(imciType == IMCI_TYPE_0_2) loadIMCIType0_2_PreviousData();
     }
@@ -249,7 +266,13 @@ public class ImciMainActivity extends SecuredActivity {
             jsonForms.put(REQUEST_IMCI_FEEDING_0_2,jsonForm.toString());
             updateUI(REQUEST_IMCI_FEEDING_0_2);
         }
-
+        List<Visit> vO = HnppApplication.getHNPPInstance().getHnppVisitLogRepository().getVisitByBaseEntityId(childBaseEntityId, HnppConstants.EVENT_TYPE.IMCI_OTHER_0_2);
+        if(vO.size()>0){
+            Visit imciOther = vO.get(0);
+            JSONObject jsonForm = HnppJsonFormUtils.getVisitFormWithData(imciOther.getJson(),this);
+            jsonForms.put(REQUEST_IMCI_OTHER_0_2,jsonForm.toString());
+            updateUI(REQUEST_IMCI_OTHER_0_2);
+        }
 
     }
     private void loadIMCIType2_59_PreviousData(){
@@ -310,7 +333,7 @@ public class ImciMainActivity extends SecuredActivity {
             String formStr;
             JSONObject jsonForm = HnppJsonFormUtils.getJsonObject(formName);
             this.requestCode = requestCode;
-            if(requestCode == REQUEST_IMCI_FEEDING_0_2){
+            if(requestCode == REQUEST_IMCI_FEEDING_0_2 || requestCode == REQUEST_IMCI_SEVERE_0_2 || requestCode == REQUEST_IMCI_PNEUMONIA_2_59){
                 HnppJsonFormUtils.addValueAtJsonForm(jsonForm,"dob", dobFormat);
             }
             if(requestCode == REQUEST_HOME_VISIT){
@@ -356,7 +379,7 @@ public class ImciMainActivity extends SecuredActivity {
     private String getEnglishKeys() {
         switch (requestTypeReferral){
             case REQUEST_IMCI_SEVERE_0_2:
-                return "VSD-CI,VSD-PSBI,neomonia,fast_neomonia,diseases_caused_by_streptococci,no_infection";
+                return "VSD-PSBI,neomonia,fast_neomonia,diseases_caused_by_streptococci,no_infection";
             case REQUEST_IMCI_SEVERE_2_59:
                 return "denger_sign";
                 case REQUEST_IMCI_DIARRHEA_2_59:
@@ -370,7 +393,7 @@ public class ImciMainActivity extends SecuredActivity {
     private String getReferralCause() {
         switch (requestTypeReferral){
             case REQUEST_IMCI_SEVERE_0_2:
-                return "সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগসঙ্কটাপন্ন অসুস্থতা (VSD-CI),সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI),সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য),খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য),স্থানীয় ব্যাকটেরিয়াল সংক্রমণ,মারাত্মক রোগ অথবা স্থানীয় সংক্রমণ নেই";
+                return "সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI),সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য),খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য),স্থানীয় ব্যাকটেরিয়াল সংক্রমণ,মারাত্মক রোগ অথবা স্থানীয় সংক্রমণ নেই";
             case REQUEST_IMCI_SEVERE_2_59:
                 return "খুব মারাত্মক রোগ";
             case REQUEST_IMCI_DIARRHEA_2_59:
@@ -525,6 +548,14 @@ public class ImciMainActivity extends SecuredActivity {
             case REQUEST_IMCI_ANAEMIA_2_59:
                 anaemiaCheckIm.setImageResource(R.drawable.success);
                 anaemiaCheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_OTHER_0_2:
+                other0_2CheckIM.setImageResource(R.drawable.success);
+                other0_2CheckIM.setColorFilter(ContextCompat.getColor(this, R.color.others));
+                break;
+            case REQUEST_IMCI_OTHER_2_59:
+                other2_59CheckIm.setImageResource(R.drawable.success);
+                other2_59CheckIm.setColorFilter(ContextCompat.getColor(this, R.color.others));
                 break;
         }
         if(imciType == IMCI_TYPE_0_2 && jsonForms.size()>=2){

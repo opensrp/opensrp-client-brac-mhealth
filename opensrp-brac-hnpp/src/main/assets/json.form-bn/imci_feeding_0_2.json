@@ -83,7 +83,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "hnpp_iycf_package_calculation.yml"
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
             }
           }
         }
@@ -219,31 +219,6 @@
         "openmrs_entity_id": "weight_less_than_2_kg",
         "type": "native_radio",
         "label": "ওজন কি ২ কেজি থেকে কম?",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
-          }
-        ]
-      },
-      {
-        "key": "weight_proportion_zscore",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "weight_proportion_zscore",
-        "type": "native_radio",
-        "label": "বয়স অনুপাতে ওজন কি -২ Z স্কোর এর থেকে কম?",
         "text_color": "#000000",
         "options": [
           {
@@ -861,7 +836,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_feeding_calculation_rule.yml"
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
             }
           }
         }
@@ -878,7 +853,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_feeding_calculation_rule.yml"
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
             }
           }
         }
@@ -895,7 +870,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_feeding_calculation_rule.yml"
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
             }
           }
         }

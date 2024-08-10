@@ -1860,6 +1860,8 @@ public class HnppConstants extends CoreConstants {
         public static final String IMCI_PNEUMONIA_2_59 = "imci_pneumonia_2_59";
         public static final String IMCI_DIARRHEA_2_59 = "imci_diarrhea_2_59";
         public static final String IMCI_FEVER_2_59 = "imci_fever_2_59";
+        public static final String IMCI_OTHER_0_2 = "imci_other_0_2";
+        public static final String IMCI_OTHER_2_59 = "imci_other_2_59";
         public static final String IMCI_MALNUTRITION_2_59 = "imci_malnutrition_2_59";
         public static final String IMCI_ANAEMIA_2_59 = "imci_anaemia_2_59";
         public static final String CHILD_INFO_EBF12 = "child_info_ebf12";
@@ -1937,6 +1939,8 @@ public class HnppConstants extends CoreConstants {
         public static final String IMCI_PNEUMONIA_2_59 = "IMCI PNEUMONIA 2 to 59";
         public static final String IMCI_DIARRHEA_2_59 = "IMCI DIARRHEA 2 to 59";
         public static final String IMCI_FEVER_2_59 = "IMCI FEVER 2 to 59";
+        public static final String IMCI_OTHER_2_59 = "IMCI OTHER 2 to 59";
+        public static final String IMCI_OTHER_0_2 = "IMCI OTHER 0 to 2";
         public static final String IMCI_MALNUTRITION_2_59 = "IMCI MALNUTRITION 2 to 59";
         public static final String IMCI_ANAEMIA_2_59 = "IMCI ANAEMIA 2 to 59";
         public static final String CHILD_INFO_EBF12 = "Child Info EBF 1_2";

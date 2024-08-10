@@ -331,7 +331,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_calculation_rule.yml"
+              "rules-file": "imci_diarrhea_0_2_calculation_rule.yml"
             }
           }
         }
@@ -348,7 +348,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_calculation_rule.yml"
+              "rules-file": "imci_diarrhea_0_2_calculation_rule.yml"
             }
           }
         }
@@ -365,7 +365,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_calculation_rule.yml"
+              "rules-file": "imci_diarrhea_0_2_calculation_rule.yml"
             }
           }
         }
@@ -382,7 +382,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_calculation_rule.yml"
+              "rules-file": "imci_diarrhea_0_2_calculation_rule.yml"
             }
           }
         }
@@ -399,7 +399,7 @@
         "calculation": {
           "rules-engine": {
             "ex-rules": {
-              "rules-file": "imci_diarrhea_calculation_rule.yml"
+              "rules-file": "imci_diarrhea_0_2_calculation_rule.yml"
             }
           }
         }
