@@ -26,7 +26,7 @@ public class SSLocationFetchIntentService extends IntentService {
     private static final String LOCATION_FETCH = "/provider/location-tree?";
     private static final String PA_LOCATION_FETCH = "/pa-provider/location-tree?";
     private static final String TAG = "SSLocation";
-
+    public static final String WITHOUT_SK = "without_sk";
     public SSLocationFetchIntentService() { super(TAG); }
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -47,6 +47,9 @@ public class SSLocationFetchIntentService extends IntentService {
                     JSONObject object = jsonObjectLocation.getJSONObject(i);
                     SSModel ssModel =  new Gson().fromJson(object.toString(), SSModel.class);
                     if(ssModel != null){
+                        if(!TextUtils.isEmpty(ssModel.withoutsk) && ssModel.withoutsk.equalsIgnoreCase("PA")){
+                            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(WITHOUT_SK,"PA");
+                        }
                         HnppApplication.getSSLocationRepository().addOrUpdate(ssModel);
                     }
                 } catch (JSONException e) {

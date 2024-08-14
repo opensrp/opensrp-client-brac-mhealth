@@ -1,5 +1,6 @@
 package org.smartregister.brac.hnpp.repository;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.util.Log;
 
@@ -35,6 +36,7 @@ public class SSLocationRepository extends BaseRepository {
     protected static final String SK_NAME = "sk_name";
     protected static final String SK_USER_NAME = "sk_user_name";
     protected static final String IS_SELECTED = "is_selected";
+    protected static final String WITHOUT_SK = "without_sk";
     protected static final String SS_ID = "ss_id";
     protected static final String IS_SIMPRINT_ENABLE = "simprints_enable";
     protected static final String PAYMENT_ENABLE = "payment_enable";
@@ -47,13 +49,13 @@ public class SSLocationRepository extends BaseRepository {
     private static final String CREATE_LOCATION_TABLE =
             "CREATE TABLE " + LOCATION_TABLE + " (" +
                     ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                    SS_NAME + " VARCHAR , " +IS_SIMPRINT_ENABLE + " VARCHAR , " +PAYMENT_ENABLE + " VARCHAR , " +
+                    SS_NAME + " VARCHAR , " +IS_SIMPRINT_ENABLE + " VARCHAR , " +PAYMENT_ENABLE + " VARCHAR , " +WITHOUT_SK + " VARCHAR , " +
                     GEOJSON + " VARCHAR NOT NULL ) ";
 
     private static final String CREATE_LOCATION_NAME_INDEX = "CREATE INDEX "
             + LOCATION_TABLE + "_" + SS_NAME + "_ind ON " + LOCATION_TABLE + "(" + SS_NAME + ")";
     public static final String ALTER_PAYMENT=" ALTER TABLE "+LOCATION_TABLE+" ADD COLUMN "+PAYMENT_ENABLE+" VARCHAR;";
-
+    public static final String ALTER_PA=" ALTER TABLE "+LOCATION_TABLE+" ADD COLUMN "+WITHOUT_SK+" VARCHAR;";
 
     public SSLocationRepository(Repository repository) {
         super(repository);
@@ -83,6 +85,7 @@ public class SSLocationRepository extends BaseRepository {
         contentValues.put(SS_ID, ssModel.ss_id);
         contentValues.put(IS_SIMPRINT_ENABLE, ssModel.simprints_enable);
         contentValues.put(PAYMENT_ENABLE, ssModel.payment_enable);
+        contentValues.put(WITHOUT_SK, ssModel.withoutsk);
         contentValues.put(GEOJSON, gson.toJson(ssModel.locations));
         long inserted = getWritableDatabase().replace(getLocationTableName(), null, contentValues);
 
@@ -233,7 +236,7 @@ public class SSLocationRepository extends BaseRepository {
         }
         return locationIds.size()>0;
     }
-
+    @SuppressLint("Range")
     protected SSModel readCursor(Cursor cursor) {
         String geoJson = cursor.getString(cursor.getColumnIndex(GEOJSON));
         String name = cursor.getString(cursor.getColumnIndex(SS_NAME));
@@ -243,10 +246,12 @@ public class SSLocationRepository extends BaseRepository {
         String simprints = cursor.getString(cursor.getColumnIndex(IS_SIMPRINT_ENABLE));
         String paymentEnable = cursor.getString(cursor.getColumnIndex(PAYMENT_ENABLE));
         String isSelected = cursor.getString(cursor.getColumnIndex(IS_SELECTED));
+        String withoutSk = cursor.getString(cursor.getColumnIndex(WITHOUT_SK));
         SSModel ssModel = new SSModel();
         ssModel.username = name.trim();
         ssModel.ss_id = ssId;
         ssModel.skName = skName;
+        ssModel.withoutsk = withoutSk;
         ssModel.skUserName = skUserName;
         ssModel.simprints_enable = simprints != null && simprints.equalsIgnoreCase("1");
         ssModel.payment_enable = paymentEnable != null && paymentEnable.equalsIgnoreCase("1");

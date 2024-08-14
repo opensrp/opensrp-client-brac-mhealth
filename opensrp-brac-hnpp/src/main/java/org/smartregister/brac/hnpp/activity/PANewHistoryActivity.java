@@ -1,15 +1,18 @@
 package org.smartregister.brac.hnpp.activity;
 
+import static org.smartregister.brac.hnpp.service.SSLocationFetchIntentService.WITHOUT_SK;
 import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFields;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
 import org.smartregister.brac.hnpp.adapter.ForumHistoryAdapter;
@@ -60,12 +63,21 @@ public class PANewHistoryActivity extends SecuredActivity {
             JSONObject jsonForm = HnppJsonFormUtils.getVisitFormWithData(content.getJson(),PANewHistoryActivity.this);
             Intent intent = new Intent(PANewHistoryActivity.this, HnppFormViewActivity.class);
             makeReadOnlyFields(jsonForm);
-
-            try{
-                HnppJsonFormUtils.updateFormWithSKSSVillageName(jsonForm);
-            }catch (Exception e){
-                e.printStackTrace();
+            String withoutsk = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(WITHOUT_SK);
+            if(!TextUtils.isEmpty(withoutsk) && withoutsk.equalsIgnoreCase("PA")){
+                try{
+                    HnppJsonFormUtils.updateFormWithSKSSVillageName(jsonForm,true);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else{
+                try{
+                    HnppJsonFormUtils.updateFormWithSKSSVillageName(jsonForm,false);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
+
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
             Form form = new Form();
             form.setWizard(false);

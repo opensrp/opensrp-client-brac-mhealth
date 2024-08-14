@@ -192,6 +192,9 @@ public class HnppChwRepository extends Repository {
                 case 44:
                     upgradeToVersion44(db);
                     break;
+                case 45:
+                    upgradeToVersion45(db);
+                    break;
                 default:
                     break;
             }
@@ -205,6 +208,15 @@ public class HnppChwRepository extends Repository {
 
     private void upgradeToVersion44(SQLiteDatabase db) {
         HHVisitDurationRepository.createTable(db);
+    }
+    private void upgradeToVersion45(SQLiteDatabase db) {
+        Log.v("DB_UPGRADE","upgradeToVersion45");
+        try {
+            db.execSQL(SSLocationRepository.ALTER_PA);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
     }
     private void upgradeToVersion41(SQLiteDatabase db) {
         Log.v("DB_UPGRADE","upgradeToVersion41");

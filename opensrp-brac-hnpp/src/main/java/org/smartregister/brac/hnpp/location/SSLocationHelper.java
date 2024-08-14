@@ -41,6 +41,15 @@ public class SSLocationHelper {
     public ArrayList<SSModel> getAllSS(String skUserName) {
         return HnppApplication.getSSLocationRepository().getAllSS(skUserName);
     }
+    public ArrayList<SSLocations> getAllUnion(ArrayList<SSModel> allSKName, String upozilaName) {
+        ArrayList<SSLocations> selectedUnionList = new ArrayList<>();
+        for (SSModel ssModel: allSKName){
+            if(ssModel.locations.get(0).city_corporation_upazila.name.equals(upozilaName)){
+                selectedUnionList.add(ssModel.locations.get(0));
+            }
+        }
+        return selectedUnionList;
+    }
     public ArrayList<SSModel> getAllSelectedSS(String skUserName) {
         return HnppApplication.getSSLocationRepository().getAllSelectedSS(skUserName);
     }

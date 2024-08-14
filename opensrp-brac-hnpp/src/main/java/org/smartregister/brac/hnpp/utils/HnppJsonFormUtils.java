@@ -1201,7 +1201,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
-    public static JSONObject updateFormWithSKName(JSONObject form, ArrayList<String> skNames) throws Exception{
+    public static JSONObject updateFormWithSKName(JSONObject form, ArrayList<String> skNames, boolean withoutSk) throws Exception{
 
         JSONArray jsonArray = new JSONArray();
         for(String name : skNames){
@@ -1209,6 +1209,11 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
         JSONArray field = fields(form, STEP1);
         JSONObject spinner = getFieldJSONObject(field, SK_NAME);
+        JSONObject ssSpinner = getFieldJSONObject(field, SS_NAME);
+        if(withoutSk){
+            spinner.put("hint","উপজেলার নাম :");
+            ssSpinner.put("hint","ইউনিয়ন নাম :");
+        }
 
         spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
         return form;
@@ -1244,7 +1249,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
 
     }
-    public static JSONObject updateFormWithSKSSVillageName(JSONObject form) throws Exception{
+    public static JSONObject updateFormWithSKSSVillageName(JSONObject form, boolean withoutSK) throws Exception{
 
         JSONArray ssjsonArray = new JSONArray();
         JSONArray skjsonArray = new JSONArray();
@@ -1254,6 +1259,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONObject spinnerSSName = getFieldJSONObject(field, SS_NAME);
         JSONObject spinnerSKName = getFieldJSONObject(field, SK_NAME);
         JSONObject spinnerVillageName = getFieldJSONObject(field, VILLAGE_NAME);
+        if(withoutSK){
+            spinnerSKName.put("hint","উপজেলার নাম :");
+            spinnerSSName.put("hint","ইউনিয়ন নাম :");
+        }
         String selectedSSName = spinnerSSName.getString("value");
         String selectedSKName = spinnerSKName.getString("value");
         String selectedVillageName = spinnerVillageName.getString("value");

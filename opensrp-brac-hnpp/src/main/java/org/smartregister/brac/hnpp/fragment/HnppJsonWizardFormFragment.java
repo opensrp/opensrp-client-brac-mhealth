@@ -81,6 +81,16 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
                     processSSName(position);
                 }
             }
+            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.upozila_name_form_field))) {
+                if(isManuallyPressed){
+                    processUpozilaName(position);
+                }
+            }
+            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_form_field))) {
+                if(isManuallyPressed){
+                    processVillageNameFromUnion(position);
+                }
+            }
             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.ss_name_form_field))) {
                 if(isManuallyPressed){
                     processVillageName(position);
@@ -166,8 +176,78 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
         }
 
     }
+    private void processVillageNameFromUnion(int position) {
+        ArrayList<SSLocations> ssLocations = ssUnion.get(position);//SSLocationHelper.getInstance().getSsModels().get(position).locations;
 
+        ArrayList<String> villageList = new ArrayList<>();
+        ArrayList<String> villageIds = new ArrayList<>();
+        for(SSLocations ssLocations1 : ssLocations){
+            villageList.add(ssLocations1.village.name);
+            villageIds.add(ssLocations1.village.id+"");
+        }
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.village_name_form_field)))) {
+
+                    try{
+                        JSONObject villageNames = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "village_name");
+                        JSONArray jsonArray = new JSONArray();
+                        for(String villages : villageList){
+                            jsonArray.put(villages);
+                        }
+                        villageNames.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, villageList);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.village_name_form_field))) {
+                                if(position!=-1){
+                                    selectedVillageId = villageIds.get(position);
+                                    JSONObject villageId = null;
+                                    try {
+                                        villageId = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "village_id");
+                                        villageId.put(org.smartregister.family.util.JsonFormUtils.VALUE,selectedVillageId);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    JSONObject villageNames = null;
+                                    try {
+                                        villageNames = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "village_name");
+                                        villageNames.put(org.smartregister.family.util.JsonFormUtils.VALUE,adapter.getItem(position));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+
+    }
     ArrayList<ArrayList<SSLocations>> ssVillage = new ArrayList<>();
+    ArrayList<ArrayList<SSLocations>> ssUnion = new ArrayList<>();
     private String selectedSSName,selectedVillageId;
 
     private void processSSName(int position) {
@@ -233,7 +313,70 @@ public class HnppJsonWizardFormFragment extends JsonWizardFormFragment {
             }
         }
     }
+    private void processUpozilaName(int position) {
+        ArrayList<SSModel> skLocationForms = SSLocationHelper.getInstance().getAllSks();
+        SSModel ssModel = skLocationForms.get(position);
+        String upozilaName = ssModel.locations.get(0).city_corporation_upazila.name;
+        ArrayList<SSLocations> sslocations = SSLocationHelper.getInstance().getAllUnion(skLocationForms,upozilaName);
+        ArrayList<String> unionName = new ArrayList<>();
+        ssUnion.clear();
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.union_form_field).trim()))) {
 
+                    try{
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "ss_name");
+                        JSONArray jsonArray = new JSONArray();
+                        for(SSLocations ssModel1 : sslocations){
+                            jsonArray.put(ssModel1.union_ward.name);
+                            unionName.add(ssModel1.union_ward.name);
+                            ssUnion.add(sslocations);
+                        }
+                        oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, unionName);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_form_field).trim())) {
+                                if(position!=-1){
+                                    selectedSSName = adapter.getItem(position);
+                                    JSONObject villageNames = null;
+                                    try {
+                                        villageNames = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "ss_name");
+                                        villageNames.put(org.smartregister.family.util.JsonFormUtils.VALUE,selectedSSName);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    processVillageNameFromUnion(position);
+                                }
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
     private void processMonth(ArrayList<String> monthList) {
 
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());

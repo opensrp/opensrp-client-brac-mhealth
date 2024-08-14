@@ -1,6 +1,7 @@
 package org.smartregister.brac.hnpp.activity;
 
 import static org.smartregister.brac.hnpp.activity.HnppFamilyOtherMemberProfileActivity.REQUEST_HOME_VISIT;
+import static org.smartregister.brac.hnpp.service.SSLocationFetchIntentService.WITHOUT_SK;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,6 +40,7 @@ import com.vijay.jsonwizard.domain.Form;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.smartregister.CoreLibrary;
 import org.smartregister.brac.hnpp.BuildConfig;
 import org.smartregister.brac.hnpp.HnppApplication;
 import org.smartregister.brac.hnpp.R;
@@ -154,12 +156,32 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         updateSpinner();
     }
     ArrayList<String> skNames = new ArrayList<>();
+    boolean withoutSk = false;
     private void updateSpinner(){
         skNames.clear();
         ArrayList<SSModel> skLocationForms = SSLocationHelper.getInstance().getAllSks();
-        for (SSModel ssModel : skLocationForms) {
-            skNames.add(ssModel.skName);
+        String withoutsk = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(WITHOUT_SK);
+        if(!TextUtils.isEmpty(withoutsk) && withoutsk.equalsIgnoreCase("PA")){
+            withoutSk = true;
         }
+        for (SSModel ssModel : skLocationForms) {
+            if(withoutSk){
+               if(!isExistInSkList(ssModel.locations.get(0).city_corporation_upazila.name)){
+                   skNames.add(ssModel.locations.get(0).city_corporation_upazila.name);
+               }
+            }else{
+                skNames.add(ssModel.skName);
+            }
+
+        }
+    }
+    private boolean isExistInSkList(String upozila){
+        for(String skname : skNames){
+            if(skname.equalsIgnoreCase(upozila)){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -231,7 +253,7 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
             HnppConstants.appendLog("SAVE_VISIT","processJsonForm>>>skNames:"+skNames);
 
             JSONObject jsonForm = FormUtils.getInstance(this).getFormJson(formName);
-            HnppJsonFormUtils.updateFormWithSKName(jsonForm, skNames);
+            HnppJsonFormUtils.updateFormWithSKName(jsonForm, skNames,withoutSk);
             Intent intent = new Intent(this, HNPPJsonWizardFormActivity.class);
             intent.putExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
