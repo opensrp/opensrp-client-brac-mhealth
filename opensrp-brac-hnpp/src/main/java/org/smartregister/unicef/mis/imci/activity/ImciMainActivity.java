@@ -421,9 +421,12 @@ public class ImciMainActivity extends SecuredActivity {
             updateUI(requestCode);
             String jsonString = data.getStringExtra(org.smartregister.family.util.Constants.JSON_FORM_EXTRA.JSON);
             jsonForms.put(requestCode,jsonString);
-            IMCIAssessmentDialogFragment imciAssessmentDialogFragment = IMCIAssessmentDialogFragment.getInstance(this);
+            if(requestCode != REQUEST_IMCI_OTHER_0_2 && requestCode != REQUEST_IMCI_OTHER_2_59){
+                IMCIAssessmentDialogFragment imciAssessmentDialogFragment = IMCIAssessmentDialogFragment.getInstance(this);
 
-            imciAssessmentDialogFragment.setJsonData(requestCode,jsonString);
+                imciAssessmentDialogFragment.setJsonData(requestCode,jsonString);
+            }
+
         }
     }
     boolean isProcessing = false;
