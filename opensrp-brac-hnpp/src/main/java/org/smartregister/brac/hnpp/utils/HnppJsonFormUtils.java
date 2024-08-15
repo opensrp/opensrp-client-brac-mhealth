@@ -248,14 +248,25 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     }
     public static void makeReadOnlyFields(JSONObject jsonObject){
         try {
-            for(int i=1;i<9;i++){
-                JSONObject steps = jsonObject.getJSONObject("step"+i);
+            //for(int i=1;i<9;i++){
+                JSONObject steps = jsonObject.getJSONObject("step"+1);
                 JSONArray jsonArray = steps.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
                 for(int j=0;j<jsonArray.length();j++){
-                    JSONObject fieldObject = jsonArray.getJSONObject(j);
-                    fieldObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+                    try{
+                        JSONObject fieldObject = jsonArray.getJSONObject(j);
+                        fieldObject.put(org.smartregister.family.util.JsonFormUtils.READ_ONLY, true);
+                        if(fieldObject.getString("key").equalsIgnoreCase("section")){
+                            fieldObject.put("type", "hidden");
+                        }
+                        if(fieldObject.has("value") && fieldObject.has("relevance")){
+                            fieldObject.remove("relevance");
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
-            }
+           // }
 
         } catch (JSONException e) {
             e.printStackTrace();

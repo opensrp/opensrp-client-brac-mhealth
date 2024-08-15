@@ -9,11 +9,18 @@ actions:
 name: step1_is_need_glasses
 description: present condition
 priority: 1
-condition: "(step1_exam_result.contains('presbiopia') || step1_exam_result.contains('cataract')|| step1_exam_result.contains('hyperopia'))"
+condition: "(step1_exam_result.contains('presbiopia'))"
 actions:
   - "isRelevant = true"
 ---
 name: step1_place_of_referral
+description: present condition
+priority: 1
+condition: "(step1_exam_result.contains('other_problem') || step1_exam_result.contains('cataract')|| step1_exam_result.contains('hyperopia'))"
+actions:
+  - "isRelevant = true"
+---
+name: step1_place_of_referral_eye
 description: present condition
 priority: 1
 condition: "(step1_exam_result.contains('other_problem') || step1_exam_result.contains('cataract')|| step1_exam_result.contains('hyperopia'))"

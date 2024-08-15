@@ -1966,7 +1966,7 @@ public class FormParser {
     public static void populateValuesForFormObject(CommonPersonObjectClient client, JSONObject jsonObject) {
         try {
             String value = org.smartregister.chw.core.utils.Utils.getValue(client.getColumnmaps(),jsonObject.getString(JsonFormUtils.KEY),false);
-
+            Log.v("FULL_JSON_FORM","populateValuesForFormObject>>"+value);
             if (jsonObject.has("openmrs_choice_ids")) {
                 JSONObject choiceObject = jsonObject.getJSONObject("openmrs_choice_ids");
                 try{
@@ -1984,52 +1984,11 @@ public class FormParser {
                 }
 
             }else if (jsonObject.has("options")) {
-                if(jsonObject.getString("key").equalsIgnoreCase("corona_affected_members")){
-                    JSONArray option_array = jsonObject.getJSONArray("options");
-                    String[] strs = value.split(",");
-                    if(strs.length == 0){
 
-                    }else{
-                        for(String name : strs){
-                            try{
-                                String[] nameIds = name.split("#");
-                                JSONObject item = new JSONObject();
-                                item.put("key",nameIds[0].replace(" ","_")+"#"+nameIds[1]);
-                                item.put("text",nameIds[0]);
-                                item.put("value",true);
-                                item.put("openmrs_entity","concept");
-                                item.put("openmrs_entity_id",nameIds[0].replace(" ","_")+"#"+nameIds[1]);
-                                option_array.put(item);
-                                HnppDBUtils.updateCoronaFamilyMember(nameIds[1],"true");
-                            }catch (Exception e){
-
-                            }
-
-                        }
-                    }
-
-                }
-
-                else{
                     JSONArray option_array = jsonObject.getJSONArray("options");
                     for (int i = 0; i < option_array.length(); i++) {
                         JSONObject option = option_array.getJSONObject(i);
-                        if(jsonObject.getString("key").equalsIgnoreCase("preg_outcome")){
-                            String[] strs = value.split(",");
-                            for(String name : strs){
-                                if (name.equalsIgnoreCase(option.optString("key"))) {
-                                    option.put("value", "true");
-                                }
-                            }
-                        }else if(jsonObject.getString("key").equalsIgnoreCase("list_of_assets")){
-                            String[] strs = value.split(",");
-                            for(String name : strs){
-                                if (name.equalsIgnoreCase(option.optString("key"))) {
-                                    option.put("value", "true");
-                                }
-                            }
-                        }
-                        else if(option.optString("key").equalsIgnoreCase("yes")){
+                        if(option.optString("key").equalsIgnoreCase("yes")){
                             if(!TextUtils.isEmpty(value)){
                                 option.put("value", "true");
                                 jsonObject.put(JsonFormUtils.VALUE,value);
@@ -2050,7 +2009,6 @@ public class FormParser {
                             jsonObject.put(JsonFormUtils.VALUE,value);
                         }
                     }
-                }
 
             }
             else{

@@ -31,6 +31,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ import org.smartregister.brac.hnpp.utils.FormApplicability;
 import org.smartregister.brac.hnpp.utils.HnppConstants;
 import org.smartregister.brac.hnpp.utils.HnppJsonFormUtils;
 import org.smartregister.chw.anc.domain.Visit;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.family.util.AppExecutors;
 import org.smartregister.family.util.Constants;
@@ -87,6 +89,7 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
 
     private BroadcastReceiver locationUpdateBroadcastReceiver;
     private AppExecutors appExecutors;
+    private ImageView logoutBtn;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreation() {
@@ -101,13 +104,15 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         findViewById(R.id.unsync_count_txt).setOnClickListener(this);
         findViewById(R.id.backBtn).setOnClickListener(this);
         findViewById(R.id.dashboard).setOnClickListener(this);
+        logoutBtn = findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(this);
         appExecutors = new AppExecutors();
         updateSpinner();
         updateUnSyncCount();
         ((TextView) findViewById(R.id.login_build_text_view)).setText("Version " + getVersion() + ", Built on: " + getBuildDate());
         String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
         String firstName = HnppApplication.getInstance().getContext().allSharedPreferences().getANMPreferredName(userName);
-        ((TextView) findViewById(R.id.user_name_txt)).setText(firstName+"\n"+userName);
+        //  ((TextView) findViewById(R.id.user_name_txt)).setText(firstName+"\n"+userName);
         ((TextView) findViewById(R.id.username_text_view)).setText(firstName+"\n"+userName);
     }
     @SuppressLint("SetTextI18n")
@@ -166,9 +171,9 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
         }
         for (SSModel ssModel : skLocationForms) {
             if(withoutSk){
-               if(!isExistInSkList(ssModel.locations.get(0).city_corporation_upazila.name)){
-                   skNames.add(ssModel.locations.get(0).city_corporation_upazila.name);
-               }
+                if(!isExistInSkList(ssModel.locations.get(0).city_corporation_upazila.name)){
+                    skNames.add(ssModel.locations.get(0).city_corporation_upazila.name);
+                }
             }else{
                 skNames.add(ssModel.skName);
             }
@@ -245,6 +250,10 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
                 break;
             case R.id.dashboard:
                 startActivity(new Intent(this,NewDashBoardActivity.class));
+                break;
+            case R.id.logoutBtn:
+                HnppApplication.getHNPPInstance().forceLogout();
+                Toast.makeText(this, this.getResources().getText(org.smartregister.chw.core.R.string.action_log_out), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -448,7 +457,7 @@ public class PANewHomeActivity extends SecuredActivity implements View.OnClickLi
             super.onBackPressed();
         }else{
             isFromBackPress = true;
-           showDataSyncDialog();
+            showDataSyncDialog();
         }
 
     }

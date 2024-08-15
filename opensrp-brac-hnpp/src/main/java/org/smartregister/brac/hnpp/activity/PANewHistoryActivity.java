@@ -6,6 +6,7 @@ import static org.smartregister.brac.hnpp.utils.HnppJsonFormUtils.makeReadOnlyFi
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;

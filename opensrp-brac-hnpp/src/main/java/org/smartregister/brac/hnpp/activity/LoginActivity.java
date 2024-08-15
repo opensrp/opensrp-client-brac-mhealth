@@ -212,8 +212,8 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
 //            userNameText.setText("01787699880");
 //            passwordText.setText("9880");
 //  PA without sk user
-            userNameText.setText("01708515220");
-            passwordText.setText("5220");
+//            userNameText.setText("01708515220");
+//            passwordText.setText("5220");
 
         }
     }
