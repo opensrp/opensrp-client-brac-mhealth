@@ -1,5 +1,6 @@
 package org.smartregister.unicef.mis.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.unicef.mis.BuildConfig;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.contract.GuestMemberContract;
+import org.smartregister.unicef.mis.location.HALocation;
 import org.smartregister.unicef.mis.location.HALocationHelper;
 import org.smartregister.unicef.mis.utils.GuestMemberData;
 
@@ -106,42 +108,51 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jobkect = jsonObject.getJSONObject("step1");
             JSONArray field = jobkect.getJSONArray(FIELDS);
-            JSONObject divisionIdObj = getFieldJSONObject(field, "division_id");
-            String divId = divisionIdObj.getString("value");
-            JSONObject districtIdObj = getFieldJSONObject(field, "district_id");
-            String disId = districtIdObj.getString("value");
-            JSONObject upozilaIdObj = getFieldJSONObject(field, "upazila_id");
-            String upozilaId = upozilaIdObj.optString("value");
-
-            baseClient.addAttribute("division_id", divId+"");
-            baseClient.addAttribute("district_id", disId+"");
-            baseClient.addAttribute("upazila_id", upozilaId+"");
-            baseClient.addAttribute("ooc","yes");
+            JSONObject wardIdObj = getFieldJSONObject(field, "ward_id");
+            String wardId = wardIdObj.optString("value");
+            Log.v("WARD_ID","wardId:"+wardId);
+            List<Address> listAddress = new ArrayList<>();
             Event baseEvent = org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA), formTag, entityId, getString(jsonForm, ENCOUNTER_TYPE), CoreConstants.TABLE_NAME.CHILD);
             tagSyncMetadata(getAllSharedPreferences(), baseEvent);
             String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
             String entity_id = baseClient.getBaseEntityId();
             updateFormSubmissionID(encounterType,entity_id,baseEvent);
-            HALocationHelper.getInstance().addOOCIdentifier(divId,disId,upozilaId,baseEvent);
-            JSONObject divisionObj = getFieldJSONObject(field, "division_per");
-            String divName = divisionObj.getString("value");
-            JSONObject districtObj = getFieldJSONObject(field, "district_per");
-            String disName = districtObj.getString("value");
-            JSONObject upozilaObj = getFieldJSONObject(field, "upazila_per");
-            String upozila = upozilaObj.optString("value");
-            List<Address> listAddress = new ArrayList<>();
-            Address address = new Address();
-            address.setAddressType("usual_residence");
-            HashMap<String,String> addressMap = new HashMap<>();
-            addressMap.put("address2", upozila);
-            addressMap.put("division_id", divId);
-            addressMap.put("district_id", disId);
-            addressMap.put("upazila_id", upozilaId);
-            address.setAddressFields(addressMap);
-            address.setStateProvince(divName);
-            address.setCountyDistrict(disName);
-            listAddress.add(address);
-            baseClient.setAddresses(listAddress);
+
+
+            HALocation selectedLocation = HnppApplication.getHALocationRepository().getLocationByWard(wardId);
+            if(selectedLocation == null){
+                JSONObject divisionIdObj = getFieldJSONObject(field, "division_id");
+                String divId = divisionIdObj.getString("value");
+                JSONObject districtIdObj = getFieldJSONObject(field, "district_id");
+                String disId = districtIdObj.getString("value");
+                JSONObject upozilaIdObj = getFieldJSONObject(field, "upazila_id");
+                String upozilaId = upozilaIdObj.optString("value");
+                HALocationHelper.getInstance().addOOCIdentifier(divId,disId,upozilaId,baseEvent);
+                JSONObject divisionObj = getFieldJSONObject(field, "division_per");
+                String divName = divisionObj.getString("value");
+                JSONObject districtObj = getFieldJSONObject(field, "district_per");
+                String disName = districtObj.getString("value");
+                JSONObject upozilaObj = getFieldJSONObject(field, "upazila_per");
+                String upozila = upozilaObj.optString("value");
+                Address address = new Address();
+                address.setAddressType("usual_residence");
+                HashMap<String,String> addressMap = new HashMap<>();
+                addressMap.put("address2", upozila);
+                addressMap.put("division_id", divId);
+                addressMap.put("district_id", disId);
+                addressMap.put("upazila_id", upozilaId);
+                address.setAddressFields(addressMap);
+                address.setStateProvince(divName);
+                address.setCountyDistrict(disName);
+                listAddress.add(address);
+                baseClient.setAddresses(listAddress);
+                baseClient.addAttribute("ooc","yes");
+            }else{
+                listAddress.add(HALocationHelper.getInstance().getSSAddress(selectedLocation));
+                baseClient.setAddresses(listAddress);
+                HALocationHelper.getInstance().addGeolocationIds(selectedLocation,baseClient);
+                baseEvent.setIdentifiers(HALocationHelper.getInstance().getGeoIdentifierFacility(selectedLocation));
+            }
 
             return Pair.create(baseClient, baseEvent);
         } catch (Exception e) {
@@ -192,7 +203,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
     public ClientProcessorForJava getClientProcessorForJava() {
         return FamilyLibrary.getInstance().getClientProcessorForJava();
     }
-
+    @SuppressLint("Range")
     @Override
     public void loadData() {
         guestMemberDataArrayList.clear();
@@ -233,6 +244,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
 
 
     }
+    @SuppressLint("Range")
     private long getLatestVisitDate(String baseEntityId){
         String query = "select max(visit_date) as visit_date from ec_visit_log where base_entity_id ='"+baseEntityId+"'";
         Cursor cursor = null;
@@ -256,6 +268,7 @@ public class GuestMemberModel extends JsonFormUtils implements GuestMemberContra
 
         return latestVisitDate;
     }
+    @SuppressLint("Range")
     public ArrayList<String> getIdsWithoutSHRIds(){
         ArrayList<String> baseEntityIds = new ArrayList<>();
         String query = "select base_entity_id from ec_guest_member where shr_id is null";

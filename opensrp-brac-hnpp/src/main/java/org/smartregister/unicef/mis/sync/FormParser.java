@@ -53,6 +53,7 @@ import java.util.List;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.AEFI_CHILD;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_HA;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.ANC_REGISTRATION_FACILITY;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.BLOOD_GROUP;
@@ -2428,6 +2429,9 @@ public class FormParser {
                 break;
             case ANC_HOME_VISIT_FACILITY:
                 form_name = HnppConstants.JSON_FORMS.ANC_VISIT_FORM_FACILITY + ".json";
+                break;
+            case ANC_HOME_VISIT_HA:
+                form_name = HnppConstants.JSON_FORMS.ANC_VISIT_FORM_HA + ".json";
                 break;
             case MEMBER_REFERRAL:
                 form_name = HnppConstants.isPALogin()? HnppConstants.JSON_FORMS.MEMBER_REFERRAL + "_pa.json":HnppConstants.JSON_FORMS.MEMBER_REFERRAL + ".json";

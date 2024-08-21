@@ -285,6 +285,22 @@ public class HALocationRepository extends BaseRepository {
         }
         return HALocation;
     }
+    public HALocation getLocationByWard(String wardId) {
+        Cursor cursor = null;
+        HALocation HALocation = null;
+        try {
+            cursor = getReadableDatabase().rawQuery("SELECT * FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+wardId+"' group by "+BLOCK_ID, null);
+            while (cursor.moveToNext()) {
+                HALocation = readCursor(cursor);
+            }
+        } catch (Exception e) {
+            Log.e(LocationRepository.class.getCanonicalName(), e.getMessage(), e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return HALocation;
+    }
     public ArrayList<HALocation> getAllLocation() {
         Cursor cursor = null;
         ArrayList<HALocation> haLocations = new ArrayList<>();

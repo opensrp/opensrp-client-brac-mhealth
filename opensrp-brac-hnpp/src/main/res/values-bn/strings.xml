@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Smart Health BD</string>
+    <string name="app_name">CHCP APP</string>
     <string-array name="gender">
         <item>মহিলা</item>
         <item>পুরুষ</item>
@@ -223,7 +223,7 @@
     <string name="head_of_family">খানা প্রধান</string>
     <string name="call_caregiver">কল করতে চান?</string>
     <string name="last_visit_prefix">শেষ পরিদর্শন %1$s আগে</string>
-    <string name="due">ফলোআপ </string>
+    <string name="due">সার্ভিস </string>
     <string name="other_service">অন্যান্য সেবা</string>
     <string name="activity">পূর্বের তথ্য</string>
     <string name="profile_activity_not_visited">Marked not visited on %s</string>

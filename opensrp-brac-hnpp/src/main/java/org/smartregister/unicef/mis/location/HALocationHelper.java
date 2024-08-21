@@ -137,6 +137,17 @@ public class HALocationHelper {
         identifiers.put("old_ward_id", HALocation.old_ward.id+"");
         return identifiers;
     }
+    public Map<String,String> getGeoIdentifierFacility(HALocation HALocation){
+        Map<String,String> identifiers = new HashMap<>();
+        identifiers.put("division_id", HALocation.division.id+"");
+        identifiers.put("district_id", HALocation.district.id+"");
+        identifiers.put("upazila_id", HALocation.upazila.id+"");
+        identifiers.put("paurasava_id", HALocation.paurasava.id+"");
+        identifiers.put("union_id", HALocation.union.id+"");
+        identifiers.put("ward_id", HALocation.ward.id+"");
+        identifiers.put("old_ward_id", HALocation.old_ward.id+"");
+        return identifiers;
+    }
     public static void clearLocation(){
         instance =null;
     }

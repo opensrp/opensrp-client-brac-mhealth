@@ -366,27 +366,27 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             PullUniqueIdsServiceJob.scheduleJobImmediately(PullUniqueIdsServiceJob.TAG);
             SSLocationFetchJob.scheduleJobImmediately(SSLocationFetchJob.TAG);
             GlobalLocationFetchJob.scheduleJobImmediately(GlobalLocationFetchJob.TAG);
-            try{
-                postHPVData();
-            }catch (Exception e){
-
-            }
-            try{
-                postMicroPlanData();
-            }catch (Exception e){
-
-            }
+//            try{
+//                postHPVData();
+//            }catch (Exception e){
+//
+//            }
+//            try{
+//                postMicroPlanData();
+//            }catch (Exception e){
+//
+//            }
 
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
             InValidateSyncDataServiceJob.scheduleJob(InValidateSyncDataServiceJob.TAG, TimeUnit.MINUTES.toMinutes(BuildConfig.INVALID_SYNC_DURATION_MINUTES),15l);
         }
         HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
-        VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
-        VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+//        VaccineRecurringServiceJob.scheduleJobImmediately(VaccineRecurringServiceJob.TAG);
+//        VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
         HnppPncCloseJob.scheduleJobImmediately(HnppPncCloseJob.TAG);
-        ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
-        WeightHeightIntentServiceJob.scheduleJobImmediately(WeightHeightIntentServiceJob.TAG);
+//        ZScoreRefreshServiceJob.scheduleJobImmediately(ZScoreRefreshServiceJob.TAG);
+//        WeightHeightIntentServiceJob.scheduleJobImmediately(WeightHeightIntentServiceJob.TAG);
         HASyncIntentServiceJob.scheduleJob(HASyncIntentServiceJob.TAG, TimeUnit.MINUTES.toMinutes(
                 BuildConfig.DATA_SYNC_DURATION_MINUTES), HnppConstants.getFlexValue(BuildConfig.DATA_SYNC_DURATION_MINUTES));
 

@@ -382,7 +382,7 @@
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/rlIconMicro"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:paddingStart="15dp"

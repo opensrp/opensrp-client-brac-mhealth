@@ -545,7 +545,28 @@
           "column_name": "ward_name",
           "type": "Client",
           "json_mapping": {
-            "field": "ward_name"
+            "field": "attributes.ward_name"
+          }
+        },
+        {
+          "column_name": "union_zone",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.union_zone"
+          }
+        },
+        {
+          "column_name": "old_ward",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.old_ward"
+          }
+        },
+        {
+          "column_name": "is_same_catchment",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.is_same_catchment"
           }
         },
         {

@@ -705,8 +705,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         }
     }
     public static void addEDDField(String formName,JSONObject jsonForm,String baseEntityId){
-        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)
-                ||formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM_OOC)){
+        if(formName.equalsIgnoreCase(HnppConstants.JSON_FORMS.ANC_VISIT_FORM)){
             JSONObject stepOne = null;
             try {
                 HnppVisitLogRepository visitLogRepository = HnppApplication.getHNPPInstance().getHnppVisitLogRepository();
@@ -1234,7 +1233,7 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         for (GlobalLocationModel globalLocationModel:divModels){
             divJsonArray.put(globalLocationModel.name);
         }
-        updateFormWithChampType(form,campJsonArray);
+        //updateFormWithChampType(form,campJsonArray);
         updateFormWithDivision(form,divJsonArray);
         return form;
     }

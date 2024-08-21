@@ -51,17 +51,7 @@ public class HnppAllMemberRegisterActivity extends ChildRegisterActivity impleme
     private GuestMemberPresenter presenter;
     @Override
     public void onBackPressed() {
-        Fragment fragment = findFragmentByPosition(currentPage);
-        if (fragment instanceof BaseRegisterFragment) {
-            setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
-            BaseRegisterFragment registerFragment = (BaseRegisterFragment) fragment;
-            if (registerFragment.onBackPressed()) {
-                return;
-            }
-        }
-
-        backToHomeScreen();
-        setSelectedBottomBarMenuItem(org.smartregister.R.id.action_clients);
+       finish();
     }
     @Override
     protected BaseRegisterFragment getRegisterFragment() {
@@ -164,7 +154,8 @@ public class HnppAllMemberRegisterActivity extends ChildRegisterActivity impleme
             for (GlobalLocationModel globalLocationModel:divModels){
                 divJsonArray.put(globalLocationModel.name);
             }
-            HnppJsonFormUtils.updateFormWithDivision(jsonForm, divJsonArray);
+            HnppJsonFormUtils.updateFormWithUnionName(jsonForm, HnppApplication.getHALocationRepository().getAllUnion());
+            //HnppJsonFormUtils.updateFormWithDivision(jsonForm, divJsonArray);
             intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
             Form form = new Form();
             form.setWizard(true);
@@ -177,84 +168,7 @@ public class HnppAllMemberRegisterActivity extends ChildRegisterActivity impleme
             e.printStackTrace();
         }
     }
-    public String saveFamilyMember(String jsonString) {
 
-        try {
-            showProgressDialog(org.smartregister.family.R.string.saving_dialog_title);
-
-            FamilyEventClient familyEventClient = processMemberRegistration(jsonString, "familyBaseEntityId");
-            if (familyEventClient == null) {
-                hideProgressDialog();
-                return null;
-            }
-            org.smartregister.util.Utils.appendLog("SAVE_VISIT","familyEventClient>>baseentityid:"+familyEventClient.getClient().getBaseEntityId());
-
-//            interactor.saveRegistration(familyEventClient, jsonString, false, this);
-            new HnppFamilyProfileInteractor().saveRegistration(familyEventClient, jsonString, false, new FamilyRegisterInteractorCallBack() {
-                @Override
-                public void onRegistrationSaved(boolean isEditMode, String baseId) {
-                    baseEntityId = baseId;
-
-                }
-
-                @Override
-                public void onUniqueIdFetched(Triple<String, String, String> triple, String s) {
-
-                }
-
-                @Override
-                public void onNoUniqueId() {
-
-                }
-
-                @Override
-                public void onRegistrationSaved(boolean b) {
-                }
-            });
-            return familyEventClient.getClient().getBaseEntityId();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        return null;
-    }
-    public FamilyEventClient processMemberRegistration(String jsonString, String familyBaseEntityId) {
-        FamilyEventClient familyEventClient = processRegistration(jsonString, familyBaseEntityId);
-
-        if(familyEventClient == null) return null;
-        EventClientRepository eventClientRepository = FamilyLibrary.getInstance().context().getEventClientRepository();
-        try{
-            JSONObject familyJSON = eventClientRepository.getClientByBaseEntityId(familyBaseEntityId);
-            String addessJson = familyJSON.getString("addresses");
-            JSONArray jsonArray = new JSONArray(addessJson);
-            List<Address> listAddress = new ArrayList<>();
-            for(int i = 0; i <jsonArray.length();i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Address address = new Gson().fromJson(jsonObject.toString(), Address.class);
-                listAddress.add(address);
-            }
-            Client familyClient = familyEventClient.getClient();
-            familyClient.setAddresses(listAddress);
-            HnppConstants.appendLog("INVALID_REQ","processMemberRegistration setaddress"+listAddress.size());
-
-        }catch (Exception e){
-            HnppConstants.appendLog("INVALID_REQ","processMemberRegistration exception occured"+e.getMessage());
-
-        }
-
-        if(familyEventClient.getClient() == null || TextUtils.isEmpty(familyEventClient.getClient().getBaseEntityId()) ||
-                familyEventClient.getClient().getAddresses().size() == 0){
-            return null;
-        }
-        return familyEventClient;
-    }
-    private FamilyEventClient processRegistration(String jsonString, String familyBaseEntityId) {
-        FamilyEventClient familyEventClient = HnppJsonFormUtils.processFamilyMemberForm(FamilyLibrary.getInstance().context().allSharedPreferences(), jsonString, familyBaseEntityId,Utils.metadata().familyMemberRegister.registerEventType);
-        if (familyEventClient == null) {
-            return null;
-        } else {
-            return familyEventClient;
-        }
-    }
     @Override
     public void showProgressBar() {
 

@@ -493,7 +493,7 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
 //        memberOtherServiceFragment = new MemberOtherServiceFragment();
         memberHistoryFragment = MemberHistoryFragment.getInstance(this.getIntent().getExtras());
-        memberHistoryFragment.setIsNeedAncTitle(FormApplicability.isWomenImmunizationApplicable(commonPersonObject));
+        //memberHistoryFragment.setIsNeedAncTitle(FormApplicability.isWomenImmunizationApplicable(commonPersonObject));
 //        memberOtherServiceFragment.setCommonPersonObjectClient(commonPersonObject);
         womanImmunizationFragment = WomanImmunizationFragment.newInstance(this.getIntent().getExtras());
         womanImmunizationFragment.setChildDetails(commonPersonObject);
@@ -1014,9 +1014,9 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             case R.id.action_general_disease:
                 openMemberDisease();
                 return true;
-            case R.id.action_member_survey:
-                openMemberProfileUpdate();
-                return true;
+//            case R.id.action_member_survey:
+//                openMemberProfileUpdate();
+//                return true;
         }
 
         return super.onOptionsItemSelected(item);

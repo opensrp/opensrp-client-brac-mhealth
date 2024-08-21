@@ -193,6 +193,19 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha-qa.mpower-social.com/opensrp/"'
             buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
         }
+        chcp{
+            versionCode 6
+            versionName "1.0.1_chcp"
+            dimension = 'baseDimension'
+            applicationIdSuffix ".chcp"
+            buildConfigField "boolean", 'IS_TRAINING', 'false'
+            buildConfigField "boolean", 'IS_MIS', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_live', '"http://192.168.19.166:8080/opensrp/"'
+//            buildConfigField "String", 'opensrp_url_training', '"http://192.168.19.166:8080/opensrp/"'
+            buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
+        }
     }
 
 }

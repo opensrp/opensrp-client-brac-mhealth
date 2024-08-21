@@ -1801,8 +1801,8 @@ public class HnppConstants extends CoreConstants {
         public static final String  ANC_FORM = "chcp_anc_registration";
         public static final String  ANC_FORM_FACILITY  = "anc_registration";
         public static final String  ANC_VISIT_FORM = "chcp_anc_home_visit";
-        public static final String  ANC_VISIT_FORM_FACILITY = "anc_home_visit";
-        public static final String  ANC_VISIT_FORM_OOC = "hnpp_anc_home_visit_ooc";
+        public static final String  ANC_VISIT_FORM_FACILITY = "anc_home_visit_facility";
+        public static final String  ANC_VISIT_FORM_HA = "anc_home_visit";
 //        public static final String  GENERAL_DISEASE = "hnpp_anc_general_disease";
 //        public static final String  PREGNANCY_HISTORY = "hnpp_anc_pregnancy_history";
         public static final String  PREGNANCY_OUTCOME = "anc_pregnancy_outcome";
@@ -1881,10 +1881,10 @@ public class HnppConstants extends CoreConstants {
 
 //        public static final String ANC_PREGNANCY_HISTORY = "ANC Pregnancy History";
 //        public static final String ANC_GENERAL_DISEASE = "ANC General Disease";
-        public static final String ANC_HOME_VISIT= "Facility_AncService";
+        public static final String ANC_HOME_VISIT= "AncService";
         public static final String ANC_REGISTRATION_FACILITY= "ANC Registration";
-        public static final String ANC_HOME_VISIT_FACILITY= "ANC Home Visit";
-        public static final String ANC_HOME_VISIT_OOC= "ANC Home Visit OOC";
+        public static final String ANC_HOME_VISIT_FACILITY= "Facility_AncService";
+        public static final String ANC_HOME_VISIT_HA= "ANC Home Visit";
         public static final String ANC_REGISTRATION = "Facility_ANC_Registration";
         public static final String UPDATE_ANC_REGISTRATION = "Update ANC Registration";
         public static final String PNC_REGISTRATION = "Facility_PNCService";

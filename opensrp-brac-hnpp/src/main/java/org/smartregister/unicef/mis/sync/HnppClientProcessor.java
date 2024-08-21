@@ -177,6 +177,7 @@ public class HnppClientProcessor extends ClientProcessorForJava {
                 break;
             case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
             case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY:
+            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_HA:
             case HnppConstants.EVENT_TYPE.ELCO:
             case HnppConstants.EVENT_TYPE.MEMBER_REFERRAL:
             case HnppConstants.EVENT_TYPE.WOMEN_REFERRAL:
@@ -669,38 +670,25 @@ public class HnppClientProcessor extends ClientProcessorForJava {
 //                }
 
                 AncLibrary.getInstance().visitRepository().addVisit(visit);
-                if(visit.getVisitType().equalsIgnoreCase(HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY)){
+                if(isHomeVisitForm(visit.getVisitType())){
                     FormParser.processVisitLog(visit);
                 }
 
 
             }
-//            else{
-//                //need to handle to update visit table to process again
-//                //TODO need to remove this logic from 2.0.6 version production
-//                Log.v("STOCK_ADD","pre process"+baseEvent.getEvent().getEventType()+":is process:"+visit.getProcessed());
-//
-//                switch (baseEvent.getEvent().getEventType()){
-//                    case CoreConstants.EventType.ANC_HOME_VISIT:
-//                    case HnppConstants.EVENT_TYPE.PNC_REGISTRATION_BEFORE_48_hour:
-//                    case HnppConstants.EVENT_TYPE.GIRL_PACKAGE:
-//                    case HnppConstants.EVENT_TYPE.WOMEN_PACKAGE:
-//                    case HnppConstants.EVENT_TYPE.NCD_PACKAGE:
-//                    case HnppConstants.EVENT_TYPE.IYCF_PACKAGE:
-//                        SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
-//                        String event = (new JSONObject(JsonFormUtils.gson.toJson(baseEvent.getEvent())).toString());
-//                        db.execSQL("UPDATE visits set processed='2',visit_json ='"+event+"' where visit_id='"+visit.getVisitId()+"' and processed ='1'");
-//                        Log.v("STOCK_ADD","updated:"+visit.getVisitId());
-//                        break;
-//                    default:
-//                        break;
-//                }
-//              }
         } catch (JSONException e) {
             Timber.e(e);
         }
     }
-
+    private boolean isHomeVisitForm(String visitType) {
+        switch (visitType){
+            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_FACILITY:
+            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT:
+            case HnppConstants.EVENT_TYPE.ANC_HOME_VISIT_HA:
+                return true;
+        }
+        return false;
+    }
 
 
     public static void processSubHomeVisit(EventClient baseEvent, String parentEventType) {

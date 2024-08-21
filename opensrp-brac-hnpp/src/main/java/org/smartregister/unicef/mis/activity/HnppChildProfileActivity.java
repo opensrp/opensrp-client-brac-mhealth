@@ -533,18 +533,18 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
             case R.id.action_general_disease:
                 openChildDiseaseForm();
                 return true;
-            case R.id.action_member_survey:
-                openChildProfileVisit();
-                return true;
-            case R.id.action_scanu_followup:
-                showScanuFollowUpDialog(HnppChildProfileActivity.this);
-                return true;
-            case R.id.action_kmc_home:
-                openKMCHome();
-                return true;
-            case R.id.action_kmc_hospital:
-                openKMCHomeFollowUp();
-                return true;
+//            case R.id.action_member_survey:
+//                openChildProfileVisit();
+//                return true;
+//            case R.id.action_scanu_followup:
+//                showScanuFollowUpDialog(HnppChildProfileActivity.this);
+//                return true;
+//            case R.id.action_kmc_home:
+//                openKMCHome();
+//                return true;
+//            case R.id.action_kmc_hospital:
+//                openKMCHomeFollowUp();
+//                return true;
             default:
                 break;
         }
@@ -571,11 +571,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         return true;
     }
     public void updateScanuFollowupMenu(boolean isVisible){
-        this.menu.findItem(R.id.action_scanu_followup).setVisible(isVisible);
+//        this.menu.findItem(R.id.action_scanu_followup).setVisible(isVisible);
     }
     public void updateKMCFollowupMenu(boolean isVisible){
-        this.menu.findItem(R.id.action_kmc_home).setVisible(isVisible);
-        this.menu.findItem(R.id.action_kmc_hospital).setVisible(isVisible);
+//        this.menu.findItem(R.id.action_kmc_home).setVisible(isVisible);
+//        this.menu.findItem(R.id.action_kmc_hospital).setVisible(isVisible);
     }
     Dialog removeChildDialog;
     public void showDeathRegistrationPopUp(){

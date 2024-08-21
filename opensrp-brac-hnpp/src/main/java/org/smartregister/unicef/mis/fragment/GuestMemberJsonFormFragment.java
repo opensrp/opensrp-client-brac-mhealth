@@ -26,7 +26,9 @@ import org.json.JSONObject;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.interactor.HnppJsonFormInteractor;
+import org.smartregister.unicef.mis.location.BlockLocation;
 import org.smartregister.unicef.mis.location.HALocationHelper;
+import org.smartregister.unicef.mis.location.WardLocation;
 import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.repository.GlobalLocationRepository;
 
@@ -88,12 +90,148 @@ public class GuestMemberJsonFormFragment extends JsonWizardFormFragment {
                     processUpazila(districtIds.get(position));
                 }
             }
+            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_zone))) {
+                if(isManuallyPressed){
+                    processOldWard(position);
+                }
+            }
+            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.old_ward))) {
+                if(isManuallyPressed){
+                    processNewWard(oldWardIds.get(position));
+                }
+            }
+
         }
 
     }
     ArrayList<String> districtIds = new ArrayList<>();
     ArrayList<String> upazilaIds = new ArrayList<>();
+    ArrayList<String> oldWardIds = new ArrayList<>();
+    ArrayList<String> newWardIds = new ArrayList<>();
     private String selectedDivCode,selectedDistrictCode,selectedUpozilaCode,selectedDivId;
+    String selectedUnionId = "";
+    String selectedWardId = "";
+    String selectedOldWardName = "";
+    String selectedNewWardName = "";
+    private void processOldWard(int position) {
+        int selectedUnionId = HALocationHelper.getInstance().getUnionList().get(position).ward.id;
+        ArrayList<String> oldWardNames = new ArrayList<>();
+        oldWardIds.clear();
+        ArrayList<WardLocation> oldWards = HnppApplication.getHALocationRepository().getOldWardByUnionId(selectedUnionId);
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.old_ward).trim()))) {
+
+                    try{
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "old_ward");
+                        JSONArray jsonArray = new JSONArray();
+                        for(WardLocation wardLocation : oldWards){
+                            jsonArray.put(wardLocation.ward.name);
+                            oldWardNames.add(wardLocation.ward.name);
+                            oldWardIds.add(wardLocation.ward.id+"");
+                        }
+                        oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, oldWardNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.old_ward).trim())) {
+                                if(position!=-1){
+                                    selectedOldWardName = adapter.getItem(position);
+                                    processNewWard(oldWardIds.get(position));
+                                }
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
+    private void processNewWard(String oldWardId) {
+        ArrayList<String> newWardNames = new ArrayList<>();
+        newWardIds.clear();
+        ArrayList<WardLocation> newWards = HnppApplication.getHALocationRepository().getAllWardByOldWardId(Integer.parseInt(oldWardId));
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.new_ward).trim()))) {
+
+                    try{
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "ward_name");
+                        JSONArray jsonArray = new JSONArray();
+                        for(WardLocation wardLocation : newWards){
+                            jsonArray.put(wardLocation.ward.name);
+                            newWardNames.add(wardLocation.ward.name);
+                            newWardIds.add(wardLocation.ward.id+"");
+                        }
+                        oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+
+                    }
+
+
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, newWardNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward).trim())) {
+                                if(position!=-1){
+                                    selectedNewWardName = adapter.getItem(position);
+                                    selectedWardId = newWardIds.get(position);
+                                    generatedId();
+                                    try{
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+
+                                        JSONObject divObj = getFieldJSONObject(jsonArray, "ward_id");
+                                        divObj.put("value", selectedWardId);
+                                    }catch (Exception e){
+
+                                    }
+                                }
+
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
     private void processDistrict(int position) {
 
         GlobalLocationModel locationModel = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue()).get(position);

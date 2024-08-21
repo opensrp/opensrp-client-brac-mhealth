@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "Facility_AncService",
+  "encounter_type": "AncService",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -53,7 +53,7 @@
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "Facility_AncService",
+        "openmrs_entity_id": "AncService",
         "openmrs_data_type": "text",
         "type": "hidden",
         "value": "chcp_anc_home_visit"
@@ -93,6 +93,14 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "lmp",
         "type": "hidden"
+      },
+      {
+        "key": "role",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "role",
+        "type": "hidden",
+        "value": "CHCP"
       },
       {
         "key": "anc_count",
@@ -174,10 +182,10 @@
         }
       },
       {
-        "key": "height_machine",
+        "key": "couldNotMeasureHeight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "height_machine",
+        "openmrs_entity_id": "couldNotMeasureHeight",
         "type": "native_radio",
         "label": "উচ্চতা পরিমাপ করা সম্ভব হচ্ছেনা",
         "text_color": "#000000",
@@ -232,10 +240,10 @@
         }
       },
       {
-        "key": "weight_machine",
+        "key": "couldNotMeasureWeight",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "weight_machine",
+        "openmrs_entity_id": "couldNotMeasureWeight",
         "type": "native_radio",
         "label": "পরিমাপ করা সম্ভব হচ্ছেনা",
         "text_color": "#000000",
@@ -354,7 +362,7 @@
         "openmrs_entity_id": "pulse",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "ডায়াস্টোলিক (mmHg) ",
+        "hint": "পালস রেট ",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -375,13 +383,13 @@
         }
       },
       {
-        "key": "blood_glucose",
+        "key": "glucose",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "blood_glucose",
+        "openmrs_entity_id": "glucose",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Blood Sugar",
+        "hint": "রক্তের গ্লুকোজ",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid Number"
@@ -402,10 +410,10 @@
         }
       },
       {
-        "key": "blood_machine",
+        "key": "couldNotMeasureBloodPressure",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "blood_machine",
+        "openmrs_entity_id": "couldNotMeasureBloodPressure",
         "type": "native_radio",
         "label": "রক্তচাপের অবস্থা পরিমাপ করা সম্ভব হচ্ছেনা",
         "text_color": "#000000",
@@ -450,12 +458,12 @@
         }
       },
       {
-        "key": "blood_sugar_exist",
+        "key": "blood_sugar_exam",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "blood_sugar_exist",
+        "openmrs_entity_id": "blood_sugar_exam",
         "type": "native_radio",
-        "label": "উপস্থিতি",
+        "label": "প্রস্রাবে সুগার উপস্থিতি",
         "text_color": "#000000",
         "options": [
           {
@@ -488,12 +496,12 @@
         }
       },
       {
-        "key": "blood_sugar_machine",
+        "key": "couldNotMeasureSugarInUrine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "blood_sugar_machine",
+        "openmrs_entity_id": "couldNotMeasureSugarInUrine",
         "type": "native_radio",
-        "label": "পরিমাপ করা সম্ভব হচ্ছেনা",
+        "label": "প্রস্রাবে সুগার পরিমাপ করা সম্ভব হচ্ছেনা",
         "text_color": "#000000",
         "options": [
           {
@@ -536,12 +544,12 @@
         }
       },
       {
-        "key": "urine_albumin_exist",
+        "key": "albuminPresenceInUrine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "urine_albumin_exist",
+        "openmrs_entity_id": "albuminPresenceInUrine",
         "type": "native_radio",
-        "label": "উপস্থিতি",
+        "label": "প্রস্রাবে এলবুমিন উপস্থিতি",
         "text_color": "#000000",
         "options": [
           {
@@ -574,12 +582,12 @@
         }
       },
       {
-        "key": "urine_albumin_machine",
+        "key": "couldNotMeasureAlbuminInUrine",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
-        "openmrs_entity_id": "urine_albumin_machine",
+        "openmrs_entity_id": "couldNotMeasureAlbuminInUrine",
         "type": "native_radio",
-        "label": "পরিমাপ করা সম্ভব হচ্ছেনা",
+        "label": "প্রস্রাবে এলবুমিন পরিমাপ করা সম্ভব হচ্ছেনা",
         "text_color": "#000000",
         "options": [
           {
