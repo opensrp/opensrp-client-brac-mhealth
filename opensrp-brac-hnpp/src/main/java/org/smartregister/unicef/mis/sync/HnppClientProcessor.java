@@ -222,6 +222,8 @@ public class HnppClientProcessor extends ClientProcessorForJava {
             case HnppConstants.EVENT_TYPE.IMCI_FEVER_2_59:
             case HnppConstants.EVENT_TYPE.IMCI_MALNUTRITION_2_59:
             case HnppConstants.EVENT_TYPE.IMCI_ANAEMIA_2_59:
+            case HnppConstants.EVENT_TYPE.IMCI_OTHER_0_2:
+            case HnppConstants.EVENT_TYPE.IMCI_OTHER_2_59:
                 if (eventClient.getEvent() == null) {
                     return;
                 }
