@@ -175,6 +175,10 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "hint": "নামের শেষ অংশ (ইংরেজীতে)",
         "edit_type": "name"
       },

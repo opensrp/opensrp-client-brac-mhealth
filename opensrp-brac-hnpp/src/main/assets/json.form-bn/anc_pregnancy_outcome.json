@@ -730,6 +730,10 @@
         "openmrs_entity_id": "community_name",
         "type": "edit_text",
         "hint": "কমিউনিটি ক্লিনিকের নাম",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "relevance": {
           "step2:mother_is_death": {
             "type": "string",

@@ -158,7 +158,11 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "নামের শেষ অংশ (ইংরেজীতে)",
-        "edit_type": "name"
+        "edit_type": "name",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
       },
 
       {

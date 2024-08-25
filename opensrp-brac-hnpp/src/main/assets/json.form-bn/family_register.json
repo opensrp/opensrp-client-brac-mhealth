@@ -147,6 +147,10 @@
         "openmrs_entity_id": "village",
         "openmrs_data_type": "text",
         "type": "edit_text",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "hint": "গ্রাম/মহল্লা/পাড়া"
       },
       {
@@ -156,6 +160,10 @@
         "openmrs_entity_id": "holding_no",
         "openmrs_data_type": "text",
         "type": "edit_text",
+        "v_regex": {
+          "value": "^[a-zA-Z0-9\\s\\.\\-]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "hint": "বাড়ি/ জি আর / হোল্ডিং নং"
 
       },
@@ -305,6 +313,10 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "গ্রাম/মহল্লা/পাড়া(স্থায়ী ঠিকানা)",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
@@ -320,6 +332,10 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "বাড়ি/ জি আর / হোল্ডিং নং(স্থায়ী ঠিকানা)",
+        "v_regex": {
+          "value": "^[a-zA-Z0-9\\s\\.\\-]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "relevance": {
           "step1:is_permanent_address": {
             "type": "string",
@@ -381,6 +397,10 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "edit_type": "name"
       },
       {
