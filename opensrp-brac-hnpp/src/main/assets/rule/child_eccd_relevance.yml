@@ -13,3 +13,17 @@ priority: 3
 condition: "step1_cal_total>=3"
 actions:
   - "isRelevant = true"
+---
+name: step1_division_per
+description: 2-3 month
+priority: 3
+condition: "step1_cal_total>=3"
+actions:
+  - "isRelevant = true"
+---
+name: step1_district_per
+description: 2-3 month
+priority: 3
+condition: "step1_cal_total>=3"
+actions:
+  - "isRelevant = true"

@@ -133,11 +133,14 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                     processUnion(paurosovaIds.get(position));
                 }
             }
+
           //  hideKeyBoard();
         }
 
 
     }
+
+
 
     private void processDistrict(int position) {
 

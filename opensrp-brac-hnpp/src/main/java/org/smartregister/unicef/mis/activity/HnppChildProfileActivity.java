@@ -999,7 +999,11 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                             || HnppConstants.JSON_FORMS.CHILD_DISEASE.equalsIgnoreCase(formName) ){
                         JSONObject stepOne = jsonForm.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
                         JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
-
+                        try{
+                            HnppJsonFormUtils.updateFormWithSBKDivision(jsonForm);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         ReferralData referralData = HnppApplication.getReferralRepository().getIsReferralDataById(childBaseEntityId);
                         if(referralData!=null){
                             updateFormField(jsonArray,"is_referred",getString(R.string.yes));

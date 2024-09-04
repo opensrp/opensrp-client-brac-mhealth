@@ -1,11 +1,15 @@
 package org.smartregister.unicef.mis.fragment;
 
+import static com.vijay.jsonwizard.utils.FormUtils.getFieldJSONObject;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
@@ -24,9 +29,12 @@ import com.vijay.jsonwizard.fragments.JsonWizardFormFragment;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.model.GlobalLocationModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,6 +59,7 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
         return HnppApplication.getInstance().getContext();
     }
     boolean isHighTemparature,isLowTemparature = false,breathing = false;
+    private boolean isManuallyPressed = false;
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         super.onItemSelected(parent, view, position, id);
@@ -69,9 +78,141 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 updateChildBodyInfo(breathing);
 
             }
+            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.division_refer))) {
+                if(isManuallyPressed){
+                    Log.v("SBK_CENTER","position:"+position);
+                    String divisionName =(String) ((MaterialSpinner) parent).getItemAtPosition(position);
+                    processSBKDistrict(divisionName);
+                }
+            }
         }
 
     }
+    private void processSBKDistrict(String divisionName) {
+        Log.v("SBK_CENTER","processSBKDistrict>>>"+divisionName);
+        ArrayList<String> districtNames = HnppApplication.getSbkRepository().getSbkCenterDistrict(divisionName);
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.district_refer).trim()))) {
+
+                    try{
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "district_per");
+                        JSONArray jsonArray = new JSONArray();
+                        for(String district : districtNames){
+                            jsonArray.put(district);
+                        }
+                        oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, districtNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.district_refer))) {
+                                if(position!=-1){
+                                    try{
+                                        String selectedDistrictName =(String) ((MaterialSpinner) parent).getItemAtPosition(position);
+
+
+                                        JSONObject districtPerObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "district_per");
+                                        districtPerObj.put("value",  selectedDistrictName);
+                                        districtPerObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,selectedDistrictName);
+
+                                        JSONObject divisionPerObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "division_per");
+                                        divisionPerObj.put("value",  divisionName);
+                                        divisionPerObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,divisionName);
+                                        processSBKCenterList(divisionName,selectedDistrictName);
+
+                                        Log.v("SBK_CENTER","selectedDistrictName:"+selectedDistrictName+":divisionName:"+divisionName);
+                                    }catch (Exception e){
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
+
+    private void processSBKCenterList(String divisionName, String selectedDistrictName) {
+        ArrayList<String> sbkCenterNames = HnppApplication.getSbkRepository().getSbkCenterByDistrict(divisionName,selectedDistrictName);
+        ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
+        for (int i = 0; i < formdataviews.size(); i++) {
+            if (formdataviews.get(i) instanceof MaterialSpinner) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
+                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                                .equalsIgnoreCase(getContext().getResources().getString(R.string.refer_place).trim()))) {
+
+                    try{
+                        JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "district_per");
+                        JSONArray jsonArray = new JSONArray();
+                        for(String district : sbkCenterNames){
+                            jsonArray.put(district);
+                        }
+                        oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+                    }catch (Exception e){
+                        e.printStackTrace();
+
+                    }
+                    MaterialSpinner spinner = (MaterialSpinner) formdataviews.get(i);
+                    spinner.setEnabled(true);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), com.vijay.jsonwizard.R.layout.native_form_simple_list_item_1, sbkCenterNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0, true);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.refer_place))) {
+                                if(position!=-1){
+                                    try{
+                                        String selectedSBkCenterName =(String) ((MaterialSpinner) parent).getItemAtPosition(position);
+
+                                        JSONArray jsonArray = getStep("step1").getJSONArray("fields");
+                                        JSONObject districtPer = getFieldJSONObject(jsonArray, "place_of_referral");
+                                        districtPer.put("value",  selectedSBkCenterName);
+                                    }catch (Exception e){
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
+
     public void updateChildBodyInfo(boolean isChecked) {
         for (int i = 0; i < viewList.size(); i++) {
             CompoundButton buttonView = viewList.get(i).view;
@@ -127,7 +268,12 @@ public class HnppAncJsonFormFragment extends JsonWizardFormFragment {
                 }
             }
         }
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isManuallyPressed = true;
+            }
+        }, 1000);
 
     }
     boolean isKMCHospital = false;

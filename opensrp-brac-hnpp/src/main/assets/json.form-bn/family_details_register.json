@@ -120,7 +120,11 @@
         "openmrs_entity_id": "village",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "গ্রাম/মহল্লা/পাড়া"
+        "hint": "গ্রাম/মহল্লা/পাড়া",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
       },
       {
         "key": "holding_no",
@@ -129,7 +133,11 @@
         "openmrs_entity_id": "holding_no",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বাড়ি/ জি আর / হোল্ডিং নং"
+        "hint": "বাড়ি/ জি আর / হোল্ডিং নং",
+        "v_regex": {
+          "value": "^[a-zA-Z0-9\\s\\.\\-]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
       },
       {
         "key": "post_office_present",
@@ -253,7 +261,11 @@
         "openmrs_entity_id": "village_per",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "গ্রাম/মহল্লা/পাড়া"
+        "hint": "গ্রাম/মহল্লা/পাড়া",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
       },
       {
         "key": "holding_no_per",
@@ -262,7 +274,11 @@
         "openmrs_entity_id": "holding_no_per",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "বাড়ি/ জি আর / হোল্ডিং নং"
+        "hint": "বাড়ি/ জি আর / হোল্ডিং নং",
+        "v_regex": {
+          "value": "^[a-zA-Z0-9\\s\\.\\-]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
       },
       {
         "key": "post_office_permanent",
@@ -316,7 +332,11 @@
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
         "hint": "পরিবারের প্রধানের নাম এর শেষ অংশ (ইংরেজীতে)",
-        "edit_type": "name"
+        "edit_type": "name",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        }
       },
 
       {

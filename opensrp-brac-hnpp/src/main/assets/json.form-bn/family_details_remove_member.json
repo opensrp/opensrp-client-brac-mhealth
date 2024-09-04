@@ -427,6 +427,10 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "community_name",
         "type": "edit_text",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "hint": "কমিউনিটি ক্লিনিকের নাম",
         "relevance": {
           "rules-engine": {
@@ -575,6 +579,10 @@
         "openmrs_entity_id": "death_cause_by_reporter",
         "openmrs_data_type": "text",
         "type": "edit_text",
+        "v_regex": {
+          "value": "^[a-zA-Z\\s]*$",
+          "err": "একটি বৈধ নাম লিখুন"
+        },
         "hint": "সাক্ষাৎকার গ্রহণকারীর মতে মৃত্যুর কি কারণ হতে পারে ?",
         "relevance": {
           "rules-engine": {

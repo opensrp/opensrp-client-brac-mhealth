@@ -109,13 +109,14 @@ public class HnppMemberProfileInteractor implements HnppMemberProfileContract.In
     @Override
     public void fetchData(CommonPersonObjectClient commonPersonObjectClient, Context context, String baseEntityId, HnppMemberProfileContract.InteractorCallBack callBack) {
         Runnable runnable = () -> {
-            ArrayList<MemberProfileDueData> memberProfileDueData;
-           /* if(HnppConstants.isPALogin()){
-                otherServiceData =  getPAService(commonPersonObjectClient);
-            }else{*/
-            memberProfileDueData = getOtherService(commonPersonObjectClient,baseEntityId);
-            // }
-            appExecutors.mainThread().execute(() -> callBack.onUpdateList(memberProfileDueData));
+            ArrayList<MemberProfileDueData> memberProfileDueData = new ArrayList<>();
+            try{
+                memberProfileDueData = getOtherService(commonPersonObjectClient,baseEntityId);
+           }catch (Exception e){
+
+           }
+            ArrayList<MemberProfileDueData> finalMemberProfileDueData = memberProfileDueData;
+            appExecutors.mainThread().execute(() -> callBack.onUpdateList(finalMemberProfileDueData));
         };
         appExecutors.diskIO().execute(runnable);
     }
