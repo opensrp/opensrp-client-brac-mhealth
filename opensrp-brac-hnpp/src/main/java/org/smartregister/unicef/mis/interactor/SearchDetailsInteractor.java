@@ -130,7 +130,7 @@ public class SearchDetailsInteractor implements SearchDetailsContract.Interactor
                 if(idType.equalsIgnoreCase("nid")){
                     request.put("type","nid");
                     request.put("txt",globalSearchContentData.getId());
-                }else  if(idType.equalsIgnoreCase("brid")){
+                }else  if(idType.equalsIgnoreCase("brid") || idType.equalsIgnoreCase("brn")){
                     request.put("type","brn");
                     request.put("txt",globalSearchContentData.getId());
                 }

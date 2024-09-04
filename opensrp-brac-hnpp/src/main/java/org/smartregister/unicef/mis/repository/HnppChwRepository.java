@@ -127,6 +127,11 @@ public class HnppChwRepository extends Repository {
         }catch (Exception e){
 
         }
+        try{
+            SBKRepository.createTable(database);
+        }catch (Exception e){
+
+        }
 
     }
 
@@ -176,6 +181,13 @@ public class HnppChwRepository extends Repository {
                 case 8:
                     try{
                         alterChildTableIMMATURED(db);
+                    }catch (Exception e){
+
+                    }
+                    break;
+                case 9:
+                    try{
+                        SBKRepository.createTable(db);
                     }catch (Exception e){
 
                     }

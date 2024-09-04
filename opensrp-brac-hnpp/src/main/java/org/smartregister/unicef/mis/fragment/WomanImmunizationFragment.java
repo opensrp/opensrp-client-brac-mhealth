@@ -329,7 +329,7 @@ public class WomanImmunizationFragment extends BaseProfileFragment implements HP
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                showProgressDialog("Enrollment kora hocce");
+                showProgressDialog(getString(R.string.enrollment_loading));
                 if(HnppConstants.isConnectedToInternet(getActivity()) && selectedHpvLocation!=null){
                     interactor.postEnrolmentData(childDetails.entityId(),selectedHpvLocation,WomanImmunizationFragment.this);
                 }else{

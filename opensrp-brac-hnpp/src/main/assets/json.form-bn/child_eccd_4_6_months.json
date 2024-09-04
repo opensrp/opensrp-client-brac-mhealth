@@ -483,6 +483,52 @@
         }
       },
       {
+        "key": "division_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "division_per",
+        "type": "spinner",
+        "hint": "বিভাগ(রেফার)",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "district_per",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "district_per",
+        "type": "spinner",
+        "hint": "জেলা/সিটি কর্পোরেশন(রেফার)",
+        "values": [
+        ],
+        "openmrs_choice_ids": {
+        },
+        "v_required": {
+          "value": "true",
+          "err": "নির্বাচন করুন"
+        },
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "child_eccd_relevance.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "place_of_referral",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -509,20 +555,6 @@
         "v_required": {
           "value": true,
           "err": "নির্বাচন করুন"
-        }
-      },
-      {
-        "key": "other_referral_place",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_referral_place",
-        "type": "edit_text",
-        "hint": "অন্যান্য রেফারের স্থান লিখুন",
-        "relevance": {
-          "step1:place_of_referral": {
-            "type": "string",
-            "ex": "equalTo(., \"অন্যান্য\")"
-          }
         }
       }
     ]

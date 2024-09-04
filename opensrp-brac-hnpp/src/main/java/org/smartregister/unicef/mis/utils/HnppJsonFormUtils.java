@@ -994,6 +994,24 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
 
         return form;
     }
+    public static JSONObject updateFormWithSBKDivision(JSONObject form) {
+        try {
+            JSONArray sbkArr = new JSONArray();
+            ArrayList<String> sbkDivList = HnppApplication.getSbkRepository().getSbkCenterDivision();
+            for (String div:sbkDivList){
+                sbkArr.put(div);
+            }
+            JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            JSONObject sbk_types = getFieldJSONObject(jsonArray, "division_per");
+            sbk_types.put(org.smartregister.family.util.JsonFormUtils.VALUES,sbkArr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return form;
+    }
     public static JSONObject updateFormWithDivision(JSONObject form, JSONArray divisionList) {
         try {
             JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);

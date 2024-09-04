@@ -28,7 +28,7 @@ public class NotificationGeneratorIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent( Intent intent) {
-        processStockEndNotification();
+        //processStockEndNotification();
         processEDDThisMonth();
 
     }

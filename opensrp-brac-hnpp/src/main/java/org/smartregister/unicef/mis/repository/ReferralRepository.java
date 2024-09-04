@@ -70,12 +70,10 @@ public class ReferralRepository extends BaseRepository {
         contentValues.put(BASE_ENTITY_ID, referralData.baseEntityId);
         SQLiteDatabase database = getWritableDatabase();
         try{
-            //if(findUnique(database,otherVaccineContentData)){
-            long inserted = database.insert(getTableName(), null, contentValues);
-            Log.v("REFERRAL_FOLLOWUP","inserted:"+inserted+":contentValues"+contentValues);
-//            }else{
-//                Log.v("INDICATOR_INSERTED","failed value:"+contentValues);
-//            }
+
+                long inserted = database.insert(getTableName(), null, contentValues);
+                Log.v("REFERRAL_FOLLOWUP","inserted:"+inserted+":contentValues"+contentValues);
+
         }catch (Exception e){
             e.printStackTrace();
         }

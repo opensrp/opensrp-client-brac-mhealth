@@ -124,8 +124,10 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
         }
         if(yearText.getText().toString().isEmpty()) yearText.setText("2024");
         if(HnppConstants.isUrbanUser()){
-            findViewById(R.id.day_view).setVisibility(View.VISIBLE);
-            findViewById(R.id.calendar_view).setVisibility(View.GONE);
+            //[27-09-2024 as per requirment from shahed vai urban user also show calender view rather than day view
+            findViewById(R.id.day_view).setVisibility(View.GONE);
+            findViewById(R.id.calendar_view).setVisibility(View.VISIBLE);
+            //findViewById(R.id.additional_btn).setVisibility(View.GONE);
         }else{
             findViewById(R.id.calendar_view).setVisibility(View.VISIBLE);
             findViewById(R.id.day_view).setVisibility(View.GONE);
@@ -191,110 +193,6 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
         additionalMonth2Txt.setOnItemSelectedListener(this);
         additionalMonth3Txt.setOnItemSelectedListener(this);
         additionalMonth4Txt.setOnItemSelectedListener(this);
-        TextWatcher additionMonth1TW = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0){
-                    boolean isValid = validateDate(additionalMonth1Index,s.toString());
-                    if(!isValid) {
-                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
-                        additionalMonth1ValueTxt.setText("");
-                        updateSessionCount();
-                    }
-
-                }
-
-            }
-        };
-        TextWatcher additionMonth2TW = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0){
-                    boolean isValid = validateDate(additionalMonth2Index,s.toString());
-                    if(!isValid) {
-                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
-                        additionalMonth2ValueTxt.setText("");
-                        updateSessionCount();
-                    }
-
-                }
-
-            }
-        };
-        TextWatcher additionMonth3TW = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0){
-                    boolean isValid = validateDate(additionalMonth3Index,s.toString());
-                    if(!isValid) {
-                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
-                        additionalMonth3ValueTxt.setText("");
-                        updateSessionCount();
-                    }
-
-                }
-
-            }
-        };
-        TextWatcher additionMonth4TW = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0){
-                    boolean isValid = validateDate(additionalMonth4Index,s.toString());
-                    if(!isValid) {
-                        Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
-                        additionalMonth4ValueTxt.setText("");
-                        updateSessionCount();
-                    }
-
-                }
-
-            }
-        };
-        additionalMonth1ValueTxt.addTextChangedListener(additionMonth1TW);
-        additionalMonth2ValueTxt.addTextChangedListener(additionMonth2TW);
-        additionalMonth3ValueTxt.addTextChangedListener(additionMonth3TW);
-        additionalMonth4ValueTxt.addTextChangedListener(additionMonth4TW);
 
     }
     int additionalMonth1Index,additionalMonth2Index,additionalMonth3Index,additionalMonth4Index;
@@ -319,34 +217,122 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
         }
 
     }
-    private boolean validateDate(int month, String value){
+    private boolean validateDate(int month){
         switch (month){
             case 0:
-              return validationCheck(januaryCountTxt.getText().toString(),februaryCountTxt.getText().toString(),0,1,value);
+                return checkValidation(-1,parseIntegerValue(januaryCountTxt.getText().toString()),parseIntegerValue(februaryCountTxt.getText().toString()),-1,0,1);
+              //return validationCheck(januaryCountTxt.getText().toString(),februaryCountTxt.getText().toString(),0,1,value);
             case 1:
-                return validationCheck(februaryCountTxt.getText().toString(),marchCountTxt.getText().toString(),1,2,value);
+                return checkValidation(parseIntegerValue(januaryCountTxt.getText().toString()),parseIntegerValue(februaryCountTxt.getText().toString()),parseIntegerValue(marchCountTxt.getText().toString()),0,1,2);
+
+            //return validationCheck(februaryCountTxt.getText().toString(),marchCountTxt.getText().toString(),1,2,value);
             case 2:
-                return validationCheck(marchCountTxt.getText().toString(),aprilCountTxt.getText().toString(),2,3,value);
+                return checkValidation(parseIntegerValue(februaryCountTxt.getText().toString()),parseIntegerValue(marchCountTxt.getText().toString()),parseIntegerValue(aprilCountTxt.getText().toString()),1,2,3);
+
+            //return validationCheck(marchCountTxt.getText().toString(),aprilCountTxt.getText().toString(),2,3,value);
             case 3:
-                return validationCheck(aprilCountTxt.getText().toString(),mayCountTxt.getText().toString(),3,4,value);
+                return checkValidation(parseIntegerValue(marchCountTxt.getText().toString()),parseIntegerValue(aprilCountTxt.getText().toString()),parseIntegerValue(mayCountTxt.getText().toString()),2,3,4);
+
+            //return validationCheck(aprilCountTxt.getText().toString(),mayCountTxt.getText().toString(),3,4,value);
             case 4:
-                return validationCheck(mayCountTxt.getText().toString(),juneCountTxt.getText().toString(),4,5,value);
+                return checkValidation(parseIntegerValue(aprilCountTxt.getText().toString()),parseIntegerValue(mayCountTxt.getText().toString()),parseIntegerValue(juneCountTxt.getText().toString()),3,4,5);
+
+//            return validationCheck(mayCountTxt.getText().toString(),juneCountTxt.getText().toString(),4,5,value);
             case 5:
-                return validationCheck(juneCountTxt.getText().toString(),julyCountTxt.getText().toString(),5,6,value);
+                return checkValidation(parseIntegerValue(mayCountTxt.getText().toString()),parseIntegerValue(juneCountTxt.getText().toString()),parseIntegerValue(julyCountTxt.getText().toString()),4,5,6);
+
+//            return validationCheck(juneCountTxt.getText().toString(),julyCountTxt.getText().toString(),5,6,value);
             case 6:
-                return validationCheck(julyCountTxt.getText().toString(),augustCountTxt.getText().toString(),6,7,value);
+                return checkValidation(parseIntegerValue(juneCountTxt.getText().toString()),parseIntegerValue(julyCountTxt.getText().toString()),parseIntegerValue(augustCountTxt.getText().toString()),5,6,7);
+
+            // return validationCheck(julyCountTxt.getText().toString(),augustCountTxt.getText().toString(),6,7,value);
             case 7:
-                return validationCheck(augustCountTxt.getText().toString(),septemberTxt.getText().toString(),7,8,value);
+                return checkValidation(parseIntegerValue(julyCountTxt.getText().toString()),parseIntegerValue(augustCountTxt.getText().toString()),parseIntegerValue(septemberTxt.getText().toString()),6,7,8);
+
+//            return validationCheck(augustCountTxt.getText().toString(),septemberTxt.getText().toString(),7,8,value);
             case 8:
-                return validationCheck(septemberTxt.getText().toString(),octoberTxt.getText().toString(),8,9,value);
+                return checkValidation(parseIntegerValue(augustCountTxt.getText().toString()),parseIntegerValue(septemberTxt.getText().toString()),parseIntegerValue(octoberTxt.getText().toString()),7,8,9);
+
+//            return validationCheck(septemberTxt.getText().toString(),octoberTxt.getText().toString(),8,9,value);
             case 9:
-                return validationCheck(octoberTxt.getText().toString(),novemberTxt.getText().toString(),9,10,value);
+                return checkValidation(parseIntegerValue(septemberTxt.getText().toString()),parseIntegerValue(octoberTxt.getText().toString()),parseIntegerValue(novemberTxt.getText().toString()),8,9,10);
+
+//            return validationCheck(octoberTxt.getText().toString(),novemberTxt.getText().toString(),9,10,value);
             case 10:
-                return validationCheck(novemberTxt.getText().toString(),decemberTxt.getText().toString(),11,12,value);
+                return checkValidation(parseIntegerValue(octoberTxt.getText().toString()),parseIntegerValue(novemberTxt.getText().toString()),parseIntegerValue(decemberTxt.getText().toString()),9,10,11);
+
+//            return validationCheck(novemberTxt.getText().toString(),decemberTxt.getText().toString(),11,12,value);
+            case 11:
+                return checkValidation(parseIntegerValue(novemberTxt.getText().toString()),parseIntegerValue(decemberTxt.getText().toString()),-1,10,11,-1);
+
+            //return checkValidation(parseIntegerValue(novemberTxt.getText().toString()),parseIntegerValue(decemberTxt.getText().toString()),-1,10,11,-1);
 
               default:
                 return true;
         }
+    }
+    private boolean additionalValidationCheck(int month, String value){
+        switch (month){
+            case 0:
+            return validationCheck(januaryCountTxt.getText().toString(),februaryCountTxt.getText().toString(),0,1,value);
+            case 1:
+            return validationCheck(februaryCountTxt.getText().toString(),marchCountTxt.getText().toString(),1,2,value);
+            case 2:
+            return validationCheck(marchCountTxt.getText().toString(),aprilCountTxt.getText().toString(),2,3,value);
+            case 3:
+            return validationCheck(aprilCountTxt.getText().toString(),mayCountTxt.getText().toString(),3,4,value);
+            case 4:
+            return validationCheck(mayCountTxt.getText().toString(),juneCountTxt.getText().toString(),4,5,value);
+            case 5:
+            return validationCheck(juneCountTxt.getText().toString(),julyCountTxt.getText().toString(),5,6,value);
+            case 6:
+            return validationCheck(julyCountTxt.getText().toString(),augustCountTxt.getText().toString(),6,7,value);
+            case 7:
+            return validationCheck(augustCountTxt.getText().toString(),septemberTxt.getText().toString(),7,8,value);
+            case 8:
+            return validationCheck(septemberTxt.getText().toString(),octoberTxt.getText().toString(),8,9,value);
+            case 9:
+            return validationCheck(octoberTxt.getText().toString(),novemberTxt.getText().toString(),9,10,value);
+            case 10:
+            return validationCheck(novemberTxt.getText().toString(),decemberTxt.getText().toString(),11,12,value);
+            case 11:
+            return validationCheck(decemberTxt.getText().toString(),"",12,-1,value);
+
+            default:
+                return true;
+        }
+    }
+    private boolean checkValidation(int previousMonthSelectedDate, int currentMonthSelectedDate, int nextMonthSelectedDate, int previousMonth, int currentMonth, int nextMonth){
+        if(currentMonthSelectedDate == -1) return true;
+        String currentDateStr = formatedDateStr(currentMonthSelectedDate,currentMonth);
+
+        if(previousMonth == -1){
+            if(nextMonthSelectedDate == -1) return true;
+            //it's january so calculation on within january and february
+            String nextDateStr = formatedDateStr(nextMonthSelectedDate,nextMonth);
+            return isValid(currentDateStr,nextDateStr);
+        }else if(nextMonth == -1){
+            if(previousMonthSelectedDate == -1) return true;
+            //it's december so calculation within november and december
+            String previousDateStr = formatedDateStr(previousMonthSelectedDate,previousMonth);
+            return isValid(currentDateStr,previousDateStr);
+        }else{
+            //first check with previous month
+            boolean previousIsValid;
+            if(previousMonthSelectedDate == -1){
+                previousIsValid = true;
+            }else{
+                String previousDateStr = formatedDateStr(previousMonthSelectedDate,previousMonth);
+                previousIsValid = isValid(currentDateStr,previousDateStr);
+            }
+            if(previousIsValid){
+                if(nextMonthSelectedDate == -1) return true;
+                String nextDateStr = formatedDateStr(nextMonthSelectedDate,nextMonth);
+                return isValid(currentDateStr,nextDateStr);
+            }
+            return false;
+        }
+
     }
     private boolean validationCheck(String date1Value, String date2Value, int date1Month, int date2Month,String pressV){
         int previousMonth = parseIntegerValue(date1Value);
@@ -370,13 +356,12 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
     datestr1 = inputedDate, datestr2 = comparedDateValue
      */
     private boolean isValid(String dateStr1, String dateStr2){
-        Log.v("ADDITIONAL_DATE","isValid>>>"+dateStr1+":dateStr2:"+dateStr2);
         DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
         org.joda.time.LocalDate date1 = formatter.parseDateTime(dateStr1).toLocalDate();
         org.joda.time.LocalDate date2 = formatter.parseDateTime(dateStr2).toLocalDate();
         int dayDiff = Days.daysBetween(date2, date1).getDays();
-        Log.v("ADDITIONAL_DATE","isValid>>>"+dayDiff);
-        return dayDiff>=28;
+        Log.v("DATE_DIFF","dateStr1:"+dateStr1+":dateStr2:"+dateStr2+":dayDiff:"+dayDiff);
+        return dayDiff>=28 || dayDiff<0;
     }
     private int parseIntegerValue(String value){
         try{
@@ -401,31 +386,6 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
     @Override
     public void onCheckedChanged(CompoundButton view, boolean isChecked) {
         switch (view.getId()){
-//            case R.id.sunday:
-//                sundayChk.setSelected(isChecked);
-//                generateDateFromDay(1);
-//
-//                break;
-//            case R.id.monday:
-//                mondayChk.setSelected(isChecked);
-//                generateDateFromDay(2);
-//                break;
-//            case R.id.tuesday:
-//                thursdayChk.setSelected(isChecked);
-//                generateDateFromDay(3);
-//                break;
-//            case R.id.wednesday:
-//                wednesdayChk.setSelected(isChecked);
-//                generateDateFromDay(4);
-//                break;
-//            case R.id.thursday:
-//                thursdayChk.setSelected(isChecked);
-//                generateDateFromDay(5);
-//                break;
-//            case R.id.saturday:
-//                saturdayChk.setSelected(isChecked);
-//                generateDateFromDay(7);
-//                break;
             case R.id.other:
                 saturdayChk.setChecked(false);
                 sundayChk.setChecked(false);
@@ -481,16 +441,16 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
                 showMultiDatePicker(11,decemberTxt);
                 break;
             case R.id.showCalenderBtn_add_1:
-                showMultiDatePicker(additionalMonth1Index,additionalMonth1ValueTxt);
+                showMultiDatePicker(additionalMonth1Index,additionalMonth1ValueTxt,true);
                 break;
             case R.id.showCalenderBtn_add_2:
-                showMultiDatePicker(additionalMonth2Index,additionalMonth2ValueTxt);
+                showMultiDatePicker(additionalMonth2Index,additionalMonth2ValueTxt,true);
                 break;
             case R.id.showCalenderBtn_add_3:
-                showMultiDatePicker(additionalMonth3Index,additionalMonth3ValueTxt);
+                showMultiDatePicker(additionalMonth3Index,additionalMonth3ValueTxt,true);
                 break;
             case R.id.showCalenderBtn_add_4:
-                showMultiDatePicker(additionalMonth4Index,additionalMonth4ValueTxt);
+                showMultiDatePicker(additionalMonth4Index,additionalMonth4ValueTxt,true);
                 break;
             case R.id.backBtn:
             case R.id.previous_btn:
@@ -604,6 +564,9 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
     ArrayList<Date> selectedDates =  new ArrayList<>();
     int count = 0;
     private void showMultiDatePicker(int month,EditText editText){
+        showMultiDatePicker(month,editText,false);
+    }
+    private void showMultiDatePicker(int month,EditText editText,boolean isComesFromAdditional){
         selectedDates.clear();
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -613,25 +576,31 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editText.setText(getDateFromAllDates().toString());
+
                 Log.v("SELECTED_MONTH","selectedDates:"+selectedDates+":");
 
                 if(!HnppConstants.isUrbanUser()){
-                    boolean isValid = validateDate(month,editText.getText().toString());
+                    boolean isValid = validateDate(month);
+                    if(isComesFromAdditional){
+                        isValid = additionalValidationCheck(month,getDateFromAllDates().toString());
+                    }
                     if(!isValid){
                         Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
-                        editText.setText("");
+                        return;
+                        //editText.setText("");
                     }
                     updateSessionCount();
                 }else{
                     count += selectedDates.size();
                 }
+                editText.setText(getDateFromAllDates().toString());
                 updateYearlyCount();
 
                 dialog.dismiss();
             }
         });
         CustomCalendarView calendarView = dialog.findViewById(R.id.calendar_view);
+
         if(HnppConstants.isUrbanUser()) {
             calendarView.setMultiSelectDayEnabled(true);
         }else {
@@ -639,7 +608,7 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
         }
 
             calendarView.currentMonthIndex = month;
-            calendarView.year =Integer.parseInt( getIntValue(yearText.getText().toString()).equals("")?"2023":getIntValue(yearText.getText().toString()));
+            calendarView.year =Integer.parseInt( getIntValue(yearText.getText().toString()).equals("")?"2024":getIntValue(yearText.getText().toString()));
             calendarView.setOnMultipleDaySelectedListener(new CustomCalendarView.OnMultipleDaySelectedListener() {
                 @Override
                 public void onMultipleDaySelected(int month, @NonNull List<Date> dates) {

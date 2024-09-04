@@ -110,6 +110,9 @@
     <string name="old_ward">পুরাতন ওয়ার্ড</string>
     <string name="new_ward">নতুন ওয়ার্ড</string>
     <string name="block_outreach">সাব-ব্লক/ সাইট</string>
+    <string name="division_refer">বিভাগ(রেফার)</string>
+    <string name="refer_place">রেফারের স্থান</string>
+    <string name="district_refer">জেলা/সিটি কর্পোরেশন(রেফার)</string>
     <string name="division_per">বিভাগ(স্থায়ী)</string>
     <string name="district_per">জেলা/সিটি কর্পোরেশন(স্থায়ী)</string>
     <string name="upazila_per">উপজেলা/থানা(স্থায়ী)</string>
@@ -1206,4 +1209,5 @@
 
     </string-array>
     <string name="without_id">আই ডি নেই</string>
+    <string name="enrollment_loading">ইনরোলমেন্ট করা হচ্ছে</string>
 </resources>

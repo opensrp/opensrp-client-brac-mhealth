@@ -211,7 +211,7 @@
                                 android:layout_toEndOf="@+id/dashboard_img"
                                 android:layout_toRightOf="@+id/dashboard_img"
                                 android:fontFamily="sans-serif"
-                                android:text="ড্যাশবোর্ড"
+                                android:text="@string/job_aids"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

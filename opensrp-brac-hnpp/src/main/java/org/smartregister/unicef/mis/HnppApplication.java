@@ -58,6 +58,7 @@ import org.smartregister.unicef.mis.repository.PaymentHistoryRepository;
 import org.smartregister.unicef.mis.repository.ReferralRepository;
 import org.smartregister.unicef.mis.repository.RiskDetailsRepository;
 import org.smartregister.unicef.mis.repository.HouseholdIdRepository;
+import org.smartregister.unicef.mis.repository.SBKRepository;
 import org.smartregister.unicef.mis.repository.StockRepository;
 import org.smartregister.unicef.mis.repository.TargetVsAchievementRepository;
 import org.smartregister.unicef.mis.sync.HnppClientProcessor;
@@ -119,6 +120,7 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private static MicroPlanRepository microPlanRepository;
     private static OutreachRepository outreachRepository;
     private static ReferralRepository referralRepository;
+    private static SBKRepository sbkRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     @SuppressLint("StaticFieldLeak")
@@ -491,6 +493,12 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
             stockRepository = new StockRepository(getInstance().getRepository());
         }
         return stockRepository;
+    }
+    public static SBKRepository getSbkRepository() {
+        if ( sbkRepository == null) {
+            sbkRepository = new SBKRepository(getInstance().getRepository());
+        }
+        return sbkRepository;
     }
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();

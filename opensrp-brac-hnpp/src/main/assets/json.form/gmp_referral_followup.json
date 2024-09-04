@@ -59,6 +59,13 @@
         "value": "gmp_referral_followup"
       },
       {
+        "key": "session_info",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
         "key": "went_cc",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

@@ -65,10 +65,10 @@ public class HALocationFetchIntentService extends IntentService {
                                 || !ssModel.locations.get(0).paurasava.name.contains("NO PAURASAVA")){
                             CoreLibrary.getInstance().context().allSharedPreferences().savePreference(IS_URBAN,"true");
                         }
-                        if(ssModel.locations.get(0).district.name.equalsIgnoreCase("DHAKA NORTH CITY CORPORATION")
-                                && !ssModel.locations.get(0).union.name.equalsIgnoreCase("Zone-4")){
-                            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(DISABILITY_ENABLE,"true");
-                        }
+//                        if(ssModel.locations.get(0).district.name.equalsIgnoreCase("DHAKA NORTH CITY CORPORATION")
+//                                && !ssModel.locations.get(0).union.name.equalsIgnoreCase("Zone-4")){
+//                            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(DISABILITY_ENABLE,"true");
+//                        }
 
                         HnppApplication.getHALocationRepository().addOrUpdate(ssModel);
                     }

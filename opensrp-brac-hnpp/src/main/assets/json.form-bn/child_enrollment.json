@@ -281,7 +281,7 @@
         "openmrs_entity_id": "Relation_with_HOH",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "খানা প্রধানের সাথে সম্পর্ক",
+        "hint": "আপনি খান প্রধানের সম্পর্কে কী হন?",
         "values": [
           "পুত্র",
           "কন্যা",

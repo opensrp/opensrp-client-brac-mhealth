@@ -36,6 +36,7 @@ import org.smartregister.unicef.mis.job.ZScoreRefreshServiceJob;
 import org.smartregister.unicef.mis.location.SaveDistrictTask;
 import org.smartregister.unicef.mis.presenter.LoginPresenter;
 import org.smartregister.unicef.mis.repository.DistrictListRepository;
+import org.smartregister.unicef.mis.service.SBKCenterDownloadService;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.chw.core.job.VaccineRecurringServiceJob;
 import org.smartregister.family.util.Constants;
@@ -376,6 +377,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             }catch (Exception e){
 
             }
+            new SBKCenterDownloadService().downloadSBKCenter();
 
         }
         if(HnppConstants.isNeedToCallInvalidApi()){
