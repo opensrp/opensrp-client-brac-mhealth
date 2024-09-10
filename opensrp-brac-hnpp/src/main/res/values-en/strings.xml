@@ -1155,4 +1155,14 @@
     <string name="child_illness">Child Illness</string>
     <string name="child_gmp">Growth Monitoring</string>
     <string name="child_immunization">Vaccination</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="this_week">This week</string>
+    <string name="last_week">Last week</string>
+    <string name="next_week">Next week</string>
+    <string name="this_month">This month</string>
+    <string name="last_month">Last month</string>
+    <string name="next_month">Next month</string>
+    <string name="from_to">From - To</string>
+    <string name="anytime">Anytime</string>
 </resources>

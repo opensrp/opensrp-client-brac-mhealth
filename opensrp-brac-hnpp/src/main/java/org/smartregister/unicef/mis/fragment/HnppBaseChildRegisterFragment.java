@@ -347,7 +347,7 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                 }
             }
         });
-        adapter.setData(HnppConstants.filterTypeList);
+        adapter.setData(HnppConstants.getVaccineFilterTypeList());
 
         filterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),3));
         filterTypeRv.setAdapter(adapter);
@@ -473,61 +473,65 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     }
     private void updateContent(String content) {
         resetOtherFilter();
-        switch (content.toLowerCase()){
-            case "today":
-                selectedStartDateFilterValue = HnppConstants.getToday();
-                break;
-            case "yesterday":
-                selectedStartDateFilterValue = HnppConstants.getYesterDay();
-                break;
-            case "tomorrow":
-                selectedStartDateFilterValue = HnppConstants.getTomorrowDay();
-                break;
-            case "this week":
-                selectedStartDateFilterValue = HnppConstants.getThisWeekDay()[0];
-                selectedEndDateFilterValue = HnppConstants.getThisWeekDay()[1];
-                break;
-
-            case "last week":
-                selectedStartDateFilterValue = HnppConstants.getLastWeekDay()[0];
-                selectedEndDateFilterValue = HnppConstants.getLastWeekDay()[1];
-                break;
-
-            case "next week":
-                selectedStartDateFilterValue = HnppConstants.geNextWeekDay()[0];
-                selectedEndDateFilterValue = HnppConstants.geNextWeekDay()[1];
-                break;
-
-            case "this month":
-                selectedStartDateFilterValue = HnppConstants.getThisMonth()[0];
-                selectedEndDateFilterValue = HnppConstants.getThisMonth()[1];
-                break;
-
-            case "last month":
-                selectedStartDateFilterValue = HnppConstants.getLastMonth()[0];
-                selectedEndDateFilterValue = HnppConstants.getLastMonth()[1];
-                break;
-
-            case "next month":
-                selectedStartDateFilterValue = HnppConstants.getNextMonth()[0];
-                selectedEndDateFilterValue = HnppConstants.getNextMonth()[1];
-                break;
-
-            case "anytime":
-                break;
-
-            case "from - to":
-                showFromToDatePicker(DatePickerType.FROM);
-                break;
-            case "AEFI Child":
-                isAefiChild = "yes";
-                break;
-            case "Drop Out":
-                isDropOutChild = "yes";
-                break;
-            case "Reset filter":
-                resetOtherFilter();
-                break;
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.today))){
+            selectedStartDateFilterValue = HnppConstants.getToday();
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.yesterday))){
+            selectedStartDateFilterValue = HnppConstants.getYesterDay();
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.tomorrow))){
+            selectedStartDateFilterValue = HnppConstants.getTomorrowDay();
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.this_week))){
+            selectedStartDateFilterValue = HnppConstants.getThisWeekDay()[0];
+            selectedEndDateFilterValue = HnppConstants.getThisWeekDay()[1];
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.last_week))){
+            selectedStartDateFilterValue = HnppConstants.getLastWeekDay()[0];
+            selectedEndDateFilterValue = HnppConstants.getLastWeekDay()[1];
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.next_week))){
+            selectedStartDateFilterValue = HnppConstants.geNextWeekDay()[0];
+            selectedEndDateFilterValue = HnppConstants.geNextWeekDay()[1];
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.this_month))){
+            selectedStartDateFilterValue = HnppConstants.getThisMonth()[0];
+            selectedEndDateFilterValue = HnppConstants.getThisMonth()[1];
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.last_month))){
+            selectedStartDateFilterValue = HnppConstants.getLastMonth()[0];
+            selectedEndDateFilterValue = HnppConstants.getLastMonth()[1];
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.next_month))){
+            selectedStartDateFilterValue = HnppConstants.getNextMonth()[0];
+            selectedEndDateFilterValue = HnppConstants.getNextMonth()[1];
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.anytime))){
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.from_to))){
+            showFromToDatePicker(DatePickerType.FROM);
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.aefi_child))){
+            isAefiChild = "yes";
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.drop_out))){
+            isDropOutChild = "yes";
+            return;
+        }
+        if(content.toLowerCase().equalsIgnoreCase(HnppApplication.appContext.getString(R.string.reset_filter))){
+            resetOtherFilter();
         }
     }
 

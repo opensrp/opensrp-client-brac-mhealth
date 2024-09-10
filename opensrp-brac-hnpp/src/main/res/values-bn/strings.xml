@@ -1184,7 +1184,17 @@
     <string name="gmp_mal">অপুষ্টি</string>
     <string name="imci_0_2">০-২ মাসের শিশু</string>
     <string name="imci_2_59">২-৫৯ মাসের শিশু</string>
-    <string name="child_illness">Child Illness</string>
-    <string name="child_gmp">Growth Monitoring</string>
-    <string name="child_immunization">Vaccination</string>
+    <string name="child_illness">শিশুর অসুস্থতা</string>
+    <string name="child_gmp">গ্রোথ মনিটরিং</string>
+    <string name="child_immunization">টিকাদান</string>
+    <string name="yesterday">গতকাল</string>
+    <string name="tomorrow">কাল</string>
+    <string name="this_week">এই সপ্তাহে</string>
+    <string name="last_week">গত সপ্তাহে</string>
+    <string name="next_week">পরের সপ্তাহে</string>
+    <string name="this_month">এই মাসে</string>
+    <string name="last_month">গত মাসে</string>
+    <string name="next_month">পরের মাসে</string>
+    <string name="from_to">হতে - থেকে </string>
+    <string name="anytime">যে কোন সময়</string>
 </resources>

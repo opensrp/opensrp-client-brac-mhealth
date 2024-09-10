@@ -131,24 +131,26 @@ public class HnppConstants extends CoreConstants {
     public static SimpleDateFormat YYYYMM = new SimpleDateFormat("yyyy-MM",Locale.getDefault());
     public static SimpleDateFormat YYMMDD = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 
-    public static ArrayList<String> filterTypeList = new ArrayList<String>(
-            Arrays.asList(
-                    "Today",
-                    "Yesterday",
-                    "Tomorrow",
-                    "This week",
-                    "Last week",
-                    "Next week",
-                    "This month",
-                    "Last month",
-                    "Next month",
-                    "From - To",
-                    "Anytime",
-                    "AEFI Child",
-                    "Drop Out",
-                    "Reset filter"
-            )
-    );
+    public static ArrayList<String> getVaccineFilterTypeList(){
+        return  new ArrayList<String>(
+                Arrays.asList(
+                        HnppApplication.appContext.getString(R.string.today),
+                        HnppApplication.appContext.getString(R.string.yesterday),
+                        HnppApplication.appContext.getString(R.string.tomorrow),
+                        HnppApplication.appContext.getString(R.string.this_week),
+                        HnppApplication.appContext.getString(R.string.last_week),
+                        HnppApplication.appContext.getString(R.string.next_week),
+                        HnppApplication.appContext.getString(R.string.this_month),
+                        HnppApplication.appContext.getString(R.string.last_month),
+                        HnppApplication.appContext.getString(R.string.next_month),
+                        HnppApplication.appContext.getString(R.string.from_to),
+                        HnppApplication.appContext.getString(R.string.anytime),
+                        HnppApplication.appContext.getString(R.string.aefi_child),
+                        HnppApplication.appContext.getString(R.string.drop_out),
+                        HnppApplication.appContext.getString(R.string.reset_filter)
+                )
+        );
+    }
     public static ArrayList<String> getGMPFilterList(){
         return new ArrayList<>(
                 Arrays.asList(
