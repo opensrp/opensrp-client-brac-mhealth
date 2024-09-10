@@ -76,18 +76,25 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
     boolean isExpanded = false;
     boolean isClickedAefi = false;
     boolean isClickedDropOut = false;
-    ChildFilterTypeAdapter adapter;
+    ChildFilterTypeAdapter adapter,gmpAdapter,imciAdapter;
     protected String fromDate = "";
     protected String toDate = "";
     private int oldPosition = -1;
-    private  TextView filterTextTv;
+    private int oldGmpPosition = -1;
+    private int oldImciPosition = -1;
+    private  TextView filterTextTv,gmpFilterTextTv,imciFilterTextTv;
     Button dropOutButton;
     Button resetFilterButton;
     Button aefiButton;
-    RecyclerView filterTypeRv;
-    ImageView arrowImageView;
-    int layoutHeightWithExpand = 800;
-    int layoutHeightWithoutExpand = 300;
+    RecyclerView filterTypeRv,gmpFilterTypeRv,imciFilterTypeRv;
+    ImageView arrowImageView,gmpArrowImageView,imciArrowImageView;
+    int layoutHeightWithExpand = 700;
+    int layoutHeightWithoutExpand = 500;
+    boolean isGMPExpanded = false;
+    boolean isImciExpanded = false;
+    protected String gmpStatus = "";
+    protected String imciStatus = "";
+    LinearLayout filter_button_lay_rv;
 
     @Override
     public void setupViews(View view) {
@@ -171,33 +178,24 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         //filterTextView.setOnClickListener(registerActionHandler);
         clients_header_layout = view.findViewById(org.smartregister.chw.core.R.id.clients_header_layout);
         android.view.View filterView = inflate(getContext(), R.layout.child_list_filter_view, clients_header_layout);
-        LinearLayout filterButtonLay = view.findViewById(R.id.filter_button_lay);
-        View filterButtonView;
-
-        if(checkDevice() == DeviceType.TABLET){
-            filterButtonView = getLayoutInflater()
-                    .inflate(R.layout.child_list_filter_buttons_tablet, filterButtonLay, false);
-             layoutHeightWithExpand = 450;
-             layoutHeightWithoutExpand = 150;
-        }else {
-            filterButtonView = getLayoutInflater()
-                    .inflate(R.layout.child_list_filter_buttons_phone, filterButtonLay, false);
-             layoutHeightWithExpand = 800;
-             layoutHeightWithoutExpand = 300;
-        }
-
-        filterButtonLay.addView(filterButtonView);
 
         filterTypeRv = filterView.findViewById(R.id.filter_type_rv);
+        gmpFilterTypeRv = filterView.findViewById(R.id.gmp_filter_type_rv);
+        imciFilterTypeRv = filterView.findViewById(R.id.imci_filter_type_rv);
         ConstraintLayout filterDateLay = filterView.findViewById(R.id.filter_date_lay);
         arrowImageView = filterView.findViewById(R.id.arrow_image);
+        gmpArrowImageView = filterView.findViewById(R.id.gmp_arrow_image);
+        imciArrowImageView = filterView.findViewById(R.id.imci_arrow_image);
         filterTextTv = filterView.findViewById(R.id.filter_text_view);
-
+        gmpFilterTextTv = filterView.findViewById(R.id.gmp_filter_text_view);
+        imciFilterTextTv = filterView.findViewById(R.id.imci_filter_text_view);
         aefiButton = filterView.findViewById(R.id.aefi_button);
         dropOutButton = filterView.findViewById(R.id.drop_out_button);
         resetFilterButton = filterView.findViewById(R.id.reset_filter_button);
-
+        filter_button_lay_rv = filterView.findViewById(R.id.filter_button_lay_rv);
         setupFilterAdapter();
+        setupGMPFilterAdapter();
+        setupIMCIFilterAdapter();
 
         aefiButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,6 +219,8 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
                 resetOtherFilter();
 
                 setupFilterAdapter();
+                setupGMPFilterAdapter();
+                setupIMCIFilterAdapter();
                 updateAefiChildButton(true);
                 updateDropoutButton(true);
                 isClickedAefi = false;
@@ -235,28 +235,61 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             public void onClick(View v) {
                 if(isExpanded){
                     clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
-                    filterTypeRv.setVisibility(View.GONE);
+                    filter_button_lay_rv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
-                    clients_header_layout.getLayoutParams().height = layoutHeightWithExpand;
-                    filterTypeRv.setVisibility(View.VISIBLE);
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithExpand+200;
+                    filter_button_lay_rv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
 
                 isExpanded = !isExpanded;
             }
         });
+        gmpArrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isGMPExpanded){
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
+                    gmpFilterTypeRv.setVisibility(View.GONE);
+                    gmpArrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }else{
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithExpand;
+                    gmpFilterTypeRv.setVisibility(View.VISIBLE);
+                    filter_button_lay_rv.setVisibility(View.GONE);
+                    gmpArrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
 
+                isGMPExpanded = !isGMPExpanded;
+            }
+        });
+        imciArrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isImciExpanded){
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
+                    imciFilterTypeRv.setVisibility(View.GONE);
+                    imciArrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                }else{
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithExpand;
+                    imciFilterTypeRv.setVisibility(View.VISIBLE);
+                    filter_button_lay_rv.setVisibility(View.GONE);
+                    imciArrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+
+                isImciExpanded = !isImciExpanded;
+            }
+        });
         filterDateLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isExpanded){
                     clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
-                    filterTypeRv.setVisibility(View.GONE);
+                    filter_button_lay_rv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                 }else{
                     clients_header_layout.getLayoutParams().height = layoutHeightWithExpand;
-                    filterTypeRv.setVisibility(View.VISIBLE);
+                    filter_button_lay_rv.setVisibility(View.VISIBLE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
                 }
 
@@ -292,11 +325,12 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
 
     void setupFilterAdapter(){
         adapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(int position, String content) {
                 if(oldPosition != position){
                     clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
-                    filterTypeRv.setVisibility(View.GONE);
+                    filter_button_lay_rv.setVisibility(View.GONE);
                     arrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
                     isExpanded = !isExpanded;
                     filterTextTv.setText(content);
@@ -317,6 +351,71 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
 
         filterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),3));
         filterTypeRv.setAdapter(adapter);
+    }
+    void setupGMPFilterAdapter(){
+        gmpAdapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(int position, String content) {
+                if(oldGmpPosition != position){
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
+                    gmpFilterTypeRv.setVisibility(View.GONE);
+                    gmpArrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    isGMPExpanded = !isGMPExpanded;
+
+                    updateGMPContent(content);
+                    updateFilterView();
+                    if(gmpStatus.isEmpty()){
+                        gmpFilterTextTv.setText(getString(R.string.no_filter_applied));
+                    }else{
+                        gmpFilterTextTv.setText(content);
+                    }
+                    oldGmpPosition = position;
+
+                    if (!gmpFilterTypeRv.isComputingLayout()) {
+                        gmpAdapter.notifyDataSetChanged();
+                    }
+
+                    Log.v("FILTER_CHILD","content>>"+content);
+                }
+            }
+        });
+        gmpAdapter.setData(HnppConstants.getGMPFilterList());
+        gmpFilterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        gmpFilterTypeRv.setAdapter(gmpAdapter);
+    }
+
+    void setupIMCIFilterAdapter(){
+        imciAdapter = new ChildFilterTypeAdapter(new ChildFilterTypeAdapter.OnClickAdapter() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(int position, String content) {
+                if(oldImciPosition != position){
+                    clients_header_layout.getLayoutParams().height = layoutHeightWithoutExpand;
+                    imciFilterTypeRv.setVisibility(View.GONE);
+                    imciArrowImageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                    isImciExpanded = !isImciExpanded;
+                    updateIMCIContent(content);
+                    updateFilterView();
+                    if(imciStatus.isEmpty()){
+                        imciFilterTextTv.setText(getString(R.string.no_filter_applied));
+                    }else{
+                        imciFilterTextTv.setText(content);
+                    }
+                    oldImciPosition = position;
+
+                    if (!imciFilterTypeRv.isComputingLayout()) {
+                        imciAdapter.notifyDataSetChanged();
+                    }
+
+                    Log.v("FILTER_CHILD","content>>"+content);
+                }
+            }
+        });
+        imciAdapter.setData(HnppConstants.getIMCIFilterList());
+
+        imciFilterTypeRv.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        imciFilterTypeRv.setAdapter(imciAdapter);
     }
 
     void updateDropoutButton(boolean isReset){
@@ -358,13 +457,26 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         updateFilterView();
         aefiButton.setBackground(buttonDrawable);
     }
-
+    private void updateGMPContent(String content) {
+        resetGMPFilter();
+        if(content.toLowerCase().equalsIgnoreCase(getString(R.string.gmp_normal))){ gmpStatus = "NORMAL"; return;}
+        if(content.toLowerCase().equalsIgnoreCase(getString(R.string.gmp_sam))) {gmpStatus = "SAM"; return;}
+        if(content.toLowerCase().equalsIgnoreCase(getString(R.string.gmp_mam))) {gmpStatus = "MAM"; return;}
+        if(content.toLowerCase().equalsIgnoreCase(getString(R.string.gmp_mal))) {gmpStatus = "LMAL"; return;}
+        else gmpStatus ="";
+    }
+    private void updateIMCIContent(String content) {
+        resetIMCIFilter();
+        if(content.toLowerCase().equalsIgnoreCase(getString(R.string.imci_0_2))){ imciStatus = "0_2"; return;}
+        if(content.toLowerCase().equalsIgnoreCase(getString(R.string.imci_2_59))) {imciStatus = "2_59"; return;}
+        else imciStatus ="";
+    }
     private void updateContent(String content) {
         resetOtherFilter();
         switch (content.toLowerCase()){
             case "today":
-                 selectedStartDateFilterValue = HnppConstants.getToday();
-                 break;
+                selectedStartDateFilterValue = HnppConstants.getToday();
+                break;
             case "yesterday":
                 selectedStartDateFilterValue = HnppConstants.getYesterDay();
                 break;
@@ -407,6 +519,15 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
             case "from - to":
                 showFromToDatePicker(DatePickerType.FROM);
                 break;
+            case "AEFI Child":
+                isAefiChild = "yes";
+                break;
+            case "Drop Out":
+                isDropOutChild = "yes";
+                break;
+            case "Reset filter":
+                resetOtherFilter();
+                break;
         }
     }
 
@@ -419,7 +540,12 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         fromDate = "";
         toDate = "";
     }
-
+    void resetGMPFilter() {
+        gmpStatus = "";
+    }
+    void resetIMCIFilter() {
+        imciStatus = "";
+    }
     /**
      * from to date picker
      */
@@ -609,47 +735,8 @@ public  class HnppBaseChildRegisterFragment extends BaseRegisterFragment impleme
         switchViews(dueOnlyLayout, false);
     }
     protected void openFilterDialog(boolean isNeedToShowDate){
-//        new FilterDialog().showDialog(isNeedToShowDate,getActivity(), new FilterDialog.OnFilterDialogFilter() {
-//            @Override
-//            public void onDialogPress(String ssName, String villageName, String cluster,int m, int y) {
-//                mSelectedClasterName = cluster;
-//                mSelectedVillageName = villageName;
-//                month = m;
-//                year = y;
-//                if(!isNeedToShowDate) monthFilterView.setVisibility(View.INVISIBLE);
-//                updateFilterView();
-//            }
-//        });
     }
     public void updateFilterView(){
-//        if(StringUtils.isEmpty(mSelectedVillageName) && StringUtils.isEmpty(mSelectedClasterName) && month==-1 && year == -1){
-//            clients_header_layout.setVisibility(android.view.View.GONE);
-//        } else {
-//            clients_header_layout.setVisibility(android.view.View.VISIBLE);
-//        }
-//        if(month == -1 && year == -1){
-//            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, "সকল"));
-//        }else{
-//            String monthYearStr = HnppJsonFormUtils.monthBanglaStr[month-1]+","+year;
-//            textViewMonthNameFilter.setText(getString(R.string.filter_month_name, monthYearStr));
-//        }
-//        if(StringUtils.isEmpty(mSelectedVillageName)){
-//            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, "সকল"));
-//
-//        }else{
-//            textViewVillageNameFilter.setText(getString(R.string.filter_village_name, mSelectedVillageName));
-//        }
-//
-//        if(HnppConstants.isPALogin()){
-//            clusterView.setVisibility(android.view.View.GONE);
-//        }else{
-//            if(StringUtils.isEmpty(mSelectedClasterName)){
-//                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, "সকল"));
-//
-//            }else{
-//                textViewClasterNameFilter.setText(getString(R.string.claster_village_name, HnppConstants.getClusterNameFromValue(mSelectedClasterName)));
-//            }
-//        }
         filter(searchFilterString, "", DEFAULT_MAIN_CONDITION,false);
 
     }

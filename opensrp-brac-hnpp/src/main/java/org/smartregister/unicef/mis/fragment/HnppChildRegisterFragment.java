@@ -270,7 +270,14 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
         }else if(!StringUtils.isEmpty(selectedStartDateFilterValue)){
             customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_WEEK, selectedStartDateFilterValue));
 
-        }else if(!StringUtils.isEmpty(selectedEndDateFilterValue)){
+        }else if(!StringUtils.isEmpty(gmpStatus)){
+            customFilter.append(getGMPQuery(gmpStatus));
+
+        }else if(!StringUtils.isEmpty(imciStatus)){
+            customFilter.append(getIMCIQuery(imciStatus));
+
+        }
+        else if(!StringUtils.isEmpty(selectedEndDateFilterValue)){
             customFilter.append(MessageFormat.format(" and {0}.{1} like ''%{2}%'' ", HnppConstants.TABLE_NAME.CHILD, HnppConstants.KEY.DUE_VACCINE_WEEK, selectedEndDateFilterValue));
         } else if(!StringUtils.isEmpty(fromDate)&&!StringUtils.isEmpty(toDate)){
             int beforeIndex = mainSelect.indexOf("WHERE");
@@ -305,6 +312,18 @@ public class HnppChildRegisterFragment extends HnppBaseChildRegisterFragment imp
 
         return query;
     }
+
+    private String getGMPQuery(String gmpStatus) {
+
+        String query = " and (ec_child.muac_status ='"+gmpStatus+"' or ec_child.weight_status ='"+gmpStatus+"' or ec_child.weight_status ='"+gmpStatus+"')";
+        return query;
+    }
+    private String getIMCIQuery(String imciStatus) {
+
+        String query = " and ec_child.imci_status ='"+imciStatus+"'";
+        return query;
+    }
+
     private String getSplitData(){
         return "WITH RECURSIVE split(id, value, rest) AS (" +
                 "   SELECT ID, '', due_vaccine_week||',' FROM ec_child" +

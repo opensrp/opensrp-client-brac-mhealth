@@ -76,7 +76,16 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GIRL_P
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_REFERREL_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.GMP_SESSION_INFO;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.HOME_VISIT_FAMILY;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_ANAEMIA_2_59;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_CHILD_REFERRAL;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_DIARRHEA_0_2;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_DIARRHEA_2_59;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_FEEDING_0_2;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_FEVER_2_59;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_MALNUTRITION_2_59;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_PNEUMONIA_2_59;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_SEVERE_0_2;
+import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IMCI_SEVERE_2_59;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.IYCF_PACKAGE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_HOME_FOLLOWUP;
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.KMC_HOSPITAL_FOLLOWUP;
@@ -238,6 +247,9 @@ public class FormParser {
                         if(IMCI_CHILD_REFERRAL.equalsIgnoreCase(encounter_type)){
                             updateChildRisk(encounter_type,base_entity_id,details,log.getVisitDate());
                         }
+                        if(!TextUtils.isEmpty(processIMCIEvent(encounter_type))){
+                            updateIMCIStatus(base_entity_id,details,processIMCIEvent(encounter_type));
+                        }
 
                         if(IYCF_PACKAGE.equalsIgnoreCase(encounter_type)){
                             updateIYCFRisk(base_entity_id,details);
@@ -301,6 +313,11 @@ public class FormParser {
             }
         }
 
+    }
+
+    private static void updateIMCIStatus(String base_entity_id, HashMap<String, String> details, String status) {
+            SQLiteDatabase db = HnppApplication.getInstance().getRepository().getReadableDatabase();
+            db.execSQL("UPDATE ec_child set imci_status='"+ status+"' where base_entity_id='"+base_entity_id+"'");
     }
 
     private static void updateNextVisitDate(String base_entity_id) {
@@ -2545,6 +2562,23 @@ public class FormParser {
             // Utils.context().commonrepository(CoreConstants.TABLE_NAME.FAMILY_MEMBER).populateSearchValues(baseEntityId, DBConstants.KEY.DATE_REMOVED, new SimpleDateFormat("yyyy-MM-dd").format(eventDate), null);
 
         }
+    }
+    private static String processIMCIEvent(String eventType){
+        switch (eventType){
+            case IMCI_SEVERE_0_2:
+            case IMCI_FEEDING_0_2:
+            case IMCI_DIARRHEA_0_2:
+                return "0_2";
+            case IMCI_ANAEMIA_2_59:
+            case IMCI_DIARRHEA_2_59:
+            case IMCI_FEVER_2_59:
+            case IMCI_MALNUTRITION_2_59:
+            case IMCI_PNEUMONIA_2_59:
+            case IMCI_SEVERE_2_59:
+                return "2_59";
+
+        }
+        return "";
     }
 
     @SuppressLint("SimpleDateFormat")

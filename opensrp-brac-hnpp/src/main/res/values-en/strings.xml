@@ -1146,4 +1146,13 @@
     <string name="tika_info_comfirm">Please confirm vaccine information</string>
     <string name="without_id">WithOut ID</string>
     <string name="enrollment_loading">Enrollment On going…</string>
+    <string name="gmp_normal">Normal</string>
+    <string name="gmp_sam">SAM</string>
+    <string name="gmp_mam">MAM</string>
+    <string name="gmp_mal">Malnutrition</string>
+    <string name="imci_0_2">0-2 month baby</string>
+    <string name="imci_2_59">2-59 month baby</string>
+    <string name="child_illness">Child Illness</string>
+    <string name="child_gmp">Growth Monitoring</string>
+    <string name="child_immunization">Vaccination</string>
 </resources>

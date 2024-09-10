@@ -159,7 +159,11 @@ public class HnppChwRepository extends Repository {
         }catch (Exception e){
 
         }
+        try{
+            alterChildTableIMCI(database);
+        }catch (Exception e){
 
+        }
     }
 
     @Override
@@ -219,9 +223,16 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
-                case 9:
+                case 10:
                     try{
                         SBKRepository.createTable(db);
+                    }catch (Exception e){
+
+                    }
+                    break;
+                case 11:
+                    try{
+                        alterChildTableIMCI(db);
                     }catch (Exception e){
 
                     }
@@ -253,5 +264,7 @@ public class HnppChwRepository extends Repository {
     private void alterChildTableIMMATURED(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_child ADD COLUMN is_immature VARCHAR;");
     }
-
+    private void alterChildTableIMCI(SQLiteDatabase db){
+        db.execSQL("ALTER TABLE ec_child ADD COLUMN imci_status VARCHAR;");
+    }
 }

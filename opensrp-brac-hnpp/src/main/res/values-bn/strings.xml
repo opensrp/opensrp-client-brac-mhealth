@@ -559,10 +559,10 @@
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>
     <string name="from_to_date_validation_msg">To date must be after from date(</string>
-    <string name="no_filter_applied">No filters applied</string>
-    <string name="reset_filter">Reset Filter</string>
-    <string name="drop_out">Drop Out</string>
-    <string name="aefi_child">AEFI Child</string>
+    <string name="no_filter_applied">কোনো ফিল্টার প্রয়োগ করা হয়নি</string>
+    <string name="reset_filter">রিসেট ফিল্টার</string>
+    <string name="drop_out">ড্রপ আউট</string>
+    <string name="aefi_child">এএফআই চাইল্ড</string>
     <string name="profile_update">প্রোফাইল আপডেট</string>
     <string name="remove_house_and_member">খানা/সদস্য বাতিল করুন</string>
     <string name="which_member_want_to_remove">আপনি কোন সদস্যটিকে সরাতে চান?</string>
@@ -1178,4 +1178,13 @@
     <string name="tika_info_comfirm">টিকার তথ্যগুলো সঠিক কিনা নিশ্চিত করুন</string>
     <string name="without_id">আই ডি নেই</string>
     <string name="enrollment_loading">ইনরোলমেন্ট করা হচ্ছে</string>
+    <string name="gmp_normal">স্বাভাবিক</string>
+    <string name="gmp_sam">মারাত্মক অপুষ্টি</string>
+    <string name="gmp_mam">মাঝারি অপুষ্টি</string>
+    <string name="gmp_mal">অপুষ্টি</string>
+    <string name="imci_0_2">০-২ মাসের শিশু</string>
+    <string name="imci_2_59">২-৫৯ মাসের শিশু</string>
+    <string name="child_illness">Child Illness</string>
+    <string name="child_gmp">Growth Monitoring</string>
+    <string name="child_immunization">Vaccination</string>
 </resources>

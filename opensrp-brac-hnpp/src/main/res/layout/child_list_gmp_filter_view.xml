@@ -3,17 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:minHeight="350dp"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/constraintLayout"
         android:orientation="vertical"
-
+        android:background="#FF9800"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/include4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +21,7 @@
             android:id="@+id/filter_date_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#4C64E8"
+
             android:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,18 +33,18 @@
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:contentDescription="Date"
-                android:src="@drawable/ic_baseline_calendar_month_24"
+                android:src="@drawable/ic_icon_growth_chart"
                 android:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/gmp_textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@string/child_immunization"
+                android:text="@string/child_gmp"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -55,18 +53,18 @@
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
             <TextView
-                android:id="@+id/filter_text_view"
+                android:id="@+id/gmp_filter_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_filter_applied"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                app:layout_constraintStart_toStartOf="@+id/textView22"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                app:layout_constraintStart_toStartOf="@+id/gmp_textView22"
+                app:layout_constraintTop_toBottomOf="@+id/gmp_textView22" />
 
             <ImageView
-                android:id="@+id/arrow_image"
+                android:id="@+id/gmp_arrow_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -80,38 +78,18 @@
         </android.support.constraint.ConstraintLayout>
 
         <!--body-->
-        <LinearLayout
-            android:id="@+id/filter_button_lay_rv"
-            android:visibility="gone"
-            android:background="#4C64E8"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gmp_filter_type_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/filter_type_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#3F51B5"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filter_date_lay" />
-            <include
-                android:id="@+id/filter_button_lay"
-                android:visibility="gone"
-                layout="@layout/child_list_filter_buttons_phone"
-                />
-        </LinearLayout>
+            android:background="#FF5722"
+            android:padding="10dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter_date_lay" />
 
-
-        <include
-            android:id="@+id/gmp_filter_button_lay"
-            layout="@layout/child_list_gmp_filter_view"
-            />
-        <include
-            android:id="@+id/imci_filter_button_lay"
-            layout="@layout/child_list_imci_filter_view"
-            />
     </LinearLayout>
 
 </RelativeLayout>

@@ -143,10 +143,32 @@ public class HnppConstants extends CoreConstants {
                     "Last month",
                     "Next month",
                     "From - To",
-                    "Anytime"
+                    "Anytime",
+                    "AEFI Child",
+                    "Drop Out",
+                    "Reset filter"
             )
     );
-
+    public static ArrayList<String> getGMPFilterList(){
+        return new ArrayList<>(
+                Arrays.asList(
+                        HnppApplication.appContext.getString(R.string.gmp_normal),
+                        HnppApplication.appContext.getString(R.string.gmp_sam),
+                        HnppApplication.appContext.getString(R.string.gmp_mam),
+                        HnppApplication.appContext.getString(R.string.gmp_mal),
+                        HnppApplication.appContext.getString(R.string.reset_filter)
+                )
+        );
+    }
+    public static ArrayList<String> getIMCIFilterList(){
+        return new ArrayList<>(
+                Arrays.asList(
+                        HnppApplication.appContext.getString(R.string.imci_0_2),
+                        HnppApplication.appContext.getString(R.string.imci_2_59),
+                        HnppApplication.appContext.getString(R.string.reset_filter)
+                )
+        );
+    }
     public static Observable<Boolean> postMicroPlanData(){
         return Observable.create(e->{
             try {
@@ -1737,6 +1759,7 @@ public class HnppConstants extends CoreConstants {
         public static final String WEIGHT_STATUS = "weight_status";
         public static final String HEIGHT_STATUS = "height_status";
         public static final String MUAC_STATUS = "muac_status";
+        public static final String IMCI_STATUS = "imci_status";
         public static final String LAST_VACCINE_NAME = "last_vaccine_name";
         public static final String LAST_VACCINE_DATE = "last_vaccine_date";
         public static final String NEW_BORN_INFO = "new_born_info";
