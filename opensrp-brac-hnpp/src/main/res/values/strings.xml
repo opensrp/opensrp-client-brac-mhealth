@@ -1260,4 +1260,5 @@
     <string name="visit_scheduled_all">সমস্ত ডিউ ভিজিট</string>
     <string name="no_data_found">কোন তথ্য পাওয়া যায়নি</string>
     <string name="next_followup_date">পরবর্তী ফলোআপ তারিখ: </string>
+    <string name="add_followup">ফলোআপ দিন</string>
 </resources>

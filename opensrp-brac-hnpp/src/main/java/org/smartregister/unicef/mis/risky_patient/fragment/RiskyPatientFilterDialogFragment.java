@@ -11,7 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
-import org.smartregister.brac.hnpp.R;
+import org.smartregister.unicef.mis.R;
+
 
 public class RiskyPatientFilterDialogFragment extends DialogFragment {
     static final int RESULT_CODE = 131;
