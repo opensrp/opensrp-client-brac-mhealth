@@ -76,6 +76,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private RelativeLayout migration_layout;
     private RelativeLayout payment_layout;
     private RelativeLayout dashboard_layout;
+    private RelativeLayout anc_followup_layout;
+    private RelativeLayout pnc_followup_layout;
     private RelativeLayout qrscan_layout;
     private RelativeLayout updateLocation;
     private RelativeLayout microplanLayout;
@@ -196,6 +198,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         migration_layout = rootView.findViewById(R.id.migration_view);
         payment_layout = rootView.findViewById(R.id.payment_view);
         dashboard_layout = rootView.findViewById(R.id.dashboard_view);
+        anc_followup_layout = rootView.findViewById(R.id.pregnant_followup_view);
+        pnc_followup_layout = rootView.findViewById(R.id.pnc_followup_view);
         qrscan_layout = rootView.findViewById(R.id.qrscan_view);
         recyclerView = rootView.findViewById(R.id.rvOptions);
         ivSync = rootView.findViewById(R.id.ivSyncIcon);
@@ -233,6 +237,8 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         registerMigration(activity);
         registerPayment(activity);
         registerDashboard(activity);
+        registerANCFollowUp(activity);
+        registerPNCFollowUp(activity);
         registerQRScan(activity);
         registerMicroplan(activity);
         //registerDeviceToDeviceSync(activity);
@@ -371,7 +377,16 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             mPresenter.browseDashboard(activity);
         }
     }
-
+    public void browsePregnantFollowUp(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browsePregnantFollowUp(activity);
+        }
+    }
+    public void browsePNCFollowUp(Activity activity) {
+        if(mPresenter!=null){
+            mPresenter.browsePNCFollowUp(activity);
+        }
+    }
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void refreshCount() {
@@ -462,7 +477,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         mPresenter.displayCurrentUser();
         dashboard_layout.setOnClickListener(v -> browseDashboard(parentActivity));
     }
-
+    private void registerANCFollowUp(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        anc_followup_layout.setOnClickListener(v -> browsePregnantFollowUp(parentActivity));
+    }
+    private void registerPNCFollowUp(final Activity parentActivity){
+        mPresenter.displayCurrentUser();
+        pnc_followup_layout.setOnClickListener(v -> browsePNCFollowUp(parentActivity));
+    }
 
     private void registerSync(final Activity parentActivity) {
 

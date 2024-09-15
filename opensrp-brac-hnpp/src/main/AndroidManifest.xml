@@ -39,6 +39,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
         </activity>
         <activity
+            android:name=".risky_patient.activity.RiskyPatientActivity"
+            android:exported="false"
+            android:theme="@style/HNPPTheme.NoActionBar" />
+        <activity
             android:name="org.smartregister.unicef.mis.activity.PaymentHistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
@@ -48,7 +52,7 @@
             android:name="org.smartregister.unicef.mis.activity.UpdateLocationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="org.smartregister.unicef.mis.activity.PaymentSuccess_Activity"
             android:screenOrientation="portrait"

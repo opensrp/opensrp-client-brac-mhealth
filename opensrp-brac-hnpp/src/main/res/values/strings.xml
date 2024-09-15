@@ -1242,4 +1242,22 @@
     <string name="next_month">পরের মাসে</string>
     <string name="from_to">হতে - থেকে </string>
     <string name="anytime">যে কোন সময়</string>
+    <string name="routine_f_up">রুটিন ফলোআপ</string>
+    <string name="special_followup">বিশেষ ফলোআপ</string>
+    <string name="telephonic_followup">টেলিফোনিক ফলোআপ</string>
+    <string name="routine_f_up_list">রুটিন ফলোআপ তালিকা</string>
+    <string name="special_f_up_list">বিশেষ ফলোআপ তালিকা</string>
+    <string name="telephonic_f_up_list">টেলিফোনিক ফলোআপ তালিকা</string>
+    <string name="anc_followup">গর্ভবতী পরিচর্যা ফলোআপ</string>
+    <string name="pnc_followup">প্রসবোত্তর ফলোআপ</string>
+    <string name="search_by_name">নাম বা ফোন দ্বারা</string>
+    <string name="visit_scheduled_today">আজ নির্ধারিত পরিদর্শন</string>
+    <string name="visit_scheduled_next_three">পরের তিন দিনের মধ্যে নির্ধারিত পরিদর্শন </string>
+    <string name="visit_scheduled_next_seven">পরের সাত দিনের মধ্যে নির্ধারিত পরিদর্শন </string>
+    <string name="visit_scheduled_last_day">শেষ দিন হিসাবে নির্ধারিত ভিজিট</string>
+    <string name="visit_scheduled_last_three">শেষ তিন দিন অনুযায়ী নির্ধারিত ভিজিট</string>
+    <string name="visit_scheduled_last_seven">শেষ সাত দিন অনুযায়ী নির্ধারিত ভিজিট</string>
+    <string name="visit_scheduled_all">সমস্ত ডিউ ভিজিট</string>
+    <string name="no_data_found">কোন তথ্য পাওয়া যায়নি</string>
+    <string name="next_followup_date">পরবর্তী ফলোআপ তারিখ: </string>
 </resources>

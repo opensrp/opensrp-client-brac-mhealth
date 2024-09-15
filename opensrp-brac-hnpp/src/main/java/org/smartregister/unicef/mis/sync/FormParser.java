@@ -15,10 +15,13 @@ import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.unicef.mis.HnppApplication;
 import org.smartregister.unicef.mis.model.ForumDetails;
 import org.smartregister.unicef.mis.model.HHMemberProperty;
 import org.smartregister.unicef.mis.repository.StockRepository;
+import org.smartregister.unicef.mis.risky_patient.model.AncFollowUpModel;
+import org.smartregister.unicef.mis.risky_patient.model.RiskListModel;
 import org.smartregister.unicef.mis.utils.FormApplicability;
 import org.smartregister.unicef.mis.utils.GrowthUtil;
 import org.smartregister.unicef.mis.utils.HnppConstants;
@@ -45,8 +48,10 @@ import org.smartregister.util.LangUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 //import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
 //import static org.smartregister.unicef.dghs.utils.HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
@@ -107,6 +112,12 @@ import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.WOMEN_
 import static org.smartregister.unicef.mis.utils.HnppConstants.EVENT_TYPE.WOMEN_REFERRAL;
 import static org.smartregister.util.JsonFormUtils.gson;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class FormParser {
 
     public static void makeVisitLog() {
@@ -122,17 +133,11 @@ public class FormParser {
         }
         processImmunization();
         processGMP();
-        processInstitutionalDeliveryForTarget();
+//        processInstitutionalDeliveryForTarget();
     }
     public static void processVisitLog(Visit visit){
         String formSubmissionId = visit.getFormSubmissionId();
-        if(isForumEvent(visit.getVisitType())){
-            saveForumData(visit,formSubmissionId);
-
-        }else if(visit.getVisitType().equalsIgnoreCase(SS_INFO)){
-            saveSSFormData(visit);
-        }
-        else if(visit.getVisitType().equalsIgnoreCase(ANC_HOME_VISIT_FACILITY)){
+       if(visit.getVisitType().equalsIgnoreCase(ANC_HOME_VISIT_FACILITY)){
             saveANCFacilityFormData(visit);
         }
         else{
@@ -175,27 +180,10 @@ public class FormParser {
                         processReferral(encounter_type,log,details,formSubmissionId);
                         try{
                             processIndicator(base_entity_id,encounter_type,log,details,formSubmissionId);
-                            processSimprintsVerification(log,details);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
 
-
-                        if(ELCO.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("pregnancy_test_result")&&!StringUtils.isEmpty(details.get("pregnancy_test_result"))){
-                                log.setPregnantStatus(details.get("pregnancy_test_result"));
-                            }
-                            updateElcoRisk(base_entity_id,details);
-                        }
-                        if(BLOOD_GROUP.equalsIgnoreCase(encounter_type)){
-                            if(details.containsKey("blood_group_name")&&!StringUtils.isEmpty(details.get("blood_group_name"))){
-                                String bloodGroup = details.get("blood_group_name");
-                                if(!TextUtils.isEmpty(bloodGroup)){
-                                    HnppDBUtils.updateBloodGroup(base_entity_id,bloodGroup);
-                                }
-                            }
-
-                        }
                         if(GMP_REFERREL_FOLLOWUP.equalsIgnoreCase(encounter_type)){
                             String value ="";
                             if(details.containsKey("caused_referred")&&!StringUtils.isEmpty(details.get("caused_referred"))){
@@ -235,6 +223,11 @@ public class FormParser {
                         }
                         if(CoreConstants.EventType.ANC_REGISTRATION.equalsIgnoreCase(encounter_type)){
                             updateNextVisitDate(base_entity_id);
+                            updateANCRegistrationRisk(base_entity_id,details,log.getVisitDate());
+                        }
+                        if(CoreConstants.EventType.PNC_HOME_VISIT.equalsIgnoreCase(encounter_type)){
+                           // updateNextVisitDate(base_entity_id);
+                            updatePNCHomeVisitRisk(base_entity_id,details,log.getVisitDate());
                         }
                         if(CHILD_ECCD_2_3_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_4_6_MONTH.equalsIgnoreCase(encounter_type)||
                         CHILD_ECCD_7_9_MONTH.equalsIgnoreCase(encounter_type) || CHILD_ECCD_10_12_MONTH.equalsIgnoreCase(encounter_type) ||
@@ -1090,7 +1083,7 @@ public class FormParser {
 
 
     }
-    private static void updatePNCHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate) {
+    private static void updatePNCHomeVisitRisk(String baseEntityId, HashMap<String,String>details, long visitDate) {
         boolean isAncHomeVisitRisk = false;
         if(details.containsKey("Denger_Signs_During_PNC") && !StringUtils.isEmpty(details.get("Denger_Signs_During_PNC"))) {
 
@@ -1102,7 +1095,7 @@ public class FormParser {
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue = dengerValue;
                 riskynBPSModel.riskyKey = "Denger_Signs_During_PNC";
-                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.eventType = CoreConstants.EventType.PNC_HOME_VISIT;
                 riskynBPSModel.baseEntityId = baseEntityId;
                 riskynBPSModel.visitDate = visitDate;
                 riskynBPSModel.ancCount = Integer.parseInt(pncCount+"");
@@ -1120,7 +1113,7 @@ public class FormParser {
                 RiskyModel riskynBPSModel = new RiskyModel();
                 riskynBPSModel.riskyValue =dengerValue+"";
                 riskynBPSModel.riskyKey = "body_temp_fahrenheit";
-                riskynBPSModel.eventType = eventType;
+                riskynBPSModel.eventType = CoreConstants.EventType.PNC_HOME_VISIT;
                 riskynBPSModel.baseEntityId = baseEntityId;
                 riskynBPSModel.visitDate = visitDate;
                 riskynBPSModel.ancCount = Integer.parseInt(pncCount+"");
@@ -1132,6 +1125,38 @@ public class FormParser {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.PNC_HOME_VISIT);
         }else {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.PNC_HOME_VISIT);
+        }
+        if(details.containsKey("is_high_risk_pnc")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(visitDate,baseEntityId);
+            RiskListModel riskListModel = new RiskListModel();
+            riskListModel.baseEntityId = baseEntityId;
+            String value = details.get("is_high_risk_pnc");
+            if(value != null && value.equals("1")){
+                riskListModel.highRiskKey = "pnc_high_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 2; //2-> high risk
+                ancFollowUpModel.specialFollowUpDate = getAddedDate(visitDate,Calendar.MONTH,1);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
+                ancFollowUpModel.telephonyFollowUpDate = getAddedDate(visitDate,Calendar.DAY_OF_MONTH,3);
+
+                if(details.containsKey("pnc_count")) {
+                    String anc = details.get("pnc_count");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getPncFollowUpRepository().update(ancFollowUpModel);
+            }else{
+                riskListModel.highRiskKey = "pnc_normal";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 0;
+
+                if(details.containsKey("pnc_count")) {
+                    String anc = details.get("pnc_count");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+            }
         }
     }
     private static void updateChildReferral(String baseEntityId,HashMap<String,String>details,String formSubmissionId,VisitLog log){
@@ -1178,8 +1203,69 @@ public class FormParser {
 
         }
     }
+    private static AncFollowUpModel updateAncFollowUp(long visitDate, String baseEntityId) {
+        AncFollowUpModel ancFollowUpModel = new AncFollowUpModel();
+        ancFollowUpModel.baseEntityId = baseEntityId;
+        ancFollowUpModel.visitDate = visitDate;
+        ancFollowUpModel.followUpDate = visitDate;
+        ancFollowUpModel.nextFollowUpDate = 0;
+        ancFollowUpModel.telephonyFollowUpDate = 0;
+        ancFollowUpModel.specialFollowUpDate = 0;
+        ancFollowUpModel.noOfAnc = 0;
+
+        return ancFollowUpModel;
+    }
+    private static Long getAddedDate(long visitDate,int type,int value){
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(visitDate);
+        calendar.add(type,value);
+        return calendar.getTimeInMillis();
+
+    }
+    private static void updateANCRegistrationRisk(String baseEntityId, HashMap<String,String> details, long visitDate){
+
+        if(details.containsKey("is_high_risk_ph")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(visitDate,baseEntityId);
+            RiskListModel riskListModel = new RiskListModel();
+            riskListModel.baseEntityId = baseEntityId;
+            String value = details.get("is_high_risk_ph");
+            if(value != null && value.equals("1")){
+                riskListModel.highRiskKey = "anc_high_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 2; //2-> high risk
+                //special followup at seventh month
+                ancFollowUpModel.specialFollowUpDate = getAddedDate(visitDate, Calendar.MONTH,7);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,visitDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                Log.d("RRRRRRRRR",""+value+" "+baseEntityId+" "+riskListModel.riskType);
+            }else{
+                    riskListModel.highRiskKey = "anc_normal";
+                    riskListModel.highRiskValue = "";
+                    riskListModel.riskType = 0;
+
+                    if(details.containsKey("ga")){
+                        String ga = details.get("ga");
+                        ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,visitDate);
+                        updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
+                    }
+                    if(details.containsKey("anc_count")) {
+                        String anc = details.get("anc_count");
+                        assert anc != null;
+                        ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                    }
+                    HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+
+            }
+        }
+    }
     private static void updateAncHomeVisitRisk(String eventType , String baseEntityId,HashMap<String,String>details, long visitDate){
         boolean isAncHomeVisitRisk = false;
+        boolean isNormal = true;
         if(details.containsKey("blood_group") && !StringUtils.isEmpty(details.get("blood_group"))){
             String bloodGroup = details.get("blood_group");
             Log.v("RISK_ANC","updateAncHomeVisitRisk>>>blood_group:"+bloodGroup);
@@ -1362,206 +1448,120 @@ public class FormParser {
 
             }
         }
+        RiskListModel riskListModel = new RiskListModel();
+        riskListModel.baseEntityId = baseEntityId;
+
+        if(details.containsKey("is_high_risk_anc")){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(visitDate,baseEntityId);
+
+            String value = details.get("is_high_risk_anc");
+            if(value != null && value.equals("1")){
+                riskListModel.highRiskKey = "anc_high_risk";
+                riskListModel.highRiskValue = "";
+                riskListModel.riskType = 2; //2-> high risk
+                ancFollowUpModel.specialFollowUpDate = getAddedDate(visitDate,Calendar.MONTH,1);
+                updateNextFollowupDate(ancFollowUpModel.specialFollowUpDate,baseEntityId);
+                ancFollowUpModel.telephonyFollowUpDate = getAddedDate(visitDate,Calendar.DAY_OF_MONTH,3);
+                if(details.containsKey("ga")){
+                    String ga = details.get("ga");
+                    ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,visitDate);
+                    updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
+                }
+                if(details.containsKey("number_of_anc")) {
+                    String anc = details.get("number_of_anc");
+                    assert anc != null;
+                    ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+                }
+                HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+                isNormal = false;
+            }
+        }
         if(isAncHomeVisitRisk) {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EventType.ANC_HOME_VISIT);
         }else {
             HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EventType.ANC_HOME_VISIT);
         }
+        if(isNormal){
+            AncFollowUpModel ancFollowUpModel = updateAncFollowUp(visitDate,baseEntityId);
+            riskListModel.highRiskKey = "anc_normal";
+            riskListModel.highRiskValue = "";
+            riskListModel.riskType = 0;
+
+            if(details.containsKey("ga")){
+                String ga = details.get("ga");
+                ancFollowUpModel.nextFollowUpDate = getRoutineDate(ga,visitDate);
+                updateNextFollowupDate(ancFollowUpModel.nextFollowUpDate,baseEntityId);
+            }
+            if(details.containsKey("anc_count")) {
+                String anc = details.get("anc_count");
+                assert anc != null;
+                ancFollowUpModel.noOfAnc = Integer.parseInt(anc);
+            }
+            HnppApplication.getAncFollowUpRepository().update(ancFollowUpModel);
+            Log.d("RRRRRRRRR_NORMAL","normal"+" "+baseEntityId+" "+riskListModel.riskType);
+        }
     }
+    private static long getRoutineDate(String ga,long visitDate) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(visitDate);
 
-//    private static void updatePhysicalProblemRisk(String baseEntityId,HashMap<String,String>details){
-//        if(details.containsKey("high_blood_pressure") && !StringUtils.isEmpty(details.get("high_blood_pressure"))){
-//            String eb = details.get("high_blood_pressure");
-//            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = eb;
-//                riskyModel.riskyKey = "high_blood_pressure";
-//                riskyModel.eventType = ANC_GENERAL_DISEASE;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//                return;
-//
-//            }
-//        }
-//        if(details.containsKey("diabetes") && !StringUtils.isEmpty(details.get("diabetes"))){
-//            String obs = details.get("diabetes");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "diabetes";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("heart_disease") && !StringUtils.isEmpty(details.get("heart_disease"))){
-//            String obs = details.get("heart_disease");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "heart_disease";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("asthma") && !StringUtils.isEmpty(details.get("asthma"))){
-//            String obs = details.get("asthma");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "asthma";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("kidney_disease") && !StringUtils.isEmpty(details.get("kidney_disease"))){
-//            String obs = details.get("kidney_disease");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "kidney_disease";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("tuberculosis") && !StringUtils.isEmpty(details.get("tuberculosis"))){
-//            String obs = details.get("tuberculosis");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "tuberculosis";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//                return;
-//
-//
-//            }
-//        }
-//        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_GENERAL_DISEASE);
-//
-//    }
-//    private static void updatePreviousHistoryRisk(String baseEntityId,HashMap<String,String>details){
-//        if(details.containsKey("abortion_mr") && !StringUtils.isEmpty(details.get("abortion_mr"))){
-//            String eb = details.get("abortion_mr");
-//            if(!TextUtils.isEmpty(eb) && eb.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = eb;
-//                riskyModel.riskyKey = "abortion_mr";
-//                riskyModel.eventType = ANC_PREGNANCY_HISTORY;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-//                return;
-//
-//            }
-//        }
-//        if(details.containsKey("still_birth") && !StringUtils.isEmpty(details.get("still_birth"))){
-//            String obs = details.get("still_birth");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "still_birth";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("c_section") && !StringUtils.isEmpty(details.get("c_section"))){
-//            String obs = details.get("c_section");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "c_section";
-//                riskyModel.eventType =HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("obsessive_compulsive_disorder") && !StringUtils.isEmpty(details.get("obsessive_compulsive_disorder"))){
-//            String obs = details.get("obsessive_compulsive_disorder");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "obsessive_compulsive_disorder";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-//                return;
-//
-//
-//            }
-//        }
-//        if(details.containsKey("postnatal_bleeding") && !StringUtils.isEmpty(details.get("postnatal_bleeding"))){
-//            String obs = details.get("postnatal_bleeding");
-//            if(!TextUtils.isEmpty(obs) && obs.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = obs;
-//                riskyModel.riskyKey = "postnatal_bleeding";
-//                riskyModel.eventType = HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-//                return;
-//
-//
-//            }
-//        }
-//        HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",HnppConstants.EVENT_TYPE.ANC_PREGNANCY_HISTORY);
-//
-//    }
+        int gaInt = Integer.parseInt(ga);
+        if(gaInt >= 30 && gaInt <= 34){
+            calendar.add(Calendar.DAY_OF_MONTH,21); //3 weeks
+        }else if(gaInt >= 35){
+            calendar.add(Calendar.DAY_OF_MONTH,14); //2 weeks
+        }else {
+            calendar.add(Calendar.DAY_OF_MONTH,49); //7 weeks
+        }
 
-    private static void updateElcoRisk(String baseEntityId,HashMap<String,String>details){
-//        if(details.containsKey("complications_known") && !StringUtils.isEmpty(details.get("complications_known"))){
-//            String pck = details.get("complications_known");
-//            if(!TextUtils.isEmpty(pck) && pck.equalsIgnoreCase("yes")){
-//                RiskyModel riskyModel = new RiskyModel();
-//                riskyModel.riskyValue = pck;
-//                riskyModel.riskyKey = "complications_known";
-//                riskyModel.eventType = ELCO;
-//                riskyModel.baseEntityId = baseEntityId;
-//                HnppApplication.getRiskDetailsRepository().addOrUpdate(riskyModel);
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"true",ELCO);
-//                return;
-//
-//
-//            }else{
-//                HnppDBUtils.updateIsRiskFamilyMember(baseEntityId,"false",ELCO);
-//            }
-//        }
-
+        return calendar.getTimeInMillis();
     }
+    private static void updateNextFollowupDate(long date,String baseEntityId){
+        if(date == 0) return;
+        executeNextFollowupDateUpdateQuery(date,baseEntityId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+    public static Observable<String> executeNextFollowupDateUpdateQuery(long nextDate, String baseEntityId){
+        return  Observable.create(e->{
+            SQLiteDatabase database = CoreChwApplication.getInstance().getRepository().getWritableDatabase();
+
+            String sql = "UPDATE ec_family_member SET next_followup_date = " + nextDate+
+                    " where (base_entity_id = '"+baseEntityId+"') and (next_followup_date is NULL or next_followup_date = '0' or next_followup_date > '"+nextDate+"')";
+
+            Log.d("QQQQQQQ",""+sql);
+
+            try {
+                database.execSQL(sql);
+                e.onNext("");
+                e.onComplete();
+            }catch (Exception error){
+                e.onError(error);
+            }
+
+        });
+    }
     private static void updateIYCFRisk(String baseEntityId,HashMap<String,String>details){
         if(details.containsKey("head_balance") && !StringUtils.isEmpty(details.get("head_balance"))){
             String head_balance = details.get("head_balance");

@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.chw.core.application.CoreChwApplication;
 import org.smartregister.chw.core.model.ChildVisit;
 import org.smartregister.chw.core.rule.HomeAlertRule;
 import org.smartregister.chw.core.utils.CoreConstants;
@@ -46,6 +47,24 @@ import timber.log.Timber;
 
 public class HnppDBUtils {
     private static final int STOCK_END_THRESHOLD = 2;
+    public static String getAncHomeVisitFormSubId(String baseEntityId){
+        String query = "select form_submission_id from visits where base_entity_id = '"+baseEntityId+"' order by visit_date desc limit 1";
+        Cursor cursor = null;
+        try {
+            cursor = CoreChwApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String name = cursor.getString(0);
+                return name;
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return "";
+    }
     public static ChildVisit getChildVisitStatus(Context context, String yearOfBirth, long lastVisitDate, long visitNotDate, long dateCreated) {
         HomeAlertRule homeAlertRule = new HomeAlertRule(context, yearOfBirth, lastVisitDate, visitNotDate, dateCreated);
         HnppApplication.getInstance().getRulesEngineHelper().getButtonAlertStatus(homeAlertRule, CoreConstants.RULE_FILE.HOME_VISIT);

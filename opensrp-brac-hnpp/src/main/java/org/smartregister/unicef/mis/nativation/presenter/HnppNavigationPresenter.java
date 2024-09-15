@@ -32,6 +32,7 @@ import org.smartregister.unicef.mis.activity.ForceSyncActivity;
 import org.smartregister.unicef.mis.job.MicroPlanFetchJob;
 import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.nativation.interactor.NavigationInteractor;
+import org.smartregister.unicef.mis.risky_patient.activity.RiskyPatientActivity;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.chw.anc.util.JsonFormUtils;
 import org.smartregister.chw.core.contract.NavigationContract;
@@ -232,7 +233,14 @@ public class HnppNavigationPresenter implements NavigationContract.Presenter {
         activity.startActivity(new Intent(activity, NewDashBoardActivity.class));
 //        activity.startActivity(new Intent(activity, GrowthReportActivity.class));
     }
-
+    @Override
+    public void browsePregnantFollowUp(Activity activity) {
+        activity.startActivity(new Intent(activity, RiskyPatientActivity.class));
+    }
+    @Override
+    public void browsePNCFollowUp(Activity activity) {
+        activity.startActivity(new Intent(activity, RiskyPatientActivity.class));
+    }
     @Override
     public void sync(Activity activity) {
         startServices();

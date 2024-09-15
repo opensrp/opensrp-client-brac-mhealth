@@ -97,13 +97,6 @@ condition: "(step2_chipilis_tested_result.equals('পজিটিভ') || step2_
 actions:
   - "isRelevant = true"
 ---
-name: step2_ad_toaster_chipilis_tested
-description: q3-q2grater1
-priority: 3
-condition: "(step2_chipilis_tested_result.equals('পজিটিভ') || step2_chipilis_tested_result.equals('Positive'))"
-actions:
-  - "isRelevant = true"
----
 name: step2_ad_toaster_hiv_tested
 description: q3-q2grater1
 priority: 3

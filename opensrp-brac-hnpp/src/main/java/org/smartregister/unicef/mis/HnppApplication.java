@@ -62,6 +62,9 @@ import org.smartregister.unicef.mis.repository.HouseholdIdRepository;
 import org.smartregister.unicef.mis.repository.SBKRepository;
 import org.smartregister.unicef.mis.repository.StockRepository;
 import org.smartregister.unicef.mis.repository.TargetVsAchievementRepository;
+import org.smartregister.unicef.mis.risky_patient.repository.AncFollowUpRepository;
+import org.smartregister.unicef.mis.risky_patient.repository.PncFollowUpRepository;
+import org.smartregister.unicef.mis.risky_patient.repository.RiskListRepository;
 import org.smartregister.unicef.mis.sync.HnppClientProcessor;
 import org.smartregister.unicef.mis.sync.HnppSyncConfiguration;
 import org.smartregister.unicef.mis.utils.HNPPApplicationUtils;
@@ -123,6 +126,9 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
     private static OutreachRepository outreachRepository;
     private static ReferralRepository referralRepository;
     private static SBKRepository sbkRepository;
+    private static AncFollowUpRepository ancFollowUpRepository;
+    private static PncFollowUpRepository pncFollowUpRepository;
+    private static RiskListRepository riskListRepository;
     private static CommonFtsObject commonFtsObject = null;
     private EventClientRepository eventClientRepository;
     @SuppressLint("StaticFieldLeak")
@@ -501,6 +507,24 @@ public class HnppApplication extends DrishtiApplication implements CoreApplicati
             sbkRepository = new SBKRepository(getInstance().getRepository());
         }
         return sbkRepository;
+    }
+    public static AncFollowUpRepository getAncFollowUpRepository() {
+        if (ancFollowUpRepository == null) {
+            ancFollowUpRepository = new AncFollowUpRepository(getInstance().getRepository());
+        }
+        return ancFollowUpRepository;
+    }
+    public static PncFollowUpRepository getPncFollowUpRepository() {
+        if (pncFollowUpRepository == null) {
+            pncFollowUpRepository = new PncFollowUpRepository(getInstance().getRepository());
+        }
+        return pncFollowUpRepository;
+    }
+    public static RiskListRepository getRiskListRepository() {
+        if ( riskListRepository == null) {
+            riskListRepository = new RiskListRepository(getInstance().getRepository());
+        }
+        return riskListRepository;
     }
     public void setOpenSRPUrl() {
         AllSharedPreferences preferences = Utils.getAllSharedPreferences();

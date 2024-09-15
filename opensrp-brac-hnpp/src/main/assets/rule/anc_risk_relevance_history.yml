@@ -1,0 +1,22 @@
+
+name: step1_is_high_risk_ph
+description: is_high_risk calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_previous_history.contains('Cesarean_history') && step1.ga>210)?1:0"
+---
+name: step1_is_low_risk
+description: is_low_risk calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_previous_history.contains('Cesarean_history') || step1_previous_history.contains('Abortion_history')||step1_previous_history.equals('High_Blood_Pressure_history')||step1_previous_history.equals('Eclampsia_history')
+                    ||step1_previous_history.equals('Antepartum_history')||step1_previous_history.equals('Prolonged_history')||step1_previous_history.equals('PPH_history'))?1:0"
+---
+name: step1_special_followup_needed
+description: special_followup_needed calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_previous_history.contains('Cesarean_history') && step1.ga>210)?1:0"

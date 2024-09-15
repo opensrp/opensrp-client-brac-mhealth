@@ -35,6 +35,9 @@ import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.UniqueIdRepository;
 import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.imci.repository.IMCIReportRepository;
+import org.smartregister.unicef.mis.risky_patient.repository.AncFollowUpRepository;
+import org.smartregister.unicef.mis.risky_patient.repository.PncFollowUpRepository;
+import org.smartregister.unicef.mis.risky_patient.repository.RiskListRepository;
 import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 
@@ -164,6 +167,11 @@ public class HnppChwRepository extends Repository {
         }catch (Exception e){
 
         }
+        try {
+            upgradeToVersion12(database);
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -237,6 +245,12 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
+                case 12:
+                    try {
+                        upgradeToVersion12(db);
+                    }catch (Exception e){
+
+                    }
                 default:
                     break;
             }
@@ -266,5 +280,11 @@ public class HnppChwRepository extends Repository {
     }
     private void alterChildTableIMCI(SQLiteDatabase db){
         db.execSQL("ALTER TABLE ec_child ADD COLUMN imci_status VARCHAR;");
+    }
+    private void upgradeToVersion12(SQLiteDatabase db) {
+        AncFollowUpRepository.createTable(db);
+        PncFollowUpRepository.createTable(db);
+        RiskListRepository.createTable(db);
+        db.execSQL("ALTER TABLE ec_family_member ADD COLUMN next_followup_date LONG;");
     }
 }

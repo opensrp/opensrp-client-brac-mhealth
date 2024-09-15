@@ -114,6 +114,21 @@
         "hint": "সম্ভাব্য প্রসবের তারিখ"
       },
       {
+        "key": "ga",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ga",
+        "type": "hidden",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "schedule_date",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -1439,6 +1454,22 @@
           "step3:is_Referred": {
             "type": "string",
             "ex": "regex(., \"হ্যাঁ\")"
+          }
+        }
+      },
+      {
+        "key": "is_high_risk_anc",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_anc",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance_visit.yml"
+            }
           }
         }
       },

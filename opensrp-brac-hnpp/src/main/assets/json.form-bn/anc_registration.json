@@ -295,6 +295,37 @@
         }
       },
       {
+        "key": "ga",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "ga",
+        "type": "hidden",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_calculation.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "is_high_risk_ph",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "is_high_risk_ph",
+        "type": "hidden",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "anc_risk_relevance_history.yml"
+            }
+          }
+        }
+      },
+      {
         "key": "previous_disease",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",

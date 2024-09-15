@@ -1165,4 +1165,23 @@
     <string name="next_month">Next month</string>
     <string name="from_to">From - To</string>
     <string name="anytime">Anytime</string>
+    <string name="routine_f_up">Routine F/Up</string>
+    <string name="special_followup">Special Followup</string>
+    <string name="telephonic_followup">Telephonic Followup</string>
+    <string name="routine_f_up_list">Routine F/Up List</string>
+    <string name="special_f_up_list">Special F/Up List</string>
+    <string name="telephonic_f_up_list">Telephonic F/Up List</string>
+    <string name="anc_followup">ANC Followup</string>
+    <string name="pnc_followup">PNC Followup</string>
+    <string name="search_by_name">Search by name or phone</string>
+
+    <string name="visit_scheduled_today">Visit Scheduled Today</string>
+    <string name="visit_scheduled_next_three">Visit Scheduled within next three days</string>
+    <string name="visit_scheduled_next_seven">Visit Scheduled within next seven days</string>
+    <string name="visit_scheduled_last_day">Due Visit as per last day</string>
+    <string name="visit_scheduled_last_three">Due Visit as per Last Three Days</string>
+    <string name="visit_scheduled_last_seven">Due Visit as per Last Seven Days</string>
+    <string name="visit_scheduled_all">All Due Visit</string>
+    <string name="no_data_found">No data found</string>
+    <string name="next_followup_date">Next Followup Date: </string>
 </resources>

@@ -1897,7 +1897,7 @@ public class HnppConstants extends CoreConstants {
         public static final String SS_FORM = "ss_form";
         public static final String GUEST_MEMBER_FORM = "guest_member_register";
         public static final String GUEST_MEMBER_DETAILS_FORM = "guest_member_details_register";
-
+        public static final String ANC_FOLLOWUP_FORM = "hnpp_anc_followup";
     }
     public class INDICATOR {
         public static final String FP_uses = "fp_user";
@@ -2042,6 +2042,7 @@ public class HnppConstants extends CoreConstants {
         public static final String GUEST_MEMBER_UPDATE_REGISTRATION = "OOC Member Update Registration";
         public static final String FAMILY_MEMBER_REGISTRATION = "Family Member Registration";
         public static final String CHILD_REGISTRATION = "Child Registration";
+        public static final String ANC_FOLLOWUP_FORM = "Anc Followup";
     }
     public static final class SURVEY_KEY{
         public static final String USER_NAME = "user_name";
@@ -2305,6 +2306,7 @@ public class HnppConstants extends CoreConstants {
             .put("গর্ভকালীন সেবা- ৩য় ত্রিমাসিক",R.mipmap.ic_anc_pink)
             .put("শারীরিক সমস্যা",R.mipmap.ic_anc_pink)
             .put( "পূর্বের গর্ভের ইতিহাস",R.mipmap.ic_anc_pink)
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, R.mipmap.ic_anc_pink)
             .put(EVENT_TYPE.PNC_REGISTRATION,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PNC_REGISTRATION_OOC,R.drawable.sidemenu_pnc)
             .put(EVENT_TYPE.PREGNANCY_OUTCOME,R.drawable.sidemenu_pnc)
@@ -2408,6 +2410,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EVENT_TYPE.CHILD_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
                 .put("Member referral",HnppApplication.appContext.getString(R.string.referrel))
                 .put(EVENT_TYPE.GMP_REFERRAL,HnppApplication.appContext.getString(R.string.referrel))
+                .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, HnppApplication.appContext.getString(R.string.anc_followup))
 //            .put( JSON_FORMS.PREGNANCY_HISTORY,"পূর্বের গর্ভের ইতিহাস")
 
                 .put( EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.pregnancy_outcome))
@@ -2479,7 +2482,7 @@ public class HnppConstants extends CoreConstants {
     }
     //for dashboard poridorshon
     public static final Map<String,String> targetTypeMapping = ImmutableMap.<String,String> builder()
-
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, HnppApplication.appContext.getString(R.string.anc_followup))
             .put(EVENT_TYPE.HOME_VISIT_FAMILY,HnppApplication.appContext.getString(R.string.house_profile_update))
             .put(EVENT_TYPE.CHILD_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
             .put(EVENT_TYPE.MEMBER_PROFILE_VISIT,HnppApplication.appContext.getString(R.string.house_member_survey))
@@ -2536,7 +2539,7 @@ public class HnppConstants extends CoreConstants {
                 .put(EventType.CHILD_REGISTRATION,HnppApplication.appContext.getString(R.string.child_reg))
                 .put(EVENT_TYPE.ANC_REGISTRATION,HnppApplication.appContext.getString(R.string.pregnancy_reg))
                 .put(Constants.EVENT_TYPE.ANC_HOME_VISIT,HnppApplication.appContext.getString(R.string.preg_service_visit))
-
+                .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, HnppApplication.appContext.getString(R.string.anc_followup))
                 .put(EVENT_TYPE.PREGNANCY_OUTCOME,HnppApplication.appContext.getString(R.string.delivery))
                 .put(EVENT_TYPE.ENC_REGISTRATION, HnppApplication.appContext.getString(R.string.newborn_service))
                 .put(EVENT_TYPE.CHILD_FOLLOWUP,HnppApplication.appContext.getString(R.string.child_followup))
@@ -2695,6 +2698,7 @@ public class HnppConstants extends CoreConstants {
             .put(EVENT_TYPE.PNC_SERVICE,HnppApplication.appContext.getString(R.string.pnc_within_48))
             .put("Guest Member Registration",HnppApplication.appContext.getString(R.string.guest_reg))
             .put("OOC Member Registration",HnppApplication.appContext.getString(R.string.guest_reg))
+            .put(EVENT_TYPE.ANC_FOLLOWUP_FORM, HnppApplication.appContext.getString(R.string.anc_followup))
             .build();
     public static Map<String,String> getRiskeyFactorMapping(){
         Map<String,String> riskeyFactorMapping = ImmutableMap.<String,String> builder()

@@ -1,0 +1,10 @@
+
+name: step1_is_high_risk_pnc
+description: is_high_risk_pnc calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = (step1_Fetal_Heart_Rate>=100
+   ||(step1_Denger_Signs_During_PNC.contains('clinical_anemia')||step1_Denger_Signs_During_PNC.contains('pph')||step1_Denger_Signs_During_PNC.contains('postpartum_eclampsia')
+   ||step1_Denger_Signs_During_PNC.contains('puerperal_sepsis')||step1_Denger_Signs_During_PNC.contains('vv_fistula_rv_fistula')||step1_Denger_Signs_During_PNC.contains('perinal_tear'))
+   )?1:0"

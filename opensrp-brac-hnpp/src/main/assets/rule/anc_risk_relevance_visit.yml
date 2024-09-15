@@ -1,0 +1,16 @@
+
+name: step1_is_high_risk_anc
+description: is_high_risk_anc calculated
+priority: 1
+condition: "true"
+actions:
+  - "calculation = ((step1_Fetal_Heart_Rate<100 || step1_Fetal_Heart_Rate>=180)
+   || (step2_Hemoglobin_result<10 || step2_Hemoglobin_result>=15.5)
+   ||(step2_fbs_result>=7 || step2_rbs_result>=11.1)
+   ||(step2_Urine_Albumin_result.equals('১+') || step2_Urine_Albumin_result.equals('1+')) || (step2_Urine_Albumin_result.equals('২+') || step2_Urine_Albumin_result.equals('2+')) || (step2_Urine_Albumin_result.equals('৩+') || step2_Urine_Albumin_result.equals('3+')) || (step2_Urine_Albumin_result.equals('৪+') || step2_Urine_Albumin_result.equals('4+'))
+   ||(step2_Hb_tested_result.equals('পজিটিভ') || step2_Hb_tested_result.equals('Positive'))
+   ||(step2_chipilis_tested_result.equals('পজিটিভ') || step2_chipilis_tested_result.equals('Positive'))
+   ||(step2_hiv_tested_result.equals('পজিটিভ') || step2_hiv_tested_result.equals('Positive'))
+   ||(step2_ultra_sound_result.contains('No_Fetal_heart_rate')||step2_ultra_sound_result.contains('Intrauterine_growth_retardation') ||step2_ultra_sound_result.contains('Oligohydromnios_less_water')||step2_ultra_sound_result.contains('Congenital_anamoly')||step2_ultra_sound_result.contains('Abnormal_lie')||step2_ultra_sound_result.contains('Multiple_pregnancy'))
+   ||(step3_Denger_Signs_During_Pregnancy.contains('Bleeding_Through_Birth_Canal')||step3_Denger_Signs_During_Pregnancy.contains('Weakness_Blurred_vision')||step3_Denger_Signs_During_Pregnancy.contains('high_blood_pressure')||step3_Denger_Signs_During_Pregnancy.contains('Convulsion')||step3_Denger_Signs_During_Pregnancy.contains('High_Temperature_102_Degree_or_More'))
+   )?1:0"
