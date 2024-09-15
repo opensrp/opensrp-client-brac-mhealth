@@ -354,4 +354,6 @@
     <string name="scanu_followup">স্কানু শিশুর ফলোআপ</string>
     <string name="kmc_service_home">বাড়িতে কেএমসি সেবা</string>
     <string name="kmc_service_hospital">কেএমসি সেবার ফলোআপ</string>
+    <string name="anc_followup">ANC Followup</string>
+    <string name="pnc_followup">PNC Followup</string>
 </resources>
