@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "IMCI OTHER 0 to 2",
+  "encounter_type": "IMCI ANAEMIA 2 to 59",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,17 +47,17 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "অন্যান্য",
+    "title": "Anaemia",
     "fields": [
 
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "IMCI OTHER 0 to 2",
+        "openmrs_entity_id": "IMCI ANAEMIA 2 to 59",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "imci_other_0_2"
+        "value": "imci_anaemia_2_59"
       },
 
       {
@@ -67,64 +67,100 @@
         "openmrs_entity_id": "relational_id",
         "type": "hidden"
       },
-
       {
-        "key": "other_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Look,Listen,Feel  "
+      },
+      {
+        "key": "hand_is_faded",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "hand_is_faded",
+        "type": "native_radio",
+        "label": "Notice , Whether the palm of the hand is faded",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Very_Faded",
+            "text": "Very Faded ",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Very_Faded"
+          },
+          {
+            "key": "Medium_Faded",
+            "text": "Medium Faded",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Medium_Faded"
+          }
+        ,
+          {
+            "key": "Not_Faded",
+            "text": "Not Faded",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Not_Faded"
+          }
+        ]
+      },
+      {
+        "key": "cal_assessment_type_1",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "other_problem",
-        "type": "edit_text",
-        "hint": "অন্যান্য সমস্যা থাকলে নির্দিষ্ট করে লিখুন"
+        "openmrs_entity_id": "cal_assessment_type_1",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_anaemia_2_59_calculation_rule.yml"
+            }
+          }
+        }
       },
       {
-        "key": "drowning_in_water",
+        "key": "cal_assessment_type_2",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "drowning_in_water",
-        "type": "native_radio",
-        "label": "পানিতে ডুবে যাওয়া",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "hidden",
+        "hint": "type:2>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_anaemia_2_59_calculation_rule.yml"
+            }
           }
-        ]
+        }
       },
       {
-        "key": "injury_accidental_illness",
+        "key": "cal_assessment_type_3",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "injury_accidental_illness",
-        "type": "native_radio",
-        "label": "আঘাত/ দূর্ঘটনাজনিত অসুস্থতা",
-        "text_color": "#000000",
-        "options": [
-          {
-            "key": "yes",
-            "text": "হ্যাঁ",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "yes"
-          },
-          {
-            "key": "no",
-            "text": "না",
-            "openmrs_entity_parent": "",
-            "openmrs_entity": "",
-            "openmrs_entity_id": "no"
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "hidden",
+        "hint": "type:3>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_anaemia_2_59_calculation_rule.yml"
+            }
           }
-        ]
+        }
       }
     ]
   }

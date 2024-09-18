@@ -3,6 +3,7 @@ package org.smartregister.unicef.mis.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,8 @@ import org.smartregister.family.fragment.BaseFamilyProfileDueFragment;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.DBConstants;
 import org.smartregister.family.util.Utils;
+import org.smartregister.view.customcontrols.CustomFontTextView;
+import org.smartregister.view.customcontrols.FontVariant;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -266,10 +269,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP)){
             @SuppressLint("InflateParams") View followupView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
-            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            CustomFontTextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
             fName.setText(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.CHILD_FOLLOWUP));
+            fName.setFontVariant(FontVariant.REGULAR);
+            fName.setTypeface(fName.getTypeface(), Typeface.NORMAL);
             followupView.setTag(TAG_CHILD_FOLLOWUP);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
@@ -288,10 +293,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if(FormApplicability.isDueAnyForm(baseEntityId, HnppConstants.EVENT_TYPE.AEFI_CHILD)){
             @SuppressLint("InflateParams") View followupView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
-            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            CustomFontTextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
             fName.setText(HnppConstants.getVisitEventTypeMapping().get(HnppConstants.EVENT_TYPE.AEFI_CHILD));
+            fName.setFontVariant(FontVariant.REGULAR);
+            fName.setTypeface(fName.getTypeface(), Typeface.NORMAL);
             followupView.setTag(TAG_AEFI_CHILD);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);
@@ -304,10 +311,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if(isEnc){
             @SuppressLint("InflateParams") View newBornView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = newBornView.findViewById(R.id.image_view);
-            TextView fName =  newBornView.findViewById(R.id.patient_name_age);
+            CustomFontTextView fName =  newBornView.findViewById(R.id.patient_name_age);
             newBornView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(iconMapping.get(HnppConstants.EVENT_TYPE.NEW_BORN_PNC_1_4));
             fName.setText(FormApplicability.getNewBornTitle(baseEntityId));
+            fName.setFontVariant(FontVariant.REGULAR);
+            fName.setTypeface(fName.getTypeface(), Typeface.NORMAL);
             newBornView.setTag(TAG_NEW_BORN_PNC_1_4);
             newBornView.setOnClickListener(this);
             otherServiceView.addView(newBornView);
@@ -317,10 +326,12 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
         if(isIMCI){
             @SuppressLint("InflateParams") View newBornView = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
             ImageView fImg = newBornView.findViewById(R.id.image_view);
-            TextView fName =  newBornView.findViewById(R.id.patient_name_age);
+            CustomFontTextView fName =  newBornView.findViewById(R.id.patient_name_age);
             newBornView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(R.drawable.imci_logo);
             fName.setText(FormApplicability.getIMCITitle(dob));
+            fName.setFontVariant(FontVariant.REGULAR);
+            fName.setTypeface(fName.getTypeface(), Typeface.NORMAL);
             newBornView.setTag(TAG_IMCI);
             newBornView.setOnClickListener(this);
             otherServiceView.addView(newBornView);
@@ -376,14 +387,14 @@ public class HnppChildProfileDueFragment extends BaseFamilyProfileDueFragment im
             updateDueView(eventType,TAG_CHILD_ECCD_36_month,HnppConstants.getVisitEventTypeMapping().get(eventType));
         }
 
-
-
     }
     @SuppressLint("InflateParams")
     private void updateDueView(String eventType, int tag, String title){
         childInfo2View = LayoutInflater.from(mActivity).inflate(R.layout.view_member_due,null);
         ImageView fImg = childInfo2View.findViewById(R.id.image_view);
-        TextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
+        CustomFontTextView fName =  childInfo2View.findViewById(R.id.patient_name_age);
+        fName.setFontVariant(FontVariant.REGULAR);
+        fName.setTypeface(fName.getTypeface(), Typeface.NORMAL);
         childInfo2View.findViewById(R.id.status).setVisibility(View.INVISIBLE);
         Log.v("EVENT_TYPE","eventType>>"+eventType);
        try{

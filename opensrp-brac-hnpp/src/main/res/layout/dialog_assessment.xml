@@ -22,7 +22,7 @@
                     android:layout_toLeftOf="@+id/next_button"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="লক্ষন ও শ্রেণীবিভাগ"
+                    android:text="@string/imci_assessment_title"
                     android:textColor="@color/hnpp_accent"
                     android:textSize="18sp" />
                 <ImageView
@@ -69,7 +69,7 @@
                     android:gravity="left"
                     android:padding="10dp"
                     android:visibility="gone"
-                    android:text="জরুরী চিকিৎসা "
+                    android:text="@string/imci_emergency_treatment"
                     android:textColor="@color/hnpp_accent"
                     android:textSize="18sp" />
                 <TextView

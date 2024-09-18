@@ -199,7 +199,7 @@ android:fillViewport="true">
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/tv_id"
-                        android:layout_width="130dp"
+                        android:layout_width="110dp"
                         android:layout_height="wrap_content"
                         android:text="@string/dob_hint"
                         android:padding="10dp"

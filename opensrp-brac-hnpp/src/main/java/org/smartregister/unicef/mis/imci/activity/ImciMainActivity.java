@@ -97,11 +97,11 @@ public class ImciMainActivity extends SecuredActivity {
         nextBtn.setEnabled(false);
         titleTxt = findViewById(R.id.title);
         if(imciType == IMCI_TYPE_0_2){
-            titleTxt.setText("ছোট শিশুর (০-২ মাস) রোগ নিরূপণ");
+            titleTxt.setText(R.string.imci_0_2_title);
             findViewById(R.id.ll0_2).setVisibility(View.VISIBLE);
             findViewById(R.id.ll2_59).setVisibility(View.GONE);
         }else if(imciType == IMCI_TYPE_2_59){
-            titleTxt.setText("শিশুর (২-৫৯ মাস) রোগ নিরূপণ");
+            titleTxt.setText(R.string.imci_2_59_title);
             findViewById(R.id.ll0_2).setVisibility(View.GONE);
             findViewById(R.id.ll2_59).setVisibility(View.VISIBLE);
         }
@@ -393,13 +393,13 @@ public class ImciMainActivity extends SecuredActivity {
     private String getReferralCause() {
         switch (requestTypeReferral){
             case REQUEST_IMCI_SEVERE_0_2:
-                return "সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ - খুব মারাত্মক সংক্রমণ (VSD-PSBI),সম্ভাব্য মারাত্মক ব্যাকটেরিয়াল সংক্রমণ অথবা খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (০-৬ দিন বয়সের জন্য),খুব মারাত্মক রোগ- দ্রুত শ্বাস নিউমোনিয়া (৭-৫৯ দিন বয়সের জন্য),স্থানীয় ব্যাকটেরিয়াল সংক্রমণ,মারাত্মক রোগ অথবা স্থানীয় সংক্রমণ নেই";
+                return getString(R.string.imci_refer_severe_0_2);
             case REQUEST_IMCI_SEVERE_2_59:
-                return "খুব মারাত্মক রোগ";
+                return getString(R.string.imci_refer_2_59_severe);
             case REQUEST_IMCI_DIARRHEA_2_59:
-                return "চরম পানি স্বল্পতা,মারাত্মক দীর্ঘ মেয়াদী ডায়রিয়া,কিছু পানি স্বল্পতা,আমাশয়,পানি স্বল্পতা নাই,দীর্ঘ মেয়াদী ডায়রিয়া";
+                return getString(R.string.imci_refer_diarrhea_2_59);
             case REQUEST_IMCI_PNEUMONIA_2_59:
-                return "মারাত্মক নিউমোনিয়া,নিউমোনিয়া,নিউমোনিয়া নাই (কাশি অথবা সর্দি)";
+                return getString(R.string.imci_pneumonia_2_59);
 
         }
         return "";

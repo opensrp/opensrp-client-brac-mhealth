@@ -1,0 +1,870 @@
+{
+  "count": "1",
+  "encounter_type": "IMCI SEVERE 0 to 2",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Severe Diseases",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IMCI SEVERE 0 to 2",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "imci_severe_0_2"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Ask "
+      },
+      {
+        "key": "unconscious",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "unconscious",
+        "type": "native_radio",
+        "label": "Is the infant unconscious/ drowsy?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "able_to_feed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "able_to_feed",
+        "type": "native_radio",
+        "label": "Is the infant able to drink/breastfeed?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:unconscious": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "convulsion",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "convulsion",
+        "type": "native_radio",
+        "label": "Has the infant had convulsion?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:able_to_feed": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "key": "vomiting",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "vomiting",
+        "type": "native_radio",
+        "label": "Has the infant had persistent vomiting?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "stop_breathing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "stop_breathing",
+        "type": "native_radio",
+        "label": "Does the baby ever stop breathing for 20 seconds or more during sleep (had apnea)?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+          "key": "bleeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "bleeding",
+        "type": "native_radio",
+        "label": "Has the infant had major bleeding?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "weight",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "weight",
+        "type": "native_radio",
+        "label": "Has the infant had birth weight less than 1500 grams?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "difficulty_in_feeding",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "difficulty_in_feeding",
+        "type": "native_radio",
+        "label": "Is the infant having difficulty in feeding?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Look,Listen,Feel  ",
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "bulging_fontanels",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "bulging_fontanels",
+        "type": "native_radio",
+        "label": "Look for bulging fontanels",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "central_cyanosis",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "central_cyanosis",
+        "type": "native_radio",
+        "label": "Look for central cyanosis",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "Look_for_convulsion",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Look_for_convulsion",
+        "type": "native_radio",
+        "label": "Look for convulsion",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "malformation",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "malformation",
+        "type": "native_radio",
+        "label": "Look for major congenital malformation",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "surgical_condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "surgical_condition",
+        "type": "native_radio",
+        "label": "Look for surgical condition required hospitalization",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "calm_state_breathing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "calm_state_breathing",
+        "type": "native_radio",
+        "label": "Is the baby breathing 60 or more per minute in a calm state?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "chest_indrawing",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "chest_indrawing",
+        "type": "native_radio",
+        "label": "Look for chest indrawing",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "low_body_temperature",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "low_body_temperature",
+        "type": "native_radio",
+        "label": "Fever (99.5 degrees Fahrenheit or higher) or low body temperature (below 95.9 degrees Fahrenheit)?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "Umbilicus_red",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Umbilicus_red",
+        "type": "native_radio",
+        "label": "Umbilicus red or draining pus?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "skin_pustules",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "skin_pustules",
+        "type": "native_radio",
+        "label": "Look for skin pustules",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "infant_move",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "infant_move",
+        "type": "native_radio",
+        "label": "Does the infant move on his/her own?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:convulsion": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "infant_move_stimulated",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "infant_move_stimulated",
+        "type": "native_radio",
+        "label": "Does the infant move only when stimulated",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:infant_move": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "infant_not_move_at_all",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "infant_not_move_at_all",
+        "type": "native_radio",
+        "label": "Does the infant not move at all ?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ],
+        "relevance": {
+          "step1:infant_move": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_1",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "hidden",
+        "hint": "type:2>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "hidden",
+        "hint": "type:3>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_4",
+        "type": "hidden",
+        "hint": "type:4>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_5",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_5",
+        "type": "hidden",
+        "hint": "type:5>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_severe_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

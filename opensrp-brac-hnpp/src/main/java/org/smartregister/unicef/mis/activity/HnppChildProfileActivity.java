@@ -164,8 +164,8 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         dialog.setContentView(R.layout.dialog_with_two_button);
         TextView textViewTitle = dialog.findViewById(R.id.text_tv);
         TextView titleTxt = dialog.findViewById(R.id.title_tv);
-        titleTxt.setText("স্কানু শিশুর ফলোআপ");
-        textViewTitle.setText("স্কানু শিশুর ফলোআপ শুরু করতে ইচ্ছুক? ");
+        titleTxt.setText(R.string.followup_scanu);
+        textViewTitle.setText(R.string.agree_scanu_followup);
         dialog.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,9 +191,9 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         dialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = dialog.findViewById(R.id.title_tv);
         TextView message = dialog.findViewById(R.id.text_tv);
-        titleTv.setText("যে কারনে ঝুঁকিপূর্ণ :");
+        titleTv.setText(R.string.risk_type);
         if(!TextUtils.isEmpty(weight) && Integer.parseInt(weight)<2000){
-            message.setText("শিশুটির ওজন মারাত্মক কম: "+weight+" গ্রাম");
+            message.setText(getString(R.string.child_weight_less)+weight+getString(R.string.gm));
         }
         ArrayList<RiskyModel> riskyModels = HnppApplication.getRiskDetailsRepository().getRiskyKeyByEntityId(childBaseEntityId);
         StringBuilder builder = new StringBuilder();

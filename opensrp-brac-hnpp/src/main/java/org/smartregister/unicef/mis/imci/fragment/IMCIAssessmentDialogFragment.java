@@ -225,9 +225,9 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 if(type_2.equalsIgnoreCase("1") || type_3.equalsIgnoreCase("1")){
-                    builder.append("১৪ দিনের বেশি ডায়রিয়া এবং পানি স্বল্পতা");
+                    builder.append(getString(R.string.diarreah_dehydration_14));
                 }else{
-                    builder.append("১৪ দিনের বেশি ডায়রিয়া");
+                    builder.append(getString(R.string.diarreah_14_days_plus));
                 }
 
             }
@@ -236,24 +236,24 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(child_lethargic) && child_lethargic.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("নেতিয়ে পড়েছে বা অজ্ঞান");
+                builder.append(getString(R.string.fainted_or_unconscious));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(drink_drinking_poorly) && drink_drinking_poorly.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("পান করতে পারে না বা কম পান করে");
+                builder.append(getString(R.string.Cannot_drink_or_drinks_less));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চোখ বসে গেছে");
+                builder.append(getString(R.string.eyes_are_closed));
             }
             if(!TextUtils.isEmpty(Pinch_the_skin) && Pinch_the_skin.contains("very_slowly")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চামড়া টেনে ধরে ছেড়ে দিলে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+                builder.append(getString(R.string.skin_pulled_released));
             }
         }
         else  if(type_3.equalsIgnoreCase("1")) {
@@ -261,17 +261,17 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(restless_and_irritable) && restless_and_irritable.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অস্থির, খিটখিটে");
+                builder.append(getString(R.string.restless_and_irritable));
             }
             if(!TextUtils.isEmpty(drinking_eagerly) && drinking_eagerly.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("আগ্রহের সাথে পান করে, তৃষ্ণার্ত");
+                builder.append(getString(R.string.drinks_eagerly_thirsty));
             }
             if(!TextUtils.isEmpty(Pinch_the_skin) && Pinch_the_skin.contains("slowly")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চামড়া টেনে ধরে ছেড়ে দিলে ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়");
+                builder.append(getString(R.string.pinch_the_skin));
             }
         }
         else  if(type_4.equalsIgnoreCase("1")) {
@@ -279,7 +279,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(fourteen_days_more) && fourteen_days_more.contains("yes") && type_6.equalsIgnoreCase("1")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("১৪ দিনের বেশি ডায়রিয়া এবং পানি স্বল্পতা নাই");
+                builder.append(getString(R.string.diarreah_14_days));
 
             }
         }
@@ -288,7 +288,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(blood_stool) && blood_stool.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("মলে রক্ত আছে");
+                builder.append(getString(R.string.blood_in_stool));
 
             }
         }
@@ -297,52 +297,52 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(blood_stool) && blood_stool.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("মলে রক্ত নাই");
+                builder.append(getString(R.string.not_blood_stool));
             }
             if(!TextUtils.isEmpty(fourteen_days_more) && fourteen_days_more.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("১৪ দিনের কম ডায়রিয়া");
+                builder.append(getString(R.string.diarrah_below_14_days));
             }
             if(!TextUtils.isEmpty(restless_and_irritable) && restless_and_irritable.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অস্থির, খিটখিটে নয়");
+                builder.append(getString(R.string.not_restless_and_irritable));
             }
             if(!TextUtils.isEmpty(drinking_eagerly) && drinking_eagerly.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("তৃষ্ণার্ত নয়");
+                builder.append(getString(R.string.not_thirsty));
             }
             if(!TextUtils.isEmpty(Pinch_the_skin) && Pinch_the_skin.contains("normally")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চামড়া টেনে ধরে ছেড়ে দিলে স্বাভাবিক ভাবে স্বাভাবিক অবস্থায় ফিরে যায়");
+                builder.append(getString(R.string.Pinch_skin_normally));
             }
             if(!TextUtils.isEmpty(drink_drinking_poorly) && drink_drinking_poorly.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("পান করতে পারে ");
+                builder.append(getString(R.string.can_drink));
             }
             if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চোখ বসে নাই");
+                builder.append(getString(R.string.eyes_not_sitting));
             }
-            if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("no")){
+            if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চোখ বসে নাই");
+                builder.append(getString(R.string.eye_sitting_down));
             }
             if(!TextUtils.isEmpty(have_diarrhea) && have_diarrhea.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ডায়রিয়া আছে");
+                builder.append(getString(R.string.have_diarrhea));
             }
             if(!TextUtils.isEmpty(have_diarrhea) && have_diarrhea.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ডায়রিয়া নেই");
+                builder.append(getString(R.string.have_not_diarreha));
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
@@ -363,26 +363,26 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "শিশুর অন্য কোন মারাত্মক শ্রেণীবিভাগ না থাকলে, হাসপাতালে পাঠানোর পূর্বে পানি স্বল্পতার চিকিৎসা দিন।" +
+                        getString(R.string.treatment_water_shortage) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        "জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" ;
+                        getString(R.string.treatment_sent_hospital) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             } else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.FIVE.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" +
+                        getString(R.string.treatment_sent_hospital) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " মাকে বলুন, হাসপাতালে যাওয়ার পথে ছোট শিশুকে বারবার খাবার স্যলাইন (ORS) খাওয়াতে।" +
+                        getString(R.string.ors_taken) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।"+
+                        getString(R.string.continue_brest_feeding)+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " যদি শিশুটির বয়স ২ বছর বা তার বেশী হয় এবং রোগীর এলাকায় কলেরার প্রাদুর্ভাব থাকে, তাহলে কলেরার জন্য এ্যান্টিবায়োটিক দিন।";
+                        getString(R.string.colera_antibiotic);
 
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
@@ -391,48 +391,48 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 ruleImage.setImageResource(R.drawable.rule_kha);
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  পানি স্বল্পতার জন্য তরল খাবার, জিংক সাপ্লিমেন্টেশন ও স্বাভাবিক খাবার দিন [পদ্ধতি-খ]।" +
+                        getString(R.string.water_shortage_liquid) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" +
+                        getString(R.string.treatment_sent_hospital) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " মাকে বলুন, হাসপাতালে যাওয়ার পথে ছোট শিশুকে বারবার খাবার স্যলাইন (ORS) খাওয়াতে।"+
+                        getString(R.string.ors_taken)+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।" +
+                        getString(R.string.continue_brest_feeding) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবস্থার উন্নতি না হলে, ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।" ;
+                        getString(R.string.followup_within_two_days) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.THREE.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  দীর্ঘ মেয়াদী ডায়রিয়া আক্রান্ত শিশুকে খাওয়ানো সম্পর্কে মাকে পরামর্শ দিন।" +
+                        getString(R.string.advice_mother_long_diarreha) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " ১৪ দিনের জন্য মাল্টিভিটামিন/মিনারেল (জিংক সমৃদ্ধ) ভিটামিন ‘এ’ দিন ।"+
+                        getString(R.string.multivitamin_vitamin_a)+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " ৫ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।" ;
+                        getString(R.string.followup_within_5_days) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.TWO.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।";
+                        getString(R.string.followup_within_two_days);
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA_2_59.ONE.getValue())){
@@ -440,16 +440,16 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 ruleImage.setImageResource(R.drawable.rule_ka);
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  বাড়ীতে ডায়রিয়া চিকিৎসার জন্য তরল খাবার, জিংক সাপ্লিমেন্টেশন ও স্বাভাবিক খাবার দিন [পদ্ধতি-ক]।" +
+                        getString(R.string.liquid_zin_nomal) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবস্থার উন্নতি না হলে, ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।"+
+                        getString(R.string.followup_within_two_days)+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " যদি ১৪ দিন বা তার বেশী ডায়রিয়া হয় তাহলে রোগ নিরূপণের জন্য রেফার করুন।";
+                        getString(R.string.refer_14_days);
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -473,14 +473,14 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(hand_is_faded) && hand_is_faded.contains("Very_Faded")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("হাতের তালু খুব ফ্যাকাসে");
+                builder.append(getString(R.string.Palms_are_very_pale));
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_ANEMIA.TWO.getValue();
             if(!TextUtils.isEmpty(hand_is_faded) && hand_is_faded.contains("Medium_Faded")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("হাতের তালু কিছু ফ্যাকাসে");
+                builder.append(getString(R.string.Palms_are_somewhat_pale));
             }
         }
         else  if(type_3.equalsIgnoreCase("1")) {
@@ -488,7 +488,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(hand_is_faded) && hand_is_faded.contains("Not_Faded")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("হাতের তালু ফ্যাকাসে নয়");
+                builder.append(getString(R.string.Palms_are_not_pale));
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
@@ -506,27 +506,27 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" ;
+                        getString(R.string.treatment_sent_hospital) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             } else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_ANEMIA.TWO.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  আয়রণ অথবা মাল্টিপল মাইক্রোনিউট্রিয়েন্ট দিন।" +
+                        getString(R.string.iron_multiple_micronutrient) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " ১৪ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।" ;
+                        getString(R.string.followup_within_14days) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_ANEMIA.ONE.getValue())){
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " যদি শিশুর বয়স ৬ মাস বা তার বেশী হয় তাহলে আয়রন ফলেট\n" +
-                        "(আইএফএ) অথবা মাল্টিভিটামিন মাইক্রোনিউট্রিয়েন্ট দিন।" ;
+                        getString(R.string.iron_6_month_above) +
+                        getString(R.string.ifa_multivitamin) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -553,49 +553,49 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(oedema_both_feet) && oedema_both_feet.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("উভয় পা ফুলেছে");
+                builder.append(getString(R.string.both_legs_swollen));
                             }
             if(!TextUtils.isEmpty(any_medical_complications) && any_medical_complications.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("স্বাস্থ্যগত জটিলতা আছে");
+                builder.append(getString(R.string.health_complications));
             }
             if(!TextUtils.isEmpty(Finish_nutrition_therapy) && Finish_nutrition_therapy.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("পুষ্টি চিকিৎসা শেষ করতে পারেনি");
+                builder.append(getString(R.string.nutritional_treatment));
             }
             if(!TextUtils.isEmpty(breastfeeding_problem) && breastfeeding_problem.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বুকের দুধ খাওয়ায় সমস্যা আছে");
+                builder.append(getString(R.string.problems_with_breastfeeding));
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_MALNUTRITION.THREE.getValue();
             if(!TextUtils.isEmpty(Measure_WFH) && Measure_WFH.contains("less_minus_3")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("WFH/L -৩ Z এর থেকে কম");
+                builder.append(getString(R.string.WFH_less_three));
             }
             if(!TextUtils.isEmpty(Measure_MUAC) && Measure_MUAC.contains("less_115_ml")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("মুয়াক ১১৫ মি.মি থেকে কম");
+                builder.append(getString(R.string.muac_115_less));
             }
             if(!TextUtils.isEmpty(any_medical_complications) && any_medical_complications.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("স্বাস্থ্যগত জটিলতা নাই");
+                builder.append(getString(R.string.no_health_complications));
             }
             if(!TextUtils.isEmpty(Finish_nutrition_therapy) && Finish_nutrition_therapy.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("পুষ্টি চিকিৎসা শেষ করতে পেরেছে");
+                builder.append(getString(R.string.nutritional_treatment_completed));
             }
             if(!TextUtils.isEmpty(breastfeeding_problem) && breastfeeding_problem.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বুকের দুধ খাওয়ায় সমস্যা নাই");
+                builder.append(getString(R.string.brest_feeding_not_problem));
             }
         }
         else  if(type_3.equalsIgnoreCase("1")) {
@@ -603,12 +603,12 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(Measure_WFH) && Measure_WFH.contains("minus_2_3")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("WFH/L -৩ থেকে –২ Z এর মধ্যে");
+                builder.append(getString(R.string.wfh_3_2));
             }
             if(!TextUtils.isEmpty(Measure_MUAC) && Measure_MUAC.contains("between_115_125")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("মুয়াক ১১৫ থেকে ১২৫ মি.মি এর মধ্যে");
+                builder.append(getString(R.string.muac_115_125));
             }
         }
         else  if(type_4.equalsIgnoreCase("1")) {
@@ -616,17 +616,17 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(oedema_both_feet) && oedema_both_feet.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("উভয় পা ফুলে নাই");
+                builder.append(getString(R.string.Both_legs_not_swollen));
             }
             if(!TextUtils.isEmpty(Measure_WFH) && Measure_WFH.contains("minus_2_grater")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("WFH/L -২ Z এর থেকে বেশী");
+                builder.append(getString(R.string.wfh_greater_2));
             }
             if(!TextUtils.isEmpty(Measure_MUAC) && Measure_MUAC.contains("grater_125_cm")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("মুয়াক ১২৫ মি.মি অথবা বেশী");
+                builder.append(getString(R.string.muac_125));
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
@@ -647,26 +647,26 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  যদি শিশুটির বয়স ২ বছরের কম হয়, তবে শিশুটির খাওয়ানো নিরূপণ করুন এবং মাকে পরামর্শ বিষয়ক চার্ট অনুসারে শিশুটির খাওয়ানো সম্পর্কে পরামর্শ দিন।" +
+                        getString(R.string.advice_to_feeding_chart) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " যদি খাওয়ানোর সমস্যা থাকে, ৭ দিনের মধ্যে ফলোআপ-এর জন্য আসতে বলুন।";
+                        getString(R.string.followup_feeding_problem);
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }else{
                 String treatmentBuilder =
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।" +
+                        getString(R.string.treatment_prevent_low_b_g) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।"+
+                        getString(R.string.next_visit_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " শিশুটিকে গরম রাখুন।" ;
+                        getString(R.string.Keep_the_baby_warm) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -694,47 +694,23 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(Stiff_neck) && Stiff_neck.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ঘাড় শক্ত");
+                builder.append(getString(R.string.Neck_pain));
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.FOUR.getValue();
             if(!TextUtils.isEmpty(Rapid_Diagnostic_Test) && Rapid_Diagnostic_Test.contains("rdt_positive")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("RDT / ম্যালেরিয়া পজেটিভ");
+                builder.append(getString(R.string.rdt_positive));
             }
         }
         else  if(type_3.equalsIgnoreCase("1")) {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEVER.THREE.getValue();
-//            if(!TextUtils.isEmpty(have_fever) && have_fever.contains("yes")){
-//                builder.append("<br>");
-//                builder.append(getString(R.string.right_arrow));
-//                builder.append("জ্বর আছে");
-//            }
-//            if(!TextUtils.isEmpty(seven_days_more) && seven_days_more.contains("yes")){
-//                builder.append("<br>");
-//                builder.append(getString(R.string.right_arrow));
-//                builder.append("জ্বর ৭ দিনের বেশি");
-//            }
-//            if(!TextUtils.isEmpty(seven_days_more) && seven_days_more.contains("no")){
-//                builder.append("<br>");
-//                builder.append(getString(R.string.right_arrow));
-//                builder.append("জ্বর ৭ দিনের বেশি নয়");
-//            }
-//            if(!TextUtils.isEmpty(check_more_7_days) && check_more_7_days.contains("yes")){
-//                builder.append("<br>");
-//                builder.append(getString(R.string.right_arrow));
-//                builder.append("প্রতিদিনই জ্বর হয়");
-//            }
-//            if(!TextUtils.isEmpty(check_more_7_days) && check_more_7_days.contains("no")){
-//                builder.append("<br>");
-//                builder.append(getString(R.string.right_arrow));
-//                builder.append("প্রতিদিনই জ্বর হয় না");
-//            }
+
             if(!TextUtils.isEmpty(Rapid_Diagnostic_Test) && Rapid_Diagnostic_Test.contains("rdt_negative")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("RDT / ম্যালেরিয়া নেগেটিভ");
+                builder.append(getString(R.string.rdt_negetive));
             }
 //
 //            if(!TextUtils.isEmpty(fever_Bacterial) && fever_Bacterial.contains("yes")){
@@ -748,12 +724,12 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(Stiff_neck) && Stiff_neck.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ঘাড় শক্ত নেই");
+                builder.append(getString(R.string.nick_not_pain));
             }
             if(!TextUtils.isEmpty(fever_Bacterial) && fever_Bacterial.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ম্যালেরিয়া ঝুঁকিপূর্ণ এলাকায় বসবাস/ভ্রমন(৩০ দিনের মধ্যে) যায়নি");
+                builder.append(getString(R.string.visit_30_days_more));
             }
         }
         else  if(type_5.equalsIgnoreCase("1")) {
@@ -761,7 +737,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(have_fever) && have_fever.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বর নেই");
+                builder.append(getString(R.string.fever_not_present));
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
@@ -780,26 +756,26 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 String treatmentBuilder =
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " রক্তে গ্লুকোজের স্বল্পতা রোধের জন্য যথাযথ খাবার নিশ্চিত করুন।" +
+                        getString(R.string.blood_glucose_prevent) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।";
+                        getString(R.string.treatment_sent_hospital) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             } else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEVER.FOUR.getValue())){
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " মুখে খাওয়ার এ্যান্টিম্যালেরিয়াল দিয়ে চিকিৎসা করতে হাসপাতালে রেফার করুন।" +
+                        getString(R.string.mouth_antimeleria_treatment) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        "অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                        getString(R.string.advice_mother_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিরাম জ্বর থাকলে ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।"+
+                        getString(R.string.followup_within_two_days) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " যদি ৭ দিনের বেশী প্রতিদিনই জ্বর থাকে, তাহলে রোগ নিরূপণের জন্য হাসপাতালে রেফার করুন।";
+                        getString(R.string.refer_hospital_7_days);
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -809,13 +785,13 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 String treatmentBuilder =
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        "অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                                getString(R.string.advice_mother_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিরাম জ্বর থাকলে ২ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।"+
+                        getString(R.string.followup_within_two_days) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " যদি ৭ দিনের বেশী প্রতিদিনই জ্বর থাকে, তাহলে রোগ নিরূপণের জন্য হাসপাতালে রেফার করুন।";
+                         getString(R.string.refer_hospital_7_days);
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -840,7 +816,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(oxygen_saturation_level) && oxygen_saturation_level.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অক্সিজেনের স্যাচুরেশন (SpO2) <৯২%");
+                builder.append(getString(R.string.spo2));
                 isReferred = true;
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
@@ -848,12 +824,12 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(Look_chest_indrawing) && Look_chest_indrawing.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বুকের নিচের অংশ ভিতরে ডেবে যায়");
+                builder.append(getString(R.string.lower_part_chest_sinks));
             }
             if(!TextUtils.isEmpty(number_of_times_taking_breathe)){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("দ্রুত শ্বাস");
+                builder.append(getString(R.string.quick_breathing));
             }
         }
         else  if(type_3.equalsIgnoreCase("1")) {
@@ -861,22 +837,22 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(has_cough_breathing) && has_cough_breathing.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("কাশি বা শ্বাস-প্রশ্বাসের সমস্যা আছে");
+                builder.append(getString(R.string.Cough_trouble_breathing));
             }
             if(!TextUtils.isEmpty(oxygen_saturation_level) && oxygen_saturation_level.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অক্সিজেনের স্যাচুরেশন (SpO2) স্বাভাবিক");
+                builder.append(getString(R.string.spo2_normal));
             }
             if(!TextUtils.isEmpty(Look_chest_indrawing) && Look_chest_indrawing.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বুকের নিচের অংশ ভিতরে ডেবে যায় নাই");
+                builder.append(getString(R.string.chest_not_goes_inside));
             }
             if(!TextUtils.isEmpty(number_of_times_taking_breathe) && (number_of_times_taking_breathe.contains("bellow_40") || number_of_times_taking_breathe.contains("above_40"))){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("স্বাভাবিক শ্বাস");
+                builder.append(getString(R.string.normal_breath));
             }
         }
         else  if(type_4.equalsIgnoreCase("1")) {
@@ -884,7 +860,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(has_cough_breathing) && has_cough_breathing.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("কাশি বা শ্বাস-প্রশ্বাসের সমস্যা নাই");
+                builder.append(getString(R.string.No_cough_breathing_problems));
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
@@ -901,7 +877,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                     String treatmentBuilder =
                             "<br>" +
                             getString(R.string.right_arrow) +
-                            " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" ;
+                            getString(R.string.treatment_sent_hospital) ;
                     treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                     treatment_label_tv.setVisibility(View.VISIBLE);
                 }
@@ -909,16 +885,16 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
                     String treatmentBuilder = "</br>" +
                             getString(R.string.right_arrow) +
-                            " গলা প্রশমিত করুন, কাশি উপশমে নিরাপদ ব্যবস্থা (Safe remedy) নিন।" +
+                            getString(R.string.safe_remedy) +
                             "<br>" +
                             getString(R.string.right_arrow) +
-                            " যদি ১৪ দিনের বেশী কাশি থাকে তা হলে সম্ভাব্য যক্ষ্মা নিরূপণের জন্য রেফার করুন। " +
+                            getString(R.string.cough_more_than_14_days) +
                             "<br>" +
                             getString(R.string.right_arrow) +
-                            " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                            getString(R.string.advice_mother_advice) +
                             "<br>" +
                             getString(R.string.right_arrow) +
-                            " ২ দিনের ফলো-আপে আসুন।" ;
+                            getString(R.string.followup_2_days) ;
                     treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                     treatment_label_tv.setVisibility(View.VISIBLE);
                 }
@@ -926,16 +902,16 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " গলা প্রশমিত করুন, কাশি উপশমে নিরাপদ ব্যবস্থা (safe remedy) নিন।" +
+                        getString(R.string.safe_remedy) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " যদি ১৪ দিনের বেশী কাশি থাকে তা হলে সম্ভাব্য যক্ষ্মা নিরূপণের জন্য রেফার করুন। " +
+                        getString(R.string.cough_more_than_14_days) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                        getString(R.string.advice_mother_advice) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " শিশুটির অবস্থা যদি উন্নতি না হলে ৫ দিনের মধ্যে ফলোআপ-এর জন্য আসুন।"  ;
+                        getString(R.string.followup_5_days)  ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -959,31 +935,31 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(drink_or_breastfeed) && drink_or_breastfeed.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("পান করতে অথবা বুকের দুধ খেতে পারে না");
+                builder.append(getString(R.string.cant_drink_brest_feeding));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(vomit_everything) && vomit_everything.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("সব খাবার বমি করে ফেলে দেয়");
+                builder.append(getString(R.string.vomits_all_food));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(had_convulsions) && had_convulsions.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("খিচুনি হয়েছিল");
+                builder.append(getString(R.string.Had_a_seizure));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(lethargic_or_unconsciou) && lethargic_or_unconsciou.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("নেতিয়ে পড়েছে বা অজ্ঞান");
+                builder.append(getString(R.string.Fainted_or_unconscious));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(convulsing_now) && convulsing_now.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("এখন খিঁচুনি আছে");
+                builder.append(getString(R.string.Now_have_seizures));
                 isReferred = true;
             }
         }else  if(type_2.equalsIgnoreCase("1")) {
@@ -991,27 +967,27 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(drink_or_breastfeed) && drink_or_breastfeed.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("পান করতে অথবা বুকের দুধ খেতে পারে ");
+                builder.append(getString(R.string.can_drink_brest_feeding));
             }
             if(!TextUtils.isEmpty(vomit_everything) && vomit_everything.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("সব খাবার বমি করে ফেলে দেয় না");
+                builder.append(getString(R.string.not_vomitting));
             }
             if(!TextUtils.isEmpty(had_convulsions) && had_convulsions.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("খিচুনি হয় নাই");
+                builder.append(getString(R.string.No_seizures));
             }
             if(!TextUtils.isEmpty(lethargic_or_unconsciou) && lethargic_or_unconsciou.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("নেতিয়ে পড়ে নাই বা অজ্ঞান নয়");
+                builder.append(getString(R.string.Not_fainting_or_fainting));
             }
             if(!TextUtils.isEmpty(convulsing_now) && convulsing_now.contains("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("এখন খিঁচুনি নেই");
+                builder.append(getString(R.string.No_seizures_now));
             }
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
@@ -1028,19 +1004,19 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " দ্রুত নিরুপণ সম্পূর্ন করুন।" +
+                        getString(R.string.Complete_the_quick_assessment) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " তাৎক্ষনিক প্রি-রেফারেল চিকিৎসা দিন।" +
+                        getString(R.string.pre_refferal) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।"+
+                        getString(R.string.prevent_low_blood_glucose)+
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " শিশুটিকে গরম রাখুন।" +
+                        getString(R.string.child_warm) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" ;
+                        getString(R.string.treatment_sent_hospital) ;
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
@@ -1075,35 +1051,35 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.THREE.getValue();
             builder.append("<br>");
             builder.append(getString(R.string.right_arrow));
-            builder.append("বয়স ৭ দিন এবং ওজন ২ কেজি থেকে কম");
+            builder.append(getString(R.string.age_7_days));
         }
         else if(type_2.equalsIgnoreCase("1")){
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue();
             if(!TextUtils.isEmpty(sucking_effectively) && !sucking_effectively.contains("effectively")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ভালভাবে দুধ চুষে না ");
+                builder.append(getString(R.string.not_brest_feeding));
             }
             if(!TextUtils.isEmpty(drink_breast_milk) && drink_breast_milk.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("২৪ ঘন্টার মধ্যে বুকের দুধ ৮ বারের চেয়ে কম খায় ");
+                builder.append(getString(R.string.brest_feeding_less_than_24));
             }
             if(!TextUtils.isEmpty(other_food_drink) && other_food_drink.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অন্য খাবার বা তরল খাবার খায়");
+                builder.append(getString(R.string.other_food));
             }
             if((!TextUtils.isEmpty(weight_less_than_2_kg) && weight_less_than_2_kg.equalsIgnoreCase("yes") )||
                     (!TextUtils.isEmpty(weight_proportion_zscore) && weight_proportion_zscore.equalsIgnoreCase("yes") )){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বয়স অনুপাতে ওজন কম ");
+                builder.append(getString(R.string.weight_less_age));
             }
             if(!TextUtils.isEmpty(Thrush) && Thrush.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("থ্রাশ (মুখে ঘা অথবা সাদা ঘা) ");
+                builder.append(getString(R.string.thrush));
             }
             if((!TextUtils.isEmpty(chin_touching_breast) && chin_touching_breast.equalsIgnoreCase("no") )
                     || (!TextUtils.isEmpty(mouth_wide_open) && mouth_wide_open.equalsIgnoreCase("no") )
@@ -1117,7 +1093,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             {
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ভালো পজিশন নয় বা ভালভাবে বুকে লাগানো হয় নি");
+                builder.append(getString(R.string.not_good_position));
             }
         }
         else if(type_3.equalsIgnoreCase("1")){
@@ -1125,27 +1101,27 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(sucking_effectively) && sucking_effectively.contains("effectively")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ভালভাবে দুধ চুষে");
+                builder.append(getString(R.string.good_sucking));
             }
             if(!TextUtils.isEmpty(drink_breast_milk) && drink_breast_milk.equalsIgnoreCase("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("২৪ ঘন্টার মধ্যে বুকের দুধ ৮ বারের চেয়ে বেশি খায়");
+                builder.append(getString(R.string.eat_8_times));
             }
             if(!TextUtils.isEmpty(other_food_drink) && other_food_drink.equalsIgnoreCase("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অন্য খাবার বা তরল খাবার খায় না");
+                builder.append(getString(R.string.not_other_food));
             }
             if((!TextUtils.isEmpty(weight_less_than_2_kg) && weight_less_than_2_kg.equalsIgnoreCase("no") )){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বয়স অনুপাতে ওজন কম নয়");
+                builder.append(getString(R.string.eweight_vs_age_not));
             }
             if(!TextUtils.isEmpty(Thrush) && Thrush.equalsIgnoreCase("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("থ্রাশ (মুখে ঘা অথবা সাদা ঘা) নেই");
+                builder.append(getString(R.string.thrush_not));
             }
             if(((!TextUtils.isEmpty(chin_touching_breast) && chin_touching_breast.equalsIgnoreCase("yes") )
                     && (!TextUtils.isEmpty(mouth_wide_open) && mouth_wide_open.equalsIgnoreCase("yes") )
@@ -1159,7 +1135,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             {
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ভালো পজিশন বা ভালভাবে বুকে লাগানো হয়েছে");
+                builder.append(getString(R.string.good_position));
             }
         }
 
@@ -1179,63 +1155,63 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
             String treatmentBuilder = "</br>" +
                     getString(R.string.right_arrow) +
-                    " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।" +
+                    getString(R.string.treatment_for_blood_glucose) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " ক্যাংগারু মাদার কেয়ারের জন্য হাসপাতালে প্রেরন করুন।" +
+                    getString(R.string.refer_hospital_kmc) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।";
+                    getString(R.string.warm_child_on_hopsital);
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
             treatment_label_tv.setVisibility(View.VISIBLE);
         }else if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_FEEDING.TWO.getValue())){
 
             String treatmentBuilder = "</br>" +
                     getString(R.string.right_arrow) +
-                    " যদি ভালভাবে বুকে লাগানো না হয় অথবা ভালভাবে দুধ না চুষে, তাহলে মাকে ভাল পজিশন এবং ভাল ভাবে বুকে লাগানো সম্পর্কে শিখিয়ে দিন।" +
+                    getString(R.string.advice_good_position) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " যদি ভালভাবে বুকে লাগাতে না পারে তবে বুকের দুধ কি ভাবে চেপে বের করে বাচ্চাকে খাওয়াতে হয় সে সম্পর্কে শিখিয়ে দিন।" +
+                    getString(R.string.advice_brest_feeding) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " ২৪ ঘন্টার মধ্যে বুকের দুধ ৮ বারের চেয়ে কম খাওয়ানো হলে, আরো বেশী বার খাওয়ানোর পরামর্শ দিন। দিনে ও রাতে ছোট শিশুটিকে যতবার এবং যতক্ষণ খেতে চায়, ততবার খাওয়াতে মা-কে পরামর্শ দিন।"+
+                    getString(R.string.advicec_24_hours)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " যদি অন্য কোন খাবার বা তরল খাবার খায় তবে মাকে পরামর্শ দিন ঐ সব খাবারের পরিমান কমিয়ে মা যেন বার বার বুকের দুধ খাওয়ান এবং কাপ দিয়ে খাওয়ান।"+
+                    getString(R.string.advice_other_food)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " যদি বুকের দুধ একেবারেই না খায় - বুকের দুধ খাওয়ানো সম্ভব হলে পুনরায় বুকের দুধ চালুর পরামর্শ গ্রহণের জন্য হাসপাতালে রেফার করুন।"+
+                    getString(R.string.advice_not_brest_feeding)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " যদি বুকের দুধ একেবারেই না খায় - কি ভাবে বুকের দুধের পরিপূরক খাবার তৈরী করতে হয় সে ব্যাপারে মাকে পরামর্শ দিন।"+
+                    getString(R.string.advice_not_brest_feeding_every)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " কম জন্ম ওজনের ছোট শিশুকে কিভাবে খাওয়াতে হবে এবং শরীর গরম রাখতে হবে সে সম্পর্কে মাকে উপদেশ দিন।"+
+                    getString(R.string.advice_mother_weight_less)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " থ্রাশ হয়ে থাকলে, বাড়ীতে থ্রাশের চিকিৎসা ব্যবস্থা মাকে বুঝিয়ে দিন।"+
+                    getString(R.string.advice_thrush)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " ছোট শিশুটিকে বাড়ীতে ভালোভাবে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।"+
+                    getString(R.string.advice_take_care)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " অবিলম্বে কখন আসতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।"+
+                    getString(R.string.next_followup)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " খাওয়ানোর সমস্যা বা থ্রাশ দেখা দিলে দুই দিনের মধ্যেই ফলোআপ-এর জন্য আসুন।"+
+                    getString(R.string.followup_thrush)+
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " বয়স অনুপাতে ওজন কম হলে ১৪ দিন পর ফলোআপ।";
+                    getString(R.string.weight_followup_14_days);
 
                     treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                     treatment_label_tv.setVisibility(View.VISIBLE);
         }else{
             String treatmentBuilder = "</br>" +
                     getString(R.string.right_arrow) +
-                    " ছোট শিশুটিকে বাড়ীতে ভালোভাবে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।" +
+                    getString(R.string.advice_at_home) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " ছোট শিশুকে ভালো ভাবে খাওয়ানোর জন্য মায়ের প্রশংসা করুন।";
+                    getString(R.string.Appreciate_mother);
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
             treatment_label_tv.setVisibility(View.VISIBLE);
         }
@@ -1258,20 +1234,20 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চোখ বসে গেছে");
+                builder.append(getString(R.string.eye_drop));
                 builder.append("<br>");
             }
             if(!TextUtils.isEmpty(Pinch_the_skin) && Pinch_the_skin.contains("very_slowly")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চামড়া টেনে ধরে ছেড়ে দিলে খুব ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়।");
+                builder.append(getString(R.string.skin_slowlly));
                 builder.append("<br>");
             }
             if((!TextUtils.isEmpty(infant_move_stimulated) && infant_move_stimulated.contains("yes")) ||
                     (!TextUtils.isEmpty(infant_not_move_at_all) && infant_not_move_at_all.contains("no"))){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("শিশু কে নড়াচড়া করানোর চেষ্টা করলে শুধুমাত্র নড়াচড়া করতে পারে অথবা একবারেই নড়াচড়া করতে পারে না");
+                builder.append(getString(R.string.child_movement));
             }
 
         }else if(type_2.equalsIgnoreCase("1")){
@@ -1280,26 +1256,26 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(!TextUtils.isEmpty(sunken_eyes) && sunken_eyes.contains("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চোখ বসে গেছে");
+                builder.append(getString(R.string.eye_closed));
                 builder.append("<br>");
             }
             if(!TextUtils.isEmpty(Pinch_the_skin) && Pinch_the_skin.contains("slowly")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চামড়া টেনে ধরে ছেড়ে দিলে ধীরে ধীরে স্বাভাবিক অবস্থায় ফিরে যায়।");
+                builder.append(getString(R.string.skin_slowly));
                 builder.append("<br>");
             }
             if((!TextUtils.isEmpty(restless_irritable) && restless_irritable.contains("yes"))){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অস্থির, খিটখিটে");
+                builder.append(getString(R.string.unsteady));
             }
 
         }else {
             assessmentResultTypeId = Utility.ASSESSMENT_RESULT_TYPE_DIARRHEA.ONE.getValue();
             builder.append("<br>");
             builder.append(getString(R.string.right_arrow));
-            builder.append("কিছু অথবা চরম পানি স্বল্পতার কোন চিহ্ন নেই ");
+            builder.append(getString(R.string.no_signdrome_waterless));
         }
         if(builder.length()>0) assessment_result_tv.setText(Html.fromHtml(builder.toString()));
         if(!assessmentResultTypeId.isEmpty()){
@@ -1318,16 +1294,16 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
 
             String treatmentBuilder = "</br>" +
                     getString(R.string.right_arrow) +
-                    " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" +
+                    getString(R.string.advice_hospital) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " মাকে বলুন, হাসপাতালে যাওয়ার পথে ছোট শিশুকে বারবার খাবার স্যলাইন (ORS) খাওয়াতে।" +
+                    getString(R.string.ors_mother) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।" +
+                    getString(R.string.hospital_body_ward) +
                     "<br>" +
                     getString(R.string.right_arrow) +
-                    " বুকের দুধ খাওয়ানো অব্যাহত রাখতে মাকে পরার্মশ দিন।";
+                    getString(R.string.continue_brest_feeding);
             treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
             treatment_label_tv.setVisibility(View.VISIBLE);
         }
@@ -1376,99 +1352,99 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 isReferred = true;
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("অচেতন/ঝিমুনি ");
+                builder.append(getString(R.string.senseless));
             }
             if(!TextUtils.isEmpty(convulsionValue) && convulsionValue.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("খিচুনি অথবা খিঁচুনির ইতিহাস ");
+                builder.append(getString(R.string.convulsions_history));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(feedingProblem) && feedingProblem.equalsIgnoreCase("no")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("শিশু খাওয়া খেতে পারছে না");
+                builder.append(getString(R.string.not_eating));
                 isReferred = true;
             }
             if(!TextUtils.isEmpty(vomiting) && vomiting.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ক্রমাগত বমি");
+                builder.append(getString(R.string.Persistent_vomiting));
             }
             if(!TextUtils.isEmpty(bulging) && bulging.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("মাথার তালু স্ফীত হয়ে যাওয়া ");
+                builder.append(getString(R.string.head_spit));
             }
             if(!TextUtils.isEmpty(stopBreathing) && stopBreathing.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ঘুমের ২০ সেকেন্ড বা তার বেশি সময়ের জন্য শ্বাস বন্ধ হয়");
+                builder.append(getString(R.string.sleep_20_sec));
             }
             if(!TextUtils.isEmpty(centralCyanosis) && centralCyanosis.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("শরীরের বিশেষ অংশ নীলবর্ণ ধারন ");
+                builder.append(getString(R.string.body_blue_shape));
             }
             if(!TextUtils.isEmpty(bleeding) && bleeding.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("গুরুতর রক্তপাত");
+                builder.append(getString(R.string.Severe_bleeding));
             }
             if(!TextUtils.isEmpty(weight) && weight.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("জন্ম ওজন ১৫০০ গ্রামের কম");
+                builder.append(getString(R.string.weight_less_1500));
                 builder.append("<br>");
             }
             if(!TextUtils.isEmpty(malformation) && malformation.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("গুরুতর জন্মগত বিকলাঙ্গতা ");
+                builder.append(getString(R.string.disability));
             }
             if(!TextUtils.isEmpty(surgicalCondition) && surgicalCondition.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("এমন অস্ত্রোপচার যার জন্য হাসপাতালে থাকতে হয়েছিল ");
+                builder.append(getString(R.string.ot_refer_hospital));
             }
             if(!TextUtils.isEmpty(chestIndrawing) && chestIndrawing.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("বুকের নীচের অংশ মারাÍক ডেবে যায়");
+                builder.append(getString(R.string.chest_down));
             }
             if(!TextUtils.isEmpty(lowBodyTemperature) && lowBodyTemperature.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("জ্বর (৩৭.৫০ সেন্টি* বা বেশী বা গরম অনুভুতি) অথবা শরীরে অল্প তাপমাত্রা (৩৫.৫০ সেন্টি* কম বা ঠান্ডা অনুভব হয়)");
+                builder.append(getString(R.string.fever_37));
             }
             if(!TextUtils.isEmpty(difficultyInFeeding) && difficultyInFeeding.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("ভালোভাবে খায় না");
+                builder.append(getString(R.string.not_eating_well));
             }
             if((!TextUtils.isEmpty(infantNotMoveAtAll) && infantNotMoveAtAll.equalsIgnoreCase("no"))
               ||(!TextUtils.isEmpty(infantMoveStimulated) && infantMoveStimulated.equalsIgnoreCase("yes"))){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("শিশুটি কি শুধু মাত্র উত্তেজিত করলে নড়াচড়া করে / একেবারেই নড়াচড়া করে না");
+                builder.append(getString(R.string.movement_exciting));
             }
             if(!TextUtils.isEmpty(umbilicusRed) && umbilicusRed.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("নাভী লাল অথবা পুঁজ পড়ছে");
+                builder.append(getString(R.string.red_navel));
             }
             if(!TextUtils.isEmpty(skinPustules) && skinPustules.equalsIgnoreCase("yes")){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("চামড়ায় কিছু পূঁজ সহ দানা");
+                builder.append(getString(R.string.skin_worship));
             }
             if(!TextUtils.isEmpty(calm_state_breathing) && calm_state_breathing.equalsIgnoreCase("yes") ){
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
                 if(type_2.equalsIgnoreCase("1")){
-                    builder.append("দ্রুত শ্বাস (প্রতি মিনিটে ৬০ বা ততোধিক) ০—৬ দিন বয়সের জন্য");
+                    builder.append(getString(R.string.breath_60_more));
                 }else{
-                    builder.append("দ্রুত শ্বাস (প্রতি মিনিটে ৬০ বা ততোধিক) ৭—৫৯ দিনের বয়সের জন্য");
+                    builder.append(getString(R.string.breating_60_7_59));
                 }
 
             }
@@ -1484,7 +1460,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
                 assesment_result_txt.setText(Utility.ASSESSMENT_RESULT_TYPE_SEVERE.SEVEN.getValue());
                 builder.append("<br>");
                 builder.append(getString(R.string.right_arrow));
-                builder.append("খুব মারাত্মক রোগ অথবা স্থানীয় ব্যাকটেরিয়াল সংক্রমনের কোন লক্ষন নেই");
+                builder.append(getString(R.string.no_signdrome_vectoriea));
                 assesment_result_txt.setBackgroundColor(getResources().getColor(R.color.imci_green));
                 assessment_result_tv.setText(Html.fromHtml(builder.toString()));
             }
@@ -1494,23 +1470,23 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             || assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_SEVERE.FIVE.getValue())){
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " রক্তে গ্লুকোজের স্বল্পতা রোধ করতে যথাযথ চিকিৎসা দিন।" +
+                        getString(R.string.treatment_blood_glucose) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " জরুরীভিত্তিতে হাসপাতালে প্রেরন করুন।" +
+                        getString(R.string.treatment_sent_hospital) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        " হাসপাতালে যাওয়ার পথে ছোট শিশুটির গা কেমন করে গরম রাখতে হবে সে সম্পর্কে মাকে পরামর্শ দিন।";
+                        getString(R.string.warm_child_on_hopsital);
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
             }
             if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_SEVERE.SIX.getValue())){
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        " বাড়ীতে স্থানীয় চামড়ার সংক্রমণের চিকিৎসা দিতে মাকে বুঝিয়ে দিন।" +
+                        getString(R.string.home_local_skin) +
                         "<br>" +
                         getString(R.string.right_arrow) +
-                        "  ছোট শিশুটিকে বাড়ীতে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।" ;
+                        getString(R.string.care_at_home) ;
 
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);
@@ -1519,7 +1495,7 @@ public class IMCIAssessmentDialogFragment extends DialogFragment implements Memb
             if(assessmentResultTypeId.equalsIgnoreCase(Utility.ASSESSMENT_RESULT_TYPE_SEVERE.SEVEN.getValue())){
                 String treatmentBuilder = "</br>" +
                         getString(R.string.right_arrow) +
-                        "  ছোট শিশুটিকে বাড়ীতে যত্ন নেয়ার জন্য মাকে পরামর্শ দিন।" ;
+                        getString(R.string.care_mother) ;
 
                 treatment_result_tv.setText(Html.fromHtml(treatmentBuilder));
                 treatment_label_tv.setVisibility(View.VISIBLE);

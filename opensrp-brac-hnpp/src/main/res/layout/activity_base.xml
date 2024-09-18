@@ -375,7 +375,7 @@
                                 android:layout_toEndOf="@+id/ivssinfo"
                                 android:layout_toRightOf="@+id/ivssinfo"
                                 android:fontFamily="sans-serif"
-                                android:text="Search"
+                                android:text="VaxEPI Search"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

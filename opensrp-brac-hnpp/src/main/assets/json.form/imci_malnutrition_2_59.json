@@ -1,0 +1,319 @@
+{
+  "count": "1",
+  "encounter_type": "IMCI MALNUTRITION 2 to 59",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Malnutrition",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IMCI MALNUTRITION 2 to 59",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "imci_malnutrition_2_59"
+      },
+
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Look,Listen,Feel  "
+      },
+      {
+        "key": "oedema_both_feet",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "oedema_both_feet",
+        "type": "native_radio",
+        "label": "Look oedema in both feet",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ]
+      },
+      {
+        "key": "Measure_WFH",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Measure_WFH",
+        "type": "native_radio",
+        "label": "Measure WFH in Z Score",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "less_minus_3",
+            "text": "Less than -3 Z",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "less_minus_3"
+          },
+          {
+            "key": "minus_2_3",
+            "text": "Between -2 to -3 Z",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "minus_2_3"
+          },
+          {
+            "key": "minus_2_grater",
+            "text": "Greater than -2 Z",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "minus_2_grater"
+          }
+        ]
+      },
+      {
+        "key": "Measure_MUAC",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Measure_MUAC",
+        "type": "native_radio",
+        "label": "Measure MUAC (in mm)",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "less_115_ml",
+            "text": "Less than 115 mm",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "less_115_ml"
+          },
+          {
+            "key": "between_115_125",
+            "text": "Between 115-125 mm",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "between_115_125"
+          },
+          {
+            "key": "grater_125_cm",
+            "text": "Equals or greater than 125 mm",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "grater_125_cm"
+          }
+        ]
+      },
+      {
+        "key": "any_medical_complications",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "any_medical_complications",
+        "type": "native_radio",
+        "label": "Are there any medical complications (general danger signs / severe classification / chest indrawing with pneumonia)?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ]
+      },
+      {
+        "key": "Finish_nutrition_therapy",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Finish_nutrition_therapy",
+        "type": "native_radio",
+        "label": "Finish nutrition therapy?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ]
+      },
+      {
+        "key": "breastfeeding_problem",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "breastfeeding_problem",
+        "type": "native_radio",
+        "label": "Does the child have a breastfeeding problem?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+
+        ]
+      },
+      {
+        "key": "cal_assessment_type_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_1",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "hidden",
+        "hint": "type:2>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "hidden",
+        "hint": "type:3>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_4",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_4",
+        "type": "hidden",
+        "hint": "type:4>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_malnutrition_2_59_calculation_rule.yml"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 {
   "count": "1",
-  "encounter_type": "IMCI OTHER 0 to 2",
+  "encounter_type": "IMCI OTHER 2 to 59",
   "entity_id": "",
   "metadata": {
     "start": {
@@ -47,17 +47,17 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "অন্যান্য",
+    "title": "Other",
     "fields": [
 
       {
         "key": "form_name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
-        "openmrs_entity_id": "IMCI OTHER 0 to 2",
+        "openmrs_entity_id": "IMCI OTHER 2 to 59",
         "openmrs_data_type": "text",
         "type": "hidden",
-        "value": "imci_other_0_2"
+        "value": "imci_other_2_59"
       },
 
       {
@@ -74,7 +74,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "other_problem",
         "type": "edit_text",
-        "hint": "অন্যান্য সমস্যা থাকলে নির্দিষ্ট করে লিখুন"
+        "hint": "If there are any other problems please specify"
       },
       {
         "key": "drowning_in_water",
@@ -82,19 +82,19 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "drowning_in_water",
         "type": "native_radio",
-        "label": "পানিতে ডুবে যাওয়া",
+        "label": "Drowning in water",
         "text_color": "#000000",
         "options": [
           {
             "key": "yes",
-            "text": "হ্যাঁ",
+            "text": "Yes",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "yes"
           },
           {
             "key": "no",
-            "text": "না",
+            "text": "No",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "no"
@@ -107,19 +107,19 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "injury_accidental_illness",
         "type": "native_radio",
-        "label": "আঘাত/ দূর্ঘটনাজনিত অসুস্থতা",
+        "label": "Injury/accidental illness",
         "text_color": "#000000",
         "options": [
           {
             "key": "yes",
-            "text": "হ্যাঁ",
+            "text": "Yes",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "yes"
           },
           {
             "key": "no",
-            "text": "না",
+            "text": "No",
             "openmrs_entity_parent": "",
             "openmrs_entity": "",
             "openmrs_entity_id": "no"

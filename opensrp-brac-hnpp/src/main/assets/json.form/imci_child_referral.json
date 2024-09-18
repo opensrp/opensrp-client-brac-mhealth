@@ -1,0 +1,157 @@
+{
+  "count": "1",
+  "encounter_type": "IMCI Child Referral",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Referral",
+    "fields": [
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IMCI Child Referral",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "imci_child_referral"
+      },
+      {
+        "key": "Place_of_Refer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "Place_of_Refer",
+        "type": "spinner",
+        "hint": "Place of Refer",
+        "values": [
+          "Community Clinic",
+          "Union Sub-center (USC)",
+          "UFWC (Union Family Welfare Center)",
+          "UH & FWC",
+          "Metarnal and Child Wellfare Center",
+          "10 Bed Hospital",
+          "20 Beds Hospital",
+          "UHC (Upazila Health Complex)",
+          "District Hospital",
+          "Medical College Hospital",
+          "Private Hospital / NGO clinic",
+          "NGO",
+          "Specialized Hospital",
+          "Others Health Facility",
+          "No referred"
+        ],
+        "openmrs_choice_ids": {
+          "Community Clinic": "Community_Clinic",
+          "Union Sub-center (USC)": "Union_Sub_Center",
+          "UFWC (Union Family Welfare Center)": "Union_Family_Welfare_Center",
+          "UH & FWC": "Union_Health_and_Family_Welfare_Center",
+          "Metarnal and Child Wellfare Center": "Metarnal_and_Child_Wellfare_Center",
+          "10 Bed Hospital": "10_Bed_Hospital",
+          "20 Beds Hospital": "20_Beds_Hospital",
+          "Upazila Health Complex": "Upazila_Health_Complex",
+          "District Hospital": "District_Hospital",
+          "Medical College Hospital": "Medical_College_and_Hospital",
+          "Private Hospital / NGO clinic": "Private_Clinic_and_Hospital",
+          "NGO": "Non-governmental_Organization",
+          "Specialized Hospital": "Specialized_Hospital",
+          "Others Health Facility": "Others_Health_Facility",
+          "No referred": "No_referred"
+        }
+      },
+      {
+        "key": "cause_of_refer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cause_of_refer",
+        "type": "check_box",
+        "label_text_style": "bold",
+        "text_color": "#3495bf",
+        "text_size": "25px",
+        "label": "Cause of Refer",
+        "exclusive":[
+          "normal"
+        ],
+        "options":[
+
+        ]
+      },
+      {
+        "key": "advice",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "advice",
+        "type": "edit_text",
+        "hint": "রেফারেল মন্তব্য"
+      },
+      {
+        "key": "latitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "latitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "Latitude"
+      },
+      {
+        "key": "longitude",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "longitude",
+        "type": "hidden",
+        "read_only": true,
+        "hint": "Longitude"
+      }
+    ,
+      {
+        "key": "spacer",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "spacer",
+        "type": "spacer",
+        "spacer_height": "20dp"
+      }
+    ]
+  }
+}

@@ -35,7 +35,7 @@
                 android:gravity="center"
                 android:padding="10dp"
 
-                android:text="শিশুর রোগ নিরূপণ "
+                android:text="@string/imci_title"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="মারাত্মক রোগ"
+                    android:text="@string/imci_severe"
 
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="ডায়রিয়া"
+                    android:text="@string/imci_diarrhea"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"  />
@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="খাওয়ানোর সমস্যা"
+                    android:text="@string/imci_feeding"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
@@ -206,7 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="অন্যান্য সমস্যা"
+                    android:text="@string/imci_other"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
@@ -251,7 +251,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="বিপদচিহ্ন"
+                    android:text="@string/imci_danger_sign"
 
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -291,7 +291,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="নিউমোনিয়া"
+                    android:text="@string/imci_pneumonia"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
@@ -330,7 +330,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="পানি স্বল্পতা ও ডায়রিয়া"
+                    android:text="@string/imci_dehydration_diarrhoea"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"  />
@@ -369,7 +369,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="জ্বর"
+                    android:text="@string/imci_fever"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"  />
@@ -408,7 +408,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="অপুষ্টি"
+                    android:text="@string/imci_malnutrition"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"  />
@@ -447,7 +447,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="রক্ত স্বল্পতা"
+                    android:text="@string/imci_anaemia"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"  />
@@ -486,7 +486,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="অন্যান্য সমস্যা"
+                    android:text="@string/imci_other"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="20sp" />

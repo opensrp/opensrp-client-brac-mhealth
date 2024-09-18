@@ -2,6 +2,7 @@ package org.smartregister.unicef.mis.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +33,8 @@ import org.smartregister.unicef.mis.utils.MemberHistoryData;
 import org.smartregister.family.util.Constants;
 import org.smartregister.family.util.JsonFormUtils;
 import org.smartregister.unicef.mis.utils.VisitHistory;
+import org.smartregister.view.customcontrols.CustomFontTextView;
+import org.smartregister.view.customcontrols.FontVariant;
 
 import java.util.ArrayList;
 
@@ -147,7 +150,7 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
         for (VisitHistory visitHistory:visitHistories) {
             @SuppressLint("InflateParams") View followupView = LayoutInflater.from(getActivity()).inflate(R.layout.view_member_due,null);
             ImageView fImg = followupView.findViewById(R.id.image_view);
-            TextView fName =  followupView.findViewById(R.id.patient_name_age);
+            CustomFontTextView fName =  followupView.findViewById(R.id.patient_name_age);
             followupView.findViewById(R.id.status).setVisibility(View.INVISIBLE);
             fImg.setImageResource(R.mipmap.ic_anc_pink);
             StringBuilder stringBuilder = new StringBuilder();
@@ -156,6 +159,8 @@ public class MemberHistoryFragment extends Fragment implements MemberHistoryCont
 //            stringBuilder.append("LMP:"+visitHistory.getLmpDate());
             stringBuilder.append(getActivity().getString(R.string.edd)+visitHistory.getEddDate());
             fName.setText(stringBuilder.toString());
+            fName.setFontVariant(FontVariant.REGULAR);
+            fName.setTypeface(fName.getTypeface(), Typeface.NORMAL);
             followupView.setTag(visitHistory);
             followupView.setOnClickListener(this);
             otherServiceView.addView(followupView);

@@ -219,7 +219,7 @@ public class HnppChwRepository extends Repository {
 
                     }
                     break;
-                case 9:
+                case 10:
                     try{
                         SBKRepository.createTable(db);
                     }catch (Exception e){

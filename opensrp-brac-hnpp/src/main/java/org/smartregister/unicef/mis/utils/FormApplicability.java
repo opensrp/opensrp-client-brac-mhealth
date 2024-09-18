@@ -22,6 +22,7 @@ import org.joda.time.Months;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.smartregister.unicef.mis.HnppApplication;
+import org.smartregister.unicef.mis.R;
 import org.smartregister.unicef.mis.model.ReferralFollowUpModel;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.family.util.Utils;
@@ -208,9 +209,9 @@ public class FormApplicability {
     public static String getIMCITitle(Date dob){
         int dayPass = DateUtil.dayDifference(new LocalDate(dob),new LocalDate(System.currentTimeMillis()));
         if(dayPass<=60){
-            return "ছোট শিশুর (০-২ মাস) রোগ নিরূপণ ";
+            return HnppApplication.appContext.getString(R.string.child_0_2);
         }
-        return "শিশুর (২-৫৯ মাস) রোগ নিরূপণ";
+        return HnppApplication.appContext.getString(R.string.child_2_59);
     }
     public static String getKMCHomeTitle(String baseEntityId){
         return HnppConstants.getKMCHomeFollowUpTitle(FormApplicability.getKMCHomeFollowUpCount(baseEntityId)+1)[0];

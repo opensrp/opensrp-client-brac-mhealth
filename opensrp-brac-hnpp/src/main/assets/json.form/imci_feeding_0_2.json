@@ -1,0 +1,881 @@
+{
+  "count": "1",
+  "encounter_type": "IMCI FEEDING 0 to 2",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Feeding",
+    "fields": [
+
+      {
+        "key": "form_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "IMCI FEEDING 0 to 2",
+        "openmrs_data_type": "text",
+        "type": "hidden",
+        "value": "imci_feeding_0_2"
+      },
+
+      {
+        "key": "relational_id",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "relational_id",
+        "type": "hidden"
+      },
+      {
+        "key": "dob",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden"
+      },
+      {
+        "key": "month_diff",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "hidden",
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Ask "
+      },
+      {
+        "key": "infant_breastfed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "infant_breastfed",
+        "type": "native_radio",
+        "label": "Is the infant breastfed?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "drink_breast_milk",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "drink_breast_milk",
+        "type": "native_radio",
+        "label": "Drink breast milk less than 8 times in 24 hours?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "other_food_drink",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "other_food_drink",
+        "type": "native_radio",
+        "label": "Does the infant usually receive any other food or drink?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+      {
+        "key": "drink_how_long",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "drink_how_long",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "If yes , For how long?",
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid Number"
+        },
+        "relevance": {
+          "step1:other_food_drink": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_look",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Look,Listen,Feel  "
+      },
+
+      {
+        "key": "weight_less_than_2_kg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "weight_less_than_2_kg",
+        "type": "native_radio",
+        "label": "Is the weight less than 2 kg?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ]
+      },
+
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_feeding",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " Does the mother have pain? ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "breastfed_previous_hour",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "breastfed_previous_hour",
+        "type": "native_radio",
+        "label": "Has the infant breastfed in the previous hour?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_yes",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "15px",
+        "label_text_style": "italic",
+        "text": " Ask the mother if she can wait until the baby wants to eat again and tell you.",
+        "relevance": {
+          "step1:breastfed_previous_hour": {
+            "type": "string",
+            "ex": "regex(., \"yes\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_no",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "15px",
+        "label_text_style": "italic",
+        "text": " Ask the mother to breastfeed, watch the infant feed for 4 minutes.",
+        "relevance": {
+          "step1:breastfed_previous_hour": {
+            "type": "string",
+            "ex": "regex(., \"no\")"
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_chest",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " 1. Is a small child well attached to the chest? ",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "key": "chin_touching_breast",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "chin_touching_breast",
+        "type": "native_radio",
+        "label": "Chin touching breast",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "mouth_wide_open",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "mouth_wide_open",
+        "type": "native_radio",
+        "label": "Mouth wide open",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Lower_lip_turned_outward",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Lower_lip_turned_outward",
+        "type": "native_radio",
+        "label": "Lower lip turned outward",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "areola_mouth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "areola_mouth",
+        "type": "native_radio",
+        "label": "More areola above than below the mouth",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_position",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " 2. Is the young child in a good position?",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Straight_head_body",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Straight_head_body",
+        "type": "native_radio",
+        "label": "Straight head and body",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Body_close_mother",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Body_close_mother",
+        "type": "native_radio",
+        "label": "Body close to the mother",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "body_fully_supported",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "body_fully_supported",
+        "type": "native_radio",
+        "label": "The whole body fully supported",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Facing_breast",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Facing_breast",
+        "type": "native_radio",
+        "label": "Facing breast, nose opposite to nipple",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "sucking_effectively",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "sucking_effectively",
+        "type": "native_radio",
+        "label": "Is the infant sucking effectively?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Not_sucking_at_all",
+            "text": "Not sucking at all",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Not_sucking_at_all"
+          },
+          {
+            "key": "Not_sucking_effectively",
+            "text": "Not sucking effectively",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Not_sucking_effectively"
+          },
+          {
+            "key": "effectively",
+            "text": "Sucking effectively",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "effectively"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Thrush",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Thrush",
+        "type": "native_radio",
+        "label": "Thrush (ulcers or white patches in mouth)",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "key": "label_ask_mother",
+        "type": "label",
+        "text_color": "#3797ca",
+        "text_size": "17px",
+        "label_text_style": "bold",
+        "text": " 3. mother's condition",
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "mother_have_pain",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "mother_have_pain",
+        "type": "native_radio",
+        "label": "Does the mother have pain?",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "yes",
+            "text": "Yes",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "yes"
+          },
+          {
+            "key": "no",
+            "text": "No",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "no"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Nipples_Condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Nipples_Condition",
+        "type": "native_radio",
+        "label": "Nipples Condition",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Flat_nipples",
+            "text": "Flat nipples",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Flat_nipples"
+          },
+          {
+            "key": "Inverted_nipples",
+            "text": "Inverted nipples",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Inverted_nipples"
+          },
+          {
+            "key": "Sore_nipples",
+            "text": "Sore nipples",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Sore_nipples"
+          },
+          {
+            "key": "Engorged_breasts",
+            "text": "Engorged breasts",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Engorged_breasts"
+          },
+          {
+            "key": "Breast_abscess",
+            "text": "Breast abscess",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Breast_abscess"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "Breasts_Condition",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "Breasts_Condition",
+        "type": "native_radio",
+        "label": "Breasts Condition",
+        "text_color": "#000000",
+        "options": [
+          {
+            "key": "Engorged_breasts",
+            "text": "Engorged breasts",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Engorged_breasts"
+          },
+          {
+            "key": "Breast_abscess",
+            "text": "Breast abscess",
+            "openmrs_entity_parent": "",
+            "openmrs_entity": "",
+            "openmrs_entity_id": "Breast_abscess"
+          }
+        ],
+        "relevance": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_relevance.yml"
+            }
+          }
+        }
+      },
+
+
+      {
+        "key": "cal_assessment_type_1",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_1",
+        "type": "hidden",
+        "hint": "type:1>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_2",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_2",
+        "type": "hidden",
+        "hint": "type:2>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      },
+      {
+        "key": "cal_assessment_type_3",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "cal_assessment_type_3",
+        "type": "hidden",
+        "hint": "type:3>>",
+        "edit_type": "number",
+        "read_only": true,
+        "calculation": {
+          "rules-engine": {
+            "ex-rules": {
+              "rules-file": "imci_feeding_0_2_calculation_rule.yml"
+            }
+          }
+        }
+      }
+
+    ]
+  }
+}
