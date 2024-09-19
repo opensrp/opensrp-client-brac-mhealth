@@ -312,7 +312,12 @@ public class BluetoothCentralManager {
 
         // Register for broadcasts on BluetoothAdapter state change
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-        context.registerReceiver(adapterStateReceiver, filter);
+
+        if (android.os.Build.VERSION.SDK_INT >= 31) {
+            context.registerReceiver(adapterStateReceiver, filter,2);// 2 corresponds to RECEIVER_NOT_EXPORTED
+        } else {
+            context.registerReceiver(adapterStateReceiver, filter);
+        }
     }
 
     /**

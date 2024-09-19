@@ -1,7 +1,8 @@
 package org.smartregister.unicef.mis.utils;
 
-import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.DISABILITY_ENABLE;
 import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.IS_URBAN;
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.LAST_SYNC_HPV;
+import static org.smartregister.unicef.mis.utils.HnppConstants.KEY.LAST_VACCINE_DATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -69,8 +70,6 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -259,6 +258,7 @@ public class HnppConstants extends CoreConstants {
                     try {
 
                         processOtherVaccineUnSyncData(0);
+
                         e.onNext("done");//error
                         e.onComplete();
                     } catch (Exception ex) {
@@ -312,8 +312,6 @@ public class HnppConstants extends CoreConstants {
         ArrayList<String> list = new ArrayList<>();
         String json = JsonFormUtils.gson.toJson(otherVaccineContentData);
         list.add(json);
-
-        Log.v("OTHER_VACCINE","processUnSyncData>>"+list);
         if(list.size()==0) return;
         try{
             JSONObject request = new JSONObject();
@@ -323,19 +321,15 @@ public class HnppConstants extends CoreConstants {
             String add_url =  MessageFormat.format("{0}{1}",
                     BuildConfig.citizen_url,
                     ADD_URL);
-            Log.v("OTHER_VACCINE","jsonPayload>>>"+jsonPayload);
             jsonPayload = jsonPayload.replace("\\","").replace("\"[","[").replace("]\"","]");
             HTTPAgent httpAgent = CoreLibrary.getInstance().context().getHttpAgent();
             HashMap<String,String> headers = new HashMap<>();
             headers.put("dd",BuildConfig.dd);
-            Log.v("OTHER_VACCINE","jsonPayload after replace>>>"+jsonPayload);
             Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
             if (response.isFailure() || response.isTimeoutError()) {
-                HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
                 HnppApplication.getOtherVaccineRepository().addOtherVaccine(otherVaccineContentData);
                 return;
             }
-            HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
             //{"error":[],"notFound":[]}
             JSONObject results = new JSONObject((String) response.payload());
             if(results.has("error") && results.getJSONArray("error").length()==0){
@@ -358,7 +352,11 @@ public class HnppConstants extends CoreConstants {
             String json = JsonFormUtils.gson.toJson(otherVaccineContentData);
             list.add(json);
         }
-        if(list.size()==0) return;
+        if(list.size()==0){
+            CoreLibrary.getInstance().context().allSharedPreferences().savePreference(LAST_SYNC_HPV,System.currentTimeMillis()+"");
+
+            return;
+        }
         try{
             JSONObject request = new JSONObject();
             request.put("vaccines",list);
@@ -373,10 +371,8 @@ public class HnppConstants extends CoreConstants {
             headers.put("dd",BuildConfig.dd);
             Response<String> response = httpAgent.postWithHeaderAndJwtToken(add_url, jsonPayload,headers,BuildConfig.JWT_TOKEN);
             if (response.isFailure() || response.isTimeoutError()) {
-                HnppConstants.appendLog("SYNC_URL", "message>>"+response.payload()+"status:"+response.status().displayValue());
                 return;
             }
-            HnppConstants.appendLog("SYNC_URL", "pushECToServer:response comes"+response.payload());
             //{"error":[],"notFound":[]}
             JSONObject results = new JSONObject((String) response.payload());
             if(results.has("error")){
@@ -1628,8 +1624,13 @@ public class HnppConstants extends CoreConstants {
     public static boolean isPALogin(){
         String role = org.smartregister.Context.getInstance().allSharedPreferences().fetchRegisteredRole();
         if(TextUtils.isEmpty(role)) return false;
-        if(role.equalsIgnoreCase("PA")) return true;
-        return false;
+        return role.equalsIgnoreCase("PA");
+
+    }
+    public static boolean isVaccinator(){
+        String role = org.smartregister.Context.getInstance().allSharedPreferences().fetchRegisteredRole();
+        if(TextUtils.isEmpty(role)) return false;
+        return role.equalsIgnoreCase("vaccinator");
 
     }
     public static boolean isUrbanUser(){
@@ -1730,6 +1731,7 @@ public class HnppConstants extends CoreConstants {
         public static final String MUAC_STATUS = "muac_status";
         public static final String LAST_VACCINE_NAME = "last_vaccine_name";
         public static final String LAST_VACCINE_DATE = "last_vaccine_date";
+        public static final String LAST_SYNC_HPV = "last_sync_hpv";
         public static final String NEW_BORN_INFO = "new_born_info";
         public static final String CHILD_MUAC = "child_muac";
         public static final String CHILD_HEIGHT = "child_height";

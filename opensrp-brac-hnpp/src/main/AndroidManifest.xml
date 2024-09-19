@@ -33,6 +33,12 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup,android:icon">
         <activity
+            android:name=".activity.VaccinatorHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HNPPTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+        </activity>
+        <activity
             android:name="org.smartregister.unicef.mis.activity.PaymentHistoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HNPPTheme.NoActionBar"

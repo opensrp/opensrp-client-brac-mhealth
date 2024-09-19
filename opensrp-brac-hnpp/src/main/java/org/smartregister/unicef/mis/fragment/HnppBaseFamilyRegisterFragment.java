@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.smartregister.chw.core.model.FamilyRegisterFramentModel;
 import org.smartregister.family.fragment.BaseFamilyRegisterFragment;
 import org.smartregister.unicef.mis.R;
+import org.smartregister.unicef.mis.job.HnppSyncIntentServiceJob;
 import org.smartregister.unicef.mis.nativation.view.NavigationMenu;
 import org.smartregister.unicef.mis.presenter.HnppFamilyRegisterFragmentPresenter;
 import org.smartregister.unicef.mis.utils.FilterDialog;
@@ -106,6 +107,12 @@ public class HnppBaseFamilyRegisterFragment extends BaseFamilyRegisterFragment i
         if (getSearchCancelView() != null) {
             getSearchCancelView().setOnClickListener(this);
         }
+        this.syncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HnppSyncIntentServiceJob.scheduleJobImmediately(HnppSyncIntentServiceJob.TAG);
+            }
+        });
         //setTotalPatients();
     }
     @Override

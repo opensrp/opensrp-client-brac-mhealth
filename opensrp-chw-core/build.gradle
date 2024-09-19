@@ -80,7 +80,7 @@ dependencies {
         exclude group: 'io.ona.rdt-capture', module: 'lib'
     }
 //branch: hnpp_android_update
-    api('org.smartregister:opensrp-client-core:4.7.63-android-update-auth-SNAPSHOT') {
+    api('org.smartregister:opensrp-client-core:4.7.64-android-update-auth-SNAPSHOT') {
         transitive = true
 //        exclude group: 'com.github.lecho', module: 'hellocharts-library'
         exclude group: 'com.github.bmelnychuk', module: 'atv'
@@ -163,7 +163,7 @@ dependencies {
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     api 'io.reactivex.rxjava2:rxjava:2.1.5'
     api 'com.evernote:android-job:1.2.6'
-    api 'org.greenrobot:eventbus:3.1.1'
+//    api 'org.greenrobot:eventbus:3.1.1'
     api "org.smartregister:android-p2p-sync:0.3.2-SNAPSHOT"
 
     api('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {

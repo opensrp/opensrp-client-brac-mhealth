@@ -1141,4 +1141,5 @@
     <string name="tika_info_comfirm">Please confirm vaccine information</string>
     <string name="without_id">WithOut ID</string>
     <string name="enrollment_loading">Enrollment On going…</string>
+    <string name="last_sync">Last Sync: %1$s</string>
 </resources>

@@ -1420,7 +1420,12 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
         vaccineUpdateDataBroadcastReceiver = new VaccineDueSyncBroadcast();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("VACCINE_UPDATE");
-        registerReceiver(vaccineUpdateDataBroadcastReceiver, intentFilter);
+        if (android.os.Build.VERSION.SDK_INT >= 31) {
+            registerReceiver(vaccineUpdateDataBroadcastReceiver, intentFilter,2);// 2 corresponds to RECEIVER_NOT_EXPORTED
+        } else {
+            registerReceiver(vaccineUpdateDataBroadcastReceiver, intentFilter);
+        }
+
     }
     private class VaccineDueSyncBroadcast extends BroadcastReceiver {
         @Override

@@ -1210,4 +1210,5 @@
     </string-array>
     <string name="without_id">আই ডি নেই</string>
     <string name="enrollment_loading">ইনরোলমেন্ট করা হচ্ছে</string>
+    <string name="last_sync">Last Sync: %1$s</string>
 </resources>

@@ -215,7 +215,12 @@ public class FamilyRegisterActivity extends BaseFamilyRegisterActivity {
         intentFilter.addAction(ValidateIntentService.ACTION_VALIDATION);
         intentFilter.addAction(InValidateIntentService.ACTION_INVALIDATION);
         intentFilter.addAction(HALocationFetchIntentService.LOCATION_UPDATE);
-        registerReceiver(notificationBroadcastReceiver, intentFilter);
+        if (android.os.Build.VERSION.SDK_INT >= 31) {
+            registerReceiver(notificationBroadcastReceiver, intentFilter,2);// 2 corresponds to RECEIVER_NOT_EXPORTED
+        } else {
+            registerReceiver(notificationBroadcastReceiver, intentFilter);
+        }
+
     }
 
     @Override

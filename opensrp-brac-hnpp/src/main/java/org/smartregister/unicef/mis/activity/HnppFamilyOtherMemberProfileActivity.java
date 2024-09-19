@@ -1258,8 +1258,9 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
             }
             menu.findItem(R.id.action_malaria_diagnosis).setVisible(false);
         }
-
-
+        menu.findItem(R.id.action_kmc_home).setVisible(false);
+        menu.findItem(R.id.action_kmc_hospital).setVisible(false);
+        menu.findItem(R.id.action_scanu_followup).setVisible(false);
     }
     private void updateRiskView(boolean isRisk){
         findViewById(R.id.risk_view).setVisibility(isRisk?View.VISIBLE:View.GONE);

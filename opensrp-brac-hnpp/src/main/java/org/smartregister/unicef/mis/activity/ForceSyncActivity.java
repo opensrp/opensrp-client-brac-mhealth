@@ -338,7 +338,11 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                         invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
                         IntentFilter intentFilter = new IntentFilter();
                         intentFilter.addAction("COMPARE_DATA");
-                        registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                        if (android.os.Build.VERSION.SDK_INT >= 31) {
+                            registerReceiver(invalidDataBroadcastReceiver, intentFilter,2);
+                        } else {
+                            registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                        }
                         showProgressDialog(getString(R.string.data_syncing));
                         CompareDataServiceJob.scheduleJobImmediately(CompareDataServiceJob.TAG);
                         dialog.dismiss();
@@ -466,7 +470,12 @@ public class ForceSyncActivity extends SecuredActivity implements SyncStatusBroa
                 invalidDataBroadcastReceiver = new InvalidSyncBroadcast();
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter.addAction("INVALID_SYNC");
-                registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                if (android.os.Build.VERSION.SDK_INT >= 31) {
+                    registerReceiver(invalidDataBroadcastReceiver, intentFilter,2);
+                } else {
+                    registerReceiver(invalidDataBroadcastReceiver, intentFilter);
+                }
+
                 showProgressDialog(getString(R.string.invalidate_data_syncing));
                 dialog.dismiss();
                 SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(ForceSyncActivity.this);

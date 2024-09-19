@@ -807,8 +807,16 @@ public class BluetoothPeripheral {
     }
 
     private void registerBondingBroadcastReceivers() {
-        context.registerReceiver(bondStateReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
-        context.registerReceiver(pairingRequestBroadcastReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST));
+        if (android.os.Build.VERSION.SDK_INT >= 31) {
+            context.registerReceiver(bondStateReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED),2);
+        } else {
+            context.registerReceiver(bondStateReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
+        }
+        if (android.os.Build.VERSION.SDK_INT >= 31) {
+            context.registerReceiver(pairingRequestBroadcastReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST),2);
+        } else {
+            context.registerReceiver(pairingRequestBroadcastReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST));
+        }
     }
 
     /**
