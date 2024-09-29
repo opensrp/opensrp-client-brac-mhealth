@@ -98,7 +98,12 @@ public class VaccinatorHomeActivity extends SecuredActivity implements View.OnCl
     }
 
     private String getLastSyncDateTime(){
-        long lastSynTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_SYNC_HPV)==null?System.currentTimeMillis():Long.parseLong(CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_SYNC_HPV));
+        long lastSynTime = System.currentTimeMillis();
+        String lastTime = CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_SYNC_HPV);
+        Log.v("getLastSyncDateTime","getLastSyncDateTime>>"+lastTime);
+        if(!TextUtils.isEmpty(lastTime)){
+            lastSynTime = Long.parseLong(CoreLibrary.getInstance().context().allSharedPreferences().getPreference(LAST_SYNC_HPV));
+        }
         return HnppConstants.DDMMYY.format(lastSynTime);
     }
     public String getBuildDate() {
