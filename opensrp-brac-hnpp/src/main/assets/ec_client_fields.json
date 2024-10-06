@@ -125,6 +125,13 @@
           }
         },
         {
+          "column_name": "catchment",
+          "type": "Client",
+          "json_mapping": {
+            "field": "attributes.catchment"
+          }
+        },
+        {
           "column_name": "holding_no",
           "type": "Client",
           "json_mapping": {

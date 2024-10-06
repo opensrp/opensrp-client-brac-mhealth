@@ -19,6 +19,7 @@ import org.smartregister.unicef.mis.location.BlockLocation;
 import org.smartregister.unicef.mis.location.HALocation;
 import org.smartregister.unicef.mis.location.SSModel;
 import org.smartregister.unicef.mis.location.WardLocation;
+import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.util.DateTimeTypeConverter;
 
 import java.util.ArrayList;
@@ -213,6 +214,9 @@ public class HALocationRepository extends BaseRepository {
         try {
             String sql = "SELECT block_id,block_geo FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+wardId+"' group by "+BLOCK_ID;
             Log.v("BLOCK_LOCATION","getOnlyBlockLocationByWardId>>>"+sql);
+            if(HnppConstants.isCCEnable()){
+                sql = "SELECT block_id,block_geo FROM " + getLocationTableName()+" where "+WARD_ID+" = '"+wardId+"' group by "+BLOCK_ID+" limit 2";
+            }
             cursor = getReadableDatabase().rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 locations.add(readBlockCursor(cursor));

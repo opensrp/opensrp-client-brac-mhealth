@@ -1637,6 +1637,9 @@ public class HnppConstants extends CoreConstants {
        String isUrban =  CoreLibrary.getInstance().context().allSharedPreferences().getPreference(IS_URBAN);
         return isUrban.equalsIgnoreCase("true");
     }
+    public static boolean isCCEnable(){
+        return true;
+    }
     public static boolean isDisabilityEnable(){
         return true;
 //        String isUrban =  CoreLibrary.getInstance().context().allSharedPreferences().getPreference(DISABILITY_ENABLE);

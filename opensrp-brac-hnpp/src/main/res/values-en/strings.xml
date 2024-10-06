@@ -70,6 +70,8 @@
     <string name="ss_month">Select month</string>
     <string name="old_ward">Old Ward</string>
     <string name="new_ward">New Ward</string>
+    <string name="only_ward">Ward</string>
+    <string name="catchment">Catchment</string>
     <string name="block_outreach">Sub-Block/ Site</string>
     <string name="refer_place">Place of Referral</string>
     <string name="division_refer">Division(Refer)</string>

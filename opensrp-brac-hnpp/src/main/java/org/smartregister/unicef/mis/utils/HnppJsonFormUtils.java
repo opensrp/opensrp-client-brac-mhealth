@@ -1251,6 +1251,10 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         JSONArray field = fields(form, STEP1);
         JSONObject spinner = getFieldJSONObject(field, UNION_ZONE);
         spinner.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
+        if(HnppConstants.isCCEnable()){
+            spinner.put(JsonFormUtils.VALUE,jsonArray.get(0));
+            spinner.put(READ_ONLY,true);
+        }
 
         JSONArray campJsonArray = new JSONArray();
         ArrayList<CampModel> campModels = HnppApplication.getCampRepository().getAllCamp();

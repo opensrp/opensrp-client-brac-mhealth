@@ -38,6 +38,7 @@ import org.smartregister.unicef.mis.location.HALocation;
 import org.smartregister.unicef.mis.location.WardLocation;
 import org.smartregister.unicef.mis.model.GlobalLocationModel;
 import org.smartregister.unicef.mis.repository.GlobalLocationRepository;
+import org.smartregister.unicef.mis.utils.HnppConstants;
 import org.smartregister.unicef.mis.utils.HnppDBUtils;
 import org.smartregister.util.Utils;
 
@@ -90,18 +91,41 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         super.onItemSelected(parent, view, position, id);
+
         if (position != -1 && parent instanceof MaterialSpinner) {
+            if (!((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.catchment))) {
+                if(HnppConstants.isCCEnable()){
+                    processOldWard(0);
+                }
+                if( HnppConstants.isCCEnable()){
+                   try{
+                       processNewWard(oldWardIds.get(0));
+                   }catch (Exception e){
+                       e.printStackTrace();
+                   }
+                }
+            }
+
             if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.union_zone))) {
                 if(isManuallyPressed){
                     processOldWard(position);
                 }
+
+
             }
             else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.old_ward))) {
                 if(isManuallyPressed){
                     processNewWard(oldWardIds.get(position));
                 }
+
+
             }
             else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward))) {
+                if(isManuallyPressed){
+                    processBlock(newWardIds.get(position));
+                }
+            }
+            else if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.only_ward))) {
                 if(isManuallyPressed){
                     processBlock(newWardIds.get(position));
                 }
@@ -524,6 +548,9 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                 if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
                         (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
                                 .equalsIgnoreCase(getContext().getResources().getString(R.string.old_ward).trim()))) {
+                    if(HnppConstants.isCCEnable()){
+                        ((MaterialSpinner) formdataviews.get(i)).setVisibility(View.GONE);
+                    }
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "old_ward");
@@ -575,16 +602,17 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         ArrayList<View> formdataviews = new ArrayList<>(getJsonApi().getFormDataViews());
         for (int i = 0; i < formdataviews.size(); i++) {
             if (formdataviews.get(i) instanceof MaterialSpinner) {
-                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&
-                        (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
-                                .equalsIgnoreCase(getContext().getResources().getString(R.string.new_ward).trim()))) {
+                if (!TextUtils.isEmpty(((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText()) &&((((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                        .equalsIgnoreCase(getContext().getResources().getString(R.string.new_ward).trim())) || (((MaterialSpinner) formdataviews.get(i)).getFloatingLabelText().toString().trim()
+                        .equalsIgnoreCase(getContext().getResources().getString(R.string.only_ward).trim())))
+                        ) {
 
                     try{
                         JSONObject oldWardNameObj = getFieldJSONObject(getStep("step1").getJSONArray("fields"), "ward_name");
                         JSONArray jsonArray = new JSONArray();
                         for(WardLocation wardLocation : newWards){
                             jsonArray.put(wardLocation.ward.name);
-                            newWardNames.add(wardLocation.ward.name);
+                            newWardNames.add(changeWardName(wardLocation.ward.name));
                             newWardIds.add(wardLocation.ward.id+"");
                         }
                         oldWardNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);
@@ -602,7 +630,8 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward).trim())) {
+                            if (((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.new_ward).trim()) ||
+                                    ((MaterialSpinner) parent).getFloatingLabelText().toString().equalsIgnoreCase(view.getContext().getResources().getString(R.string.only_ward).trim())) {
                                 if(position!=-1){
                                     selectedNewWardName = adapter.getItem(position);
                                     processBlock(newWardIds.get(position));
@@ -623,6 +652,21 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
             }
         }
     }
+
+    private String changeWardName(String name) {
+        if(HnppConstants.isCCEnable()){
+            if(name.contains("DHAKA NORTH CITY CORPORATION")) return name.replace("DHAKA NORTH CITY CORPORATION","DNCC");
+        }
+        return name;
+    }
+    private String changeBlockName(String name) {
+        if(HnppConstants.isCCEnable()){
+            if(name.equalsIgnoreCase("STATIC-01 WORD EPI ROOM - SURJER HASHI NETWORK - 12/D 34/1 PALLABI"))
+                return name.replace("STATIC-01 WORD EPI ROOM - SURJER HASHI NETWORK - 12/D 34/1 PALLABI","Mirpur Nagor Sastho Kendro");
+        }
+        return name;
+    }
+
     private void processBlock(String newWardId) {
         String upazilaId = HnppApplication.getHALocationRepository().getUpazilaIdByBlockId(Integer.parseInt(newWardId));
         Log.v("PROCESS_PRESENT","processPresentPO>>"+upazilaId);
@@ -642,7 +686,7 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
                         JSONArray jsonArray = new JSONArray();
                         for(BlockLocation blockLocation : blocks){
                             jsonArray.put(blockLocation.block.name);
-                            blockNames.add(blockLocation.block.name);
+                            blockNames.add(changeBlockName(blockLocation.block.name));
                             blocksIds.add(blockLocation.block.id+"");
                         }
                         blockNameObj.put(org.smartregister.family.util.JsonFormUtils.VALUES,jsonArray);

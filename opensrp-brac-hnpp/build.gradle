@@ -138,6 +138,19 @@ android {
 //            buildConfigField "String", 'citizen_url', '"http://192.168.22.22:9003/"'
 
         }
+        cc{
+            versionCode 22
+            versionName "1.2.10_cc"
+            dimension = 'baseDimension'
+            applicationIdSuffix ".cc"
+            buildConfigField "boolean", 'IS_TRAINING', 'true'
+            buildConfigField "boolean", 'IS_MIS', 'true'
+            buildConfigField "String", 'opensrp_url_training', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'opensrp_url_live', '"https://dghsha-training.dghs.gov.bd/opensrp/"'
+            buildConfigField "String", 'citizen_url', '"https://api-training-vaxepi.dghs.gov.bd/"'
+//            buildConfigField "String", 'citizen_url', '"http://192.168.22.22:9003/"'
+
+        }
         normal{
             versionCode 14
             versionName "1.1.2_dev"
@@ -195,6 +208,7 @@ android {
             buildConfigField "String", 'opensrp_url_live', '"http://unicef-ha-qa.mpower-social.com/opensrp/"'
             buildConfigField "String", 'citizen_url', '"http://citizen-portal.mpower-social.com/"'
         }
+
     }
 
 }

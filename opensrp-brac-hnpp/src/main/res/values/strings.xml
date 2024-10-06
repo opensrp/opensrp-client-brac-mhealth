@@ -105,10 +105,12 @@
     <string name="menu_simprints">সদস্য খুঁজি</string>
     <string name="unique_id_form_field">সিস্টেম নাম্বার</string>
     <string name="union_zone">ইউনিয়ন/ জোন</string>
+    <string name="catchment">ক্যাচমেন্ট</string>
     <string name="ss_year">বছর নির্বাচন করুন</string>
     <string name="ss_month">মাস নির্বাচন করুন</string>
     <string name="old_ward">পুরাতন ওয়ার্ড</string>
     <string name="new_ward">নতুন ওয়ার্ড</string>
+    <string name="only_ward">ওয়ার্ড</string>
     <string name="block_outreach">সাব-ব্লক/ সাইট</string>
     <string name="division_refer">বিভাগ(রেফার)</string>
     <string name="refer_place">রেফারের স্থান</string>

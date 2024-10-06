@@ -71,6 +71,8 @@
     <string name="ss_month">মাস নির্বাচন করুন</string>
     <string name="old_ward">পুরাতন ওয়ার্ড</string>
     <string name="new_ward">নতুন ওয়ার্ড</string>
+    <string name="only_ward">ওয়ার্ড</string>
+    <string name="catchment">ক্যাচমেন্ট</string>
     <string name="block_outreach">সাব-ব্লক/ সাইট</string>
     <string name="division_refer">বিভাগ(রেফার)</string>
     <string name="refer_place">রেফারের স্থান</string>
