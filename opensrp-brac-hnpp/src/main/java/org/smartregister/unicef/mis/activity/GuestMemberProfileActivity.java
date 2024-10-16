@@ -737,11 +737,6 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
                                 VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
                             },1000);
                             HnppConstants.isViewRefresh = true;
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
                         }
                     }, new Runnable() {
                         @Override
@@ -791,13 +786,13 @@ public class GuestMemberProfileActivity extends BaseProfileActivity implements G
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
         if(womanImmunizationFragment!=null) womanImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
         if(childImmunizationFragment!=null){
-            childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    childImmunizationFragment.updateImmunizationView();
-                }
-            },1000);
+//            childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    childImmunizationFragment.updateImmunizationView();
+//                }
+//            },1000);
         }
     }
 }

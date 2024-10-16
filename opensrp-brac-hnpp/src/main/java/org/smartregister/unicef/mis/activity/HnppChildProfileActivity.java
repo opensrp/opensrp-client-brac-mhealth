@@ -1343,12 +1343,7 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
                                 VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
                             },1000);
                             HnppConstants.isViewRefresh = true;
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            updateMissedScheduleIcon();
+                            registerVaccineBroadcast();
                         }
                     }, new Runnable() {
                         @Override
@@ -1397,13 +1392,13 @@ public class HnppChildProfileActivity extends HnppCoreChildProfileActivity imple
 
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
-        childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
-        handler.postDelayed(() -> {
-            childImmunizationFragment.updateImmunizationView();
-            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
-        },1000);
-        HnppConstants.isViewRefresh = true;
-        registerVaccineBroadcast();
+//        childImmunizationFragment.onUndoVaccination(vaccineWrapper,view);
+//        handler.postDelayed(() -> {
+//            childImmunizationFragment.updateImmunizationView();
+//            VaccineDueUpdateServiceJob.scheduleJobImmediately(VaccineDueUpdateServiceJob.TAG);
+//        },1000);
+//        HnppConstants.isViewRefresh = true;
+//        registerVaccineBroadcast();
     }
     private void updateMissedScheduleIcon(){
         String vaccineDueDate = HnppDBUtils.getDueVaccineDate(childBaseEntityId);

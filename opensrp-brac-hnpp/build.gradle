@@ -188,6 +188,7 @@ android {
         qa{
             versionCode 6
             versionName "1.0.6_qa"
+            applicationIdSuffix ".qa"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'

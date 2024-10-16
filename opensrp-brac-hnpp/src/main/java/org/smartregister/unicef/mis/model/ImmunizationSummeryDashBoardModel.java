@@ -79,17 +79,55 @@ public class ImmunizationSummeryDashBoardModel implements DashBoardContract.Mode
         String query = null, compareDate = "date", vaccineTable = "vaccines";
         if(fromMonth == -1 && toMonth == -1){
             if(TextUtils.isEmpty(blockId)){
-                query = MessageFormat.format("select count(*) as count from {0} where name = {1} GROUP by base_entity_id ", vaccineTable,"'"+vaccineName+"'");
+                query = MessageFormat.format("select count(*) as count from {0} where name = {1} and is_invalid = 0", vaccineTable,"'"+vaccineName+"'");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} where block_id  = {1} and name = {2} GROUP by base_entity_id ", vaccineTable,blockId,"'"+vaccineName+"'");
+                query = MessageFormat.format("select count(*) as count from {0} where block_id  = {1} and name = {2}  and is_invalid = 0", vaccineTable,blockId,"'"+vaccineName+"'");
 
             }
         }
         else{
             if(TextUtils.isEmpty(blockId)){
-                query = MessageFormat.format("select count(*) as count from {0} where date is not null {1} and name = {2} GROUP by base_entity_id ", vaccineTable,getBetweenCondition(fromMonth,toMonth,compareDate),"'"+vaccineName+"'");
+                query = MessageFormat.format("select count(*) as count from {0} where date is not null {1} and name = {2}  and is_invalid = 0", vaccineTable,getBetweenCondition(fromMonth,toMonth,compareDate),"'"+vaccineName+"'");
             }else{
-                query = MessageFormat.format("select count(*) as count from {0} where date is not null {1} {2} and name = {3} GROUP by base_entity_id ", vaccineTable,getSSCondition(blockId),getBetweenCondition(fromMonth,toMonth,compareDate),"'"+vaccineName+"'");
+                query = MessageFormat.format("select count(*) as count from {0} where date is not null {1} {2} and name = {3}  and is_invalid = 0", vaccineTable,getSSCondition(blockId),getBetweenCondition(fromMonth,toMonth,compareDate),"'"+vaccineName+"'");
+
+            }
+        }
+        Log.v("IMMUNIZATION_QUERY","getHHCount:"+query);
+        Cursor cursor = null;
+        // try {
+        cursor = HnppApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, new String[]{});
+        if(cursor !=null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                dashBoardData1.setCount(cursor.getInt(0));
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        }
+
+        return dashBoardData1;
+    }
+    public DashBoardData getInvalidImmunizationCount(String title, String blockId, long fromMonth, long toMonth,String vaccineName){
+        DashBoardData  dashBoardData1 = new DashBoardData();
+        dashBoardData1.setTitle(title);
+        String query = null, compareDate = "date", vaccineTable = "vaccines";
+        if(fromMonth == -1 && toMonth == -1){
+            if(TextUtils.isEmpty(blockId)){
+                query = MessageFormat.format("select count(*) as count from {0} where name = {1} and is_invalid = 1", vaccineTable,"'"+vaccineName+"'");
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} where block_id  = {1} and name = {2} and is_invalid = 1 ", vaccineTable,blockId,"'"+vaccineName+"'");
+
+            }
+        }
+        else{
+            if(TextUtils.isEmpty(blockId)){
+                query = MessageFormat.format("select count(*) as count from {0} where date is not null {1} and name = {2} and is_invalid = 1 ", vaccineTable,getBetweenCondition(fromMonth,toMonth,compareDate),"'"+vaccineName+"'");
+            }else{
+                query = MessageFormat.format("select count(*) as count from {0} where date is not null {1} {2} and name = {3}  and is_invalid = 1", vaccineTable,getSSCondition(blockId),getBetweenCondition(fromMonth,toMonth,compareDate),"'"+vaccineName+"'");
 
             }
         }

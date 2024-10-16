@@ -50,6 +50,7 @@ import org.smartregister.unicef.mis.custom_view.FamilyMemberFloatingMenu;
 import org.smartregister.unicef.mis.fragment.HnppMemberProfileDueFragment;
 import org.smartregister.unicef.mis.fragment.MemberHistoryFragment;
 import org.smartregister.unicef.mis.fragment.WomanImmunizationFragment;
+import org.smartregister.unicef.mis.job.VaccineDueUpdateServiceJob;
 import org.smartregister.unicef.mis.job.VisitLogServiceJob;
 import org.smartregister.unicef.mis.listener.FloatingMenuListener;
 import org.smartregister.unicef.mis.listener.OnClickFloatingMenu;
@@ -100,6 +101,7 @@ import mpower.iot.IOTActivity;
 import timber.log.Timber;
 
 import static org.smartregister.unicef.mis.utils.HnppConstants.MEMBER_ID_SUFFIX;
+import static org.smartregister.unicef.mis.utils.HnppConstants.showDialogWithAction;
 
 public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberProfileActivity  implements FamilyOtherMemberProfileExtendedContract.View, VaccinationActionListener, ServiceActionListener {
     public static final int REQUEST_HOME_VISIT = 5555;
@@ -1315,14 +1317,66 @@ public class HnppFamilyOtherMemberProfileActivity extends BaseFamilyOtherMemberP
 
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> arrayList, View view) {
-        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
-        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+
+
+        if(arrayList!=null && arrayList.size()>0){
+            StringBuilder builder = new StringBuilder();
+            for (VaccineWrapper vaccineWrapper: arrayList){
+                builder.append(vaccineWrapper.getName());
+                builder.append("\n --------------\n");
+                builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                builder.append("\n --------------\n");
+            }
+            showDialogWithAction(this, getString(R.string.tika_info_comfirm), builder.toString()
+                    ,new Runnable() {
+                        @Override
+                        public void run() {
+                            if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateToday(arrayList,view);
+                            handler.postDelayed(() -> {
+                                if(womanImmunizationFragment !=null) womanImmunizationFragment.updateImmunizationView();
+                                VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+                            },2000);
+                            HnppConstants.isViewRefresh = true;
+
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+        }
     }
 
     @Override
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> arrayList, View view) {
-        if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
-        VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+        if(arrayList!=null && arrayList.size()>0){
+            StringBuilder builder = new StringBuilder();
+            for (VaccineWrapper vaccineWrapper: arrayList){
+                builder.append(vaccineWrapper.getName());
+                builder.append("\n --------------\n");
+                builder.append(HnppConstants.DDMMYY.format(vaccineWrapper.getUpdatedVaccineDate().toDate()));
+                builder.append("\n --------------\n");
+            }
+            showDialogWithAction(this, getString(R.string.tika_info_comfirm), builder.toString()
+                    ,new Runnable() {
+                        @Override
+                        public void run() {
+                            if(womanImmunizationFragment!=null) womanImmunizationFragment.onVaccinateEarlier(arrayList,view);
+                            handler.postDelayed(() -> {
+                                if(womanImmunizationFragment!=null) womanImmunizationFragment.updateImmunizationView();
+                                VaccineServiceJob.scheduleJobImmediately(VaccineServiceJob.TAG);
+
+                            },2000);
+                            HnppConstants.isViewRefresh = true;
+                        }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+        }
     }
 
     @Override

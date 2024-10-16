@@ -421,9 +421,9 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
     }
 
 
-    public void onUndoVaccination(VaccineWrapper tag, View v) {
-        org.smartregister.util.Utils.startAsyncTask(new UndoVaccineTask(tag, v), null);
-    }
+//    public void onUndoVaccination(VaccineWrapper tag, View v) {
+//        org.smartregister.util.Utils.startAsyncTask(new UndoVaccineTask(tag, v), null);
+//    }
 
     public void addVaccinationDialogFragment(ArrayList<VaccineWrapper> vaccineWrappers, VaccineGroup vaccineGroup) {
 
@@ -786,68 +786,68 @@ public class ChildImmunizationFragment extends BaseProfileFragment implements  S
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class UndoVaccineTask extends AsyncTask<Void, Void, Void> {
-
-        private VaccineWrapper tag;
-        private View v;
-        private final VaccineRepository vaccineRepository;
-        private final AlertService alertService;
-        private List<Vaccine> vaccineList;
-        private List<Alert> alertList;
-        private List<String> affectedVaccines;
-
-        public UndoVaccineTask(VaccineWrapper tag, View v) {
-            this.tag = tag;
-            this.v = v;
-            vaccineRepository = ImmunizationLibrary.getInstance().vaccineRepository();
-            alertService = ImmunizationLibrary.getInstance().context().alertService();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (tag != null) {
-
-                if (tag.getDbKey() != null) {
-                    Long dbKey = tag.getDbKey();
-                    vaccineRepository.deleteVaccine(dbKey);
-                    String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-                    if (!TextUtils.isEmpty(dobString)) {
-                        DateTime dateTime = new DateTime(dobString);
-                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
-                        vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
-                        alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
-                                VaccinateActionUtils.allAlertNames("child"));
-                    }
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void params) {
-            super.onPostExecute(params);
-
-            // Refresh the vaccine group with the updated vaccine
-            tag.setUpdatedVaccineDate(null, false);
-            tag.setDbKey(null);
-
-            View view = getLastOpenedView();
-
-            ArrayList<VaccineWrapper> wrappers = new ArrayList<>();
-            wrappers.add(tag);
-            updateVaccineGroupViews(view, wrappers, vaccineList, true);
-            updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
-        }
-    }
+//    @SuppressLint("StaticFieldLeak")
+//    private class UndoVaccineTask extends AsyncTask<Void, Void, Void> {
+//
+//        private VaccineWrapper tag;
+//        private View v;
+//        private final VaccineRepository vaccineRepository;
+//        private final AlertService alertService;
+//        private List<Vaccine> vaccineList;
+//        private List<Alert> alertList;
+//        private List<String> affectedVaccines;
+//
+//        public UndoVaccineTask(VaccineWrapper tag, View v) {
+//            this.tag = tag;
+//            this.v = v;
+//            vaccineRepository = ImmunizationLibrary.getInstance().vaccineRepository();
+//            alertService = ImmunizationLibrary.getInstance().context().alertService();
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            if (tag != null) {
+//
+//                if (tag.getDbKey() != null) {
+//                    Long dbKey = tag.getDbKey();
+//                    vaccineRepository.deleteVaccine(dbKey);
+//                    String dobString = org.smartregister.util.Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+//                    if (!TextUtils.isEmpty(dobString)) {
+//                        DateTime dateTime = new DateTime(dobString);
+//                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
+//                        vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
+//                        alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
+//                                VaccinateActionUtils.allAlertNames("child"));
+//                    }
+//                }
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void params) {
+//            super.onPostExecute(params);
+//
+//            // Refresh the vaccine group with the updated vaccine
+//            tag.setUpdatedVaccineDate(null, false);
+//            tag.setDbKey(null);
+//
+//            View view = getLastOpenedView();
+//
+//            ArrayList<VaccineWrapper> wrappers = new ArrayList<>();
+//            wrappers.add(tag);
+//            updateVaccineGroupViews(view, wrappers, vaccineList, true);
+//            updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
+//        }
+//    }
 
     private void updateVaccineGroupsUsingAlerts(List<String> affectedVaccines, List<Vaccine> vaccineList, List<Alert> alerts) {
-        if (affectedVaccines != null && vaccineList != null) {
+        if (affectedVaccines != null && vaccineList != null && vaccineGroups!=null) {
             // Update all other affected vaccine groups
             HashMap<VaccineGroup, ArrayList<VaccineWrapper>> affectedGroups = new HashMap<>();
             for (String curAffectedVaccineName : affectedVaccines) {

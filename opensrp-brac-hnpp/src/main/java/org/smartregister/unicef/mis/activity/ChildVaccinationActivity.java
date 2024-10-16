@@ -108,7 +108,7 @@ public class ChildVaccinationActivity extends SecuredActivity implements Vaccina
     @Override
     public void onUndoVaccination(VaccineWrapper vaccineWrapper, View view) {
         isActionTaken = true;
-        immunizationFragment.onUndoVaccination(vaccineWrapper,view);
+//        immunizationFragment.onUndoVaccination(vaccineWrapper,view);
     }
 
     @Override

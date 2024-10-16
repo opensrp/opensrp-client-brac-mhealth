@@ -1,6 +1,5 @@
 package org.smartregister.unicef.mis.interactor;
 
-import static org.smartregister.util.Log.logError;
 import static java.text.MessageFormat.format;
 
 import android.content.Context;

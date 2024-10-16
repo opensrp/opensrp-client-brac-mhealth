@@ -1,5 +1,7 @@
 package org.smartregister.unicef.mis.dao;
 
+import android.annotation.SuppressLint;
+
 import org.smartregister.domain.Alert;
 import org.smartregister.domain.AlertStatus;
 import org.smartregister.repository.AlertRepository;
@@ -18,6 +20,7 @@ public class AlertDao extends AbstractDao {
         return AbstractDao.readData(sql, getAlertDataMap());
     }
 
+    @SuppressLint("Range")
     private static DataMap<Alert> getAlertDataMap() {
         if (alertDataMap == null) {
             alertDataMap = c -> new Alert(

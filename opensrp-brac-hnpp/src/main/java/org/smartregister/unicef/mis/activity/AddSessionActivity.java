@@ -577,24 +577,29 @@ public class AddSessionActivity extends SecuredActivity implements AdapterView.O
             @Override
             public void onClick(View view) {
 
-                Log.v("SELECTED_MONTH","selectedDates:"+selectedDates+":");
-
                 if(!HnppConstants.isUrbanUser()){
                     boolean isValid = validateDate(month);
                     if(isComesFromAdditional){
                         isValid = additionalValidationCheck(month,getDateFromAllDates().toString());
                     }
+                    Log.v("DATE_DIFF","isValid:"+isValid+":month:"+month);
+                    updateSessionCount();
                     if(!isValid){
                         Toast.makeText(AddSessionActivity.this,getString(R.string.difference_date),Toast.LENGTH_LONG).show();
                         return;
                         //editText.setText("");
                     }
-                    updateSessionCount();
+
                 }else{
                     count += selectedDates.size();
                 }
+
                 editText.setText(getDateFromAllDates().toString());
+                if(!HnppConstants.isUrbanUser()){
+                    updateSessionCount();
+                }
                 updateYearlyCount();
+
 
                 dialog.dismiss();
             }

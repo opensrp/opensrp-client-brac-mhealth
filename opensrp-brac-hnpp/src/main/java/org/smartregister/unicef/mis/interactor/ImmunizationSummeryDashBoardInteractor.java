@@ -62,6 +62,25 @@ public class ImmunizationSummeryDashBoardInteractor implements DashBoardContract
         addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.no_mr1),blockId,fromMonth,toMonth,"mr_1"));
         addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.no_mr2),blockId,fromMonth,toMonth,"mr_2"));
 
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_opv1),blockId,fromMonth,toMonth,"opv_1"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_opv2),blockId,fromMonth,toMonth,"opv_2"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_opv3),blockId,fromMonth,toMonth,"opv_3"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_penta1),blockId,fromMonth,toMonth,"penta_1"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_penta2),blockId,fromMonth,toMonth,"penta_2"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_penta3),blockId,fromMonth,toMonth,"penta_3"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_pcv1),blockId,fromMonth,toMonth,"pcv_1"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_pcv2),blockId,fromMonth,toMonth,"pcv_2"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_pcv3),blockId,fromMonth,toMonth,"pcv_3"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_fipv1),blockId,fromMonth,toMonth,"fipv_1"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_fipv2),blockId,fromMonth,toMonth,"fipv_2"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_mr1),blockId,fromMonth,toMonth,"mr_1"));
+        addToDashBoardList(model.getInvalidImmunizationCount(HnppApplication.getInstance().getString(R.string.no_invalid_mr2),blockId,fromMonth,toMonth,"mr_2"));
+
+        addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.td_1),blockId,fromMonth,toMonth,"tt_1"));
+        addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.td_2),blockId,fromMonth,toMonth,"tt_2"));
+        addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.td_3),blockId,fromMonth,toMonth,"tt_3"));
+        addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.td_4),blockId,fromMonth,toMonth,"tt_4"));
+        addToDashBoardList(model.getImmunizationCount(HnppApplication.getInstance().getString(R.string.td_5),blockId,fromMonth,toMonth,"tt_5"));
     }
     // need to maintain serial to display
 
