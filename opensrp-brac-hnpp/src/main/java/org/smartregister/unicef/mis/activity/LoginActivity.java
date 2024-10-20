@@ -345,6 +345,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
             Intent intent = new Intent(this, VaccinatorHomeActivity.class);
             intent.putExtra(Constants.INTENT_KEY.IS_REMOTE_LOGIN, remote);
             startActivity(intent);
+            finish();
         }else{
             if (remote) {
                 Utils.startAsyncTask(new SaveTeamLocationsTask(), null);

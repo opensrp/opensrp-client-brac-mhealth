@@ -184,7 +184,7 @@ public class VaccinatorHomeActivity extends SecuredActivity implements View.OnCl
         serviceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         serviceDialog.setContentView(R.layout.dialog_with_one_button);
         TextView titleTv = serviceDialog.findViewById(R.id.title_tv);
-        titleTv.setText("আপনার ডিভাইস এ আনসিঙ্ক ডাটা আছে। ডাটা সিঙ্ক করুন ");
+        titleTv.setText("আপনার ডিভাইস এ আনসিঙ্ক ডাটা আছে। ডাটা সিঙ্ক করুন ইন্টারনেট সংযোগ রাখুন");
         Button ok_btn = serviceDialog.findViewById(R.id.ok_btn);
 
         ok_btn.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +247,7 @@ public class VaccinatorHomeActivity extends SecuredActivity implements View.OnCl
         EventClientRepository eventClientRepository = HnppApplication.getHNPPInstance().getEventClientRepository();
         int ec = eventClientRepository.getUnSyncEventsCount();
         if(ec==0){
-            super.onBackPressed();
+            finish();
         }else{
             isFromBackPress = true;
             showDataSyncDialog();

@@ -154,14 +154,15 @@ android {
 
         }
         production{
-            versionCode 32
-            versionName "1.1.13"
+            versionCode 34
+            versionName "1.1.14"
             dimension = 'baseDimension'
             buildConfigField "boolean", 'IS_TRAINING', 'false'
             buildConfigField "boolean", 'IS_MIS', 'true'
             buildConfigField "String", 'opensrp_url_training', '"https://e-tracker.dghs.gov.bd/opensrp/"'
             buildConfigField "String", 'opensrp_url_live', '"https://e-tracker.dghs.gov.bd/opensrp/"'
-            buildConfigField "String", 'citizen_url', '"https://api-vaxepi.dghs.gov.bd/"'
+//            buildConfigField "String", 'citizen_url', '"https://api-vaxepi.dghs.gov.bd/"'
+            buildConfigField "String", 'citizen_url', '"https://api.vaxepi.gov.bd/"'
         }
         mis_dev{
             versionCode 9
