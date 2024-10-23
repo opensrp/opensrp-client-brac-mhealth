@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vijay.jsonwizard.widgets.DatePickerFactory;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -67,6 +68,8 @@ import org.smartregister.util.FormUtils;
 import org.smartregister.util.LangUtils;
 import org.smartregister.view.LocationPickerView;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,6 +102,44 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
     public static String[] monthStr = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
     public static String[] monthBanglaStr = {"জানুয়ারী","ফেব্রুয়ারী","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"};
+    public static class Facility {
+        String userid;
+        ArrayList<String> catchments;
+    }
+    public static ArrayList<String> getCatchmentByProvider(){
+        String jsonString = getJsonDataFromAsset(HnppApplication.getHNPPInstance(), "facility_mapping.json");
+        Gson gson = new Gson();
+        Type userListType = new TypeToken<ArrayList<Facility>>(){}.getType();
+        ArrayList<Facility> users = gson.fromJson(jsonString, userListType);
+        String userName = HnppApplication.getInstance().getContext().allSharedPreferences().fetchRegisteredANM();
+        ArrayList<String> catchments = getCatchmentsForUser(userName, users);
+        return catchments;
+
+    }
+    public static ArrayList<String> getCatchmentsForUser(String userId, ArrayList<Facility> users) {
+        for (Facility user : users) {
+            if (user.userid.equals(userId)) {
+                return user.catchments;  // Return catchments if userid matches
+            }
+        }
+        return null;  // Return null if no user with the given userid is found
+    }
+    private static String getJsonDataFromAsset(Context context, String fileName) {
+        String json = null;
+        try {
+            java.io.InputStream inputStream = context.getAssets().open(fileName);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
 
     public static Pair<List<Client>, List<Event>> processFamilyUpdateRelations(HnppApplication HnppApplication, Context context, FamilyMember familyMember, String lastLocationId) throws Exception {
         List<Client> clients = new ArrayList<>();
@@ -981,6 +1022,19 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
             e.printStackTrace();
         }
     }
+    public static JSONObject updateFormWithCatchment(JSONObject form, JSONArray campTypeArr) {
+        try {
+            JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
+            JSONArray jsonArray = stepOne.getJSONArray(org.smartregister.family.util.JsonFormUtils.FIELDS);
+            JSONObject camp_types = getFieldJSONObject(jsonArray, "catchment");
+            camp_types.put(org.smartregister.family.util.JsonFormUtils.VALUES,campTypeArr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return form;
+    }
     public static JSONObject updateFormWithChampType(JSONObject form, JSONArray campTypeArr) {
         try {
             JSONObject stepOne = form.getJSONObject(org.smartregister.family.util.JsonFormUtils.STEP1);
@@ -1261,12 +1315,18 @@ public class HnppJsonFormUtils extends CoreJsonFormUtils {
         for (CampModel campModel:campModels){
             campJsonArray.put(campModel.type+","+campModel.centerName);
         }
+        JSONArray ccJsonArray = new JSONArray();
+        ArrayList<String> ccModel = HnppJsonFormUtils.getCatchmentByProvider();
+        for (String catchment :ccModel){
+            ccJsonArray.put(catchment);
+        }
         JSONArray divJsonArray = new JSONArray();
         ArrayList<GlobalLocationModel> divModels = HnppApplication.getGlobalLocationRepository().getLocationByTagId(GlobalLocationRepository.LOCATION_TAG.DIVISION.getValue());
         for (GlobalLocationModel globalLocationModel:divModels){
             divJsonArray.put(globalLocationModel.name);
         }
-        updateFormWithChampType(form,campJsonArray);
+        if(campJsonArray.length()>0)updateFormWithChampType(form,campJsonArray);
+        if(ccJsonArray.length()>0)updateFormWithCatchment(form,ccJsonArray);
         updateFormWithDivision(form,divJsonArray);
         return form;
     }

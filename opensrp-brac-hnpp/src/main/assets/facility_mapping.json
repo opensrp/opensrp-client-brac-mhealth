@@ -1,0 +1,50 @@
+[
+    {
+      "userid": "imtiaz",
+      "catchments": ["Catchment 1", "Catchment 2"]
+    },
+    {
+      "userid": "chwbanani2",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwmirpur1",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwmirpur2",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwjatrabari1",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwjatrabari2",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwkodomtoli1",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwkodomtoli2",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwtongi1",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwtongi2",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwnarayanganj1",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    },
+    {
+      "userid": "chwnarayanganj2",
+      "catchments": ["Catchment 3", "Catchment 4"]
+    }
+  ]

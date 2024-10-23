@@ -660,10 +660,10 @@ public class HNPPJsonFormFragment extends JsonWizardFormFragment {
         return name;
     }
     private String changeBlockName(String name) {
-        if(HnppConstants.isCCEnable()){
-            if(name.equalsIgnoreCase("STATIC-01 WORD EPI ROOM - SURJER HASHI NETWORK - 12/D 34/1 PALLABI"))
-                return name.replace("STATIC-01 WORD EPI ROOM - SURJER HASHI NETWORK - 12/D 34/1 PALLABI","Mirpur Nagor Sastho Kendro");
-        }
+//        if(HnppConstants.isCCEnable()){
+//            if(name.equalsIgnoreCase("STATIC-01 WORD EPI ROOM - SURJER HASHI NETWORK - 12/D 34/1 PALLABI"))
+//                return name.replace("STATIC-01 WORD EPI ROOM - SURJER HASHI NETWORK - 12/D 34/1 PALLABI","Mirpur Nagor Sastho Kendro");
+//        }
         return name;
     }
 

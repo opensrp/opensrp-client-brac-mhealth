@@ -139,7 +139,7 @@ android {
 
         }
         cc{
-            versionCode 22
+            versionCode 23
             versionName "1.2.10_cc"
             dimension = 'baseDimension'
             applicationIdSuffix ".cc"

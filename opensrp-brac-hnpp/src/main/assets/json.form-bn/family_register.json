@@ -161,10 +161,8 @@
         "type": "spinner",
         "hint": "ক্যাচমেন্ট",
         "values": [
-          "Community clinic 1"
         ],
         "openmrs_choice_ids": {
-          "Community clinic 1": "cc1"
         },
         "v_required": {
           "value": "true",
